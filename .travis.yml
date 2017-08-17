@@ -4,6 +4,7 @@ node_js:
 branches:
   only:
   - master
+
 before_script:
 - npm install -g @angular/cli
 script:
@@ -11,11 +12,11 @@ script:
 deploy:
   skip_cleanup: true
   provider: s3
-  access_key_id: AKIAJW26E2XKWUOLI2YQ
-  secret_access_key:
-    secure: OkX7bsmseWdWvfPwTfc8QNoQ46GulMhfYPGoSDFVrjtrmopLjdCrrS7xosBd1XdFUu/jdjxr9evqbJN8xM7qbiXRrmCatHFMxqlAng+1DsyTH/BT402aSPLnhqGFZwXT9tNReZNPljez06xks19x7vy5dDotOR49ZBEGKDoOzFUJMzOIpCnaWNIQljqh4n52nSfPa5o7xLwZnkvL612JXf6AWM69+mEoXBCV1zOk85OJ4P286fuLOg7uydvl1vucY5LH1ZvPFzCLc54HPsMQQvgdQn0/sGiTwhpsQtT5Qpih9p16n3+Rc1mlQfXLycXs/LMoLjDOlIVDY8UEEg+MoLXizCfvZxDOHi48lRN6rbgAM+SKqAfy9IDJObt0gWdTrId2TYJln9eQkwsouA5sViDUErOAC0wlX61qoUOgZQ4Wqw8gLFzqONZhkTCXJXfwsWA8UsI60kWoMKklMM2DnSWg2uAoMsOb+rongel2jvwLZRxRdYYK8Mbk4dcmyRXSJyyy25zM74IOo/gIyU2kY1B2EyGmnbTlQ53gINOjMwX6B6s2HIsRXBOtTCthRpk5wRAbs3iTmfUgLPNFok5wBdNvjalJJxuGaPHtNL0KhxA1tBthsiFSju26jC1u6LcUVolWHRBHYWzZC1ddBWYB9mBSwDj3yj3nMRk6EgC3FTc=
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
   bucket: eviction-maps
   acl: public_read
   local_dir: dist
   on:
+    branch: master
     repo: EvictionLab/eviction-maps
