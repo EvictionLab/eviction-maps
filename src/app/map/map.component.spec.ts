@@ -1,16 +1,29 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapComponent } from './map.component';
+import { MapBoxModule } from 'angular-mapbox/module';
+import { MapboxService } from 'angular-mapbox/services/mapbox.service';
+import { MapboxComponent } from 'angular-mapbox/mapbox/mapbox.component';
+
 
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(async(() => {
+    let mapboxServiceStub = {
+      accessToken: "",
+      map: ()=>{ return { on: () => {}, emit: () => {} }; },
+      addControl: ()=>{},
+      addNavigationControl: ()=>{}
+    };
     TestBed.configureTestingModule({
-      declarations: [ MapComponent ]
-    })
-    .compileComponents();
+      imports: [ MapBoxModule ],
+      declarations: [ MapComponent ],
+      providers: [
+        { provide: MapboxService, useValue: mapboxServiceStub }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

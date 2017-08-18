@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MapBoxModule } from 'angular-mapbox/module';
 
 @Component({
   selector: 'app-map',
