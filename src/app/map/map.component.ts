@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import mapboxgl from 'mapbox-gl';
 
 @Component({
@@ -13,8 +13,8 @@ export class MapComponent implements OnInit {
 
   constructor() {
     this.mapConfig = {
-      style: "/assets/style.json",
-      center: [-77.99,41.041480],
+      style: '/assets/style.json',
+      center: [-77.99, 41.041480],
       zoom: 6.5,
       pitch: 0,
       bearing: 0,
@@ -45,7 +45,7 @@ export class MapComponent implements OnInit {
   }
 
   onMapInstance(e) {
-    console.log("setting map instance", e);
+    console.log('setting map instance', e);
     this.map = e;
     this.map.on('click', 'states', this.addPopup.bind(this));
     this.map.on('click', 'counties', this.addPopup.bind(this));

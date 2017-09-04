@@ -9,7 +9,10 @@
     },
     "united-states": {
       "type": "vector",
-      "url": "http://18.220.70.141/data/eviction-data-us.json"
+      "maxzoom": 10,
+      "tiles": [
+          "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/united-states/{z}/{x}/{y}"
+      ]
     }
   },
   "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
@@ -1391,17 +1394,9 @@
       "layout": {
         "visibility": "visible"
       },
-      "minzoom": 9,
-      "filter": ["has", "rate"],
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1412,13 +1407,22 @@
       "layout": {
         "visibility": "visible"
       },
-      "filter": ["has", "rate"],
-      "minzoom": 9,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
       }
+    },
+    {
+      "id": "blockgroups_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "block-groups",
+      "layout": {
+        "text-field": "{NAME}"
+      },
+      "filter": ["has", "rate"],
+      "minzoom": 9
     },
     {
       "id": "tracts",
@@ -1456,6 +1460,19 @@
         "line-width": 1,
         "line-opacity": 0.2
       }
+    },
+    {
+      "id": "tracts_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "tracts",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
+      },
+      "filter": ["has", "rate"],
+      "minzoom": 8,
+      "maxzoom": 10
     },
     {
       "id": "counties",
@@ -1497,6 +1514,18 @@
       }
     },
     {
+      "id": "counties_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "counties",
+      "layout": {
+        "text-field": "{NAME}"
+      },
+      "filter": ["has", "rate"],
+      "minzoom": 4,
+      "maxzoom": 10
+    },
+    {
       "id": "states",
       "type": "fill",
       "source": "united-states",
@@ -1534,6 +1563,18 @@
         "line-width": 1,
         "line-opacity": 0.2
       }
+    },
+    {
+      "id": "states_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "states",
+      "layout": {
+        "text-field": "{NAME}"
+      },
+      "filter": ["has", "poverty"],
+      "minzoom": 0,
+      "maxzoom": 5
     },
     {
       "id": "place_city",
