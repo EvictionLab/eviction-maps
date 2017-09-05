@@ -9,7 +9,10 @@
     },
     "united-states": {
       "type": "vector",
-      "url": "http://18.220.70.141/data/eviction-data-us.json"
+      "maxzoom": 10,
+      "tiles": [
+          "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions/{z}/{x}/{y}.pbf"
+      ]
     }
   },
   "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
@@ -1389,19 +1392,11 @@
       "source": "united-states",
       "source-layer": "block-groups",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "minzoom": 9,
-      "filter": ["has", "rate"],
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1410,14 +1405,59 @@
       "source": "united-states",
       "source-layer": "block-groups",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "filter": ["has", "rate"],
-      "minzoom": 9,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "blockgroups_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "block-groups",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "zipcodes",
+      "type": "fill",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgb(0 , 0 , 0)",
+        "fill-opacity": 0.1
+      }
+    },
+    {
+      "id": "zipcodes_stroke",
+      "type": "line",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 1,
+        "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "zipcodes_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {
@@ -1428,17 +1468,9 @@
       "layout": {
         "visibility": "none"
       },
-      "minzoom": 8,
-      "maxzoom": 10,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1449,12 +1481,57 @@
       "layout": {
         "visibility": "none"
       },
-      "minzoom": 8,
-      "maxzoom": 10,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "tracts_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "tracts",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "cities",
+      "type": "fill",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgb(0 , 0 , 0)",
+        "fill-opacity": 0.1
+      }
+    },
+    {
+      "id": "cities_stroke",
+      "type": "line",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 1,
+        "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "cities_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {
@@ -1463,20 +1540,11 @@
       "source": "united-states",
       "source-layer": "counties",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 4,
-      "maxzoom": 9,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1484,16 +1552,23 @@
       "type": "line",
       "source": "united-states",
       "source-layer": "counties",
-      "filter": ["has", "poverty"],
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "minzoom": 4,
-      "maxzoom": 10,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "counties_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "counties",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {
@@ -1502,15 +1577,11 @@
       "source": "united-states",
       "source-layer": "states",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 0,
-      "maxzoom": 4,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
         "fill-opacity": {
-          "property": "rate",
           "stops": [
             [0, 0],
             [20, 0.6]
@@ -1524,15 +1595,22 @@
       "source": "united-states",
       "source-layer": "states",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 0,
-      "maxzoom": 5,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "states_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "states",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {

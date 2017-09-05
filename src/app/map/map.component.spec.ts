@@ -11,11 +11,11 @@ describe('MapComponent', () => {
   let fixture: ComponentFixture<MapComponent>;
 
   beforeEach(async(() => {
-    let mapboxServiceStub = {
-      accessToken: "",
-      map: ()=>{ return { on: () => {}, emit: () => {} }; },
-      addControl: ()=>{},
-      addNavigationControl: ()=>{}
+    const mapboxServiceStub = {
+      accessToken: '',
+      map: () => ({ on: () => {}, emit: () => {} }),
+      addControl: () => {},
+      addNavigationControl: () => {}
     };
     TestBed.configureTestingModule({
       imports: [ MapBoxModule ],
@@ -35,4 +35,5 @@ describe('MapComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
 });

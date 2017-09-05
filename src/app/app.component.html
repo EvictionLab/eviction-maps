@@ -1,1 +1,6 @@
-<app-map></app-map>
+<div class="map-wrapper">
+    <app-map></app-map>
+    <div class="map-ui">
+        <app-layer-select [layers]="dataLevels" (change)="setGroupVisibility($event)"></app-layer-select>
+    </div>
+</div>
