@@ -1,4 +1,5 @@
-export class MapLayer {
+export interface MapLayer {
     id: string;
     name: string;
+    layerIds?: string[];
 }

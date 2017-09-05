@@ -1420,9 +1420,7 @@
       "source-layer": "block-groups",
       "layout": {
         "text-field": "{NAME}"
-      },
-      "filter": ["has", "rate"],
-      "minzoom": 9
+      }
     },
     {
       "id": "tracts",
@@ -1432,17 +1430,9 @@
       "layout": {
         "visibility": "none"
       },
-      "minzoom": 8,
-      "maxzoom": 10,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1453,8 +1443,6 @@
       "layout": {
         "visibility": "none"
       },
-      "minzoom": 8,
-      "maxzoom": 10,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
@@ -1469,10 +1457,44 @@
       "layout": {
         "text-field": "{NAME}",
         "visibility": "none"
+      }
+    },
+    {
+      "id": "cities",
+      "type": "fill",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
       },
-      "filter": ["has", "rate"],
-      "minzoom": 8,
-      "maxzoom": 10
+      "paint": {
+        "fill-color": "rgb(0 , 0 , 0)",
+        "fill-opacity": 0.1
+      }
+    },
+    {
+      "id": "cities_stroke",
+      "type": "line",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 1,
+        "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "cities_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "cities",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
+      }
     },
     {
       "id": "counties",
@@ -1482,18 +1504,9 @@
       "layout": {
         "visibility": "visible"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 4,
-      "maxzoom": 9,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "property": "rate",
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.1
       }
     },
     {
@@ -1501,12 +1514,9 @@
       "type": "line",
       "source": "united-states",
       "source-layer": "counties",
-      "filter": ["has", "poverty"],
       "layout": {
         "visibility": "visible"
       },
-      "minzoom": 4,
-      "maxzoom": 10,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
@@ -1520,10 +1530,7 @@
       "source-layer": "counties",
       "layout": {
         "text-field": "{NAME}"
-      },
-      "filter": ["has", "rate"],
-      "minzoom": 4,
-      "maxzoom": 10
+      }
     },
     {
       "id": "states",
@@ -1533,13 +1540,9 @@
       "layout": {
         "visibility": "visible"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 0,
-      "maxzoom": 4,
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
         "fill-opacity": {
-          "property": "rate",
           "stops": [
             [0, 0],
             [20, 0.6]
@@ -1555,9 +1558,6 @@
       "layout": {
         "visibility": "visible"
       },
-      "filter": ["has", "poverty"],
-      "minzoom": 0,
-      "maxzoom": 5,
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
@@ -1571,10 +1571,7 @@
       "source-layer": "states",
       "layout": {
         "text-field": "{NAME}"
-      },
-      "filter": ["has", "poverty"],
-      "minzoom": 0,
-      "maxzoom": 5
+      }
     },
     {
       "id": "place_city",
