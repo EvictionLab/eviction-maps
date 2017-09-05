@@ -11,7 +11,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-          "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/united-states/{z}/{x}/{y}"
+          "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions/{z}/{x}/{y}.pbf"
       ]
     }
   },
@@ -1392,7 +1392,7 @@
       "source": "united-states",
       "source-layer": "block-groups",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
@@ -1405,7 +1405,7 @@
       "source": "united-states",
       "source-layer": "block-groups",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
@@ -1419,7 +1419,45 @@
       "source": "united-states",
       "source-layer": "block-groups",
       "layout": {
-        "text-field": "{NAME}"
+        "text-field": "{NAME}",
+        "visibility": "none"
+      }
+    },
+    {
+      "id": "zipcodes",
+      "type": "fill",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgb(0 , 0 , 0)",
+        "fill-opacity": 0.1
+      }
+    },
+    {
+      "id": "zipcodes_stroke",
+      "type": "line",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 1,
+        "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "zipcodes_text",
+      "type": "symbol",
+      "source": "united-states",
+      "source-layer": "zip-codes",
+      "layout": {
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {
@@ -1502,7 +1540,7 @@
       "source": "united-states",
       "source-layer": "counties",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
@@ -1515,7 +1553,7 @@
       "source": "united-states",
       "source-layer": "counties",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
@@ -1529,7 +1567,8 @@
       "source": "united-states",
       "source-layer": "counties",
       "layout": {
-        "text-field": "{NAME}"
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {
@@ -1538,7 +1577,7 @@
       "source": "united-states",
       "source-layer": "states",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
@@ -1556,7 +1595,7 @@
       "source": "united-states",
       "source-layer": "states",
       "layout": {
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
         "line-color": "rgba(0 ,0 ,0, 0.5)",
@@ -1570,7 +1609,8 @@
       "source": "united-states",
       "source-layer": "states",
       "layout": {
-        "text-field": "{NAME}"
+        "text-field": "{NAME}",
+        "visibility": "none"
       }
     },
     {

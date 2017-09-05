@@ -1,0 +1,9 @@
+.btn {
+    width:160px;
+    text-align:left;
+}
+.btn .caret {
+    position: absolute;
+    right:8px;
+    top:15px;
+}
