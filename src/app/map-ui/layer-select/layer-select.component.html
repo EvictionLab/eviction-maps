@@ -3,8 +3,8 @@
     {{selectedLayer.name}} <span class="caret"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
-    <li *ngFor="let layer of layers" role="menuitem" (click)="changeLayer(layer)">
-      <a class="dropdown-item">{{layer.name}}</a>
+    <li *ngFor="let layer of layers" role="menuitem">
+      <a class="dropdown-item" (click)="changeLayer(layer)">{{layer.name}}</a>
     </li>
   </ul>
 </div>

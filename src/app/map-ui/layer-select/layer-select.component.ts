@@ -8,7 +8,7 @@ import { MapLayer } from '../map-layer';
 })
 export class LayerSelectComponent implements OnInit {
   public selectedLayer: MapLayer;
-  @Input() layers: Array<MapLayer>;
+  @Input() layers: Array<MapLayer> = [];
   @Output() change: EventEmitter<MapLayer> = new EventEmitter<MapLayer>();
 
   constructor() { }
