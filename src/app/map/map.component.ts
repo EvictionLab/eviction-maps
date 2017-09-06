@@ -49,6 +49,22 @@ export class MapComponent implements OnInit {
   }
 
   /**
+   * Update a style property for a layer
+   * @param layerId 
+   * @param styleProperty 
+   * @param newStyle 
+   */
+  setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
+    this.map.setPaintProperty(layerId, styleProperty, newStyle);
+  }
+
+  setLayerGroupStyle(layerGroup: MapLayer, styleProperty: string, newStyle: any) {
+    layerGroup['layerIds'].forEach((layerId) => {
+      this.setLayerStyle(layerId, styleProperty, newStyle);
+    });
+  }
+
+  /**
    * Pass any .on() calls to the map instance
    * @param args any amount of arguments that would be passed to mapboxgl's .on()
    */

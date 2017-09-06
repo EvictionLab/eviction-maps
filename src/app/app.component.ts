@@ -3,6 +3,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { MapLayer } from './map-ui/map-layer';
 import { MapComponent } from './map/map.component';
 import { DataLevels } from './data/data-levels';
+import { DataAttributes } from './data/data-attributes';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,7 @@ import { DataLevels } from './data/data-levels';
 export class AppComponent implements OnInit {
   title = 'Eviction Lab';
   dataLevels: Array<MapLayer> = DataLevels;
-  attributes: Array<any> = [
-    { 'id': 'poverty-rate', 'name': 'Poverty Rate' },
-    { 'id': 'population', 'name': 'Population' }
-  ];
+  attributes: Array<any> = DataAttributes;
   @ViewChild(MapComponent) map: MapComponent;
 
   /**
@@ -23,8 +21,8 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.map.ready.subscribe((map) => {
-      console.log(map);
       this.setGroupVisibility(this.dataLevels[0]);
+      this.setDataHighlight(this.attributes[0]);
     });
   }
 
@@ -44,14 +42,14 @@ export class AppComponent implements OnInit {
       name: 'fills',
       layerIds: [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties']
     };
-    const newFill = {
-      'property': attr.id,
-      'stops': [
-        [0, 'blue'],
-        [100, 'red']
-      ]
-    };
-    // this.map.updateLayerStyles();
+
+    fillLayers.layerIds.forEach((layerId) => {
+      const newFill = {
+        'property': attr.id,
+        'stops': (attr.stops[layerId] ? attr.stops[layerId] : attr.stops['default'])
+      };
+      this.map.setLayerStyle(layerId, 'fill-color', newFill);
+    });
   }
 
 }

@@ -1396,7 +1396,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": 0.1
+        "fill-opacity": 0.8
       }
     },
     {
@@ -1433,7 +1433,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": 0.1
+        "fill-opacity": 0.8
       }
     },
     {
@@ -1470,7 +1470,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": 0.1
+        "fill-opacity": 0.8
       }
     },
     {
@@ -1507,7 +1507,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": 0.1
+        "fill-opacity": 0.8
       }
     },
     {
@@ -1544,7 +1544,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": 0.1
+        "fill-opacity": 0.8      
       }
     },
     {
@@ -1581,12 +1581,7 @@
       },
       "paint": {
         "fill-color": "rgb(0 , 0 , 0)",
-        "fill-opacity": {
-          "stops": [
-            [0, 0],
-            [20, 0.6]
-          ]
-        }
+        "fill-opacity": 0.8
       }
     },
     {
