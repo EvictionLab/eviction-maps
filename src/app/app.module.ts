@@ -10,7 +10,7 @@ import { MapComponent } from './map/map.component';
 @NgModule({
   declarations: [
     AppComponent,
-    MapComponent
+    MapComponent,
   ],
   imports: [
     MapUiModule,

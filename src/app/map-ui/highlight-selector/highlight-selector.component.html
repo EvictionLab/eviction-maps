@@ -1,0 +1,10 @@
+<div *ngIf="selectedAttribute" class="btn-group btn-group-attribute" dropdown>
+  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+    {{selectedAttribute.name}} <span class="caret"></span>
+  </button>
+  <ul *dropdownMenu class="dropdown-menu" role="menu">
+    <li *ngFor="let attr of attributes" role="menuitem">
+      <a class="dropdown-item" (click)="changeAttribute(attr)">{{attr.name}}</a>
+    </li>
+  </ul>
+</div>
