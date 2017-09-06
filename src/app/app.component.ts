@@ -12,6 +12,10 @@ import { DataLevels } from './data/data-levels';
 export class AppComponent implements OnInit {
   title = 'Eviction Lab';
   dataLevels: Array<MapLayer> = DataLevels;
+  attributes: Array<any> = [
+    { 'id': 'poverty-rate', 'name': 'Poverty Rate' },
+    { 'id': 'population', 'name': 'Population' }
+  ];
   @ViewChild(MapComponent) map: MapComponent;
 
   /**
@@ -19,6 +23,7 @@ export class AppComponent implements OnInit {
    */
   ngOnInit() {
     this.map.ready.subscribe((map) => {
+      console.log(map);
       this.setGroupVisibility(this.dataLevels[0]);
     });
   }
@@ -31,6 +36,22 @@ export class AppComponent implements OnInit {
     this.dataLevels.forEach((group: MapLayer) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
+  }
+
+  setDataHighlight(attr: any) {
+    const fillLayers = {
+      id: 'fills',
+      name: 'fills',
+      layerIds: [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties']
+    };
+    const newFill = {
+      'property': attr.id,
+      'stops': [
+        [0, 'blue'],
+        [100, 'red']
+      ]
+    };
+    // this.map.updateLayerStyles();
   }
 
 }
