@@ -20,8 +20,11 @@ script:
 - ng test --watch=false --sourcemaps=false
 - ng e2e
 - ng build
+before_deploy:
+- pip install --user awscli
+- export PATH=$PATH:$HOME/.local/bin
 deploy:
-  skip_cleanup: true
+- skip_cleanup: true
   provider: s3
   access_key_id: $AWS_KEY
   secret_access_key: $AWS_SECRET
@@ -29,7 +32,11 @@ deploy:
   acl: public_read
   local_dir: dist
   on:
-    repo: EvictionLab/eviction-maps
+    branch: development
+- provider: script
+  script: scripts/invalidate-cache.sh
+  on:
+    branch: master
 notifications:
   slack:
     template:
