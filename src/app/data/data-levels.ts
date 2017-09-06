@@ -1,4 +1,6 @@
-export const DataLevels = [
+import { MapLayerGroup } from '../map-ui/map-layer-group';
+
+export const DataLevels: Array<MapLayerGroup> = [
     {
        'id': 'blockgroups',
        'name': 'Block Groups',
