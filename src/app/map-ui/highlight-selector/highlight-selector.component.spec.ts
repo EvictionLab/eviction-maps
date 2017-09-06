@@ -1,6 +1,7 @@
 import { async, tick, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { MapDataAttribute } from '../map-data-attribute';
 
 import { HighlightSelectorComponent } from './highlight-selector.component';
 
@@ -8,9 +9,9 @@ describe('HighlightSelectorComponent', () => {
   let component: HighlightSelectorComponent;
   let fixture: ComponentFixture<HighlightSelectorComponent>;
   let buttonEl;
-  const expectedDataAttributes = [
-    { id: 'attr1', name: 'Sample Attribute' },
-    { id: 'attr2', name: 'Another Attribute' }
+  const expectedDataAttributes: Array<MapDataAttribute> = [
+    { id: 'attr1', name: 'Sample Attribute', fillStops: { 'test': [[]] } },
+    { id: 'attr2', name: 'Another Attribute', fillStops: { 'test': [[]] } }
   ];
   let menuEls;
 

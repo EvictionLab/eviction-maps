@@ -1,9 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
-class MapDataAttribute {
-  id: string;
-  name: string;
-}
+import { MapDataAttribute } from '../map-data-attribute';
 
 @Component({
   selector: 'app-highlight-selector',

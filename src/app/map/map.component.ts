@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import mapboxgl from 'mapbox-gl';
 
-import { MapLayer } from '../map-ui/map-layer';
+import { MapLayerGroup } from '../map-ui/map-layer-group';
 
 @Component({
   selector: 'app-map',
@@ -42,7 +42,7 @@ export class MapComponent implements OnInit {
    * @param layerGroup the group of layers
    * @param visible sets the group visible if true, or hides if false
    */
-  setLayerGroupVisibility(layerGroup: MapLayer, visible: boolean) {
+  setLayerGroupVisibility(layerGroup: MapLayerGroup, visible: boolean) {
     layerGroup['layerIds'].forEach((layerId: string) => {
       this.setLayerVisibility(layerId, visible);
     });
@@ -50,15 +50,21 @@ export class MapComponent implements OnInit {
 
   /**
    * Update a style property for a layer
-   * @param layerId 
-   * @param styleProperty 
-   * @param newStyle 
+   * @param layerId id of the layer to change
+   * @param styleProperty the paint style property to change (e.g. "fill-color")
+   * @param newStyle the new property style (e.g. "#000000")
    */
   setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
     this.map.setPaintProperty(layerId, styleProperty, newStyle);
   }
 
-  setLayerGroupStyle(layerGroup: MapLayer, styleProperty: string, newStyle: any) {
+  /**
+   * Update the layer styles of the layers within a group
+   * @param layerGroup the layer group
+   * @param styleProperty the paint style property to change (e.g. "fill-color")
+   * @param newStyle the new property style (e.g. "#000000")
+   */
+  setLayerGroupStyle(layerGroup: MapLayerGroup, styleProperty: string, newStyle: any) {
     layerGroup['layerIds'].forEach((layerId) => {
       this.setLayerStyle(layerId, styleProperty, newStyle);
     });
