@@ -1,0 +1,10 @@
+.zoom-control {
+    position: absolute;
+    top: 75px;
+    left: 20px;
+    width: 150px;
+    height: 20px;
+    margin: 0;
+    transform-origin: 75px 75px;
+    transform: rotate(-90deg);
+}
