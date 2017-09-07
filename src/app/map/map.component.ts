@@ -13,6 +13,7 @@ export class MapComponent implements OnInit {
   mapConfig: Object;
   map: any;
   ready: EventEmitter<any> = new EventEmitter();
+  zoom: EventEmitter<number> = new EventEmitter();
 
   constructor() {
     this.mapConfig = {
@@ -71,6 +72,14 @@ export class MapComponent implements OnInit {
   }
 
   /**
+   * Updates the map zoom level
+   * @param newZoom new zoom value for map
+   */
+  setZoomLevel(newZoom: number) {
+    this.map.zoomTo(+newZoom);
+  }
+
+  /**
    * Pass any .on() calls to the map instance
    * @param args any amount of arguments that would be passed to mapboxgl's .on()
    */
@@ -95,6 +104,10 @@ export class MapComponent implements OnInit {
           </ul>
         `)
         .addTo(this.map);
+  }
+
+  zoomChange() {
+    this.zoom.emit(this.map.getZoom());
   }
 
   onMouseEnterFeature() {
@@ -123,6 +136,9 @@ export class MapComponent implements OnInit {
     this.map.on('mouseleave', 'cities', this.onMouseLeaveFeature.bind(this));
     this.map.on('mouseleave', 'counties', this.onMouseLeaveFeature.bind(this));
     this.map.on('mouseleave', 'blockgroups', this.onMouseLeaveFeature.bind(this));
+
+    // Emit all zoom end events from map
+    this.map.on('zoomend', this.zoomChange.bind(this));
 
     this.ready.emit(this.map);
 
