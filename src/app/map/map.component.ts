@@ -138,7 +138,7 @@ export class MapComponent implements OnInit {
     this.map.on('mouseleave', 'blockgroups', this.onMouseLeaveFeature.bind(this));
 
     // Emit all zoom end events from map
-    this.map.on('zoomend', this.zoomChange.bind(this));
+    this.map.on('zoom', this.zoomChange.bind(this));
 
     this.ready.emit(this.map);
 
