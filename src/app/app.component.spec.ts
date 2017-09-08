@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { MapComponent } from './map/map.component';
+import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapUiModule } from './map-ui/map-ui.module';
 
 import { MapBoxModule } from 'angular-mapbox/module';
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapComponent
+        MapboxComponent
       ],
       providers: [
         { provide: MapboxService, useValue: mapboxServiceStub }

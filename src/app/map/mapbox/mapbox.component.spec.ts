@@ -1,14 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MapComponent } from './map.component';
+import { MapboxComponent } from './mapbox.component';
 import { MapBoxModule } from 'angular-mapbox/module';
 import { MapboxService } from 'angular-mapbox/services/mapbox.service';
-import { MapboxComponent } from 'angular-mapbox/mapbox/mapbox.component';
 
-
-describe('MapComponent', () => {
-  let component: MapComponent;
-  let fixture: ComponentFixture<MapComponent>;
+describe('MapboxComponent', () => {
+  let component: MapboxComponent;
+  let fixture: ComponentFixture<MapboxComponent>;
 
   beforeEach(async(() => {
     const mapboxServiceStub = {
@@ -18,8 +16,13 @@ describe('MapComponent', () => {
       addNavigationControl: () => {}
     };
     TestBed.configureTestingModule({
-      imports: [ MapBoxModule ],
-      declarations: [ MapComponent ],
+      imports: [
+        MapBoxModule.forRoot(
+          'pk.eyJ1IjoiZXZpY3Rpb25sYWIiLCJhIjoiY2o2Z3NsMG85MDF6dzMybW15cWswMGJwNCJ9' +
+          '.PW6rLbRiQdme0py5f8IstA'
+        )
+      ],
+      declarations: [ MapboxComponent ],
       providers: [
         { provide: MapboxService, useValue: mapboxServiceStub }
       ]
@@ -27,7 +30,7 @@ describe('MapComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MapComponent);
+    fixture = TestBed.createComponent(MapboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -35,5 +38,4 @@ describe('MapComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
-
 });

@@ -1,7 +1,7 @@
 import { async, tick, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-import { MapDataAttribute } from '../map-data-attribute';
+import { MapDataAttribute } from '../../map/map-data-attribute';
 
 import { HighlightSelectorComponent } from './highlight-selector.component';
 

@@ -1,4 +1,4 @@
-import { MapLayerGroup } from '../map-ui/map-layer-group';
+import { MapLayerGroup } from '../map/map-layer-group';
 
 export const DataLevels: Array<MapLayerGroup> = [
     {

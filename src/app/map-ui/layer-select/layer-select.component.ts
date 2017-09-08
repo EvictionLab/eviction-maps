@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MapLayerGroup } from '../map-layer-group';
+import { MapLayerGroup } from '../../map/map-layer-group';
 
 @Component({
   selector: 'app-layer-select',
