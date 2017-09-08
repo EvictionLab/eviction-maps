@@ -3,7 +3,11 @@
         [mapConfig]="mapConfig" 
         [eventLayers]="mapEventLayers"
         (ready)="onMapReady($event)"
-        (zoom)="onMapZoom($event)">
+        (zoom)="onMapZoom($event)"
+        (featureClick)="onMapFeatureClick($event)"
+        (featureMouseEnter)="onMapFeatureMouseEnter($event)"
+        (featureMouseLeave)="onMapFeatureMouseLeave($event)"
+        (featureMouseMove)="onMapFeatureMouseMove($event)">
     </app-mapbox>
     <div class="map-ui">
         <app-layer-select 

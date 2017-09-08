@@ -43,6 +43,22 @@ export class AppComponent implements OnInit {
 
   onMapZoom(zoom) { this.zoom = zoom; }
 
+  onMapFeatureClick(feature) {
+    console.log('feature click:', feature);
+  }
+
+  onMapFeatureMouseEnter(feature) {
+    console.log('feature enter:', feature);
+  }
+
+  onMapFeatureMouseLeave(feature) {
+    console.log('feature leave:', feature);
+  }
+
+  onMapFeatureMouseMove(feature) {
+    console.log('feature move:', feature);
+  }
+
   /**
    * Sets the visibility on a layer group
    * @param mapLayer the layer group that was selected

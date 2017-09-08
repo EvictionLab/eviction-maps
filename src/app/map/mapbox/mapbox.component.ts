@@ -17,6 +17,7 @@ export class MapboxComponent implements OnInit {
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
   @Output() featureMouseEnter: EventEmitter<any> = new EventEmitter();
   @Output() featureMouseLeave: EventEmitter<any> = new EventEmitter();
+  @Output() featureMouseMove: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -54,6 +55,7 @@ export class MapboxComponent implements OnInit {
       this.map.on('click', layer, (e) => { this.featureClick.emit(e); });
       this.map.on('mouseenter', layer, (e) => { this.featureMouseEnter.emit(e); });
       this.map.on('mouseleave', layer, (e) => { this.featureMouseLeave.emit(e); });
+      this.map.on('mousemove', layer, (e) => { this.featureMouseMove.emit(e); });
     });
   }
 }
