@@ -1584,6 +1584,91 @@
       }
     },
     {
+      "id": "blockgroups_bubbles",
+      "type": "circle",
+      "source": "us-block-groups",
+      "source-layer": "block-groups-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              3
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              5
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              7
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              10
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 5
+              },
+              12
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "blockgroups_text",
       "type": "symbol",
       "source": "us-block-groups",
@@ -1593,6 +1678,77 @@
         "text-size": 10,
         "text-field": "{name}",
         "visibility": "none"
+      }
+    },
+    {
+      "id": "zipcodes_bubbles",
+      "type": "circle",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
       }
     },
     {
@@ -1608,6 +1764,77 @@
       }
     },
     {
+      "id": "tracts_bubbles",
+      "type": "circle",
+      "source": "us-tracts",
+      "source-layer": "tracts-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "tracts_text",
       "type": "symbol",
       "source": "us-tracts",
@@ -1617,6 +1844,56 @@
         "text-size": 10,
         "text-field": "{name}",
         "visibility": "none"
+      }
+    },
+    {
+      "id": "cities_bubbles",
+      "type": "circle",
+      "source": "us-cities",
+      "source-layer": "cities-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
       }
     },
     {
@@ -1701,6 +1978,77 @@
       }
     },
     {
+      "id": "counties_bubbles",
+      "type": "circle",
+      "source": "us-counties",
+      "source-layer": "counties-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "counties_text",
       "type": "symbol",
       "source": "us-counties",
@@ -1712,6 +2060,49 @@
         "visibility": "none",
         "text-allow-overlap": true,
         "text-ignore-placement": true
+      }
+    },
+    {
+      "id": "states_bubbles",
+      "type": "circle",
+      "source": "us-states",
+      "source-layer": "states-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              100
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              50
+            ]
+          ]
+        }
       }
     },
     {

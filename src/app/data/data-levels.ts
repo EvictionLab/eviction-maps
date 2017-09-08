@@ -7,6 +7,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
           'blockgroups',
           'blockgroups_stroke',
+          'blockgroups_bubbles',
           'blockgroups_text'
        ]
     },
@@ -16,6 +17,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
         'zipcodes',
         'zipcodes_stroke',
+        'zipcodes_bubbles',
         'zipcodes_text'
        ]
     },
@@ -25,6 +27,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
           'tracts',
           'tracts_stroke',
+          'tracts_bubbles',
           'tracts_text'
        ]
     },
@@ -34,6 +37,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
           'cities',
           'cities_stroke',
+          'cities_bubbles',
           'cities_text'
        ]
     },
@@ -43,6 +47,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
           'counties',
           'counties_stroke',
+          'counties_bubbles',
           'counties_text'
        ]
     },
@@ -52,6 +57,7 @@ export const DataLevels: Array<MapLayerGroup> = [
        'layerIds': [
           'states',
           'states_stroke',
+          'states_bubbles',
           'states_text'
        ]
     }
