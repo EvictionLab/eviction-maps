@@ -1414,6 +1414,91 @@
       }
     },
     {
+      "id": "blockgroups_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "block-groups-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              3
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              5
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              7
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              10
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 5
+              },
+              12
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "blockgroups_text",
       "type": "symbol",
       "source": "united-states",
@@ -1448,6 +1533,77 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "zipcodes_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "zip-codes-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
       }
     },
     {
@@ -1488,6 +1644,77 @@
       }
     },
     {
+      "id": "tracts_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "tracts-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "tracts_text",
       "type": "symbol",
       "source": "united-states",
@@ -1522,6 +1749,56 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "cities_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "cities-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
       }
     },
     {
@@ -1562,6 +1839,77 @@
       }
     },
     {
+      "id": "counties_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "counties-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 5
+              },
+              50
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 5
+              },
+              40
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              30
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              20
+            ]
+          ]
+        }
+      }
+    },
+    {
       "id": "counties_text",
       "type": "symbol",
       "source": "united-states",
@@ -1596,6 +1944,49 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "states_bubbles",
+      "type": "circle",
+      "source": "united-states",
+      "source-layer": "states-centers",
+      "paint": {
+        "circle-color": "#0079bf",
+        "circle-opacity": 0.7,
+        "circle-radius": {
+          "property": "eviction-rate",
+          "stops": [
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 5
+              },
+              100
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 5
+              },
+              50
+            ]
+          ]
+        }
       }
     },
     {
