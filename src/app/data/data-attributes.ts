@@ -1,4 +1,4 @@
-import { MapDataAttribute } from '../map-ui/map-data-attribute';
+import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {

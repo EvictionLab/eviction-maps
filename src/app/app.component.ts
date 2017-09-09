@@ -1,37 +1,62 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 
-import { MapDataAttribute } from './map-ui/map-data-attribute';
-import { MapLayerGroup } from './map-ui/map-layer-group';
-import { MapComponent } from './map/map.component';
+import { MapDataAttribute } from './map/map-data-attribute';
+import { MapLayerGroup } from './map/map-layer-group';
+import { MapboxComponent } from './map/mapbox/mapbox.component';
+import { MapService } from './map/map.service';
 import { DataLevels } from './data/data-levels';
 import { DataAttributes } from './data/data-attributes';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [ MapService ]
 })
 export class AppComponent implements OnInit {
   title = 'Eviction Lab';
   zoom: number;
-  minZoom: number;
-  maxZoom: number;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
-  @ViewChild(MapComponent) map: MapComponent;
+  mapConfig = {
+    style: '/assets/style.json',
+    center: [-77.99, 41.041480],
+    zoom: 6.5,
+    minZoom: 3,
+    maxZoom: 14,
+    container: 'map'
+  };
+  mapEventLayers: Array<string> = [
+    'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'
+  ];
 
-  /**
-   * Set the default layer group on init
-   */
-  ngOnInit() {
-    this.map.ready.subscribe((map) => {
-      this.setGroupVisibility(this.dataLevels[0]);
-      this.setDataHighlight(this.attributes[0]);
-      this.zoom = map.getZoom();
-      this.minZoom = map.getMinZoom();
-      this.maxZoom = map.getMaxZoom();
-    });
-    this.map.zoom.subscribe((zoom) => { this.zoom = zoom; });
+  constructor(private map: MapService) {}
+
+  ngOnInit() {}
+
+  onMapReady(map) {
+    this.map.setMapInstance(map);
+    this.setGroupVisibility(this.dataLevels[0]);
+    this.setDataHighlight(this.attributes[0]);
+    this.zoom = this.mapConfig.zoom;
+  }
+
+  onMapZoom(zoom) { this.zoom = zoom; }
+
+  onMapFeatureClick(feature) {
+    console.log('feature click:', feature);
+  }
+
+  onMapFeatureMouseEnter(feature) {
+    console.log('feature enter:', feature);
+  }
+
+  onMapFeatureMouseLeave(feature) {
+    console.log('feature leave:', feature);
+  }
+
+  onMapFeatureMouseMove(feature) {
+    console.log('feature move:', feature);
   }
 
   /**
@@ -49,8 +74,7 @@ export class AppComponent implements OnInit {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
-    const layerIds = [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'];
-    layerIds.forEach((layerId) => {
+    this.mapEventLayers.forEach((layerId) => {
       const newFill = {
         'property': attr.id,
         'stops': (attr.fillStops[layerId] ? attr.fillStops[layerId] : attr.fillStops['default'])

@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { LayerSelectComponent } from './layer-select.component';
-import { MapLayerGroup } from '../map-layer-group';
+import { MapLayerGroup } from '../../map/map-layer-group';
 
 describe('LayerSelectComponent', () => {
   let component: LayerSelectComponent;

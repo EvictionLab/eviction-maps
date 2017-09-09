@@ -3,20 +3,18 @@ import { NgModule } from '@angular/core';
 import { MapBoxModule } from 'angular-mapbox/module';
 
 import { AppComponent } from './app.component';
+import { MapModule } from './map/map.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { MapComponent } from './map/map.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    MapComponent,
+    AppComponent
   ],
   imports: [
     MapUiModule,
     BrowserModule,
-    MapBoxModule.forRoot('pk.eyJ1IjoiZXZpY3Rpb25sYWIiLCJhIjoiY2o2Z3NsMG85MDF6dzMybW15cWswMGJwNCJ9.PW6rLbRiQdme0py5f8IstA'),
-
+    MapModule
   ],
   providers: [],
   bootstrap: [AppComponent]

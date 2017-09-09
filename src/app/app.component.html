@@ -1,8 +1,28 @@
 <div class="map-wrapper">
-    <app-map></app-map>
+    <app-mapbox 
+        [mapConfig]="mapConfig" 
+        [eventLayers]="mapEventLayers"
+        (ready)="onMapReady($event)"
+        (zoom)="onMapZoom($event)"
+        (featureClick)="onMapFeatureClick($event)"
+        (featureMouseEnter)="onMapFeatureMouseEnter($event)"
+        (featureMouseLeave)="onMapFeatureMouseLeave($event)"
+        (featureMouseMove)="onMapFeatureMouseMove($event)">
+    </app-mapbox>
     <div class="map-ui">
-        <app-layer-select [layers]="dataLevels" (change)="setGroupVisibility($event)"></app-layer-select>
-        <app-highlight-selector [attributes]="attributes" (change)="setDataHighlight($event)"></app-highlight-selector>
-        <app-zoom-control [zoom]="zoom" [minZoom]="minZoom" [maxZoom]="maxZoom" (zoomChange)="setMapZoomLevel($event)"></app-zoom-control>
+        <app-layer-select 
+            [layers]="dataLevels" 
+            (change)="setGroupVisibility($event)">
+        </app-layer-select>
+        <app-highlight-selector
+            [attributes]="attributes" 
+            (change)="setDataHighlight($event)">
+        </app-highlight-selector>
+        <app-zoom-control 
+            [zoom]="zoom" 
+            [minZoom]="mapConfig.minZoom" 
+            [maxZoom]="mapConfig.maxZoom" 
+            (zoomChange)="setMapZoomLevel($event)">
+        </app-zoom-control>
     </div>
 </div>
