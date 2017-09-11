@@ -7,7 +7,7 @@ import { MapLayerGroup } from '../../map/map-layer-group';
   styleUrls: ['./layer-select.component.css']
 })
 export class LayerSelectComponent implements OnInit {
-  public selectedLayer: MapLayerGroup;
+  @Input() selectedLayer: MapLayerGroup;
   @Input() layers: Array<MapLayerGroup> = [];
   @Output() change: EventEmitter<MapLayerGroup> = new EventEmitter<MapLayerGroup>();
 
@@ -17,8 +17,9 @@ export class LayerSelectComponent implements OnInit {
    * set the selected layer to the first item, or none if there are no layers
    */
   ngOnInit() {
-    this.selectedLayer =
-      this.layers.length > 0 ? this.layers[0] : { id: 'none', name: 'None' };
+    if (!this.selectedLayer && this.layers.length) {
+      this.selectedLayer = this.layers[0];
+    }
   }
 
   /**

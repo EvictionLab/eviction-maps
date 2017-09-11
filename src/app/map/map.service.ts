@@ -69,6 +69,23 @@ export class MapService {
   }
 
   /**
+   * Hides all layer groups that do not have a zoom range that falls within `zoom`
+   * @param layerGroups an array of MapLayerGroup objects, with zoom properties
+   * @param zoom the zoom level to hide based on
+   * @return an array of MapLayerGroup objects that are currently visible
+   */
+  filterLayerGroupsByZoom(layerGroups: Array<MapLayerGroup>, zoom: number): Array<MapLayerGroup> {
+    const visibleGroups = [];
+    layerGroups.forEach((group) => {
+      if (!group.zoom) { group.zoom = [-1, -1]; }
+      const visible = (zoom >= group.zoom[0] && zoom < group.zoom[1]);
+      this.setLayerGroupVisibility(group, visible);
+      if (visible) { visibleGroups.push(group); }
+    });
+    return visibleGroups;
+  }
+
+  /**
    * Adds a popup on the map in the clicked area
    * TODO: make generic function for popups / tooltips
    * @param e The mapbox click event

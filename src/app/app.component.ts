@@ -18,6 +18,8 @@ export class AppComponent implements OnInit {
   zoom: number;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
+  activeDataLevel: MapLayerGroup;
+  autoSwitchLayers = true;
   mapConfig = {
     style: '/assets/style.json',
     center: [-77.99, 41.041480],
@@ -36,12 +38,24 @@ export class AppComponent implements OnInit {
 
   onMapReady(map) {
     this.map.setMapInstance(map);
-    this.setGroupVisibility(this.dataLevels[0]);
+    // this.setGroupVisibility(this.dataLevels[0]);
     this.setDataHighlight(this.attributes[0]);
-    this.zoom = this.mapConfig.zoom;
+    this.onMapZoom(this.mapConfig.zoom);
   }
 
-  onMapZoom(zoom) { this.zoom = zoom; }
+  /**
+   * Set the zoom value for the app, auto adjust layers if enabled
+   * @param zoom the current zoom level of the map
+   */
+  onMapZoom(zoom) {
+    this.zoom = zoom;
+    if (this.autoSwitchLayers) {
+      const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
+      if (visibleGroups.length > 0) {
+        this.activeDataLevel = visibleGroups[0];
+      }
+    }
+  }
 
   onMapFeatureClick(feature) {
     console.log('feature click:', feature);
@@ -64,6 +78,7 @@ export class AppComponent implements OnInit {
    * @param mapLayer the layer group that was selected
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
+    this.autoSwitchLayers = false;
     this.dataLevels.forEach((group: MapLayerGroup) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
