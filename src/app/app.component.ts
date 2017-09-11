@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
   attributes: Array<MapDataAttribute> = DataAttributes;
   currentFeature;
   activeDataLevel: MapLayerGroup;
+  activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
   mapConfig = {
     style: '/assets/style.json',
@@ -29,6 +30,7 @@ export class AppComponent implements OnInit {
     maxZoom: 14,
     container: 'map'
   };
+  legend;
   mapEventLayers: Array<string> = [
     'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'
   ];
@@ -36,6 +38,15 @@ export class AppComponent implements OnInit {
   constructor(private map: MapService) {}
 
   ngOnInit() {}
+
+  updateLegend() {
+    if (!this.activeDataLevel || !this.activeDataHighlight) {
+      this.legend = null;
+      return;
+    }
+    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
+      this.activeDataHighlight.fillStops['default'];
+  }
 
   onMapReady(map) {
     this.map.setMapInstance(map);
@@ -54,6 +65,7 @@ export class AppComponent implements OnInit {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
         this.activeDataLevel = visibleGroups[0];
+        this.updateLegend();
       }
     }
   }
@@ -64,6 +76,7 @@ export class AppComponent implements OnInit {
 
   onFeatureHover(feature) {
     this.currentFeature = feature;
+    // console.log("feature hover:", feature);
   }
 
   /**
@@ -82,6 +95,8 @@ export class AppComponent implements OnInit {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
+    this.activeDataHighlight = attr;
+    this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
       const newFill = {
         'property': attr.id,
