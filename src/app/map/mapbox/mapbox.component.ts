@@ -9,7 +9,8 @@ import { MapLayerGroup } from '../../map/map-layer-group';
   styleUrls: ['./mapbox.component.css']
 })
 export class MapboxComponent implements OnInit {
-  map: any;
+  private map: any;
+  private activeFeature: any;
   @Input() mapConfig;
   @Input() eventLayers: Array<string> = [];
   @Output() ready: EventEmitter<any> = new EventEmitter();
@@ -18,6 +19,7 @@ export class MapboxComponent implements OnInit {
   @Output() featureMouseEnter: EventEmitter<any> = new EventEmitter();
   @Output() featureMouseLeave: EventEmitter<any> = new EventEmitter();
   @Output() featureMouseMove: EventEmitter<any> = new EventEmitter();
+  @Output() hoverChanged: EventEmitter<any> = new EventEmitter();
 
   constructor() {}
 
@@ -31,7 +33,25 @@ export class MapboxComponent implements OnInit {
 
   onMouseEnterFeature() { this.map.getCanvas().style.cursor = 'pointer'; }
 
-  onMouseLeaveFeature() { this.map.getCanvas().style.cursor = ''; }
+  onMouseLeaveFeature() {
+    this.map.getCanvas().style.cursor = '';
+    this.activeFeature = null;
+    this.hoverChanged.emit(this.activeFeature);
+  }
+
+  onMouseMoveFeature(e) {
+    if (e.features.length) {
+      const feature = e.features[0];
+      if (
+        !this.activeFeature ||
+        this.activeFeature.properties.name !== feature.properties.name ||
+        this.activeFeature.properties["parent-location"] !== feature.properties["parent-location"]
+      ) {
+        this.activeFeature = feature;
+        this.hoverChanged.emit(this.activeFeature);
+      }
+    }
+  }
 
   /**
    * when the map is ready, bind the events
@@ -42,6 +62,7 @@ export class MapboxComponent implements OnInit {
     this.setupEmitters();
     this.featureMouseEnter.subscribe(this.onMouseEnterFeature.bind(this));
     this.featureMouseLeave.subscribe(this.onMouseLeaveFeature.bind(this));
+    this.featureMouseMove.subscribe(this.onMouseMoveFeature.bind(this));
     this.ready.emit(this.map);
   }
 

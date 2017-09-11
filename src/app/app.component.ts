@@ -18,6 +18,7 @@ export class AppComponent implements OnInit {
   zoom: number;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
+  currentFeature;
   mapConfig = {
     style: '/assets/style.json',
     center: [-77.99, 41.041480],
@@ -43,20 +44,12 @@ export class AppComponent implements OnInit {
 
   onMapZoom(zoom) { this.zoom = zoom; }
 
-  onMapFeatureClick(feature) {
-    console.log('feature click:', feature);
+  onFeatureClick(feature) {
+    // console.log('feature click:', feature);
   }
 
-  onMapFeatureMouseEnter(feature) {
-    console.log('feature enter:', feature);
-  }
-
-  onMapFeatureMouseLeave(feature) {
-    console.log('feature leave:', feature);
-  }
-
-  onMapFeatureMouseMove(feature) {
-    console.log('feature move:', feature);
+  onFeatureHover(feature) {
+    console.log('new FEATURE', feature);
   }
 
   /**
