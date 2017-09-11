@@ -1687,7 +1687,7 @@
       "source-layer": "zip-codes-centers",
       "paint": {
         "circle-color": "#0079bf",
-        "circle-opacity": 0.7,
+        "circle-opacity": 0.25,
         "circle-radius": {
           "property": "eviction-rate",
           "stops": [
@@ -1770,7 +1770,7 @@
       "source-layer": "tracts-centers",
       "paint": {
         "circle-color": "#0079bf",
-        "circle-opacity": 0.7,
+        "circle-opacity": 0.25,
         "circle-radius": {
           "property": "eviction-rate",
           "stops": [
@@ -1853,7 +1853,7 @@
       "source-layer": "cities-centers",
       "paint": {
         "circle-color": "#0079bf",
-        "circle-opacity": 0.7,
+        "circle-opacity": 0.25,
         "circle-radius": {
           "property": "eviction-rate",
           "stops": [
@@ -1984,7 +1984,7 @@
       "source-layer": "counties-centers",
       "paint": {
         "circle-color": "#0079bf",
-        "circle-opacity": 0.7,
+        "circle-opacity": 0.25,
         "circle-radius": {
           "property": "eviction-rate",
           "stops": [
@@ -2069,7 +2069,7 @@
       "source-layer": "states-centers",
       "paint": {
         "circle-color": "#0079bf",
-        "circle-opacity": 0.7,
+        "circle-opacity": 0.25,
         "circle-radius": {
           "property": "eviction-rate",
           "stops": [
