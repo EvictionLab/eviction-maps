@@ -9,6 +9,7 @@
     </app-mapbox>
     <div class="map-ui">
         <app-layer-select 
+            [selectedLayer]="activeDataLevel"
             [layers]="dataLevels" 
             (change)="setGroupVisibility($event)">
         </app-layer-select>
@@ -23,4 +24,7 @@
             (zoomChange)="setMapZoomLevel($event)">
         </app-zoom-control>
     </div>
+</div>
+<div class="data-wrapper">
+    
 </div>
