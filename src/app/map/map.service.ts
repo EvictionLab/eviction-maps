@@ -60,6 +60,10 @@ export class MapService {
     });
   }
 
+  setLayerFilter(layerId, filter) {
+    this.map.setFilter(layerId, filter);
+  }
+
   /**
    * Updates the map zoom level
    * @param newZoom new zoom value for map

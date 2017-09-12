@@ -211,6 +211,21 @@
       }
     },
     {
+      "id": "blockgroups_hover",
+      "type": "line",
+      "source": "us-block-groups",
+      "source-layer": "block-groups",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 4,
+        "line-opacity": 1
+      }
+    },
+    {
       "id": "zipcodes",
       "type": "fill",
       "source": "us-zip-codes",
@@ -235,6 +250,21 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "zipcodes_hover",
+      "type": "line",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 4,
+        "line-opacity": 1
       }
     },
     {
@@ -265,6 +295,21 @@
       }
     },
     {
+      "id": "tracts_hover",
+      "type": "line",
+      "source": "us-tracts",
+      "source-layer": "tracts",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 5,
+        "line-opacity": 1
+      }
+    },
+    {
       "id": "cities",
       "type": "fill",
       "source": "us-cities",
@@ -289,6 +334,21 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "cities_hover",
+      "type": "line",
+      "source": "us-cities",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 4,
+        "line-opacity": 1
       }
     },
     {
@@ -319,6 +379,21 @@
       }
     },
     {
+      "id": "counties_hover",
+      "type": "line",
+      "source": "us-counties",
+      "source-layer": "counties",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 4,
+        "line-opacity": 1
+      }
+    },
+    {
       "id": "states",
       "type": "fill",
       "source": "us-states",
@@ -343,6 +418,21 @@
         "line-color": "rgba(0 ,0 ,0, 0.5)",
         "line-width": 1,
         "line-opacity": 0.2
+      }
+    },
+    {
+      "id": "states_hover",
+      "type": "line",
+      "source": "us-states",
+      "source-layer": "states",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": ["==", "name", ""],
+      "paint": {
+        "line-color": "rgba(0 ,0 ,0, 0.5)",
+        "line-width": 4,
+        "line-opacity": 1
       }
     },
     {
@@ -1588,6 +1678,9 @@
       "type": "circle",
       "source": "us-block-groups",
       "source-layer": "block-groups-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.7,
@@ -1685,6 +1778,9 @@
       "type": "circle",
       "source": "us-zip-codes",
       "source-layer": "zip-codes-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,
@@ -1768,6 +1864,9 @@
       "type": "circle",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,
@@ -1851,6 +1950,9 @@
       "type": "circle",
       "source": "us-cities",
       "source-layer": "cities-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,
@@ -1982,6 +2084,9 @@
       "type": "circle",
       "source": "us-counties",
       "source-layer": "counties-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,
@@ -2067,6 +2172,9 @@
       "type": "circle",
       "source": "us-states",
       "source-layer": "states-centers",
+      "layout": {
+        "visibility": "none"
+      },
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,

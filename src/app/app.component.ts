@@ -76,7 +76,17 @@ export class AppComponent implements OnInit {
 
   onFeatureHover(feature) {
     this.currentFeature = feature;
-    // console.log("feature hover:", feature);
+    if (this.currentFeature) {
+      this.map.setLayerFilter(
+        this.activeDataLevel.id + '_hover', [
+          'all',
+          ['==', 'name', this.currentFeature.properties.name],
+          ['==', 'parent-location', this.currentFeature.properties['parent-location']]
+        ]
+      );
+    } else {
+      this.map.setLayerFilter(this.activeDataLevel.id + '_hover', ['==', 'name', '']);
+    }
   }
 
   /**
@@ -88,6 +98,7 @@ export class AppComponent implements OnInit {
     this.dataLevels.forEach((group: MapLayerGroup) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
+    this.activeDataLevel = layerGroup;
   }
 
   /**
