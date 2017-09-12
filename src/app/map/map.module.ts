@@ -10,10 +10,7 @@ import { MapboxComponent } from './mapbox/mapbox.component';
   ],
   imports: [
     CommonModule,
-    MapBoxModule.forRoot(
-      'pk.eyJ1IjoiZXZpY3Rpb25sYWIiLCJhIjoiY2o2Z3NsMG85MDF6dzMybW15cWswMGJwNCJ9' +
-      '.PW6rLbRiQdme0py5f8IstA'
-    ),
+    MapBoxModule.forRoot(''),
   ],
   declarations: [MapboxComponent]
 })
