@@ -77,6 +77,7 @@ export class AppComponent implements OnInit {
       // user has hovered the feature, jump to the more data on click
       console.log('feature click', feature);
       this.activeFeature = feature;
+      this.hoveredFeature = null;
     } else {
       // no hover, probably a touch device, show preview first
       this.onFeatureHover(feature);

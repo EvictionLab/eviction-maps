@@ -1,9 +1,9 @@
 <div class="tooltip-container" [class.off]="!feature" [class.preview]="feature">
-  <div class="tooltip-content">
+  <div class="header-row">
       <div *ngIf="feature" class="tooltip-header">
-        <h1 class="h3 tooltip-location">
+        <h1 class="h3 header-row-title">
           {{feature.properties.name}} 
-          <small class="tooltip-parent-location">{{feature.properties["parent-location"]}}</small>
+          <small class="header-row-subtitle">{{feature.properties["parent-location"]}}</small>
         </h1>
         <ul class="tooltip-stats">
           <li *ngIf="feature.properties['eviction-rate']">

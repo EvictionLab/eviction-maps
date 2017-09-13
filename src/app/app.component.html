@@ -1,35 +1,50 @@
-<div class="map-wrapper">
-    <app-mapbox 
-        [mapConfig]="mapConfig" 
-        [eventLayers]="mapEventLayers"
-        (ready)="onMapReady($event)"
-        (zoom)="onMapZoom($event)"
-        (featureClick)="onFeatureClick($event)"
-        (hoverChanged)="onFeatureHover($event)">
-    </app-mapbox>
-    <app-zoom-control 
-        [zoom]="zoom" 
-        [minZoom]="mapConfig.minZoom" 
-        [maxZoom]="mapConfig.maxZoom" 
-        (zoomChange)="setMapZoomLevel($event)">
-    </app-zoom-control>
-    <div class="map-ui">
-        <app-layer-select 
-            [selectedLayer]="activeDataLevel"
-            [layers]="dataLevels" 
-            (change)="setGroupVisibility($event)">
-        </app-layer-select>
-        <app-highlight-selector
-            [attributes]="attributes" 
-            (change)="setDataHighlight($event)">
-        </app-highlight-selector>
-        <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
-            <span class="legend-start">{{legend[0][0]}}</span>
-            <span class="legend-end">{{legend[1][0]}}</span>
+<div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
+        <div class="map-wrapper">
+            <app-mapbox 
+                [mapConfig]="mapConfig" 
+                [eventLayers]="mapEventLayers"
+                (ready)="onMapReady($event)"
+                (zoom)="onMapZoom($event)"
+                (featureClick)="onFeatureClick($event)"
+                (hoverChanged)="onFeatureHover($event)">
+            </app-mapbox>
         </div>
-    </div>
-    <app-map-tooltip [feature]="hoveredFeature"></app-map-tooltip>
-</div>
-<div class="data-wrapper">
-
+        <div class="map-ui-wrapper">
+            <app-zoom-control 
+                [zoom]="zoom" 
+                [minZoom]="mapConfig.minZoom" 
+                [maxZoom]="mapConfig.maxZoom" 
+                (zoomChange)="setMapZoomLevel($event)">
+            </app-zoom-control>
+            <div class="map-ui">
+                <app-layer-select 
+                    [selectedLayer]="activeDataLevel"
+                    [layers]="dataLevels" 
+                    (change)="setGroupVisibility($event)">
+                </app-layer-select>
+                <app-highlight-selector
+                    [attributes]="attributes" 
+                    (change)="setDataHighlight($event)">
+                </app-highlight-selector>
+                <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
+                    <span class="legend-start">{{legend[0][0]}}</span>
+                    <span class="legend-end">{{legend[1][0]}}</span>
+                </div>
+            </div>
+            <app-map-tooltip [feature]="hoveredFeature"></app-map-tooltip>
+        </div>
+        <div class="data-wrapper">
+            <div class="header-row" *ngIf="activeFeature">
+                <h1 class="h3 header-row-title">
+                    {{ activeFeature.properties["name"] }}
+                    <small class="header-row-subtitle">{{ activeFeature.properties["parent-location"] }}</small>
+                </h1>
+                <button type="button" class="close" aria-label="Close" (click)="activeFeature = null;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="data-content">
+                <img src="./assets/sample-data-2.png" class="prototype-image" />
+            </div>
+        </div>
 </div>
