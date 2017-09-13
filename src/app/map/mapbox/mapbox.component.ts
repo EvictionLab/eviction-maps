@@ -15,6 +15,7 @@ export class MapboxComponent implements OnInit {
   @Input() eventLayers: Array<string> = [];
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() zoom: EventEmitter<number> = new EventEmitter();
+  @Output() render: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
   @Output() featureMouseEnter: EventEmitter<any> = new EventEmitter();
   @Output() featureMouseLeave: EventEmitter<any> = new EventEmitter();
@@ -72,6 +73,7 @@ export class MapboxComponent implements OnInit {
   private setupEmitters() {
     // Emit all zoom end events from map
     this.map.on('zoom', (zoomEvent) => { this.zoom.emit(this.map.getZoom()); });
+    this.map.on('render', (e) => { this.render.emit(e); });
     this.eventLayers.forEach((layer) => {
       this.map.on('click', layer, (e) => {
         if (e.features.length) {

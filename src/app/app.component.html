@@ -4,6 +4,7 @@
         [eventLayers]="mapEventLayers"
         (ready)="onMapReady($event)"
         (zoom)="onMapZoom($event)"
+        (render)="onMapRender($event)"
         (featureClick)="onFeatureClick($event)"
         (hoverChanged)="onFeatureHover($event)">
     </app-mapbox>
@@ -20,9 +21,13 @@
             (change)="setGroupVisibility($event)">
         </app-layer-select>
         <app-highlight-selector
-            [attributes]="attributes" 
+            [attributes]="attributes"
             (change)="setDataHighlight($event)">
         </app-highlight-selector>
+        <app-predictive-search
+            [options]="mapFeatures"
+            optionField="properties.name"
+            (selectionChange)="onSearchSelect($event.item)"></app-predictive-search>
         <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
             <span class="legend-start">{{legend[0][0]}}</span>
             <span class="legend-end">{{legend[1][0]}}</span>

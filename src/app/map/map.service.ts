@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinct';
+import * as bbox from '@turf/bbox';
 import mapboxgl from 'mapbox-gl';
 
 import { MapLayerGroup } from './map-layer-group';
+import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
@@ -87,6 +91,28 @@ export class MapService {
       if (visible) { visibleGroups.push(group); }
     });
     return visibleGroups;
+  }
+
+  /**
+   * Queries visible map layer, returns observable with distinct map features
+   * @param layerGroup
+   */
+  queryMapLayer(layerGroup: MapLayerGroup) {
+    return Observable.from(this.map.queryRenderedFeatures({layers: [layerGroup.id]}))
+      .distinct((f: MapFeature) => f.properties.name);
+  }
+
+  /**
+   * Zoom to supplied map features
+   * @param feature
+   */
+  zoomToFeature(feature: any) {
+    const featureBbox = bbox(feature);
+    console.log(featureBbox);
+    this.map.fitBounds([
+      [featureBbox[0], featureBbox[1]],
+      [featureBbox[2], featureBbox[3]]
+    ]);
   }
 
   /**

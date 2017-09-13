@@ -21,6 +21,8 @@
     "@angular/platform-browser": "^4.2.4",
     "@angular/platform-browser-dynamic": "^4.2.4",
     "@angular/router": "^4.2.4",
+    "@turf/bbox": "^4.7.3",
+    "@types/geojson": "^1.0.3",
     "angular-mapbox": "0.0.13",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
