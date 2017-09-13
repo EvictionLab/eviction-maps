@@ -18,7 +18,8 @@ export class AppComponent implements OnInit {
   zoom: number;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
-  currentFeature;
+  hoveredFeature;
+  activeFeature;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
@@ -72,16 +73,25 @@ export class AppComponent implements OnInit {
 
   onFeatureClick(feature) {
     // console.log('feature click:', feature);
+    if (this.hoveredFeature) {
+      // user has hovered the feature, jump to the more data on click
+      console.log('feature click', feature);
+      this.activeFeature = feature;
+    } else {
+      // no hover, probably a touch device, show preview first
+      this.onFeatureHover(feature);
+    }
   }
 
   onFeatureHover(feature) {
-    this.currentFeature = feature;
-    if (this.currentFeature) {
+    console.log('feature hover', feature);
+    this.hoveredFeature = feature;
+    if (this.hoveredFeature) {
       this.map.setLayerFilter(
         this.activeDataLevel.id + '_hover', [
           'all',
-          ['==', 'name', this.currentFeature.properties.name],
-          ['==', 'parent-location', this.currentFeature.properties['parent-location']]
+          ['==', 'name', this.hoveredFeature.properties.name],
+          ['==', 'parent-location', this.hoveredFeature.properties['parent-location']]
         ]
       );
     } else {

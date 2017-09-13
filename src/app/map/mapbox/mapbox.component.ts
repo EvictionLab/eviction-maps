@@ -45,7 +45,7 @@ export class MapboxComponent implements OnInit {
       if (
         !this.activeFeature ||
         this.activeFeature.properties.name !== feature.properties.name ||
-        this.activeFeature.properties["parent-location"] !== feature.properties["parent-location"]
+        this.activeFeature.properties['parent-location'] !== feature.properties['parent-location']
       ) {
         this.activeFeature = feature;
         this.hoverChanged.emit(this.activeFeature);
@@ -73,7 +73,11 @@ export class MapboxComponent implements OnInit {
     // Emit all zoom end events from map
     this.map.on('zoom', (zoomEvent) => { this.zoom.emit(this.map.getZoom()); });
     this.eventLayers.forEach((layer) => {
-      this.map.on('click', layer, (e) => { this.featureClick.emit(e); });
+      this.map.on('click', layer, (e) => {
+        if (e.features.length) {
+          this.featureClick.emit(e.features[0]);
+        }
+      });
       this.map.on('mouseenter', layer, (e) => { this.featureMouseEnter.emit(e); });
       this.map.on('mouseleave', layer, (e) => { this.featureMouseLeave.emit(e); });
       this.map.on('mousemove', layer, (e) => { this.featureMouseMove.emit(e); });
