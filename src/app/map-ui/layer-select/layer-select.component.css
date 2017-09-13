@@ -1,5 +1,5 @@
 .btn {
-    width:160px;
+    width:100%;
     text-align:left;
 }
 .btn .caret {
@@ -7,3 +7,4 @@
     right:8px;
     top:15px;
 }
+.btn-group { display:block; }

@@ -4,11 +4,15 @@
         [eventLayers]="mapEventLayers"
         (ready)="onMapReady($event)"
         (zoom)="onMapZoom($event)"
-        (featureClick)="onMapFeatureClick($event)"
-        (featureMouseEnter)="onMapFeatureMouseEnter($event)"
-        (featureMouseLeave)="onMapFeatureMouseLeave($event)"
-        (featureMouseMove)="onMapFeatureMouseMove($event)">
+        (featureClick)="onFeatureClick($event)"
+        (hoverChanged)="onFeatureHover($event)">
     </app-mapbox>
+    <app-zoom-control 
+        [zoom]="zoom" 
+        [minZoom]="mapConfig.minZoom" 
+        [maxZoom]="mapConfig.maxZoom" 
+        (zoomChange)="setMapZoomLevel($event)">
+    </app-zoom-control>
     <div class="map-ui">
         <app-layer-select 
             [selectedLayer]="activeDataLevel"
@@ -19,11 +23,13 @@
             [attributes]="attributes" 
             (change)="setDataHighlight($event)">
         </app-highlight-selector>
-        <app-zoom-control 
-            [zoom]="zoom" 
-            [minZoom]="mapConfig.minZoom" 
-            [maxZoom]="mapConfig.maxZoom" 
-            (zoomChange)="setMapZoomLevel($event)">
-        </app-zoom-control>
+        <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
+            <span class="legend-start">{{legend[0][0]}}</span>
+            <span class="legend-end">{{legend[1][0]}}</span>
+        </div>
     </div>
+    <app-map-tooltip [feature]="hoveredFeature"></app-map-tooltip>
+</div>
+<div class="data-wrapper">
+
 </div>

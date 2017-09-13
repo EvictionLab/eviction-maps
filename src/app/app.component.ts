@@ -18,7 +18,10 @@ export class AppComponent implements OnInit {
   zoom: number;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
+  hoveredFeature;
+  activeFeature;
   activeDataLevel: MapLayerGroup;
+  activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
   mapConfig = {
     style: '/assets/style.json',
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
     maxZoom: 14,
     container: 'map'
   };
+  legend;
   mapEventLayers: Array<string> = [
     'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'
   ];
@@ -35,6 +39,15 @@ export class AppComponent implements OnInit {
   constructor(private map: MapService) {}
 
   ngOnInit() {}
+
+  updateLegend() {
+    if (!this.activeDataLevel || !this.activeDataHighlight) {
+      this.legend = null;
+      return;
+    }
+    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
+      this.activeDataHighlight.fillStops['default'];
+  }
 
   onMapReady(map) {
     this.map.setMapInstance(map);
@@ -53,24 +66,37 @@ export class AppComponent implements OnInit {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
         this.activeDataLevel = visibleGroups[0];
+        this.updateLegend();
       }
     }
   }
 
-  onMapFeatureClick(feature) {
-    console.log('feature click:', feature);
+  onFeatureClick(feature) {
+    // console.log('feature click:', feature);
+    if (this.hoveredFeature) {
+      // user has hovered the feature, jump to the more data on click
+      console.log('feature click', feature);
+      this.activeFeature = feature;
+    } else {
+      // no hover, probably a touch device, show preview first
+      this.onFeatureHover(feature);
+    }
   }
 
-  onMapFeatureMouseEnter(feature) {
-    console.log('feature enter:', feature);
-  }
-
-  onMapFeatureMouseLeave(feature) {
-    console.log('feature leave:', feature);
-  }
-
-  onMapFeatureMouseMove(feature) {
-    console.log('feature move:', feature);
+  onFeatureHover(feature) {
+    console.log('feature hover', feature);
+    this.hoveredFeature = feature;
+    if (this.hoveredFeature) {
+      this.map.setLayerFilter(
+        this.activeDataLevel.id + '_hover', [
+          'all',
+          ['==', 'name', this.hoveredFeature.properties.name],
+          ['==', 'parent-location', this.hoveredFeature.properties['parent-location']]
+        ]
+      );
+    } else {
+      this.map.setLayerFilter(this.activeDataLevel.id + '_hover', ['==', 'name', '']);
+    }
   }
 
   /**
@@ -82,6 +108,7 @@ export class AppComponent implements OnInit {
     this.dataLevels.forEach((group: MapLayerGroup) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
+    this.activeDataLevel = layerGroup;
   }
 
   /**
@@ -89,6 +116,8 @@ export class AppComponent implements OnInit {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
+    this.activeDataHighlight = attr;
+    this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
       const newFill = {
         'property': attr.id,
