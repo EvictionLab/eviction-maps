@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
   activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
   mapConfig = {
-    style: '/assets/style.json',
+    style: './assets/style.json',
     center: [-77.99, 41.041480],
     zoom: 6.5,
     minZoom: 3,
