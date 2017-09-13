@@ -1,7 +1,9 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 
 import { MapDataAttribute } from './map/map-data-attribute';
 import { MapLayerGroup } from './map/map-layer-group';
+import { MapFeature } from './map/map-feature';
 import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapService } from './map/map.service';
 import { DataLevels } from './data/data-levels';
@@ -20,6 +22,7 @@ export class AppComponent implements OnInit {
   attributes: Array<MapDataAttribute> = DataAttributes;
   hoveredFeature;
   activeFeature;
+  mapFeatures: Observable<Object>;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
@@ -71,6 +74,14 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Updates mapFeatures on map render
+   * @param event
+   */
+  onMapRender(event) {
+    this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
+  }
+
   onFeatureClick(feature) {
     // console.log('feature click:', feature);
     if (this.hoveredFeature) {
@@ -97,6 +108,15 @@ export class AppComponent implements OnInit {
     } else {
       this.map.setLayerFilter(this.activeDataLevel.id + '_hover', ['==', 'name', '']);
     }
+  }
+
+  /**
+   * Sets auto changing of layers to false, and zooms the map the selected features
+   * @param feature map feature returned from select
+   */
+  onSearchSelect(feature: MapFeature) {
+    this.autoSwitchLayers = false;
+    this.map.zoomToFeature(feature);
   }
 
   /**
