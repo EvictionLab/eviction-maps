@@ -1953,6 +1953,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "eviction-rate",
+        0
+      ],
       "paint": {
         "circle-color": "#0079bf",
         "circle-opacity": 0.25,
@@ -1961,42 +1966,135 @@
           "stops": [
             [
               {
-                "zoom": 4,
+                "zoom": 7,
                 "value": 0
               },
-              1
+              0
             ],
             [
               {
-                "zoom": 5,
-                "value": 5
+                "zoom": 7,
+                "value": 40
+              },
+              1.5
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 40
+              },
+              3
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 40
+              },
+              6
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 40
+              },
+              12
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 40
+              },
+              24
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 40
               },
               40
             ],
             [
               {
-                "zoom": 8,
-                "value": 5
-              },
-              30
-            ],
-            [
-              {
-                "zoom": 10,
+                "zoom": 13,
                 "value": 0
               },
-              1
+              0
             ],
             [
               {
-                "zoom": 10,
-                "value": 5
+                "zoom": 13,
+                "value": 40
               },
-              20
+              86
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 40
+              },
+              171
+            ],
+            [
+              {
+                "zoom": 15,
+                "value": 0
+              },
+              0
+            ],
+            [
+              {
+                "zoom": 15,
+                "value": 40
+              },
+              400
             ]
           ]
         }
-      }
+      },
+      "minzoom": 8,
+      "maxzoom": 24
     },
     {
       "id": "cities_text",
