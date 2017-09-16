@@ -13,6 +13,8 @@
 .app-wrapper .map-wrapper {
     transition: transform 0.4s ease;
     transform: translateY(-30vh);
+    top:56px;
+    height: calc(100% - 56px);
 }
 
 .app-wrapper.map-active .map-wrapper {
@@ -35,20 +37,46 @@
     transform: translateY(70vh);
 }
 
-app-layer-select {
+.header-wrapper {
+    position:absolute;
+    top:0;
+    left:0;right:0;
+    height:56px;
+    background:#fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    z-index:100;
+    overflow:hidden;
+}
+
+.header-content {
+    padding: 8px 16px;
+    display:flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    max-width:1024px;
+    position:relative;
+    margin:0 auto;
+    box-sizing:border-box;
+}
+
+.header-logo { 
+    height: 40px;
+}
+
+.language-select {
     position: absolute;
-    z-index: 10;
-    top:16px;
-    left:0;
-    width:160px;
+    right: 64px;
+}
+
+
+
+app-layer-select {
+
 }
 
 app-highlight-selector {
-    position: absolute;
-    z-index:10;
-    top:16px;
-    left:168px;
-    width:190px;
+
 }
 
 app-zoom-control {
@@ -60,47 +88,73 @@ app-zoom-control {
     left: 24px;
 }
 
-.legend-start {
-
-}
-
-.legend-end {
-    float:right;
-}
-
-.map-legend {
-    width: 300px;
-    height: 24px;
+app-predictive-search {
     position:absolute;
-    right:0;
-    top:16px;
-    padding:4px 8px;
-    font-size:11px;
-    font-weight:bold;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    left:16px;
+    min-width:174px;
+    width:50%;
 }
+
+@media (min-width: 767px) {
+    /* app-layer-select {
+        position: absolute;
+        z-index: 10;
+        top:16px;
+        left:0;
+        width:38%;
+    }
+    
+    app-highlight-selector {
+        position: absolute;
+        z-index:10;
+        top:16px;
+        right:0px;
+        width:60%;
+    } */
+    
+    app-zoom-control {
+        position:absolute;
+        top:0;
+        bottom:0px;
+        margin:auto;
+        height:150px;
+        left: 24px;
+    }
+    
+    app-predictive-search {
+        position:absolute;
+        left:0px;
+        right:0;
+        margin: 0 auto;
+        min-width:174px;
+        width:46%;
+    }
+}
+
 
 .map-ui-wrapper {
     pointer-events:none;
     position: absolute;
     width:100vw;
     height:30vh;
-    top:0;
+    top:56px;
     left:0;
     transition: height 0.4s ease;
 }
 
 .map-active .map-ui-wrapper {
-    height:100vh;
+    height: calc(100% - 56px);
 }
 
 .map-ui {
     position:absolute;
     max-width: 1024px;
-    width:100%;
+    width: calc(100% - 32px);
     margin:auto;
-    top:0;
-    left:0;
-    right:0;
+    top:12px;
+    left:16px;
+    right:16px;
     height:0;
+    z-index:100;
+    pointer-events:all;
 }

@@ -1,6 +1,6 @@
 <div class="btn-group" dropdown>
-  <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-    {{selectedLayer.name}} <span class="caret"></span>
+  <button dropdownToggle type="button" class="btn dropdown-toggle">
+    <span class="dropdown-label">Display</span> {{selectedLayer.name}} <span class="caret"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li *ngFor="let layer of layers" role="menuitem">

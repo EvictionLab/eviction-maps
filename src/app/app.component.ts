@@ -69,6 +69,7 @@ export class AppComponent implements OnInit {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
         this.activeDataLevel = visibleGroups[0];
+        this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
         this.updateLegend();
       }
     }
@@ -79,7 +80,9 @@ export class AppComponent implements OnInit {
    * @param event
    */
   onMapRender(event) {
-    this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
+    if (this.activeDataLevel) {
+      this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
+    }
   }
 
   onFeatureClick(feature) {

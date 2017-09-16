@@ -60,3 +60,37 @@
     font-size:12px;
     color: #999;
 }
+
+@media(max-width: 768px) {
+    .header-row .header-row-title {
+        font-size:18px;
+        margin-top:16px;
+    }
+    .header-row .header-row-subtitle {
+        font-size:14px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+        line-height:1;
+        display:block;
+    }
+    
+    .stat-label {
+        font-size:10px;
+        color: #999;
+        display:block;
+        line-height: 12px!important;
+    }
+
+    .tooltip-stats li {
+        max-width: 124px;
+        height:48px;
+        display:inline-block;
+        vertical-align: top;
+        line-height: 12px;
+    }
+    .tooltip-stats li.extra-stat {
+        display:none;
+    }
+}

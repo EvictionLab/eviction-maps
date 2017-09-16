@@ -1,4 +1,27 @@
 <div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
+    <div class="header-wrapper">
+        <div class="header-content">
+            <img src="./assets/logo.png" class="header-logo" />
+            <app-predictive-search
+                [options]="mapFeatures"
+                optionField="properties.name"
+                (selectionChange)="onSearchSelect($event.item)">
+            </app-predictive-search>
+            <div class="language-select dropdown" dropdown>
+                <button dropdownToggle class="btn btn-default dropdown-toggle" type="button">
+                    English
+                    <span class="caret"></span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem"><a class="dropdown-item" href="#">English</a></li>
+                    <li role="menuitem"><a class="dropdown-item" href="#">Spanish</a></li>
+                </ul>
+            </div>
+            <button class="btn">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
+        </div>
+    </div>
     <div class="map-wrapper">
         <app-mapbox 
             [mapConfig]="mapConfig" 
@@ -17,6 +40,23 @@
             (zoomChange)="setMapZoomLevel($event)">
         </app-zoom-control>
         <div class="map-ui">
+            <div class="btn-group" dropdown>
+                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
+                    <span class="dropdown-label">Eviction</span> Judgements  <span class="caret"></span>
+                </button>
+                <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li role="menuitem">
+                        <a class="dropdown-item">
+                            <span class="dropdown-label">Eviction</span> Judgements
+                        </a>
+                    </li>
+                    <li role="menuitem">
+                        <a class="dropdown-item">
+                            <span class="dropdown-label">Eviction</span> Filings
+                        </a>
+                    </li>
+                </ul>
+            </div>
             <app-layer-select 
                 [selectedLayer]="activeDataLevel"
                 [layers]="dataLevels" 
@@ -26,11 +66,6 @@
                 [attributes]="attributes" 
                 (change)="setDataHighlight($event)">
             </app-highlight-selector>
-            <app-predictive-search
-                [options]="mapFeatures"
-                optionField="properties.name"
-                (selectionChange)="onSearchSelect($event.item)">
-            </app-predictive-search>
             <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
                 <span class="legend-start">{{legend[0][0]}}</span>
                 <span class="legend-end">{{legend[1][0]}}</span>

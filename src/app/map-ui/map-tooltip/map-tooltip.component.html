@@ -8,17 +8,21 @@
         <ul class="tooltip-stats">
           <li *ngIf="feature.properties['eviction-rate']">
             <span class="stat-value">{{ feature.properties["eviction-rate"] | number:'1.0-0' }}</span>
-            <span class="stat-label">Evictions per 100 renter-occupied households</span>
+            <span class="stat-label">Evictions / 100 renter households</span>
           </li>
+
           <li *ngIf="feature.properties['evictions']">
             <span class="stat-value">{{ feature.properties["evictions"] }}</span>
             <span class="stat-label">{{ feature.properties["evictions"] | i18nPlural: evictionLabelMapping }}</span>
           </li>
-          <li *ngIf="feature.properties['average-household-size']">
+          <li *ngIf="!feature.properties['eviction-rate'] && !feature.properties['evictions']">
+              <span class="stat-value">NO DATA</span>
+          </li>
+          <li class="extra-stat" *ngIf="feature.properties['average-household-size']">
               <span class="stat-value">{{ feature.properties["average-household-size"] | number:'1.0-1' }}</span>
               <span class="stat-label">Average Household Size</span>
             </li>
-          <li *ngIf="feature.properties['poverty-rate']">
+          <li class="extra-stat" *ngIf="feature.properties['poverty-rate']">
             <span class="stat-value">{{ feature.properties["poverty-rate"] | percent }}</span>
             <span class="stat-label">Poverty Rate</span>
           </li>

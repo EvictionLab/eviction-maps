@@ -1,5 +1,15 @@
 .search-container {
+  position:relative;
+  width:100%;
+}
+
+.search-container .glyphicon {
   position: absolute;
-  top: 45px;
-  right: 0
+  top:10px;
+  left:8px;
+  color: #999;
+}
+
+input {
+  padding-left:32px;
 }
