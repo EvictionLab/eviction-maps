@@ -121,6 +121,8 @@ export class AppComponent implements OnInit {
   onSearchSelect(feature: MapFeature) {
     this.autoSwitchLayers = false;
     this.map.zoomToFeature(feature);
+    this.activeFeature = feature;
+    this.hoveredFeature = null;
   }
 
   /**
