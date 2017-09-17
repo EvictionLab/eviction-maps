@@ -31,18 +31,29 @@
     margin:14px 0 0 0;
 }
 
+.header-row-title button {
+    height:56px;
+    display:none;
+    font-size: 12px;
+    color: #999;
+    margin: -8px 4px 0 -12px;
+    position: absolute;right: 0;
+    border:none;
+    background:none;
+}
+
 .tooltip-stats {
     list-style: none;
     margin:0;
     padding:0;
     position:absolute;
-    right:0;
-    top:18px;
+    right:56px;
+    top:16px;
 }
 
 .tooltip-stats li {
     display:inline-block;
-    padding: 0 16px;
+    padding: 0 8px;
     border-right: 1px solid #ccc;
     text-align:right;
 }
@@ -62,6 +73,12 @@
 }
 
 @media(max-width: 768px) {
+    .header-row-title button {
+        display:block;
+    }
+    .tooltip-container {
+        pointer-events:all;
+    }
     .header-row .header-row-title {
         font-size:18px;
         margin-top:16px;
@@ -84,11 +101,12 @@
     }
 
     .tooltip-stats li {
-        max-width: 124px;
-        height:48px;
-        display:inline-block;
+        max-width: 110px;
+        height:44px;
+        display:block;
         vertical-align: top;
         line-height: 12px;
+        float:left;
     }
     .tooltip-stats li.extra-stat {
         display:none;
