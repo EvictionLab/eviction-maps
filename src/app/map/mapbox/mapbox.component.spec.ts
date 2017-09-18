@@ -1,30 +1,28 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapboxComponent } from './mapbox.component';
-import { MapBoxModule } from 'angular-mapbox/module';
-import { MapboxService } from 'angular-mapbox/services/mapbox.service';
+import { MapService } from '../map.service';
 
 describe('MapboxComponent', () => {
   let component: MapboxComponent;
   let fixture: ComponentFixture<MapboxComponent>;
+  const mapConfigStub = {
+    style: '/assets/style.json',
+    center: [-77.99, 41.041480],
+    zoom: 6.5,
+    minZoom: 3,
+    maxZoom: 14,
+    container: 'map'
+  };
 
   beforeEach(async(() => {
-    const mapboxServiceStub = {
-      accessToken: '',
-      map: () => ({ on: () => {}, emit: () => {} }),
-      addControl: () => {},
-      addNavigationControl: () => {}
-    };
     TestBed.configureTestingModule({
-      imports: [
-        MapBoxModule.forRoot(
-          'pk.eyJ1IjoiZXZpY3Rpb25sYWIiLCJhIjoiY2o2Z3NsMG85MDF6dzMybW15cWswMGJwNCJ9' +
-          '.PW6rLbRiQdme0py5f8IstA'
-        )
+      imports: [],
+      declarations: [
+        MapboxComponent
       ],
-      declarations: [ MapboxComponent ],
       providers: [
-        { provide: MapboxService, useValue: mapboxServiceStub }
+        MapService
       ]
     }).compileComponents();
   }));
@@ -32,6 +30,7 @@ describe('MapboxComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapboxComponent);
     component = fixture.componentInstance;
+    component.mapConfig = mapConfigStub;
     fixture.detectChanges();
   });
 

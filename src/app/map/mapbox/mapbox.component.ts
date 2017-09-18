@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-
+import { MapService } from '../map.service';
 import { MapLayerGroup } from '../../map/map-layer-group';
 
 @Component({
@@ -11,7 +11,7 @@ import { MapLayerGroup } from '../../map/map-layer-group';
 export class MapboxComponent implements OnInit {
   private map: any;
   private activeFeature: any;
-  @Input() mapConfig;
+  @Input() mapConfig: Object;
   @Input() eventLayers: Array<string> = [];
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() zoom: EventEmitter<number> = new EventEmitter();
@@ -22,9 +22,14 @@ export class MapboxComponent implements OnInit {
   @Output() featureMouseMove: EventEmitter<any> = new EventEmitter();
   @Output() hoverChanged: EventEmitter<any> = new EventEmitter();
 
-  constructor() {}
+  constructor(private mapService: MapService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.map = this.mapService.createMap(this.mapConfig);
+    this.map.on('load', () => {
+      this.onMapInstance(this.map);
+    });
+  }
 
   /**
    * Pass any .on() calls to the map instance
