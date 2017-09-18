@@ -23,7 +23,7 @@
     "@angular/router": "^4.2.4",
     "@turf/bbox": "^4.7.3",
     "@types/geojson": "^1.0.3",
-    "angular-mapbox": "0.0.13",
+    "@types/mapbox-gl": "^0.39.5",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "mapbox-gl": "^0.39.1",

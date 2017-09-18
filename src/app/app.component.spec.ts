@@ -4,9 +4,6 @@ import { AppComponent } from './app.component';
 import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapUiModule } from './map-ui/map-ui.module';
 
-import { MapBoxModule } from 'angular-mapbox/module';
-import { MapboxService } from 'angular-mapbox/services/mapbox.service';
-
 describe('AppComponent', () => {
   beforeEach(async(() => {
     const mapboxServiceStub = {
@@ -14,16 +11,13 @@ describe('AppComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
-        MapBoxModule,
         MapUiModule
       ],
       declarations: [
         AppComponent,
         MapboxComponent
       ],
-      providers: [
-        { provide: MapboxService, useValue: mapboxServiceStub }
-      ]
+      providers: []
     }).compileComponents();
   }));
 
