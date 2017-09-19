@@ -4,7 +4,7 @@ import { MapLayerGroup } from '../../map/map-layer-group';
 @Component({
   selector: 'app-layer-select',
   templateUrl: './layer-select.component.html',
-  styleUrls: ['./layer-select.component.css']
+  styleUrls: ['./layer-select.component.scss']
 })
 export class LayerSelectComponent implements OnInit {
   @Input() selectedLayer: MapLayerGroup;

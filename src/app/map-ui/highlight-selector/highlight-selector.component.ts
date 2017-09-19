@@ -5,7 +5,7 @@ import { MapDataAttribute } from '../../map/map-data-attribute';
 @Component({
   selector: 'app-highlight-selector',
   templateUrl: './highlight-selector.component.html',
-  styleUrls: ['./highlight-selector.component.css']
+  styleUrls: ['./highlight-selector.component.scss']
 })
 export class HighlightSelectorComponent implements OnInit {
   selectedAttribute: MapDataAttribute;
