@@ -6,7 +6,7 @@ import { MapLayerGroup } from '../../map/map-layer-group';
 @Component({
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
-  styleUrls: ['./mapbox.component.css']
+  styleUrls: ['./mapbox.component.scss']
 })
 export class MapboxComponent implements OnInit {
   private map: any;
