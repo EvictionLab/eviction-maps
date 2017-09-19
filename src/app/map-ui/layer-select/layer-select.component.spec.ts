@@ -3,7 +3,7 @@ import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { LayerSelectComponent } from './layer-select.component';
-import { MapLayer } from '../map-layer';
+import { MapLayerGroup } from '../../map/map-layer-group';
 
 describe('LayerSelectComponent', () => {
   let component: LayerSelectComponent;
@@ -55,12 +55,12 @@ describe('LayerSelectComponent', () => {
 
   it('should raise the selected layer when clicked', fakeAsync(() => {
     fixture.detectChanges();
-    let selectedGroup: MapLayer;
+    let selectedGroup: MapLayerGroup;
     buttonEl.triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();
     menuEls = fixture.debugElement.queryAll(By.css('.dropdown-item'));
-    component.change.subscribe((group: MapLayer) => { selectedGroup = group; });
+    component.change.subscribe((group: MapLayerGroup) => { selectedGroup = group; });
     menuEls[1].triggerEventHandler('click', null);
     expect(selectedGroup).toBe(expectedLayers[1]);
   }));

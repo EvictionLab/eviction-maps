@@ -6,6 +6,6 @@ export class AppPage {
   }
 
   getMapElement() {
-    return element(by.css('app-root app-map'));
+    return element(by.css('app-root app-mapbox'));
   }
 }

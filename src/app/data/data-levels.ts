@@ -1,12 +1,17 @@
-export const DataLevels = [
+import { MapLayerGroup } from '../map/map-layer-group';
+
+export const DataLevels: Array<MapLayerGroup> = [
     {
        'id': 'blockgroups',
        'name': 'Block Groups',
        'layerIds': [
           'blockgroups',
           'blockgroups_stroke',
-          'blockgroups_text'
-       ]
+          'blockgroups_bubbles',
+          'blockgroups_text',
+          'blockgroups_hover'
+       ],
+       'zoom': [ 10, 16 ]
     },
     {
        'id': 'zipcodes',
@@ -14,8 +19,11 @@ export const DataLevels = [
        'layerIds': [
         'zipcodes',
         'zipcodes_stroke',
-        'zipcodes_text'
-       ]
+        'zipcodes_bubbles',
+        'zipcodes_text',
+        'zipcodes_hover'
+       ],
+       'zoom': [ 9, 10 ]
     },
     {
        'id': 'tracts',
@@ -23,8 +31,11 @@ export const DataLevels = [
        'layerIds': [
           'tracts',
           'tracts_stroke',
-          'tracts_text'
-       ]
+          'tracts_bubbles',
+          'tracts_text',
+          'tracts_hover'
+       ],
+       'zoom': [ 8, 9 ]
     },
     {
        'id': 'cities',
@@ -32,7 +43,9 @@ export const DataLevels = [
        'layerIds': [
           'cities',
           'cities_stroke',
-          'cities_text'
+          'cities_bubbles',
+          'cities_text',
+          'cities_hover'
        ]
     },
     {
@@ -41,8 +54,11 @@ export const DataLevels = [
        'layerIds': [
           'counties',
           'counties_stroke',
-          'counties_text'
-       ]
+          'counties_bubbles',
+          'counties_text',
+          'counties_hover'
+       ],
+       'zoom': [ 5, 8 ]
     },
     {
        'id': 'states',
@@ -50,7 +66,10 @@ export const DataLevels = [
        'layerIds': [
           'states',
           'states_stroke',
-          'states_text'
-       ]
+          'states_bubbles',
+          'states_text',
+          'states_hover'
+       ],
+       'zoom': [ 0, 5 ]
     }
  ];
