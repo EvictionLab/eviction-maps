@@ -56,7 +56,10 @@ export class MapService {
    * @param newStyle the new property style (e.g. "#000000")
    */
   setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
+    console.log(styleProperty);
+    console.log(newStyle);
     this.map.setPaintProperty(layerId, styleProperty, newStyle);
+    console.log(this.map.getLayer(layerId));
   }
 
   /**
