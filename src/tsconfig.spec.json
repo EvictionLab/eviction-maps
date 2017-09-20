@@ -6,6 +6,8 @@
     "module": "commonjs",
     "target": "es5",
     "types": [
+      "mapbox-gl",
+      "geojson",
       "jasmine",
       "node"
     ]

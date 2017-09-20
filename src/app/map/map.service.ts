@@ -2,16 +2,23 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
-import mapboxgl from 'mapbox-gl';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
-  map;
+  map: mapboxgl.Map;
 
   constructor() { }
+
+  /**
+   * Create new Mapbox GL map from options object
+   * @param options
+   */
+  createMap(options: Object) {
+    return new mapboxgl.Map(options);
+  }
 
   /**
    * Sets the map instance for the service to control
@@ -26,7 +33,7 @@ export class MapService {
    */
   setLayerVisibility(layerId: string, visible: boolean) {
     const visibility = visible ? 'visible' : 'none';
-    if (this.map.style.getLayer(layerId)) {
+    if (this.map.getLayer(layerId)) {
       this.map.setLayoutProperty(layerId, 'visibility', visibility);
     }
   }
@@ -49,7 +56,10 @@ export class MapService {
    * @param newStyle the new property style (e.g. "#000000")
    */
   setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
+    console.log(styleProperty);
+    console.log(newStyle);
     this.map.setPaintProperty(layerId, styleProperty, newStyle);
+    console.log(this.map.getLayer(layerId));
   }
 
   /**
@@ -98,7 +108,7 @@ export class MapService {
    * @param layerGroup
    */
   queryMapLayer(layerGroup: MapLayerGroup) {
-    return Observable.from(this.map.queryRenderedFeatures({layers: [layerGroup.id]}))
+    return Observable.from(this.map.queryRenderedFeatures(undefined, {layers: [layerGroup.id]}))
       .distinct((f: MapFeature) => f.properties.name);
   }
 

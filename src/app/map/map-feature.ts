@@ -1,7 +1,4 @@
-export interface MapFeature {
-    type: string;
-    layer: Object;
-    geometry: any;
+export interface MapFeature extends GeoJSON.Feature<GeoJSON.GeometryObject> {
     properties: {
         [name: string]: string
     };

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MapBoxModule } from 'angular-mapbox/module';
 import { MapboxComponent } from './mapbox/mapbox.component';
 
 
@@ -9,8 +8,7 @@ import { MapboxComponent } from './mapbox/mapbox.component';
     MapboxComponent
   ],
   imports: [
-    CommonModule,
-    MapBoxModule.forRoot(''),
+    CommonModule
   ],
   declarations: [MapboxComponent]
 })

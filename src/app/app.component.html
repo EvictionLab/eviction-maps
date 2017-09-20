@@ -40,7 +40,7 @@
             (zoomChange)="setMapZoomLevel($event)">
         </app-zoom-control>
         <div class="map-ui">
-            <div class="btn-group" dropdown>
+            <div class="el-select" dropdown>
                 <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
                     <span class="dropdown-label">Eviction</span> Judgements  <span class="caret"></span>
                 </button>
@@ -71,7 +71,7 @@
                 <span class="legend-end">{{legend[1][0]}}</span>
             </div>
         </div>
-        <app-map-tooltip (click)="activeFeature = hoveredFeature; hoveredFeature = null;" [feature]="hoveredFeature"></app-map-tooltip>
+        <app-map-tooltip [dataYear]="dataYear" (click)="activeFeature = hoveredFeature; hoveredFeature = null;" [feature]="hoveredFeature"></app-map-tooltip>
     </div>
     <div class="data-wrapper">
         <div class="header-row" *ngIf="activeFeature">

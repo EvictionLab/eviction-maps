@@ -2,73 +2,73 @@ import { MapLayerGroup } from '../map/map-layer-group';
 
 export const DataLevels: Array<MapLayerGroup> = [
     {
-       'id': 'blockgroups',
+       'id': 'blockgroups-2010',
        'name': 'Block Groups',
        'layerIds': [
-          'blockgroups',
-          'blockgroups_stroke',
-          'blockgroups_bubbles',
-          'blockgroups_text',
-          'blockgroups_hover'
+          'blockgroups-2010',
+          'blockgroups_stroke-2010',
+          'blockgroups_bubbles-2010',
+          'blockgroups_text-2010',
+          'blockgroups_hover-2010'
        ],
        'zoom': [ 10, 16 ]
     },
     {
-       'id': 'zipcodes',
+       'id': 'zipcodes-2010',
        'name': 'Zip Codes',
        'layerIds': [
-        'zipcodes',
-        'zipcodes_stroke',
-        'zipcodes_bubbles',
-        'zipcodes_text',
-        'zipcodes_hover'
+        'zipcodes-2010',
+        'zipcodes_stroke-2010',
+        'zipcodes_bubbles-2010',
+        'zipcodes_text-2010',
+        'zipcodes_hover-2010'
        ],
        'zoom': [ 9, 10 ]
     },
     {
-       'id': 'tracts',
+       'id': 'tracts-2010',
        'name': 'Tracts',
        'layerIds': [
-          'tracts',
-          'tracts_stroke',
-          'tracts_bubbles',
-          'tracts_text',
-          'tracts_hover'
+          'tracts-2010',
+          'tracts_stroke-2010',
+          'tracts_bubbles-2010',
+          'tracts_text-2010',
+          'tracts_hover-2010'
        ],
        'zoom': [ 8, 9 ]
     },
     {
-       'id': 'cities',
+       'id': 'cities-2010',
        'name': ' Cities',
        'layerIds': [
-          'cities',
-          'cities_stroke',
-          'cities_bubbles',
-          'cities_text',
-          'cities_hover'
+          'cities-2010',
+          'cities_stroke-2010',
+          'cities_bubbles-2010',
+          'cities_text-2010',
+          'cities_hover-2010'
        ]
     },
     {
-       'id': 'counties',
+       'id': 'counties-2010',
        'name': 'Counties',
        'layerIds': [
-          'counties',
-          'counties_stroke',
-          'counties_bubbles',
-          'counties_text',
-          'counties_hover'
+          'counties-2010',
+          'counties_stroke-2010',
+          'counties_bubbles-2010',
+          'counties_text-2010',
+          'counties_hover-2010'
        ],
        'zoom': [ 5, 8 ]
     },
     {
-       'id': 'states',
+       'id': 'states-2010',
        'name': 'States',
        'layerIds': [
-          'states',
-          'states_stroke',
-          'states_bubbles',
-          'states_text',
-          'states_hover'
+          'states-2010',
+          'states_stroke-2010',
+          'states_bubbles-2010',
+          'states_text-2010',
+          'states_hover-2010'
        ],
        'zoom': [ 0, 5 ]
     }

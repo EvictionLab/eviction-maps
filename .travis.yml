@@ -16,7 +16,7 @@ before_script:
 script:
 - ng test --watch=false --sourcemaps=false
 - ng e2e
-- ng build
+- ng build --prod
 before_deploy:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
