@@ -9,6 +9,7 @@ import { I18nPluralPipe, PercentPipe } from '@angular/common';
 export class MapTooltipComponent implements OnInit {
 
   @Input() feature;
+  @Input() dataYear: number;
   evictionLabelMapping: {[k: string]: string} = {'=1': 'Eviction', 'other': 'Evictions'};
 
   constructor() { }

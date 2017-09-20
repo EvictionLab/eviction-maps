@@ -1,7 +1,9 @@
-export interface MapDataAttribute {
+import { MapDataObject } from './map-data-object';
+
+export interface MapDataAttribute extends MapDataObject {
     id: string;
     name: string;
-    fillStops: {
+    fillStops?: {
         [id: string]: Array<Array<any>>
     };
 }
