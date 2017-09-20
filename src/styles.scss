@@ -1,11 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'theme';
+
 html, body {
   background: #fff;
   margin:0;
   padding:0;
   width:100%;
   height:100%;
-  font-family: Roboto, sans-serif!important;
+  font-family: $fontStack!important;
 }
 
 .mapboxgl-map {
@@ -15,22 +18,25 @@ html, body {
   left:0;right:0;top:0;bottom:0;
 }
 
-.mapboxgl-popup-content h1 {
-  font-size:16px;
-  margin: 0px 0 8px 0;
+.map-ui {
+  position:absolute;
+  max-width: $maxContentWidth - ($defaultPadding*2);
+  width: calc(100% - 32px);
+  margin:auto;
+  top:12px;
+  left:0;
+  right:0;
+  height:0;
+  z-index:49;
+  pointer-events:all;
 }
-
-.mapboxgl-popup-content ul {
-  margin:0 16px; padding:0;
-}
-
 
 /** Header Row w/ Stats */
 
 .header-row {
-  max-width: 1024px;
-  margin:auto;
-  padding: 0 16px;
+  max-width: $maxContentWidth;
+  margin: auto;
+  padding: 0 $defaultPadding;
   box-sizing: border-box;
   width: 100%;
   position:relative;
@@ -50,8 +56,8 @@ html, body {
 
 .header-row .close {
   position: absolute;
-  top:16px;
-  right:16px;
+  top: $defaultPadding;
+  right: $defaultPadding;
   font-size:32px;
   line-height:1;
 }
@@ -62,12 +68,12 @@ ul.header-row-stats {
   padding:0;
   position:absolute;
   right:0;
-  top:16px;
+  top:$defaultPadding;
 }
 
 ul.header-row-stats li {
   display:inline-block;
-  padding: 0 16px;
+  padding: 0 $defaultPadding;
   border-right: 1px solid #ccc;
   text-align:right;
 }
@@ -86,37 +92,7 @@ ul.header-row-stats li:last-child {
   color: #999;
 }
 
-.data-wrapper .header-row {
-  position:absolute;
-  height:72px;
-  top:0;
-  left:0;
-  right:0;
-}
-
-.data-wrapper .header-row-title {
-  margin-top:14px;
-}
-
-.data-content {
-  position:absolute;
-  top:72px;
-  bottom:0;
-  left:0;
-  right:0;
-  width:100%;
-  padding:0 16px;
-  box-sizing:border-box;
-  overflow:auto;
-  border-top: 1px solid #eee;
-}
-
-.prototype-image {
-  width:100%;
-  max-width:992px;
-  margin:auto;
-  display:block;
-}
+// Dropdown Select Styles
 
 .el-select {
   float:none;
@@ -129,7 +105,7 @@ ul.header-row-stats li:last-child {
     background: #fff;
     border:none;
     border-radius: 0;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 0.04em;
@@ -138,6 +114,7 @@ ul.header-row-stats li:last-child {
     float:none;
     text-align:left;
     position:relative;
+    padding-right: 24px;
     .dropdown-label {
       color: #999;
       font-weight: 300;
@@ -150,9 +127,15 @@ ul.header-row-stats li:last-child {
   }
 }
 
-.legend-end {
-  float:right;
+@media (min-width: 767px) {
+  .el-select {
+    float:left;
+    width:auto;
+    margin: 4px;
+  }
 }
+
+// Map Legend
 
 .map-legend {
   width: auto;
@@ -162,20 +145,48 @@ ul.header-row-stats li:last-child {
   font-size:11px;
   font-weight:bold;
   box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  .legend-end {
+    float:right;
+  }
 }
 
 @media (min-width: 767px) {
-  .map-ui .btn-group {
-    float:left;
-    width:auto;
-    margin: 4px;
-  }
-  .map-ui .btn-group .btn {
-    padding-right: 24px;
-  }
   .map-legend {
     min-width:196px;
     width:26%;
     float:right;
+  }
+}
+
+// Data Panel
+
+.data-wrapper {
+  .header-row {
+    position:absolute;
+    height: $headerRowHeight;
+    top:0;
+    left:0;
+    right:0;
+  }
+  .header-row-title {
+    margin-top:14px;
+  }
+  .data-content {
+    position:absolute;
+    top: $headerRowHeight;
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    padding:0 $defaultPadding;
+    box-sizing: border-box;
+    overflow:auto;
+    border-top: 1px solid #eee;
+  }
+  .prototype-image {
+    width:100%;
+    max-width:992px;
+    margin:auto;
+    display:block;
   }
 }

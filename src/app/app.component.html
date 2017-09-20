@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
     <div class="header-wrapper">
         <div class="header-content">
@@ -7,16 +8,10 @@
                 optionField="properties.name"
                 (selectionChange)="onSearchSelect($event.item)">
             </app-predictive-search>
-            <div class="language-select dropdown" dropdown>
-                <button dropdownToggle class="btn btn-default dropdown-toggle" type="button">
-                    English
-                    <span class="caret"></span>
-                </button>
-                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li role="menuitem"><a class="dropdown-item" href="#">English</a></li>
-                    <li role="menuitem"><a class="dropdown-item" href="#">Spanish</a></li>
-                </ul>
-            </div>
+            <app-ui-select
+                class="language-select"
+                [values]="['English', 'Spanish']"
+            ></app-ui-select>
             <button class="btn">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
             </button>
@@ -40,32 +35,23 @@
             (zoomChange)="setMapZoomLevel($event)">
         </app-zoom-control>
         <div class="map-ui">
-            <div class="el-select" dropdown>
-                <button dropdownToggle type="button" class="btn btn-primary dropdown-toggle">
-                    <span class="dropdown-label">Eviction</span> Judgements  <span class="caret"></span>
-                </button>
-                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li role="menuitem">
-                        <a class="dropdown-item">
-                            <span class="dropdown-label">Eviction</span> Judgements
-                        </a>
-                    </li>
-                    <li role="menuitem">
-                        <a class="dropdown-item">
-                            <span class="dropdown-label">Eviction</span> Filings
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <app-layer-select 
-                [selectedLayer]="activeDataLevel"
-                [layers]="dataLevels" 
+            <app-ui-select
+                class="eviction-select"
+                [values]="['Judgements', 'Filings']"
+            ></app-ui-select>
+            <app-ui-select
+                class="layer-select"
+                labelProperty="name"
+                [selectedValue]="activeDataLevel"
+                [values]="dataLevels" 
                 (change)="setGroupVisibility($event)">
-            </app-layer-select>
-            <app-highlight-selector
-                [attributes]="attributes" 
+            </app-ui-select>
+            <app-ui-select
+                class="highlight-select"
+                labelProperty="name"
+                [values]="attributes"
                 (change)="setDataHighlight($event)">
-            </app-highlight-selector>
+            </app-ui-select>
             <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
                 <span class="legend-start">{{legend[0][0]}}</span>
                 <span class="legend-end">{{legend[1][0]}}</span>

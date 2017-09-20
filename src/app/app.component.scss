@@ -17,6 +17,7 @@
     height: calc(100% - 56px);
 }
 
+
 .app-wrapper.map-active .map-wrapper {
     transform: translateY(0);
 }
@@ -115,15 +116,3 @@ app-predictive-search {
     height: calc(100% - 56px);
 }
 
-.map-ui {
-    position:absolute;
-    max-width: 1024px;
-    width: calc(100% - 32px);
-    margin:auto;
-    top:12px;
-    left:16px;
-    right:16px;
-    height:0;
-    z-index:49;
-    pointer-events:all;
-}
