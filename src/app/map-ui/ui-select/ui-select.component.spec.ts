@@ -5,7 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { UiSelectComponent } from './ui-select.component';
 import { MapLayerGroup } from '../../map/map-layer-group';
 
-describe('LayerSelectComponent', () => {
+describe('UiSelectComponent', () => {
   let component: UiSelectComponent;
   let fixture: ComponentFixture<UiSelectComponent>;
   let buttonEl;
@@ -36,15 +36,15 @@ describe('LayerSelectComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display the selected layer', () => {
+  it('should display the selected value', () => {
     expect(buttonEl.nativeElement.textContent).toContain(expectedValues[0].name);
   });
 
-  it('should set the selected layer to the first option', () => {
+  it('should set the selected value to the first option', () => {
     expect(component.selectedValue).toEqual(expectedValues[0]);
   });
 
-  it('should have menu items for the provided layers', fakeAsync(() => {
+  it('should have menu items for the provided values', fakeAsync(() => {
     fixture.detectChanges();
     buttonEl.triggerEventHandler('click', null);
     tick();
@@ -54,7 +54,7 @@ describe('LayerSelectComponent', () => {
     expect(menuEls[1].nativeElement.textContent).toContain(expectedValues[1].name);
   }));
 
-  it('should raise the selected layer when clicked', fakeAsync(() => {
+  it('should raise the selected value when clicked', fakeAsync(() => {
     fixture.detectChanges();
     let selectedGroup: MapLayerGroup;
     buttonEl.triggerEventHandler('click', null);

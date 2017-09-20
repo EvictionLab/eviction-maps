@@ -13,13 +13,11 @@ export class UiSelectComponent implements OnInit {
   @Input() selectedValue: any;
   @Input() values: Array<any> = [];
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
+  get selectedLabel(): string { return this.getLabel(this.selectedValue); }
   private stringArray = false;
-  get selectedLabel(): string {
-    return this.getLabel(this.selectedValue);
-  }
 
   /**
-   * set the selected layer to the first item, or none if there are no layers
+   * set the selected value to the first item if no selected value is given
    */
   ngOnInit() {
     if (this.values.length) {
@@ -42,8 +40,8 @@ export class UiSelectComponent implements OnInit {
   }
 
   /**
-   * sets the selected layer for the component and emits the new value
-   * @param newLayer the new map layer that was selected
+   * sets the selected value for the component and emit the new value
+   * @param newValue the new map value that was selected
    */
   changeValue(newValue: any): void {
     if (_isEqual(newValue, this.selectedValue)) { return; }
