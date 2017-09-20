@@ -15,15 +15,19 @@
         (zoomChange)="setMapZoomLevel($event)">
     </app-zoom-control>
     <div class="map-ui">
-        <app-layer-select 
-            [selectedLayer]="activeDataLevel"
-            [layers]="dataLevels" 
+        <app-ui-select
+            class="layer-select"
+            labelProperty="name"
+            [selectedValue]="activeDataLevel"
+            [values]="dataLevels" 
             (change)="setGroupVisibility($event)">
-        </app-layer-select>
-        <app-highlight-selector
-            [attributes]="attributes"
+        </app-ui-select>
+        <app-ui-select
+            class="highlight-select"
+            labelProperty="name"
+            [values]="attributes"
             (change)="setDataHighlight($event)">
-        </app-highlight-selector>
+        </app-ui-select>
         <app-predictive-search
             [options]="mapFeatures"
             optionField="properties.name"

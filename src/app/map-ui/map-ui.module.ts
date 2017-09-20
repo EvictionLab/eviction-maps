@@ -4,16 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
-import { LayerSelectComponent } from './layer-select/layer-select.component';
-import { HighlightSelectorComponent } from './highlight-selector/highlight-selector.component';
+import { UiSelectComponent } from './ui-select/ui-select.component';
 import { ZoomControlComponent } from './zoom-control/zoom-control.component';
 import { MapTooltipComponent } from './map-tooltip/map-tooltip.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
 
 @NgModule({
   exports: [
-    LayerSelectComponent,
-    HighlightSelectorComponent,
+    UiSelectComponent,
     ZoomControlComponent,
     MapTooltipComponent,
     PredictiveSearchComponent
@@ -25,8 +23,7 @@ import { PredictiveSearchComponent } from './predictive-search/predictive-search
     TypeaheadModule,
   ],
   declarations: [
-    LayerSelectComponent,
-    HighlightSelectorComponent,
+    UiSelectComponent,
     ZoomControlComponent,
     MapTooltipComponent,
     PredictiveSearchComponent
