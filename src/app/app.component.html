@@ -4,6 +4,7 @@
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
             <app-predictive-search
+                class="search"
                 [options]="mapFeatures"
                 optionField="properties.name"
                 (selectionChange)="onSearchSelect($event.item)">
