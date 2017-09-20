@@ -12,7 +12,7 @@ import { DataAttributes } from './data/data-attributes';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
   providers: [ MapService ]
 })
 export class AppComponent implements OnInit {

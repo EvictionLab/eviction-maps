@@ -5,7 +5,7 @@ import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 @Component({
   selector: 'app-predictive-search',
   templateUrl: './predictive-search.component.html',
-  styleUrls: ['./predictive-search.component.css']
+  styleUrls: ['./predictive-search.component.scss']
 })
 export class PredictiveSearchComponent implements OnInit {
   public selected: Object;

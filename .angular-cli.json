@@ -19,7 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css",
+        "styles.scss",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/mapbox-gl/dist/mapbox-gl.css"
       ],
@@ -58,7 +58,8 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
-    "component": {}
+    "styleExt": "scss",
+    "component": {
+    }
   }
 }
