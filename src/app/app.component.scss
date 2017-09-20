@@ -1,4 +1,4 @@
-app-layer-select {
+.layer-select {
     position: absolute;
     z-index: 10;
     top:16px;
@@ -6,7 +6,7 @@ app-layer-select {
     width:160px;
 }
 
-app-highlight-selector {
+.highlight-select {
     position: absolute;
     z-index:10;
     top:16px;

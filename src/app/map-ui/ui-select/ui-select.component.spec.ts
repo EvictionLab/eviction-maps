@@ -2,32 +2,33 @@ import { async, tick, fakeAsync, ComponentFixture, TestBed } from '@angular/core
 import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
-import { LayerSelectComponent } from './layer-select.component';
+import { UiSelectComponent } from './ui-select.component';
 import { MapLayerGroup } from '../../map/map-layer-group';
 
 describe('LayerSelectComponent', () => {
-  let component: LayerSelectComponent;
-  let fixture: ComponentFixture<LayerSelectComponent>;
+  let component: UiSelectComponent;
+  let fixture: ComponentFixture<UiSelectComponent>;
   let buttonEl;
-  let expectedLayers;
+  let expectedValues;
   let menuEls;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayerSelectComponent ],
+      declarations: [ UiSelectComponent ],
       imports: [BsDropdownModule.forRoot()]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LayerSelectComponent);
+    fixture = TestBed.createComponent(UiSelectComponent);
     component = fixture.componentInstance;
     buttonEl  = fixture.debugElement.query(By.css('.btn'));
-    expectedLayers = [
+    expectedValues = [
       { id: 'testgroup1', name: 'Test Group 1' }, { id: 'testgroup2', name: 'Test Group 2' }
     ];
-    component.layers = expectedLayers;
+    component.labelProperty = 'name';
+    component.values = expectedValues;
     fixture.detectChanges();
   });
 
@@ -36,11 +37,11 @@ describe('LayerSelectComponent', () => {
   });
 
   it('should display the selected layer', () => {
-    expect(buttonEl.nativeElement.textContent).toContain(expectedLayers[0].name);
+    expect(buttonEl.nativeElement.textContent).toContain(expectedValues[0].name);
   });
 
   it('should set the selected layer to the first option', () => {
-    expect(component.selectedLayer).toEqual(expectedLayers[0]);
+    expect(component.selectedValue).toEqual(expectedValues[0]);
   });
 
   it('should have menu items for the provided layers', fakeAsync(() => {
@@ -49,8 +50,8 @@ describe('LayerSelectComponent', () => {
     tick();
     fixture.detectChanges();
     menuEls = fixture.debugElement.queryAll(By.css('.dropdown-item'));
-    expect(menuEls[0].nativeElement.textContent).toContain(expectedLayers[0].name);
-    expect(menuEls[1].nativeElement.textContent).toContain(expectedLayers[1].name);
+    expect(menuEls[0].nativeElement.textContent).toContain(expectedValues[0].name);
+    expect(menuEls[1].nativeElement.textContent).toContain(expectedValues[1].name);
   }));
 
   it('should raise the selected layer when clicked', fakeAsync(() => {
@@ -62,6 +63,6 @@ describe('LayerSelectComponent', () => {
     menuEls = fixture.debugElement.queryAll(By.css('.dropdown-item'));
     component.change.subscribe((group: MapLayerGroup) => { selectedGroup = group; });
     menuEls[1].triggerEventHandler('click', null);
-    expect(selectedGroup).toBe(expectedLayers[1]);
+    expect(selectedGroup).toBe(expectedValues[1]);
   }));
 });
