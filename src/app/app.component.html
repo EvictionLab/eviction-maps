@@ -17,14 +17,14 @@
     <div class="map-ui">
         <app-ui-select
             class="layer-select"
-            [labelProperty]="'name'"
+            labelProperty="name"
             [selectedValue]="activeDataLevel"
             [values]="dataLevels" 
             (change)="setGroupVisibility($event)">
         </app-ui-select>
         <app-ui-select
             class="highlight-select"
-            [labelProperty]="'name'"
+            labelProperty="name"
             [values]="attributes"
             (change)="setDataHighlight($event)">
         </app-ui-select>
