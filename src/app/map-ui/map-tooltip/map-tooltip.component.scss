@@ -1,3 +1,5 @@
+// TODO: adjust styles to use theme variables
+
 .tooltip-container {
     position:absolute;
     bottom:0;
@@ -31,7 +33,7 @@
     margin:14px 0 0 0;
 }
 
-.header-row-title button {
+.header-row-title .more-button {
     height:56px;
     display:none;
     font-size: 12px;
@@ -40,6 +42,11 @@
     position: absolute;right: 0;
     border:none;
     background:none;
+    .glyphicon {
+        display: block;
+        margin-bottom: 4px;
+        color: #999;
+    }
 }
 
 .tooltip-stats {
@@ -73,7 +80,7 @@
 }
 
 @media(max-width: 768px) {
-    .header-row-title button {
+    .header-row-title .more-button {
         display:block;
     }
     .tooltip-container {
