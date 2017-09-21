@@ -18,6 +18,7 @@ export class MapService {
    */
   createMap(options: Object) {
     const map = new mapboxgl.Map(options);
+    map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
     return map;
   }
