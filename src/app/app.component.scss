@@ -14,5 +14,7 @@ app-zoom-control { display:none; }
         margin:auto;
         height:150px;
         left: 24px;
+        pointer-events: all;
+        z-index:10;
     }
 }
