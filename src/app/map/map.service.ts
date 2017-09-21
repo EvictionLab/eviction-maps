@@ -17,7 +17,9 @@ export class MapService {
    * @param options
    */
   createMap(options: Object) {
-    return new mapboxgl.Map(options);
+    const map = new mapboxgl.Map(options);
+    map.touchZoomRotate.disableRotation();
+    return map;
   }
 
   /**
