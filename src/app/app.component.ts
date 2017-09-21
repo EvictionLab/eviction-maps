@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   activeDataHighlight: MapDataAttribute;
   autoSwitchLayers = true;
   mapConfig = {
-    style: '/assets/style.json',
+    style: './assets/style.json',
     center: [-77.99, 41.041480],
     zoom: 6.5,
     minZoom: 3,
@@ -56,8 +56,8 @@ export class AppComponent implements OnInit {
       this.legend = null;
       return;
     }
-    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
-      this.activeDataHighlight.fillStops['default'];
+    this.legend = this.activeDataHighlight.opacityStops[this.activeDataLevel.id] ||
+      this.activeDataHighlight.opacityStops['default'];
   }
 
   onMapReady(map) {
@@ -153,11 +153,12 @@ export class AppComponent implements OnInit {
     this.activeDataHighlight = this.addYearToObject(attr, this.dataYear);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const newFill = {
+      const newOpacity = {
         'property': attr.id,
-        'stops': (attr.fillStops[layerId] ? attr.fillStops[layerId] : attr.fillStops['default'])
+        'stops': (attr.opacityStops[layerId] ?
+          attr.opacityStops[layerId] : attr.opacityStops['default'])
       };
-      this.map.setLayerStyle(layerId, 'fill-color', newFill);
+      this.map.setLayerStyle(layerId, 'fill-opacity', newOpacity);
     });
   }
 
