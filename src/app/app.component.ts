@@ -236,4 +236,8 @@ export class AppComponent {
   getCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
   }
+
+  yearChange(year: number) {
+    console.log('Changed year', year);
+  }
 }

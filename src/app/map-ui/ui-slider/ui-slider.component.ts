@@ -73,8 +73,8 @@ export class UiSliderComponent implements OnInit, AfterViewInit {
       const newValue = this.getValue();
       if (newValue !== this.currentValue) {
         this.currentValue = newValue;
+        this.change.emit(newValue);
       }
-      this.change.emit(newValue);
     }
   }
 }
