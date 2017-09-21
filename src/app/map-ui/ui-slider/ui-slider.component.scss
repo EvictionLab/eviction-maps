@@ -1,0 +1,67 @@
+.el-slider {
+    width:100%;
+    height:100%;
+    pointer-events: all;
+    position:relative;
+}
+
+.track {
+    position:absolute;
+    height:4px;
+    background:#f00;
+    top:0;
+    bottom:0;
+    margin:auto;
+}
+
+.track-full { 
+    width:100%; 
+    background: #ccc;
+}
+
+.scrubber {
+    position:absolute;
+    width: 40px;
+    height:40px;
+    top:0;left:0;bottom:0;
+    margin:auto;
+    margin-left:-20px;
+    
+    &:hover .scrubber-marker {
+        transform: scale(1.3333);
+    }
+}
+
+.scrubber-label {
+    position:absolute;
+    text-align:center;
+    background: #f00;
+    color: #fff;
+    padding: 4px;
+    font-size:10px;
+    top: -20px;
+    left:0;right:0;
+    margin:auto;
+    &:after {
+        content:'';
+        position:absolute;
+        width:0;height:0;
+        left:0;
+        right:0;
+        margin:auto;
+        border: 7px solid transparent;
+        border-top: 7px solid #f00;
+        top:20px;
+    }
+}
+.scrubber-marker {
+    width:12px;
+    height:12px;
+    border-radius: 6px;
+    background:#f00;
+    margin:auto;
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+    transition: transform 0.2s ease;
+    transform: scale(1);
+}

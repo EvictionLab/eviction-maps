@@ -8,13 +8,16 @@ import { UiSelectComponent } from './ui-select/ui-select.component';
 import { ZoomControlComponent } from './zoom-control/zoom-control.component';
 import { MapTooltipComponent } from './map-tooltip/map-tooltip.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
+import { YearSliderComponent } from './year-slider/year-slider.component';
+import { UiSliderComponent } from './ui-slider/ui-slider.component';
 
 @NgModule({
   exports: [
     UiSelectComponent,
     ZoomControlComponent,
     MapTooltipComponent,
-    PredictiveSearchComponent
+    PredictiveSearchComponent,
+    UiSliderComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +29,9 @@ import { PredictiveSearchComponent } from './predictive-search/predictive-search
     UiSelectComponent,
     ZoomControlComponent,
     MapTooltipComponent,
-    PredictiveSearchComponent
+    PredictiveSearchComponent,
+    YearSliderComponent,
+    UiSliderComponent
   ]
 })
 export class MapUiModule { }
