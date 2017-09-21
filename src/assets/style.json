@@ -1,6 +1,6 @@
 {
   "version": 8,
-  "id": "testmap",
+  "id": "eviction-lab",
   "name": "Natural Earth",
   "sources": {
     "openmaptiles": {
