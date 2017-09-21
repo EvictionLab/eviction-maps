@@ -3,6 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapUiModule } from './map-ui/map-ui.module';
+import { PlatformService } from './platform.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -17,7 +18,7 @@ describe('AppComponent', () => {
         AppComponent,
         MapboxComponent
       ],
-      providers: []
+      providers: [ PlatformService ]
     }).compileComponents();
   }));
 

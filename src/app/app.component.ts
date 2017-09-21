@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import { MapDataAttribute } from './map/map-data-attribute';
@@ -9,6 +9,7 @@ import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapService } from './map/map.service';
 import { DataLevels } from './data/data-levels';
 import { DataAttributes } from './data/data-attributes';
+import { PlatformService } from './platform.service';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { DataAttributes } from './data/data-attributes';
   styleUrls: ['./app.component.scss'],
   providers: [ MapService ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'Eviction Lab';
   zoom: number;
   censusYear = 2010;
@@ -46,11 +47,13 @@ export class AppComponent implements OnInit {
     'zipcodes-2010',
     'counties-2010'
   ];
+  private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
-  constructor(private map: MapService) {}
+  constructor(private map: MapService, public platform: PlatformService) {}
 
-  ngOnInit() {}
-
+  /**
+   * Update the legend to correspond to the fill stops on the active data highlight
+   */
   updateLegend() {
     if (!this.activeDataLevel || !this.activeDataHighlight) {
       this.legend = null;
@@ -60,9 +63,13 @@ export class AppComponent implements OnInit {
       this.activeDataHighlight.opacityStops['default'];
   }
 
+  /**
+   * Set the map instance, the data level, highlight layer, current year, and zoom
+   * handler when the map is ready
+   * @param map mapbox instance
+   */
   onMapReady(map) {
     this.map.setMapInstance(map);
-    // this.setGroupVisibility(this.dataLevels[0]);
     this.activeDataLevel = this.dataLevels[4];
     this.activeDataHighlight = this.attributes[0];
     this.setDataYear(this.dataYear);
@@ -80,6 +87,7 @@ export class AppComponent implements OnInit {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
         this.activeDataLevel = visibleGroups[0];
+        this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
         this.updateLegend();
       }
     }
@@ -90,35 +98,58 @@ export class AppComponent implements OnInit {
    * @param event
    */
   onMapRender(event) {
-    this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
+    if (this.activeDataLevel) {
+      this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
+    }
   }
 
+  /**
+   * Activates a feature if it is currently in a "hovered" state
+   * If the feature is not yet in a "hovered" state, set the feature
+   * as hovered.
+   * @param feature the map feature
+   */
   onFeatureClick(feature) {
-    // console.log('feature click:', feature);
-    if (this.hoveredFeature) {
+    if (
+      this.hoveredFeature &&
+      this.hoveredFeature.properties.name === feature.properties.name &&
+      this.hoveredFeature.properties['parent-location'] === feature.properties['parent-location']
+    ) {
       // user has hovered the feature, jump to the more data on click
-      console.log('feature click', feature);
       this.activeFeature = feature;
+      this.hoveredFeature = null;
     } else {
       // no hover, probably a touch device, show preview first
       this.onFeatureHover(feature);
     }
   }
 
+  /**
+   * Sets the tooltip and highlighted shape on the map
+   * TODO: prevent this function from firing immediately before onFeatureClick
+   * when touching a location, and remove hover_HACK that absorbs the first hover on mobile
+   * @param feature the feature being hovered (or null if no longer hovering)
+   */
   onFeatureHover(feature) {
     console.log('feature hover', feature);
-    this.hoveredFeature = feature;
-    const hoverLayer = this.activeDataLevel.layerIds[this.activeDataLevel.layerIds.length - 1];
-    if (this.hoveredFeature) {
-      this.map.setLayerFilter(
-        hoverLayer, [
-          'all',
-          ['==', 'name', this.hoveredFeature.properties.name],
-          ['==', 'parent-location', this.hoveredFeature.properties['parent-location']]
-        ]
-      );
-    } else {
-      this.map.setLayerFilter(hoverLayer, ['==', 'name', '']);
+    if (this.hover_HACK > 0 || !this.platform.isMobile()) {
+      this.hover_HACK = 0;
+      this.hoveredFeature = feature;
+      const hoverLayer =
+        this.activeDataLevel.layerIds[this.activeDataLevel.layerIds.length - 1];
+      if (this.hoveredFeature) {
+        this.map.setLayerFilter(
+          hoverLayer, [
+            'all',
+            ['==', 'name', this.hoveredFeature.properties.name],
+            ['==', 'parent-location', this.hoveredFeature.properties['parent-location']]
+          ]
+        );
+      } else {
+        this.map.setLayerFilter(hoverLayer, ['==', 'name', '']);
+      }
+    } else if (this.hover_HACK === 0 && feature) {
+      this.hover_HACK = 1;
     }
   }
 
@@ -129,6 +160,8 @@ export class AppComponent implements OnInit {
   onSearchSelect(feature: MapFeature) {
     this.autoSwitchLayers = false;
     this.map.zoomToFeature(feature);
+    this.activeFeature = feature;
+    this.hoveredFeature = null;
   }
 
   /**

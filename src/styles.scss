@@ -1,10 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'theme';
+
 html, body {
   background: #fff;
   margin:0;
   padding:0;
   width:100%;
   height:100%;
+  font-family: $fontStack!important;
 }
 
 .mapboxgl-map {
@@ -14,11 +18,260 @@ html, body {
   left:0;right:0;top:0;bottom:0;
 }
 
-.mapboxgl-popup-content h1 {
-  font-size:16px;
-  margin: 0px 0 8px 0;
+// Page Layout
+.app-wrapper {
+  @include fill-parent();
+  overflow:hidden;
+  .map-wrapper {
+      @include fill-parent();
+      transition: transform 0.4s ease;
+      transform: translateY(-30vh);
+      top:#{$toolbarHeight};
+      height: calc(100% - #{$toolbarHeight});
+  }
+  .data-wrapper {
+      position:absolute;
+      width:100%;
+      left:0;right:0;bottom:0;
+      z-index:100;
+      height: 70vh;
+      background:#fff;
+      transition: transform 0.3s ease;
+      transform: translateY(0);
+      overflow:auto;
+  }
+  .map-ui-wrapper {
+      pointer-events:none;
+      position: absolute;
+      width:100vw;
+      height:calc(30vh - #{$toolbarHeight});
+      top: $toolbarHeight;
+      left:0;
+      transition: height 0.4s ease;
+  }
+  &.map-active {
+      .map-wrapper {
+          transform: translateY(0);
+      }
+      .data-wrapper {
+          transform: translateY(70vh);
+      }
+      .map-ui-wrapper {
+          height: calc(100% - #{$toolbarHeight});
+      }
+  }
 }
 
-.mapboxgl-popup-content ul {
-  margin:0 16px; padding:0;
+// App Header Bar
+// - Search bar overlaps logo on left on mobile
+// - Search bar in center of header bar on desktop
+.header-wrapper {
+  position:absolute;
+  top:0;
+  left:0;right:0;
+  height: $toolbarHeight;
+  background:#fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  z-index:999;
+  .header-content {
+    padding: 8px 16px;
+    display:flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    max-width: $maxContentWidth;
+    position:relative;
+    margin:0 auto;
+    box-sizing:border-box;
+  }
+  .header-logo { 
+    height: 40px;
+  }
+  .language-select {
+    position: absolute;
+    right: 64px;
+  }
+  .search {
+    position:absolute;
+    left:16px;
+    min-width:174px;
+    width:50%;
+  }
+}
+@media(min-width: 767px) {
+  .header-wrapper .search {
+      position:absolute;
+      left:0px;
+      right:0;
+      margin: 0 auto;
+      min-width:174px;
+      width:46%;
+  }
+}
+// End App Header Bar
+
+.map-ui {
+  position:absolute;
+  max-width: $maxContentWidth - ($defaultPadding*2);
+  width: calc(100% - 32px);
+  margin:auto;
+  top:12px;
+  left:0;
+  right:0;
+  height:0;
+  z-index:49;
+  pointer-events:all;
+}
+
+// Dropdown Select Styles
+
+.el-select {
+  float:none;
+  width:100%;
+  margin: 4px 0 0 0;
+  display:block;
+  position:relative;
+  .dropdown-toggle.btn {
+    color: rgba(0,0,0,0.87);
+    background: #fff;
+    border:none;
+    border-radius: 0;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    font-size:12px;
+    width:100%;
+    float:none;
+    text-align:left;
+    position:relative;
+    padding-right: 24px;
+    .dropdown-label {
+      color: #999;
+      font-weight: 300;
+    }
+    .caret {
+      position:absolute;
+      right:8px;
+      top:12px;
+    }
+  }
+}
+
+@media (min-width: 767px) {
+  .el-select {
+    float:left;
+    width:auto;
+    margin: 4px;
+  }
+}
+
+// Map Legend
+
+.map-legend {
+  width: auto;
+  height: 24px;
+  padding:4px 8px;
+  margin: 4px 0;
+  font-size:11px;
+  font-weight:bold;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  .legend-end {
+    float:right;
+  }
+}
+
+@media (min-width: 767px) {
+  .map-legend {
+    min-width:196px;
+    width:26%;
+    float:right;
+  }
+}
+
+// Data Panel
+
+.data-wrapper {
+  .header-row {
+    position:absolute;
+    height: $headerRowHeight;
+    top:0;
+    left:0;
+    right:0;
+  }
+  .header-row-title {
+    margin-top:14px;
+  }
+  .data-content {
+    position:absolute;
+    top: $headerRowHeight;
+    bottom:0;
+    left:0;
+    right:0;
+    width:100%;
+    padding:0 $defaultPadding;
+    box-sizing: border-box;
+    overflow:auto;
+    border-top: 1px solid #eee;
+  }
+  .prototype-image {
+    width:100%;
+    max-width:992px;
+    margin:auto;
+    display:block;
+  }
+}
+
+// Header Row w/ Stats (for tooltips and data panel)
+
+.header-row {
+  max-width: $maxContentWidth;
+  margin: auto;
+  padding: 0 $defaultPadding;
+  box-sizing: border-box;
+  width: 100%;
+  position:relative;
+  .header-row-title {
+    margin: $defaultPadding 0 0 0;
+    padding: 0;
+    line-height:1;
+    font-size:21px;
+  }
+  .header-row-subtitle {
+    display:block;
+    margin-top:4px;
+  }
+  .close {
+    position: absolute;
+    top: $defaultPadding;
+    right: $defaultPadding;
+    font-size:32px;
+    line-height:1;
+  }
+  ul.header-row-stats {
+    list-style: none;
+    margin:0;
+    padding:0;
+    position:absolute;
+    right:0;
+    top:$defaultPadding;
+  }
+  ul.header-row-stats li {
+    display:inline-block;
+    padding: 0 $defaultPadding;
+    border-right: 1px solid #ccc;
+    text-align:right;
+  }
+  ul.header-row-stats li:last-child {
+    border-right:none;
+  }
+  .header-row-stat-value {
+    font-size: 24px;
+    line-height:1;
+    display:block;
+  }
+  .header-row-stat-label {
+    font-size:12px;
+    color: #999;
+  }
 }

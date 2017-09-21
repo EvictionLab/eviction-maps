@@ -1,26 +1,27 @@
+// TODO: adjust styles to use theme variables
+
 .tooltip-container {
     position:absolute;
     bottom:0;
     left:0;
     right:0;
     height:72px;
-    background: rgba(255,255,255,0.95);
-    z-index:9999;
+    background: rgba(255,255,255,0.9);
+    z-index:50;
     color: rgba(0,0,0,0.87);
     transform: translateY(0);
     transition: transform 0.2s ease;
     padding:16px;
     box-shadow: 0 -1px 3px rgba(0,0,0,0.12);
+    pointer-events:none;
+    border-bottom: 1px solid #eee;
 }
 
 .tooltip-container.off {
     transform: translateY(72px);
 }
 
-.tooltip-content {
-    max-width: 1024px;
-    margin:auto;
-    width: 100%;
+.header-row {
     position: absolute;
     top:0;
     left:0;
@@ -28,15 +29,24 @@
     bottom:0;
 }
 
-.tooltip-location {
-    margin: 16px 0 0 0;
-    padding: 0;
-    line-height:1;
+.header-row-title {
+    margin:14px 0 0 0;
 }
 
-.tooltip-header small {
-    display:block;
-    margin-top:4px;
+.header-row-title .more-button {
+    height:56px;
+    display:none;
+    font-size: 12px;
+    color: #999;
+    margin: -8px 4px 0 -12px;
+    position: absolute;right: 0;
+    border:none;
+    background:none;
+    .glyphicon {
+        display: block;
+        margin-bottom: 4px;
+        color: #999;
+    }
 }
 
 .tooltip-stats {
@@ -44,13 +54,13 @@
     margin:0;
     padding:0;
     position:absolute;
-    right:0;
+    right:56px;
     top:16px;
 }
 
 .tooltip-stats li {
     display:inline-block;
-    padding: 0 16px;
+    padding: 0 8px;
     border-right: 1px solid #ccc;
     text-align:right;
 }
@@ -67,4 +77,45 @@
 .stat-label {
     font-size:12px;
     color: #999;
+}
+
+@media(max-width: 768px) {
+    .header-row-title .more-button {
+        display:block;
+    }
+    .tooltip-container {
+        pointer-events:all;
+    }
+    .header-row .header-row-title {
+        font-size:18px;
+        margin-top:16px;
+    }
+    .header-row .header-row-subtitle {
+        font-size:14px;
+    }
+
+    .stat-value {
+        font-size: 18px;
+        line-height:1;
+        display:block;
+    }
+    
+    .stat-label {
+        font-size:10px;
+        color: #999;
+        display:block;
+        line-height: 12px!important;
+    }
+
+    .tooltip-stats li {
+        max-width: 110px;
+        height:44px;
+        display:block;
+        vertical-align: top;
+        line-height: 12px;
+        float:left;
+    }
+    .tooltip-stats li.extra-stat {
+        display:none;
+    }
 }

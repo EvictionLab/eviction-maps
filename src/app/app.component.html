@@ -1,44 +1,76 @@
-<div class="map-wrapper">
-    <app-mapbox 
-        [mapConfig]="mapConfig" 
-        [eventLayers]="mapEventLayers"
-        (ready)="onMapReady($event)"
-        (zoom)="onMapZoom($event)"
-        (render)="onMapRender($event)"
-        (featureClick)="onFeatureClick($event)"
-        (hoverChanged)="onFeatureHover($event)">
-    </app-mapbox>
-    <app-zoom-control 
-        [zoom]="zoom" 
-        [minZoom]="mapConfig.minZoom" 
-        [maxZoom]="mapConfig.maxZoom" 
-        (zoomChange)="setMapZoomLevel($event)">
-    </app-zoom-control>
-    <div class="map-ui">
-        <app-ui-select
-            class="layer-select"
-            labelProperty="name"
-            [selectedValue]="activeDataLevel"
-            [values]="dataLevels" 
-            (change)="setGroupVisibility($event)">
-        </app-ui-select>
-        <app-ui-select
-            class="highlight-select"
-            labelProperty="name"
-            [values]="attributes"
-            (change)="setDataHighlight($event)">
-        </app-ui-select>
-        <app-predictive-search
-            [options]="mapFeatures"
-            optionField="properties.name"
-            (selectionChange)="onSearchSelect($event.item)"></app-predictive-search>
-        <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
-            <span class="legend-start">{{legend[0][0]}}</span>
-            <span class="legend-end">{{legend[1][0]}}</span>
+<div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
+    <div class="header-wrapper">
+        <div class="header-content">
+            <img src="./assets/logo.png" class="header-logo" />
+            <app-predictive-search
+                class="search"
+                [options]="mapFeatures"
+                optionField="properties.name"
+                (selectionChange)="onSearchSelect($event.item)">
+            </app-predictive-search>
+            <app-ui-select
+                class="language-select"
+                [values]="['English', 'Spanish']"
+            ></app-ui-select>
+            <button class="btn">
+                <span class="glyphicon glyphicon-menu-hamburger"></span>
+            </button>
         </div>
     </div>
-    <app-map-tooltip [dataYear]="dataYear" [feature]="hoveredFeature"></app-map-tooltip>
-</div>
-<div class="data-wrapper">
-
+    <div class="map-wrapper">
+        <app-mapbox 
+            [mapConfig]="mapConfig" 
+            [eventLayers]="mapEventLayers"
+            (ready)="onMapReady($event)"
+            (zoom)="onMapZoom($event)"
+            (featureClick)="onFeatureClick($event)"
+            (hoverChanged)="onFeatureHover($event)">
+        </app-mapbox>
+    </div>
+    <div class="map-ui-wrapper">
+        <app-zoom-control 
+            [zoom]="zoom" 
+            [minZoom]="mapConfig.minZoom" 
+            [maxZoom]="mapConfig.maxZoom" 
+            (zoomChange)="setMapZoomLevel($event)">
+        </app-zoom-control>
+        <div class="map-ui">
+            <app-ui-select
+                class="eviction-select"
+                [values]="['Judgements', 'Filings']"
+            ></app-ui-select>
+            <app-ui-select
+                class="layer-select"
+                labelProperty="name"
+                [selectedValue]="activeDataLevel"
+                [values]="dataLevels" 
+                (change)="setGroupVisibility($event)">
+            </app-ui-select>
+            <app-ui-select
+                class="highlight-select"
+                labelProperty="name"
+                [values]="attributes"
+                (change)="setDataHighlight($event)">
+            </app-ui-select>
+            <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
+                <span class="legend-start">{{legend[0][0]}}</span>
+                <span class="legend-end">{{legend[1][0]}}</span>
+            </div>
+        </div>
+        <app-map-tooltip [dataYear]="dataYear" (click)="activeFeature = hoveredFeature; hoveredFeature = null;" [feature]="hoveredFeature"></app-map-tooltip>
+    </div>
+    <div class="data-wrapper">
+        <div class="header-row" *ngIf="activeFeature">
+            <h1 class="h3 header-row-title">
+                {{ activeFeature.properties["name"] }}
+                <small class="header-row-subtitle">{{ activeFeature.properties["parent-location"] }}</small>
+            </h1>
+            <button type="button" class="close" aria-label="Close" (click)="activeFeature = null;">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="data-content">
+            <img src="./assets/sample-data-2.png" class="prototype-image" />
+        </div>
+    </div>
 </div>

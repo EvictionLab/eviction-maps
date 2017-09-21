@@ -1,0 +1,26 @@
+$maxContentWidth: 1024px;
+$defaultPadding: 16px;
+$fontStack: Roboto, sans-serif;
+$primaryColor: rgb(224,64,0);
+
+// App Toolbar
+$toolbarHeight: 56px;
+
+// Tooltip Header Row
+$headerRowHeight: 72px;
+
+// Mixins
+
+@mixin fill-parent() {
+    position:absolute;
+    width:100%;
+    height:100%;
+    top:0;left:0;right:0;bottom:0;
+    margin:0;
+    padding:0;
+}
+
+
+// TODO: 
+// - standard values for shadow levels
+// - type definitions / sizes
