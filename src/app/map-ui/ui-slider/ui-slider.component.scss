@@ -3,6 +3,8 @@
     height:100%;
     pointer-events: all;
     position:relative;
+    cursor: pointer;
+    user-select: none;
 }
 
 .track {
@@ -12,6 +14,10 @@
     top:0;
     bottom:0;
     margin:auto;
+}
+
+.track-value {
+    transition: width 0.1s ease;
 }
 
 .track-full { 
@@ -26,7 +32,8 @@
     top:0;left:0;bottom:0;
     margin:auto;
     margin-left:-20px;
-    
+    transition: left 0.1s ease;
+    cursor: move;
     &:hover .scrubber-marker {
         transform: scale(1.3333);
     }
@@ -64,4 +71,5 @@
     top:0;left:0;right:0;bottom:0;
     transition: transform 0.2s ease;
     transform: scale(1);
+    
 }

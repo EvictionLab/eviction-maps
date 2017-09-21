@@ -131,7 +131,6 @@ export class AppComponent {
    * @param feature the feature being hovered (or null if no longer hovering)
    */
   onFeatureHover(feature) {
-    console.log('feature hover', feature);
     if (this.hover_HACK > 0 || !this.platform.isMobile()) {
       this.hover_HACK = 0;
       this.hoveredFeature = feature;
@@ -182,7 +181,6 @@ export class AppComponent {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
-    console.log(attr);
     this.activeDataHighlight = this.addYearToObject(attr, this.dataYear);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
@@ -222,6 +220,7 @@ export class AppComponent {
    * @param year
    */
   setDataYear(year: number) {
+    console.log('setting year', year);
     this.dataYear = year;
     this.censusYear = this.getCensusYear(year);
     this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
@@ -235,9 +234,5 @@ export class AppComponent {
    */
   getCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
-  }
-
-  yearChange(year: number) {
-    console.log('Changed year', year);
   }
 }

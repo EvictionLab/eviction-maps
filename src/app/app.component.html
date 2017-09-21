@@ -57,8 +57,18 @@
                 <span class="legend-end">{{legend[1][0]}}</span>
             </div>
         </div>
-        <app-ui-slider [min]="1990" [max]="2015" (change)="setDataYear($event)" class="year-slider"></app-ui-slider>
-        <app-map-tooltip [dataYear]="dataYear" (click)="activeFeature = hoveredFeature; hoveredFeature = null;" [feature]="hoveredFeature"></app-map-tooltip>
+        <app-ui-slider 
+            class="year-slider"
+            [currentValue]="dataYear" 
+            [min]="1990" 
+            [max]="2015" 
+            (change)="setDataYear($event)"
+        ></app-ui-slider>
+        <app-map-tooltip 
+            [dataYear]="dataYear" 
+            (click)="activeFeature = hoveredFeature; hoveredFeature = null;" 
+            [feature]="hoveredFeature"
+        ></app-map-tooltip>
     </div>
     <div class="data-wrapper">
         <div class="header-row" *ngIf="activeFeature">

@@ -58,10 +58,7 @@ export class MapService {
    * @param newStyle the new property style (e.g. "#000000")
    */
   setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
-    console.log(styleProperty);
-    console.log(newStyle);
     this.map.setPaintProperty(layerId, styleProperty, newStyle);
-    console.log(this.map.getLayer(layerId));
   }
 
   /**
@@ -120,7 +117,6 @@ export class MapService {
    */
   zoomToFeature(feature: any) {
     const featureBbox = bbox(feature);
-    console.log(featureBbox);
     this.map.fitBounds([
       [featureBbox[0], featureBbox[1]],
       [featureBbox[2], featureBbox[3]]
