@@ -275,3 +275,16 @@ html, body {
     color: #999;
   }
 }
+
+
+
+// TEMP
+
+.year-slider {
+  @include fill-parent();
+  margin:auto;
+  width: 92.5%;
+  height:40px;
+  z-index: 10;
+  top:auto;
+}
