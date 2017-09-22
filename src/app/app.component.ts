@@ -247,8 +247,8 @@ export class AppComponent {
    */
   getLegendGradient() {
     return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, rgba(226,124,0,${this.legend[0][1]}), ` +
-      `rgba(226,124,0,${this.legend[this.legend.length - 1][1]}))`
+      `linear-gradient(to right, rgba(241,128,67,${this.legend[0][1]}), ` +
+      `rgba(241,128,67,${this.legend[this.legend.length - 1][1]}))`
     );
   }
 }
