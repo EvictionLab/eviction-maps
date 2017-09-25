@@ -34,6 +34,10 @@ deploy:
   script: scripts/invalidate-cache.sh
   on:
     branch: master
+- provider: script
+  script: if [[ $TRAVIS_BRANCH == prototypes/* ]]; then aws s3 cp dist/ s3://eviction-lab-prototypes/${TRAVIS_BRANCH:11} --recursive --acl=public-read; fi
+  on:
+    all_branches: true
 notifications:
   slack:
     template:
