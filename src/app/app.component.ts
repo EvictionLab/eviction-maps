@@ -1,4 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
 import { MapDataAttribute } from './map/map-data-attribute';
@@ -49,7 +50,11 @@ export class AppComponent {
   ];
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
-  constructor(private map: MapService, public platform: PlatformService) {}
+  constructor(
+    private map: MapService,
+    public platform: PlatformService,
+    private _sanitizer: DomSanitizer
+  ) {}
 
   /**
    * Update the legend to correspond to the fill stops on the active data highlight
@@ -59,8 +64,8 @@ export class AppComponent {
       this.legend = null;
       return;
     }
-    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
-      this.activeDataHighlight.fillStops['default'];
+    this.legend = this.activeDataHighlight.opacityStops[this.activeDataLevel.id] ||
+      this.activeDataHighlight.opacityStops['default'];
   }
 
   /**
@@ -184,11 +189,12 @@ export class AppComponent {
     this.activeDataHighlight = this.addYearToObject(attr, this.dataYear);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const newFill = {
+      const newOpacity = {
         'property': attr.id,
-        'stops': (attr.fillStops[layerId] ? attr.fillStops[layerId] : attr.fillStops['default'])
+        'stops': (attr.opacityStops[layerId] ?
+          attr.opacityStops[layerId] : attr.opacityStops['default'])
       };
-      this.map.setLayerStyle(layerId, 'fill-color', newFill);
+      this.map.setLayerStyle(layerId, 'fill-opacity', newOpacity);
     });
   }
 
@@ -234,5 +240,15 @@ export class AppComponent {
    */
   getCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
+  }
+
+  /**
+   * Returns sanitized gradient for the legend
+   */
+  getLegendGradient() {
+    return this._sanitizer.bypassSecurityTrustStyle(
+      `linear-gradient(to right, rgba(241,128,67,${this.legend[0][1]}), ` +
+      `rgba(241,128,67,${this.legend[this.legend.length - 1][1]}))`
+    );
   }
 }

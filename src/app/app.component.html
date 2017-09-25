@@ -52,7 +52,7 @@
                 [values]="attributes"
                 (change)="setDataHighlight($event)">
             </app-ui-select>
-            <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="'linear-gradient(to right, ' + legend[0][1] + ',' + legend[legend.length - 1][1] + ')'">
+            <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="getLegendGradient()">
                 <span class="legend-start">{{legend[0][0]}}</span>
                 <span class="legend-end">{{legend[1][0]}}</span>
             </div>
