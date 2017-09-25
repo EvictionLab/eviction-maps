@@ -4,54 +4,54 @@ export const DataAttributes: Array<MapDataAttribute> = [
     {
         'id': 'poverty-rate',
         'name': 'Poverty Rate',
-        'fillStops' : {
+        'opacityStops' : {
             'default': [
-                [0, 'yellow'],
-                [0.5, 'red']
+                [0, 0],
+                [0.5, 1]
             ]
         }
     },
     {
         'id': 'population',
         'name': 'Population',
-        'fillStops' : {
+        'opacityStops' : {
             'default': [
-                [0, 'yellow'],
-                [100000, 'red']
+                [0, 0],
+                [100000, 1]
             ],
             'blockgroups': [
-                [0, 'yellow'],
-                [5000, 'red']
+                [0, 0],
+                [5000, 1]
             ],
             'zipcodes': [
-                [0, 'yellow'],
-                [10000, 'red']
+                [0, 0],
+                [10000, 1]
             ],
             'tracts': [
-                [0, 'yellow'],
-                [10000, 'red']
+                [0, 0],
+                [10000, 1]
             ],
             'cities': [
-                [100, 'yellow'],
-                [50000, 'red']
+                [100, 0],
+                [50000, 1]
             ],
             'counties': [
-                [10000, 'yellow'],
-                [1000000, 'red']
+                [10000, 0],
+                [1000000, 1]
             ],
             'states': [
-                [1000000, 'yellow'],
-                [10000000, 'red']
+                [1000000, 0],
+                [10000000, 1]
             ]
         }
     },
     {
         'id': 'average-household-size',
         'name': 'Average Household Size',
-        'fillStops': {
+        'opacityStops': {
             'default': [
-                [0, 'yellow'],
-                [4, 'red']
+                [0, 0],
+                [4, 1]
             ]
         }
     }

@@ -17,7 +17,10 @@ export class MapService {
    * @param options
    */
   createMap(options: Object) {
-    return new mapboxgl.Map(options);
+    const map = new mapboxgl.Map(options);
+    map.dragRotate.disable();
+    map.touchZoomRotate.disableRotation();
+    return map;
   }
 
   /**
@@ -115,7 +118,6 @@ export class MapService {
    */
   zoomToFeature(feature: any) {
     const featureBbox = bbox(feature);
-    console.log(featureBbox);
     this.map.fitBounds([
       [featureBbox[0], featureBbox[1]],
       [featureBbox[2], featureBbox[3]]
