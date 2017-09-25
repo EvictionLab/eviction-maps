@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinct';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/switchMap';
 import * as bbox from '@turf/bbox';
 
 import { MapLayerGroup } from './map-layer-group';
@@ -9,6 +13,7 @@ import { MapFeature } from './map-feature';
 @Injectable()
 export class MapService {
   map: mapboxgl.Map;
+  popup: mapboxgl.Popup;
 
   constructor() { }
 
@@ -84,6 +89,30 @@ export class MapService {
    */
   setZoomLevel(newZoom: number) {
     this.map.zoomTo(+newZoom);
+  }
+
+  /**
+   * Creates hover popup from mousemove event
+   */
+  setupHoverPopup() {
+    this.popup = new mapboxgl.Popup();
+    Observable.fromEvent(this.map, 'mousemove', (e) => ({...e}))
+      .debounceTime(750)
+      .distinctUntilChanged()
+      .switchMap((e) => [{
+        event: e,
+        features: this.map.queryRenderedFeatures(e.point)
+      }])
+      .subscribe(res => {
+        if (res.features.length) {
+          const feat: MapFeature = res.features[0];
+          this.popup.setLngLat(res.event.lngLat)
+            .setHTML(feat.properties.name)
+            .addTo(this.map);
+        } else {
+          this.popup.remove();
+        }
+      });
   }
 
   /**
