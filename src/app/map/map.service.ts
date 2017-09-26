@@ -104,7 +104,7 @@ export class MapService {
         features: this.map.queryRenderedFeatures(e.point)
       }])
       .subscribe(res => {
-        if (res.features.length) {
+        if (res.features.length && this.map.getZoom() < 9) {
           const feat: MapFeature = res.features[0];
           this.popup.setLngLat(res.event.lngLat)
             .setHTML(feat.properties.name)
