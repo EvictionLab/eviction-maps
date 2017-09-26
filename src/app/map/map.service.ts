@@ -95,9 +95,9 @@ export class MapService {
    * Creates hover popup from mousemove event
    */
   setupHoverPopup() {
-    this.popup = new mapboxgl.Popup();
+    this.popup = new mapboxgl.Popup({closeButton: false});
     Observable.fromEvent(this.map, 'mousemove', (e) => ({...e}))
-      .debounceTime(750)
+      .debounceTime(250)
       .distinctUntilChanged()
       .switchMap((e) => [{
         event: e,
