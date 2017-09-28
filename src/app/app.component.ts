@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, AfterViewInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
@@ -18,7 +18,7 @@ import { PlatformService } from './platform.service';
   styleUrls: ['./app.component.scss'],
   providers: [ MapService ]
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'Eviction Lab';
   zoom: number;
   censusYear = 2010;
@@ -49,12 +49,49 @@ export class AppComponent {
     'counties-2010'
   ];
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
+  // sandbox
+  mapInstance;
+  styleJson;
+  downloadUrl;
+  @ViewChild('editor') editor;
+
 
   constructor(
     private map: MapService,
     public platform: PlatformService,
-    private _sanitizer: DomSanitizer
+    public sanitizer: DomSanitizer
   ) {}
+
+  ngAfterViewInit() {
+    this.editor.nativeElement.env.editor.getSession().setMode('ace/mode/json');
+  }
+
+  onStyleAdded(e) {
+    const reader = new FileReader();
+    const mapRef = this.mapInstance;
+    // Closure to capture the file information.
+    reader.onload = (function(theFile) {
+      return function(ev) {
+        // Render thumbnail.
+        const JsonObj = JSON.parse(ev.target.result);
+        mapRef.setStyle(JsonObj, { diff: false });
+      };
+    })(e.file);
+    // Read in the image file as a data URL.
+    reader.readAsText(e.file);
+  }
+
+  updateStyle(e) {
+    try {
+      const json = JSON.parse(e);
+      this.mapInstance.setStyle(json, { diff: false });
+      this.downloadUrl = this.sanitizer.bypassSecurityTrustUrl(
+        URL.createObjectURL(new Blob([e], {type: 'application/json'}))
+      );
+    } catch (e) {
+      console.log('ERROR');
+    }
+  }
 
   /**
    * Update the legend to correspond to the fill stops on the active data highlight
@@ -80,6 +117,8 @@ export class AppComponent {
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitchLayers = true;
+    this.mapInstance = map;
+    this.styleJson = JSON.stringify(this.mapInstance.getStyle(), null, '\t');
   }
 
   /**
@@ -246,7 +285,7 @@ export class AppComponent {
    * Returns sanitized gradient for the legend
    */
   getLegendGradient() {
-    return this._sanitizer.bypassSecurityTrustStyle(
+    return this.sanitizer.bypassSecurityTrustStyle(
       `linear-gradient(to right, rgba(241,128,67,${this.legend[0][1]}), ` +
       `rgba(241,128,67,${this.legend[this.legend.length - 1][1]}))`
     );

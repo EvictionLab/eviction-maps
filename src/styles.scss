@@ -18,9 +18,18 @@ html, body {
   left:0;right:0;top:0;bottom:0;
 }
 
+[ace-editor] {
+  @include fill-parent();
+  right:auto;
+  width:50%;
+}
+
 // Page Layout
 .app-wrapper {
   @include fill-parent();
+  width: 50%;
+  left:auto;
+  right:0;
   overflow:hidden;
   .map-wrapper {
       @include fill-parent();
@@ -43,7 +52,7 @@ html, body {
   .map-ui-wrapper {
       pointer-events:none;
       position: absolute;
-      width:100vw;
+      width:100%;
       height:calc(30vh - #{$toolbarHeight});
       top: $toolbarHeight;
       left:0;
@@ -287,4 +296,45 @@ html, body {
   height:40px;
   z-index: 10;
   top:auto;
+  display:none;
 }
+
+.header-wrapper {
+  display:none;
+}
+
+app-map-tooltip {
+  display: none;
+}
+
+.app-wrapper .map-wrapper,
+.app-wrapper .map-ui-wrapper {
+  top:0;
+}
+
+.app-wrapper .map-wrapper,
+.app-wrapper.map-active .map-ui-wrapper {
+  height:100%;
+}
+
+ng2-file-input {
+  position:absolute;
+  bottom:0;
+  left:0;
+  right:0;
+  height: 64px;
+  z-index:1000;
+  padding: 16px;
+  pointer-events: all;
+  input[type=file] { display: none; }
+}
+
+.save-btn {
+  z-index: 10000;
+  pointer-events: all;
+  position: absolute;
+  left: 152px;
+  bottom: 14px;
+}
+
+.map-legend { display: none; }

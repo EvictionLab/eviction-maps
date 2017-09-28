@@ -1,3 +1,7 @@
+<div #editor ace-editor
+    [(text)]="styleJson"
+    (textChanged)="updateStyle($event)"
+></div>
 <div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
     <div class="header-wrapper">
         <div class="header-content">
@@ -57,6 +61,8 @@
                 <span class="legend-end">{{legend[1][0]}}</span>
             </div>
         </div>
+        <ng2-file-input (onAdded)="onStyleAdded($event)" browseText="Load JSON File" [multiple]="false" [show-previews]="false"></ng2-file-input>
+        <a class="btn save-btn btn-primary" download="style.json" [href]="downloadUrl">Save File</a>
         <app-ui-slider 
             class="year-slider"
             [currentValue]="dataYear" 
