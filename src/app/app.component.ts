@@ -53,6 +53,7 @@ export class AppComponent implements AfterViewInit {
   mapInstance;
   styleJson;
   downloadUrl;
+  editorActive = true;
   @ViewChild('editor') editor;
 
 
@@ -89,8 +90,15 @@ export class AppComponent implements AfterViewInit {
         URL.createObjectURL(new Blob([e], {type: 'application/json'}))
       );
     } catch (e) {
-      console.log('ERROR');
+      console.warn('Style Update Error', e);
     }
+  }
+
+  toggleEditor() {
+    this.editorActive = !this.editorActive;
+    const mapRef = this.mapInstance;
+    const interval = setInterval(() => { mapRef.resize(); }, 10);
+    setTimeout(() => { clearInterval(interval); }, 200);
   }
 
   /**

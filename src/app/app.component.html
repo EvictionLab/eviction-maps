@@ -1,8 +1,9 @@
 <div #editor ace-editor
     [(text)]="styleJson"
     (textChanged)="updateStyle($event)"
+    [class.off]="!editorActive"
 ></div>
-<div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
+<div class="app-wrapper" [class.editor-off]="!editorActive" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -63,6 +64,7 @@
         </div>
         <ng2-file-input (onAdded)="onStyleAdded($event)" browseText="Load JSON File" [multiple]="false" [show-previews]="false"></ng2-file-input>
         <a class="btn save-btn btn-primary" download="style.json" [href]="downloadUrl">Save File</a>
+        <button class="btn editor-btn btn-secondary" (click)="toggleEditor($event)">Toggle Editor</button>
         <app-ui-slider 
             class="year-slider"
             [currentValue]="dataYear" 

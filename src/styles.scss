@@ -22,6 +22,11 @@ html, body {
   @include fill-parent();
   right:auto;
   width:50%;
+  transition: transform 0.2s ease;
+  transform: none;
+  &.off {
+    transform: translateX(-100%);
+  }
 }
 
 // Page Layout
@@ -317,6 +322,13 @@ app-map-tooltip {
   height:100%;
 }
 
+.app-wrapper {
+  transition: width 0.2s ease;
+}
+.app-wrapper.editor-off {
+  width: 100%;
+}
+
 ng2-file-input {
   position:absolute;
   bottom:0;
@@ -333,7 +345,15 @@ ng2-file-input {
   z-index: 10000;
   pointer-events: all;
   position: absolute;
-  left: 152px;
+  left: 146px;
+  bottom: 14px;
+}
+
+.editor-btn {
+  z-index: 10000;
+  pointer-events: all;
+  position: absolute;
+  left: 234px;
   bottom: 14px;
 }
 
