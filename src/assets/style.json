@@ -32,7 +32,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-cities-2010/{z}/{x}/{y}.pbf"
+        "https://s3.amazonaws.com/eviction-lab-data/evictions-cities-research/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-2010": {
@@ -59,7 +59,7 @@
       "minzoom": 1,
       "maxzoom": 14,
       "paint": {
-        "background-color": "rgba(245, 245, 243, 1)"
+        "background-color": "#f8f8f9"
       }
     },
     {
@@ -76,8 +76,8 @@
         "visibility": "visible"
       },
       "paint": {
-        "fill-color": "rgba(209, 213, 215, 1)",
-        "fill-outline-color": "rgba(203, 205, 211, 1)"
+        "fill-color": "#ececef",
+        "fill-outline-color": "#e3e3e7"
       }
     },
     {
@@ -1297,7 +1297,7 @@
       },
       "paint": {
         "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -1407,7 +1407,7 @@
       },
       "paint": {
         "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -1438,8 +1438,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1451,7 +1450,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -1488,8 +1487,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1501,7 +1499,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -1538,8 +1536,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1551,7 +1548,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -1588,8 +1585,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1601,7 +1597,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -1638,8 +1634,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1651,7 +1646,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -1764,7 +1759,7 @@
             ]
           ]
         },
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -1994,7 +1989,7 @@
       },
       "paint": {
         "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -2112,7 +2107,7 @@
       },
       "paint": {
         "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -2280,8 +2275,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(241, 128, 67, 1)",
-        "fill-opacity": 0.75
+        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -2293,7 +2287,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
+        "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
         "line-opacity": 1
       }
@@ -2312,10 +2306,21 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              40,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-radius": {
           "property": "eviction-rate-2015",
           "stops": [
@@ -2418,7 +2423,7 @@
       },
       "paint": {
         "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": 2
       }
     },
@@ -2474,8 +2479,19 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              40,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
@@ -2573,7 +2589,7 @@
         "text-max-width": 4
       },
       "paint": {
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": 2
       }
     },
@@ -2591,8 +2607,19 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              10,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
@@ -2600,6 +2627,90 @@
           "stops": [
             [
               {
+                "zoom": 2,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 2
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 4
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 6
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 8
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 10
+              },
+              1.1
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 2
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 4
+              },
+              1.037212
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 6
+              },
+              1.5558180000000001
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 8
+              },
+              2.074424
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 10
+              },
+              2.59303
+            ],
+            [
+              {
                 "zoom": 4,
                 "value": 0
               },
@@ -2608,9 +2719,37 @@
             [
               {
                 "zoom": 4,
-                "value": 5
+                "value": 2
               },
-              50
+              1.1409332000000003
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 4
+              },
+              2.2818664000000006
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 6
+              },
+              3.4227996000000003
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 8
+              },
+              4.563732800000001
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 10
+              },
+              5.7046660000000005
             ],
             [
               {
@@ -2622,37 +2761,79 @@
             [
               {
                 "zoom": 5,
-                "value": 5
+                "value": 2
               },
-              40
+              2.9242117916000003
             ],
             [
               {
-                "zoom": 8,
+                "zoom": 5,
+                "value": 4
+              },
+              5.848423583200001
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 6
+              },
+              8.772635374800002
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 8
+              },
+              11.696847166400001
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 10
+              },
+              14.621058958000003
+            ],
+            [
+              {
+                "zoom": 6.5,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 8,
-                "value": 5
+                "zoom": 6.5,
+                "value": 2
               },
-              30
+              4.8249494561400015
             ],
             [
               {
-                "zoom": 10,
-                "value": 0
+                "zoom": 6.5,
+                "value": 4
               },
-              1
+              9.649898912280003
             ],
             [
               {
-                "zoom": 10,
-                "value": 5
+                "zoom": 6.5,
+                "value": 6
               },
-              20
+              14.474848368420002
+            ],
+            [
+              {
+                "zoom": 6.5,
+                "value": 8
+              },
+              19.299797824560006
+            ],
+            [
+              {
+                "zoom": 6.5,
+                "value": 10
+              },
+              24.124747280700007
             ]
           ]
         }
@@ -2663,7 +2844,7 @@
       "type": "symbol",
       "source": "us-counties-2010",
       "source-layer": "counties-2010-centers",
-      "minzoom": 5,
+      "minzoom": 7,
       "filter": [
         "has",
         "eviction-rate-2015"
@@ -2703,7 +2884,7 @@
       },
       "paint": {
         "icon-translate-anchor": "map",
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": 2
       }
     },
@@ -2721,8 +2902,19 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              40,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
@@ -2812,7 +3004,7 @@
         "icon-halo-width": 0,
         "icon-color": "rgba(0, 0, 0, 1)",
         "text-halo-width": 2,
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-color": "rgba(31, 31, 31, 1)"
       }
     },
@@ -2830,8 +3022,19 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              80,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
@@ -2847,27 +3050,6 @@
             [
               {
                 "zoom": 5,
-                "value": 5
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
-                "value": 10
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
-                "value": 15
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
                 "value": 20
               },
               1
@@ -2875,28 +3057,21 @@
             [
               {
                 "zoom": 5,
-                "value": 25
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
-                "value": 30
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
-                "value": 35
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 5,
                 "value": 40
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 60
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 80
               },
               1
             ],
@@ -2910,27 +3085,6 @@
             [
               {
                 "zoom": 6,
-                "value": 5
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 10
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 15
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
                 "value": 20
               },
               1
@@ -2938,28 +3092,21 @@
             [
               {
                 "zoom": 6,
-                "value": 25
+                "value": 40
               },
               1
             ],
             [
               {
                 "zoom": 6,
-                "value": 30
+                "value": 60
               },
               1.0968749999999998
             ],
             [
               {
                 "zoom": 6,
-                "value": 35
-              },
-              1.2796875
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 40
+                "value": 80
               },
               1.4625
             ],
@@ -2973,56 +3120,28 @@
             [
               {
                 "zoom": 7,
-                "value": 5
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 10
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 15
-              },
-              1.3368164062499999
-            ],
-            [
-              {
-                "zoom": 7,
                 "value": 20
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 40
               },
               1.7824218749999998
             ],
             [
               {
                 "zoom": 7,
-                "value": 25
-              },
-              2.22802734375
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 30
+                "value": 60
               },
               2.6736328124999997
             ],
             [
               {
                 "zoom": 7,
-                "value": 35
-              },
-              3.11923828125
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 40
+                "value": 80
               },
               3.5648437499999996
             ],
@@ -3036,56 +3155,28 @@
             [
               {
                 "zoom": 8,
-                "value": 5
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 10
+                "value": 20
               },
               1.7378613281249997
             ],
             [
               {
                 "zoom": 8,
-                "value": 15
-              },
-              2.6067919921874996
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 20
+                "value": 40
               },
               3.4757226562499994
             ],
             [
               {
                 "zoom": 8,
-                "value": 25
-              },
-              4.344653320312499
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 30
+                "value": 60
               },
               5.213583984374999
             ],
             [
               {
                 "zoom": 8,
-                "value": 35
-              },
-              6.0825146484375
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 40
+                "value": 80
               },
               6.951445312499999
             ],
@@ -3099,56 +3190,28 @@
             [
               {
                 "zoom": 9,
-                "value": 5
-              },
-              1.6944147949218746
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 10
+                "value": 20
               },
               3.3888295898437493
             ],
             [
               {
                 "zoom": 9,
-                "value": 15
-              },
-              5.0832443847656235
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 20
+                "value": 40
               },
               6.7776591796874985
             ],
             [
               {
                 "zoom": 9,
-                "value": 25
-              },
-              8.472073974609373
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 30
+                "value": 60
               },
               10.166488769531247
             ],
             [
               {
                 "zoom": 9,
-                "value": 35
-              },
-              11.860903564453123
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 40
+                "value": 80
               },
               13.555318359374997
             ],
@@ -3162,56 +3225,28 @@
             [
               {
                 "zoom": 10,
-                "value": 5
-              },
-              3.3041088500976556
-            ],
-            [
-              {
-                "zoom": 10,
-                "value": 10
+                "value": 20
               },
               6.608217700195311
             ],
             [
               {
                 "zoom": 10,
-                "value": 15
-              },
-              9.912326550292965
-            ],
-            [
-              {
-                "zoom": 10,
-                "value": 20
+                "value": 40
               },
               13.216435400390623
             ],
             [
               {
                 "zoom": 10,
-                "value": 25
-              },
-              16.52054425048828
-            ],
-            [
-              {
-                "zoom": 10,
-                "value": 30
+                "value": 60
               },
               19.82465310058593
             ],
             [
               {
                 "zoom": 10,
-                "value": 35
-              },
-              23.12876195068359
-            ],
-            [
-              {
-                "zoom": 10,
-                "value": 40
+                "value": 80
               },
               26.432870800781245
             ],
@@ -3225,56 +3260,28 @@
             [
               {
                 "zoom": 11,
-                "value": 5
-              },
-              6.4430122576904285
-            ],
-            [
-              {
-                "zoom": 11,
-                "value": 10
+                "value": 20
               },
               12.886024515380857
             ],
             [
               {
                 "zoom": 11,
-                "value": 15
-              },
-              19.329036773071284
-            ],
-            [
-              {
-                "zoom": 11,
-                "value": 20
+                "value": 40
               },
               25.772049030761714
             ],
             [
               {
                 "zoom": 11,
-                "value": 25
-              },
-              32.21506128845214
-            ],
-            [
-              {
-                "zoom": 11,
-                "value": 30
+                "value": 60
               },
               38.65807354614257
             ],
             [
               {
                 "zoom": 11,
-                "value": 35
-              },
-              45.101085803833
-            ],
-            [
-              {
-                "zoom": 11,
-                "value": 40
+                "value": 80
               },
               51.54409806152343
             ],
@@ -3288,56 +3295,28 @@
             [
               {
                 "zoom": 12,
-                "value": 5
-              },
-              10.49083470858444
-            ],
-            [
-              {
-                "zoom": 12,
-                "value": 10
+                "value": 20
               },
               20.98166941716888
             ],
             [
               {
                 "zoom": 12,
-                "value": 15
-              },
-              31.472504125753318
-            ],
-            [
-              {
-                "zoom": 12,
-                "value": 20
+                "value": 40
               },
               41.96333883433776
             ],
             [
               {
                 "zoom": 12,
-                "value": 25
-              },
-              52.4541735429222
-            ],
-            [
-              {
-                "zoom": 12,
-                "value": 30
+                "value": 60
               },
               62.945008251506636
             ],
             [
               {
                 "zoom": 12,
-                "value": 35
-              },
-              73.43584296009108
-            ],
-            [
-              {
-                "zoom": 12,
-                "value": 40
+                "value": 80
               },
               83.92667766867552
             ],
@@ -3351,56 +3330,28 @@
             [
               {
                 "zoom": 13,
-                "value": 5
-              },
-              21.889126619461436
-            ],
-            [
-              {
-                "zoom": 13,
-                "value": 10
+                "value": 20
               },
               43.77825323892287
             ],
             [
               {
                 "zoom": 13,
-                "value": 15
-              },
-              65.66737985838431
-            ],
-            [
-              {
-                "zoom": 13,
-                "value": 20
+                "value": 40
               },
               87.55650647784574
             ],
             [
               {
                 "zoom": 13,
-                "value": 25
-              },
-              109.44563309730718
-            ],
-            [
-              {
-                "zoom": 13,
-                "value": 30
+                "value": 60
               },
               131.33475971676862
             ],
             [
               {
                 "zoom": 13,
-                "value": 35
-              },
-              153.22388633623007
-            ],
-            [
-              {
-                "zoom": 13,
-                "value": 40
+                "value": 80
               },
               175.1130129556915
             ],
@@ -3414,56 +3365,28 @@
             [
               {
                 "zoom": 14,
-                "value": 5
-              },
-              42.6837969079498
-            ],
-            [
-              {
-                "zoom": 14,
-                "value": 10
+                "value": 20
               },
               85.3675938158996
             ],
             [
               {
                 "zoom": 14,
-                "value": 15
-              },
-              128.05139072384938
-            ],
-            [
-              {
-                "zoom": 14,
-                "value": 20
+                "value": 40
               },
               170.7351876317992
             ],
             [
               {
                 "zoom": 14,
-                "value": 25
-              },
-              213.418984539749
-            ],
-            [
-              {
-                "zoom": 14,
-                "value": 30
+                "value": 60
               },
               256.10278144769876
             ],
             [
               {
                 "zoom": 14,
-                "value": 35
-              },
-              298.7865783556486
-            ],
-            [
-              {
-                "zoom": 14,
-                "value": 40
+                "value": 80
               },
               341.4703752635984
             ]
@@ -3478,6 +3401,7 @@
       "type": "symbol",
       "source": "us-cities-2010",
       "source-layer": "cities-2010-centers",
+      "minzoom": 9,
       "layout": {
         "text-size": {
           "stops": [
@@ -3536,7 +3460,7 @@
             ]
           ]
         },
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": {
           "stops": [
             [
@@ -3591,8 +3515,19 @@
         0
       ],
       "paint": {
-        "circle-color": "rgba(226, 11, 0, 1)",
-        "circle-opacity": 0.5,
+        "circle-color": {
+          "property": "eviction-rate-2015",
+          "stops": [
+            [
+              0,
+              "rgba(255,120,119,0.8) "
+            ],
+            [
+              40,
+              "rgba(255,4,0,0.8)"
+            ]
+          ]
+        },
         "circle-stroke-width": 2,
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-radius": {
@@ -3690,7 +3625,7 @@
         "text-max-width": 4
       },
       "paint": {
-        "text-halo-color": "rgba(255, 255, 255, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.7)",
         "text-halo-width": 2
       }
     },
