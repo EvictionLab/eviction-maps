@@ -94,7 +94,7 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  toggleEditor() {
+  toggleEditor(e) {
     this.editorActive = !this.editorActive;
     const mapRef = this.mapInstance;
     const interval = setInterval(() => { mapRef.resize(); }, 10);
