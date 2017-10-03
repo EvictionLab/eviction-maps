@@ -80,7 +80,7 @@ export class UiSliderComponent implements AfterViewInit {
   }
 
   // TODO: use this.step return values that fall within the step amount
-  private getStepValue(val?: number): number {
+  getStepValue(val?: number): number {
     const step = 1 / this.step;
     if (!val) { val = ((this.max - this.min) * this.position + this.min); }
     return (Math.round((val * step)) / step);
