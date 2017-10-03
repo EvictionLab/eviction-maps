@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, EventEmitter, ElementRef, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
+import { Component, AfterViewInit, EventEmitter, ElementRef, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
 
 // TODO: add key bindings
 
@@ -7,27 +7,32 @@ import { Component, OnInit, AfterViewInit, EventEmitter, ElementRef, HostListene
   templateUrl: './ui-slider.component.html',
   styleUrls: ['./ui-slider.component.scss']
 })
-export class UiSliderComponent implements OnInit, AfterViewInit {
+export class UiSliderComponent implements AfterViewInit {
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
+  @Input() vertical = false;
   @Input() min = 0;
   @Input() max = 100;
-  @Input() currentValue = 0;
   @Input() step = 1;
   @Output() change = new EventEmitter<number>();
   @ViewChild('scrubber') scrubber;
   @HostBinding('class.active') pressed = false;
   private elRect = null;
-
-  constructor(public el: ElementRef) { }
+  private _currentValue = 0;
 
   /**
-   * Set the value on init
+   * Using getter and setter on currentValue to handle
+   * updates from external components
    */
-  ngOnInit() {
-    if (!this.currentValue) { this.currentValue = this.min; }
-    this.setValue(this.currentValue);
+  @Input() set currentValue(value) {
+    this.setValue(value);
   }
+
+  get currentValue() {
+    return this._currentValue;
+  }
+
+  constructor(public el: ElementRef) { }
 
   /**
    * Set the slider dimensions when the element is ready
@@ -86,9 +91,9 @@ export class UiSliderComponent implements OnInit, AfterViewInit {
    * Set the value and scrubber position
    * @param val the slider value
    */
-  setValue(val: number = this.currentValue) {
-    this.currentValue = this.getStepValue(Math.min(this.max, Math.max(this.min, val)));
-    this.position = (this.currentValue - this.min) / (this.max - this.min);
+  setValue(val: number = this._currentValue) {
+    this._currentValue = this.getStepValue(Math.min(this.max, Math.max(this.min, val)));
+    this.position = (this._currentValue - this.min) / (this.max - this.min);
   }
 
   /**
@@ -103,10 +108,17 @@ export class UiSliderComponent implements OnInit, AfterViewInit {
    * @param e the mouse event
    */
   private setScrubberPosition(e) {
-    if (e.offsetX && this.elRect) {
-      this.position = Math.min(
-        1, Math.max(0, ((e.clientX - this.elRect.left) / this.elRect.width))
-      );
+    const offset = this.vertical ? e.offsetY : e.offsetX;
+    if (offset && this.elRect) {
+      let maxVal;
+      if (this.vertical) {
+        const elTotal = Math.abs(this.elRect.x) + this.elRect.width;
+        maxVal  = Math.max(0, ((elTotal - e.clientY) / this.elRect.width));
+      } else {
+        maxVal = Math.max(0, ((e.clientX - this.elRect.left) / this.elRect.width));
+      }
+      this.setValue(maxVal);
+      this.position = Math.min(1, maxVal);
       const newValue = this.getStepValue();
       if (newValue !== this.currentValue) {
         this.currentValue = newValue;

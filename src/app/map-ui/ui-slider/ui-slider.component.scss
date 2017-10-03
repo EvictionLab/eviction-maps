@@ -73,3 +73,19 @@
     transform: scale(1);
     
 }
+
+.el-slider.vertical {
+    transform: rotate(270deg);
+
+    .scrubber-label {
+        transform: rotate(90deg);
+        top: 50px;
+        &:after {
+            top: 3px;
+            left: -55px;
+            transform: rotate(90deg);
+            border: 5px solid transparent;
+            border-top: 10px solid #f00;
+        }
+    }
+}

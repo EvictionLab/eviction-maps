@@ -1,8 +1,8 @@
-<div class="el-slider">
+<div class="el-slider" [ngClass]="{'vertical' : vertical}">
   <div class="track track-full"></div>
   <div class="track track-value" [style.width]="percent"></div>
   <div #scrubber class="scrubber" [style.left]="percent">
     <span class="scrubber-marker"></span>
-    <span class="scrubber-label">{{ currentValue }}</span>
+    <span class="scrubber-label">{{ this.getStepValue(currentValue) }}</span>
   </div>
 </div>

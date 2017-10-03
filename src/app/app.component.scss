@@ -3,18 +3,15 @@
 // Zoom Control
 // - Hidden on mobile
 // - Middle of screen on left side for desktop
-app-zoom-control { display:none; }
+.zoom-slider { 
+    display: none;
+    width: 40%;
+    margin-top: 30%;
+    margin-left: -15%;
+}
 
 @media (min-width: 767px) {
-    app-zoom-control {
+    .zoom-slider {
         display:block;
-        position:absolute;
-        top:0;
-        bottom:0px;
-        margin:auto;
-        height:150px;
-        left: 24px;
-        pointer-events: all;
-        z-index:10;
     }
 }

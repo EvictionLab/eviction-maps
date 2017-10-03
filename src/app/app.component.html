@@ -28,12 +28,14 @@
         </app-mapbox>
     </div>
     <div class="map-ui-wrapper">
-        <app-zoom-control 
-            [zoom]="zoom" 
-            [minZoom]="mapConfig.minZoom" 
-            [maxZoom]="mapConfig.maxZoom" 
-            (zoomChange)="setMapZoomLevel($event)">
-        </app-zoom-control>
+        <app-ui-slider class="zoom-slider" 
+            [vertical]="true"
+            [currentValue]="zoom" 
+            [step]="0.1"
+            [min]="mapConfig.minZoom" 
+            [max]="mapConfig.maxZoom" 
+            (change)="setMapZoomLevel($event)">
+        </app-ui-slider>
         <div class="map-ui">
             <app-ui-select
                 class="eviction-select"
