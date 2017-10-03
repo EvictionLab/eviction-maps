@@ -88,9 +88,13 @@ export class MapService {
       related to this issue https://github.com/mapbox/mapbox-gl-js/issues/5370
     */
     const layerProperty = this.map.getPaintProperty(layerId, styleProperty);
-    layerProperty['property'] = property;
-    console.log(layerProperty);
-    this.map.setPaintProperty(layerId, styleProperty, { ...layerProperty });
+    const mapStyle = this.map.getStyle();
+    mapStyle['layers'].forEach(l => {
+      if (l['id'] === layerId) {
+        l['paint'][styleProperty]['property'] = property;
+      }
+    });
+    this.map.setStyle(mapStyle);
   }
 
   /**
