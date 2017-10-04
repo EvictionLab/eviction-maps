@@ -97,7 +97,7 @@ export class UiSliderComponent {
   }
 
   // TODO: change so keydown only triggers on element focus
-  @HostListener('document:keydown', ['$event']) onKeypress(e) {
+  @HostListener('keydown', ['$event']) onKeypress(e) {
     if (this.vertical && (e.keyCode === 38 || e.keyCode === 40)) {
       if (e.keyCode === 38) {
         // up

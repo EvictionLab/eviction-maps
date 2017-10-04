@@ -28,7 +28,7 @@
         </app-mapbox>
     </div>
     <div class="map-ui-wrapper">
-        <app-ui-slider class="zoom-slider" 
+        <app-ui-slider class="zoom-slider" tabindex="3"
             [vertical]="true"
             [currentValue]="zoom" 
             [step]="0.1"
@@ -59,7 +59,7 @@
                 <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
             </div>
         </div>
-        <app-ui-slider 
+        <app-ui-slider tabindex="9"
             class="year-slider"
             [currentValue]="dataYear" 
             [min]="1990" 
