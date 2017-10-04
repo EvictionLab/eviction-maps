@@ -21,7 +21,7 @@ import { PlatformService } from './platform.service';
 export class AppComponent {
   title = 'Eviction Lab';
   zoom: number;
-  dataYear = 2015;
+  dataYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
   hoveredFeature;
@@ -32,8 +32,8 @@ export class AppComponent {
   autoSwitchLayers = true;
   mapConfig = {
     style: './assets/style.json',
-    center: [-77.99, 41.041480],
-    zoom: 6.5,
+    center: [-98.5556199, 39.8097343],
+    zoom: 3,
     minZoom: 3,
     maxZoom: 14,
     container: 'map'
@@ -69,7 +69,7 @@ export class AppComponent {
    */
   onMapReady(map) {
     this.map.setMapInstance(map);
-    this.activeDataLevel = this.dataLevels[4];
+    this.activeDataLevel = this.dataLevels[5];
     this.activeDataHighlight = this.attributes[0];
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);

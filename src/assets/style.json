@@ -11,42 +11,42 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-block-groups/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-block-groups/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-zip-codes/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-zip-codes/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-tracts/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-tracts/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-cities/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-cities/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-counties/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-counties/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-states/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-states/{z}/{x}/{y}.pbf"
       ]
     }
   },
@@ -2277,6 +2277,7 @@
       "type": "circle",
       "source": "us-block-groups",
       "source-layer": "block-groups-centers",
+      "minzoom": 8,
       "layout": {
         "visibility": "none"
       },
@@ -2297,36 +2298,92 @@
           ]
         },
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
               {
-                "zoom": 4,
+                "zoom": 6,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 4,
-                "value": 5
+                "zoom": 6,
+                "value": 2
               },
-              3
+              1
             ],
             [
               {
-                "zoom": 5,
+                "zoom": 6,
+                "value": 4
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 6
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 8
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 10
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 7,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 5,
-                "value": 5
+                "zoom": 7,
+                "value": 2
               },
-              5
+              1
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 4
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 6
+              },
+              1.4625
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 8
+              },
+              1.9500000000000002
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 10
+              },
+              2.4375
             ],
             [
               {
@@ -2338,9 +2395,79 @@
             [
               {
                 "zoom": 8,
-                "value": 5
+                "value": 2
               },
-              7
+              1
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 4
+              },
+              1.90125
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 6
+              },
+              2.8518749999999997
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 8
+              },
+              3.8025
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 10
+              },
+              4.753125
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 2
+              },
+              1.85371875
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 4
+              },
+              3.7074375
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 6
+              },
+              5.56115625
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 8
+              },
+              7.414875
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              9.268593749999999
             ],
             [
               {
@@ -2352,23 +2479,37 @@
             [
               {
                 "zoom": 10,
-                "value": 5
+                "value": 2
               },
-              10
+              3.6147515625
             ],
             [
               {
-                "zoom": 12,
-                "value": 0
+                "zoom": 10,
+                "value": 4
               },
-              1
+              7.229503125
             ],
             [
               {
-                "zoom": 12,
-                "value": 5
+                "zoom": 10,
+                "value": 6
               },
-              12
+              10.844254687499998
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 8
+              },
+              14.45900625
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 10
+              },
+              18.0737578125
             ]
           ]
         }
@@ -2442,6 +2583,7 @@
       "type": "circle",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
+      "minzoom": 5,
       "layout": {
         "visibility": "none"
       },
@@ -2462,36 +2604,64 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
               {
-                "zoom": 4,
+                "zoom": 6,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 4,
-                "value": 5
+                "zoom": 6,
+                "value": 20
               },
-              50
+              1
             ],
             [
               {
-                "zoom": 5,
+                "zoom": 6,
+                "value": 40
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 60
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 7,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 5,
-                "value": 5
+                "zoom": 7,
+                "value": 20
               },
-              40
+              1
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 40
+              },
+              1.6249999999999998
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 60
+              },
+              2.4375
             ],
             [
               {
@@ -2503,9 +2673,51 @@
             [
               {
                 "zoom": 8,
-                "value": 5
+                "value": 20
               },
-              30
+              1.5843749999999999
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 40
+              },
+              3.1687499999999997
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 60
+              },
+              4.753125
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 20
+              },
+              3.0895312499999994
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 40
+              },
+              6.179062499999999
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 60
+              },
+              9.268593749999999
             ],
             [
               {
@@ -2517,9 +2729,23 @@
             [
               {
                 "zoom": 10,
-                "value": 5
+                "value": 20
               },
-              20
+              6.024585937499999
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 40
+              },
+              12.049171874999997
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 60
+              },
+              18.0737578125
             ]
           ]
         }
@@ -2586,7 +2812,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
@@ -2873,36 +3099,120 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
               {
-                "zoom": 8,
+                "zoom": 1,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 8,
-                "value": 5
+                "zoom": 1,
+                "value": 1
               },
-              100
+              1
             ],
             [
               {
-                "zoom": 10,
+                "zoom": 1,
+                "value": 2
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 1,
+                "value": 3
+              },
+              1.5
+            ],
+            [
+              {
+                "zoom": 2,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 10,
-                "value": 5
+                "zoom": 2,
+                "value": 1
               },
-              50
+              1.2525
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 2
+              },
+              2.505
+            ],
+            [
+              {
+                "zoom": 2,
+                "value": 3
+              },
+              3.7575
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 1
+              },
+              4.0261612499999995
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 2
+              },
+              8.052322499999999
+            ],
+            [
+              {
+                "zoom": 3,
+                "value": 3
+              },
+              12.078483749999998
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 1
+              },
+              12.078483749999998
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 2
+              },
+              24.156967499999997
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 3
+              },
+              36.23545125
             ]
           ]
         }
@@ -2989,7 +3299,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
@@ -3458,6 +3768,7 @@
       "type": "circle",
       "source": "us-zip-codes",
       "source-layer": "zip-codes-centers",
+      "minzoom": 6,
       "layout": {
         "visibility": "none"
       },
@@ -3478,36 +3789,64 @@
         "circle-stroke-width": 2,
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-radius": {
-          "property": "eviction-rate-2015",
+          "property": "eviction-rate-2010",
           "default": 0,
           "stops": [
             [
               {
-                "zoom": 4,
+                "zoom": 6,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 4,
+                "zoom": 6,
                 "value": 5
               },
-              50
+              1
             ],
             [
               {
-                "zoom": 5,
+                "zoom": 6,
+                "value": 10
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 15
+              },
+              1.25
+            ],
+            [
+              {
+                "zoom": 7,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 5,
+                "zoom": 7,
                 "value": 5
               },
-              40
+              1.302083333333333
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 10
+              },
+              2.604166666666666
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 15
+              },
+              3.90625
             ],
             [
               {
@@ -3521,7 +3860,49 @@
                 "zoom": 8,
                 "value": 5
               },
-              30
+              3.255208333333333
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 10
+              },
+              6.510416666666666
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 15
+              },
+              9.765625
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 5
+              },
+              8.138020833333332
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              16.276041666666664
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 15
+              },
+              24.4140625
             ],
             [
               {
@@ -3535,7 +3916,21 @@
                 "zoom": 10,
                 "value": 5
               },
-              20
+              20.345052083333332
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 10
+              },
+              40.690104166666664
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 15
+              },
+              61.03515625
             ]
           ]
         }
