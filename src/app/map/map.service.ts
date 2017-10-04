@@ -83,7 +83,7 @@ export class MapService {
    * @param newZoom new zoom value for map
    */
   setZoomLevel(newZoom: number) {
-    this.map.zoomTo(+newZoom);
+    this.map.setZoom(newZoom);
   }
 
   /**

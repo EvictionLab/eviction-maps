@@ -5,7 +5,6 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
-import { ZoomControlComponent } from './zoom-control/zoom-control.component';
 import { MapTooltipComponent } from './map-tooltip/map-tooltip.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
 import { UiSliderComponent } from './ui-slider/ui-slider.component';
@@ -13,7 +12,6 @@ import { UiSliderComponent } from './ui-slider/ui-slider.component';
 @NgModule({
   exports: [
     UiSelectComponent,
-    ZoomControlComponent,
     MapTooltipComponent,
     PredictiveSearchComponent,
     UiSliderComponent
@@ -26,7 +24,6 @@ import { UiSliderComponent } from './ui-slider/ui-slider.component';
   ],
   declarations: [
     UiSelectComponent,
-    ZoomControlComponent,
     MapTooltipComponent,
     PredictiveSearchComponent,
     UiSliderComponent

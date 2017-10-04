@@ -28,12 +28,14 @@
         </app-mapbox>
     </div>
     <div class="map-ui-wrapper">
-        <app-zoom-control 
-            [zoom]="zoom" 
-            [minZoom]="mapConfig.minZoom" 
-            [maxZoom]="mapConfig.maxZoom" 
-            (zoomChange)="setMapZoomLevel($event)">
-        </app-zoom-control>
+        <app-ui-slider class="zoom-slider" tabindex="3"
+            [vertical]="true"
+            [currentValue]="zoom" 
+            [step]="0.1"
+            [min]="mapConfig.minZoom" 
+            [max]="mapConfig.maxZoom" 
+            (change)="setMapZoomLevel($event)">
+        </app-ui-slider>
         <div class="map-ui">
             <app-ui-select
                 class="eviction-select"
@@ -57,7 +59,7 @@
                 <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
             </div>
         </div>
-        <app-ui-slider 
+        <app-ui-slider tabindex="9"
             class="year-slider"
             [currentValue]="dataYear" 
             [min]="1990" 
