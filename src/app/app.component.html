@@ -37,7 +37,7 @@
         <div class="map-ui">
             <app-ui-select
                 class="eviction-select"
-                [values]="['Judgements', 'Filings']"
+                [values]="['Judgments', 'Filings']"
             ></app-ui-select>
             <app-ui-select
                 class="layer-select"
@@ -54,7 +54,7 @@
             </app-ui-select>
             <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="getLegendGradient()">
                 <span class="legend-start">{{legend[0][0]}}</span>
-                <span class="legend-end">{{legend[1][0]}}</span>
+                <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
             </div>
         </div>
         <app-ui-slider 

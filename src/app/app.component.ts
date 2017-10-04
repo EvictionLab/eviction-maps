@@ -64,8 +64,8 @@ export class AppComponent {
       this.legend = null;
       return;
     }
-    this.legend = this.activeDataHighlight.opacityStops[this.activeDataLevel.id] ||
-      this.activeDataHighlight.opacityStops['default'];
+    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
+      this.activeDataHighlight.fillStops['default'];
   }
 
   /**
@@ -187,15 +187,18 @@ export class AppComponent {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
-    this.activeDataHighlight = this.addYearToObject(attr, this.dataYear);
+    console.log(attr);
+    const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
+    this.activeDataHighlight = dataAttr;
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const newOpacity = {
-        'property': attr.id,
-        'stops': (attr.opacityStops[layerId] ?
-          attr.opacityStops[layerId] : attr.opacityStops['default'])
+      const layerStem = layerId.split('-')[0];
+      const newFill = {
+        'property': dataAttr.id,
+        'stops': (dataAttr.fillStops[layerStem] ?
+          dataAttr.fillStops[layerStem] : dataAttr.fillStops['default'])
       };
-      this.map.setLayerStyle(layerId, 'fill-opacity', newOpacity);
+      this.map.setLayerStyle(layerId, 'fill-color', newFill);
     });
   }
 
@@ -248,8 +251,7 @@ export class AppComponent {
    */
   getLegendGradient() {
     return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, rgba(241,128,67,${this.legend[0][1]}), ` +
-      `rgba(241,128,67,${this.legend[this.legend.length - 1][1]}))`
+      `linear-gradient(to right, ${this.legend[0][1]}, ${this.legend[this.legend.length - 1][1]})`
     );
   }
 }
