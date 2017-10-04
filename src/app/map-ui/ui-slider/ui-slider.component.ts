@@ -75,6 +75,27 @@ export class UiSliderComponent {
     }
   }
 
+  @HostListener('touchstart', ['$event']) onTouchPress(e) {
+    if (e.touches && e.touches.length === 1) {
+      this.setSliderDimensions();
+      this.setScrubberPosition(e.touches[0]);
+      this.pressed = true;
+    }
+  }
+
+  @HostListener('touchmove', ['$event']) onTouchMove(e) {
+    if (this.pressed && e.touches && e.touches.length === 1) {
+      this.setScrubberPosition(e.touches[0]);
+    }
+  }
+
+  @HostListener('touchend', ['$event']) onTouchEnd(e) {
+    if (this.pressed && e.touches && e.touches.length === 1) {
+      this.setValue();
+      this.pressed = false;
+    }
+  }
+
   // TODO: use this.step return values that fall within the step amount
   getStepValue(val?: number): number {
     const step = 1 / this.step;
