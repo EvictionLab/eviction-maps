@@ -282,9 +282,14 @@ html, body {
 
 .year-slider {
   @include fill-parent();
+  @include slider-colors(#fff, $primaryColor, #caa);
   margin:auto;
   width: 92.5%;
   height:40px;
   z-index: 10;
   top:auto;
+}
+
+.zoom-slider {
+  @include slider-colors(#fff, $primaryColor, #caa);
 }
