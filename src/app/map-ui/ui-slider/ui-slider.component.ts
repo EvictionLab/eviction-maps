@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, EventEmitter, ElementRef, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
+import { Component, EventEmitter, ElementRef, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
 
 // TODO: add key bindings
 
@@ -7,7 +7,7 @@ import { Component, AfterViewInit, EventEmitter, ElementRef, HostListener, HostB
   templateUrl: './ui-slider.component.html',
   styleUrls: ['./ui-slider.component.scss']
 })
-export class UiSliderComponent implements AfterViewInit {
+export class UiSliderComponent {
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
   @Input() vertical = false;
@@ -35,11 +35,6 @@ export class UiSliderComponent implements AfterViewInit {
   constructor(public el: ElementRef) { }
 
   /**
-   * Set the slider dimensions when the element is ready
-   */
-  ngAfterViewInit() { this.setSliderDimensions(); }
-
-  /**
    * Update the slider dimensions when the window resizes
    * @param e window resize event
    */
@@ -52,6 +47,7 @@ export class UiSliderComponent implements AfterViewInit {
    * @param e mousedown event
    */
   @HostListener('mousedown', ['$event']) onPress(e) {
+    this.setSliderDimensions();
     this.setScrubberPosition(e);
     this.pressed = true;
   }
@@ -104,19 +100,31 @@ export class UiSliderComponent implements AfterViewInit {
   }
 
   /**
+   * Gets a value between 0 and 1 based on the element rectangle and screen offset
+   * @param offset clientY (or pageY) position
+   */
+  private getVerticalValue(offset) {
+      return Math.max(0,
+        ((this.elRect.height - Math.abs(offset - this.elRect.top)) / this.elRect.height)
+      );
+  }
+
+    /**
+   * Gets a value between 0 and 1 based on the element rectangle and screen offset
+   * @param offset clientX (or pageX) position
+   */
+  private getHorizontalValue(offset) {
+    return Math.max(0, ((offset - this.elRect.left) / this.elRect.width));
+  }
+
+  /**
    * Set the scrubber position based on event values, but keep between 0 and 100
    * @param e the mouse event
    */
   private setScrubberPosition(e) {
-    const offset = this.vertical ? e.offsetY : e.offsetX;
-    if (offset && this.elRect) {
-      let maxVal;
-      if (this.vertical) {
-        const elTotal = Math.abs(this.elRect.x) + this.elRect.width;
-        maxVal  = Math.max(0, ((elTotal - e.clientY) / this.elRect.width));
-      } else {
-        maxVal = Math.max(0, ((e.clientX - this.elRect.left) / this.elRect.width));
-      }
+    if (e.clientX && this.elRect) {
+      const maxVal =
+        this.vertical ? this.getVerticalValue(e.clientY) : this.getHorizontalValue(e.clientX);
       this.setValue(maxVal);
       this.position = Math.min(1, maxVal);
       const newValue = this.getStepValue();

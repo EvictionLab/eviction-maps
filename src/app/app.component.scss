@@ -5,9 +5,13 @@
 // - Middle of screen on left side for desktop
 .zoom-slider { 
     display: none;
-    width: 40%;
-    margin-top: 30%;
-    margin-left: -15%;
+    height: 300px;
+    width: 40px;
+    position:absolute;
+    left: 16px;
+    top:0;
+    bottom:0;
+    margin: auto;
 }
 
 @media (min-width: 767px) {
