@@ -96,6 +96,29 @@ export class UiSliderComponent {
     }
   }
 
+  // TODO: change so keydown only triggers on element focus
+  @HostListener('document:keydown', ['$event']) onKeypress(e) {
+    if (this.vertical && (e.keyCode === 38 || e.keyCode === 40)) {
+      if (e.keyCode === 38) {
+        // up
+        this.setValue(this._currentValue + this.step);
+      }
+      if (e.keyCode === 40) {
+        this.setValue(this._currentValue - this.step);
+      }
+      this.change.emit(this.getStepValue());
+    } else if (!this.vertical && (e.keyCode === 37 || e.keyCode === 39)) {
+      if (e.keyCode === 37) {
+        // left
+        this.setValue(this._currentValue - this.step);
+      }
+      if (e.keyCode === 39) {
+        this.setValue(this._currentValue + this.step);
+      }
+      this.change.emit(this.getStepValue());
+    }
+  }
+
   // TODO: use this.step return values that fall within the step amount
   getStepValue(val?: number): number {
     const step = 1 / this.step;
