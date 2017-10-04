@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 
@@ -35,8 +35,7 @@ export class AppComponent {
     center: [-77.99, 41.041480],
     zoom: 6.5,
     minZoom: 3,
-    maxZoom: 14,
-    container: 'map'
+    maxZoom: 14
   };
   legend;
   mapEventLayers: Array<string> = [
