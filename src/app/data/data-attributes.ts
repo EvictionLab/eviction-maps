@@ -4,6 +4,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     {
         'id': 'poverty-rate',
         'name': 'Poverty Rate',
+        'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
             'default': [
                 [0, 'rgba(238, 226, 239, 0.7)'],
@@ -15,6 +16,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     {
         'id': 'population',
         'name': 'Population',
+        'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
             'default': [
                 [0, 'rgba(238, 226, 239, 0.7)'],

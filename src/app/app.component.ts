@@ -21,7 +21,6 @@ import { PlatformService } from './platform.service';
 export class AppComponent {
   title = 'Eviction Lab';
   zoom: number;
-  censusYear = 2010;
   dataYear = 2015;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
@@ -40,12 +39,7 @@ export class AppComponent {
   };
   legend;
   mapEventLayers: Array<string> = [
-    'states-2010',
-    'cities-2010',
-    'tracts-2010',
-    'blockgroups-2010',
-    'zipcodes-2010',
-    'counties-2010'
+    'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'
   ];
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
@@ -173,7 +167,6 @@ export class AppComponent {
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
     this.autoSwitchLayers = false;
-    layerGroup = this.addYearToObject(layerGroup, this.censusYear);
     this.dataLevels.forEach((group: MapLayerGroup) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
@@ -185,7 +178,6 @@ export class AppComponent {
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
-    console.log(attr);
     const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeDataHighlight = dataAttr;
     this.updateLegend();
@@ -193,6 +185,7 @@ export class AppComponent {
       const layerStem = layerId.split('-')[0];
       const newFill = {
         'property': dataAttr.id,
+        'default': dataAttr.default,
         'stops': (dataAttr.fillStops[layerStem] ?
           dataAttr.fillStops[layerStem] : dataAttr.fillStops['default'])
       };
@@ -228,20 +221,13 @@ export class AppComponent {
    * @param year
    */
   setDataYear(year: number) {
-    console.log('setting year', year);
     this.dataYear = year;
-    this.censusYear = this.getCensusYear(year);
     this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
-    this.setGroupVisibility(this.addYearToObject(this.activeDataLevel, this.censusYear));
+    this.setGroupVisibility(this.activeDataLevel);
+    this.mapEventLayers.forEach((layer) => {
+      this.map.setLayerDataProperty(`${layer}_bubbles`, 'circle-radius', `eviction-rate-${year}`);
+    });
     this.updateLegend();
-  }
-
-  /**
-   * Returns the nearest census year for a given year
-   * @param year
-   */
-  getCensusYear(year: number) {
-    return Math.floor(year / 10) * 10;
   }
 
   /**

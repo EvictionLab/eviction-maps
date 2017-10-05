@@ -7,46 +7,46 @@
       "type": "vector",
       "url": "https://free.tilehosting.com/data/v3.json?key=JgNOMnZWmIN2iBSFGgsi"
     },
-    "us-block-groups-2010": {
+    "us-block-groups": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-block-groups-2010/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-block-groups/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-zip-codes-2010": {
+    "us-zip-codes": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-zip-codes-2010/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-zip-codes/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-tracts-2010": {
+    "us-tracts": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-tracts-2010/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-tracts/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-cities-2010": {
+    "us-cities": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-cities-research/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-cities/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-counties-2010": {
+    "us-counties": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-counties-2010/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-counties/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-states-2010": {
+    "us-states": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.amazonaws.com/eviction-lab-data/evictions-states-2010/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/evictions-states/{z}/{x}/{y}.pbf"
       ]
     }
   },
@@ -1426,14 +1426,10 @@
       }
     },
     {
-      "id": "blockgroups-2010",
+      "id": "blockgroups",
       "type": "fill",
-      "source": "us-block-groups-2010",
-      "source-layer": "block-groups-2010",
-      "filter": [
-        "has",
-        "eviction-rate-2015"
-      ],
+      "source": "us-block-groups",
+      "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
       },
@@ -1442,10 +1438,10 @@
       }
     },
     {
-      "id": "blockgroups_stroke-2010",
+      "id": "blockgroups_stroke",
       "type": "line",
-      "source": "us-block-groups-2010",
-      "source-layer": "block-groups-2010",
+      "source": "us-block-groups",
+      "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
       },
@@ -1456,10 +1452,10 @@
       }
     },
     {
-      "id": "blockgroups_hover-2010",
+      "id": "blockgroups_hover",
       "type": "line",
-      "source": "us-block-groups-2010",
-      "source-layer": "block-groups-2010",
+      "source": "us-block-groups",
+      "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
       },
@@ -1475,14 +1471,10 @@
       }
     },
     {
-      "id": "zipcodes-2010",
+      "id": "zipcodes",
       "type": "fill",
-      "source": "us-zip-codes-2010",
-      "source-layer": "zip-codes-2010",
-      "filter": [
-        "has",
-        "eviction-rate-2015"
-      ],
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
       },
@@ -1491,10 +1483,10 @@
       }
     },
     {
-      "id": "zipcodes_stroke-2010",
+      "id": "zipcodes_stroke",
       "type": "line",
-      "source": "us-zip-codes-2010",
-      "source-layer": "zip-codes-2010",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
       },
@@ -1505,10 +1497,10 @@
       }
     },
     {
-      "id": "zipcodes_hover-2010",
+      "id": "zipcodes_hover",
       "type": "line",
-      "source": "us-zip-codes-2010",
-      "source-layer": "zip-codes-2010",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
       },
@@ -1524,14 +1516,10 @@
       }
     },
     {
-      "id": "tracts-2010",
+      "id": "tracts",
       "type": "fill",
-      "source": "us-tracts-2010",
-      "source-layer": "tracts-2010",
-      "filter": [
-        "has",
-        "eviction-rate-2015"
-      ],
+      "source": "us-tracts",
+      "source-layer": "tracts",
       "layout": {
         "visibility": "none"
       },
@@ -1540,10 +1528,10 @@
       }
     },
     {
-      "id": "tracts_stroke-2010",
+      "id": "tracts_stroke",
       "type": "line",
-      "source": "us-tracts-2010",
-      "source-layer": "tracts-2010",
+      "source": "us-tracts",
+      "source-layer": "tracts",
       "layout": {
         "visibility": "none"
       },
@@ -1554,10 +1542,10 @@
       }
     },
     {
-      "id": "tracts_hover-2010",
+      "id": "tracts_hover",
       "type": "line",
-      "source": "us-tracts-2010",
-      "source-layer": "tracts-2010",
+      "source": "us-tracts",
+      "source-layer": "tracts",
       "layout": {
         "visibility": "none"
       },
@@ -1573,14 +1561,10 @@
       }
     },
     {
-      "id": "counties-2010",
+      "id": "counties",
       "type": "fill",
-      "source": "us-counties-2010",
-      "source-layer": "counties-2010",
-      "filter": [
-        "has",
-        "eviction-rate-2015"
-      ],
+      "source": "us-counties",
+      "source-layer": "counties",
       "layout": {
         "visibility": "none"
       },
@@ -1589,10 +1573,10 @@
       }
     },
     {
-      "id": "counties_stroke-2010",
+      "id": "counties_stroke",
       "type": "line",
-      "source": "us-counties-2010",
-      "source-layer": "counties-2010",
+      "source": "us-counties",
+      "source-layer": "counties",
       "layout": {
         "visibility": "none"
       },
@@ -1603,10 +1587,10 @@
       }
     },
     {
-      "id": "counties_hover-2010",
+      "id": "counties_hover",
       "type": "line",
-      "source": "us-counties-2010",
-      "source-layer": "counties-2010",
+      "source": "us-counties",
+      "source-layer": "counties",
       "layout": {
         "visibility": "none"
       },
@@ -1622,14 +1606,10 @@
       }
     },
     {
-      "id": "states-2010",
+      "id": "states",
       "type": "fill",
-      "source": "us-states-2010",
-      "source-layer": "states-2010",
-      "filter": [
-        "has",
-        "eviction-rate"
-      ],
+      "source": "us-states",
+      "source-layer": "states",
       "layout": {
         "visibility": "none"
       },
@@ -1638,10 +1618,10 @@
       }
     },
     {
-      "id": "states_stroke-2010",
+      "id": "states_stroke",
       "type": "line",
-      "source": "us-states-2010",
-      "source-layer": "states-2010",
+      "source": "us-states",
+      "source-layer": "states",
       "layout": {
         "visibility": "none"
       },
@@ -2267,10 +2247,10 @@
       }
     },
     {
-      "id": "cities-2010",
+      "id": "cities",
       "type": "fill",
-      "source": "us-cities-2010",
-      "source-layer": "cities-2010",
+      "source": "us-cities",
+      "source-layer": "cities",
       "layout": {
         "visibility": "none"
       },
@@ -2279,10 +2259,10 @@
       }
     },
     {
-      "id": "cities_stroke-2010",
+      "id": "cities_stroke",
       "type": "line",
-      "source": "us-cities-2010",
-      "source-layer": "cities-2010",
+      "source": "us-cities",
+      "source-layer": "cities",
       "layout": {
         "visibility": "none"
       },
@@ -2293,27 +2273,22 @@
       }
     },
     {
-      "id": "blockgroups_bubbles-2010",
+      "id": "blockgroups_bubbles",
       "type": "circle",
-      "source": "us-block-groups-2010",
-      "source-layer": "block-groups-2010-centers",
+      "source": "us-block-groups",
+      "source-layer": "block-groups-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               40,
@@ -2323,6 +2298,7 @@
         },
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -2399,15 +2375,11 @@
       }
     },
     {
-      "id": "blockgroups_text-2010",
+      "id": "blockgroups_text",
       "type": "symbol",
-      "source": "us-block-groups-2010",
-      "source-layer": "block-groups-2010-centers",
+      "source": "us-block-groups",
+      "source-layer": "block-groups-centers",
       "minzoom": 8,
-      "filter": [
-        "has",
-        "eviction-rate"
-      ],
       "layout": {
         "text-field": "{name}",
         "text-font": [
@@ -2428,10 +2400,10 @@
       }
     },
     {
-      "id": "cities_hover-2010",
+      "id": "cities_hover",
       "type": "line",
-      "source": "us-cities-2010",
-      "source-layer": "cities-2010",
+      "source": "us-cities",
+      "source-layer": "cities",
       "layout": {
         "visibility": "none"
       },
@@ -2447,10 +2419,10 @@
       }
     },
     {
-      "id": "states_hover-2010",
+      "id": "states_hover",
       "type": "line",
-      "source": "us-states-2010",
-      "source-layer": "states-2010",
+      "source": "us-states",
+      "source-layer": "states",
       "layout": {
         "visibility": "none"
       },
@@ -2466,25 +2438,20 @@
       }
     },
     {
-      "id": "tracts_bubbles-2010",
+      "id": "tracts_bubbles",
       "type": "circle",
-      "source": "us-tracts-2010",
-      "source-layer": "tracts-2010-centers",
+      "source": "us-tracts",
+      "source-layer": "tracts-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               40,
@@ -2496,6 +2463,7 @@
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -2558,10 +2526,10 @@
       }
     },
     {
-      "id": "tracts_text-2010",
+      "id": "tracts_text",
       "type": "symbol",
-      "source": "us-tracts-2010",
-      "source-layer": "tracts-2010-centers",
+      "source": "us-tracts",
+      "source-layer": "tracts-centers",
       "minzoom": 8,
       "layout": {
         "text-field": "{name}",
@@ -2594,25 +2562,20 @@
       }
     },
     {
-      "id": "counties_bubbles-2010",
+      "id": "counties_bubbles",
       "type": "circle",
-      "source": "us-counties-2010",
-      "source-layer": "counties-2010-centers",
+      "source": "us-counties",
+      "source-layer": "counties-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               10,
@@ -2624,6 +2587,7 @@
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -2840,15 +2804,11 @@
       }
     },
     {
-      "id": "counties_text-2010",
+      "id": "counties_text",
       "type": "symbol",
-      "source": "us-counties-2010",
-      "source-layer": "counties-2010-centers",
+      "source": "us-counties",
+      "source-layer": "counties-centers",
       "minzoom": 7,
-      "filter": [
-        "has",
-        "eviction-rate-2015"
-      ],
       "layout": {
         "text-field": "{name}",
         "text-allow-overlap": false,
@@ -2889,25 +2849,20 @@
       }
     },
     {
-      "id": "states_bubbles-2010",
+      "id": "states_bubbles",
       "type": "circle",
-      "source": "us-states-2010",
-      "source-layer": "states-2010-centers",
+      "source": "us-states",
+      "source-layer": "states-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               40,
@@ -2919,6 +2874,7 @@
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -2953,10 +2909,10 @@
       }
     },
     {
-      "id": "states_text-2010",
+      "id": "states_text",
       "type": "symbol",
-      "source": "us-states-2010",
-      "source-layer": "states-2010-centers",
+      "source": "us-states",
+      "source-layer": "states-centers",
       "layout": {
         "text-field": "{name}",
         "text-size": {
@@ -3009,25 +2965,20 @@
       }
     },
     {
-      "id": "cities_bubbles-2010",
+      "id": "cities_bubbles",
       "type": "circle",
-      "source": "us-cities-2010",
-      "source-layer": "cities-2010-centers",
+      "source": "us-cities",
+      "source-layer": "cities-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               80,
@@ -3039,6 +2990,7 @@
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -3397,10 +3349,10 @@
       "maxzoom": 24
     },
     {
-      "id": "cities_text-2010",
+      "id": "cities_text",
       "type": "symbol",
-      "source": "us-cities-2010",
-      "source-layer": "cities-2010-centers",
+      "source": "us-cities",
+      "source-layer": "cities-centers",
       "minzoom": 9,
       "layout": {
         "text-size": {
@@ -3502,25 +3454,20 @@
       }
     },
     {
-      "id": "zipcodes_bubbles-2010",
+      "id": "zipcodes_bubbles",
       "type": "circle",
-      "source": "us-zip-codes-2010",
-      "source-layer": "zip-codes-2010-centers",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes-centers",
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "eviction-rate-2015",
-        0
-      ],
       "paint": {
         "circle-color": {
-          "property": "eviction-rate-2015",
+          "default": "rgba(0,0,0,0)",
           "stops": [
             [
               0,
-              "rgba(255,120,119,0.8) "
+              "rgba(255,120,119,0.8)"
             ],
             [
               40,
@@ -3532,6 +3479,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-radius": {
           "property": "eviction-rate-2015",
+          "default": 0,
           "stops": [
             [
               {
@@ -3594,10 +3542,10 @@
       }
     },
     {
-      "id": "zipcodes_text-2010",
+      "id": "zipcodes_text",
       "type": "symbol",
-      "source": "us-zip-codes-2010",
-      "source-layer": "zip-codes-2010-centers",
+      "source": "us-zip-codes",
+      "source-layer": "zip-codes-centers",
       "minzoom": 8,
       "layout": {
         "text-field": "{name}",
@@ -3632,7 +3580,7 @@
     {
       "id": "united-states",
       "type": "line",
-      "source": "us-states-2010",
+      "source": "us-states",
       "source-layer": "country",
       "paint": {
         "line-width": 10,
