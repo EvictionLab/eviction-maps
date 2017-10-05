@@ -1,10 +1,13 @@
 <div class="search-container">
   <span class="glyphicon glyphicon-search"></span>
   <input [(ngModel)]="selected" 
-         [typeahead]="options" 
+         [typeahead]="options || []" 
          [typeaheadOptionField]="optionField ? optionField : null"
          [typeaheadOptionsLimit]="optionsLimit"
          (typeaheadOnSelect)="updateSelection($event)"
          placeholder="Search for..."
          class="form-control">
+  <span class="clear"
+        [style.display]="selected ? 'inherit' : 'none'"
+        (click)="updateSelection()">x</span>
 </div>

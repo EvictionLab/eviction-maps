@@ -154,9 +154,11 @@ export class AppComponent {
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    */
-  onSearchSelect(feature: MapFeature) {
+  onSearchSelect(feature: MapFeature | null) {
     this.autoSwitchLayers = false;
-    this.map.zoomToFeature(feature);
+    if (feature) {
+      this.map.zoomToFeature(feature);
+    }
     this.activeFeature = feature;
     this.hoveredFeature = null;
   }

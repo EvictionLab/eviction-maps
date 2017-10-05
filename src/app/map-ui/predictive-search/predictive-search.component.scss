@@ -10,6 +10,16 @@
   color: #999;
 }
 
+.search-container .clear {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  color: #999;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
 input {
   padding-left:32px;
 }
