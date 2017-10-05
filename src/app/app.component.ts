@@ -73,6 +73,7 @@ export class AppComponent {
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitchLayers = true;
+    this.map.setupHoverPopup();
   }
 
   /**
