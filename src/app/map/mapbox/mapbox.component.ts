@@ -37,6 +37,12 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('load', () => {
       this.onMapInstance(this.map);
     });
+    this.map.on('error', (e) => {
+      if (e && e.error && e.error.tile && e.error.tile.state === 'Errored') {
+      } else {
+        console.error(e);
+      }
+    });
   }
 
   /**
