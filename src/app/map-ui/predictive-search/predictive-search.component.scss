@@ -1,3 +1,9 @@
+@import "predictive-search.theme";
+
+$searchTextColor: #000;
+$searchHighlightTextColor: #fff;
+$searchHighlightBackgroundColor: rgb(224,64,0);
+
 .search-container {
   position:relative;
   width:100%;
@@ -22,4 +28,14 @@
 
 input {
   padding-left:32px;
+  border-radius: 0;
+}
+
+:host {
+   /deep/ .dropdown-menu {
+     border-radius: 0;
+   }
+   /deep/ {
+    @include predictive-search-colors($searchTextColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
+   }
 }

@@ -73,6 +73,9 @@ export class AppComponent {
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitchLayers = true;
+    // FIXME: Doing a hack to get layers because we likely won't be loading them outside
+    // of prototypes anyway
+    setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
   }
 
   /**
