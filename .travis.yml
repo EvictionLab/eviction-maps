@@ -15,7 +15,6 @@ before_script:
 - npm install -g @angular/cli
 script:
 - ng test --watch=false --sourcemaps=false
-- ng e2e
 - ng build --prod
 before_deploy:
 - pip install --user awscli
