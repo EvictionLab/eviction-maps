@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
 import { MapLayerGroup } from '../../map/map-layer-group';
@@ -8,9 +10,10 @@ import { MapLayerGroup } from '../../map/map-layer-group';
   templateUrl: './mapbox.component.html',
   styleUrls: ['./mapbox.component.scss']
 })
-export class MapboxComponent implements OnInit {
-  private map: any;
+export class MapboxComponent implements AfterViewInit {
+  private map: mapboxgl.Map;
   private activeFeature: any;
+  @ViewChild('map') mapEl: ElementRef;
   @Input() mapConfig: Object;
   @Input() eventLayers: Array<string> = [];
   @Output() ready: EventEmitter<any> = new EventEmitter();
@@ -24,10 +27,21 @@ export class MapboxComponent implements OnInit {
 
   constructor(private mapService: MapService) { }
 
-  ngOnInit() {
-    this.map = this.mapService.createMap(this.mapConfig);
+  /**
+   * Create map object from mapEl ViewChild
+   */
+  ngAfterViewInit() {
+    this.map = this.mapService.createMap({
+      ...this.mapConfig, container: this.mapEl.nativeElement
+    });
     this.map.on('load', () => {
       this.onMapInstance(this.map);
+    });
+    this.map.on('error', (e) => {
+      if (e && e.error && e.error.tile && e.error.tile.state === 'Errored') {
+      } else {
+        console.error(e);
+      }
     });
   }
 

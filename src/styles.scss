@@ -296,6 +296,7 @@ html, body {
 
 .year-slider {
   @include fill-parent();
+  @include slider-colors(#fff, $primaryColor, #caa);
   margin:auto;
   width: 92.5%;
   height:40px;
@@ -358,3 +359,8 @@ ng2-file-input {
 }
 
 .map-legend { display: none; }
+
+.zoom-slider {
+  @include slider-colors(#fff, $primaryColor, #caa);
+}
+

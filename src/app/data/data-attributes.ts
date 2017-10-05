@@ -2,56 +2,56 @@ import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {
-        'id': 'poverty-rate',
-        'name': 'Poverty Rate',
-        'opacityStops' : {
-            'default': [
-                [0, 0],
-                [0.5, 1]
-            ]
-        }
-    },
-    {
         'id': 'population',
         'name': 'Population',
-        'opacityStops' : {
+        'default': 'rgba(0, 0, 0, 0)',
+        'fillStops': {
             'default': [
-                [0, 0],
-                [100000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [50000, 'rgba(137, 140, 206, 0.8)'],
+                [100000, 'rgba(64, 71, 124, 0.9)']
             ],
             'blockgroups': [
-                [0, 0],
-                [5000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [2500, 'rgba(137, 140, 206, 0.8)'],
+                [5000, 'rgba(64, 71, 124, 0.9)']
             ],
             'zipcodes': [
-                [0, 0],
-                [10000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [5000, 'rgba(137, 140, 206, 0.8)'],
+                [10000, 'rgba(64, 71, 124, 0.9)']
             ],
             'tracts': [
-                [0, 0],
-                [10000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [5000, 'rgba(137, 140, 206, 0.8)'],
+                [10000, 'rgba(64, 71, 124, 0.9)']
             ],
             'cities': [
-                [100, 0],
-                [50000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [25000, 'rgba(137, 140, 206, 0.8)'],
+                [50000, 'rgba(64, 71, 124, 0.9)']
             ],
             'counties': [
-                [10000, 0],
-                [1000000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [750000, 'rgba(137, 140, 206, 0.8)'],
+                [1500000, 'rgba(64, 71, 124, 0.9)']
             ],
             'states': [
-                [1000000, 0],
-                [10000000, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [500000, 'rgba(137, 140, 206, 0.8)'],
+                [1000000, 'rgba(64, 71, 124, 0.9)']
             ]
         }
     },
     {
-        'id': 'average-household-size',
-        'name': 'Average Household Size',
-        'opacityStops': {
+        'id': 'poverty-rate',
+        'name': 'Poverty Rate',
+        'default': 'rgba(0, 0, 0, 0)',
+        'fillStops': {
             'default': [
-                [0, 0],
-                [4, 1]
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [0.13, 'rgba(137, 140, 206, 0.8)'],
+                [0.26, 'rgba(64, 71, 124, 0.9)']
             ]
         }
     }

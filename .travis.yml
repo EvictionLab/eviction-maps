@@ -15,7 +15,6 @@ before_script:
 - npm install -g @angular/cli
 script:
 - ng test --watch=false --sourcemaps=false
-- ng e2e
 - ng build --prod
 before_deploy:
 - pip install --user awscli
@@ -34,8 +33,9 @@ deploy:
   script: scripts/invalidate-cache.sh
   on:
     branch: master
-- provider: script
-  script: if [[ $TRAVIS_BRANCH == prototypes/* ]]; then aws s3 cp dist/ s3://eviction-lab-prototypes/${TRAVIS_BRANCH:11} --recursive --acl=public-read; fi
+- skip_cleanup: true
+  provider: script
+  script: bash -c "if [[ $TRAVIS_BRANCH == prototypes/* ]]; then aws s3 cp dist/ s3://eviction-lab-prototypes/${TRAVIS_BRANCH:11} --recursive --acl=public-read; fi"
   on:
     all_branches: true
 notifications:
