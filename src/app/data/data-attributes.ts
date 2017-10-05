@@ -2,18 +2,6 @@ import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {
-        'id': 'poverty-rate',
-        'name': 'Poverty Rate',
-        'default': 'rgba(0, 0, 0, 0)',
-        'fillStops': {
-            'default': [
-                [0, 'rgba(238, 226, 239, 0.7)'],
-                [0.13, 'rgba(137, 140, 206, 0.8)'],
-                [0.26, 'rgba(64, 71, 124, 0.9)']
-            ]
-        }
-    },
-    {
         'id': 'population',
         'name': 'Population',
         'default': 'rgba(0, 0, 0, 0)',
@@ -52,6 +40,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [0, 'rgba(238, 226, 239, 0.7)'],
                 [500000, 'rgba(137, 140, 206, 0.8)'],
                 [1000000, 'rgba(64, 71, 124, 0.9)']
+            ]
+        }
+    },
+    {
+        'id': 'poverty-rate',
+        'name': 'Poverty Rate',
+        'default': 'rgba(0, 0, 0, 0)',
+        'fillStops': {
+            'default': [
+                [0, 'rgba(238, 226, 239, 0.7)'],
+                [0.13, 'rgba(137, 140, 206, 0.8)'],
+                [0.26, 'rgba(64, 71, 124, 0.9)']
             ]
         }
     }
