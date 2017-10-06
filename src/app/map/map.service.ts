@@ -107,6 +107,20 @@ export class MapService {
   }
 
   /**
+   * Set the data of a GeoJSON layer source, or empty the data if no
+   * feature supplied
+   * @param sourceId ID of GeoJSON source to modify
+   * @param feature MapFeature object
+   */
+  setSourceData(sourceId: string, feature?: MapFeature) {
+    const features = feature ? [feature] : [];
+    (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
+      'type': 'FeatureCollection',
+      'features': features
+    });
+  }
+
+  /**
    * Updates the map zoom level
    * @param newZoom new zoom value for map
    */

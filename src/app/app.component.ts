@@ -148,18 +148,10 @@ export class AppComponent {
     if (this.hover_HACK > 0 || !this.platform.isMobile()) {
       this.hover_HACK = 0;
       this.hoveredFeature = feature;
-      const hoverLayer =
-        this.activeDataLevel.layerIds[this.activeDataLevel.layerIds.length - 1];
       if (this.hoveredFeature) {
-        this.map.setLayerFilter(
-          hoverLayer, [
-            'all',
-            ['==', 'name', this.hoveredFeature.properties.name],
-            ['==', 'parent-location', this.hoveredFeature.properties['parent-location']]
-          ]
-        );
+        this.map.setSourceData('hover', feature);
       } else {
-        this.map.setLayerFilter(hoverLayer, ['==', 'name', '']);
+        this.map.setSourceData('hover');
       }
     } else if (this.hover_HACK === 0 && feature) {
       this.hover_HACK = 1;
