@@ -73,6 +73,9 @@ export class AppComponent {
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitchLayers = true;
+    // FIXME: Doing a hack to get layers because we likely won't be loading them outside
+    // of prototypes anyway
+    setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
   }
 
   /**
@@ -154,9 +157,11 @@ export class AppComponent {
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    */
-  onSearchSelect(feature: MapFeature) {
+  onSearchSelect(feature: MapFeature | null) {
     this.autoSwitchLayers = false;
-    this.map.zoomToFeature(feature);
+    if (feature) {
+      this.map.zoomToFeature(feature);
+    }
     this.activeFeature = feature;
     this.hoveredFeature = null;
   }
