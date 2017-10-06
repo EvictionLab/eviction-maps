@@ -43,6 +43,9 @@ export class AppComponent {
   ];
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
+  // prototype
+  pt_menu = false;
+
   constructor(
     private map: MapService,
     public platform: PlatformService,

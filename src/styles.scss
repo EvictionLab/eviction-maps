@@ -293,3 +293,74 @@ html, body {
 .zoom-slider {
   @include slider-colors(#fff, $primaryColor, #caa);
 }
+
+
+
+
+// prototype styles
+
+.pt-header {
+  display:flex;
+  justify-content: space-between;
+  align-content: space-between;
+  align-items: center;
+  padding: 8px 16px 0px;
+  position:absolute;
+  top:0;left:0;right:0;
+  height:56px;
+  z-index:1000;
+  & > button {
+    background:none;
+    width:44px;
+    height: 44px;
+    padding:0;
+    margin:0;
+    border: none;
+    &:active, &:focus {
+      outline: none;
+      svg path, svg polygon {fill: #E24000; }
+    }
+  }
+  svg path, svg polygon { fill: #666; }
+}
+
+.pt-menu {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: space-around;
+  align-items:center;
+  position:absolute;
+  width:100%;
+  height:100%;
+  color:#fff;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:2000;
+  background: linear-gradient(to right, #F2793C, #E1441C);
+  transition: transform 0.2s ease;
+  transform: translateX(100%);
+  &.on { transform: translateX(0); }
+  .pt-header svg path { fill: #fff; }
+  .pt-menu-items {
+    list-style: none;
+    margin:56px 0 0 0;
+    padding:0;
+    width:100%;
+    li {
+      text-align:center;
+      font-size:35px;
+      margin: 16px 0;
+    }
+  }
+}
+
+.app-wrapper .map-wrapper {
+  top:0;
+  height:100%;
+}
+.app-wrapper .map-ui-wrapper {
+  display:none;
+}

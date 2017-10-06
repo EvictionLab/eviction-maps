@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="11px" height="31px" viewBox="0 0 11 31" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 46.2 (44496) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-info</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Mobile-Web-v1.2" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Mobile-Web---Phone---1st-Filter-Selected" transform="translate(-230.000000, -10.000000)" fill-rule="nonzero" fill="#666666">
+            <g id="Mobile-Navigation-Alt" transform="translate(12.000000, 10.000000)">
+                <g id="icon-info" transform="translate(209.865385, 0.500000)">
+                    <path d="M16.7984615,3.82423077 C16.7984615,5.9362951 15.0862951,7.64846154 12.9742308,7.64846154 C10.8621664,7.64846154 9.15,5.9362951 9.15,3.82423077 C9.15,1.71216644 10.8621664,0 12.9742308,0 C15.0862951,0 16.7984615,1.71216644 16.7984615,3.82423077 Z" id="Shape"></path>
+                    <polygon id="Shape" points="18.6910256 30.1637179 8.13333333 30.1637179 8.13333333 25.025641 10.080641 25.025641 10.080641 16.3214103 8.18025641 16.3214103 8.18025641 11.1833333 16.790641 11.1833333 16.790641 25.025641 18.7379487 25.025641"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
