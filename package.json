@@ -24,7 +24,7 @@
     "@turf/bbox": "^4.7.3",
     "@types/geojson": "^1.0.3",
     "@types/mapbox-gl": "^0.39.5",
-    "angular-d3-graph": "^0.1.0",
+    "angular-d3-graph": "^0.1.1",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "lodash.isequal": "^4.5.0",
