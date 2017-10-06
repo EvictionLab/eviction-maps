@@ -3,6 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { MapboxComponent } from './map/mapbox/mapbox.component';
 import { MapUiModule } from './map-ui/map-ui.module';
+import { GraphModule } from 'angular-d3-graph/module';
 import { PlatformService } from './platform.service';
 
 describe('AppComponent', () => {
@@ -12,7 +13,8 @@ describe('AppComponent', () => {
     };
     TestBed.configureTestingModule({
       imports: [
-        MapUiModule
+        MapUiModule,
+        GraphModule
       ],
       declarations: [
         AppComponent,

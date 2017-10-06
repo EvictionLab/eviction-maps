@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
+import { GraphModule } from 'angular-d3-graph/module';
+
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
 import { MapUiModule } from './map-ui/map-ui.module';
@@ -15,6 +17,7 @@ import { PlatformService } from './platform.service';
     MapUiModule,
     BrowserModule,
     MapModule,
+    GraphModule.forRoot(),
     BsDropdownModule.forRoot()
   ],
   providers: [ PlatformService ],
