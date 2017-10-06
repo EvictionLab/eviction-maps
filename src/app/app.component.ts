@@ -25,7 +25,13 @@ export class AppComponent {
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
   hoveredFeature;
-  activeFeature;
+  set activeFeature(val) {
+    this._activeFeature = val;
+    this.setGraphData();
+  }
+  get activeFeature() {
+    return this._activeFeature;
+  }
   mapFeatures: Observable<Object>;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
@@ -41,6 +47,13 @@ export class AppComponent {
   mapEventLayers: Array<string> = [
     'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties'
   ];
+  graphData;
+  graphType = 'bar';
+  graphSettings: any = {
+    axis: { x: { label: null }, y: { label: 'Evictions' } },
+    margin: { left: 60 }
+  };
+  private _activeFeature;
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
   constructor(
@@ -237,5 +250,36 @@ export class AppComponent {
     return this._sanitizer.bypassSecurityTrustStyle(
       `linear-gradient(to right, ${this.legend[0][1]}, ${this.legend[this.legend.length - 1][1]})`
     );
+  }
+
+  setGraphData() {
+    if (this.graphType === 'line') {
+      this.graphSettings = {
+        axis: { x: { label: null }, y: { label: 'Evictions' } }
+      };
+    } else {
+      this.graphSettings = {
+        axis: { x: { label: null }, y: { label: 'Evictions' } }
+      };
+      this.graphData = [
+        {
+          id: 'sample1',
+          data: [{
+            x: 'US Average',
+            y: this.activeFeature.properties['evictions-2010'] * Math.random() * 2
+          }]
+        },
+        {
+          id: 'sample2',
+          data: [
+            {
+              x: this.activeFeature.properties.name,
+              y: this.activeFeature.properties['evictions-2010']
+            }
+          ]
+        }
+      ];
+    }
+
   }
 }

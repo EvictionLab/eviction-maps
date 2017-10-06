@@ -1,14 +1,26 @@
-@import "app/map-ui/ui-slider/ui-slider.theme";
+@import "theme/ui-slider.theme";
+@import "theme/ui-graph.theme";
 
-$maxContentWidth: 1024px;
-$defaultPadding: 16px;
+// Typography
 $fontStack: Roboto, sans-serif;
+
+// Colors
 $primaryColor: rgb(224,64,0);
 
-// App Toolbar
+// Colors - graph
+$graphColor1: rgb(63,178,167);
+$graphColor2: rgb(125,130,187);
+$graphColor3: rgb(232,182,69);
+$graphColor4: rgb(55,62,74);
+
+// Sizing
+$maxContentWidth: 1024px;
+$defaultPadding: 16px;
+
+// Sizing - toolbar
 $toolbarHeight: 56px;
 
-// Tooltip Header Row
+// Sizing - panel header
 $headerRowHeight: 72px;
 
 // Mixins

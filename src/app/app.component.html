@@ -83,10 +83,9 @@
             </button>
         </div>
         <div class="data-content">
-            <app-graph 
-                [data]="[{ id:'sample1', data: [ { x: 'Bar1', y: 25 } ]}, { id:'sample2', data: [ { x: 'Bar2', y: 75 } ]}]"
-            ></app-graph>
-            <img src="./assets/sample-data-2.png" class="prototype-image" />
+            <div class="data-content-inner">
+                <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
+            </div>
         </div>
     </div>
 </div>

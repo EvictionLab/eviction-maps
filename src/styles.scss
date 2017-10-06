@@ -213,6 +213,10 @@ html, body {
     box-sizing: border-box;
     overflow:auto;
     border-top: 1px solid #eee;
+    .data-content-inner {
+      max-width: $maxContentWidth;
+      margin:auto;
+    }
   }
   .prototype-image {
     width:100%;
@@ -293,3 +297,10 @@ html, body {
 .zoom-slider {
   @include slider-colors(#fff, $primaryColor, #caa);
 }
+
+app-graph {
+  @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4);
+}
+
+app-graph { display: block; width:100%; }
+@media(min-width: 768px) { app-graph { width:66%; } }
