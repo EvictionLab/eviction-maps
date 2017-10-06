@@ -24,10 +24,12 @@
             (ready)="onMapReady($event)"
             (zoom)="onMapZoom($event)"
             (featureClick)="onFeatureClick($event)"
-            (hoverChanged)="onFeatureHover($event)">
+            (hoverChanged)="onFeatureHover($event)"
+            (render)="onMapRender($event)">
         </app-mapbox>
     </div>
     <div class="map-ui-wrapper">
+        <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
         <app-ui-slider class="zoom-slider" tabindex="3"
             [vertical]="true"
             [currentValue]="zoom" 

@@ -53,6 +53,7 @@ export class AppComponent {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
     margin: { left: 60 }
   };
+  mapLoading = true;
   private _activeFeature;
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
@@ -112,6 +113,7 @@ export class AppComponent {
    * @param event
    */
   onMapRender(event) {
+    this.mapLoading = this.map.isMapLoading();
     if (this.activeDataLevel) {
       this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
     }
