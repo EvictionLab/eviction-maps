@@ -24,7 +24,8 @@ export class UiToggleComponent implements OnInit {
    * Set default value if not already set
    */
   ngOnInit() {
-    if (!this.selectedValue && this.values.length) { this.selectedValue = this.values[0]; }
+    this.selectedValue = (!this.selectedValue && this.values && this.values.length) ?
+      this.values[0] : this.selectedValue;
   }
 
 }

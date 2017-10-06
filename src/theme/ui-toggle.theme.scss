@@ -1,0 +1,20 @@
+@mixin ui-toggle-colors(
+    $borderColor, 
+    $bgColor, 
+    $selectedBgColor, 
+    $hoverBgColor,
+    $textColor: "inherit", 
+    $selectedTextColor: "inherit"
+) {
+    button {
+        background: $bgColor;
+        border-left:1px solid $borderColor;
+        border-top: 1px solid $borderColor;
+        border-bottom: 1px solid $borderColor;
+        color: $textColor;
+        &:hover { background: $hoverBgColor; }
+        &:last-child { border-right: 1px solid $borderColor; }
+        &:first-child { border-left: 1px solid $borderColor; }
+        &.selected { background: $selectedBgColor; color: $selectedTextColor; }
+    }
+}

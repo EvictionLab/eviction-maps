@@ -15,7 +15,6 @@
             <button class="btn">
                 <span class="glyphicon glyphicon-menu-hamburger"></span>
             </button>
-            <app-ui-toggle [values]="[{name: 'one' }, {name: 'two' }, {name: 'three'}]" (selectedValueChanged)="logEvent($event)"></app-ui-toggle>
         </div>
     </div>
     <div class="map-wrapper">
@@ -85,6 +84,7 @@
         </div>
         <div class="data-content">
             <div class="data-content-inner">
+                <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle>
                 <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
             </div>
         </div>

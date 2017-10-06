@@ -22,7 +22,7 @@ import { UiToggleComponent } from './ui-toggle/ui-toggle.component';
     CommonModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    TypeaheadModule,
+    TypeaheadModule
   ],
   declarations: [
     UiSelectComponent,
