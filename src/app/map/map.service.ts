@@ -155,6 +155,13 @@ export class MapService {
   }
 
   /**
+   * Helper for checking whether or not the map is currently loading
+   */
+  isMapLoading() {
+    return !this.map.areTilesLoaded();
+  }
+
+  /**
    * Zoom to supplied map features
    * @param feature
    */
