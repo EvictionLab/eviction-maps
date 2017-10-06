@@ -1,13 +1,16 @@
-import { async, tick, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async, tick, fakeAsync, ComponentFixture, TestBed, discardPeriodicTasks
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { PredictiveSearchComponent } from './predictive-search.component';
 
 describe('PredictiveSearchComponent', () => {
   let component: PredictiveSearchComponent;
   let fixture: ComponentFixture<PredictiveSearchComponent>;
   let inputEl;
+  let clearEl;
   const defaultOptionsLimit = 5;
   const defaultOptionField = 'name';
   const defaultOptions = [
@@ -33,8 +36,10 @@ describe('PredictiveSearchComponent', () => {
     component.optionsLimit = defaultOptionsLimit;
     component.options = defaultOptions;
     component.optionField = defaultOptionField;
+    component.updateSelection();
     fixture.detectChanges();
     inputEl = fixture.debugElement.query(By.css('input'));
+    clearEl = fixture.debugElement.query(By.css('.clear'));
   });
 
   it('should be created', () => {
@@ -69,9 +74,59 @@ describe('PredictiveSearchComponent', () => {
   it('should emit the selection when clicked', fakeAsync(() => {
     let selection;
     component.selectionChange.subscribe((sel) => { selection = sel; });
-    component.updateSelection(defaultOptions[0]);
+    const newMatch = new TypeaheadMatch(defaultOptions[0].name);
+    component.updateSelection(newMatch);
     tick();
     fixture.detectChanges();
-    expect(selection).toEqual(defaultOptions[0]);
+    expect(selection).toEqual(newMatch.value);
+    discardPeriodicTasks();
+  }));
+
+  it('should not display the clear button without input', fakeAsync(() => {
+    const clearElStyle = clearEl.nativeElement.style;
+    expect(clearElStyle.display).toEqual('none');
+    discardPeriodicTasks();
+  }));
+
+  it('should display the clear button with input', fakeAsync(() => {
+    const el = inputEl.nativeElement;
+    el.value = 't';
+    const event = new KeyboardEvent('keyup', { 'key': 't' });
+    el.dispatchEvent(event);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(expect(clearEl.nativeElement.style.display).toEqual('inherit'));
+    });
+    discardPeriodicTasks();
+  }));
+
+  it('should clear the selection when clear button is clicked', fakeAsync(() => {
+    component.updateSelection(new TypeaheadMatch(defaultOptions[0].name));
+    tick();
+    fixture.detectChanges();
+    clearEl.triggerEventHandler('click', null);
+    tick();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(fixture.debugElement.nativeElement.querySelector('input').value.trim())
+        .toEqual('');
+    });
+    discardPeriodicTasks();
+  }));
+
+  it('should hide the clear button after it is clicked', fakeAsync(() => {
+    component.updateSelection(new TypeaheadMatch(defaultOptions[0].name));
+    tick();
+    fixture.detectChanges();
+    clearEl.triggerEventHandler('click', null);
+    tick();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(expect(clearEl.nativeElement.style.display).toEqual('none'));
+    });
+    discardPeriodicTasks();
   }));
 });

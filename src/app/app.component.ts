@@ -86,6 +86,9 @@ export class AppComponent {
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitchLayers = true;
+    // FIXME: Doing a hack to get layers because we likely won't be loading them outside
+    // of prototypes anyway
+    setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
   }
 
   /**
@@ -167,9 +170,11 @@ export class AppComponent {
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    */
-  onSearchSelect(feature: MapFeature) {
+  onSearchSelect(feature: MapFeature | null) {
     this.autoSwitchLayers = false;
-    this.map.zoomToFeature(feature);
+    if (feature) {
+      this.map.zoomToFeature(feature);
+    }
     this.activeFeature = feature;
     this.hoveredFeature = null;
   }
@@ -255,8 +260,9 @@ export class AppComponent {
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
-        axis: { x: { label: null }, y: { label: 'Evictions' } }
+        axis: { x: { label: 'Year' }, y: { label: 'Evictions' } }
       };
+      // TODO: generate line graph data here
     } else {
       this.graphSettings = {
         axis: { x: { label: null }, y: { label: 'Evictions' } }
@@ -266,7 +272,7 @@ export class AppComponent {
           id: 'sample1',
           data: [{
             x: 'US Average',
-            y: this.activeFeature.properties['evictions-2010'] * Math.random() * 2
+            y: this.activeFeature.properties[`evictions-${this.dataYear}`] * Math.random() * 2
           }]
         },
         {
@@ -274,7 +280,7 @@ export class AppComponent {
           data: [
             {
               x: this.activeFeature.properties.name,
-              y: this.activeFeature.properties['evictions-2010']
+              y: this.activeFeature.properties[`evictions-${this.dataYear}`]
             }
           ]
         }
