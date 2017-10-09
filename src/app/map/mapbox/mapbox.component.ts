@@ -34,6 +34,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map = this.mapService.createMap({
       ...this.mapConfig, container: this.mapEl.nativeElement
     });
+    this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
     this.map.on('load', () => {
       this.onMapInstance(this.map);
     });
