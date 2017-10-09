@@ -151,7 +151,8 @@ export class AppComponent {
       this.hover_HACK = 0;
       this.hoveredFeature = feature;
       if (this.hoveredFeature) {
-        this.map.setSourceData('hover', feature);
+        const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
+        this.map.setSourceData('hover', union);
       } else {
         this.map.setSourceData('hover');
       }

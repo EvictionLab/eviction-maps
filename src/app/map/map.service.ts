@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
+import * as union from '@turf/union';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
@@ -104,6 +105,30 @@ export class MapService {
    */
   setLayerFilter(layerId: string, filter: Array<any>) {
     this.map.setFilter(layerId, filter);
+  }
+
+  /**
+   * Queries a layer for all features matching the name and parent-location of
+   * a supplied feature, returns a GeoJSON feature combining the geographies of
+   * all matching features. Used to consolidate GeoJSON features split by tiling
+   *
+   * @param layerId ID of vector tile layer to query
+   * @param feature feature with attributes to query
+   */
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
+    return this.map.queryRenderedFeatures(undefined, {
+      layers: [layerId],
+      filter: [
+        'all',
+        ['==', 'name', feature.properties.name],
+        ['==', 'parent-location', feature.properties['parent-location']]
+      ]
+    }).reduce((currFeat, nextFeat) => {
+      return union(
+        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+      );
+    }, feature) as GeoJSON.Feature<GeoJSON.Polygon>;
   }
 
   /**
