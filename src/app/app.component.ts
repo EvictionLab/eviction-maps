@@ -90,6 +90,7 @@ export class AppComponent {
     // FIXME: Doing a hack to get layers because we likely won't be loading them outside
     // of prototypes anyway
     setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
+    this.map.isLoading$.debounceTime(200).subscribe((state) => { this.mapLoading = state; });
   }
 
   /**
@@ -113,7 +114,6 @@ export class AppComponent {
    * @param event
    */
   onMapRender(event) {
-    this.mapLoading = this.map.isMapLoading();
     if (this.activeDataLevel) {
       this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
     }
