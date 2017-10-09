@@ -23,6 +23,7 @@ export class AppComponent {
   zoom: number;
   dataYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
+  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
   attributes: Array<MapDataAttribute> = DataAttributes;
   hoveredFeature;
   set activeFeature(val) {
@@ -98,6 +99,10 @@ export class AppComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
+    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
+    if (this.activeDataLevel.minzoom > zoom) {
+      this.autoSwitchLayers = true;
+    }
     if (this.autoSwitchLayers) {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {

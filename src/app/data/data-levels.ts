@@ -10,6 +10,7 @@ export const DataLevels: Array<MapLayerGroup> = [
           'blockgroups_bubbles',
           'blockgroups_text'
        ],
+       'minzoom': 7,
        'zoom': [ 10, 16 ]
     },
     {
@@ -21,6 +22,7 @@ export const DataLevels: Array<MapLayerGroup> = [
         'zipcodes_bubbles',
         'zipcodes_text'
        ],
+       'minzoom': 6,
        'zoom': [ 9, 10 ]
     },
     {
@@ -32,6 +34,7 @@ export const DataLevels: Array<MapLayerGroup> = [
           'tracts_bubbles',
           'tracts_text'
        ],
+       'minzoom': 7,
        'zoom': [ 8, 9 ]
     },
     {
@@ -42,7 +45,8 @@ export const DataLevels: Array<MapLayerGroup> = [
           'cities_stroke',
           'cities_bubbles',
           'cities_text'
-       ]
+       ],
+       'minzoom': 0,
     },
     {
        'id': 'counties',
@@ -53,6 +57,7 @@ export const DataLevels: Array<MapLayerGroup> = [
           'counties_bubbles',
           'counties_text'
        ],
+       'minzoom': 0,
        'zoom': [ 5, 8 ]
     },
     {
@@ -64,6 +69,7 @@ export const DataLevels: Array<MapLayerGroup> = [
           'states_bubbles',
           'states_text'
        ],
+       'minzoom': 0,
        'zoom': [ 0, 5 ]
     }
  ];
