@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
@@ -10,6 +11,8 @@ import { MapFeature } from './map-feature';
 @Injectable()
 export class MapService {
   map: mapboxgl.Map;
+  private _isLoading = new BehaviorSubject<boolean>(true);
+  isLoading$ = this._isLoading.asObservable();
 
   constructor() { }
 
@@ -22,6 +25,10 @@ export class MapService {
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
     return map;
+  }
+
+  setLoading(state: boolean) {
+    this._isLoading.next(state);
   }
 
   /**
@@ -177,13 +184,6 @@ export class MapService {
   queryMapLayer(layerGroup: MapLayerGroup) {
     return Observable.from(this.map.queryRenderedFeatures(undefined, {layers: [layerGroup.id]}))
       .distinct((f: MapFeature) => f.properties.name);
-  }
-
-  /**
-   * Helper for checking whether or not the map is currently loading
-   */
-  isMapLoading() {
-    return !this.map.areTilesLoaded();
   }
 
   /**
