@@ -8,6 +8,7 @@ import { UiSelectComponent } from './ui-select/ui-select.component';
 import { MapTooltipComponent } from './map-tooltip/map-tooltip.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
 import { UiSliderComponent } from './ui-slider/ui-slider.component';
+import { UiToggleComponent } from './ui-toggle/ui-toggle.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
 @NgModule({
@@ -16,19 +17,21 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
     MapTooltipComponent,
     PredictiveSearchComponent,
     UiSliderComponent,
+    UiToggleComponent,
     ProgressBarComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     BsDropdownModule.forRoot(),
-    TypeaheadModule,
+    TypeaheadModule
   ],
   declarations: [
     UiSelectComponent,
     MapTooltipComponent,
     PredictiveSearchComponent,
     UiSliderComponent,
+    UiToggleComponent,
     ProgressBarComponent
   ]
 })

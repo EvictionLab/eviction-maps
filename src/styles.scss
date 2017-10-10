@@ -2,6 +2,30 @@
 
 @import 'theme';
 
+// APPLY THEME TO COMPONENTS
+
+app-ui-toggle {
+  @include ui-toggle-colors(
+      $toggleBorderColor,
+      $toggleBackground, 
+      $toggleSelectedBackground, 
+      $toggleHoverBackground,
+      $toggleForeground,
+      $toggleSelectedForeground 
+  );
+}
+
+app-ui-slider {
+  @include slider-colors(#fff, $primaryColor, #caa);
+}
+
+app-graph {
+  @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4);
+}
+
+
+// PAGE STYLES
+
 html, body {
   background: #fff;
   margin:0;
@@ -215,6 +239,7 @@ html, body {
     border-top: 1px solid #eee;
     .data-content-inner {
       max-width: $maxContentWidth;
+      padding: 16px;
       margin:auto;
     }
   }
@@ -286,20 +311,11 @@ html, body {
 
 .year-slider {
   @include fill-parent();
-  @include slider-colors(#fff, $primaryColor, #caa);
   margin:auto;
   width: 92.5%;
   height:40px;
   z-index: 10;
   top:auto;
-}
-
-.zoom-slider {
-  @include slider-colors(#fff, $primaryColor, #caa);
-}
-
-app-graph {
-  @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4);
 }
 
 app-graph { display: block; width:100%; }
