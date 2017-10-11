@@ -24,7 +24,7 @@ showDialog() {
 
 `showDialog(string | DialogContentItem | DialogConfig)`
 
-    - Returns an observable that you can subscribe to.  Fires when the dialog dismisses.
+  - Returns an observable that you can subscribe to.  Fires when the dialog dismisses.
 
 Displays a dialog with the provided content string, content item, or dialog configuration.
 
@@ -52,7 +52,7 @@ Sample text `DialogContentItem`:
 
 Sample checkbox `DialogContentItem`:
 ```ts
-{ type: 'checkbox', data: { } }
+{ type: 'checkbox', data: { label: 'checkbox label', value: false } }
 ```
 
 ### DialogResponse
