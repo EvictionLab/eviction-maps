@@ -2,7 +2,7 @@ import { Component, EventEmitter } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 
-import { DialogConfig, DialogContentItem } from './ui-dialog.types';
+import { DialogConfig, DialogContentItem, DialogResponse } from './ui-dialog.types';
 
 @Component({
   selector: 'app-ui-dialog',
@@ -19,7 +19,7 @@ export class UiDialogComponent {
     ok: true,
     cancel: false
   };
-  buttonClicked = new EventEmitter();
+  buttonClicked = new EventEmitter<DialogResponse>();
 
   constructor(public bsModalRef: BsModalRef) {}
 

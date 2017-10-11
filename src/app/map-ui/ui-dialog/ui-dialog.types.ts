@@ -9,4 +9,9 @@ class DialogConfig {
     buttons: { ok: boolean, cancel: boolean };
 }
 
-export { DialogConfig, DialogContentItem };
+class DialogResponse {
+    accepted: boolean;
+    content?: Array<DialogContentItem>;
+}
+
+export { DialogConfig, DialogContentItem, DialogResponse };

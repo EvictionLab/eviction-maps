@@ -54,3 +54,14 @@ Sample checkbox `DialogContentItem`:
 ```ts
 { type: 'checkbox', data: { } }
 ```
+
+### DialogResponse
+
+The response for the dialog that is sent when the dialog is close is an object with the following properties:
+
+```ts
+{
+    accepted: boolean, // true if "OK" button clicked, or false if  "Cancel" / "X" was clicked
+    content: Array<DialogContentItem> // content items and their values from the dialog
+}
+```

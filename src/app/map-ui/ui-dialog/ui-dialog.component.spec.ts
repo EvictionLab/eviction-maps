@@ -1,4 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { FormsModule } from '@angular/forms';
 
 import { UiDialogComponent } from './ui-dialog.component';
 
@@ -8,7 +10,9 @@ describe('UiDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiDialogComponent ]
+      imports: [ FormsModule, ModalModule.forRoot() ],
+      declarations: [ UiDialogComponent ],
+      providers: [ BsModalService, BsModalRef ]
     })
     .compileComponents();
   }));
