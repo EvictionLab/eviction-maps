@@ -40,10 +40,12 @@
         </app-ui-slider>
         <div class="map-ui">
             <app-ui-select
+                tabindex="4"
                 class="eviction-select"
                 [values]="['Judgments', 'Filings']"
             ></app-ui-select>
             <app-ui-select
+                tabindex="5"
                 class="layer-select"
                 labelProperty="name"
                 [selectedValue]="activeDataLevel"
@@ -51,6 +53,7 @@
                 (change)="setGroupVisibility($event)">
             </app-ui-select>
             <app-ui-select
+                tabindex="6"
                 class="highlight-select"
                 labelProperty="name"
                 [values]="attributes"
