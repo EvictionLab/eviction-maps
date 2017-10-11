@@ -94,7 +94,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('zoom', (zoomEvent) => { this.zoom.emit(this.map.getZoom()); });
     this.map.on('render', (e) => {
       this.render.emit(e);
-      this.mapService.setLoading(!this.map.areTilesLoaded());
+      this.mapService.setLoading(!this.map.loaded());
     });
     this.eventLayers.forEach((layer) => {
       this.map.on('click', layer, (e) => {
