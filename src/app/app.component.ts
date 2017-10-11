@@ -12,6 +12,7 @@ import { MapService } from './map/map.service';
 import { DataLevels } from './data/data-levels';
 import { DataAttributes } from './data/data-attributes';
 import { PlatformService } from './platform.service';
+import { UiDialogService } from './map-ui/ui-dialog/ui-dialog.service';
 
 @Component({
   selector: 'app-root',
@@ -60,9 +61,23 @@ export class AppComponent {
 
   constructor(
     private map: MapService,
+    private dialogService: UiDialogService,
     public platform: PlatformService,
     private _sanitizer: DomSanitizer
   ) {}
+
+  showFileDialog(e) {
+    this.dialogService.showDialog({
+      title: 'Select a file type',
+      content: [
+        { type: 'text', data: 'Check one or more of the file types:' },
+        { type: 'checkbox', data: { value: false, label: 'PDF' } },
+        { type: 'checkbox', data: { value: false, label: 'Excel' } }
+      ]
+    }).subscribe((response) => {
+      console.log(response);
+    });
+  }
 
   /**
    * Update the legend to correspond to the fill stops on the active data highlight
