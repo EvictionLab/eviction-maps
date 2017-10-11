@@ -1,0 +1,31 @@
+<div class="modal-header" *ngIf="title">
+  <h4 class="modal-title">{{title}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick($event)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngFor="let c of content; let i = index">
+    <p *ngIf="c.type === 'text'">{{c.data}}</p>
+    <div *ngIf="c.type === 'checkbox'">
+      <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="c.data.value">
+      <label [attr.for]="'checkbox' + i">{{c.data.label}}</label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    *ngIf="buttons.ok"
+    i18n="dialog|The OK button to accept and dismiss a dialog@@dialogOK" 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="onOkayClick($event)"
+  >OK</button>
+  <button
+    *ngIf="buttons.cancel"
+    i18n="dialog|The Cancel button to accept and dismiss a dialog@@dialogCancel" 
+    type="button" 
+    class="btn btn-default" 
+    (click)="onCancelClick($event)"
+  >Cancel</button>
+</div>

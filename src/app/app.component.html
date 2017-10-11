@@ -74,8 +74,8 @@
             [feature]="hoveredFeature"
         ></app-map-tooltip>
     </div>
-    <div class="data-wrapper">
-        <div class="header-row" *ngIf="activeFeature">
+    <div class="data-wrapper" *ngIf="activeFeature">
+        <div class="header-row">
             <h1 class="h3 header-row-title">
                 {{ activeFeature.properties["name"] }}
                 <small class="header-row-subtitle">{{ activeFeature.properties["parent-location"] }}</small>
@@ -88,6 +88,7 @@
             <div class="data-content-inner">
                 <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle>
                 <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
+                <button class="btn btn-primary" (click)="showFileDialog($event)">Download File</button>
             </div>
         </div>
     </div>
