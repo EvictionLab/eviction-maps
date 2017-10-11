@@ -4,7 +4,12 @@
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li *ngFor="let value of values" role="menuitem">
-      <a class="dropdown-item" (click)="changeValue(value)">{{getLabel(value)}}</a>
+      <a 
+        class="dropdown-item" 
+        [class.highlighted]="highlightedItem === value" 
+        (click)="changeValue(value)">
+        {{getLabel(value)}}
+      </a>
     </li>
   </ul>
 </div>
