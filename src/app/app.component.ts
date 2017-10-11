@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 import { MapDataAttribute } from './map/map-data-attribute';
 import { MapLayerGroup } from './map/map-layer-group';
@@ -90,7 +91,9 @@ export class AppComponent {
     // FIXME: Doing a hack to get layers because we likely won't be loading them outside
     // of prototypes anyway
     setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
-    this.map.isLoading$.debounceTime(200).subscribe((state) => { this.mapLoading = state; });
+    this.map.isLoading$.distinctUntilChanged()
+      .debounceTime(200)
+      .subscribe((state) => { this.mapLoading = state; });
   }
 
   /**
