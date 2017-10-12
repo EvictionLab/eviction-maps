@@ -1,13 +1,15 @@
 <div class="el-select" dropdown>
   <button dropdownToggle type="button" class="btn dropdown-toggle">
-    {{selectedLabel}} <span class="caret"></span>
+    <span *ngIf="label" class="el-select-label">{{label}} </span> 
+    <span class="el-select-value">{{selectedLabel}}</span>
+    <span class="caret"></span>
   </button>
   <ul *dropdownMenu class="dropdown-menu" role="menu">
     <li *ngFor="let value of values" role="menuitem">
       <a 
         class="dropdown-item" 
         [class.highlighted]="highlightedItem === value" 
-        (click)="changeValue(value)">
+        (click)="selectedValue = value">
         {{getLabel(value)}}
       </a>
     </li>

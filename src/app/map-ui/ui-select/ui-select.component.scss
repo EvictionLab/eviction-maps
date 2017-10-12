@@ -1,3 +1,36 @@
-.highlighted {
-    background:#eee;
+@import '../../../theme/ui-select.theme';
+
+$selectText: #000;
+$selectBackground: #fff;
+$selectLabelText: #999;
+$selectHighlightText: #000;
+$selectHighlightBackground: #eee;
+$selectCaret: #000;
+
+:host-context(.theme-default) {
+    @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
 }
+
+.el-select {
+    width: auto;
+    display:block;
+    position:relative;
+    .dropdown-toggle.btn {
+      position:relative;
+      border:none;
+      border-radius: 0;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      font-size:12px;
+      width:100%;
+      text-align:left;
+      padding-right: 24px;
+      .caret {
+        position:absolute;
+        right:8px;
+        top:12px;
+      }
+    }
+  }
