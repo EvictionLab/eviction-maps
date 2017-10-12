@@ -39,6 +39,7 @@
             (change)="setMapZoomLevel($event)">
         </app-ui-slider>
         <div class="map-ui">
+            
             <app-ui-select
                 tabindex="4"
                 class="eviction-select"
@@ -66,6 +67,12 @@
                 <span class="legend-start">{{legend[0][0]}}</span>
                 <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
             </div>
+            <app-ui-hint 
+            *ngIf="activeDataLevel"
+            class="legend-hint"
+            [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
+            placement="bottom"
+        ></app-ui-hint>
         </div>
         <app-ui-slider tabindex="9"
             class="year-slider"

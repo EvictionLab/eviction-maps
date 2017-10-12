@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
 import { MapTooltipComponent } from './map-tooltip/map-tooltip.component';
@@ -13,6 +14,7 @@ import { UiToggleComponent } from './ui-toggle/ui-toggle.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { UiDialogComponent } from './ui-dialog/ui-dialog.component';
 import { UiDialogService } from './ui-dialog/ui-dialog.service';
+import { UiHintComponent } from './ui-hint/ui-hint.component';
 
 
 @NgModule({
@@ -22,13 +24,15 @@ import { UiDialogService } from './ui-dialog/ui-dialog.service';
     PredictiveSearchComponent,
     UiSliderComponent,
     UiToggleComponent,
-    ProgressBarComponent
+    ProgressBarComponent,
+    UiHintComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
+    TooltipModule.forRoot(),
     TypeaheadModule
   ],
   declarations: [
@@ -38,7 +42,8 @@ import { UiDialogService } from './ui-dialog/ui-dialog.service';
     UiSliderComponent,
     UiToggleComponent,
     ProgressBarComponent,
-    UiDialogComponent
+    UiDialogComponent,
+    UiHintComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]
