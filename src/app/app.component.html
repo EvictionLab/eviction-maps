@@ -42,11 +42,13 @@
             <app-ui-select
                 tabindex="4"
                 class="eviction-select"
+                label="Eviction"
                 [values]="['Judgments', 'Filings']"
             ></app-ui-select>
             <app-ui-select
                 tabindex="5"
                 class="layer-select"
+                label="Display"
                 labelProperty="name"
                 [selectedValue]="activeDataLevel"
                 [values]="dataLevels" 
@@ -55,6 +57,7 @@
             <app-ui-select
                 tabindex="6"
                 class="highlight-select"
+                label="Display"
                 labelProperty="name"
                 [values]="attributes"
                 (change)="setDataHighlight($event)">

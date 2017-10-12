@@ -10,14 +10,22 @@ import * as _isEqual from 'lodash.isequal';
   styleUrls: ['./ui-select.component.scss']
 })
 export class UiSelectComponent implements OnInit {
+  @Input() label: string; // optional label for the select dropdown
   @Input() labelProperty: string; // only provided if values are an object
-  @Input() selectedValue: any;
+  @Input()
+  set selectedValue(newValue) {
+    if (_isEqual(newValue, this._selectedValue)) { return; }
+    this._selectedValue = newValue;
+    this.change.emit(newValue);
+  }
+  get selectedValue() { return this._selectedValue; }
   @Input() values: Array<any> = [];
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(BsDropdownDirective) dropdown;
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
   private stringArray = false;
+  private _selectedValue;
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -25,8 +33,8 @@ export class UiSelectComponent implements OnInit {
   ngOnInit() {
     if (this.values.length) {
       this.stringArray = (typeof this.values[0] === 'string');
-      if (!this.selectedValue) {
-        this.selectedValue = this.values[0];
+      if (!this._selectedValue) {
+        this._selectedValue = this.values[0];
       }
     }
   }
@@ -40,16 +48,6 @@ export class UiSelectComponent implements OnInit {
     return (
       this.stringArray ? value : value[this.labelProperty]
     );
-  }
-
-  /**
-   * sets the selected value for the component and emit the new value
-   * @param newValue the new map value that was selected
-   */
-  changeValue(newValue: any): void {
-    if (_isEqual(newValue, this.selectedValue)) { return; }
-    this.selectedValue = newValue;
-    this.change.emit(newValue);
   }
 
   getNextHighlightedItem(previousItem = false) {

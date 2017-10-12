@@ -1,6 +1,10 @@
-@import "progress-bar.theme";
+@import "../../../theme/progress-bar.theme";
 
+// default theme
 $progressBarColor: rgb(224,64,0);
+:host-context(.theme-default) {
+  @include progress-bar-colors($progressBarColor);
+}
 
 // Implementation based on https://codepen.io/shalimano/pen/wBmNGJ
 :host {
@@ -16,13 +20,11 @@ $progressBarColor: rgb(224,64,0);
   opacity: 0.4;
   width: 150%;
   height: 5px;
-  @include progress-bar-bg($progressBarColor);
 }
 
 .subline{
   position: absolute;
   height: 5px;
-  @include progress-bar-bg($progressBarColor);
 }
 
 .subline.progress {

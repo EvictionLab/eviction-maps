@@ -1,0 +1,4 @@
+// Progress bar theme
+@mixin progress-bar-colors($progressBarColor) {
+    .progress-line, .subline { background: $progressBarColor; }
+}
