@@ -30,14 +30,6 @@
     </div>
     <div class="map-ui-wrapper">
         <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
-        <app-ui-slider class="zoom-slider" tabindex="3"
-            [vertical]="true"
-            [currentValue]="zoom" 
-            [step]="0.1"
-            [min]="mapConfig.minZoom" 
-            [max]="mapConfig.maxZoom" 
-            (change)="setMapZoomLevel($event)">
-        </app-ui-slider>
         <div class="map-ui">
             <app-ui-select
                 tabindex="4"

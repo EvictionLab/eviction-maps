@@ -1,21 +1,9 @@
-
-
-// Zoom Control
-// - Hidden on mobile
-// - Middle of screen on left side for desktop
-.zoom-slider { 
-    display: none;
-    height: 300px;
-    width: 40px;
-    position:absolute;
-    left: 16px;
-    top:0;
-    bottom:0;
-    margin: auto;
+:host ::ng-deep .mapboxgl-ctrl-top-left {
+  top: 50px;
 }
 
-@media (min-width: 767px) {
-    .zoom-slider {
-        display:block;
+@media(max-width: 768px) {
+    :host ::ng-deep .mapboxgl-ctrl-top-left {
+        top: 175px;
     }
 }
