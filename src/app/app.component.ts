@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -57,6 +57,7 @@ export class AppComponent {
     margin: { left: 100 }
   };
   mapLoading = true;
+  blockEvents = false;
   private _activeFeature;
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
@@ -328,6 +329,14 @@ export class AppComponent {
         }
       ];
     }
+  }
 
+  @HostListener('window:scroll', ['$event'])
+  onscroll(e) {
+    const verticalOffset =
+      window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    this.blockEvents = (verticalOffset !== 0);
   }
 }
+
+

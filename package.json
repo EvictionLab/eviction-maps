@@ -30,6 +30,7 @@
     "core-js": "^2.4.1",
     "lodash.isequal": "^4.5.0",
     "mapbox-gl": "^0.40.1",
+    "ng2-smooth-scroll": "^1.0.1",
     "ngx-bootstrap": "^1.9.1",
     "rxjs": "^5.4.2",
     "zone.js": "^0.8.14"

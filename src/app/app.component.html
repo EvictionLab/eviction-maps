@@ -1,4 +1,4 @@
-<div class="app-wrapper" [class.map-active]="!activeFeature || cardFeatures.length === 0" [class.data-active]="activeFeature && cardFeatures.length > 0">
+<div class="app-wrapper" [class.map-active]="true">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -28,7 +28,7 @@
             (render)="onMapRender($event)">
         </app-mapbox>
     </div>
-    <div class="map-ui-wrapper">
+    <div class="map-ui-wrapper" [class.block]="blockEvents" (mousedown)="blockEvents = false">
         <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
         <div class="map-ui">
             <app-ui-select
@@ -76,22 +76,19 @@
         <div class="card-wrapper">
             <app-map-tooltip *ngFor="let card of cardFeatures"
                 [dataYear]="dataYear" 
-                (onActivate)="activeFeature = card" 
+                (onActivate)="activeFeature = card; blockEvents = true;" 
                 [feature]="card"
+                [scrollTo]="'data-wrapper'"
+                [offset]="56"
                 (onDismiss)="removeCard(card)"
             ></app-map-tooltip>
         </div>
         
     </div>
-    <div class="data-wrapper" *ngIf="activeFeature && cardFeatures.length > 0">
-        <div class="header-row">
-                <button type="button" class="btn btn-close" aria-label="Close" (click)="activeFeature = null;">
-                        <span aria-hidden="true">&times;</span>
-                </button>
-        </div>
+    <div id="data-wrapper" class="data-wrapper">
         <div class="data-content">
             
-            <div class="data-content-inner">
+            <div class="data-content-inner"  *ngIf="cardFeatures.length > 0">
 
                 <!-- <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle> -->
                 <div class="graph-header">

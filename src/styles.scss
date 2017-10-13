@@ -10,7 +10,6 @@ html, body {
   margin:0;
   padding:0;
   width:100%;
-  height:100%;
   font-family: $fontStack!important;
 }
 
@@ -23,24 +22,19 @@ html, body {
 
 // Page Layout
 .app-wrapper {
-  @include fill-parent();
-  overflow:hidden;
   .map-wrapper {
-      @include fill-parent();
+      position:relative;
       transition: transform 0.4s ease;
-      transform: translateY(-30vh);
       top:#{$toolbarHeight};
-      height: calc(100% - #{$toolbarHeight});
+      height: calc(100vh - #{$toolbarHeight});
   }
   .data-wrapper {
-      position:absolute;
+      position:relative;
+      top:56px;
       width:100%;
-      left:0;right:0;bottom:0;
       z-index:100;
-      height: 70vh;
       background:#fff;
       transition: transform 0.3s ease;
-      transform: translateY(0);
       overflow:auto;
   }
   .map-ui-wrapper {
@@ -61,9 +55,6 @@ html, body {
       .map-wrapper {
           transform: translateY(0);
       }
-      .data-wrapper {
-          transform: translateY(70vh);
-      }
       .map-ui-wrapper {
           height: calc(100% - #{$toolbarHeight});
           .card-wrapper {
@@ -77,7 +68,7 @@ html, body {
 // - Search bar overlaps logo on left on mobile
 // - Search bar in center of header bar on desktop
 .header-wrapper {
-  position:absolute;
+  position:fixed;
   top:0;
   left:0;right:0;
   height: $toolbarHeight;
@@ -452,4 +443,6 @@ app-graph { display: block; width:100%; }
   margin: 24px -16px 0;
 }
 
-.app-wrapper .data-wrapper { overflow:hidden; }
+.app-wrapper .map-ui-wrapper.block {
+  pointer-events:all;
+}

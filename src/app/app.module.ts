@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { SmoothScrollToDirective, SmoothScrollDirective } from 'ng2-smooth-scroll';
 
 import { GraphModule } from 'angular-d3-graph/module';
 
@@ -11,7 +12,9 @@ import { PlatformService } from './platform.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SmoothScrollToDirective,
+    SmoothScrollDirective
   ],
   imports: [
     MapUiModule,
