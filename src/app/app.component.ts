@@ -98,7 +98,7 @@ export class AppComponent {
    */
   onMapReady(map) {
     this.map.setMapInstance(map);
-    this.activeDataLevel = this.dataLevels[5];
+    this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
