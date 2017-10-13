@@ -23,10 +23,10 @@ $color4: #4a4238;
 $color5: #b5c2b7;
 
 // Colors - graph
-$graphColor1: rgb(63,178,167);
-$graphColor2: rgb(125,130,187);
-$graphColor3: rgb(232,182,69);
-$graphColor4: rgb(55,62,74);
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 

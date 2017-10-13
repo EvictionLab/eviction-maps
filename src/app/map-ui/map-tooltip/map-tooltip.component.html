@@ -1,36 +1,34 @@
-<div class="tooltip-container" [class.off]="!feature" [class.preview]="feature">
+<div class="card-container" [class.off]="!feature" [class.preview]="feature">
   <div class="header-row">
-    <div *ngIf="feature" class="tooltip-header">
+    <div *ngIf="feature">
       <h1 class="h3 header-row-title">
-        <button class="more-button">
-          <span class="glyphicon glyphicon-chevron-down"></span>
-          MORE
-        </button>
         {{feature.properties.name}} 
         <small class="header-row-subtitle">{{feature.properties["parent-location"]}}</small>
+        <button (click)="onDismiss.emit($event)" class="btn btn-close">&times;</button>
       </h1>
-      <ul class="tooltip-stats">
+      <ul class="card-stats">
         <li *ngIf="feature.properties['eviction-rate-' + dataYear ]">
+          <span class="stat-label">Eviction Rate</span>
           <span class="stat-value">{{ feature.properties["eviction-rate-" + dataYear ] | number:'1.0-0' }}</span>
-          <span class="stat-label">Evictions / 100 renter households</span>
         </li>
 
         <li *ngIf="feature.properties['evictions-' + dataYear ]">
-          <span class="stat-value">{{ feature.properties["evictions-" + dataYear ] }}</span>
-          <span class="stat-label">{{ feature.properties["evictions-" + dataYear ] | i18nPlural: evictionLabelMapping }}</span>
+            <span class="stat-label">{{ feature.properties["evictions-" + dataYear ] | i18nPlural: evictionLabelMapping }}</span>
+            <span class="stat-value">{{ feature.properties["evictions-" + dataYear ] }}</span>
         </li>
         <li *ngIf="!feature.properties['eviction-rate-' + dataYear] && !feature.properties['evictions-' + dataYear]">
             <span class="stat-value">NO DATA</span>
         </li>
-        <li class="extra-stat" *ngIf="feature.properties['average-household-size-' + dataYear]">
-            <span class="stat-value">{{ feature.properties["average-household-size-" + dataYear] | number:'1.0-1' }}</span>
-            <span class="stat-label">Average Household Size</span>
-          </li>
         <li class="extra-stat" *ngIf="feature.properties['poverty-rate-' + dataYear]">
-          <span class="stat-value">{{ feature.properties["poverty-rate-" + dataYear] | percent }}</span>
-          <span class="stat-label">Poverty Rate</span>
+            <span class="stat-label">Poverty Rate</span>
+            <span class="stat-value">{{ feature.properties["poverty-rate-" + dataYear] | percent }}</span>
         </li>
+        <li class="extra-stat" *ngIf="feature.properties['average-household-size-' + dataYear]">
+            <span class="stat-label">Average Household Size</span>            
+            <span class="stat-value">{{ feature.properties["average-household-size-" + dataYear] | number:'1.0-1' }}</span>
+          </li>
       </ul>
+      <button class="btn btn-primary" (click)="onActivate.emit($event)">View More</button>
     </div>
   </div>
 </div>

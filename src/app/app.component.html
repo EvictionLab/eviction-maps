@@ -1,4 +1,4 @@
-<div class="app-wrapper" [class.map-active]="!activeFeature" [class.data-active]="activeFeature">
+<div class="app-wrapper" [class.map-active]="!activeFeature || cardFeatures.length === 0" [class.data-active]="activeFeature && cardFeatures.length > 0">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -59,41 +59,141 @@
                 <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
             </div>
             <app-ui-hint 
-            *ngIf="activeDataLevel"
-            class="legend-hint"
-            [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
-            placement="bottom"
-        ></app-ui-hint>
+                *ngIf="activeDataLevel"
+                class="legend-hint"
+                [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
+                placement="bottom"
+            ></app-ui-hint>
         </div>
-        <app-ui-slider tabindex="9"
-            class="year-slider"
-            [currentValue]="dataYear" 
-            [min]="1990" 
-            [max]="2015" 
-            (change)="setDataYear($event)"
-        ></app-ui-slider>
-        <app-map-tooltip 
-            [dataYear]="dataYear" 
-            (click)="activeFeature = hoveredFeature; hoveredFeature = null;" 
-            [feature]="hoveredFeature"
-        ></app-map-tooltip>
+        <div class="year-slider">
+            <app-ui-slider tabindex="9"
+                [currentValue]="dataYear" 
+                [min]="1990" 
+                [max]="2015" 
+                (change)="setDataYear($event)"
+            ></app-ui-slider>
+        </div>
+        <div class="card-wrapper">
+            <app-map-tooltip *ngFor="let card of cardFeatures"
+                [dataYear]="dataYear" 
+                (onActivate)="activeFeature = card" 
+                [feature]="card"
+                (onDismiss)="removeCard(card)"
+            ></app-map-tooltip>
+        </div>
+        
     </div>
-    <div class="data-wrapper" *ngIf="activeFeature">
+    <div class="data-wrapper" *ngIf="activeFeature && cardFeatures.length > 0">
         <div class="header-row">
-            <h1 class="h3 header-row-title">
-                {{ activeFeature.properties["name"] }}
-                <small class="header-row-subtitle">{{ activeFeature.properties["parent-location"] }}</small>
-            </h1>
-            <button type="button" class="close" aria-label="Close" (click)="activeFeature = null;">
-                <span aria-hidden="true">&times;</span>
-            </button>
+                <button type="button" class="btn btn-close" aria-label="Close" (click)="activeFeature = null;">
+                        <span aria-hidden="true">&times;</span>
+                </button>
         </div>
         <div class="data-content">
+            
             <div class="data-content-inner">
-                <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle>
-                <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
-                <button class="btn btn-primary" (click)="showFileDialog($event)">Download File</button>
+
+                <!-- <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle> -->
+                <div class="graph-header">
+                    <div class="graph-header-left">
+                        <h3>Displaying all evictions from</h3>
+                        <app-ui-select [values]="['2000','2001','2002','2003','2004']"></app-ui-select>
+                        to
+                        <app-ui-select [values]="['2000','2001','2002','2003','2004']" selectedValue="2004"></app-ui-select>
+                    </div>
+                </div>
+                <div class="graph-content">
+                    <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
+                    <ul class="graph-legend">
+                        
+                        <li *ngFor="let card of cardFeatures">
+                            <span class="graph-marker"></span>
+                            {{card.properties.name}}
+                            <button class="close" (click)="removeCard(card)">&times;</button>
+                        </li>
+                        <li>
+                            <span class="graph-marker"></span>
+                            US Average
+                            <!-- <button class="btn btn-close" (click)="removeCard(card)">&times</button> -->
+                        </li>
+                    </ul>
+                </div>
+                <div class="data-panel-cards">
+                        <div class="card" *ngFor="let card of cardFeatures">
+                            <div class="h4 card-heading">
+                                {{card.properties.name}}
+                                <small>{{card.properties['parent-location']}}</small>
+                            </div>
+                            <div class="card-content">
+                                <ul>
+                                    <li>
+                                        <span class="card-label">Total Evictions</span>
+                                        <span class="card-value">320</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">Eviction Rate</span>
+                                        <span class="card-value">14</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">Population</span>
+                                        <span class="card-value">42,000</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">Poverty Rate</span>
+                                        <span class="card-value">20%</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">Avg. Household Size</span>
+                                        <span class="card-value">320</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">% Renter Occupied</span>
+                                        <span class="card-value">14%</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">Avg. Household Income</span>
+                                        <span class="card-value">$42,000</span>
+                                    </li>
+                                    <li>
+                                        <span class="card-label">% Empty Houses</span>
+                                        <span class="card-value">10%</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                        <div *ngIf="cardFeatures.length < 3" class="card card-empty">
+                            <div class="h4 card-heading">
+                                Add a Location
+                            </div>
+                            <app-predictive-search
+                                class="search"
+                                [options]="mapFeatures"
+                                optionField="properties.name"
+                                (selectionChange)="onSearchSelect($event)">
+                            </app-predictive-search>
+                        </div>
+
+                    </div>
+                <div class="data-panel-footer">
+                    <div class="action-wrapper">
+                            <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>
+                            <span>Share this map and information</span>
+                    </div>
+                    <div class="action-wrapper">
+                            <button class="btn btn-primary" (click)="showFileDialog($event)">Save</button>
+                            <span>Save the map and information to this device</span>
+                    </div>
+                    <div class="action-wrapper">
+                            <button class="btn btn-primary" (click)="showFileDialog($event)">E-mail</button>
+                            <span>E-mail this map and information</span>
+                    </div>
+                </div>
+            </div>
+            <div class="data-panel-site-footer">
+                <img src="./assets/footer.png" style="display:block; margin:auto; width:90%; max-width:840px;" />
             </div>
         </div>
+        
     </div>
 </div>

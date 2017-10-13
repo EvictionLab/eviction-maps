@@ -27,6 +27,7 @@ export class AppComponent {
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
   hoveredFeature;
+  cardFeatures: Array<any> = [];
   set activeFeature(val) {
     this._activeFeature = val;
     this.setGraphData();
@@ -53,7 +54,7 @@ export class AppComponent {
   graphType = 'bar';
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
-    margin: { left: 60 }
+    margin: { left: 100 }
   };
   mapLoading = true;
   private _activeFeature;
@@ -144,18 +145,23 @@ export class AppComponent {
    * @param feature the map feature
    */
   onFeatureClick(feature) {
-    if (
-      this.hoveredFeature &&
-      this.hoveredFeature.properties.name === feature.properties.name &&
-      this.hoveredFeature.properties['parent-location'] === feature.properties['parent-location']
-    ) {
-      // user has hovered the feature, jump to the more data on click
-      this.activeFeature = feature;
-      this.hoveredFeature = null;
-    } else {
-      // no hover, probably a touch device, show preview first
-      this.onFeatureHover(feature);
+    if (this.cardFeatures.length < 3) {
+      this.cardFeatures.push(feature);
+      this.setGraphData();
     }
+
+    // if (
+    //   this.hoveredFeature &&
+    //   this.hoveredFeature.properties.name === feature.properties.name &&
+    //   this.hoveredFeature.properties['parent-location'] === feature.properties['parent-location']
+    // ) {
+    //   // user has hovered the feature, jump to the more data on click
+    //   this.activeFeature = feature;
+    //   this.hoveredFeature = null;
+    // } else {
+    //   // no hover, probably a touch device, show preview first
+    //   this.onFeatureHover(feature);
+    // }
   }
 
   /**
@@ -167,8 +173,8 @@ export class AppComponent {
   onFeatureHover(feature) {
     if (this.hover_HACK > 0 || !this.platform.isMobile()) {
       this.hover_HACK = 0;
-      this.hoveredFeature = feature;
-      if (this.hoveredFeature) {
+      // this.hoveredFeature = feature;
+      if (feature) {
         const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
         this.map.setSourceData('hover', union);
       } else {
@@ -190,6 +196,20 @@ export class AppComponent {
     }
     this.activeFeature = feature;
     this.hoveredFeature = null;
+  }
+
+  areFeaturesEqual(f1, f2) {
+    return (
+      (f1 && f2) &&
+      (f1.properties.name === f2.properties.name) &&
+      (f1.properties['parent-location'] === f1.properties['parent-location'])
+    );
+  }
+
+  removeCard(feature) {
+    const index = this.cardFeatures.findIndex((f) => this.areFeaturesEqual(f, feature));
+    this.cardFeatures.splice(index, 1);
+    this.setGraphData();
   }
 
   /**
@@ -270,6 +290,19 @@ export class AppComponent {
     );
   }
 
+  getGraphDataForCards() {
+    const data = [];
+    this.cardFeatures.forEach((f, i) => {
+      data.push(
+        {
+          id: 'sample' + i,
+          data: [ { x: f.properties.name, y: f.properties[`evictions-${this.dataYear}`] }]
+        }
+      );
+    });
+    return data;
+  }
+
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
@@ -281,21 +314,13 @@ export class AppComponent {
         axis: { x: { label: null }, y: { label: 'Evictions' } }
       };
       this.graphData = [
+        ...this.getGraphDataForCards(),
         {
-          id: 'sample1',
+          id: 'usavg',
           data: [{
             x: 'US Average',
             y: this.activeFeature.properties[`evictions-${this.dataYear}`] * Math.random() * 2
           }]
-        },
-        {
-          id: 'sample2',
-          data: [
-            {
-              x: this.activeFeature.properties.name,
-              y: this.activeFeature.properties[`evictions-${this.dataYear}`]
-            }
-          ]
         }
       ];
     }

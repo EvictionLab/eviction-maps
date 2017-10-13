@@ -47,10 +47,15 @@ html, body {
       pointer-events:none;
       position: absolute;
       width:100vw;
-      height:calc(30vh - #{$toolbarHeight});
+      // height:calc(30vh - #{$toolbarHeight});
+      height: calc(100% - #{$toolbarHeight});
       top: $toolbarHeight;
       left:0;
       transition: height 0.4s ease;
+      .card-wrapper {
+        transition: transform 0.4s ease;
+        transform: translateX(-600px);
+      }
   }
   &.map-active {
       .map-wrapper {
@@ -61,6 +66,9 @@ html, body {
       }
       .map-ui-wrapper {
           height: calc(100% - #{$toolbarHeight});
+          .card-wrapper {
+            transform: translateX(0);
+          }
       }
   }
 }
@@ -128,13 +136,13 @@ html, body {
 
 // Dropdown Select Styles
 
-.el-select {
+.map-ui-wrapper .el-select {
   float:none;
   width:100%;
 }
 
 @media (min-width: 767px) {
-  .el-select {
+  .map-ui-wrapper .el-select {
     float:left;
     width:auto;
     margin: 4px;
@@ -171,6 +179,7 @@ html, body {
 // Data Panel
 
 .data-wrapper {
+  
   .header-row {
     position:absolute;
     height: $headerRowHeight;
@@ -182,17 +191,14 @@ html, body {
     margin-top:14px;
   }
   .data-content {
-    position:absolute;
-    top: $headerRowHeight;
-    bottom:0;
-    left:0;
-    right:0;
     width:100%;
+    height:100%;
     padding:0 $defaultPadding;
     box-sizing: border-box;
     overflow:auto;
     border-top: 1px solid #eee;
     .data-content-inner {
+      position:relative;
       max-width: $maxContentWidth;
       padding: 16px;
       margin:auto;
@@ -261,17 +267,189 @@ html, body {
 }
 
 
-
-// TEMP
+.map-wrapper .mapboxgl-ctrl-top-left {
+  left:auto;
+  right: 16px;
+}
 
 .year-slider {
   @include fill-parent();
   margin:auto;
-  width: 92.5%;
+  width: 100%;
   height:40px;
   z-index: 10;
   top:auto;
+  background:#fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  padding: 0 16px;
+  app-ui-slider {
+    position:relative;
+    height:100%;
+    display:block;
+    max-width: $maxContentWidth;
+    margin:auto;
+  }
 }
 
 app-graph { display: block; width:100%; }
-@media(min-width: 768px) { app-graph { width:66%; } }
+@media(min-width: 768px) { app-graph { width:66%; float:left; clear:both;} }
+
+.card-wrapper {
+  pointer-events: all;
+  position:absolute;
+  top:0;
+  bottom:0;
+  left:0;
+  right:auto;
+  height:312px;
+  margin:auto;
+  app-map-tooltip { 
+    position:absolute;
+    top:0;
+    left:0;
+    width:200px;
+    height:100%;
+    &:nth-child(2) {
+      left: 200px;
+    }
+    &:nth-child(3) {
+      left: 400px;
+    }
+  }
+  
+}
+
+// PROTOTYPE DATA - GARBAGE CSS ALERT
+
+.data-wrapper {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  .header-row button.btn-close {
+    font-size: 24px;
+    position:absolute;
+    right:24px;
+    top:24px;
+    z-index:1000;
+  }
+}
+
+.graph-header {
+  margin:4px 0 12px 0;
+  h3 {
+    display: inline-block;
+    font-size: 16px;
+    text-transform:uppercase;
+  }
+  app-ui-select {
+    width: 72px;
+    display:inline-block;
+    position: relative;
+    top: -2px;
+    margin: 0 8px;
+  }
+  .graph-header-right {
+    position:absolute;
+    right: 0;
+    top:0;
+    
+  }
+}
+
+.graph-legend {
+  list-style:none;
+  margin:0;
+  padding:16px;
+  .graph-marker {
+    display:inline-block;
+    width:16px;
+    height:16px;
+    margin-right: 8px;
+  }
+  li {
+    position:relative;
+    font-size:16px;
+    margin: 16px 0;
+    &:nth-child(1) .graph-marker { background: $graphColor1; }
+    &:nth-child(2) .graph-marker { background: $graphColor2; }
+    &:nth-child(3) .graph-marker { background: $graphColor3; }
+    &:nth-child(4) .graph-marker { background: $graphColor4; }
+    .btn-close {position: absolute; right: 0; top:0;}
+  }
+}
+
+.data-panel-footer {
+  clear:both;
+  display:flex;
+  align-content: space-between;
+  align-items:center;
+  justify-content: space-around;
+  .action-wrapper {
+    width:220px;
+    text-align:center;
+    button { display:block; width: 80%; margin:auto;}
+    span { color: #999; font-size: 11px;}
+  }
+}
+
+.data-panel-cards {
+  clear:both;
+  display:flex;
+  align-content: space-between;
+  align-items:stretch;
+  justify-content: space-between;
+  margin-top:24px;
+  margin-bottom: 48px;
+  .card {
+    border: 1px solid #ccc;
+    min-width:240px;
+    flex: 1;
+    padding:0;
+    margin-right: 16px;
+    box-sizing: border-box;
+    &:last-child {
+      margin-right:0;
+    }
+  }
+  .card.card-empty {
+    border: 1px dotted #ccc;
+    padding:16px;
+    .card-heading {
+      color: #999;
+      background:none!important;
+      margin: -16px -16px 0;
+    }
+    app-predictive-search {
+      position:relative;
+      z-index:1000;
+    }
+  }
+  .card-heading {
+    padding: 12px;
+    margin:0;
+    color: $altTextColor; 
+    small { color: $altTextColor; }
+  }
+  .card:nth-child(1) .card-heading { background: $graphColor1; }
+  .card:nth-child(3) .card-heading { background: $graphColor3; }
+  .card:nth-child(2) .card-heading { background: $graphColor2; }
+  .card-content {
+    ul { 
+      list-style: none; 
+      margin:0;
+      padding:12px;
+    }
+    li {
+      text-align:right;
+      margin-top:4px;
+      .card-label { float:left; }
+    }
+  }
+}
+
+.data-panel-site-footer {
+  padding-top: 32px;
+  background: rgb(43,43,43);
+  height:300px;
+  margin: 24px -16px 0;
+}
+
+.app-wrapper .data-wrapper { overflow:hidden; }
