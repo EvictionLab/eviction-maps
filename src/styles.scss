@@ -24,7 +24,7 @@ html, body {
 .app-wrapper {
   .map-wrapper {
       position:relative;
-      transition: transform 0.4s ease;
+      // transition: transform 0.4s ease;
       top:#{$toolbarHeight};
       height: calc(100vh - #{$toolbarHeight});
   }

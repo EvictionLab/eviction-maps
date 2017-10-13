@@ -58,6 +58,8 @@ export class AppComponent {
   };
   mapLoading = true;
   blockEvents = false;
+  verticalOffset = 0;
+  MAP_MODE = true;
   private _activeFeature;
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
@@ -333,9 +335,10 @@ export class AppComponent {
 
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
-    const verticalOffset =
+    this.verticalOffset =
       window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-    this.blockEvents = (verticalOffset !== 0);
+    this.blockEvents = (this.verticalOffset !== 0);
+
   }
 }
 

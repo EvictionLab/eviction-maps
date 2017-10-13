@@ -1,4 +1,4 @@
-<div class="app-wrapper" [class.map-active]="true">
+<div class="app-wrapper" [class.map-active]="!blockEvents">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -17,7 +17,7 @@
             </button>
         </div>
     </div>
-    <div class="map-wrapper">
+    <div class="map-wrapper" [style.transform]="'translateY('+ verticalOffset/2 +'px)'">
         <app-mapbox
             [mapConfig]="mapConfig" 
             [eventLayers]="mapEventLayers"
@@ -79,17 +79,14 @@
                 (onActivate)="activeFeature = card; blockEvents = true;" 
                 [feature]="card"
                 [scrollTo]="'data-wrapper'"
-                [offset]="56"
+                [offset]="256"
                 (onDismiss)="removeCard(card)"
             ></app-map-tooltip>
         </div>
-        
     </div>
     <div id="data-wrapper" class="data-wrapper">
         <div class="data-content">
-            
             <div class="data-content-inner"  *ngIf="cardFeatures.length > 0">
-
                 <!-- <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle> -->
                 <div class="graph-header">
                     <div class="graph-header-left">
