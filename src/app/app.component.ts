@@ -2,6 +2,7 @@ import { Component, HostListener } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
+import Debounce from 'debounce-decorator';
 
 import { MapDataAttribute } from './map/map-data-attribute';
 import { MapLayerGroup } from './map/map-layer-group';
@@ -60,6 +61,7 @@ export class AppComponent {
   blockEvents = false;
   verticalOffset = 0;
   MAP_MODE = true;
+  enableZoom = false;
   private _activeFeature;
   private hover_HACK = 0; // used to ignore first hover event when on touch, temp hack
 
@@ -333,12 +335,39 @@ export class AppComponent {
     }
   }
 
+  onUiClick(e) {
+    console.log('click', e, e.target.className);
+    if (e.target.className.includes('map-ui-wrapper')) {
+      this.enableZoom = true;
+    }
+  }
+
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
     this.verticalOffset =
       window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    console.log(this.verticalOffset);
     this.blockEvents = (this.verticalOffset !== 0);
+    if (this.verticalOffset !== 0) {
+      this.map.map.scrollZoom.disable();
+    }
+    if (this.enableZoom && this.verticalOffset === 0) {
+      console.log('enable zoom');
+      this.map.map.scrollZoom.enable();
+      this.enableZoom = false;
+    }
+  }
 
+  @HostListener('wheel', ['$event'])
+  @Debounce(250)
+  onwheel(e) {
+    console.log('wheel');
+    if (this.verticalOffset === 0) {
+      console.log('enable zoom');
+      this.map.map.scrollZoom.enable();
+    } else {
+      this.map.map.scrollZoom.disable();
+    }
   }
 }
 

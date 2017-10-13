@@ -1,4 +1,4 @@
-<div smoothScroll id="top" [scrollIf]="!blockEvents" class="app-wrapper" [class.map-active]="!blockEvents">
+<div id="top" class="app-wrapper" [class.map-active]="!blockEvents">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -28,7 +28,7 @@
             (render)="onMapRender($event)">
         </app-mapbox>
     </div>
-    <div class="map-ui-wrapper" [class.block]="blockEvents" [scrollTo]="'top'">
+    <div class="map-ui-wrapper" [class.block]="blockEvents" [scrollTo]="'top'" (click)="onUiClick($event)">
         <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
         <div class="map-ui">
             <app-ui-select
