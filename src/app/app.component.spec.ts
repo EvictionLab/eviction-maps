@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { SmoothScrollToDirective, SmoothScrollDirective } from 'ng2-smooth-scroll';
 
 import { AppComponent } from './app.component';
 import { MapboxComponent } from './map/mapbox/mapbox.component';
@@ -18,7 +19,9 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent,
-        MapboxComponent
+        MapboxComponent,
+        SmoothScrollToDirective,
+        SmoothScrollDirective
       ],
       providers: [ PlatformService ]
     }).compileComponents();
