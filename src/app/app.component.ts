@@ -209,7 +209,11 @@ export class AppComponent {
   removeCard(feature) {
     const index = this.cardFeatures.findIndex((f) => this.areFeaturesEqual(f, feature));
     this.cardFeatures.splice(index, 1);
-    this.setGraphData();
+    if (this.cardFeatures.length === 0) {
+      this.activeFeature = null;
+    } else {
+      this.setGraphData();
+    }
   }
 
   /**
