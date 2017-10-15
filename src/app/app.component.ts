@@ -197,11 +197,17 @@ export class AppComponent {
    * @param mapLayer the layer group that was selected
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
-    this.autoSwitchLayers = false;
+    // Only change data level and turn off auto switch if wasn't already
+    // changed by the onMapZoom event handler
+    if (this.activeDataLevel !== layerGroup) {
+      this.activeDataLevel = layerGroup;
+      this.autoSwitchLayers = false;
+    }
     this.dataLevels.forEach((group: MapLayerGroup) => {
       this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
     });
-    this.activeDataLevel = layerGroup;
+    // Reset the hover layer
+    this.map.setSourceData('hover');
   }
 
   /**
