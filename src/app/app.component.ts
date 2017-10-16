@@ -77,10 +77,11 @@ export class AppComponent implements AfterViewInit {
 
   updateStyle(e) {
     try {
-      const json = JSON.parse(e);
+      const strippedJson = e.replace(/\/\*.*\*\//g, '');
+      const json = JSON.parse(strippedJson);
       this.mapInstance.setStyle(json, { diff: false });
       this.downloadUrl = this.sanitizer.bypassSecurityTrustUrl(
-        URL.createObjectURL(new Blob([e], {type: 'application/json'}))
+        URL.createObjectURL(new Blob([strippedJson], {type: 'application/json'}))
       );
     } catch (e) {
       console.warn('Style Update Error', e);
