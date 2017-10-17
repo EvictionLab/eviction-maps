@@ -1,0 +1,19 @@
+@import '../../theme';
+
+.data-content {
+    position:relative;
+    width:100%;
+    padding:0 $defaultPadding;
+    box-sizing: border-box;
+    overflow:auto;
+    border-top: 1px solid #eee;
+    .data-content-inner {
+      max-width: $maxContentWidth;
+      padding: 16px;
+      margin:auto;
+    }
+}
+
+
+app-graph { display: block; width:100%; }
+@media(min-width: 768px) { app-graph { width:66%; } }

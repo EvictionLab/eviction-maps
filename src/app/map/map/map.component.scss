@@ -1,0 +1,84 @@
+@import '../../../theme';
+
+
+
+// Map UI Layout
+
+.map-ui-wrapper {
+    pointer-events:none;
+    position: absolute;
+    width:100vw;
+    height: 100%;
+    top: 0;
+    left:0;
+    bottom: 0;
+    right: 0;
+}
+.map-ui {
+    position:absolute;
+    max-width: $maxContentWidth - ($defaultPadding*2);
+    width: calc(100% - #{($defaultPadding*2)});
+    margin:auto;
+    top:12px;
+    left:0;
+    right:0;
+    height:0;
+    z-index:49;
+    pointer-events:all;
+}
+
+// Select boxes
+
+app-ui-select {
+  float:none;
+  width:100%;
+}
+
+@media (min-width: 767px) {
+    app-ui-select {
+    float:left;
+    width:auto;
+    margin: 4px;
+  }
+}
+
+
+// Map Legend
+
+.legend-hint {
+  float:right;
+}
+
+.map-legend {
+  width: auto;
+  height: 24px;
+  padding:4px 8px;
+  margin: 4px 0;
+  font-size:11px;
+  font-weight:bold;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  .legend-end {
+    float:right;
+  }
+}
+
+@media (min-width: 767px) {
+  .map-legend {
+    min-width:196px;
+    width:26%;
+    float:right;
+  }
+}
+
+// Year Slider
+
+.year-slider {
+    @include fill-parent();
+    margin:auto;
+    width: 92.5%;
+    height:40px;
+    z-index: 10;
+    top:auto;
+}
+  
+
