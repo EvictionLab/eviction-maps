@@ -117,7 +117,7 @@ export class MapComponent {
     this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
     this.setGroupVisibility(this.activeDataLevel);
     this.mapEventLayers.forEach((layer) => {
-      this.map.setLayerDataProperty(`${layer}_bubbles`, 'circle-radius', `eviction-rate-${year}`);
+      this.map.setLayerDataProperty(`${layer}_bubbles`, 'circle-radius', `er-${year % 100}`);
     });
     this.updateLegend();
   }
@@ -230,10 +230,10 @@ export class MapComponent {
    * @param year
    */
   private addYearToObject(dataObject: MapDataObject, year: number) {
-    if (/.*\d{4}.*/g.test(dataObject.id)) {
-      dataObject.id = dataObject.id.replace(/\d{4}/g, year + '');
+    if (/.*\d{2}.*/g.test(dataObject.id)) {
+      dataObject.id = dataObject.id.replace(/\d{2}/g, (year % 100) + '');
     } else {
-      dataObject.id += '-' + year;
+      dataObject.id += '-' + (year % 100);
     }
     return dataObject;
   }

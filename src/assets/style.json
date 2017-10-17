@@ -11,42 +11,42 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-block-groups/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-zip-codes/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-tracts/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-cities/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-counties/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-states/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
@@ -1455,7 +1455,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1481,7 +1501,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1507,7 +1547,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1533,7 +1593,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0.5
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2200,7 +2280,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {

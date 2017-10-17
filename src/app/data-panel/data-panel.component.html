@@ -3,7 +3,7 @@
       <div class="data-content-inner">
           <ul>
             <li *ngFor="let location of locations">
-              {{ location.properties["name"] }}
+              {{ location.properties["n"] }}
               <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
             </li>
           </ul>
