@@ -179,8 +179,12 @@ export class MapComponent {
     }
   }
 
+  /**
+   * Emits the new bounds of the current map view anytime the map finishes moving
+   * @param e the moveend event
+   */
   onMapMoveEnd(e) {
-    this._bounds = this.map.map.getBounds().toArray();
+    this._bounds = this.map.getBoundsArray();
     this.bboxChange.emit(this.boundingBox);
   }
 
