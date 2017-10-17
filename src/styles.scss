@@ -171,19 +171,9 @@ html, body {
 // Data Panel
 
 .data-wrapper {
-  .header-row {
-    position:absolute;
-    height: $headerRowHeight;
-    top:0;
-    left:0;
-    right:0;
-  }
-  .header-row-title {
-    margin-top:14px;
-  }
   .data-content {
     position:absolute;
-    top: $headerRowHeight;
+    top: 0;
     bottom:0;
     left:0;
     right:0;

@@ -10,11 +10,19 @@ import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
-  map: mapboxgl.Map;
+  private map: mapboxgl.Map;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
 
   constructor() { }
+
+  /** Expose any MapboxGL API functions that are needed  */
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
+  setLayerStyle(...args: any[]) { return this.map.setPaintProperty.apply(this.map, arguments); }
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setfilter
+  setLayerFilter(...args: any[]) { return this.map.setFilter.apply(this.map, arguments); }
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setzoom
+  setZoomLevel(...args: any[]) { return this.map.setZoom.apply(this.map, arguments); }
 
   /**
    * Create new Mapbox GL map from options object
@@ -61,16 +69,6 @@ export class MapService {
   }
 
   /**
-   * Update a style property for a layer
-   * @param layerId id of the layer to change
-   * @param styleProperty the paint style property to change (e.g. "fill-color")
-   * @param newStyle the new property style (e.g. "#000000")
-   */
-  setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
-    this.map.setPaintProperty(layerId, styleProperty, newStyle);
-  }
-
-  /**
    * Update the layer styles of the layers within a group
    * @param layerGroup the layer group
    * @param styleProperty the paint style property to change (e.g. "fill-color")
@@ -106,15 +104,6 @@ export class MapService {
   }
 
   /**
-   * Updates the filter property of the supplied layer
-   * @param layerId
-   * @param filter
-   */
-  setLayerFilter(layerId: string, filter: Array<any>) {
-    this.map.setFilter(layerId, filter);
-  }
-
-  /**
    * Queries a layer for all features matching the name and parent-location of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
@@ -139,6 +128,13 @@ export class MapService {
   }
 
   /**
+   * Gets the bounds of the current map view and returns an array
+   */
+  getBoundsArray() {
+    return this.map.getBounds().toArray();
+  }
+
+  /**
    * Set the data of a GeoJSON layer source, or empty the data if no
    * feature supplied
    * @param sourceId ID of GeoJSON source to modify
@@ -150,14 +146,6 @@ export class MapService {
       'type': 'FeatureCollection',
       'features': features
     });
-  }
-
-  /**
-   * Updates the map zoom level
-   * @param newZoom new zoom value for map
-   */
-  setZoomLevel(newZoom: number) {
-    this.map.setZoom(newZoom);
   }
 
   /**
@@ -192,31 +180,17 @@ export class MapService {
    */
   zoomToFeature(feature: any) {
     const featureBbox = bbox(feature);
-    this.map.fitBounds([
-      [featureBbox[0], featureBbox[1]],
-      [featureBbox[2], featureBbox[3]]
-    ]);
+    this.zoomToBoundingBox(featureBbox);
   }
 
   /**
-   * Adds a popup on the map in the clicked area
-   * TODO: make generic function for popups / tooltips
-   * @param e The mapbox click event
+   * Zoom to supplied bounding box
+   * @param box An array of 4 numbers representing the bounding box
    */
-  addPopup(e) {
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(`<h1>${e.features[0].properties.name}</h1>
-          <ul>
-            <li>Population: ${e.features[0].properties['population']} </li>
-            <li>Average Household Size: ${e.features[0].properties['average-household-size']} </li>
-            <li>Rented Households: ${e.features[0].properties['renting-occupied-households']} </li>
-            <li>Poverty Rate: ${e.features[0].properties['poverty-rate']} </li>
-            <li>Evictions: ${e.features[0].properties['evictions']} </li>
-            <li>Eviction Rate: ${e.features[0].properties['eviction-rate']} </li>
-          </ul>
-        `)
-        .addTo(this.map);
+  zoomToBoundingBox(box: Array<number>) {
+    this.map.fitBounds([
+      [box[0], box[1]],
+      [box[2], box[3]]
+    ]);
   }
-
 }

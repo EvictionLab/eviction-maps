@@ -28,3 +28,65 @@ Before running the tests make sure you are serving the app via `ng serve`.
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+# App Components 
+
+## `app-map`
+
+### Inputs
+
+    - boundingBox: used to set the location displayed in the map
+    - autoSwitch: determines if the data levels should auto switch based on zoom level
+
+### Outputs
+
+    - yearChange: emits the year when it is changed
+    - evictionTypeChange: emits the eviction type string when changed
+    - featureClick: emits a feature when on is clicked on the map
+    - featureHover: emits a feature when one is hovered in the map
+    - bboxChange: emits the bounding box anytime the map finished moving
+
+### Methods
+
+
+## `app-location-cards`
+
+### Inputs
+
+    - features: an array of features to display cards form
+
+### Outputs
+
+    - viewMoreClick: emits when the "Show More" button is clicked
+    - dismissCard: emits the feature when the close button is clicked
+
+
+## `app-data-panel`
+
+### Inputs
+
+    - features
+    
+### Outputs
+
+    - locationAdded
+    - locationRemoved
+
+# UI Components 
+
+## `app-ui-slider`
+
+## `app-ui-toggle`
+
+## `app-ui-select`
+
+## `app-ui-hint`
+
+## `app-ui-dialog`
+
+## `app-progress-bar`
+
+## `app-predictive-search`
+
+## `app-ui-card`
