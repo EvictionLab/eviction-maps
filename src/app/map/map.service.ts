@@ -192,9 +192,17 @@ export class MapService {
    */
   zoomToFeature(feature: any) {
     const featureBbox = bbox(feature);
+    this.zoomToBoundingBox(featureBbox);
+  }
+
+  /**
+   * Zoom to supplied bounding box
+   * @param box An array of 4 numbers representing the bounding box
+   */
+  zoomToBoundingBox(box: Array<number>) {
     this.map.fitBounds([
-      [featureBbox[0], featureBbox[1]],
-      [featureBbox[2], featureBbox[3]]
+      [box[0], box[1]],
+      [box[2], box[3]]
     ]);
   }
 

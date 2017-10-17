@@ -1,15 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MapboxComponent } from './mapbox/mapbox.component';
+import { MapComponent } from './map/map.component';
+import { MapUiModule } from '../map-ui/map-ui.module';
 
 
 @NgModule({
   exports: [
-    MapboxComponent
+    MapboxComponent,
+    MapComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MapUiModule
   ],
-  declarations: [MapboxComponent]
+  declarations: [MapboxComponent, MapComponent]
 })
 export class MapModule { }
