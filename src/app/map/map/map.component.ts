@@ -179,7 +179,7 @@ export class MapComponent {
     }
   }
 
-  onMapMoveEnd() {
+  onMapMoveEnd(e) {
     this._bounds = this.map.map.getBounds().toArray();
     this.bboxChange.emit(this.boundingBox);
   }
