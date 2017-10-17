@@ -1,9 +1,9 @@
 import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { MapboxComponent } from './map/mapbox/mapbox.component';
+import { MapModule } from './map/map.module';
+import { DataPanelModule } from './data-panel/data-panel.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { GraphModule } from 'angular-d3-graph/module';
 import { PlatformService } from './platform.service';
 
 describe('AppComponent', () => {
@@ -14,11 +14,11 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MapUiModule,
-        GraphModule
+        MapModule,
+        DataPanelModule
       ],
       declarations: [
-        AppComponent,
-        MapboxComponent
+        AppComponent
       ],
       providers: [ PlatformService ]
     }).compileComponents();
