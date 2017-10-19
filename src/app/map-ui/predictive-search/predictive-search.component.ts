@@ -8,15 +8,26 @@ import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
   styleUrls: ['./predictive-search.component.scss']
 })
 export class PredictiveSearchComponent implements OnInit {
-  public selected: Object;
+  @Input() selected: any;
   @Input() optionField: string;
   @Input() options: Object[];
   @Input() optionsLimit = 5;
+  @Input() waitMs = 500;
+  @Output() selectedChange = new EventEmitter();
   @Output() selectionChange: EventEmitter<Object> = new EventEmitter<Object>();
 
   constructor() { }
 
   ngOnInit() { }
+
+  /**
+   * Updates the ngModel value and emits it for parent components
+   * @param selectedText updated ngModel value
+   */
+  selectedTextChange(selectedText) {
+    this.selected = selectedText;
+    this.selectedChange.emit(selectedText);
+  }
 
   /**
    * Emit the selection object on typeahead select

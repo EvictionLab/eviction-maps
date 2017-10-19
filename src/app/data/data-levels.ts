@@ -24,13 +24,13 @@ export const DataLevels: Array<MapLayerGroup> = [
         'zoom': [6, 8]
     },
     {
-        'id': 'zipcodes',
+        'id': 'zip-codes',
         'name': 'Zip Codes',
         'layerIds': [
-            'zipcodes',
-            'zipcodes_stroke',
-            'zipcodes_bubbles',
-            'zipcodes_text'
+            'zip-codes',
+            'zip-codes_stroke',
+            'zip-codes_bubbles',
+            'zip-codes_text'
         ],
         'zoom': [9, 10]
     },
@@ -56,13 +56,13 @@ export const DataLevels: Array<MapLayerGroup> = [
         'zoom': [8, 9]
     },
     {
-       'id': 'blockgroups',
+       'id': 'block-groups',
        'name': 'Block Groups',
        'layerIds': [
-          'blockgroups',
-          'blockgroups_stroke',
-          'blockgroups_bubbles',
-          'blockgroups_text'
+          'block-groups',
+          'block-groups_stroke',
+          'block-groups_bubbles',
+          'block-groups_text'
        ],
        'zoom': [ 10, 16 ]
     }
