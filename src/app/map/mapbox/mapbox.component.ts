@@ -67,8 +67,8 @@ export class MapboxComponent implements AfterViewInit {
       const feature = e.features[0];
       if (
         !this.activeFeature ||
-        this.activeFeature.properties.name !== feature.properties.name ||
-        this.activeFeature.properties['parent-location'] !== feature.properties['parent-location']
+        this.activeFeature.properties.n !== feature.properties.n ||
+        this.activeFeature.properties.pl !== feature.properties.pl
       ) {
         this.activeFeature = feature;
         this.hoverChanged.emit(this.activeFeature);
