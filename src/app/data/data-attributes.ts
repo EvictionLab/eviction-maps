@@ -11,12 +11,12 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [50000, 'rgba(137, 140, 206, 0.8)'],
                 [100000, 'rgba(64, 71, 124, 0.9)']
             ],
-            'blockgroups': [
+            'block-groups': [
                 [0, 'rgba(238, 226, 239, 0.7)'],
                 [2500, 'rgba(137, 140, 206, 0.8)'],
                 [5000, 'rgba(64, 71, 124, 0.9)']
             ],
-            'zipcodes': [
+            'zip-codes': [
                 [0, 'rgba(238, 226, 239, 0.7)'],
                 [5000, 'rgba(137, 140, 206, 0.8)'],
                 [10000, 'rgba(64, 71, 124, 0.9)']
