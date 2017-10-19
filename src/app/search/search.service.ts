@@ -106,9 +106,9 @@ export class SearchService {
 
       return Observable.forkJoin(tileRequests)
         .map((features: any[]) => {
-          let feat = {};
-          for (let i = 0; i < this.tilesetYears.length; ++i) {
-            feat = { ...feat, ...features[i]};
+          const feat = features[0];
+          for (let i = 1; i < this.tilesetYears.length; ++i) {
+            feat['properties'] = { ...feat['properties'], ...features[i]['properties']};
           }
           return feat as MapFeature;
         });
