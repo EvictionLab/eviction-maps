@@ -2329,7 +2329,7 @@
           ]
         },
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -2608,7 +2608,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -2816,7 +2816,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3103,7 +3103,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3303,7 +3303,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3793,7 +3793,7 @@
         "circle-stroke-width": 2,
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
