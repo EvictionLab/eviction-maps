@@ -182,6 +182,9 @@ export class MapComponent {
     }
   }
 
+  enableZoom() { return this.map.enableZoom(); }
+  disableZoom() { return this.map.disableZoom(); }
+
   /**
    * Emits the new bounds of the current map view anytime the map finishes moving
    * @param e the moveend event

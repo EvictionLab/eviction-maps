@@ -23,6 +23,8 @@ export class MapService {
   setLayerFilter(...args: any[]) { return this.map.setFilter.apply(this.map, arguments); }
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setzoom
   setZoomLevel(...args: any[]) { return this.map.setZoom.apply(this.map, arguments); }
+  enableZoom() { return (this.map ? this.map.scrollZoom.enable() : null); }
+  disableZoom() { return (this.map ? this.map.scrollZoom.disable() : null); }
 
   /**
    * Create new Mapbox GL map from options object

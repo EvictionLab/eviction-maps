@@ -1,0 +1,36 @@
+
+@import '../../theme';
+
+.location-card {
+    pointer-events:all;
+    background: $cardBg;
+    box-shadow: $z1shadow;
+    position:relative;
+    z-index:20;
+    &:nth-child(2) { z-index: 19; }
+    &:nth-child(3) { z-index: 18; }
+    &:nth-child(4) { z-index: 17; }
+    .card-header {
+        position:relative;
+        padding: $defaultPadding;
+        color: $cardHeaderText;
+        background: $cardHeaderBg1;
+        padding-right: 48px;
+        h1 { font-size: $cardHeaderTextSize; margin:0; }
+        small { display: block; color: $cardHeaderText; margin: 4px 0 0 0;}
+        .btn { position:absolute; top: 8px; right: 8px; background: none; color: $cardHeaderText; }
+    }
+    &:nth-child(2) .card-header { background: $cardHeaderBg2; }
+    &:nth-child(3) .card-header { background: $cardHeaderBg3; }
+    &:nth-child(4) .card-header { background: $cardHeaderBg4; }
+    .card-content {
+        padding: $defaultPadding;
+        .card-stats { margin:0; padding:0; list-style:none; }
+        .card-stats li { margin-bottom: 4px; }
+        .card-stat-label { display:block; font-size: $cardLabelTextSize; color: $cardLabelText; }
+        .card-stat-value { font-size: $cardValueTextSize; }
+    }
+    .card-footer {
+        .btn { width:100%; border-radius:0;}
+    }
+}

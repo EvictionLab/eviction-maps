@@ -8,6 +8,14 @@
 @import "theme/predictive-search.theme";
 @import "theme/progress-bar.theme";
 
+// Defaults
+
+$maxContentWidth: 1024px;
+$defaultPadding: 16px;
+$z1shadow: 0 1px 3px rgba(0,0,0,0.25);
+$z2shadow: 0 2px 5px rgba(0,0,0,0.5);
+$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+
 // Typography
 $fontStack: Roboto, sans-serif;
 
@@ -57,15 +65,22 @@ $selectCaret: $color1;
 
 app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
 
-
 // Colors - progress bar
 $progressBarColor: $color1;
 
 app-progress-bar { @include progress-bar-colors($progressBarColor); }
 
-// Sizing
-$maxContentWidth: 1024px;
-$defaultPadding: 16px;
+// Cards
+$cardBg: #fff;
+$cardHeaderBg1: $color1;
+$cardHeaderBg2: $color2;
+$cardHeaderBg3: $color3;
+$cardHeaderBg4: $color4;
+$cardHeaderText: $altTextColor;
+$cardHeaderTextSize: 16px;
+$cardLabelText: $secondaryTextColor;
+$cardLabelTextSize: 11px;
+$cardValueTextSize: 21px;
 
 // Sizing - toolbar
 $toolbarHeight: 56px;
