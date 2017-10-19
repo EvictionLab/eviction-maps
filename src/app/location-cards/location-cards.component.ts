@@ -9,14 +9,16 @@ export class LocationCardsComponent implements OnInit {
 
   @Input() features: Array<any>;
   @Input() year = 2010;
+  @Input() cardProperties = {'e': 'Evictions', 'er': 'Eviction Rate', 'pr': 'Poverty Rate' };
   @Output() viewMore = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
-  cardProperties = [ 'evictions', 'eviction-rate', 'poverty-rate' ];
-  propertyLabels = [ 'Evictions', 'Eviction Rate', 'Poverty Rate' ];
+  cardPropertyKeys: Array<string>;
+  get abbrYear() { return this.year.toString().slice(-2); }
 
   constructor() { }
 
   ngOnInit() {
+    this.cardPropertyKeys = Object.keys(this.cardProperties);
   }
 
 }

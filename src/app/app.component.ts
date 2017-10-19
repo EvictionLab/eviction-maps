@@ -1,5 +1,5 @@
 import { Component, ViewChild, Inject, HostListener } from '@angular/core';
-import { DOCUMENT} from '@angular/common';
+import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import * as bbox from '@turf/bbox';

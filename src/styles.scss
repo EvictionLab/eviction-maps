@@ -12,3 +12,12 @@ html, body {
   height:100%;
   font-family: $fontStack!important;
 }
+
+
+.btn.btn-close { 
+  font-size: 24px; 
+  width:40px;
+  height:40px;
+  background:none;
+  line-height:1;
+}

@@ -49,16 +49,21 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### Methods
 
+    - enableZoom(): enables scroll to zoom on map
+    - disableZoom(): disables scroll to zoom on map
+
 
 ## `app-location-cards`
 
 ### Inputs
 
     - features: an array of features to display cards form
+    - year: the year to display data for in the card
+    - cardProperties: an object containing the property names to show, and the corresponding label.  e.g. `{ 'e': 'Eviction Rate' }`
 
 ### Outputs
 
-    - viewMoreClick: emits when the "Show More" button is clicked
+    - viewMore: emits when the "View More" button is clicked
     - dismissCard: emits the feature when the close button is clicked
 
 
@@ -66,12 +71,13 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### Inputs
 
-    - features
+    - locations: an array of features representing different locations
+    - year: the year to display data for
     
 ### Outputs
 
-    - locationAdded
-    - locationRemoved
+    - locationAdded: TODO
+    - locationRemoved: emits the feature that remove was triggered for
 
 # UI Components 
 
@@ -89,4 +95,3 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## `app-predictive-search`
 
-## `app-ui-card`

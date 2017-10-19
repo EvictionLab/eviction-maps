@@ -1,10 +1,12 @@
 import { TestBed, async } from '@angular/core/testing';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { PlatformService } from './platform.service';
+import { LocationCardsComponent } from './location-cards/location-cards.component';
+
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -15,12 +17,12 @@ describe('AppComponent', () => {
       imports: [
         MapUiModule,
         MapModule,
-        DataPanelModule
+        DataPanelModule,
+        Ng2PageScrollModule
       ],
       declarations: [
-        AppComponent
-      ],
-      providers: [ PlatformService ]
+        AppComponent, LocationCardsComponent
+      ]
     }).compileComponents();
   }));
 
