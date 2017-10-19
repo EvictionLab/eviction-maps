@@ -46,7 +46,7 @@ export class DataPanelComponent implements OnChanges {
         id: 'usavg',
         data: [{
           x: 'US Average',
-          y: this.locations[0].properties[`e-${this.year % 100}`] * Math.random() * 2
+          y: this.locations[0].properties[`e-${('' + this.year).slice(2)}`] * Math.random() * 2
         }]
       }
     ];
@@ -72,7 +72,7 @@ export class DataPanelComponent implements OnChanges {
       data.push(
         {
           id: 'sample' + i,
-          data: [ { x: f.properties.n, y: f.properties[`e-${this.year % 100}`] }]
+          data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
         }
       );
     });
