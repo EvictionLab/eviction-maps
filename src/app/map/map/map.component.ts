@@ -85,6 +85,7 @@ export class MapComponent {
   setDataHighlight(attr: MapDataAttribute) {
     const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeDataHighlight = dataAttr;
+    console.log(this.activeDataHighlight);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
       const layerStem = layerId.split('-')[0];
@@ -117,7 +118,9 @@ export class MapComponent {
     this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
     this.setGroupVisibility(this.activeDataLevel);
     this.mapEventLayers.forEach((layer) => {
-      this.map.setLayerDataProperty(`${layer}_bubbles`, 'circle-radius', `eviction-rate-${year}`);
+      this.map.setLayerDataProperty(
+        `${layer}_bubbles`, 'circle-radius', `er-${('' + year).slice(2)}`
+      );
     });
     this.updateLegend();
   }
@@ -233,10 +236,10 @@ export class MapComponent {
    * @param year
    */
   private addYearToObject(dataObject: MapDataObject, year: number) {
-    if (/.*\d{4}.*/g.test(dataObject.id)) {
-      dataObject.id = dataObject.id.replace(/\d{4}/g, year + '');
+    if (/.*\d{2}.*/g.test(dataObject.id)) {
+      dataObject.id = dataObject.id.replace(/\d{2}/g, ('' + year).slice(2));
     } else {
-      dataObject.id += '-' + year;
+      dataObject.id += '-' + ('' + year).slice(2);
     }
     return dataObject;
   }

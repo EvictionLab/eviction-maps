@@ -11,42 +11,42 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-block-groups/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-zip-codes/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-tracts/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-cities/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-counties/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fake/evictions-states/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
@@ -1455,7 +1455,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1481,7 +1501,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              3,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1507,7 +1547,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -1533,7 +1593,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              3,
+              0.5
+            ],
+            [
+              4,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2200,7 +2280,27 @@
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
-        "line-opacity": 1
+        "line-opacity": {
+          "default": 0,
+          "stops": [
+            [
+              0,
+              0
+            ],
+            [
+              5,
+              0
+            ],
+            [
+              7,
+              0
+            ],
+            [
+              9,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2229,7 +2329,7 @@
           ]
         },
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -2453,7 +2553,7 @@
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-font": [
           "Metropolis Regular",
           ""
@@ -2508,7 +2608,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -2662,7 +2762,7 @@
       "source-layer": "tracts-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
@@ -2716,7 +2816,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -2940,7 +3040,7 @@
       "source-layer": "counties-centers",
       "minzoom": 7,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-anchor": "center",
@@ -3003,7 +3103,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3128,7 +3228,7 @@
       "source": "us-states",
       "source-layer": "states-centers",
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-size": {
           "stops": [
             [
@@ -3203,7 +3303,7 @@
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-stroke-width": 2,
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3610,7 +3710,7 @@
             ]
           ]
         },
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-letter-spacing": 0.07
       },
       "paint": {
@@ -3693,7 +3793,7 @@
         "circle-stroke-width": 2,
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
         "circle-radius": {
-          "property": "eviction-rate-2010",
+          "property": "er-10",
           "default": 0,
           "stops": [
             [
@@ -3847,7 +3947,7 @@
       "source-layer": "zip-codes-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [

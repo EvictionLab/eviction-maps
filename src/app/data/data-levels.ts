@@ -10,7 +10,7 @@ export const DataLevels: Array<MapLayerGroup> = [
             'states_bubbles',
             'states_text'
         ],
-        'zoom': [0, 5]
+        'zoom': [0, 6]
     },
     {
         'id': 'counties',
@@ -21,7 +21,7 @@ export const DataLevels: Array<MapLayerGroup> = [
             'counties_bubbles',
             'counties_text'
         ],
-        'zoom': [5, 8]
+        'zoom': [6, 8]
     },
     {
         'id': 'zipcodes',

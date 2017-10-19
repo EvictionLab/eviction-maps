@@ -2,7 +2,7 @@ import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {
-        'id': 'population',
+        'id': 'p',
         'name': 'Population',
         'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
@@ -44,7 +44,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
         }
     },
     {
-        'id': 'poverty-rate',
+        'id': 'pr',
         'name': 'Poverty Rate',
         'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {

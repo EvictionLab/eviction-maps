@@ -118,8 +118,8 @@ export class MapService {
       layers: [layerId],
       filter: [
         'all',
-        ['==', 'name', feature.properties.name],
-        ['==', 'parent-location', feature.properties['parent-location']]
+        ['==', 'n', feature.properties.n],
+        ['==', 'pl', feature.properties.pl]
       ]
     }).reduce((currFeat, nextFeat) => {
       return union(
@@ -173,7 +173,7 @@ export class MapService {
    */
   queryMapLayer(layerGroup: MapLayerGroup) {
     return Observable.from(this.map.queryRenderedFeatures(undefined, {layers: [layerGroup.id]}))
-      .distinct((f: MapFeature) => f.properties.name);
+      .distinct((f: MapFeature) => f.properties.n);
   }
 
   /**
