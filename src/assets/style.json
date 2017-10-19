@@ -2553,7 +2553,7 @@
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-font": [
           "Metropolis Regular",
           ""
@@ -2762,7 +2762,7 @@
       "source-layer": "tracts-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
@@ -3040,7 +3040,7 @@
       "source-layer": "counties-centers",
       "minzoom": 7,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-anchor": "center",
@@ -3228,7 +3228,7 @@
       "source": "us-states",
       "source-layer": "states-centers",
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-size": {
           "stops": [
             [
@@ -3710,7 +3710,7 @@
             ]
           ]
         },
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-letter-spacing": 0.07
       },
       "paint": {
@@ -3947,7 +3947,7 @@
       "source-layer": "zip-codes-centers",
       "minzoom": 8,
       "layout": {
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
