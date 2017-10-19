@@ -4,18 +4,16 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { DataPanelModule } from './data-panel/data-panel.module';
 import { PlatformService } from './platform.service';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [ AppComponent ],
   imports: [
     MapUiModule,
+    DataPanelModule,
     BrowserModule,
-    MapModule,
-    BsDropdownModule.forRoot()
+    MapModule
   ],
   providers: [ PlatformService ],
   bootstrap: [ AppComponent ]

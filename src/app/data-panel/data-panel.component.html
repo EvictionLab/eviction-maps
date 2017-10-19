@@ -1,0 +1,15 @@
+<div class="data-wrapper">
+  <div class="data-content">
+      <div class="data-content-inner">
+          <ul>
+            <li *ngFor="let location of locations">
+              {{ location.properties["n"] }}
+              <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
+            </li>
+          </ul>
+          <app-ui-toggle [values]="[ 'Line', 'Bar' ]"></app-ui-toggle>
+          <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
+          <button class="btn btn-primary" (click)="showFileDialog($event)">Download File</button>
+      </div>
+  </div>
+</div>

@@ -1,24 +1,77 @@
+// Import theming mixins
+@import "theme/utils.scss";
+@import "theme/ui-slider.theme";
+@import "theme/ui-graph.theme";
+@import "theme/ui-toggle.theme";
+@import "theme/ui-select.theme";
+@import "theme/ui-dialog.theme";
+@import "theme/predictive-search.theme";
+@import "theme/progress-bar.theme";
+
+// Typography
+$fontStack: Roboto, sans-serif;
+
+// Colors
+$textColor: #000;
+$secondaryTextColor: rgba(0,0,0,0.5);
+$altTextColor: #fff; // for dark backgrounds
+
+$color1: #e24000;
+$color2: #35afa1;
+$color3: #434878;
+$color4: #4a4238;
+$color5: #b5c2b7;
+
+// Colors - graph
+$graphColor1: rgb(63,178,167);
+$graphColor2: rgb(125,130,187);
+$graphColor3: rgb(232,182,69);
+$graphColor4: rgb(55,62,74);
+
+app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
+
+// Colors - toggles
+$toggleBorderColor: $color1;
+$toggleForeground: $textColor;
+$toggleBackground: #fff;
+$toggleSelectedBackground: $color1;
+$toggleSelectedForeground: $altTextColor;
+$toggleHoverBackground: #eee;
+
+app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
+
+// Colors - slider
+$sliderText: $altTextColor;
+$sliderBackground: $color1;
+$sliderTrack: rgba(0,0,0,0.2);
+
+app-ui-slider { @include slider-colors($sliderText, $sliderBackground, $sliderTrack); }
+
+// Colors - select
+$selectText: $textColor;
+$selectLabelText: $secondaryTextColor;
+$selectBackground: #fff;
+$selectHighlightText: $textColor;
+$selectHighlightBackground: #eee;
+$selectCaret: $color1;
+
+app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
+
+
+// Colors - progress bar
+$progressBarColor: $color1;
+
+app-progress-bar { @include progress-bar-colors($progressBarColor); }
+
+// Sizing
 $maxContentWidth: 1024px;
 $defaultPadding: 16px;
-$fontStack: Roboto, sans-serif;
-$primaryColor: rgb(224,64,0);
 
-// App Toolbar
+// Sizing - toolbar
 $toolbarHeight: 56px;
 
-// Tooltip Header Row
+// Sizing - panel header
 $headerRowHeight: 72px;
-
-// Mixins
-
-@mixin fill-parent() {
-    position:absolute;
-    width:100%;
-    height:100%;
-    top:0;left:0;right:0;bottom:0;
-    margin:0;
-    padding:0;
-}
 
 
 // TODO: 

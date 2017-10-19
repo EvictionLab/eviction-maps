@@ -4,4 +4,26 @@
   position:absolute;
   left:0;right:0;top:0;bottom:0;
 }
-  
+
+
+.mapboxgl-map {
+  width:100%;
+  height:100%;
+  position:absolute;
+  left:0;right:0;top:0;bottom:0;
+}
+
+// Hide rotate button because it's confusing
+:host ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
+  display: none;
+}
+
+:host ::ng-deep .mapboxgl-ctrl-top-left {
+  top: 50px;
+}
+
+@media(max-width: 768px) {
+    :host ::ng-deep .mapboxgl-ctrl-top-left {
+        top: 175px;
+    }
+}

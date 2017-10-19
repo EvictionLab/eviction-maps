@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
+import * as union from '@turf/union';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
-  map: mapboxgl.Map;
+  private map: mapboxgl.Map;
+  private _isLoading = new BehaviorSubject<boolean>(true);
+  isLoading$ = this._isLoading.asObservable();
 
   constructor() { }
+
+  /** Expose any MapboxGL API functions that are needed  */
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
+  setLayerStyle(...args: any[]) { return this.map.setPaintProperty.apply(this.map, arguments); }
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setfilter
+  setLayerFilter(...args: any[]) { return this.map.setFilter.apply(this.map, arguments); }
+  // https://www.mapbox.com/mapbox-gl-js/api/#map#setzoom
+  setZoomLevel(...args: any[]) { return this.map.setZoom.apply(this.map, arguments); }
 
   /**
    * Create new Mapbox GL map from options object
@@ -21,6 +33,10 @@ export class MapService {
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
     return map;
+  }
+
+  setLoading(state: boolean) {
+    this._isLoading.next(state);
   }
 
   /**
@@ -53,16 +69,6 @@ export class MapService {
   }
 
   /**
-   * Update a style property for a layer
-   * @param layerId id of the layer to change
-   * @param styleProperty the paint style property to change (e.g. "fill-color")
-   * @param newStyle the new property style (e.g. "#000000")
-   */
-  setLayerStyle(layerId: string, styleProperty: string, newStyle: any) {
-    this.map.setPaintProperty(layerId, styleProperty, newStyle);
-  }
-
-  /**
    * Update the layer styles of the layers within a group
    * @param layerGroup the layer group
    * @param styleProperty the paint style property to change (e.g. "fill-color")
@@ -74,16 +80,72 @@ export class MapService {
     });
   }
 
-  setLayerFilter(layerId, filter) {
-    this.map.setFilter(layerId, filter);
+  /**
+   * Update only the data property referenced in a map style
+   * @param layerId
+   * @param styleProperty
+   * @param dataProperty
+   */
+  setLayerDataProperty(layerId: string, styleProperty: string, property: string) {
+    /*
+      FIXME: For some reason this isn't updating the actual map layer, even though
+      printing the style to the console shows it updated the property. I've tried to
+      actually change the stops layer as well, but it hasn't fixed it. Not sure if it's
+      related to this issue https://github.com/mapbox/mapbox-gl-js/issues/5370
+    */
+    const layerProperty = this.map.getPaintProperty(layerId, styleProperty);
+    const mapStyle = this.map.getStyle();
+    mapStyle['layers'].forEach(l => {
+      if (l['id'] === layerId) {
+        l['paint'][styleProperty]['property'] = property;
+      }
+    });
+    this.map.setStyle(mapStyle);
   }
 
   /**
-   * Updates the map zoom level
-   * @param newZoom new zoom value for map
+   * Queries a layer for all features matching the name and parent-location of
+   * a supplied feature, returns a GeoJSON feature combining the geographies of
+   * all matching features. Used to consolidate GeoJSON features split by tiling
+   *
+   * @param layerId ID of vector tile layer to query
+   * @param feature feature with attributes to query
    */
-  setZoomLevel(newZoom: number) {
-    this.map.zoomTo(+newZoom);
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
+    return this.map.queryRenderedFeatures(undefined, {
+      layers: [layerId],
+      filter: [
+        'all',
+        ['==', 'n', feature.properties.n],
+        ['==', 'pl', feature.properties.pl]
+      ]
+    }).reduce((currFeat, nextFeat) => {
+      return union(
+        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+      );
+    }, feature) as GeoJSON.Feature<GeoJSON.Polygon>;
+  }
+
+  /**
+   * Gets the bounds of the current map view and returns an array
+   */
+  getBoundsArray() {
+    return this.map.getBounds().toArray();
+  }
+
+  /**
+   * Set the data of a GeoJSON layer source, or empty the data if no
+   * feature supplied
+   * @param sourceId ID of GeoJSON source to modify
+   * @param feature MapFeature object
+   */
+  setSourceData(sourceId: string, feature?: MapFeature) {
+    const features = feature ? [feature] : [];
+    (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
+      'type': 'FeatureCollection',
+      'features': features
+    });
   }
 
   /**
@@ -109,7 +171,7 @@ export class MapService {
    */
   queryMapLayer(layerGroup: MapLayerGroup) {
     return Observable.from(this.map.queryRenderedFeatures(undefined, {layers: [layerGroup.id]}))
-      .distinct((f: MapFeature) => f.properties.name);
+      .distinct((f: MapFeature) => f.properties.n);
   }
 
   /**
@@ -118,31 +180,17 @@ export class MapService {
    */
   zoomToFeature(feature: any) {
     const featureBbox = bbox(feature);
-    this.map.fitBounds([
-      [featureBbox[0], featureBbox[1]],
-      [featureBbox[2], featureBbox[3]]
-    ]);
+    this.zoomToBoundingBox(featureBbox);
   }
 
   /**
-   * Adds a popup on the map in the clicked area
-   * TODO: make generic function for popups / tooltips
-   * @param e The mapbox click event
+   * Zoom to supplied bounding box
+   * @param box An array of 4 numbers representing the bounding box
    */
-  addPopup(e) {
-    new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(`<h1>${e.features[0].properties.name}</h1>
-          <ul>
-            <li>Population: ${e.features[0].properties['population']} </li>
-            <li>Average Household Size: ${e.features[0].properties['average-household-size']} </li>
-            <li>Rented Households: ${e.features[0].properties['renting-occupied-households']} </li>
-            <li>Poverty Rate: ${e.features[0].properties['poverty-rate']} </li>
-            <li>Evictions: ${e.features[0].properties['evictions']} </li>
-            <li>Eviction Rate: ${e.features[0].properties['eviction-rate']} </li>
-          </ul>
-        `)
-        .addTo(this.map);
+  zoomToBoundingBox(box: Array<number>) {
+    this.map.fitBounds([
+      [box[0], box[1]],
+      [box[2], box[3]]
+    ]);
   }
-
 }
