@@ -1,0 +1,17 @@
+<div *ngFor="let f of features" class="location-card">
+  <div class="card-header">
+    <h1>{{f.properties.name}} <small>{{f.properties['parent-location']}}</small> </h1>
+    <button class="btn btn-close" (click)="dismissedCard.emit(f)">&times;</button>
+  </div>
+  <div class="card-content">
+    <ul class="card-stats">
+      <li *ngFor="let propName of cardProperties; let i = index;">
+        <span class="card-stat-label">{{ propertyLabels[i] }}</span>
+        <span class="card-stat-value">{{ f.properties[propName + '-' + year] }}</span>
+      </li>
+    </ul>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary" (click)="viewMore.emit(f)">View More</button>
+  </div>
+</div>

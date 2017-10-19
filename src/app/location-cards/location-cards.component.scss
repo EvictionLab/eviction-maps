@@ -1,0 +1,24 @@
+.location-card {
+    pointer-events:all;
+    background:#fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    .card-header {
+        position:relative;
+        padding:16px;
+        color:#fff;
+        background: #333;
+        h1 { font-size: 16px; margin:0; }
+        small { display: block; color:#fff; margin: 4px 0 0 0;}
+        .btn { position:absolute; top: 8px; right: 8px; background: none; font-size: 24px; }
+    }
+    .card-content {
+        padding: 16px;
+        .card-stats { margin:0; padding:0; list-style:none; }
+        .card-stats li { margin-bottom: 4px; }
+        .card-stat-label { font-size:11px; display:block; color: #999; }
+        .card-stat-value { font-size:21px; }
+    }
+    .card-footer {
+        .btn { width:100%; border-radius:0;}
+    }
+}
