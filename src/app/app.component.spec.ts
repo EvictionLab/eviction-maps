@@ -2,9 +2,11 @@ import { TestBed, async } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
+import { HttpModule } from '@angular/http';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { MapUiModule } from './map-ui/map-ui.module';
 import { PlatformService } from './platform.service';
+import { SearchService } from './search/search.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -15,12 +17,13 @@ describe('AppComponent', () => {
       imports: [
         MapUiModule,
         MapModule,
-        DataPanelModule
+        DataPanelModule,
+        HttpModule
       ],
       declarations: [
         AppComponent
       ],
-      providers: [ PlatformService ]
+      providers: [ PlatformService, SearchService ]
     }).compileComponents();
   }));
 
