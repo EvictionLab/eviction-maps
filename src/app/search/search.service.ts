@@ -77,7 +77,7 @@ export class SearchService {
       geometry: { type: 'Point', coordinates: lonLat },
       properties: {}
     } as GeoJSON.Feature<GeoJSON.Point>;
-    const xyzCoords = this.mercator.xyz([lonLat[0], lonLat[1], lonLat[0], lonLat[1]]);
+    const xyzCoords = this.mercator.xyz([lonLat[0], lonLat[1], lonLat[0], lonLat[1]], 10);
     const coords = { x: xyzCoords.maxX, y: xyzCoords.maxY };
 
     // Defining function block to retain scope

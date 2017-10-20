@@ -7,46 +7,130 @@
       "type": "vector",
       "url": "https://free.tilehosting.com/data/v3.json?key=JgNOMnZWmIN2iBSFGgsi"
     },
-    "us-block-groups": {
+    "us-block-groups-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-90/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-zip-codes": {
+    "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-tracts": {
+    "us-block-groups-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-cities": {
+    "us-zip-codes-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-counties": {
+    "us-zip-codes-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-states": {
+    "us-zip-codes-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-10/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
@@ -1435,7 +1519,7 @@
     {
       "id": "block-groups",
       "type": "fill",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
@@ -1447,7 +1531,7 @@
     {
       "id": "block-groups_stroke",
       "type": "line",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
@@ -1481,7 +1565,7 @@
     {
       "id": "zip-codes",
       "type": "fill",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
@@ -1493,7 +1577,7 @@
     {
       "id": "zip-codes_stroke",
       "type": "line",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
@@ -1527,7 +1611,7 @@
     {
       "id": "tracts",
       "type": "fill",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
@@ -1539,7 +1623,7 @@
     {
       "id": "tracts_stroke",
       "type": "line",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
@@ -1573,7 +1657,7 @@
     {
       "id": "counties",
       "type": "fill",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
@@ -1585,7 +1669,7 @@
     {
       "id": "counties_stroke",
       "type": "line",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
@@ -1619,7 +1703,7 @@
     {
       "id": "states",
       "type": "fill",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states",
       "layout": {
         "visibility": "none"
@@ -1631,7 +1715,7 @@
     {
       "id": "states_stroke",
       "type": "line",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states",
       "layout": {
         "visibility": "none"
@@ -2260,7 +2344,7 @@
     {
       "id": "cities",
       "type": "fill",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
@@ -2272,7 +2356,7 @@
     {
       "id": "cities_stroke",
       "type": "line",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
@@ -2306,7 +2390,7 @@
     {
       "id": "block-groups_bubbles",
       "type": "circle",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
@@ -2549,7 +2633,7 @@
     {
       "id": "block-groups_text",
       "type": "symbol",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
@@ -2585,7 +2669,7 @@
     {
       "id": "tracts_bubbles",
       "type": "circle",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts-centers",
       "minzoom": 5,
       "layout": {
@@ -2758,7 +2842,7 @@
     {
       "id": "tracts_text",
       "type": "symbol",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts-centers",
       "minzoom": 8,
       "layout": {
@@ -2794,7 +2878,7 @@
     {
       "id": "counties_bubbles",
       "type": "circle",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties-centers",
       "layout": {
         "visibility": "none"
@@ -3036,7 +3120,7 @@
     {
       "id": "counties_text",
       "type": "symbol",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties-centers",
       "minzoom": 7,
       "layout": {
@@ -3081,7 +3165,7 @@
     {
       "id": "states_bubbles",
       "type": "circle",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states-centers",
       "layout": {
         "visibility": "none"
@@ -3225,7 +3309,7 @@
     {
       "id": "states_text",
       "type": "symbol",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states-centers",
       "layout": {
         "text-field": "{n}",
@@ -3281,7 +3365,7 @@
     {
       "id": "cities_bubbles",
       "type": "circle",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities-centers",
       "layout": {
         "visibility": "none"
@@ -3665,7 +3749,7 @@
     {
       "id": "cities_text",
       "type": "symbol",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities-centers",
       "minzoom": 9,
       "layout": {
@@ -3770,7 +3854,7 @@
     {
       "id": "zip-codes_bubbles",
       "type": "circle",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes-centers",
       "minzoom": 6,
       "layout": {
@@ -3943,7 +4027,7 @@
     {
       "id": "zip-codes_text",
       "type": "symbol",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes-centers",
       "minzoom": 8,
       "layout": {
@@ -3979,7 +4063,7 @@
     {
       "id": "united-states",
       "type": "line",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "country",
       "paint": {
         "line-width": 10,

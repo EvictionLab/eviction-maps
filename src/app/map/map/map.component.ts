@@ -37,6 +37,7 @@ export class MapComponent {
   @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
   zoom: number;
   dataYear = 2010;
+  censusYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
   mapFeatures: Observable<Object>;
@@ -94,7 +95,6 @@ export class MapComponent {
   setDataHighlight(attr: MapDataAttribute) {
     const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeDataHighlight = dataAttr;
-    console.log(this.activeDataHighlight);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
       const layerStem = layerId.split('-')[0];
@@ -124,6 +124,14 @@ export class MapComponent {
   setDataYear(year: number) {
     this.yearChange.emit(year);
     this.dataYear = year;
+
+    // Get census year, check if changed, update sources only if it did
+    const censusYear = this.yearToCensusYear(year);
+    if (this.censusYear !== censusYear) {
+      this.censusYear = censusYear;
+      this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
+    }
+
     this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
     this.setGroupVisibility(this.activeDataLevel);
     this.mapEventLayers.forEach((layer) => {
@@ -248,5 +256,13 @@ export class MapComponent {
       dataObject.id += '-' + ('' + year).slice(2);
     }
     return dataObject;
+  }
+
+  /**
+   * Convert any year to the nearest decennial census year
+   * @param year
+   */
+  private yearToCensusYear(year: number) {
+    return Math.floor(year / 10) * 10;
   }
 }

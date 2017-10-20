@@ -72,9 +72,7 @@ export class AppComponent {
             console.log('could not find feature');
           }
           this.map.setDataLevelFromLayer(layerId);
-          // TODO: Bounds returned are a bit odd, maybe have designated zoom levels
-          // by layer and center at that zoom instead?
-          this.mapBounds = data.properties['bbox'];
+          this.mapBounds = feature['bbox'];
         });
     }
   }
