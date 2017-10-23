@@ -65,7 +65,7 @@ export class DataPanelComponent implements OnChanges {
       data.push(
         {
           id: 'sample' + i,
-          data: this.generateLineData()
+          data: this.generateLineData(f)
           // data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
         }
       );
@@ -86,11 +86,11 @@ export class DataPanelComponent implements OnChanges {
     return data;
   }
 
-  private generateLineData() {
+  private generateLineData(feature) {
     const data = [];
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < 7; i++) {
       data.push(
-        {x: 2000 + i, y: 1 + Math.random() * 100 }
+        {x: 2010 + i, y: feature.properties[`e-${10 + i}`] }
       );
     }
     return data;

@@ -101,7 +101,7 @@ export class AppComponent {
   }
 
   @HostListener('wheel', ['$event'])
-  @Debounce(250)
+  @Debounce(400)
   onwheel(e) {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = window.pageYOffset ||
