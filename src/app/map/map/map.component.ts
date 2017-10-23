@@ -44,9 +44,9 @@ export class MapComponent {
   activeDataHighlight: MapDataAttribute;
   mapConfig = {
     style: './assets/style.json',
-    center: [-98.5556199, 39.8097343],
-    zoom: 3,
-    minZoom: 3,
+    center: [-81.32, 32.62],
+    zoom: 5.9,
+    minZoom: 5,
     maxZoom: 14
   };
   legend;
