@@ -90,20 +90,24 @@ export class AppComponent {
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
     this.verticalOffset = window.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop || 0;
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
     if (this.verticalOffset !== 0) {
       this.map.disableZoom();
     }
-    if (this.enableZoom && this.verticalOffset === 0) {
+    if (this.verticalOffset === 0) {
       this.map.enableZoom();
-      this.enableZoom = false;
     }
   }
 
   @HostListener('wheel', ['$event'])
   @Debounce(250)
   onwheel(e) {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop || 0;
+    }
     if (this.verticalOffset === 0) {
       this.map.enableZoom();
     } else {
