@@ -12,7 +12,7 @@ export class DataPanelComponent implements OnChanges {
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   graphData;
-  graphType = 'bar';
+  graphType = 'line';
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
     margin: { left: 60 }
@@ -24,6 +24,11 @@ export class DataPanelComponent implements OnChanges {
     if (changes.locations) {
       this.setGraphData();
     }
+  }
+
+  changeGraphType(newType: string) {
+    this.graphType = newType.toLowerCase();
+    this.setGraphData();
   }
 
   showFileDialog(e) {
@@ -39,34 +44,36 @@ export class DataPanelComponent implements OnChanges {
     });
   }
 
-  getGraphData() {
-    return [
-      ...this.createLocationGraphData(),
-      {
-        id: 'usavg',
-        data: [{
-          x: 'US Average',
-          y: this.locations[0].properties[`e-${('' + this.year).slice(2)}`] * Math.random() * 2
-        }]
-      }
-    ];
-  }
-
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
         axis: { x: { label: 'Year' }, y: { label: 'Evictions' } }
       };
+      this.graphData = [ ...this.createLineGraphData() ];
       // TODO: generate line graph data here
     } else {
       this.graphSettings = {
         axis: { x: { label: null }, y: { label: 'Evictions' } }
       };
-      this.graphData = this.getGraphData();
+      this.graphData = [ ...this.createBarGraphData() ];
     }
   }
 
-  private createLocationGraphData() {
+  private createLineGraphData() {
+    const data = [];
+    this.locations.forEach((f, i) => {
+      data.push(
+        {
+          id: 'sample' + i,
+          data: this.generateLineData()
+          // data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
+        }
+      );
+    });
+    return data;
+  }
+
+  private createBarGraphData() {
     const data = [];
     this.locations.forEach((f, i) => {
       data.push(
@@ -76,6 +83,16 @@ export class DataPanelComponent implements OnChanges {
         }
       );
     });
+    return data;
+  }
+
+  private generateLineData() {
+    const data = [];
+    for (let i = 0; i < 15; i++) {
+      data.push(
+        {x: 2000 + i, y: 1 + Math.random() * 100 }
+      );
+    }
     return data;
   }
 

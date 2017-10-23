@@ -7,6 +7,7 @@
     box-shadow: $z1shadow;
     position:relative;
     z-index:20;
+    margin-right: 8px;
     &:nth-child(2) { z-index: 19; }
     &:nth-child(3) { z-index: 18; }
     &:nth-child(4) { z-index: 17; }
@@ -18,7 +19,7 @@
         padding-right: 48px;
         h1 { font-size: $cardHeaderTextSize; margin:0; }
         small { display: block; color: $cardHeaderText; margin: 4px 0 0 0;}
-        .btn { position:absolute; top: 8px; right: 8px; background: none; color: $cardHeaderText; }
+        .btn { position:absolute; top: 6px; right: 0px; background: none; color: $cardHeaderText; }
     }
     &:nth-child(2) .card-header { background: $cardHeaderBg2; }
     &:nth-child(3) .card-header { background: $cardHeaderBg3; }
@@ -26,11 +27,24 @@
     .card-content {
         padding: $defaultPadding;
         .card-stats { margin:0; padding:0; list-style:none; }
-        .card-stats li { margin-bottom: 4px; }
-        .card-stat-label { display:block; font-size: $cardLabelTextSize; color: $cardLabelText; }
-        .card-stat-value { font-size: $cardValueTextSize; }
+        .card-stats li { margin-bottom: 8px; }
+        .card-stats li:last-child { margin-bottom: 0;}
+        .card-stat-label { display:block; font-weight:500; text-transform: uppercase; font-size: $cardLabelTextSize; color: $cardLabelText; }
+        .card-stat-value { font-size: $cardValueTextSize; font-weight: 400; }
     }
     .card-footer {
-        .btn { width:100%; border-radius:0;}
+        .btn { 
+          width:100%; 
+          border-radius:0; 
+          background: none; 
+          color: $color1; 
+          text-transform: uppercase; 
+          font-weight: 500;
+          border:none;
+          border-top: 1px solid #eee;
+          font-size: 11px;
+          letter-spacing: 0.8px;
+          padding: 12px;
+        }
     }
 }

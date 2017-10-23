@@ -54,7 +54,7 @@ export const DataLevels: Array<MapLayerGroup> = [
             'tracts_text'
         ],
         'zoom': [9, 14]
-    },
+    }
     // {
     //    'id': 'blockgroups',
     //    'name': 'Block Groups',

@@ -39,14 +39,14 @@ $graphColor4: rgb(55,62,74);
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
 // Colors - toggles
-$toggleBorderColor: $color1;
-$toggleForeground: $textColor;
+$toggleBorderColor: #ccc;
+$toggleForeground: #ccc;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
-$toggleHoverBackground: #eee;
+$toggleHoverForeground: #000;
 
-app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
+// app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
 
 // Colors - slider
 $sliderText: $altTextColor;
@@ -80,7 +80,7 @@ $cardHeaderText: $altTextColor;
 $cardHeaderTextSize: 16px;
 $cardLabelText: $secondaryTextColor;
 $cardLabelTextSize: 11px;
-$cardValueTextSize: 21px;
+$cardValueTextSize: 18px;
 
 // Sizing - toolbar
 $toolbarHeight: 56px;
