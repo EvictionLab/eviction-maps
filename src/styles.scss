@@ -25,3 +25,8 @@ html, body {
 .app-wrapper app-ui-slider .el-slider .track.track-value {
   background:none!important;
 }
+
+.data-content .location-card {
+  flex:1;
+  .card-footer { display: none;}
+}

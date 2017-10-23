@@ -63,3 +63,41 @@
     }
   }
 }
+
+app-location-cards {
+  clear:both;
+  display:block;
+  display:flex;
+  align-content: space-between;
+  align-items:stretch;
+  justify-content: space-between;
+  margin-top:24px;
+  margin-bottom: 48px;
+}
+
+.data-panel-footer {
+  clear:both;
+  display:flex;
+  align-content: space-between;
+  align-items:center;
+  justify-content: space-around;
+  .action-wrapper {
+    width:220px;
+    text-align:center;
+    button { 
+      display:block; 
+      width: 80%; 
+      margin:auto;
+      border: 4px solid #ddd;
+      color: $color1;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.8px;
+      border-radius:0;
+      background:none;
+      margin-bottom:4px;
+      font-weight:500;
+    }
+    span { color: #999; font-size: 11px;}
+  }
+}

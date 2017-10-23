@@ -7,10 +7,9 @@ import { MapModule } from './map/map.module';
 import { MapUiModule } from './map-ui/map-ui.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { PlatformService } from './platform.service';
-import { LocationCardsComponent } from './location-cards/location-cards.component';
 
 @NgModule({
-  declarations: [ AppComponent, LocationCardsComponent ],
+  declarations: [ AppComponent ],
   imports: [
     MapUiModule,
     DataPanelModule,

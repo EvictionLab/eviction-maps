@@ -13,6 +13,14 @@ export class DataPanelComponent implements OnChanges {
   @Output() locationRemoved = new EventEmitter();
   graphData;
   graphType = 'line';
+  cardProps = {
+    'e': 'Evictions',
+    'er': 'Eviction Rate',
+    'pr': 'Poverty Rate',
+    'p': 'Population',
+    'roh': 'Renter Occupied Houses',
+    'ahs': 'Average House Size'
+  };
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
     margin: { left: 60, right: 10 }

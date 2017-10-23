@@ -15,8 +15,25 @@
               </li>
             </ul>
           </div>
-          <div class="share-container">
-              <button class="btn btn-primary" (click)="showFileDialog($event)">Download File</button>
+          <app-location-cards 
+            [features]="locations"
+            [year]="year"
+            [cardProperties]="cardProps"
+            (dismissedCard)="locationRemoved.emit($event)"
+          ></app-location-cards>
+          <div class="data-panel-footer">
+              <div class="action-wrapper">
+                      <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>
+                      <span>Share this map and information</span>
+              </div>
+              <div class="action-wrapper">
+                      <button class="btn btn-primary" (click)="showFileDialog($event)">Save</button>
+                      <span>Save the map and information to this device</span>
+              </div>
+              <div class="action-wrapper">
+                      <button class="btn btn-primary" (click)="showFileDialog($event)">E-mail</button>
+                      <span>E-mail this map and information</span>
+              </div>
           </div>
           
       </div>
