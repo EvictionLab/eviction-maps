@@ -25,16 +25,16 @@ $secondaryTextColor: rgba(0,0,0,0.5);
 $altTextColor: #fff; // for dark backgrounds
 
 $color1: #e24000;
-$color2: #35afa1;
+$color2: #2c897f;
 $color3: #434878;
 $color4: #4a4238;
 $color5: #b5c2b7;
 
 // Colors - graph
-$graphColor1: rgb(63,178,167);
-$graphColor2: rgb(125,130,187);
-$graphColor3: rgb(232,182,69);
-$graphColor4: rgb(55,62,74);
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
@@ -78,7 +78,7 @@ $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
 $cardHeaderTextSize: 16px;
-$cardLabelText: $secondaryTextColor;
+$cardLabelText: rgba(0,0,0,0.33);
 $cardLabelTextSize: 11px;
 $cardValueTextSize: 18px;
 

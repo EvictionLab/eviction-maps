@@ -15,7 +15,7 @@ export class DataPanelComponent implements OnChanges {
   graphType = 'line';
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
-    margin: { left: 60 }
+    margin: { left: 60, right: 10 }
   };
 
   constructor(public dialogService: UiDialogService) { }
@@ -47,7 +47,7 @@ export class DataPanelComponent implements OnChanges {
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
-        axis: { x: { label: 'Year' }, y: { label: 'Evictions' } }
+        axis: { x: { label: 'Year', tickFormat: '.0f' }, y: { label: 'Evictions' } }
       };
       this.graphData = [ ...this.createLineGraphData() ];
       // TODO: generate line graph data here
