@@ -32,6 +32,9 @@ export class DataPanelComponent implements OnChanges {
     if (changes.locations) {
       this.setGraphData();
     }
+    if (changes.year && this.graphType === 'bar') {
+      this.setGraphData();
+    }
   }
 
   changeGraphType(newType: string) {

@@ -30,3 +30,20 @@ html, body {
   flex:1;
   .card-footer { display: none;}
 }
+
+.eviction-select { display:none;}
+.header-content > .btn { display: none; }
+.app-wrapper .header-content .language-select { right: 16px!important; }
+
+.footer {
+  padding: 64px 0;
+  background: rgb(43,43,43);
+  height:400px;
+  margin: 24px 0 0 0;
+  width:100%;
+  .placeholder {
+    max-width: 840px;
+    margin:auto;
+    img { width:100%; }
+  }
+}
