@@ -39,6 +39,10 @@ export class AppComponent {
     };
   }
 
+  setYear(year: number) {
+    this.year = year;
+  }
+
   /**
    * Adds a location to the cards and data panel
    * @param feature the feature for the corresponding location to add

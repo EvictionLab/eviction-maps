@@ -43,13 +43,13 @@ export class MapComponent {
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
   mapConfig = {
-    style: './assets/style.json',
+    style: './assets/style-georgia.json',
     center: [-81.32, 32.62],
     zoom: 5.9,
     minZoom: 5,
     maxZoom: 14,
     maxBounds: [
-      [-93.7,27.8],[-72.9,37.9]
+      [-93.7, 27.8], [-72.9, 37.9]
     ]
   };
   legend;
@@ -215,6 +215,7 @@ export class MapComponent {
    */
   onFeatureClick(feature) {
     if (feature && feature.properties) {
+      console.log(feature);
       this.featureClick.emit(feature);
     }
   }

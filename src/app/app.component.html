@@ -21,10 +21,12 @@
         [autoSwitch]="autoSwitchLayers"
         [boundingBox]="mapBounds"
         (featureClick)="addLocation($event)"
+        (yearChange)="setYear($event)"
     ></app-map>
     <app-location-cards 
         *ngIf="activeFeatures.length > 0" 
         [features]="activeFeatures"
+        [year]="year"
         (viewMore)="goToDataPanel($event)"
         (dismissedCard)="removeLocation($event)"
     ></app-location-cards>

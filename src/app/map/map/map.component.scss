@@ -72,13 +72,21 @@ app-ui-select {
 
 // Year Slider
 
-.year-slider {
-    @include fill-parent();
+.year-slider-container {
+  @include fill-parent();
+  top:auto;
+  height:40px;
+  z-index: 1000;
+  background:#fff;
+  padding: 0 16px;
+  box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  .year-slider {
     margin:auto;
-    width: 92.5%;
+    max-width: $maxContentWidth - $defaultPadding*4;
     height:40px;
-    z-index: 10;
-    top:auto;
+    display:block;
+  }
 }
+
   
 

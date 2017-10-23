@@ -21,3 +21,7 @@ html, body {
   background:none;
   line-height:1;
 }
+
+.app-wrapper app-ui-slider .el-slider .track.track-value {
+  background:none!important;
+}
