@@ -2,6 +2,16 @@ import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {
+        'id': 'e',
+        'name': 'None',
+        'default': 'rgba(0, 0, 0, 0)',
+        'fillStops': {
+            'default': [
+                [0, 'rgba(0, 0, 0, 0)']
+            ]
+        }
+    },
+    {
         'id': 'p',
         'name': 'Population',
         'default': 'rgba(0, 0, 0, 0)',

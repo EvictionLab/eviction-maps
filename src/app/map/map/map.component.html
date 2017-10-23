@@ -37,12 +37,12 @@
           [values]="attributes"
           (change)="setDataHighlight($event)">
       </app-ui-select>
-      <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="getLegendGradient()">
+      <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
           <span class="legend-start">{{legend[0][0]}}</span>
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 
-          *ngIf="activeDataLevel"
+          *ngIf="activeDataLevel && activeDataHighlight.name !== 'None'"
           class="legend-hint"
           [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"

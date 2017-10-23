@@ -47,7 +47,10 @@ export class MapComponent {
     center: [-81.32, 32.62],
     zoom: 5.9,
     minZoom: 5,
-    maxZoom: 14
+    maxZoom: 14,
+    maxBounds: [
+      [-93.7,27.8],[-72.9,37.9]
+    ]
   };
   legend;
   mapEventLayers: Array<string> =
