@@ -5,7 +5,6 @@ import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { LocationCardsComponent } from './location-cards/location-cards.component';
 
 
 describe('AppComponent', () => {
@@ -21,7 +20,7 @@ describe('AppComponent', () => {
         Ng2PageScrollModule
       ],
       declarations: [
-        AppComponent, LocationCardsComponent
+        AppComponent
       ]
     }).compileComponents();
   }));
