@@ -89,7 +89,11 @@ export class AppComponent {
             console.log('could not find feature');
           }
           this.map.setDataLevelFromLayer(layerId);
-          this.mapBounds = feature['bbox'];
+          if (feature.hasOwnProperty('bbox')) {
+            this.mapBounds = feature['bbox'];
+          } else {
+            this.map.zoomToPointFeature(feature);
+          }
         });
     }
   }

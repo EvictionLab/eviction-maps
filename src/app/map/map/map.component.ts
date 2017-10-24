@@ -119,6 +119,14 @@ export class MapComponent {
   }
 
   /**
+   * Zoom to Point feature
+   * @param feature Point feature
+   */
+  zoomToPointFeature(feature: MapFeature) {
+    this.map.zoomToPoint(feature);
+  }
+
+  /**
    * Sets the data year for the map, updates data highlights and layers
    * @param year
    */
