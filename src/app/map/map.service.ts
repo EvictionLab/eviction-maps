@@ -212,6 +212,14 @@ export class MapService {
   }
 
   /**
+   * Zoom to supplied point feature
+   * @param feature Point feature
+   */
+  zoomToPoint(feature: MapFeature) {
+    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: 12 });
+  }
+
+  /**
    * Zoom to supplied bounding box
    * @param box An array of 4 numbers representing the bounding box
    */
@@ -219,6 +227,6 @@ export class MapService {
     this.map.fitBounds([
       [box[0], box[1]],
       [box[2], box[3]]
-    ]);
+    ], { padding: 50 });
   }
 }

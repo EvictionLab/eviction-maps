@@ -6,7 +6,7 @@
                 class="search"
                 [(selected)]="search.query"
                 [options]="search.results"
-                optionField="properties.name"
+                optionField="properties.label"
                 (selectionChange)="onSearchSelect($event)">
             </app-predictive-search>
             <app-ui-select

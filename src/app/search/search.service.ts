@@ -23,8 +23,8 @@ export class SearchService {
   tilesetYears = ['90', '00', '10'];
   apiKey = 'mapzen-FgUaZ97';
   mapzenParams = [
-    'sources=whosonfirst',
-    'layers=localadmin,locality,county,region,postalcode',
+    'sources=whosonfirst,openstreetmap',
+    'layers=address,localadmin,locality,county,region,postalcode',
     'boundary.country=USA',
     'api_key=' + this.apiKey
   ];
