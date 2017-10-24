@@ -3,6 +3,10 @@
 // Page Layout
 .app-wrapper {
   min-height:100%;
+  &.map-active {
+    height: calc(100vh - 56px);
+    overflow: hidden;
+  }
   app-map {
     position:relative;
     display:block;
@@ -11,12 +15,26 @@
     height: calc(100vh - #{$toolbarHeight});
     z-index:10;
   }
+  app-location-cards {
+    position: absolute;
+    top:0;
+    left:0;
+    margin-top: $toolbarHeight;
+    height: calc(100vh - #{$toolbarHeight});
+    z-index:100;
+    pointer-events: none;
+    display:flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    width:100%;
+  }
   app-data-panel {
     display:block;
     position:relative;
     width:100%;
     background:#fff;
-    z-index:100;
+    z-index:200;
   }
 }
 
@@ -67,3 +85,7 @@
   }
 }
 // End App Header Bar
+
+.footer {
+  width:100%;
+}

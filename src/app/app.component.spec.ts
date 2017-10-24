@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
@@ -18,6 +19,7 @@ describe('AppComponent', () => {
         MapUiModule,
         MapModule,
         DataPanelModule,
+        Ng2PageScrollModule,
         HttpModule
       ],
       declarations: [

@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
@@ -16,7 +17,8 @@ import { SearchService } from './search/search.service';
     MapUiModule,
     DataPanelModule,
     BrowserModule,
-    MapModule
+    MapModule,
+    Ng2PageScrollModule
   ],
   providers: [ PlatformService, SearchService ],
   bootstrap: [ AppComponent ]
