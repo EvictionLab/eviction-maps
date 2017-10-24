@@ -48,9 +48,11 @@ export class AppComponent {
    * @param feature the feature for the corresponding location to add
    */
   addLocation(feature) {
-    const i = this.activeFeatures.findIndex((f) => _isEqual(f, feature));
-    if (!(i > -1)) {
-      this.activeFeatures = [ ...this.activeFeatures, feature ];
+    if (this.activeFeatures.length < 3) {
+      const i = this.activeFeatures.findIndex((f) => _isEqual(f, feature));
+      if (!(i > -1)) {
+        this.activeFeatures = [ ...this.activeFeatures, feature ];
+      }
     }
   }
 

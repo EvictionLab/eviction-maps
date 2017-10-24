@@ -10,7 +10,7 @@ export class LocationCardsComponent implements OnInit {
   @Input() features: Array<any>;
   @Input() year = 2010;
   @Input() cardProperties =
-    {'e': 'Evictions', 'er': 'Eviction Rate', 'pr': 'Poverty Rate', 'p': 'Population' };
+    {'er': 'Eviction Rate', 'e': 'Evictions', 'pr': 'Poverty Rate', 'p': 'Population' };
   @Output() viewMore = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
   cardPropertyKeys: Array<string>;

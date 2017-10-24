@@ -14,8 +14,8 @@ export class DataPanelComponent implements OnChanges {
   graphData;
   graphType = 'bar';
   cardProps = {
-    'e': 'Evictions',
     'er': 'Eviction Rate',
+    'e': 'Evictions',
     'pr': 'Poverty Rate',
     'p': 'Population',
     'roh': 'Renter Occupied Houses',
@@ -58,13 +58,12 @@ export class DataPanelComponent implements OnChanges {
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
-        axis: { x: { label: 'Year', tickFormat: '.0f' }, y: { label: 'Evictions' } }
+        axis: { x: { label: 'Year', tickFormat: '.0f' }, y: { label: 'Eviction Rate' } }
       };
       this.graphData = [ ...this.createLineGraphData() ];
-      // TODO: generate line graph data here
     } else {
       this.graphSettings = {
-        axis: { x: { label: null }, y: { label: 'Evictions' } }
+        axis: { x: { label: null }, y: { label: 'Eviction Rate' } }
       };
       this.graphData = [ ...this.createBarGraphData() ];
     }
@@ -77,7 +76,7 @@ export class DataPanelComponent implements OnChanges {
         {
           id: 'sample' + i,
           data: this.generateLineData(f)
-          // data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
+          // data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
         }
       );
     });
@@ -90,7 +89,7 @@ export class DataPanelComponent implements OnChanges {
       data.push(
         {
           id: 'sample' + i,
-          data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
+          data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
         }
       );
     });
@@ -101,7 +100,7 @@ export class DataPanelComponent implements OnChanges {
     const data = [];
     for (let i = 0; i < 7; i++) {
       data.push(
-        {x: 2010 + i, y: feature.properties[`e-${10 + i}`] }
+        {x: 2010 + i, y: feature.properties[`er-${10 + i}`] }
       );
     }
     return data;
