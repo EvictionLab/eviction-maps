@@ -1530,33 +1530,7 @@
       "source": "us-tracts",
       "source-layer": "tracts",
       "paint": {
-        "fill-color": {
-          "property": "pr-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(215, 227, 244, 0.7)"
-            ],
-            [
-              7,
-              "rgba(170, 191, 226, 0.75)"
-            ],
-            [
-              13,
-              "rgba(133, 157, 204, 0.8)"
-            ],
-            [
-              20,
-              "rgba(81, 101, 165, 0.85)"
-            ],
-            [
-              26,
-              "rgba(37, 51, 132, 0.9)"
-            ]
-          ],
-          "type": "exponential"
-        }
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -1596,33 +1570,7 @@
       "source": "us-counties",
       "source-layer": "counties",
       "paint": {
-        "fill-color": {
-          "property": "pr-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(215, 227, 244, 0.7)"
-            ],
-            [
-              7,
-              "rgba(170, 191, 226, 0.75)"
-            ],
-            [
-              13,
-              "rgba(133, 157, 204, 0.8)"
-            ],
-            [
-              20,
-              "rgba(81, 101, 165, 0.85)"
-            ],
-            [
-              26,
-              "rgba(37, 51, 132, 0.9)"
-            ]
-          ],
-          "type": "exponential"
-        }
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
