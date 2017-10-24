@@ -1,7 +1,7 @@
 {
   "version": 8,
-  "id": "eviction-lab",
   "name": "Natural Earth",
+  "metadata": {},
   "sources": {
     "openmaptiles": {
       "type": "vector",
@@ -1529,11 +1529,8 @@
       "type": "fill",
       "source": "us-tracts",
       "source-layer": "tracts",
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -1541,9 +1538,6 @@
       "type": "line",
       "source": "us-tracts",
       "source-layer": "tracts",
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
@@ -1575,11 +1569,8 @@
       "type": "fill",
       "source": "us-counties",
       "source-layer": "counties",
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
-        "fill-color": "rgba(67,72,120,0)"
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -1587,9 +1578,6 @@
       "type": "line",
       "source": "us-counties",
       "source-layer": "counties",
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
         "line-width": 1,
@@ -2587,26 +2575,29 @@
       "type": "circle",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
-      "minzoom": 5,
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
         "circle-color": {
           "default": "rgba(0,0,0,0)",
           "stops": [
             [
-              0,
+              7,
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              14,
               "rgba(255,4,0,0.8)"
             ]
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 1,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [5, 0],
+            [7, 1],
+            [14, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -2778,8 +2769,93 @@
                 "value": 10
               },
               8.7375
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 2
+              },
+              1.7475
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 4
+              },
+              3.495
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 6
+              },
+              5.2425
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 8
+              },
+              6.99
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              8.7375
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 0
+              },
+              3
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 2
+              },
+              6
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 4
+              },
+              10
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 6
+              },
+              18
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 8
+              },
+              28
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 10
+              },
+              36
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
@@ -2788,7 +2864,6 @@
       "type": "symbol",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
-      "minzoom": 8,
       "layout": {
         "text-field": "{n}",
         "text-ignore-placement": false,
@@ -2810,13 +2885,24 @@
           ]
         },
         "text-letter-spacing": 0.07,
-        "visibility": "none",
         "text-justify": "center",
         "text-max-width": 4
       },
       "paint": {
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              11,
+              0
+            ],
+            [
+              11.25,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2824,9 +2910,6 @@
       "type": "circle",
       "source": "us-counties",
       "source-layer": "counties-centers",
-      "layout": {
-        "visibility": "none"
-      },
       "paint": {
         "circle-color": {
           "default": "rgba(0,0,0,0)",
@@ -2842,7 +2925,13 @@
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [0, 0],
+            [6, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -3056,8 +3145,51 @@
                 "value": 10
               },
               14.979569999999999
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              2
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 2
+              },
+              8
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 4
+              },
+              12
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 6
+              },
+              16
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 8
+              },
+              20
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              36
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
@@ -3066,7 +3198,9 @@
       "type": "symbol",
       "source": "us-counties",
       "source-layer": "counties-centers",
-      "minzoom": 7,
+      "filter": [
+        "all"
+      ],
       "layout": {
         "text-field": "{n}",
         "text-allow-overlap": false,
@@ -3075,9 +3209,8 @@
         "text-optional": false,
         "symbol-spacing": 2500,
         "icon-allow-overlap": false,
-        "visibility": "none",
         "symbol-placement": "point",
-        "text-padding": 4,
+        "text-padding": 6,
         "text-justify": "center",
         "text-keep-upright": true,
         "text-line-height": 1.2,
@@ -3103,7 +3236,19 @@
       "paint": {
         "icon-translate-anchor": "map",
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              7.75,
+              0
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -3311,6 +3456,8 @@
       "type": "circle",
       "source": "us-cities",
       "source-layer": "cities-centers",
+      "minzoom": 8,
+      "maxzoom": 24,
       "layout": {
         "visibility": "none"
       },
@@ -3686,9 +3833,7 @@
             ]
           ]
         }
-      },
-      "minzoom": 8,
-      "maxzoom": 24
+      }
     },
     {
       "id": "cities_text",
@@ -4014,5 +4159,6 @@
         "line-color": "rgba(255, 0, 0, 1)"
       }
     }
-  ]
+  ],
+  "id": "eviction-lab"
 }

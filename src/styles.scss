@@ -13,27 +13,15 @@ html, body {
   font-family: $fontStack!important;
 }
 
-
 .btn.btn-close { 
   font-size: 24px; 
   width:40px;
   height:40px;
   background:none;
   line-height:1;
+  color: $closeButtonColor;
+  &.alt { color: $altCloseButtonColor }
 }
-
-.app-wrapper app-ui-slider .el-slider .track.track-value {
-  background:none!important;
-}
-
-.data-content .location-card {
-  flex:1;
-  .card-footer { display: none;}
-}
-
-.eviction-select { display:none;}
-.header-content > .btn { display: none; }
-.app-wrapper .header-content .language-select { right: 16px!important; }
 
 .footer {
   padding: 64px 0;
@@ -48,6 +36,21 @@ html, body {
   }
 }
 
+// STYLE OVERRIDES
+
+// hide the track on the year slider so it's not confused for range
+.app-wrapper app-ui-slider .el-slider .track.track-value {
+  background:none!important;
+}
+
+// make cards in the data panel fill the width
+.data-content .location-card {
+  flex:1;
+  // no button for data panel cards
+  .card-footer { display: none;}
+}
+
+// override mapbox popup styles
 .app-wrapper {
   .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
   .mapboxgl-popup-close-button { display: none; }

@@ -43,14 +43,11 @@ export class MapComponent {
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
   mapConfig = {
-    style: './assets/style-georgia-cool.json',
-    center: [-81.32, 32.62],
-    zoom: 5.9,
-    minZoom: 5,
-    maxZoom: 14,
-    maxBounds: [
-      [-93.7, 27.8], [-72.9, 37.9]
-    ]
+    style: './assets/style.json',
+    center: [-98.5556199, 39.8097343],
+    zoom: 3,
+    minZoom: 3,
+    maxZoom: 14
   };
   legend;
   mapEventLayers: Array<string> =

@@ -1533,7 +1533,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -1579,7 +1579,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -2587,7 +2587,6 @@
       "type": "circle",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
-      "minzoom": 5,
       "layout": {
         "visibility": "none"
       },
@@ -2596,23 +2595,114 @@
           "default": "rgba(0,0,0,0)",
           "stops": [
             [
-              0,
+              7,
               "rgba(255,120,119,0.8)"
             ],
             [
-              10,
+              14,
               "rgba(255,4,0,0.8)"
             ]
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [5, 0],
+            [7, 1],
+            [14, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
           "stops": [
             [
               {
+                "zoom": 4,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 2
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 4
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 6
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 8
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 4,
+                "value": 10
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 2
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 4
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 6
+              },
+              1.398
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 8
+              },
+              1.864
+            ],
+            [
+              {
+                "zoom": 5,
+                "value": 10
+              },
+              2.33
+            ],
+            [
+              {
                 "zoom": 6,
                 "value": 0
               },
@@ -2621,23 +2711,37 @@
             [
               {
                 "zoom": 6,
-                "value": 20
+                "value": 2
               },
               1
             ],
             [
               {
                 "zoom": 6,
-                "value": 40
+                "value": 4
               },
-              1
+              1.3980000000000004
             ],
             [
               {
                 "zoom": 6,
-                "value": 60
+                "value": 6
               },
-              1
+              2.097
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 8
+              },
+              2.7960000000000007
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 10
+              },
+              3.495
             ],
             [
               {
@@ -2649,51 +2753,37 @@
             [
               {
                 "zoom": 7,
-                "value": 20
+                "value": 2
               },
-              1
+              1.7475
             ],
             [
               {
                 "zoom": 7,
-                "value": 40
+                "value": 4
               },
-              1.6249999999999998
+              3.495
             ],
             [
               {
                 "zoom": 7,
-                "value": 60
+                "value": 6
               },
-              2.4375
+              5.2425
             ],
             [
               {
-                "zoom": 8,
-                "value": 0
+                "zoom": 7,
+                "value": 8
               },
-              1
+              6.99
             ],
             [
               {
-                "zoom": 8,
-                "value": 20
+                "zoom": 7,
+                "value": 10
               },
-              1.5843749999999999
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 40
-              },
-              3.1687499999999997
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 60
-              },
-              4.753125
+              8.7375
             ],
             [
               {
@@ -2705,53 +2795,82 @@
             [
               {
                 "zoom": 9,
-                "value": 20
+                "value": 2
               },
-              3.0895312499999994
+              1.7475
             ],
             [
               {
                 "zoom": 9,
-                "value": 40
+                "value": 4
               },
-              6.179062499999999
+              3.495
             ],
             [
               {
                 "zoom": 9,
-                "value": 60
+                "value": 6
               },
-              9.268593749999999
+              5.2425
             ],
             [
               {
-                "zoom": 10,
+                "zoom": 9,
+                "value": 8
+              },
+              6.99
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              8.7375
+            ],
+            [
+              {
+                "zoom": 14,
                 "value": 0
               },
-              1
+              3
             ],
             [
               {
-                "zoom": 10,
-                "value": 20
+                "zoom": 14,
+                "value": 2
               },
-              6.024585937499999
+              6
             ],
             [
               {
-                "zoom": 10,
-                "value": 40
+                "zoom": 14,
+                "value": 4
               },
-              12.049171874999997
+              10
             ],
             [
               {
-                "zoom": 10,
-                "value": 60
+                "zoom": 14,
+                "value": 6
               },
-              18.0737578125
+              18
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 8
+              },
+              28
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 10
+              },
+              36
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
@@ -2760,7 +2879,6 @@
       "type": "symbol",
       "source": "us-tracts",
       "source-layer": "tracts-centers",
-      "minzoom": 8,
       "layout": {
         "text-field": "{n}",
         "text-ignore-placement": false,
@@ -2782,13 +2900,25 @@
           ]
         },
         "text-letter-spacing": 0.07,
-        "visibility": "none",
         "text-justify": "center",
-        "text-max-width": 4
+        "text-max-width": 4,
+        "visibility": "none"
       },
       "paint": {
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              11,
+              0
+            ],
+            [
+              11.25,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2814,7 +2944,13 @@
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [0, 0],
+            [6, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -2859,7 +2995,7 @@
                 "zoom": 2,
                 "value": 10
               },
-              1.1
+              1
             ],
             [
               {
@@ -2880,28 +3016,28 @@
                 "zoom": 3,
                 "value": 4
               },
-              1.037212
+              1
             ],
             [
               {
                 "zoom": 3,
                 "value": 6
               },
-              1.5558180000000001
+              1.2857999999999998
             ],
             [
               {
                 "zoom": 3,
                 "value": 8
               },
-              2.074424
+              1.7144
             ],
             [
               {
                 "zoom": 3,
                 "value": 10
               },
-              2.59303
+              2.143
             ],
             [
               {
@@ -2915,35 +3051,35 @@
                 "zoom": 4,
                 "value": 2
               },
-              1.1409332000000003
+              1
             ],
             [
               {
                 "zoom": 4,
                 "value": 4
               },
-              2.2818664000000006
+              1.7144
             ],
             [
               {
                 "zoom": 4,
                 "value": 6
               },
-              3.4227996000000003
+              2.5715999999999997
             ],
             [
               {
                 "zoom": 4,
                 "value": 8
               },
-              4.563732800000001
+              3.4288
             ],
             [
               {
                 "zoom": 4,
                 "value": 10
               },
-              5.7046660000000005
+              4.286
             ],
             [
               {
@@ -2957,79 +3093,122 @@
                 "zoom": 5,
                 "value": 2
               },
-              2.9242117916000003
+              1.9972759999999998
             ],
             [
               {
                 "zoom": 5,
                 "value": 4
               },
-              5.848423583200001
+              3.9945519999999997
             ],
             [
               {
                 "zoom": 5,
                 "value": 6
               },
-              8.772635374800002
+              5.991827999999999
             ],
             [
               {
                 "zoom": 5,
                 "value": 8
               },
-              11.696847166400001
+              7.989103999999999
             ],
             [
               {
                 "zoom": 5,
                 "value": 10
               },
-              14.621058958000003
+              9.986379999999999
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 2
               },
-              4.8249494561400015
+              2.995914
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 4
               },
-              9.649898912280003
+              5.991828
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 6
               },
-              14.474848368420002
+              8.987741999999997
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 8
               },
-              19.299797824560006
+              11.983656
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 10
               },
-              24.124747280700007
+              14.979569999999999
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              2
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 2
+              },
+              8
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 4
+              },
+              12
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 6
+              },
+              16
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 8
+              },
+              20
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              36
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
@@ -3038,7 +3217,9 @@
       "type": "symbol",
       "source": "us-counties",
       "source-layer": "counties-centers",
-      "minzoom": 7,
+      "filter": [
+        "all"
+      ],
       "layout": {
         "text-field": "{n}",
         "text-allow-overlap": false,
@@ -3047,9 +3228,8 @@
         "text-optional": false,
         "symbol-spacing": 2500,
         "icon-allow-overlap": false,
-        "visibility": "none",
         "symbol-placement": "point",
-        "text-padding": 4,
+        "text-padding": 6,
         "text-justify": "center",
         "text-keep-upright": true,
         "text-line-height": 1.2,
@@ -3070,12 +3250,25 @@
           ]
         },
         "text-letter-spacing": 0.07,
-        "text-max-width": 3
+        "text-max-width": 3,
+        "visibility": "none"
       },
       "paint": {
         "icon-translate-anchor": "map",
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              7.75,
+              0
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -3283,6 +3476,8 @@
       "type": "circle",
       "source": "us-cities",
       "source-layer": "cities-centers",
+      "minzoom": 8,
+      "maxzoom": 24,
       "layout": {
         "visibility": "none"
       },
@@ -3658,9 +3853,7 @@
             ]
           ]
         }
-      },
-      "minzoom": 8,
-      "maxzoom": 24
+      }
     },
     {
       "id": "cities_text",

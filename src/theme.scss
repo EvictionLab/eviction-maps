@@ -30,7 +30,12 @@ $color3: #434878;
 $color4: #4a4238;
 $color5: #b5c2b7;
 
-// Colors - graph
+// Buttons
+
+$closeButtonColor: rgba(0,0,0,0.5);
+$altCloseButtonColor: #fff;
+
+// Graph
 $graphColor1: $color1;
 $graphColor2: $color2;
 $graphColor3: $color3;
@@ -38,7 +43,7 @@ $graphColor4: $color4;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
-// Colors - toggles
+// Toggles
 $toggleBorderColor: #ccc;
 $toggleForeground: #ccc;
 $toggleBackground: #fff;
@@ -48,14 +53,14 @@ $toggleHoverForeground: #000;
 
 // app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
 
-// Colors - slider
+// Slider
 $sliderText: $altTextColor;
 $sliderBackground: $color1;
 $sliderTrack: rgba(0,0,0,0.2);
 
 app-ui-slider { @include slider-colors($sliderText, $sliderBackground, $sliderTrack); }
 
-// Colors - select
+// Select Dropdowns
 $selectText: $textColor;
 $selectLabelText: $secondaryTextColor;
 $selectBackground: #fff;
@@ -65,7 +70,7 @@ $selectCaret: $color1;
 
 app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
 
-// Colors - progress bar
+// Progress Bars
 $progressBarColor: $color1;
 
 app-progress-bar { @include progress-bar-colors($progressBarColor); }
