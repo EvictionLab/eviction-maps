@@ -2590,7 +2590,14 @@
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 1,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [5, 0],
+            [7, 1],
+            [14, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -2918,7 +2925,13 @@
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [0, 0],
+            [6, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
