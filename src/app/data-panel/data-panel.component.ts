@@ -13,9 +13,17 @@ export class DataPanelComponent implements OnChanges {
   @Output() locationRemoved = new EventEmitter();
   graphData;
   graphType = 'bar';
+  cardProps = {
+    'er': 'Eviction Rate',
+    'e': 'Evictions',
+    'pr': 'Poverty Rate',
+    'p': 'Population',
+    'roh': 'Renter Occupied Houses',
+    'ahs': 'Average House Size'
+  };
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
-    margin: { left: 60 }
+    margin: { left: 60, right: 10 }
   };
 
   constructor(public dialogService: UiDialogService) { }
@@ -24,6 +32,14 @@ export class DataPanelComponent implements OnChanges {
     if (changes.locations) {
       this.setGraphData();
     }
+    if (changes.year && this.graphType === 'bar') {
+      this.setGraphData();
+    }
+  }
+
+  changeGraphType(newType: string) {
+    this.graphType = newType.toLowerCase();
+    this.setGraphData();
   }
 
   showFileDialog(e) {
@@ -39,43 +55,54 @@ export class DataPanelComponent implements OnChanges {
     });
   }
 
-  getGraphData() {
-    return [
-      ...this.createLocationGraphData(),
-      {
-        id: 'usavg',
-        data: [{
-          x: 'US Average',
-          y: this.locations[0].properties[`e-${('' + this.year).slice(2)}`] * Math.random() * 2
-        }]
-      }
-    ];
-  }
-
   setGraphData() {
     if (this.graphType === 'line') {
       this.graphSettings = {
-        axis: { x: { label: 'Year' }, y: { label: 'Evictions' } }
+        axis: { x: { label: 'Year', tickFormat: '.0f' }, y: { label: 'Eviction Rate' } }
       };
-      // TODO: generate line graph data here
+      this.graphData = [ ...this.createLineGraphData() ];
     } else {
       this.graphSettings = {
-        axis: { x: { label: null }, y: { label: 'Evictions' } }
+        axis: { x: { label: null }, y: { label: 'Eviction Rate' } }
       };
-      this.graphData = this.getGraphData();
+      this.graphData = [ ...this.createBarGraphData() ];
     }
   }
 
-  private createLocationGraphData() {
+  private createLineGraphData() {
     const data = [];
     this.locations.forEach((f, i) => {
       data.push(
         {
           id: 'sample' + i,
-          data: [{ x: f.properties.n, y: f.properties[`e-${('' + this.year).slice(2)}`] }]
+          data: this.generateLineData(f)
+          // data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
         }
       );
     });
+    return data;
+  }
+
+  private createBarGraphData() {
+    const data = [];
+    this.locations.forEach((f, i) => {
+      data.push(
+        {
+          id: 'sample' + i,
+          data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
+        }
+      );
+    });
+    return data;
+  }
+
+  private generateLineData(feature) {
+    const data = [];
+    for (let i = 0; i < 7; i++) {
+      data.push(
+        {x: 2010 + i, y: feature.properties[`er-${10 + i}`] }
+      );
+    }
     return data;
   }
 

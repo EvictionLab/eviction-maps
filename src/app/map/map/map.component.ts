@@ -54,7 +54,9 @@ export class MapComponent {
   mapEventLayers: Array<string> =
     [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
+  popup;
   private _bounds;
+  private _mapInstance;
 
   constructor(
     private map: MapService,
@@ -97,12 +99,11 @@ export class MapComponent {
     this.activeDataHighlight = dataAttr;
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const layerStem = layerId.split('-')[0];
       const newFill = {
         'property': dataAttr.id,
         'default': dataAttr.default,
-        'stops': (dataAttr.fillStops[layerStem] ?
-          dataAttr.fillStops[layerStem] : dataAttr.fillStops['default'])
+        'stops': (dataAttr.fillStops[layerId] ?
+          dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
       };
       this.map.setLayerStyle(layerId, 'fill-color', newFill);
     });
@@ -169,6 +170,7 @@ export class MapComponent {
    * @param map mapbox instance
    */
   onMapReady(map) {
+    this._mapInstance = map;
     this.map.setMapInstance(map);
     this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
@@ -199,6 +201,9 @@ export class MapComponent {
     }
   }
 
+  enableZoom() { return this.map.enableZoom(); }
+  disableZoom() { return this.map.disableZoom(); }
+
   /**
    * Emits the new bounds of the current map view anytime the map finishes moving
    * @param e the moveend event
@@ -226,6 +231,7 @@ export class MapComponent {
    */
   onFeatureClick(feature) {
     if (feature && feature.properties) {
+      console.log(feature);
       this.featureClick.emit(feature);
     }
   }
@@ -242,6 +248,30 @@ export class MapComponent {
     } else {
       this.map.setSourceData('hover');
     }
+  }
+
+  onFeatureEnter(e) {
+    if (!this.popup) {
+      this.popup = new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.n)
+        .addTo(this._mapInstance);
+    }
+  }
+
+  onFeatureMove(e) {
+    if (!this.popup) {
+      this.popup = new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.n)
+        .addTo(this._mapInstance);
+    }
+    this.popup.setLngLat(e.lngLat).setHTML(e.features[0].properties.n);
+  }
+
+  onFeatureLeave() {
+    this.popup.remove();
+    this.popup = null;
   }
 
   /**

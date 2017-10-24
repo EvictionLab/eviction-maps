@@ -15,5 +15,89 @@
 }
 
 
-app-graph { display: block; width:100%; }
-@media(min-width: 768px) { app-graph { width:66%; } }
+.share-container {
+  display:block;
+  clear: both;
+}
+
+.graph-area { 
+  display: block; 
+  width:100%;
+  text-align:right; 
+  h1 { font-size: 16px; float:left; line-height: 30px; margin:0; }
+  app-ui-toggle { display:inline-block; }
+}
+@media(min-width: 768px) {
+  .graph-area { 
+    width:60%; 
+    float:left;
+  }
+  .graph-legend {
+    width: 40%;
+    list-style: none;
+    margin:0;
+    padding:0;
+    float:right;
+    padding-left: 32px;
+    padding-top:44px;
+    li {
+      border-bottom: 1px solid #ddd;
+      height: 44px;
+      position:relative;
+      line-height:44px;
+      .legend-marker {
+        width:24px;
+        height:24px;
+        border-radius: 12px;
+        margin-right: 16px;
+        background:#ccc;
+        display:inline-block;
+        vertical-align: middle;
+      }
+      .btn-close { position:absolute; right:0; top:2px;}
+      &:last-child { border-bottom: none; }
+      &:nth-child(1) .legend-marker { background: $graphColor1; }
+      &:nth-child(2) .legend-marker { background: $graphColor2; }
+      &:nth-child(3) .legend-marker { background: $graphColor3; }
+      &:nth-child(4) .legend-marker { background: $graphColor4; }
+    }
+  }
+}
+
+app-location-cards {
+  clear:both;
+  display:block;
+  display:flex;
+  align-content: space-between;
+  align-items:stretch;
+  justify-content: space-between;
+  margin-top:24px;
+  margin-bottom: 48px;
+}
+
+.data-panel-footer {
+  clear:both;
+  display:flex;
+  align-content: space-between;
+  align-items:center;
+  justify-content: space-around;
+  .action-wrapper {
+    width:220px;
+    text-align:center;
+    button { 
+      display:block; 
+      width: 80%; 
+      margin:auto;
+      border: 4px solid #ddd;
+      color: $color1;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.8px;
+      border-radius:0;
+      background:none;
+      margin-bottom:4px;
+      font-weight:500;
+    }
+    span { color: #999; font-size: 11px;}
+  }
+}

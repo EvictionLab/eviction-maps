@@ -1,27 +1,23 @@
-@import '../../../theme/ui-toggle.theme';
+@import '../../../theme';
 
-$toggleBorderColor: #666;
-$toggleForeground: #000;
-$toggleBackground: #fff;
-$toggleSelectedBackground: #666;
-$toggleSelectedForeground: #fff;
-$toggleHoverBackground: #eee;
+:host {
+  display: block;
+  padding: 4px 0;
+  border: 1px solid $toggleBorderColor;
+  border-radius: 2px;
+}
 
-:host-context(.theme-default) {
-    @include ui-toggle-colors(
-        $toggleBorderColor,
-        $toggleBackground, 
-        $toggleSelectedBackground, 
-        $toggleHoverBackground,
-        $toggleForeground,
-        $toggleSelectedForeground 
-    );
+button {
+  background: $toggleBackground;
+  border: none;
+  border-left: 1px solid $toggleBorderColor;
+  color: $toggleForeground;
+  &:hover { color: $toggleHoverForeground; }
+  &:first-child { border-left: none; }
+  &.selected { color: $toggleSelectedBackground; }
 }
 
 button {
     border-right:none;
-    height: 40px;
-    padding: 0 16px;
-    &:first-child { border-radius: 3px 0 0 3px; }
-    &:last-child { border-radius: 0 3px 3px 0; }
+    padding: 0 8px;
 }

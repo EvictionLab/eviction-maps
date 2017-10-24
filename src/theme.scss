@@ -8,6 +8,14 @@
 @import "theme/predictive-search.theme";
 @import "theme/progress-bar.theme";
 
+// Defaults
+
+$maxContentWidth: 1024px;
+$defaultPadding: 16px;
+$z1shadow: 0 1px 3px rgba(0,0,0,0.25);
+$z2shadow: 0 2px 5px rgba(0,0,0,0.5);
+$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+
 // Typography
 $fontStack: Roboto, sans-serif;
 
@@ -17,37 +25,42 @@ $secondaryTextColor: rgba(0,0,0,0.5);
 $altTextColor: #fff; // for dark backgrounds
 
 $color1: #e24000;
-$color2: #35afa1;
+$color2: #2c897f;
 $color3: #434878;
 $color4: #4a4238;
 $color5: #b5c2b7;
 
-// Colors - graph
-$graphColor1: rgb(63,178,167);
-$graphColor2: rgb(125,130,187);
-$graphColor3: rgb(232,182,69);
-$graphColor4: rgb(55,62,74);
+// Buttons
+
+$closeButtonColor: rgba(0,0,0,0.5);
+$altCloseButtonColor: #fff;
+
+// Graph
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
-// Colors - toggles
-$toggleBorderColor: $color1;
-$toggleForeground: $textColor;
+// Toggles
+$toggleBorderColor: #ccc;
+$toggleForeground: #ccc;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
-$toggleHoverBackground: #eee;
+$toggleHoverForeground: #000;
 
-app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
+// app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
 
-// Colors - slider
+// Slider
 $sliderText: $altTextColor;
 $sliderBackground: $color1;
 $sliderTrack: rgba(0,0,0,0.2);
 
 app-ui-slider { @include slider-colors($sliderText, $sliderBackground, $sliderTrack); }
 
-// Colors - select
+// Select Dropdowns
 $selectText: $textColor;
 $selectLabelText: $secondaryTextColor;
 $selectBackground: #fff;
@@ -57,15 +70,22 @@ $selectCaret: $color1;
 
 app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
 
-
-// Colors - progress bar
+// Progress Bars
 $progressBarColor: $color1;
 
 app-progress-bar { @include progress-bar-colors($progressBarColor); }
 
-// Sizing
-$maxContentWidth: 1024px;
-$defaultPadding: 16px;
+// Cards
+$cardBg: #fff;
+$cardHeaderBg1: $color1;
+$cardHeaderBg2: $color2;
+$cardHeaderBg3: $color3;
+$cardHeaderBg4: $color4;
+$cardHeaderText: $altTextColor;
+$cardHeaderTextSize: 16px;
+$cardLabelText: rgba(0,0,0,0.33);
+$cardLabelTextSize: 11px;
+$cardValueTextSize: 18px;
 
 // Sizing - toolbar
 $toolbarHeight: 56px;
