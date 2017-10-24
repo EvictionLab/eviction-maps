@@ -10,6 +10,11 @@ import Debounce from 'debounce-decorator';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 
+import { DataLevels } from './data/data-levels';
+import { DataAttributes } from './data/data-attributes';
+import { UiDialogService } from './map-ui/ui-dialog/ui-dialog.service';
+import { SearchService } from './search/search.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -17,7 +22,6 @@ import { MapComponent } from './map/map/map.component';
 })
 export class AppComponent {
   title = 'Eviction Lab';
-  mapFeatures: Observable<Object>;
   mapBounds;
   autoSwitchLayers = true;
   activeFeatures = [];
@@ -28,6 +32,8 @@ export class AppComponent {
 
   constructor(
     private _sanitizer: DomSanitizer,
+    private dialogService: UiDialogService,
+    public search: SearchService,
     private pageScrollService: PageScrollService,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -42,6 +48,7 @@ export class AppComponent {
   setYear(year: number) {
     this.year = year;
   }
+
 
   /**
    * Adds a location to the cards and data panel
@@ -75,7 +82,17 @@ export class AppComponent {
   onSearchSelect(feature: MapFeature | null) {
     this.autoSwitchLayers = false;
     if (feature) {
-      this.mapBounds = bbox(feature);
+      const layerId = this.search.getLayerName(feature.properties['layer']);
+      this.search.getTileData(layerId, feature.geometry['coordinates'])
+        .subscribe(data => {
+          if (data === {}) {
+            console.log('could not find feature');
+          }
+          this.map.setDataLevelFromLayer(layerId);
+          // TODO: Bounds returned are a bit odd, maybe have designated zoom levels
+          // by layer and center at that zoom instead?
+          this.mapBounds = data.properties['bbox'];
+        });
     }
   }
 

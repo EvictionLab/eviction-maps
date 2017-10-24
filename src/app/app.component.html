@@ -4,8 +4,9 @@
             <img src="./assets/logo.png" class="header-logo" />
             <app-predictive-search
                 class="search"
-                [options]="map.mapFeatures"
-                optionField="properties.n"
+                [(selected)]="search.query"
+                [options]="search.results"
+                optionField="properties.name"
                 (selectionChange)="onSearchSelect($event)">
             </app-predictive-search>
             <app-ui-select

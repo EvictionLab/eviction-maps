@@ -1433,7 +1433,7 @@
       }
     },
     {
-      "id": "blockgroups",
+      "id": "block-groups",
       "type": "fill",
       "source": "us-block-groups",
       "source-layer": "block-groups",
@@ -1445,7 +1445,7 @@
       }
     },
     {
-      "id": "blockgroups_stroke",
+      "id": "block-groups_stroke",
       "type": "line",
       "source": "us-block-groups",
       "source-layer": "block-groups",
@@ -1479,7 +1479,7 @@
       }
     },
     {
-      "id": "zipcodes",
+      "id": "zip-codes",
       "type": "fill",
       "source": "us-zip-codes",
       "source-layer": "zip-codes",
@@ -1491,7 +1491,7 @@
       }
     },
     {
-      "id": "zipcodes_stroke",
+      "id": "zip-codes_stroke",
       "type": "line",
       "source": "us-zip-codes",
       "source-layer": "zip-codes",
@@ -2304,7 +2304,7 @@
       }
     },
     {
-      "id": "blockgroups_bubbles",
+      "id": "block-groups_bubbles",
       "type": "circle",
       "source": "us-block-groups",
       "source-layer": "block-groups-centers",
@@ -2547,7 +2547,7 @@
       }
     },
     {
-      "id": "blockgroups_text",
+      "id": "block-groups_text",
       "type": "symbol",
       "source": "us-block-groups",
       "source-layer": "block-groups-centers",
@@ -3961,7 +3961,7 @@
       }
     },
     {
-      "id": "zipcodes_bubbles",
+      "id": "zip-codes_bubbles",
       "type": "circle",
       "source": "us-zip-codes",
       "source-layer": "zip-codes-centers",
@@ -4134,7 +4134,7 @@
       }
     },
     {
-      "id": "zipcodes_text",
+      "id": "zip-codes_text",
       "type": "symbol",
       "source": "us-zip-codes",
       "source-layer": "zip-codes-centers",

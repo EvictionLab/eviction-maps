@@ -51,7 +51,7 @@ export class MapComponent {
   };
   legend;
   mapEventLayers: Array<string> =
-    [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties' ];
+    [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
   popup;
   private _bounds;
@@ -78,6 +78,15 @@ export class MapComponent {
     });
     // Reset the hover layer
     this.map.setSourceData('hover');
+  }
+
+  /**
+   * Set data level based on layer ID string input
+   * @param layerId layer ID string
+   */
+  setDataLevelFromLayer(layerId: string) {
+    const dataLevel = this.dataLevels.filter(l => l.id === layerId)[0];
+    this.setGroupVisibility(dataLevel);
   }
 
   /**
