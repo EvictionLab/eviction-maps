@@ -2568,7 +2568,19 @@
       "paint": {
         "text-color": "rgba(0, 0, 0, 1)",
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              10.75,
+              0
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -3217,9 +3229,6 @@
       "type": "symbol",
       "source": "us-counties",
       "source-layer": "counties-centers",
-      "filter": [
-        "all"
-      ],
       "layout": {
         "text-field": "{n}",
         "text-allow-overlap": false,
@@ -3949,8 +3958,8 @@
         "text-opacity": {
           "stops": [
             [
-              7,
-              1
+              9.75,
+              0
             ],
             [
               10,
@@ -4166,7 +4175,19 @@
       },
       "paint": {
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              10.75,
+              0
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        }
       }
     },
     {

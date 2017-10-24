@@ -96,15 +96,13 @@ export class MapComponent {
   setDataHighlight(attr: MapDataAttribute) {
     const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeDataHighlight = dataAttr;
-    console.log(this.activeDataHighlight);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const layerStem = layerId.split('-')[0];
       const newFill = {
         'property': dataAttr.id,
         'default': dataAttr.default,
-        'stops': (dataAttr.fillStops[layerStem] ?
-          dataAttr.fillStops[layerStem] : dataAttr.fillStops['default'])
+        'stops': (dataAttr.fillStops[layerId] ?
+          dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
       };
       this.map.setLayerStyle(layerId, 'fill-color', newFill);
     });
