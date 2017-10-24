@@ -12,7 +12,7 @@ export class DataPanelComponent implements OnChanges {
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   graphData;
-  graphType = 'line';
+  graphType = 'bar';
   cardProps = {
     'e': 'Evictions',
     'er': 'Eviction Rate',

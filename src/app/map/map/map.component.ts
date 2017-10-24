@@ -43,7 +43,7 @@ export class MapComponent {
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
   mapConfig = {
-    style: './assets/style-georgia.json',
+    style: './assets/style-georgia-cool.json',
     center: [-81.32, 32.62],
     zoom: 5.9,
     minZoom: 5,

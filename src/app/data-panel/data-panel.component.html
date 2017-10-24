@@ -4,7 +4,7 @@
           <div class="graph-container">
             <div class="graph-area">
               <h1>Location Comparison</h1>
-              <app-ui-toggle [values]="[ 'Line', 'Bar' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
+              <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
               <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
             </div>
             <ul class="graph-legend">
