@@ -2580,17 +2580,17 @@
           "default": "rgba(0,0,0,0)",
           "stops": [
             [
-              0,
+              7,
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              14,
               "rgba(255,4,0,0.8)"
             ]
           ]
         },
         "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 1,
+        "circle-stroke-width": 2,
         "circle-radius": {
           "property": "er-10",
           "default": 0,
