@@ -56,7 +56,9 @@ export class MapComponent {
   mapEventLayers: Array<string> =
     [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties' ];
   mapLoading = false;
+  popup;
   private _bounds;
+  private _mapInstance;
 
   constructor(
     private map: MapService,
@@ -155,6 +157,7 @@ export class MapComponent {
    * @param map mapbox instance
    */
   onMapReady(map) {
+    this._mapInstance = map;
     this.map.setMapInstance(map);
     this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
@@ -232,6 +235,30 @@ export class MapComponent {
     } else {
       this.map.setSourceData('hover');
     }
+  }
+
+  onFeatureEnter(e) {
+    if (!this.popup) {
+      this.popup = new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.n)
+        .addTo(this._mapInstance);
+    }
+  }
+
+  onFeatureMove(e) {
+    if (!this.popup) {
+      this.popup = new mapboxgl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(e.features[0].properties.n)
+        .addTo(this._mapInstance);
+    }
+    this.popup.setLngLat(e.lngLat).setHTML(e.features[0].properties.n);
+  }
+
+  onFeatureLeave() {
+    this.popup.remove();
+    this.popup = null;
   }
 
   /**
