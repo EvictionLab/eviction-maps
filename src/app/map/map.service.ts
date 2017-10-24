@@ -151,6 +151,32 @@ export class MapService {
   }
 
   /**
+   * Takes an array of layer groups and a source suffix (last two characters of a census
+   * layer year) and updates each of the layers in that group to to appropriate source.
+   *
+   * Ordinarily would try to generalize this, but updating the map style for each layer
+   * or even layer group seems unnecessary.
+   * @param layerGroups
+   * @param sourceSuffix i.e. 90, 00, 10
+   */
+  updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
+    const mapStyle: mapboxgl.Style = this.map.getStyle();
+    const layerObj = {};
+    layerGroups.forEach(l => {
+      layerObj[l.id] = l.layerIds;
+    });
+
+    mapStyle.layers.map(l => {
+      const layerPrefix = l.id.split('_')[0];
+      if (layerObj.hasOwnProperty(layerPrefix)) {
+        l.source = `us-${layerPrefix}-${sourceSuffix}`;
+      }
+      return l;
+    });
+    this.map.setStyle(mapStyle);
+  }
+
+  /**
    * Hides all layer groups that do not have a zoom range that falls within `zoom`
    * @param layerGroups an array of MapLayerGroup objects, with zoom properties
    * @param zoom the zoom level to hide based on
