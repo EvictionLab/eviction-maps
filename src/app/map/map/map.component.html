@@ -52,7 +52,7 @@
   <div class="map-overlay" [class.active]="!scrollZoom">
     <button
       class="btn btn-primary btn-compare" 
-      [class.active]="activeFeatures > 0 && scrollZoom"
+      [class.active]="(activeFeatures > 0) && scrollZoom"
       i18n
       (click)="showDataClick.emit()"
     >

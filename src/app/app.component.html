@@ -27,7 +27,7 @@
         (yearChange)="setYear($event)"
         [verticalOffset]="verticalOffset"
         (showMapClick)="goToTop()"
-        (showDataClick)="goToDataPanel()"
+        (showDataClick)="goToDataPanel($event)"
     ></app-map>
     <app-location-cards 
         *ngIf="activeFeatures.length > 0" 
