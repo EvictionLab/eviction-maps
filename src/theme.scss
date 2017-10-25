@@ -51,14 +51,10 @@ $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
 $toggleHoverForeground: #000;
 
-// app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
-
 // Slider
 $sliderText: $altTextColor;
-$sliderBackground: $color1;
-$sliderTrack: rgba(0,0,0,0.2);
-
-app-ui-slider { @include slider-colors($sliderText, $sliderBackground, $sliderTrack); }
+$sliderBackground: #000;
+$sliderTrack: rgba(0,0,0,0.15);
 
 // Select Dropdowns
 $selectText: $textColor;
