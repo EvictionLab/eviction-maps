@@ -1,4 +1,4 @@
-<div id="top" class="app-wrapper map-active" [class.map-active]="activeFeatures.length === 0" [class.data-active]="activeFeatures.length > 0">
+<div id="top" class="app-wrapper" [class.map-active]="activeFeatures.length === 0" [class.data-active]="activeFeatures.length > 0">
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -24,6 +24,7 @@
         [scrollZoom]="enableZoom"
         (featureClick)="addLocation($event)"
         (yearChange)="setYear($event)"
+        [verticalOffset]="verticalOffset"
     ></app-map>
     <app-location-cards 
         *ngIf="activeFeatures.length > 0" 

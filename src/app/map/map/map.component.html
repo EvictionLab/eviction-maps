@@ -1,4 +1,4 @@
-<div class="map-wrapper">
+<div class="map-wrapper" [style.transform]="'translateY('+ verticalOffset/3 +'px)'">
   <app-mapbox
       [mapConfig]="mapConfig" 
       [eventLayers]="mapEventLayers"
@@ -8,6 +8,7 @@
       (hoverChanged)="onFeatureHover($event)"
       (render)="onMapRender($event)"
       (moveEnd)="onMapMoveEnd($event)"
+      
   >
   </app-mapbox>
 </div>

@@ -1,6 +1,8 @@
 @import '../../../theme';
 
-
+.map-wrapper {
+  @include fill-parent();
+}
 
 // Map UI Layout
 

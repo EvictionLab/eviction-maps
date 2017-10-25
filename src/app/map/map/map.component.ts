@@ -31,6 +31,7 @@ export class MapComponent implements OnChanges {
   }
   @Input() autoSwitch = true;
   @Input() scrollZoom: boolean;
+  @Input() verticalOffset = 0 ;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();

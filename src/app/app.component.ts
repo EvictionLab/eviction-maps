@@ -28,6 +28,7 @@ export class AppComponent implements OnChanges {
   year = 2010;
   verticalOffset;
   enableZoom = true;
+  wheelEvent = false;
   @ViewChild(MapComponent) map;
 
   constructor(
@@ -114,20 +115,38 @@ export class AppComponent implements OnChanges {
     this.pageScrollService.start(pageScrollInstance);
   }
 
+  /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
+   */
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
-    // this.enableZoom = (this.verticalOffset === 0);
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    }
   }
 
-  @HostListener('wheel', ['$event'])
-  @Debounce(400)
-  onwheel(e) {
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @Debounce(250)
+  onWheel() {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = this.getVerticalOffset();
     }
-    // this.enableZoom = (this.verticalOffset === 0);
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
   }
+
+  /**
+   * Set wheel flag while scrolling with the wheel
+   */
+  @HostListener('wheel', ['$event'])
+  onBeginWheel() { this.wheelEvent = true; }
 
   private getVerticalOffset() {
     return window.pageYOffset ||
