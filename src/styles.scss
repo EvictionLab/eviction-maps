@@ -76,6 +76,21 @@ html, body {
   }
 }
 
+@media(min-width: 1365px) {
+  app-root .app-wrapper > app-map,
+  app-root .app-wrapper > app-location-cards {
+    max-width: $largeMaxContentWidth - $defaultPadding*2;
+    height: 520px!important;
+  }
+  app-root .data-content .data-content-inner,
+  app-root .header-wrapper .header-content {
+    max-width: $largeMaxContentWidth!important;
+  }
+  app-root .map-ui {
+    max-width: none!important;
+  }
+}
+
 
 // override mapbox popup styles
 .app-wrapper {
