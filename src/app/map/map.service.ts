@@ -89,20 +89,9 @@ export class MapService {
    * @param dataProperty
    */
   setLayerDataProperty(layerId: string, styleProperty: string, property: string) {
-    /*
-      FIXME: For some reason this isn't updating the actual map layer, even though
-      printing the style to the console shows it updated the property. I've tried to
-      actually change the stops layer as well, but it hasn't fixed it. Not sure if it's
-      related to this issue https://github.com/mapbox/mapbox-gl-js/issues/5370
-    */
-    const layerProperty = this.map.getPaintProperty(layerId, styleProperty);
-    const mapStyle = this.map.getStyle();
-    mapStyle['layers'].forEach(l => {
-      if (l['id'] === layerId) {
-        l['paint'][styleProperty]['property'] = property;
-      }
-    });
-    this.map.setStyle(mapStyle);
+    const layerProperty = { ...this.map.getPaintProperty(layerId, styleProperty) };
+    layerProperty['property'] = property;
+    this.map.setPaintProperty(layerId, styleProperty, layerProperty);
   }
 
   /**
