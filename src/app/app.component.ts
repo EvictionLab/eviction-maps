@@ -27,7 +27,7 @@ export class AppComponent implements OnChanges {
   activeFeatures = [];
   year = 2010;
   verticalOffset;
-  enableZoom = false;
+  enableZoom = true;
   @ViewChild(MapComponent) map;
 
   constructor(
