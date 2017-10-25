@@ -49,6 +49,17 @@
           placement="bottom"
       ></app-ui-hint>
   </div>
+  <div class="map-overlay" [class.active]="!scrollZoom">
+    <button
+      class="btn btn-primary btn-compare" 
+      [class.active]="activeFeatures > 0 && scrollZoom"
+      i18n
+      (click)="showDataClick.emit()"
+    >
+    {activeFeatures, plural, =0 {View More Data} =1 {View More Data} other {Compare Selected Locations}}
+    </button>
+    <button class="btn btn-primary btn-map" (click)="showMapClick.emit()">View Map</button>
+  </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"
       class="year-slider"

@@ -32,11 +32,14 @@ export class MapComponent implements OnChanges {
   @Input() autoSwitch = true;
   @Input() scrollZoom: boolean;
   @Input() verticalOffset = 0 ;
+  @Input() activeFeatures = false;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
   @Output() evictionTypeChange: EventEmitter<string> = new EventEmitter();
   @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
+  @Output() showDataClick = new EventEmitter();
+  @Output() showMapClick = new EventEmitter();
   zoom: number;
   dataYear = 2010;
   censusYear = 2010;
@@ -67,10 +70,10 @@ export class MapComponent implements OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.scrollZoom) {
-      console.log('change zoom enabled', this.scrollZoom, changes.scrollZoom);
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
   }
+
 
   /**
    * Sets the visibility on a layer group

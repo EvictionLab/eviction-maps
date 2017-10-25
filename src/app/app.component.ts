@@ -39,6 +39,7 @@ export class AppComponent implements OnChanges {
     @Inject(DOCUMENT) private document: any
   ) {
     PageScrollConfig.defaultDuration = 1000;
+    PageScrollConfig.defaultScrollOffset = 56;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations
     PageScrollConfig.defaultEasingLogic = {
@@ -124,6 +125,8 @@ export class AppComponent implements OnChanges {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
       this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
     }
   }
 

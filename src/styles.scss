@@ -55,3 +55,7 @@ html, body {
   .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
   .mapboxgl-popup-close-button { display: none; }
 }
+
+app-location-cards .card-footer {
+  display:none!important;
+}
