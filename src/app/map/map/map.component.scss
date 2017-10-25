@@ -13,6 +13,7 @@
     left:0;
     bottom: 0;
     right: 0;
+    &.blockEvents { pointer-events: all; }
 }
 .map-ui {
     position:absolute;

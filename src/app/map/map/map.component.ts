@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -19,7 +19,7 @@ import { DataAttributes } from '../../data/data-attributes';
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent {
+export class MapComponent implements OnChanges {
   @Input()
   get boundingBox() { return this._bounds; }
   set boundingBox(val) {
@@ -30,6 +30,7 @@ export class MapComponent {
     }
   }
   @Input() autoSwitch = true;
+  @Input() scrollZoom: boolean;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
@@ -62,6 +63,13 @@ export class MapComponent {
     private map: MapService,
     private _sanitizer: DomSanitizer
   ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.scrollZoom) {
+      console.log('change zoom enabled', this.scrollZoom, changes.scrollZoom);
+      changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
+    }
+  }
 
   /**
    * Sets the visibility on a layer group
@@ -188,6 +196,7 @@ export class MapComponent {
     // FIXME: Doing a hack to get layers because we likely won't be loading them outside
     // of prototypes anyway
     setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
+    this.scrollZoom ? this.enableZoom() : this.disableZoom();
     this.map.isLoading$.distinctUntilChanged()
       .debounceTime(200)
       .subscribe((state) => { this.mapLoading = state; });

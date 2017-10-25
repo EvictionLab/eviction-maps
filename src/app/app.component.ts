@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -20,14 +20,14 @@ import { SearchService } from './search/search.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnChanges {
   title = 'Eviction Lab';
   mapBounds;
   autoSwitchLayers = true;
   activeFeatures = [];
   year = 2010;
   verticalOffset;
-  enableZoom;
+  enableZoom = false;
   @ViewChild(MapComponent) map;
 
   constructor(
@@ -43,6 +43,12 @@ export class AppComponent {
     PageScrollConfig.defaultEasingLogic = {
         ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.enableZoom) {
+      console.log('toggle zoom event', changes.enableZoom, this.enableZoom);
+    }
   }
 
   setYear(year: number) {
@@ -110,29 +116,22 @@ export class AppComponent {
 
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
-    this.verticalOffset = window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
-    if (this.verticalOffset !== 0) {
-      this.map.disableZoom();
-    }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
-    }
+    this.verticalOffset = this.getVerticalOffset();
+    // this.enableZoom = (this.verticalOffset === 0);
   }
 
   @HostListener('wheel', ['$event'])
   @Debounce(400)
   onwheel(e) {
     if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop || 0;
+      this.verticalOffset = this.getVerticalOffset();
     }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
-    } else {
-      this.map.disableZoom();
-    }
+    // this.enableZoom = (this.verticalOffset === 0);
+  }
+
+  private getVerticalOffset() {
+    return window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
   }
 }

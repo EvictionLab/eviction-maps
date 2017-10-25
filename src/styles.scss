@@ -50,6 +50,33 @@ html, body {
   .card-footer { display: none;}
 }
 
+@media(min-width:1024px) {
+  app-root .app-wrapper > app-map,
+  app-root .app-wrapper > app-location-cards {
+    max-width: $maxContentWidth - $defaultPadding*2;
+    height: 460px!important;
+    margin: auto;
+    margin-top: 80px!important;
+    margin-bottom: 24px!important;
+  }
+  
+  app-root .app-wrapper > app-map {
+    border: 1px solid rgb(204, 204, 204);  
+  }
+  
+  app-root .app-wrapper > app-location-cards {
+    right:0;
+    left:2px!important;
+    overflow:hidden;
+  }
+
+  app-root .app-wrapper.map-active {
+    height:auto!important;
+    overflow:auto!important;
+  }
+}
+
+
 // override mapbox popup styles
 .app-wrapper {
   .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
