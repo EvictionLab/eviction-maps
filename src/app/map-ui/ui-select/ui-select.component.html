@@ -1,4 +1,4 @@
-<div class="el-select" dropdown>
+<div class="el-select" dropdown (isOpenChange)="open = dropdown.isOpen">
   <button dropdownToggle type="button" class="btn dropdown-toggle">
     <span *ngIf="label" class="el-select-label">{{label}} </span> 
     <span class="el-select-value">{{selectedLabel}}</span>
