@@ -27,7 +27,7 @@ export class AppComponent implements OnChanges {
   activeFeatures = [];
   year = 2010;
   verticalOffset;
-  enableZoom = true;
+  enableZoom = false;
   wheelEvent = false;
   @ViewChild(MapComponent) map;
 
@@ -123,11 +123,11 @@ export class AppComponent implements OnChanges {
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
-    if (!this.wheelEvent) {
-      this.enableZoom = (this.verticalOffset === 0);
-    } else {
-      this.enableZoom = false;
-    }
+    // if (!this.wheelEvent) {
+    //   this.enableZoom = (this.verticalOffset === 0);
+    // } else {
+    //   this.enableZoom = false;
+    // }
   }
 
   /**
@@ -142,7 +142,7 @@ export class AppComponent implements OnChanges {
       this.verticalOffset = this.getVerticalOffset();
     }
     this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
+    // this.enableZoom = (this.verticalOffset === 0);
   }
 
   /**
