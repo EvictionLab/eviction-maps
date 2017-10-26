@@ -60,8 +60,10 @@ app-location-cards .card-footer {
   display:none!important;
 }
 
+.btn-primary.btn-back-to-map { display: none; }
 @media(min-width: 1200px) {
   .btn-primary.btn-back-to-map {
+    display:block;
     position:absolute;
     top: 0;
     left: -100px;

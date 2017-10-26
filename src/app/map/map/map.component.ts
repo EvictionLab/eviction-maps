@@ -74,6 +74,12 @@ export class MapComponent implements OnChanges {
     }
   }
 
+  onShowDataClick(e) {
+    e.preventDefault();
+    this.showDataClick.emit();
+    return false;
+  }
+
 
   /**
    * Sets the visibility on a layer group

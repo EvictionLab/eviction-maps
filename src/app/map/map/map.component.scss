@@ -17,11 +17,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
+  padding-bottom: 40px;
   &.active { 
     pointer-events:all; 
     background-color: rgba(0,0,0,0.2);
+    .btn-map { transform: translateY(0px); }
+  }
+  .show-map-overlay {
+    @include fill-parent();
+    pointer-events:all;
+    z-index:51;
     .btn-map {
-      transform: translateY(0px);
+      position:absolute;
+      bottom: 8px;
+      left:0;
+      right:0;
+      width: 100px;
+      margin:auto;
     }
   }
   .btn-compare {
@@ -33,11 +45,6 @@
     &.active {
       transform: translateY(0px);
     }
-  }
-
-  .btn-map {
-    transition: transform 0.2s ease;
-    transform: translateY(100px);
   }
   .btn { 
     pointer-events: all;
