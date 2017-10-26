@@ -21,6 +21,7 @@
             [cardProperties]="cardProps"
             (dismissedCard)="locationRemoved.emit($event)"
           ></app-location-cards>
+          <app-stacked-bars *ngFor="let propKey of cardPropsKeys" [features]="locations" [year]="year" [cardProp]="propKey"></app-stacked-bars>
           <div class="data-panel-footer">
               <div class="action-wrapper">
                       <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>

@@ -21,6 +21,7 @@ export class DataPanelComponent implements OnChanges {
     'roh': 'Renter Occupied Houses',
     'ahs': 'Average House Size'
   };
+  cardPropsKeys = Object.keys(this.cardProps);
   graphSettings: any = {
     axis: { x: { label: null }, y: { label: 'Evictions' } },
     margin: { left: 60, right: 10 }

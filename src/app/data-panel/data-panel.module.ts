@@ -5,15 +5,16 @@ import { MapUiModule } from '../map-ui/map-ui.module';
 
 import { DataPanelComponent } from './data-panel.component';
 import { LocationCardsComponent } from '../location-cards/location-cards.component';
+import { StackedBarsComponent } from '../stacked-bars/stacked-bars.component';
 
 @NgModule({
-  exports: [ DataPanelComponent, LocationCardsComponent ],
+  exports: [ DataPanelComponent, LocationCardsComponent, StackedBarsComponent ],
   imports: [
     CommonModule,
     MapUiModule,
     GraphModule.forRoot()
   ],
-  declarations: [ DataPanelComponent, LocationCardsComponent ],
-  entryComponents: [ DataPanelComponent, LocationCardsComponent ]
+  declarations: [ DataPanelComponent, LocationCardsComponent, StackedBarsComponent ],
+  entryComponents: [ DataPanelComponent, LocationCardsComponent, StackedBarsComponent ]
 })
 export class DataPanelModule { }

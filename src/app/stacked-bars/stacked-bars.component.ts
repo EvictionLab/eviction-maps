@@ -1,17 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, OnChanges } from '@angular/core';
 import * as d3 from 'd3';
 import { Selection, BaseType } from 'd3';
 
 function divergingBarChart() {
   var margin = { top: 20, right: 20, bottom: 20, left: 20 },
     width = 600,
-    height = 150,
-    barHeight = 50,
+    height = 100,
+    barHeight = 25,
     dataValue = function (d) { return +d.data; },
     labelValue = function (d) { return d.label; },
     color = ['#e24000', '#2c897f', '#434878'];
 
   function chart(selection) {
+    // width = selection.clientWidth;
     selection.each(function (data) {
       data = data.map(function (d) {
         return { value: dataValue(d), label: labelValue(d) };
@@ -68,7 +69,7 @@ function divergingBarChart() {
         .attr('x1', legendX)
         .attr('x2', legendX)
         .attr('y1', height - margin.bottom - barHeight - 15)
-        .attr('y2', height - margin.bottom - barHeight - 45)
+        .attr('y2', height - margin.bottom - barHeight - 35)
         .attr('stroke', '#000000')
         .attr('stroke-width', 0.5);
 
@@ -82,10 +83,16 @@ function divergingBarChart() {
         .duration(750)
         .attr('text-anchor', 'middle')
         .attr('x', legendX)
-        .attr('y', height - margin.bottom - barHeight - 55)
-        .text(function (d) { return d3.format(',')(d['value']); });
+        .attr('y', height - margin.bottom - barHeight - 45)
+        .text(function (d) { return d['label'] + ' ' + d3.format(',')(d['value']); });
     });
   }
+
+  // chart.width = function (_) {
+  //   // if (!arguments.length) return width;
+  //   width = _;
+  //   return chart;
+  // };
 
   return chart;
 }
@@ -95,22 +102,34 @@ function divergingBarChart() {
   templateUrl: './stacked-bars.component.html',
   styleUrls: ['./stacked-bars.component.scss']
 })
-export class StackedBarsComponent implements OnInit {
+export class StackedBarsComponent implements OnInit, OnChanges {
+  @Input() features: Array<any>;
+  @Input() year = 2010;
+  @Input() cardProp: string;
+  cardPropMap =
+  { 'er': 'Eviction Rate', 'e': 'Evictions', 'pr': 'Poverty Rate', 'p': 'Population' };
   @ViewChild('bars') element: ElementRef;
+  get abbrYear() { return this.year.toString().slice(-2); }
+  chart = divergingBarChart();
 
   constructor() { }
 
   ngOnInit() {
-    const chart = divergingBarChart();
-    function getRandomInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    this.updateChart();
+  }
 
-    let data = [];
-    for (let i = 0; i < 3; ++i) {
-      data.push({ data: getRandomInt(1, 1000), label: "Test " + data.length });
-    }
-    d3.select(this.element.nativeElement).datum(data).call(chart);
+  ngOnChanges() {
+    this.updateChart();
+  }
+
+  updateChart() {
+    const data = this.features.map(d => {
+      return {
+        data: d['properties'][this.cardProp + '-' + this.abbrYear],
+        label: d['properties']['n']
+      };
+    });
+    d3.select(this.element.nativeElement).datum(data).call(this.chart);
   }
 
 }

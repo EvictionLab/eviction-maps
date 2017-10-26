@@ -4,6 +4,7 @@ import { DataPanelComponent } from './data-panel.component';
 import { MapUiModule } from '../map-ui/map-ui.module';
 import { GraphModule } from 'angular-d3-graph/module';
 import { LocationCardsComponent } from '../location-cards/location-cards.component';
+import { StackedBarsComponent } from '../stacked-bars/stacked-bars.component';
 
 describe('DataPanelComponent', () => {
   let component: DataPanelComponent;
@@ -11,7 +12,7 @@ describe('DataPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataPanelComponent, LocationCardsComponent ],
+      declarations: [ DataPanelComponent, LocationCardsComponent, StackedBarsComponent ],
       imports: [ MapUiModule, GraphModule.forRoot() ]
     })
     .compileComponents();
