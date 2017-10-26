@@ -10,6 +10,8 @@ export class DataPanelComponent implements OnChanges {
 
   @Input() locations;
   @Input() year: number;
+  @Input() backButton = true;
+  @Output() showMapClick = new EventEmitter();
   @Output() locationRemoved = new EventEmitter();
   graphData;
   graphType = 'bar';

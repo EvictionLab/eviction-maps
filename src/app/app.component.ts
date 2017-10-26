@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, HostListener, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -10,6 +10,7 @@ import Debounce from 'debounce-decorator';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 
+import { DataPanelComponent } from './data-panel/data-panel.component';
 import { DataLevels } from './data/data-levels';
 import { DataAttributes } from './data/data-attributes';
 import { UiDialogService } from './map-ui/ui-dialog/ui-dialog.service';
@@ -20,16 +21,22 @@ import { SearchService } from './search/search.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnChanges {
+export class AppComponent implements OnChanges, AfterViewInit {
   title = 'Eviction Lab';
   mapBounds;
   autoSwitchLayers = true;
   activeFeatures = [];
   year = 2010;
-  verticalOffset;
+  verticalOffset = 0;
   enableZoom = true;
   wheelEvent = false;
+  panelOffset: number;
   @ViewChild(MapComponent) map;
+  @ViewChild('divider') dividerEl;
+  get buttonOffset() {
+    if (!this.panelOffset || !this.verticalOffset) { return 'translateY(0)'; }
+    return 'translateY(' + Math.max(0, 56 + this.verticalOffset - this.panelOffset) + 'px)';
+  }
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -51,6 +58,17 @@ export class AppComponent implements OnChanges {
     if (changes.enableZoom) {
       console.log('toggle zoom event', changes.enableZoom, this.enableZoom);
     }
+  }
+
+  ngAfterViewInit() {
+    // console.log(this.dividerEl);
+    this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
+  @HostListener('window:resize', [ '$event' ])
+  onresize(e) {
+    this.panelOffset =
+      this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
   }
 
   setYear(year: number) {

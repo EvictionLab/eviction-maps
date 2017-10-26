@@ -59,3 +59,30 @@ html, body {
 app-location-cards .card-footer {
   display:none!important;
 }
+
+@media(min-width: 1200px) {
+  .btn-primary.btn-back-to-map {
+    position:absolute;
+    top: 0;
+    left: -100px;
+    width:80px;
+    margin-top:16px;
+    background: #fff;
+    color: #999;
+    border: 4px solid #ddd;
+    padding:16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight:500;
+  }
+}
+
+
+.svg-up-arrow {
+  transform: rotate(180deg);
+  margin-bottom:4px;
+  width:14px;
+  height:8px;
+  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+}

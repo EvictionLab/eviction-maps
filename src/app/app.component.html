@@ -29,6 +29,7 @@
         (showMapClick)="goToTop()"
         (showDataClick)="goToDataPanel($event)"
     ></app-map>
+    <div #divider></div>
     <app-location-cards 
         *ngIf="activeFeatures.length > 0" 
         [features]="activeFeatures"
@@ -39,10 +40,22 @@
     <app-data-panel
         id="data-panel"
         *ngIf="activeFeatures.length > 0"
+        
         [year]="year"
         [locations]="activeFeatures" 
         (locationRemoved)="removeLocation($event)"
-    ></app-data-panel>
+    >
+      <button (click)="goToTop()" class="btn-primary btn-back-to-map" 
+        [style.transform]="buttonOffset"
+      >
+        <svg class="svg-up-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <g>
+            <polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline>
+          </g>
+        </svg>
+        View Map
+      </button>
+    </app-data-panel>
     <div class="footer">
         <div class="placeholder">
           <img src="./assets/images/footer.png" />
