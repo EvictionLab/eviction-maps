@@ -9,9 +9,10 @@ import { MapUiModule } from './map-ui/map-ui.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { PlatformService } from './platform.service';
 import { SearchService } from './search/search.service';
+import { StackedBarsComponent } from './stacked-bars/stacked-bars.component';
 
 @NgModule({
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, StackedBarsComponent ],
   imports: [
     HttpModule,
     MapUiModule,
