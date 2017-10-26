@@ -40,7 +40,6 @@
     <app-data-panel
         id="data-panel"
         *ngIf="activeFeatures.length > 0"
-        
         [year]="year"
         [locations]="activeFeatures" 
         (locationRemoved)="removeLocation($event)"
