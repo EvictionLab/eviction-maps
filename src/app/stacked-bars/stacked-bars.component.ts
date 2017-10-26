@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { Selection, BaseType } from 'd3';
 
 function divergingBarChart() {
-  var margin = { top: 20, right: 20, bottom: 20, left: 20 },
+  var margin = { top: 20, right: 50, bottom: 20, left: 50 },
     width = 600,
     height = 100,
     barHeight = 25,
@@ -107,7 +107,9 @@ export class StackedBarsComponent implements OnInit, OnChanges {
   @Input() year = 2010;
   @Input() cardProp: string;
   cardPropMap =
-  { 'er': 'Eviction Rate', 'e': 'Evictions', 'pr': 'Poverty Rate', 'p': 'Population' };
+  { 'er': 'Eviction Rate', 'e': 'Evictions', 'pr': 'Poverty Rate', 'p': 'Population',
+    'roh': 'Renter Occupied Houses',
+    'ahs': 'Average House Size' };
   @ViewChild('bars') element: ElementRef;
   get abbrYear() { return this.year.toString().slice(-2); }
   chart = divergingBarChart();
