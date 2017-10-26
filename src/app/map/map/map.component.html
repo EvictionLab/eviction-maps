@@ -8,7 +8,6 @@
       (hoverChanged)="onFeatureHover($event)"
       (render)="onMapRender($event)"
       (moveEnd)="onMapMoveEnd($event)"
-      
   >
   </app-mapbox>
 </div>
@@ -58,7 +57,7 @@
     >
     {activeFeatures, plural, =0 {View More Data} =1 {View More Data} other {View Detailed Comparison}}
     </button>
-    <button class="btn btn-primary btn-map" (click)="showMapClick.emit()">View Map</button>
+    <button [style.opacity]="(verticalOffset-56)/500" class="btn btn-primary btn-map" (click)="showMapClick.emit()">View Map</button>
   </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"
