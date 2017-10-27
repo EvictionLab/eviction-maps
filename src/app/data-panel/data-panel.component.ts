@@ -11,6 +11,7 @@ export class DataPanelComponent implements OnChanges {
   @Input() locations;
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
+  @Output() locationAdded = new EventEmitter();
   graphData;
   graphType = 'bar';
   cardProps = {

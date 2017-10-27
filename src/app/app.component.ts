@@ -81,8 +81,9 @@ export class AppComponent {
   /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
+   * @param updateMap moves the map to the selected location if true
    */
-  onSearchSelect(feature: MapFeature | null) {
+  onSearchSelect(feature: MapFeature | null, updateMap = true) {
     this.autoSwitchLayers = false;
     if (feature) {
       const layerId = this.search.getLayerName(feature.properties['layer']);
@@ -93,10 +94,12 @@ export class AppComponent {
           }
           this.map.setDataLevelFromLayer(layerId);
           this.addLocation(data);
-          if (feature.hasOwnProperty('bbox')) {
-            this.mapBounds = feature['bbox'];
-          } else {
-            this.map.zoomToPointFeature(feature);
+          if (updateMap) {
+            if (feature.hasOwnProperty('bbox')) {
+              this.mapBounds = feature['bbox'];
+            } else {
+              this.map.zoomToPointFeature(feature);
+            }
           }
         });
     }

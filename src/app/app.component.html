@@ -37,6 +37,7 @@
         [year]="year"
         [locations]="activeFeatures" 
         (locationRemoved)="removeLocation($event)"
+        (locationAdded)="onSearchSelect($event, false)"
     ></app-data-panel>
     <div class="footer">
         <div class="placeholder">

@@ -15,11 +15,13 @@
               </li>
             </ul>
           </div>
-          <app-location-cards 
+          <app-location-cards
+            [allowAddLocation]="locations.length < 3"
             [features]="locations"
             [year]="year"
             [cardProperties]="cardProps"
             (dismissedCard)="locationRemoved.emit($event)"
+            (locationAdded)="locationAdded.emit($event)"
           ></app-location-cards>
           <div class="data-panel-footer">
               <div class="action-wrapper">
