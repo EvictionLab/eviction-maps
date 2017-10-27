@@ -11,7 +11,7 @@ import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { DataLevels } from '../../data/data-levels';
-import { DataAttributes } from '../../data/data-attributes';
+import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -40,9 +40,11 @@ export class MapComponent {
   censusYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
   attributes: Array<MapDataAttribute> = DataAttributes;
+  bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
   mapFeatures: Observable<Object>;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
+  activeBubbleHighlight: MapDataAttribute;
   mapConfig = {
     style: './assets/style.json',
     center: [-98.5556199, 39.8097343],
@@ -108,6 +110,16 @@ export class MapComponent {
     });
   }
 
+  setBubbleHighlight(attr: MapDataAttribute) {
+    const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
+    this.activeBubbleHighlight = bubbleAttr;
+    // Not used yet, but will be in future
+    this.updateLegend();
+    this.mapEventLayers.forEach((layerId) => {
+      this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-radius', attr.id);
+    });
+  }
+
   /**
    * Sets the zoom level across both the map and zoom control components
    * @param zoomLevel new zoom level
@@ -144,7 +156,8 @@ export class MapComponent {
     this.setGroupVisibility(this.activeDataLevel);
     this.mapEventLayers.forEach((layer) => {
       this.map.setLayerDataProperty(
-        `${layer}_bubbles`, 'circle-radius', `er-${('' + year).slice(2)}`
+        `${layer}_bubbles`, 'circle-radius',
+        this.addYearToObject(this.activeBubbleHighlight, this.dataYear).id
       );
     });
     this.updateLegend();
@@ -182,6 +195,7 @@ export class MapComponent {
     this.map.setupHoverPopup(this.mapEventLayers);
     this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
+    this.activeBubbleHighlight = this.bubbleAttributes[0];
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitch = true;

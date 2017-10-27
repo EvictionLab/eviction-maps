@@ -80,3 +80,14 @@ export const DataAttributes: Array<MapDataAttribute> = [
         }
     }
 ];
+
+export const BubbleAttributes: Array<MapDataAttribute> = [
+    {
+        'id': 'er',
+        'name': 'Judgments'
+    },
+    {
+        'id': 'efr',
+        'name': 'Filings'
+    }
+];

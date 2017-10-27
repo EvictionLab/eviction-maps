@@ -17,6 +17,8 @@ export class DataPanelComponent implements OnChanges {
   cardProps = {
     'er': 'Eviction Rate',
     'e': 'Evictions',
+    'efr': 'Eviction Filing Rate',
+    'ef': 'Eviction Filings',
     'pr': 'Poverty Rate',
     'p': 'Population',
     'roh': 'Renter Occupied Houses',
