@@ -78,6 +78,9 @@ export class MapService {
         this.popup.remove();
       }
     });
+    this.map.on('mouseout', (e) => {
+      this.popup.remove();
+    });
   }
 
   /**
