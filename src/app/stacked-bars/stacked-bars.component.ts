@@ -7,6 +7,7 @@ function divergingBarChart() {
     width = 600,
     height = 100,
     barHeight = 25,
+    padding = 10,
     dataValue = function (d) { return +d.data; },
     labelValue = function (d) { return d.label; },
     color = ['#e24000', '#2c897f', '#434878'];
@@ -48,17 +49,19 @@ function divergingBarChart() {
       var dataRects = rectG.selectAll('.data-rects').data(data, function (d) { return d['label']; });
       dataRects.exit().remove();
       dataRects.enter().append('rect').attr('class', 'data-rects');
-      rectG.selectAll('.data-rects').transition()
+      rectG.selectAll(".data-rects").transition()
         .duration(750)
-        .attr('x', function (d, i) { return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, 0); })
-        .attr('y', height - margin.bottom - barHeight)
-        .attr('width', function (d) { return barScale(d['value']); })
-        .attr('height', barHeight)
-        .attr('fill', function (d, i) { return color[i]; });
+        .attr("x", function (d, i) {
+          return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, 1) + (padding / 2);
+        })
+        .attr("y", height - margin.bottom - barHeight)
+        .attr("width", function (d) { return Math.max(barScale(d['value']) - (padding / 2), 1); })
+        .attr("height", barHeight)
+        .attr("fill", function (d, i) { return color[i]; });
 
       // Getting midpoint for legend
       function legendX(d, i) {
-        return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, barScale(d['value']) / 2);
+        return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, ((barScale(d['value']) - (padding / 2)) / 2)) + (padding / 2);
       };
 
       var legendLines = g.selectAll('line.legend').data(data, function (d) { return d['label']; });
@@ -84,7 +87,7 @@ function divergingBarChart() {
         .attr('text-anchor', 'middle')
         .attr('x', legendX)
         .attr('y', height - margin.bottom - barHeight - 45)
-        .text(function (d) { return d['label'] + ' ' + d3.format(',')(d['value']); });
+        .text(function (d) { return d['label'] + ' ' + d3.format('.2s')(d['value']); });
     });
   }
 
