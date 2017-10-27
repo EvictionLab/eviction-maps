@@ -1,17 +1,21 @@
 // Slider theme
 @mixin slider-colors($textColor, $foregroundColor, $backgroundColor) {
     .el-slider {
-        .track, .scrubber-label, .scrubber-marker {
-            background: $foregroundColor;
+        .track, .scrubber-label {
+          background: $foregroundColor;
         }
         .track-full { 
-            background: $backgroundColor;
+          background: $backgroundColor;
         }
         .scrubber-label {
-            color: $textColor;            
+          color: $textColor;            
         }
         .scrubber-label:after {
-            border-top-color: $foregroundColor!important;
+          border-top-color: $foregroundColor!important;
+        }
+        .scrubber-marker {
+          border: 4px solid $foregroundColor;
+          background: $textColor;
         }
         &.vertical .scrubber-label:after {
             border-top-color: transparent!important;

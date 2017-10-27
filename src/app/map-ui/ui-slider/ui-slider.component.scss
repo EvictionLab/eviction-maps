@@ -1,11 +1,7 @@
-@import "../../../theme/ui-slider.theme";
+@import "../../../theme";
 
-$sliderTextColor: #fff;
-$sliderForegroundColor: #333;
-$sliderBackgroundColor: #ccc;
-
-:host-context(.theme-default) {
-    @include slider-colors($sliderTextColor, $sliderForegroundColor, $sliderBackgroundColor);
+:host {
+  @include slider-colors($sliderText, $sliderBackground, $sliderTrack);
 }
 
 .el-slider {
@@ -44,11 +40,16 @@ $sliderBackgroundColor: #ccc;
     .scrubber-label {
         position:absolute;
         text-align:center;
-        padding: 4px;
+        padding: 7px 10px 6px 10px;
         font-size:10px;
-        top: -20px;
+        top: -9px;
         left:0;right:0;
         margin:auto;
+        font-weight: 500;
+        letter-spacing: 0.4px;
+        line-height: 10px;
+        width:44px;
+        margin-left: -2px;
         &:after {
             // label arrow
             content:'';
@@ -57,15 +58,16 @@ $sliderBackgroundColor: #ccc;
             left:0;
             right:0;
             margin:auto;
-            border: 7px solid transparent;
-            top:20px;
+            border: 10px solid transparent;
+            top: 20px;
+            transform: scale(0.666, 1);
         }
     }
     // circle marker for scrubber
     .scrubber-marker {
-        width:12px;
-        height:12px;
-        border-radius: 6px;
+        width:20px;
+        height:20px;
+        border-radius: 10px;
         margin:auto;
         position:absolute;
         top:0;left:0;right:0;bottom:0;
