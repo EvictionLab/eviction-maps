@@ -56,7 +56,10 @@ export class AppComponent {
    */
   addLocation(feature) {
     if (this.activeFeatures.length < 3) {
-      const i = this.activeFeatures.findIndex((f) => _isEqual(f, feature));
+      const i = this.activeFeatures.findIndex((f) => {
+        return f.properties.n === feature.properties.n &&
+          f.properties.pl === feature.properties.pl;
+      });
       if (!(i > -1)) {
         this.activeFeatures = [ ...this.activeFeatures, feature ];
       }
@@ -83,12 +86,13 @@ export class AppComponent {
     this.autoSwitchLayers = false;
     if (feature) {
       const layerId = this.search.getLayerName(feature.properties['layer']);
-      this.search.getTileData(layerId, feature.geometry['coordinates'])
+      this.search.getTileData(layerId, feature.geometry['coordinates'], true)
         .subscribe(data => {
           if (data === {}) {
             console.log('could not find feature');
           }
           this.map.setDataLevelFromLayer(layerId);
+          this.addLocation(data);
           if (feature.hasOwnProperty('bbox')) {
             this.mapBounds = feature['bbox'];
           } else {
