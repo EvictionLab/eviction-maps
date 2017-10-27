@@ -18,7 +18,10 @@
           tabindex="4"
           class="eviction-select"
           label="Eviction"
-          [values]="['Judgments', 'Filings']"
+          labelProperty="name"
+          [selectedValue]="activeBubbleHighlight"
+          [values]="bubbleAttributes"
+          (change)="setBubbleHighlight($event)"
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
