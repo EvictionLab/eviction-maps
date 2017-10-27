@@ -61,7 +61,7 @@ function divergingBarChart() {
 
       // Getting midpoint for legend
       function legendX(d, i) {
-        return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, ((barScale(d['value']) - (padding / 2)) / 2)) + (padding / 2);
+        return data.slice(0, i).reduce(function (a, d) { return a + barScale(d['value']); }, (Math.max((barScale(d['value']) - (padding / 2)), 1) / 2)) + (padding / 2);
       };
 
       var legendLines = g.selectAll('line.legend').data(data, function (d) { return d['label']; });
