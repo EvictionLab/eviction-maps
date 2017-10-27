@@ -11,6 +11,7 @@ import { MapFeature } from './map-feature';
 @Injectable()
 export class MapService {
   private map: mapboxgl.Map;
+  private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
 
@@ -46,6 +47,38 @@ export class MapService {
    * @param map mapbox instance
    */
   setMapInstance(map) { this.map = map; }
+
+  /**
+   * Setup hover popup to display when labels are not visible
+   * @param layerIds layer IDs to query for tooltip label
+   */
+  setupHoverPopup(layerIds: string[]) {
+    this.popup = new mapboxgl.Popup({ closeButton: false });
+    this.map.on('mousemove', (e) => {
+      const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
+      if (features.length) {
+        const feat: MapFeature = features[0];
+        // Check if labels are visible, don't display tooltip if so
+        const labelLayer = this.map.getLayer(`${feat['layer']['id']}_text`);
+        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+          layers: [`${feat['layer']['id']}_text`],
+          filter: [
+            'all',
+            ['==', 'n', feat.properties.n],
+          ]
+        });
+        if (labelFeatures.length && labelLayer.paint['text-opacity'] > 0) {
+          this.popup.remove();
+        } else {
+          this.popup.setLngLat(e.lngLat)
+            .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
+            .addTo(this.map);
+        }
+      } else {
+        this.popup.remove();
+      }
+    });
+  }
 
   /**
    * Set the visibility for a mapbox layer
