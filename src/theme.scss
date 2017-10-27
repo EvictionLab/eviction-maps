@@ -64,8 +64,6 @@ $selectHighlightText: $textColor;
 $selectHighlightBackground: #eee;
 $selectCaret: $color1;
 
-app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
-
 // Progress Bars
 $progressBarColor: $color1;
 
