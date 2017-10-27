@@ -250,7 +250,7 @@ export class MapComponent {
    */
   onFeatureHover(feature) {
     this.featureHover.emit(feature);
-    if (feature) {
+    if (feature && feature.layer.id === this.activeDataLevel.id) {
       const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
       this.map.setSourceData('hover', union);
     } else {
