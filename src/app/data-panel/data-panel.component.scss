@@ -32,13 +32,14 @@
     padding-top:56.25%;
     position:relative;
   }
-  .line-tooltips {
+  .line-tooltips, .bar-tooltips {
     @include fill-parent();
-    .line-tooltip {
-      position:absolute;
-      top:0;
-      left:0;
-    }
+    pointer-events: none;
+  }
+  .line-tooltip, .bar-tooltip {
+    position:absolute;
+    top:0;
+    left:0;
   }
 }
 @media(min-width: 768px) {

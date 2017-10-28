@@ -15,6 +15,11 @@
                     <span>{{tooltip.y}}</span>
                   </div>
                 </div>
+                <div class="bar-tooltips" *ngIf="graphType === 'bar'">
+                  <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ tooltip.left +'px, ' + tooltip.top + 'px)'">
+                    <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
+                  </div>
+                </div>
               </app-graph>
             </div>
             <ul class="graph-legend">
