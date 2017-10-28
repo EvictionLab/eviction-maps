@@ -131,6 +131,17 @@ export class MapService {
   }
 
   /**
+   * Updates the data property used in filters. Mostly used for updating null layers
+   * @param layerId
+   * @param property
+   */
+  setLayerFilterProperty(layerId: string, property: string) {
+    const layerFilter = this.map.getFilter(layerId);
+    layerFilter[1] = property;
+    this.map.setFilter(layerId, layerFilter);
+  }
+
+  /**
    * Queries a layer for all features matching the name and parent-location of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
