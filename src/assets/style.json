@@ -5,7 +5,9 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://free.tilehosting.com/data/v3.json?key=JgNOMnZWmIN2iBSFGgsi"
+      "tiles": [
+        "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/{z}/{x}/{y}.pbf"
+      ]
     },
     "us-block-groups-90": {
       "type": "vector",
@@ -142,7 +144,7 @@
     }
   },
   "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
-  "glyphs": "https://free.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=JgNOMnZWmIN2iBSFGgsi",
+  "glyphs": "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -1131,9 +1133,7 @@
         "text-transform": "none",
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1181,9 +1181,7 @@
         "text-size": 10,
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1323,9 +1321,7 @@
         "text-size": 10,
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Medium",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Medium"
         ],
         "text-justify": "center",
         "visibility": "visible",
@@ -1370,9 +1366,7 @@
         "text-size": 10,
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1457,9 +1451,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1807,9 +1799,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -1935,9 +1925,7 @@
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2022,9 +2010,7 @@
         "icon-image": "circle-11",
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2147,17 +2133,13 @@
             [
               4,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               5,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -2260,9 +2242,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2320,9 +2300,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2598,8 +2576,7 @@
       "layout": {
         "text-field": "{n}",
         "text-font": [
-          "Metropolis Regular",
-          ""
+          "Metropolis+Regular"
         ],
         "text-size": 12,
         "text-letter-spacing": 0.07,
@@ -2897,8 +2874,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -3244,8 +3220,7 @@
         "text-keep-upright": true,
         "text-line-height": 1.2,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -3454,15 +3429,13 @@
             [
               3,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               7,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -3906,9 +3879,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -4361,8 +4332,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
