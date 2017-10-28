@@ -5,7 +5,17 @@
             <div class="graph-area">
               <h1>Location Comparison</h1>
               <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
-              <app-graph [data]="graphData" [settings]="graphSettings"></app-graph>
+              <app-graph
+                [data]="graphData"
+                [settings]="graphSettings"
+                (activeValuesChanged)="onGraphHover($event)"
+              >
+                <div class="line-tooltips" *ngIf="graphType === 'line'">
+                  <div class="line-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
+                    <span>{{tooltip.y}}</span>
+                  </div>
+                </div>
+              </app-graph>
             </div>
             <ul class="graph-legend">
               <li *ngFor="let location of locations">

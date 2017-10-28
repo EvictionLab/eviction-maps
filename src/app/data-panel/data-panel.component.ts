@@ -13,6 +13,7 @@ export class DataPanelComponent implements OnChanges {
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   graphData;
+  tooltips = [];
   graphType = 'bar';
   cardProps = {
     'er': 'Eviction Rate',
@@ -36,6 +37,11 @@ export class DataPanelComponent implements OnChanges {
     if (changes.year && this.graphType === 'bar') {
       this.setGraphData();
     }
+  }
+
+  onGraphHover(f) {
+    console.log('graph hover', f);
+    this.tooltips = f;
   }
 
   changeGraphType(newType: string) {

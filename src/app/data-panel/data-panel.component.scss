@@ -26,6 +26,20 @@
   text-align:right; 
   h1 { font-size: 16px; float:left; line-height: 30px; margin:0; }
   app-ui-toggle { display:inline-block; }
+  app-graph {
+    display:block;
+    width:100%;
+    padding-top:56.25%;
+    position:relative;
+  }
+  .line-tooltips {
+    @include fill-parent();
+    .line-tooltip {
+      position:absolute;
+      top:0;
+      left:0;
+    }
+  }
 }
 @media(min-width: 768px) {
   .graph-area { 
