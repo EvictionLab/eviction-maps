@@ -1,13 +1,6 @@
-@import '../../../theme/ui-select.theme';
+@import '../../../theme';
 
-$selectText: #000;
-$selectBackground: #fff;
-$selectLabelText: #999;
-$selectHighlightText: #000;
-$selectHighlightBackground: #eee;
-$selectCaret: #000;
-
-:host-context(.theme-default) {
+:host {
     @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
 }
 
@@ -15,6 +8,24 @@ $selectCaret: #000;
     width: auto;
     display:block;
     position:relative;
+    .dropdown-menu {
+      border-radius: 0;
+      border: none;
+      margin-top: 1px;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 140px;
+      padding:0;
+      & > li > a {
+        padding: 0px 12px;
+        line-height: 40px;
+        white-space: nowrap;
+        border-top: 1px solid #eee;
+        height: 40px;
+        box-sizing: border-box;
+      }
+      & li:first-child a { border-top: none; }
+    }
     .dropdown-toggle.btn {
       position:relative;
       border:none;
@@ -26,11 +37,18 @@ $selectCaret: #000;
       font-size:12px;
       width:100%;
       text-align:left;
-      padding-right: 24px;
-      .caret {
+      padding-right: 32px;
+      .svg-down-arrow {
         position:absolute;
         right:8px;
-        top:12px;
+        top:11px;
+        width:14px;
+        height: 8px;
+        polyline {
+          stroke: $selectCaret;
+          stroke-width: 2px;
+          fill:none;
+        }
       }
     }
   }

@@ -15,3 +15,15 @@
     <button class="btn btn-primary" (click)="viewMore.emit(f)">View More</button>
   </div>
 </div>
+<div *ngIf="allowAddLocation" class="location-card location-add">
+  <div class="card-content">
+    <p>Add another location</p>
+    <app-predictive-search
+        class="search"
+        [(selected)]="search.query"
+        [options]="search.results"
+        optionField="properties.label"
+        (selectionChange)="search.query = null; locationAdded.emit($event);">
+    </app-predictive-search>
+  </div>
+</div>

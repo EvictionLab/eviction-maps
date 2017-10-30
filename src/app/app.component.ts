@@ -56,7 +56,10 @@ export class AppComponent {
    */
   addLocation(feature) {
     if (this.activeFeatures.length < 3) {
-      const i = this.activeFeatures.findIndex((f) => _isEqual(f, feature));
+      const i = this.activeFeatures.findIndex((f) => {
+        return f.properties.n === feature.properties.n &&
+          f.properties.pl === feature.properties.pl;
+      });
       if (!(i > -1)) {
         this.activeFeatures = [ ...this.activeFeatures, feature ];
       }
@@ -78,21 +81,25 @@ export class AppComponent {
   /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
+   * @param updateMap moves the map to the selected location if true
    */
-  onSearchSelect(feature: MapFeature | null) {
+  onSearchSelect(feature: MapFeature | null, updateMap = true) {
     this.autoSwitchLayers = false;
     if (feature) {
       const layerId = this.search.getLayerName(feature.properties['layer']);
-      this.search.getTileData(layerId, feature.geometry['coordinates'])
+      this.search.getTileData(layerId, feature.geometry['coordinates'], true)
         .subscribe(data => {
           if (data === {}) {
             console.log('could not find feature');
           }
           this.map.setDataLevelFromLayer(layerId);
-          if (feature.hasOwnProperty('bbox')) {
-            this.mapBounds = feature['bbox'];
-          } else {
-            this.map.zoomToPointFeature(feature);
+          this.addLocation(data);
+          if (updateMap) {
+            if (feature.hasOwnProperty('bbox')) {
+              this.mapBounds = feature['bbox'];
+            } else {
+              this.map.zoomToPointFeature(feature);
+            }
           }
         });
     }

@@ -51,14 +51,10 @@ $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
 $toggleHoverForeground: #000;
 
-// app-ui-toggle { @include ui-toggle-colors($toggleBorderColor, $toggleBackground, $toggleSelectedBackground, $toggleHoverBackground, $toggleForeground, $toggleSelectedForeground); }  
-
 // Slider
 $sliderText: $altTextColor;
-$sliderBackground: $color1;
-$sliderTrack: rgba(0,0,0,0.2);
-
-app-ui-slider { @include slider-colors($sliderText, $sliderBackground, $sliderTrack); }
+$sliderBackground: #000;
+$sliderTrack: rgba(0,0,0,0.15);
 
 // Select Dropdowns
 $selectText: $textColor;
@@ -67,8 +63,6 @@ $selectBackground: #fff;
 $selectHighlightText: $textColor;
 $selectHighlightBackground: #eee;
 $selectCaret: $color1;
-
-app-ui-select { @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret); }
 
 // Progress Bars
 $progressBarColor: $color1;

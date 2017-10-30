@@ -96,6 +96,12 @@ export class MapboxComponent implements AfterViewInit {
     // Emit all zoom end events from map
     this.map.on('moveend', (e) => { this.moveEnd.emit(e); });
     this.map.on('zoom', (zoomEvent) => { this.zoom.emit(this.map.getZoom()); });
+    // Emit feature on zoom end to account for geography details changing across zooms
+    this.map.on('zoomend', () => {
+      if (this.activeFeature) {
+        this.hoverChanged.emit(this.activeFeature);
+      }
+    });
     this.map.on('render', (e) => {
       this.render.emit(e);
       this.mapService.setLoading(!this.map.loaded());

@@ -8,14 +8,18 @@ import { UiDialogService } from '../map-ui/ui-dialog/ui-dialog.service';
 })
 export class DataPanelComponent implements OnChanges {
 
-  @Input() locations;
+  @Input() locations = [];
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
+  @Output() locationAdded = new EventEmitter();
   graphData;
+  tooltips = [];
   graphType = 'bar';
   cardProps = {
     'er': 'Eviction Rate',
     'e': 'Evictions',
+    'efr': 'Eviction Filing Rate',
+    'ef': 'Eviction Filings',
     'pr': 'Poverty Rate',
     'p': 'Population',
     'roh': 'Renter Occupied Houses',
@@ -37,8 +41,17 @@ export class DataPanelComponent implements OnChanges {
     }
   }
 
+  onGraphHover(f) {
+    if (f) {
+      this.tooltips = this.graphType === 'bar' ? [ f ] : f;
+    } else {
+      this.tooltips = [];
+    }
+  }
+
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
+    this.tooltips = [];
     this.setGraphData();
   }
 

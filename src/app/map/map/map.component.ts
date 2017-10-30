@@ -11,7 +11,7 @@ import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { DataLevels } from '../../data/data-levels';
-import { DataAttributes } from '../../data/data-attributes';
+import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -39,10 +39,13 @@ export class MapComponent {
   dataYear = 2010;
   censusYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
+  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
   attributes: Array<MapDataAttribute> = DataAttributes;
+  bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
   mapFeatures: Observable<Object>;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
+  activeBubbleHighlight: MapDataAttribute;
   mapConfig = {
     style: './assets/style.json',
     center: [-98.5556199, 39.8097343],
@@ -54,7 +57,6 @@ export class MapComponent {
   mapEventLayers: Array<string> =
     [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
-  popup;
   private _bounds;
   private _mapInstance;
 
@@ -106,6 +108,23 @@ export class MapComponent {
           dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
       };
       this.map.setLayerStyle(layerId, 'fill-color', newFill);
+      this.map.setLayerFilterProperty(`${layerId}_null`, dataAttr.id);
+    });
+  }
+
+  /**
+   * Similar to setDataHighlight, but specific to bubble layers
+   * @param attr map data attribute to set bubble properties
+   */
+  setBubbleHighlight(attr: MapDataAttribute) {
+    const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
+    this.activeBubbleHighlight = bubbleAttr;
+    // Not used yet, but will be in future
+    this.updateLegend();
+    this.mapEventLayers.forEach((layerId) => {
+      ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
+        this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
+      });
     });
   }
 
@@ -141,13 +160,9 @@ export class MapComponent {
       this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
     }
 
-    this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
+    this.setDataHighlight(this.activeDataHighlight);
+    this.setBubbleHighlight(this.activeBubbleHighlight);
     this.setGroupVisibility(this.activeDataLevel);
-    this.mapEventLayers.forEach((layer) => {
-      this.map.setLayerDataProperty(
-        `${layer}_bubbles`, 'circle-radius', `er-${('' + year).slice(2)}`
-      );
-    });
     this.updateLegend();
   }
 
@@ -156,7 +171,7 @@ export class MapComponent {
    */
   getLegendGradient() {
     return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, ${this.legend[0][1]}, ${this.legend[this.legend.length - 1][1]})`
+      `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
     );
   }
 
@@ -180,8 +195,10 @@ export class MapComponent {
   onMapReady(map) {
     this._mapInstance = map;
     this.map.setMapInstance(map);
+    this.map.setupHoverPopup(this.mapEventLayers);
     this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
+    this.activeBubbleHighlight = this.bubbleAttributes[0];
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitch = true;
@@ -199,6 +216,10 @@ export class MapComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
+    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
+    if (this.activeDataLevel.minzoom > zoom) {
+      this.autoSwitch = true;
+    }
     if (this.autoSwitch) {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
@@ -250,36 +271,12 @@ export class MapComponent {
    */
   onFeatureHover(feature) {
     this.featureHover.emit(feature);
-    if (feature) {
+    if (feature && feature.layer.id === this.activeDataLevel.id) {
       const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
       this.map.setSourceData('hover', union);
     } else {
       this.map.setSourceData('hover');
     }
-  }
-
-  onFeatureEnter(e) {
-    if (!this.popup) {
-      this.popup = new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.n)
-        .addTo(this._mapInstance);
-    }
-  }
-
-  onFeatureMove(e) {
-    if (!this.popup) {
-      this.popup = new mapboxgl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(e.features[0].properties.n)
-        .addTo(this._mapInstance);
-    }
-    this.popup.setLngLat(e.lngLat).setHTML(e.features[0].properties.n);
-  }
-
-  onFeatureLeave() {
-    this.popup.remove();
-    this.popup = null;
   }
 
   /**
