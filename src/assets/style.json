@@ -2490,7 +2490,16 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": {
           "default": 1,
           "stops": [
@@ -2748,7 +2757,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": { 
           "default": 1,
           "stops": [
@@ -3049,7 +3067,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": { 
           "default": 1,
           "stops": [
@@ -3400,7 +3427,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "er-10",
@@ -3605,7 +3641,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": {
           "default": 1,
           "stops": [
@@ -4129,7 +4174,13 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [0, "rgba(255, 255, 255, 1)"]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,

@@ -125,7 +125,7 @@ export class MapComponent {
     // Not used yet, but will be in future
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      ['circle-radius', 'circle-color'].forEach(prop => {
+      ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
         this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
       });
     });
