@@ -2,6 +2,7 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Natural Earth",
+  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites/stripes",
   "sources": {
     "openmaptiles": {
       "type": "vector",
@@ -1521,6 +1522,23 @@
       }
     },
     {
+      "id": "block-groups_null",
+      "type": "fill",
+      "source": "us-block-groups-10",
+      "source-layer": "block-groups",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "block-groups_stroke",
       "type": "line",
       "source": "us-block-groups-10",
@@ -1560,6 +1578,23 @@
       },
       "paint": {
         "fill-color": "rgba(67,72,120,0.7)"
+      }
+    },
+    {
+      "id": "zip-codes_null",
+      "type": "fill",
+      "source": "us-zip-codes-10",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -1630,6 +1665,23 @@
       }
     },
     {
+      "id": "tracts_null",
+      "type": "fill",
+      "source": "us-tracts-10",
+      "source-layer": "tracts",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "tracts_stroke",
       "type": "line",
       "source": "us-tracts-10",
@@ -1669,6 +1721,23 @@
       },
       "paint": {
         "fill-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "counties_null",
+      "type": "fill",
+      "source": "us-counties-10",
+      "source-layer": "counties",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -1715,6 +1784,23 @@
       },
       "paint": {
         "fill-color": "rgba(67,72,120,0.7)"
+      }
+    },
+    {
+      "id": "states_null",
+      "type": "fill",
+      "source": "us-states-10",
+      "source-layer": "states",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -2345,6 +2431,23 @@
       }
     },
     {
+      "id": "cities_null",
+      "type": "fill",
+      "source": "us-cities-10",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "cities_stroke",
       "type": "line",
       "source": "us-cities-10",
@@ -2407,8 +2510,13 @@
           ]
         },
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -2624,10 +2732,15 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
             [
-              7,
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
+            [
+              0,
               "rgba(255,120,119,0.8)"
             ],
             [
@@ -2920,8 +3033,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3266,8 +3384,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3466,8 +3589,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3968,8 +4096,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
