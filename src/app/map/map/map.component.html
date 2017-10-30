@@ -25,20 +25,20 @@
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
-          class="layer-select"
-          label="Display"
-          labelProperty="name"
-          [selectedValue]="activeDataLevel"
-          [values]="dataLevels" 
-          (change)="setGroupVisibility($event)">
-      </app-ui-select>
-      <app-ui-select
-          tabindex="6"
           class="highlight-select"
           label="Highlight"
           labelProperty="name"
           [values]="attributes"
           (change)="setDataHighlight($event)">
+      </app-ui-select>
+      <app-ui-select
+          tabindex="6"
+          class="layer-select"
+          label="Display"
+          labelProperty="name"
+          [selectedValue]="activeDataLevel"
+          [values]="selectDataLevels" 
+          (change)="setGroupVisibility($event)">
       </app-ui-select>
       <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
           <span class="legend-start">{{legend[1][0]}}</span>
