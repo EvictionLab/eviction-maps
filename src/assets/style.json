@@ -144,7 +144,6 @@
       }
     }
   },
-  "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
   "glyphs": "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
