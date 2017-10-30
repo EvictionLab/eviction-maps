@@ -26,6 +26,72 @@
   text-align:right; 
   h1 { font-size: 16px; float:left; line-height: 30px; margin:0; }
   app-ui-toggle { display:inline-block; }
+  app-graph {
+    display:block;
+    width:100%;
+    padding-top:56.25%;
+    position:relative;
+  }
+
+  .line-tooltips, .bar-tooltips {
+    @include fill-parent();
+    pointer-events: none;
+  }
+  .line-tooltip, .bar-tooltip {
+    position:absolute;
+    top:0;
+    left:0;
+    color: #fff;
+    padding:4px;
+    font-size: 11px;
+    background: rgba(0,0,0,0.8);
+    border-radius: 3px;
+  }
+  .bar-tooltip {
+    width: 40px;
+    text-align:center;
+    margin-left: -20px;
+    margin-top: -26px;
+    @include down-arrow(6px, rgba(0,0,0,0.8));
+  }
+  .line-tooltip {
+    width: 56px;
+    height:40px;
+    margin-top:-48px;
+    margin-left: -28px;
+    text-align:center;
+    @include down-arrow(6px, rgba(0,0,0,0.8));
+    &:after { z-index:5; }
+    &:before {
+      content: "";
+      display:block;
+      width:0;height:0;
+      width:10px;
+      height:10px;
+      border-radius:6px;
+      position:absolute;
+      bottom: -14px;
+      left:50%;
+      margin-left: -5px;
+      z-index:1;
+    }
+    &:nth-child(1):before {
+      background:$color1;
+    }
+    &:nth-child(2):before {
+      background:$color2;
+    }
+    &:nth-child(3):before {
+      background:$color3;
+    }
+    .line-tooltip-year {
+      display:block;
+      font-weight: 400;
+    }
+    .line-tooltip-value {
+      font-weight: 600;
+    }
+  }
 }
 @media(min-width: 768px) {
   .graph-area { 
