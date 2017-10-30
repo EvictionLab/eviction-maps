@@ -40,6 +40,11 @@ app-ui-select {
   ::ng-deep .el-select .el-select-value {
     font-size: 11px;
   }
+  ::ng-deep .el-select > .dropdown-toggle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 app-ui-select:nth-of-type(1) {
   left: 0;
