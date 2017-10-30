@@ -2,10 +2,13 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Natural Earth",
+  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites/stripes",
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://free.tilehosting.com/data/v3.json?key=JgNOMnZWmIN2iBSFGgsi"
+      "tiles": [
+        "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/{z}/{x}/{y}.pbf"
+      ]
     },
     "us-block-groups-90": {
       "type": "vector",
@@ -141,8 +144,7 @@
       }
     }
   },
-  "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
-  "glyphs": "https://free.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=JgNOMnZWmIN2iBSFGgsi",
+  "glyphs": "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -1131,9 +1133,7 @@
         "text-transform": "none",
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1181,9 +1181,7 @@
         "text-size": 10,
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1323,9 +1321,7 @@
         "text-size": 10,
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Medium",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Medium"
         ],
         "text-justify": "center",
         "visibility": "visible",
@@ -1370,9 +1366,7 @@
         "text-size": 10,
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1457,9 +1451,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1529,6 +1521,23 @@
       }
     },
     {
+      "id": "block-groups_null",
+      "type": "fill",
+      "source": "us-block-groups-10",
+      "source-layer": "block-groups",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "block-groups_stroke",
       "type": "line",
       "source": "us-block-groups-10",
@@ -1568,6 +1577,23 @@
       },
       "paint": {
         "fill-color": "rgba(67,72,120,0.7)"
+      }
+    },
+    {
+      "id": "zip-codes_null",
+      "type": "fill",
+      "source": "us-zip-codes-10",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -1638,6 +1664,23 @@
       }
     },
     {
+      "id": "tracts_null",
+      "type": "fill",
+      "source": "us-tracts-10",
+      "source-layer": "tracts",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "tracts_stroke",
       "type": "line",
       "source": "us-tracts-10",
@@ -1677,6 +1720,23 @@
       },
       "paint": {
         "fill-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "counties_null",
+      "type": "fill",
+      "source": "us-counties-10",
+      "source-layer": "counties",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -1723,6 +1783,23 @@
       },
       "paint": {
         "fill-color": "rgba(67,72,120,0.7)"
+      }
+    },
+    {
+      "id": "states_null",
+      "type": "fill",
+      "source": "us-states-10",
+      "source-layer": "states",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -1807,9 +1884,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -1935,9 +2010,7 @@
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2022,9 +2095,7 @@
         "icon-image": "circle-11",
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2147,17 +2218,13 @@
             [
               4,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               5,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -2260,9 +2327,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2320,9 +2385,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2364,6 +2427,23 @@
       },
       "paint": {
         "fill-color": "rgba(67,72,120,0.7)"
+      }
+    },
+    {
+      "id": "cities_null",
+      "type": "fill",
+      "source": "us-cities-10",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
@@ -2410,7 +2490,16 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": {
           "default": 1,
           "stops": [
@@ -2429,8 +2518,13 @@
           ]
         },
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -2598,8 +2692,7 @@
       "layout": {
         "text-field": "{n}",
         "text-font": [
-          "Metropolis Regular",
-          ""
+          "Metropolis+Regular"
         ],
         "text-size": 12,
         "text-letter-spacing": 0.07,
@@ -2647,10 +2740,15 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
             [
-              7,
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
+            [
+              0,
               "rgba(255,120,119,0.8)"
             ],
             [
@@ -2659,7 +2757,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": { 
           "default": 1,
           "stops": [
@@ -2897,8 +3004,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -2944,8 +3050,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -2956,7 +3067,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": { 
           "default": 1,
           "stops": [
@@ -3244,8 +3364,7 @@
         "text-keep-upright": true,
         "text-line-height": 1.2,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -3291,8 +3410,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3303,7 +3427,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "er-10",
@@ -3454,15 +3587,13 @@
             [
               3,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               7,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -3493,8 +3624,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3505,7 +3641,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": {
           "default": 1,
           "stops": [
@@ -3906,9 +4051,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -3997,8 +4140,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -4026,7 +4174,13 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [0, "rgba(255, 255, 255, 1)"]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -4361,8 +4515,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [

@@ -5,4 +5,5 @@ export interface MapLayerGroup extends MapDataObject {
     name: string;
     layerIds?: string[];
     zoom?: Array<number>;
+    minzoom: number;
 }

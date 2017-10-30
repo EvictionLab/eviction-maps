@@ -2,7 +2,7 @@ import { MapDataAttribute } from '../map/map-data-attribute';
 
 export const DataAttributes: Array<MapDataAttribute> = [
     {
-        'id': 'e',
+        'id': 'none',
         'name': 'None',
         'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
@@ -17,11 +17,13 @@ export const DataAttributes: Array<MapDataAttribute> = [
         'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
             'default': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(238, 226, 239, 0.7)'],
                 [50000, 'rgba(137, 140, 206, 0.8)'],
                 [100000, 'rgba(64, 71, 124, 0.9)']
             ],
             'block-groups': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [1250, 'rgba(170, 191, 226, 0.75)'],
                 [2500, 'rgba(133, 157, 204, 0.8)'],
@@ -29,6 +31,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [5000, 'rgba(37, 51, 132, 0.9)']
             ],
             'zip-codes': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [2500, 'rgba(170, 191, 226, 0.75)'],
                 [5000, 'rgba(133, 157, 204, 0.8)'],
@@ -36,6 +39,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [10000, 'rgba(37, 51, 132, 0.9)']
             ],
             'tracts': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [2500, 'rgba(170, 191, 226, 0.75)'],
                 [5000, 'rgba(133, 157, 204, 0.8)'],
@@ -43,6 +47,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [10000, 'rgba(37, 51, 132, 0.9)']
             ],
             'cities': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [12500, 'rgba(170, 191, 226, 0.75)'],
                 [25000, 'rgba(133, 157, 204, 0.8)'],
@@ -50,6 +55,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [50000, 'rgba(37, 51, 132, 0.9)']
             ],
             'counties': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [10000, 'rgba(170, 191, 226, 0.75)'],
                 [75000, 'rgba(133, 157, 204, 0.8)'],
@@ -57,6 +63,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [900000, 'rgba(37, 51, 132, 0.9)']
             ],
             'states': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0, 'rgba(215, 227, 244, 0.7)'],
                 [250000, 'rgba(170, 191, 226, 0.75)'],
                 [500000, 'rgba(133, 157, 204, 0.8)'],
@@ -71,6 +78,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
         'default': 'rgba(0, 0, 0, 0)',
         'fillStops': {
             'default': [
+                [-1.0, 'rgba(198, 204, 207, 0.6)'],
                 [0.0, 'rgba(215, 227, 244, 0.7)'],
                 [0.07, 'rgba(170, 191, 226, 0.75)'],
                 [0.13, 'rgba(133, 157, 204, 0.8)'],
@@ -78,5 +86,20 @@ export const DataAttributes: Array<MapDataAttribute> = [
                 [0.26, 'rgba(37, 51, 132, 0.9)']
             ]
         }
+    }
+];
+
+export const BubbleAttributes: Array<MapDataAttribute> = [
+    {
+        'id': 'none',
+        'name': 'None'
+    },
+    {
+        'id': 'er',
+        'name': 'Judgments'
+    },
+    {
+        'id': 'efr',
+        'name': 'Filings'
     }
 ];
