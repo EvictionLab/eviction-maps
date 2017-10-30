@@ -2,7 +2,7 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Natural Earth",
-  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites/stripes",
+  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites",
   "sources": {
     "openmaptiles": {
       "type": "vector",
