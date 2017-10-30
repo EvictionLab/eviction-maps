@@ -24,7 +24,7 @@ export class UiSelectComponent implements OnInit {
   @ViewChild(BsDropdownDirective) dropdown;
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
-  private stringArray = false;
+  private valuesArray = false; // true if `values` is an array of values instead of objects
   private _selectedValue;
 
   /**
@@ -32,7 +32,7 @@ export class UiSelectComponent implements OnInit {
    */
   ngOnInit() {
     if (this.values.length) {
-      this.stringArray = (typeof this.values[0] === 'string');
+      this.valuesArray = (typeof this.values[0] === 'string' || typeof this.values[0] === 'number');
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
@@ -46,7 +46,7 @@ export class UiSelectComponent implements OnInit {
    */
   getLabel(value) {
     return (
-      this.stringArray ? value : value[this.labelProperty]
+      this.valuesArray ? value : value[this.labelProperty]
     );
   }
 
