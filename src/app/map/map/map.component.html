@@ -41,7 +41,7 @@
           (change)="setGroupVisibility($event)">
       </app-ui-select>
       <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
-          <span class="legend-start">{{legend[0][0]}}</span>
+          <span class="legend-start">{{legend[1][0]}}</span>
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 

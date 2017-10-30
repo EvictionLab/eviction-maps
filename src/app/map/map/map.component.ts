@@ -108,16 +108,23 @@ export class MapComponent {
           dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
       };
       this.map.setLayerStyle(layerId, 'fill-color', newFill);
+      this.map.setLayerFilterProperty(`${layerId}_null`, dataAttr.id);
     });
   }
 
+  /**
+   * Similar to setDataHighlight, but specific to bubble layers
+   * @param attr map data attribute to set bubble properties
+   */
   setBubbleHighlight(attr: MapDataAttribute) {
     const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeBubbleHighlight = bubbleAttr;
     // Not used yet, but will be in future
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-radius', attr.id);
+      ['circle-radius', 'circle-color'].forEach(prop => {
+        this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
+      });
     });
   }
 
@@ -153,14 +160,9 @@ export class MapComponent {
       this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
     }
 
-    this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
+    this.setDataHighlight(this.activeDataHighlight);
+    this.setBubbleHighlight(this.activeBubbleHighlight);
     this.setGroupVisibility(this.activeDataLevel);
-    this.mapEventLayers.forEach((layer) => {
-      this.map.setLayerDataProperty(
-        `${layer}_bubbles`, 'circle-radius',
-        this.addYearToObject(this.activeBubbleHighlight, this.dataYear).id
-      );
-    });
     this.updateLegend();
   }
 
@@ -169,7 +171,7 @@ export class MapComponent {
    */
   getLegendGradient() {
     return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, ${this.legend[0][1]}, ${this.legend[this.legend.length - 1][1]})`
+      `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
     );
   }
 
