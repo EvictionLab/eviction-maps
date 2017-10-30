@@ -12,6 +12,7 @@ import * as _isEqual from 'lodash.isequal';
 export class UiSelectComponent implements OnInit {
   @Input() label: string; // optional label for the select dropdown
   @Input() labelProperty: string; // only provided if values are an object
+  @Input() disabledProperty: string; // optional, for objects. boolean for disabled
   @Input()
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
@@ -50,10 +51,20 @@ export class UiSelectComponent implements OnInit {
     );
   }
 
+  /**
+   * If disabledProperty is set, returns the boolean value from this property
+   * @param value
+   */
+  getDisabled(value): boolean {
+    return this.disabledProperty ? value[this.disabledProperty] : false;
+  }
+
   getNextHighlightedItem(previousItem = false) {
-    const i = this.values.findIndex((v) => _isEqual(this.highlightedItem, v));
+    const values = this.disabledProperty ?
+      this.values.filter(v => v[this.disabledProperty]) : this.values;
+    const i = values.findIndex((v) => _isEqual(this.highlightedItem, v));
     const offset = previousItem ? -1 : 1;
-    return this.values[(i + offset) % this.values.length];
+    return values[(i + offset) % values.length];
   }
 
   @HostListener('keydown', ['$event']) onFocus(e) {

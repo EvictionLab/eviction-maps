@@ -39,7 +39,10 @@ export class MapComponent {
   dataYear = 2010;
   censusYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
-  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
+  selectDataLevels: Array<Object> = DataLevels.filter(l => {
+    l['disabled'] = l.minzoom > 3;
+    return l;
+  });
   attributes: Array<MapDataAttribute> = DataAttributes;
   bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
   mapFeatures: Observable<Object>;
@@ -216,7 +219,10 @@ export class MapComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
-    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
+    this.selectDataLevels = DataLevels.filter((l) => {
+      l['disabled'] = l.minzoom > zoom;
+      return l;
+    });
     if (this.activeDataLevel.minzoom > zoom) {
       this.autoSwitch = true;
     }
