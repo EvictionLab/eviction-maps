@@ -2,12 +2,14 @@
 
 :host {
   display: block;
-  padding: 4px 0;
+  padding: 0;
   border: 1px solid $toggleBorderColor;
   border-radius: 2px;
+  
 }
 
 button {
+  padding:4px 8px;
   background: $toggleBackground;
   border: none;
   border-left: 1px solid $toggleBorderColor;
@@ -15,9 +17,4 @@ button {
   &:hover { color: $toggleHoverForeground; }
   &:first-child { border-left: none; }
   &.selected { color: $toggleSelectedBackground; }
-}
-
-button {
-    border-right:none;
-    padding: 0 8px;
 }

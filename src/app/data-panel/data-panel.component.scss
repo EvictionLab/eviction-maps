@@ -20,7 +20,7 @@
 }
 
 .graph-container {
-  background: #F4F7F9;
+  background: $secondaryBackground;
   margin: 0 -16px;
 }
 
@@ -29,7 +29,10 @@
   width:100%;
   text-align:right; 
   h1 { font-size: 16px; float:left; line-height: 30px; margin:0; }
-  app-ui-toggle { display:inline-block; }
+  app-ui-toggle { 
+    display:inline-block; 
+
+  }
   app-graph {
     display:block;
     width:100%;
@@ -59,24 +62,25 @@
     @include down-arrow(6px, rgba(0,0,0,0.8));
   }
   .line-tooltip {
-    width: 56px;
-    height:40px;
-    margin-top:-48px;
-    margin-left: -28px;
+    width: 48px;
+    height: 24px;
+    margin-top:-12px;
+    margin-left: 12px;
     text-align:center;
-    @include down-arrow(6px, rgba(0,0,0,0.8));
+    line-height: 15px;
+    transition: transform 0.4s ease;
+    @include left-arrow(6px, rgba(0,0,0,0.8));
     &:after { z-index:5; }
     &:before {
       content: "";
       display:block;
-      width:0;height:0;
       width:10px;
       height:10px;
       border-radius:6px;
       position:absolute;
-      bottom: -14px;
-      left:50%;
-      margin-left: -5px;
+      top: 7px;
+      left:0px;
+      margin-left: -14px;
       z-index:1;
     }
     &:nth-child(1):before {
@@ -119,19 +123,35 @@
     padding:0;
   }
   li {
-    height: 44px;
+    height: 56px;
     position:relative;
-    line-height:44px;
+    padding-top: 16px;
     .legend-marker {
       width:24px;
       height:24px;
       border-radius: 12px;
-      margin-right: 16px;
       background:#ccc;
-      display:inline-block;
       vertical-align: middle;
+      position:absolute;
+      top:0; left:0; bottom:0;
+      margin: auto;
     }
-    .btn-close { position:absolute; right:0; top:2px;}
+    .legend-label {
+      margin-left: 40px;
+      font-weight: 600;
+      display:block;
+    }
+    .btn-remove { 
+      display:block; 
+      padding:0;
+      margin:0 0 0 40px;
+      color: $linkColor; 
+      background:none;
+      font-size:12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
     &:last-child { border-bottom: none; }
     &:nth-child(1) .legend-marker { background: $graphColor1; }
     &:nth-child(2) .legend-marker { background: $graphColor2; }

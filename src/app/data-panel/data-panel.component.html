@@ -10,8 +10,7 @@
               (activeValuesChanged)="onGraphHover($event)"
             >
               <div class="line-tooltips" *ngIf="graphType === 'line'">
-                <div class="line-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
-                  <span class="line-tooltip-year">{{year}}</span>
+                <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
                   <span class="line-tooltip-value">{{tooltip.y}}</span>
                 </div>
               </div>
@@ -49,11 +48,10 @@
             <ul>
                 <li *ngFor="let location of locations">
                   <span class="legend-marker"></span>
-                  {{ location.properties["n"] }}
-                  <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
+                  <span class="legend-label">{{ location.properties["n"] }}</span>
+                  <button class="btn btn-remove" (click)="locationRemoved.emit(location)">Remove</button>
                 </li>
             </ul>
-            
           </div>
         </div>
       </div>

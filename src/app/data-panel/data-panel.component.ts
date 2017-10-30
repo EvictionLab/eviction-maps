@@ -77,6 +77,11 @@ export class DataPanelComponent implements OnChanges {
       [];
   }
 
+  trackTooltips(index, item) {
+    console.log('track', index, item);
+    return item.id;
+  }
+
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
@@ -100,6 +105,7 @@ export class DataPanelComponent implements OnChanges {
    * Sets the data for the graph, and any settings specific to the type
    */
   setGraphData() {
+    this.tooltips = [];    
     if (this.graphType === 'line') {
       this.graphSettings = {
         axis: {
