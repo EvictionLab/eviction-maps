@@ -12,11 +12,12 @@
               >
                 <div class="line-tooltips" *ngIf="graphType === 'line'">
                   <div class="line-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
-                    <span>{{tooltip.y}}</span>
+                    <span class="line-tooltip-year">{{year}}</span>
+                    <span class="line-tooltip-value">{{tooltip.y}}</span>
                   </div>
                 </div>
                 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-                  <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ tooltip.left +'px, ' + tooltip.top + 'px)'">
+                  <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
                     <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
                   </div>
                 </div>

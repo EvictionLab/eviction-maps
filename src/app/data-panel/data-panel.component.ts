@@ -40,7 +40,6 @@ export class DataPanelComponent implements OnChanges {
   }
 
   onGraphHover(f) {
-    console.log('graph hover', f);
     if (f) {
       this.tooltips = this.graphType === 'bar' ? [ f ] : f;
     } else {
@@ -50,6 +49,7 @@ export class DataPanelComponent implements OnChanges {
 
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
+    this.tooltips = [];
     this.setGraphData();
   }
 
