@@ -23,7 +23,7 @@
         [(selected)]="search.query"
         [options]="search.results"
         optionField="properties.label"
-        (selectionChange)="locationAdded.emit($event)">
+        (selectionChange)="search.query = null; locationAdded.emit($event);">
     </app-predictive-search>
   </div>
 </div>
