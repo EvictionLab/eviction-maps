@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding } from '@angular/core';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import { MapLayerGroup } from '../../map/map-layer-group';
 import * as _isEqual from 'lodash.isequal';
@@ -25,6 +25,7 @@ export class UiSelectComponent implements OnInit {
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
   private valuesArray = false; // true if `values` is an array of values instead of objects
+  @HostBinding('class.open') open = false;
   private _selectedValue;
 
   /**
