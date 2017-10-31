@@ -27,6 +27,11 @@
         box-sizing: border-box;
       }
       & li:first-child a { border-top: none; }
+      & > li.disabled, & > li.disabled > a {
+        pointer-events: none;
+        cursor: default;
+        color: #999;
+      }
     }
     .dropdown-toggle.btn {
       position:relative;

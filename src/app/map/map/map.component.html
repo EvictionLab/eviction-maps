@@ -36,6 +36,7 @@
           class="layer-select"
           label="Display"
           labelProperty="name"
+          disabledProperty="disabled"
           [selectedValue]="activeDataLevel"
           [values]="selectDataLevels" 
           (change)="setGroupVisibility($event)">
