@@ -12,6 +12,7 @@ const mockResponse = { path: 'http://localhost' };
 describe('DownloadFormComponent', () => {
   let component: DownloadFormComponent;
   let fixture: ComponentFixture<DownloadFormComponent>;
+  let submitButtonEl;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -40,6 +41,7 @@ describe('DownloadFormComponent', () => {
     ];
     component.startYear = 2010;
     component.endYear = 2016;
+    submitButtonEl = fixture.debugElement.query(By.css('.btn-primary'));
     fixture.detectChanges();
   });
 
@@ -59,10 +61,20 @@ describe('DownloadFormComponent', () => {
     expect(downloadRequest.formats).toEqual(['pptx', 'xlsx']);
   });
 
-  it('should display the loading indicator before response returned', () => {
-
+  it('should not display the loading indicator if not loading', () => {
+    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
+    expect(progressBar).toBeFalsy();
   });
 
+  it('should display the loading indicator before response returned', () => {
+    component.filetypes[0].checked = true;
+    submitButtonEl.triggerEventHandler('click', null);
+    fixture.detectChanges();
+    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
+    expect(progressBar).toBeTruthy();
+  });
+
+  // TODO: Mock HTTP response
   it('should remove the loading indicator when response returned', () => {
 
   });
