@@ -48,11 +48,10 @@ export class DownloadFormComponent {
   }
 
   createDownloadRequest(fileValues: string[]): DownloadRequest {
-    const downloadTypes = this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1);
     const downloadRequest: DownloadRequest = {
       lang: this.lang, years: [this.startYear, this.endYear], features: this.features
     };
-    if (downloadTypes.length > 1) {
+    if (this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1).length > 1) {
       downloadRequest.formats = fileValues;
     }
     return downloadRequest;

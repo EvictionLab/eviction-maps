@@ -1,9 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpModule, XHRBackend } from '@angular/http';
 import { MapUiModule } from '../../map-ui/map-ui.module';
+import { MockBackend } from '@angular/http/testing';
 import { DownloadFormComponent } from './download-form.component';
+
+const mockResponse = { path: 'http://localhost' };
 
 describe('DownloadFormComponent', () => {
   let component: DownloadFormComponent;
@@ -13,7 +17,7 @@ describe('DownloadFormComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpModule, MapUiModule, ModalModule.forRoot() ],
       declarations: [ DownloadFormComponent ],
-      providers: [ BsModalService, BsModalRef ]
+      providers: [ BsModalService, BsModalRef, { provide: XHRBackend, useClass: MockBackend } ]
     })
     .compileComponents();
   }));
@@ -21,10 +25,49 @@ describe('DownloadFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DownloadFormComponent);
     component = fixture.componentInstance;
+    component.lang = 'en';
+    component.features = [
+      {
+        type: 'Feature',
+        properties: { n: 'Test One' },
+        geometry: { type: 'Point', coordinates: [0, 0] }
+      },
+      {
+        type: 'Feature',
+        properties: { n: 'Test Two' },
+        geometry: { type: 'Point', coordinates: [0, 0] }
+      }
+    ];
+    component.startYear = 2010;
+    component.endYear = 2016;
     fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create a DownloadRequest with parameters', () => {
+    component.filetypes[0].checked = true;
+    const downloadRequest = component.createDownloadRequest([component.filetypes[0].value]);
+    expect(downloadRequest.lang).toBe('en');
+    expect(downloadRequest.hasOwnProperty('formats')).toBe(false);
+  });
+
+  it('should include formats in request if more than one filetype selected', () => {
+    const downloadRequest = component.createDownloadRequest(['pptx', 'xlsx']);
+    expect(downloadRequest.formats).toEqual(['pptx', 'xlsx']);
+  });
+
+  it('should display the loading indicator before response returned', () => {
+
+  });
+
+  it('should remove the loading indicator when response returned', () => {
+
+  });
+
+  it('should remove the loading indicator when response fails', () => {
+
   });
 });
