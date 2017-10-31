@@ -14,16 +14,17 @@
 </div>
 <div class="modal-footer">
   <button
-    [ng-disabled]="loading"
+    [disabled]="loading"
     i18n="dialog|The Download button to trigger a file download@@dialogDownload" 
     type="button" 
     class="btn btn-primary" 
     (click)="onDownloadClick($event)"
-  >OK</button>
+  >Download</button>
   <button
     i18n="dialog|The Cancel button to accept and dismiss a dialog@@dialogCancel" 
     type="button" 
     class="btn btn-default" 
     (click)="onCancelClick($event)"
   >Cancel</button>
+  <app-progress-bar *ngIf="loading"></app-progress-bar>
 </div>
