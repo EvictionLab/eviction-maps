@@ -1,0 +1,30 @@
+<div class="modal-header">
+  <h4 class="modal-title">Download Files</h4>
+  <button type="button" class="close" aria-label="Close" (click)="onCancelClick($event)">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngFor="let f of filetypes; let i = index">
+    <div>
+      <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="f.checked">
+      <label [attr.for]="'checkbox' + i">{{f.name}}</label>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button
+    [disabled]="loading"
+    i18n="dialog|The Download button to trigger a file download@@dialogDownload" 
+    type="button" 
+    class="btn btn-primary" 
+    (click)="onDownloadClick($event)"
+  >Download</button>
+  <button
+    i18n="dialog|The Cancel button to accept and dismiss a dialog@@dialogCancel" 
+    type="button" 
+    class="btn btn-default" 
+    (click)="onCancelClick($event)"
+  >Cancel</button>
+  <app-progress-bar *ngIf="loading"></app-progress-bar>
+</div>
