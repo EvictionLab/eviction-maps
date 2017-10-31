@@ -186,7 +186,7 @@ app-location-cards {
   clear:both;
   display:flex;
   align-content: space-between;
-  align-items:center;
+  align-items:flex-start;
   justify-content: space-around;
   .action-wrapper {
     width:220px;
@@ -206,5 +206,17 @@ app-location-cards {
       font-weight:500;
     }
     span { color: #999; font-size: 11px;}
+  }
+}
+
+.data-panel-footer .action-wrapper .social-icons {
+  text-align: center;
+  .btn {
+    display: inline-block;
+    width: 40px;
+    height:37px;
+    padding: 3px 0 0 0;
+    margin: 0px 4px 4px 4px;
+    path { fill: $color1; }
   }
 }
