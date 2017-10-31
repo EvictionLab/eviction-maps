@@ -1,4 +1,4 @@
-import { Component, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, ViewChild, Inject, HostListener, OnChanges, SimpleChanges, AfterViewInit } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +11,7 @@ import Debounce from 'debounce-decorator';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 
+import { DataPanelComponent } from './data-panel/data-panel.component';
 import { DataLevels } from './data/data-levels';
 import { DataAttributes } from './data/data-attributes';
 import { UiDialogService } from './map-ui/ui-dialog/ui-dialog.service';
@@ -21,15 +22,22 @@ import { SearchService } from './search/search.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnChanges, AfterViewInit {
   title = 'Eviction Lab';
   mapBounds;
   autoSwitchLayers = true;
   activeFeatures = [];
   year = 2010;
-  verticalOffset;
-  enableZoom;
+  verticalOffset = 0;
+  enableZoom = true;
+  wheelEvent = false;
+  panelOffset: number;
   @ViewChild(MapComponent) map;
+  @ViewChild('divider') dividerEl;
+  get buttonOffset() {
+    if (!this.panelOffset || !this.verticalOffset) { return 'translateY(0)'; }
+    return 'translateY(' + Math.max(0, 56 + this.verticalOffset - this.panelOffset) + 'px)';
+  }
 
   constructor(
     private _sanitizer: DomSanitizer,
@@ -39,11 +47,29 @@ export class AppComponent {
     @Inject(DOCUMENT) private document: any
   ) {
     PageScrollConfig.defaultDuration = 1000;
+    PageScrollConfig.defaultScrollOffset = 56;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations
     PageScrollConfig.defaultEasingLogic = {
         ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
     };
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.enableZoom) {
+      console.log('toggle zoom event', changes.enableZoom, this.enableZoom);
+    }
+  }
+
+  ngAfterViewInit() {
+    // console.log(this.dividerEl);
+    this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
+  @HostListener('window:resize', [ '$event' ])
+  onresize(e) {
+    this.panelOffset =
+      this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
   }
 
   setYear(year: number) {
@@ -128,31 +154,44 @@ export class AppComponent {
     this.pageScrollService.start(pageScrollInstance);
   }
 
+  /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
+   */
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
-    this.verticalOffset = window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
-    if (this.verticalOffset !== 0) {
-      this.map.disableZoom();
-    }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
+    this.verticalOffset = this.getVerticalOffset();
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
     }
   }
 
-  @HostListener('wheel', ['$event'])
-  @Debounce(400)
-  onwheel(e) {
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @Debounce(250)
+  onWheel() {
     if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop || 0;
+      this.verticalOffset = this.getVerticalOffset();
     }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
-    } else {
-      this.map.disableZoom();
-    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }
+
+  /**
+   * Set wheel flag while scrolling with the wheel
+   */
+  @HostListener('wheel', ['$event'])
+  onBeginWheel() { this.wheelEvent = true; }
+
+  private getVerticalOffset() {
+    return window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
   }
 }

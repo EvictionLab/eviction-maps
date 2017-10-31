@@ -1,4 +1,4 @@
-<div class="map-wrapper">
+<div class="map-wrapper" [style.transform]="'translateY('+ verticalOffset/3 +'px)'">
   <app-mapbox
       [mapConfig]="mapConfig" 
       [eventLayers]="mapEventLayers"
@@ -51,6 +51,23 @@
           [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"
       ></app-ui-hint>
+  </div>
+  
+  <div class="map-overlay" [class.active]="!scrollZoom">
+    
+    <button
+      class="btn btn-primary btn-compare" 
+      [class.active]="(activeFeatures > 0) && scrollZoom"
+      (click)="onShowDataClick($event)"
+    >
+      <span i18n>{activeFeatures, plural, =0 {View More Data} =1 {View More Data} other {View Full Comparison}}</span>
+      <svg class="data-down-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline></svg>
+      
+    </button>
+    
+    <div *ngIf="!scrollZoom" class="show-map-overlay" (click)="showMapClick.emit()">
+        <button [style.opacity]="(verticalOffset-56)/500" class="btn btn-primary btn-map">View Map</button>
+    </div>
   </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"

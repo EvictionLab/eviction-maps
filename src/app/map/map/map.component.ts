@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -20,7 +20,7 @@ import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
   styleUrls: ['./map.component.scss'],
   providers: [ MapService, UiDialogService ]
 })
-export class MapComponent {
+export class MapComponent implements OnChanges {
   @Input()
   get boundingBox() { return this._bounds; }
   set boundingBox(val) {
@@ -31,11 +31,16 @@ export class MapComponent {
     }
   }
   @Input() autoSwitch = true;
+  @Input() scrollZoom: boolean;
+  @Input() verticalOffset = 0 ;
+  @Input() activeFeatures = 0;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
   @Output() evictionTypeChange: EventEmitter<string> = new EventEmitter();
   @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
+  @Output() showDataClick = new EventEmitter();
+  @Output() showMapClick = new EventEmitter();
   zoom: number;
   dataYear = 2010;
   censusYear = 2010;
@@ -69,6 +74,19 @@ export class MapComponent {
     private dialogs: UiDialogService,
     private _sanitizer: DomSanitizer
   ) { }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.scrollZoom) {
+      changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
+    }
+  }
+
+  onShowDataClick(e) {
+    e.preventDefault();
+    this.showDataClick.emit();
+    return false;
+  }
+
 
   /**
    * Sets the visibility on a layer group
@@ -222,6 +240,7 @@ export class MapComponent {
     // FIXME: Doing a hack to get layers because we likely won't be loading them outside
     // of prototypes anyway
     setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
+    this.scrollZoom ? this.enableZoom() : this.disableZoom();
     this.map.isLoading$.distinctUntilChanged()
       .debounceTime(200)
       .subscribe((state) => { this.mapLoading = state; });

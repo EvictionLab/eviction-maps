@@ -14,8 +14,6 @@ export class LocationCardsComponent implements OnInit {
   @Input() cardProperties = {
     'er': 'Eviction Rate',
     'e': 'Evictions',
-    'efr': 'Eviction Filing Rate',
-    'ef': 'Eviction Filings',
     'pr': 'Poverty Rate',
     'p': 'Population'
   };
