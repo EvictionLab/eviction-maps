@@ -101,7 +101,8 @@ export class MapComponent implements OnChanges {
         'You are zoomed out too far to view this geography, would you like to zoom in?'
       ).subscribe((response) => {
         if (response.accepted) {
-          this.setMapZoomLevel(layerGroup.minzoom);
+          // adding 1 as a temp fix to prevent auto switching if they zoom out slightly
+          this.setMapZoomLevel(layerGroup.minzoom + 1);
           this.setGroupVisibility(layerGroup);
         }
       });
