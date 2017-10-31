@@ -78,7 +78,7 @@ export class DataPanelComponent implements OnChanges {
   }
 
   trackTooltips(index, item) {
-    return item.id;
+    return 'one';
   }
 
   changeGraphType(newType: string) {

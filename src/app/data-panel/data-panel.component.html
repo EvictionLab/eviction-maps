@@ -1,5 +1,15 @@
 <div class="data-wrapper">
   <div class="data-content">
+      <div class="data-content-inner">
+        <app-location-cards
+          [allowAddLocation]="locations.length < 3"
+          [features]="locations"
+          [year]="year"
+          [cardProperties]="cardProps"
+          (dismissedCard)="locationRemoved.emit($event)"
+          (locationAdded)="locationAdded.emit($event)"
+        ></app-location-cards>
+      </div>
       <div class="graph-container">
         <div class="data-content-inner">
           <div class="graph-area">
@@ -7,7 +17,7 @@
             <app-graph
               [data]="graphData"
               [settings]="graphSettings"
-              [hoverAll]="true"
+              [hoverAll]="false"
               (activeValuesChanged)="onGraphHover($event)"
             >
               <div class="line-tooltips" *ngIf="graphType === 'line'">
@@ -57,29 +67,20 @@
         </div>
       </div>
       <div class="data-content-inner">
-          <app-location-cards
-            [allowAddLocation]="locations.length < 3"
-            [features]="locations"
-            [year]="year"
-            [cardProperties]="cardProps"
-            (dismissedCard)="locationRemoved.emit($event)"
-            (locationAdded)="locationAdded.emit($event)"
-          ></app-location-cards>
-          <div class="data-panel-footer">
-              <div class="action-wrapper">
-                      <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>
-                      <span>Share this map and information</span>
-              </div>
-              <div class="action-wrapper">
-                      <button class="btn btn-primary" (click)="showFileDialog($event)">Save</button>
-                      <span>Save the map and information to this device</span>
-              </div>
-              <div class="action-wrapper">
-                      <button class="btn btn-primary" (click)="showFileDialog($event)">E-mail</button>
-                      <span>E-mail this map and information</span>
-              </div>
+        <div class="data-panel-footer">
+          <div class="action-wrapper">
+                  <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>
+                  <span>Share this map and information</span>
           </div>
-          
+          <div class="action-wrapper">
+                  <button class="btn btn-primary" (click)="showFileDialog($event)">Save</button>
+                  <span>Save the map and information to this device</span>
+          </div>
+          <div class="action-wrapper">
+                  <button class="btn btn-primary" (click)="showFileDialog($event)">E-mail</button>
+                  <span>E-mail this map and information</span>
+          </div>
+        </div>
       </div>
   </div>
 </div>
