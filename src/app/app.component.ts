@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import * as bbox from '@turf/bbox';
+import * as pointOnSurface from '@turf/point-on-surface';
 import * as _isEqual from 'lodash.isequal';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
@@ -76,6 +77,16 @@ export class AppComponent {
       featuresCopy.splice(i, 1);
       this.activeFeatures = featuresCopy;
     }
+  }
+
+  /**
+   * Accepts a clicked feature, queries tile data to get data across all years
+   * @param feature returned from featureClick event
+   */
+  onFeatureSelect(feature: MapFeature) {
+    const featureLonLat = pointOnSurface(feature).geometry['coordinates'];
+    this.search.getTileData(feature['layer']['id'], featureLonLat, true)
+      .subscribe(data => this.addLocation(data));
   }
 
   /**

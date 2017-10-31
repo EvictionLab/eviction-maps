@@ -21,7 +21,7 @@
     <app-map
         [autoSwitch]="autoSwitchLayers"
         [boundingBox]="mapBounds"
-        (featureClick)="addLocation($event)"
+        (featureClick)="onFeatureSelect($event)"
         (yearChange)="setYear($event)"
     ></app-map>
     <app-location-cards 
