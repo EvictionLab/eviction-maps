@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import * as bbox from '@turf/bbox';
-import * as pointOnSurface from '@turf/point-on-surface';
+import * as polylabel from 'polylabel';
 import * as _isEqual from 'lodash.isequal';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
@@ -84,7 +84,9 @@ export class AppComponent {
    * @param feature returned from featureClick event
    */
   onFeatureSelect(feature: MapFeature) {
-    const featureLonLat = pointOnSurface(feature).geometry['coordinates'];
+    const coords = feature.geometry['type'] === 'MultiPolygon' ?
+      feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
+    const featureLonLat = polylabel(coords, 1.0);
     this.search.getTileData(feature['layer']['id'], featureLonLat, true)
       .subscribe(data => this.addLocation(data));
   }
