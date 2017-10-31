@@ -23,6 +23,10 @@ $fontStack: Roboto, sans-serif;
 $textColor: #000;
 $secondaryTextColor: rgba(0,0,0,0.5);
 $altTextColor: #fff; // for dark backgrounds
+$linkColor: #22ABED;
+
+$defaultBackground: #fff;
+$secondaryBackground: #F4F7F9;
 
 $color1: #e24000;
 $color2: #2c897f;
@@ -44,8 +48,8 @@ $graphColor4: $color4;
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
 // Toggles
-$toggleBorderColor: #ccc;
-$toggleForeground: #ccc;
+$toggleBorderColor: #efefef;
+$toggleForeground: #C6CCCF;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;

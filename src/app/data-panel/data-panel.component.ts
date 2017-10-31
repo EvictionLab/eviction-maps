@@ -25,13 +25,19 @@ export class DataPanelComponent implements OnChanges {
     'roh': 'Renter Occupied Houses',
     'ahs': 'Average House Size'
   };
-  graphSettings: any = {
-    axis: { x: { label: null }, y: { label: 'Evictions' } },
-    margin: { left: 60, right: 10 }
-  };
+  graphProp = 'er';
+  graphSettings;
+  lineStartYear = this.year;
+  lineEndYear = 2017;
+  barYear = this.year;
+  startSelect = this.generateYearArray(1990, this.lineEndYear - 1);
+  endSelect = this.generateYearArray(this.lineStartYear + 1, 2017);
 
   constructor(public dialogService: UiDialogService) { }
 
+  /**
+   * Update the graph data when locations or year changes.
+   */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.locations) {
       this.setGraphData();
@@ -41,12 +47,38 @@ export class DataPanelComponent implements OnChanges {
     }
   }
 
-  onGraphHover(f) {
-    if (f) {
-      this.tooltips = this.graphType === 'bar' ? [ f ] : f;
-    } else {
-      this.tooltips = [];
-    }
+  /**
+   * Updates the bar to the provided year
+   * @param year 
+   */
+  updateBarYear(year: number) {
+    this.barYear = year;
+    this.setGraphData();
+  }
+
+  /**
+   * Updates the graph to the `start` and `end` X values
+   */
+  updateLineYears(start: number, end: number) {
+    this.lineStartYear = start;
+    this.lineEndYear = Math.max(end, start + 1);
+    this.startSelect = this.generateYearArray(1990, this.lineEndYear - 1);
+    this.endSelect = this.generateYearArray(this.lineStartYear + 1, 2016);
+    this.setGraphData();
+  }
+
+  /**
+   * Sets the tooltip data on graph hover, or empty array if none
+   * @param hoverItems the currently hovered item(s)
+   */
+  onGraphHover(hoverItems) {
+    this.tooltips = hoverItems ?
+      (this.graphType === 'bar' ? [ hoverItems ] : hoverItems) :
+      [];
+  }
+
+  trackTooltips(index, item) {
+    return item.id;
   }
 
   changeGraphType(newType: string) {
@@ -68,55 +100,69 @@ export class DataPanelComponent implements OnChanges {
     });
   }
 
+  /**
+   * Sets the data for the graph, and any settings specific to the type
+   */
   setGraphData() {
+    this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = {
-        axis: { x: { label: 'Year', tickFormat: '.0f' }, y: { label: 'Eviction Rate' } }
+        axis: {
+          x: { label: 'Year', tickFormat: '.0f' },
+          y: { label: this.cardProps[this.graphProp] }
+        }
       };
       this.graphData = [ ...this.createLineGraphData() ];
     } else {
       this.graphSettings = {
-        axis: { x: { label: null }, y: { label: 'Eviction Rate' } }
+        axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } }
       };
       this.graphData = [ ...this.createBarGraphData() ];
     }
   }
 
-  private createLineGraphData() {
-    const data = [];
-    this.locations.forEach((f, i) => {
-      data.push(
-        {
-          id: 'sample' + i,
-          data: this.generateLineData(f)
-          // data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
-        }
-      );
-    });
-    return data;
+  /**
+   * Creates an array with number values from `start` to `end`
+   */
+  generateYearArray(start: number, end: number): Array<number> {
+    const arr = [];
+    for (let i = start; i <= end; i++) { arr.push(i); }
+    return arr;
   }
 
-  private createBarGraphData() {
-    const data = [];
-    this.locations.forEach((f, i) => {
-      data.push(
-        {
-          id: 'sample' + i,
-          data: [{ x: f.properties.n, y: f.properties[`er-${('' + this.year).slice(2)}`] }]
-        }
-      );
+  /**
+   * Genrates line graph data from the features in `locations`
+   */
+  private createLineGraphData() {
+    return this.locations.map((f, i) => {
+      return { id: 'sample' + i, data: this.generateLineData(f) };
     });
-    return data;
+  }
+
+  /**
+   * Generate bar graph data from the features in `locations
+   */
+  private createBarGraphData() {
+    return this.locations.map((f, i) => {
+      const yVal = (f.properties[`${this.graphProp}-${('' + this.barYear).slice(2)}`]);
+      return {
+        id: 'sample' + i,
+        data: [{
+          x: f.properties.n,
+          y: yVal ? yVal : 0
+        }]
+      };
+    });
   }
 
   private generateLineData(feature) {
-    const data = [];
-    for (let i = 0; i < 7; i++) {
-      data.push(
-        {x: 2010 + i, y: feature.properties[`er-${10 + i}`] }
-      );
-    }
-    return data;
+    return this.generateYearArray(this.lineStartYear, this.lineEndYear)
+      .map((year) => {
+        const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
+        if (yVal) {
+          return { x: year, y: yVal };
+        }
+      });
   }
 
 }
