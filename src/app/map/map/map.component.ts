@@ -10,6 +10,7 @@ import { MapDataObject } from '../map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
+import { UiDialogService } from '../../map-ui/ui-dialog/ui-dialog.service';
 import { DataLevels } from '../../data/data-levels';
 import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
 
@@ -17,7 +18,7 @@ import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  providers: [ MapService ]
+  providers: [ MapService, UiDialogService ]
 })
 export class MapComponent {
   @Input()
@@ -65,6 +66,7 @@ export class MapComponent {
 
   constructor(
     private map: MapService,
+    private dialogs: UiDialogService,
     private _sanitizer: DomSanitizer
   ) { }
 
@@ -75,15 +77,27 @@ export class MapComponent {
   setGroupVisibility(layerGroup: MapLayerGroup) {
     // Only change data level and turn off auto switch if wasn't already
     // changed by the onMapZoom event handler
-    if (this.activeDataLevel !== layerGroup) {
-      this.activeDataLevel = layerGroup;
-      this.autoSwitch = false;
+    if (layerGroup['disabled']) {
+      this.dialogs.showConfirmDialog(
+        'Zoom In To ' + layerGroup.name,
+        'You are zoomed out too far to view this geography, would you like to zoom in?'
+      ).subscribe((response) => {
+        if (response.accepted) {
+          this.setMapZoomLevel(layerGroup.minzoom);
+          this.setGroupVisibility(layerGroup);
+        }
+      });
+    } else {
+      if (this.activeDataLevel !== layerGroup) {
+        this.activeDataLevel = layerGroup;
+        this.autoSwitch = false;
+      }
+      this.dataLevels.forEach((group: MapLayerGroup) => {
+        this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
+      });
+      // Reset the hover layer
+      this.map.setSourceData('hover');
     }
-    this.dataLevels.forEach((group: MapLayerGroup) => {
-      this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
-    });
-    // Reset the hover layer
-    this.map.setSourceData('hover');
   }
 
   /**
