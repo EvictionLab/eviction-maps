@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../map-ui/ui-dialog/ui-dialog.service';
+import { MapFeature } from '../map/map-feature';
 
 @Component({
   selector: 'app-data-panel',
@@ -8,7 +10,7 @@ import { UiDialogService } from '../map-ui/ui-dialog/ui-dialog.service';
 })
 export class DataPanelComponent implements OnChanges {
 
-  @Input() locations = [];
+  @Input() locations: MapFeature[] = [];
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
@@ -85,6 +87,16 @@ export class DataPanelComponent implements OnChanges {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
     this.setGraphData();
+  }
+
+  showDownloadDialog(e) {
+    const config = {
+      lang: 'en',
+      startYear: this.year,
+      endYear: this.lineEndYear,
+      features: this.locations
+    };
+    this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }
 
   showFileDialog(e) {

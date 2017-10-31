@@ -1,5 +1,5 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { Http, Response, ResponseContentType } from '@angular/http';
+import { Component, EventEmitter } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
 import { MapFeature } from '../../map/map-feature';
@@ -24,7 +24,7 @@ interface ExportType {
   templateUrl: './download-form.component.html',
   styleUrls: ['./download-form.component.scss']
 })
-export class DownloadFormComponent implements OnInit {
+export class DownloadFormComponent {
   downloadBase = 'https://exports.evictionlab.org';
   lang: string;
   features: MapFeature[];
@@ -40,7 +40,12 @@ export class DownloadFormComponent implements OnInit {
 
   constructor(private http: Http, public bsModalRef: BsModalRef) { }
 
-  ngOnInit() { }
+  setFormConfig(config: Object) {
+    this.lang = config['lang'];
+    this.features = config['features'];
+    this.startYear = config['startYear'];
+    this.endYear = config['endYear'];
+  }
 
   createDownloadRequest(fileValues: string[]): DownloadRequest {
     const downloadTypes = this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1);
@@ -59,14 +64,16 @@ export class DownloadFormComponent implements OnInit {
     const downloadRequest = this.createDownloadRequest(filetypes.map(f => f.value));
     const downloadPath = filetypes.length > 1 ?
       `${this.downloadBase}/format/zip` : `${this.downloadBase}${filetypes[0].path}`;
-    this.http.post(downloadPath, downloadRequest)
+
+    const headers = new Headers({ 'Content-Type': 'application/json' });
+    this.http.post(downloadPath, JSON.stringify(downloadRequest), { headers: headers})
       .subscribe(res => {
         this.loading = false;
         const jsonRes = res.json();
         if (!jsonRes.hasOwnProperty('path')) {
           console.log(`Error occured: ${jsonRes}`);
         } else {
-          window.open(jsonRes['path']);
+          window.location.href = jsonRes['path'];
           this.dismiss({ accepted: true });
         }
       });
