@@ -7,6 +7,7 @@
             <app-graph
               [data]="graphData"
               [settings]="graphSettings"
+              [hoverAll]="true"
               (activeValuesChanged)="onGraphHover($event)"
             >
               <div class="line-tooltips" *ngIf="graphType === 'line'">

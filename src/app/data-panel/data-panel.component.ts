@@ -78,7 +78,6 @@ export class DataPanelComponent implements OnChanges {
   }
 
   trackTooltips(index, item) {
-    console.log('track', index, item);
     return item.id;
   }
 
@@ -145,11 +144,12 @@ export class DataPanelComponent implements OnChanges {
    */
   private createBarGraphData() {
     return this.locations.map((f, i) => {
+      const yVal = (f.properties[`${this.graphProp}-${('' + this.barYear).slice(2)}`]);
       return {
         id: 'sample' + i,
         data: [{
           x: f.properties.n,
-          y: f.properties[`${this.graphProp}-${('' + this.barYear).slice(2)}`]
+          y: yVal ? yVal : 0
         }]
       };
     });
@@ -158,10 +158,10 @@ export class DataPanelComponent implements OnChanges {
   private generateLineData(feature) {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
-        return {
-          x: year,
-          y: feature.properties[`${this.graphProp}-${('' + year).slice(2)}`]
-        };
+        const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
+        if (yVal) {
+          return { x: year, y: yVal };
+        }
       });
   }
 
