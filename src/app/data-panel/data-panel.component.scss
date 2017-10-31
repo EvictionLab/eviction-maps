@@ -22,7 +22,9 @@
 
 .graph-container {
   background: $secondaryBackground;
-  margin: 0 -16px;
+  margin: 0 -16px 16px -16px;
+  padding-top: 8px;
+
 }
 
 .graph-area { 
@@ -63,35 +65,27 @@
     @include down-arrow(6px, rgba(0,0,0,0.8));
   }
   .line-tooltip {
-    width: 48px;
-    height: 24px;
-    margin-top:-12px;
-    margin-left: 12px;
+    width: 56px;
+    height:24px;
+    margin-top: -32px;
+    margin-left: -28px;
     text-align:center;
-    line-height: 15px;
+    border:none;
     transition: transform 0.4s ease;
-    @include left-arrow(6px, rgba(0,0,0,0.8));
+    @include down-arrow(6px, rgba(0,0,0,0.8));
     &:after { z-index:5; }
     &:before {
       content: "";
       display:block;
+      width:0;height:0;
       width:10px;
       height:10px;
       border-radius:6px;
       position:absolute;
-      top: 7px;
-      left:0px;
-      margin-left: -14px;
+      bottom: -14px;
+      left:50%;
+      margin-left: -5px;
       z-index:1;
-    }
-    &:nth-child(1):before {
-      background:$color1;
-    }
-    &:nth-child(2):before {
-      background:$color2;
-    }
-    &:nth-child(3):before {
-      background:$color3;
     }
     .line-tooltip-year {
       display:block;

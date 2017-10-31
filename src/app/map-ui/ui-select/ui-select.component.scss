@@ -28,8 +28,7 @@
       }
       & li:first-child a { border-top: none; }
       & > li.disabled, & > li.disabled > a {
-        color: #999;
-        cursor: pointer;
+        display:none;
       }
     }
     .dropdown-toggle.btn {

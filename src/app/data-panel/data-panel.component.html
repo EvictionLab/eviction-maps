@@ -1,12 +1,14 @@
 <div class="data-wrapper">
   <div class="data-content">
-    
+    <div class="data-content-inner">
+      <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
+        (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
+    </div>
     <div class="graph-container">
       <div class="data-content-inner">
-        <ng-content></ng-content>
         <div class="graph-area">
           <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
-          <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
+          <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="false" (activeValuesChanged)="onGraphHover($event)">
             <div class="line-tooltips" *ngIf="graphType === 'line'">
               <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
                 <span class="line-tooltip-value">{{tooltip.y}}</span>
@@ -43,8 +45,6 @@
       </div>
     </div>
     <div class="data-content-inner">
-      <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
-        (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
       <div class="data-panel-footer">
         <div class="action-wrapper">
           <button class="btn btn-primary" (click)="showFileDialog($event)">Social Media</button>
