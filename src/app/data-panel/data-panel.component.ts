@@ -90,7 +90,7 @@ export class DataPanelComponent implements OnChanges {
   }
 
   changeGraphProperty(selected: string) {
-    this.graphProp = selected === 'Judgements' ? 'er' : 'efr';
+    this.graphProp = selected === 'Judgments' ? 'er' : 'efr';
     this.setGraphData();
   }
 
