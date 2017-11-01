@@ -3,7 +3,13 @@
     <div class="graph-container">
       <div class="data-content-inner">
         <div class="graph-area">
-          <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
+          <div class="graph-header">
+            <div class="graph-data-toggle">
+              <span>Showing eviction: </span>
+              <app-ui-toggle [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>                
+            </div>  
+            <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
+          </div>
           <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
             <div class="line-tooltips" *ngIf="graphType === 'line'">
               <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
