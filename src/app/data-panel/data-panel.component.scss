@@ -28,7 +28,9 @@
   display: block; 
   width:100%;
   text-align:right; 
-  h1 { font-size: 16px; float:left; line-height: 30px; margin:0; }
+  .graph-data-toggle {
+    float:left;
+  }
   app-ui-toggle { 
     display:inline-block; 
 

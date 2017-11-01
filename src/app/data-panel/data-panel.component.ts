@@ -89,6 +89,11 @@ export class DataPanelComponent implements OnChanges {
     this.setGraphData();
   }
 
+  changeGraphProperty(selected: string) {
+    this.graphProp = selected === 'Judgements' ? 'er' : 'efr';
+    this.setGraphData();
+  }
+
   showDownloadDialog(e) {
     const config = {
       lang: 'en',
