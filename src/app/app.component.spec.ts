@@ -3,10 +3,11 @@ import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 import { AppComponent } from './app.component';
 import { MapModule } from './map/map.module';
+import { HttpModule } from '@angular/http';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { MapUiModule } from './map-ui/map-ui.module';
-import { LocationCardsComponent } from './location-cards/location-cards.component';
-
+import { PlatformService } from './platform.service';
+import { SearchService } from './search/search.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -18,11 +19,13 @@ describe('AppComponent', () => {
         MapUiModule,
         MapModule,
         DataPanelModule,
-        Ng2PageScrollModule
+        Ng2PageScrollModule,
+        HttpModule
       ],
       declarations: [
-        AppComponent, LocationCardsComponent
-      ]
+        AppComponent
+      ],
+      providers: [ PlatformService, SearchService ]
     }).compileComponents();
   }));
 

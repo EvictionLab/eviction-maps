@@ -11,6 +11,7 @@ import { MapFeature } from './map-feature';
 @Injectable()
 export class MapService {
   private map: mapboxgl.Map;
+  private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
 
@@ -46,6 +47,41 @@ export class MapService {
    * @param map mapbox instance
    */
   setMapInstance(map) { this.map = map; }
+
+  /**
+   * Setup hover popup to display when labels are not visible
+   * @param layerIds layer IDs to query for tooltip label
+   */
+  setupHoverPopup(layerIds: string[]) {
+    this.popup = new mapboxgl.Popup({ closeButton: false });
+    this.map.on('mousemove', (e) => {
+      const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
+      if (features.length) {
+        const feat: MapFeature = features[0];
+        // Check if labels are visible, don't display tooltip if so
+        const labelLayer = this.map.getLayer(`${feat['layer']['id']}_text`);
+        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+          layers: [`${feat['layer']['id']}_text`],
+          filter: [
+            'all',
+            ['==', 'n', feat.properties.n],
+          ]
+        });
+        if (labelFeatures.length && labelLayer.paint['text-opacity'] > 0) {
+          this.popup.remove();
+        } else {
+          this.popup.setLngLat(e.lngLat)
+            .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
+            .addTo(this.map);
+        }
+      } else {
+        this.popup.remove();
+      }
+    });
+    this.map.on('mouseout', (e) => {
+      this.popup.remove();
+    });
+  }
 
   /**
    * Set the visibility for a mapbox layer
@@ -89,20 +125,20 @@ export class MapService {
    * @param dataProperty
    */
   setLayerDataProperty(layerId: string, styleProperty: string, property: string) {
-    /*
-      FIXME: For some reason this isn't updating the actual map layer, even though
-      printing the style to the console shows it updated the property. I've tried to
-      actually change the stops layer as well, but it hasn't fixed it. Not sure if it's
-      related to this issue https://github.com/mapbox/mapbox-gl-js/issues/5370
-    */
-    const layerProperty = this.map.getPaintProperty(layerId, styleProperty);
-    const mapStyle = this.map.getStyle();
-    mapStyle['layers'].forEach(l => {
-      if (l['id'] === layerId) {
-        l['paint'][styleProperty]['property'] = property;
-      }
-    });
-    this.map.setStyle(mapStyle);
+    const layerProperty = { ...this.map.getPaintProperty(layerId, styleProperty) };
+    layerProperty['property'] = property;
+    this.map.setPaintProperty(layerId, styleProperty, layerProperty);
+  }
+
+  /**
+   * Updates the data property used in filters. Mostly used for updating null layers
+   * @param layerId
+   * @param property
+   */
+  setLayerFilterProperty(layerId: string, property: string) {
+    const layerFilter = this.map.getFilter(layerId);
+    layerFilter[1] = property;
+    this.map.setFilter(layerId, layerFilter);
   }
 
   /**
@@ -151,6 +187,32 @@ export class MapService {
   }
 
   /**
+   * Takes an array of layer groups and a source suffix (last two characters of a census
+   * layer year) and updates each of the layers in that group to to appropriate source.
+   *
+   * Ordinarily would try to generalize this, but updating the map style for each layer
+   * or even layer group seems unnecessary.
+   * @param layerGroups
+   * @param sourceSuffix i.e. 90, 00, 10
+   */
+  updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
+    const mapStyle: mapboxgl.Style = this.map.getStyle();
+    const layerObj = {};
+    layerGroups.forEach(l => {
+      layerObj[l.id] = l.layerIds;
+    });
+
+    mapStyle.layers.map(l => {
+      const layerPrefix = l.id.split('_')[0];
+      if (layerObj.hasOwnProperty(layerPrefix)) {
+        l.source = `us-${layerPrefix}-${sourceSuffix}`;
+      }
+      return l;
+    });
+    this.map.setStyle(mapStyle);
+  }
+
+  /**
    * Hides all layer groups that do not have a zoom range that falls within `zoom`
    * @param layerGroups an array of MapLayerGroup objects, with zoom properties
    * @param zoom the zoom level to hide based on
@@ -186,6 +248,14 @@ export class MapService {
   }
 
   /**
+   * Zoom to supplied point feature
+   * @param feature Point feature
+   */
+  zoomToPoint(feature: MapFeature) {
+    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: 12 });
+  }
+
+  /**
    * Zoom to supplied bounding box
    * @param box An array of 4 numbers representing the bounding box
    */
@@ -193,6 +263,6 @@ export class MapService {
     this.map.fitBounds([
       [box[0], box[1]],
       [box[2], box[3]]
-    ]);
+    ], { padding: 50 });
   }
 }

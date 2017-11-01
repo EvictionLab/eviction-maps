@@ -4,8 +4,9 @@
             <img src="./assets/logo.png" class="header-logo" />
             <app-predictive-search
                 class="search"
-                [options]="map.mapFeatures"
-                optionField="properties.n"
+                [(selected)]="search.query"
+                [options]="search.results"
+                optionField="properties.label"
                 (selectionChange)="onSearchSelect($event)">
             </app-predictive-search>
             <app-ui-select
@@ -20,11 +21,13 @@
     <app-map
         [autoSwitch]="autoSwitchLayers"
         [boundingBox]="mapBounds"
-        (featureClick)="addLocation($event)"
+        (featureClick)="onFeatureSelect($event)"
+        (yearChange)="setYear($event)"
     ></app-map>
     <app-location-cards 
         *ngIf="activeFeatures.length > 0" 
         [features]="activeFeatures"
+        [year]="year"
         (viewMore)="goToDataPanel($event)"
         (dismissedCard)="removeLocation($event)"
     ></app-location-cards>
@@ -34,8 +37,11 @@
         [year]="year"
         [locations]="activeFeatures" 
         (locationRemoved)="removeLocation($event)"
+        (locationAdded)="onSearchSelect($event, false)"
     ></app-data-panel>
     <div class="footer">
-        <div class="placholder">Placeholder Footer</div>
+        <div class="placeholder">
+          <img src="./assets/images/footer.png" />
+        </div>
     </div>
 </div>

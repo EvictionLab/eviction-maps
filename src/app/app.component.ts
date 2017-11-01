@@ -3,12 +3,18 @@ import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import * as bbox from '@turf/bbox';
+import * as polylabel from 'polylabel';
 import * as _isEqual from 'lodash.isequal';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
+
+import { DataLevels } from './data/data-levels';
+import { DataAttributes } from './data/data-attributes';
+import { UiDialogService } from './map-ui/ui-dialog/ui-dialog.service';
+import { SearchService } from './search/search.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +23,6 @@ import { MapComponent } from './map/map/map.component';
 })
 export class AppComponent {
   title = 'Eviction Lab';
-  mapFeatures: Observable<Object>;
   mapBounds;
   autoSwitchLayers = true;
   activeFeatures = [];
@@ -28,6 +33,8 @@ export class AppComponent {
 
   constructor(
     private _sanitizer: DomSanitizer,
+    private dialogService: UiDialogService,
+    public search: SearchService,
     private pageScrollService: PageScrollService,
     @Inject(DOCUMENT) private document: any
   ) {
@@ -39,14 +46,24 @@ export class AppComponent {
     };
   }
 
+  setYear(year: number) {
+    this.year = year;
+  }
+
+
   /**
    * Adds a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
    */
   addLocation(feature) {
-    const i = this.activeFeatures.findIndex((f) => _isEqual(f, feature));
-    if (!(i > -1)) {
-      this.activeFeatures = [ ...this.activeFeatures, feature ];
+    if (this.activeFeatures.length < 3) {
+      const i = this.activeFeatures.findIndex((f) => {
+        return f.properties.n === feature.properties.n &&
+          f.properties.pl === feature.properties.pl;
+      });
+      if (!(i > -1)) {
+        this.activeFeatures = [ ...this.activeFeatures, feature ];
+      }
     }
   }
 
@@ -63,13 +80,41 @@ export class AppComponent {
   }
 
   /**
+   * Accepts a clicked feature, queries tile data to get data across all years
+   * @param feature returned from featureClick event
+   */
+  onFeatureSelect(feature: MapFeature) {
+    const coords = feature.geometry['type'] === 'MultiPolygon' ?
+      feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
+    const featureLonLat = polylabel(coords, 1.0);
+    this.search.getTileData(feature['layer']['id'], featureLonLat, true)
+      .subscribe(data => this.addLocation(data));
+  }
+
+  /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
+   * @param updateMap moves the map to the selected location if true
    */
-  onSearchSelect(feature: MapFeature | null) {
+  onSearchSelect(feature: MapFeature | null, updateMap = true) {
     this.autoSwitchLayers = false;
     if (feature) {
-      this.mapBounds = bbox(feature);
+      const layerId = this.search.getLayerName(feature.properties['layer']);
+      this.search.getTileData(layerId, feature.geometry['coordinates'], true)
+        .subscribe(data => {
+          if (data === {}) {
+            console.log('could not find feature');
+          }
+          this.map.setDataLevelFromLayer(layerId);
+          this.addLocation(data);
+          if (updateMap) {
+            if (feature.hasOwnProperty('bbox')) {
+              this.mapBounds = feature['bbox'];
+            } else {
+              this.map.zoomToPointFeature(feature);
+            }
+          }
+        });
     }
   }
 
@@ -86,20 +131,24 @@ export class AppComponent {
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
     this.verticalOffset = window.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop || 0;
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
     if (this.verticalOffset !== 0) {
       this.map.disableZoom();
     }
-    if (this.enableZoom && this.verticalOffset === 0) {
+    if (this.verticalOffset === 0) {
       this.map.enableZoom();
-      this.enableZoom = false;
     }
   }
 
   @HostListener('wheel', ['$event'])
-  @Debounce(250)
+  @Debounce(400)
   onwheel(e) {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop || 0;
+    }
     if (this.verticalOffset === 0) {
       this.map.enableZoom();
     } else {

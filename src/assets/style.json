@@ -2,51 +2,138 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Natural Earth",
+  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites",
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "https://free.tilehosting.com/data/v3.json?key=JgNOMnZWmIN2iBSFGgsi"
-    },
-    "us-block-groups": {
-      "type": "vector",
-      "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-zip-codes": {
+    "us-block-groups-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-90/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-tracts": {
+    "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-cities": {
+    "us-block-groups-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-counties": {
+    "us-zip-codes-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-states": {
+    "us-zip-codes-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states/{z}/{x}/{y}.pbf"
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-zip-codes-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-tracts-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-cities-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-counties-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-10/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-90": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-90/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-00": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-00/{z}/{x}/{y}.pbf"
+      ]
+    },
+    "us-states-10": {
+      "type": "vector",
+      "maxzoom": 10,
+      "tiles": [
+        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-10/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
@@ -57,8 +144,7 @@
       }
     }
   },
-  "sprite": "https://openmaptiles.github.io/positron-gl-style/sprite",
-  "glyphs": "https://free.tilehosting.com/fonts/{fontstack}/{range}.pbf?key=JgNOMnZWmIN2iBSFGgsi",
+  "glyphs": "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -1047,9 +1133,7 @@
         "text-transform": "none",
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1097,9 +1181,7 @@
         "text-size": 10,
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1239,9 +1321,7 @@
         "text-size": 10,
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Medium",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Medium"
         ],
         "text-justify": "center",
         "visibility": "visible",
@@ -1286,9 +1366,7 @@
         "text-size": 10,
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1373,9 +1451,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1433,9 +1509,9 @@
       }
     },
     {
-      "id": "blockgroups",
+      "id": "block-groups",
       "type": "fill",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
@@ -1445,9 +1521,26 @@
       }
     },
     {
-      "id": "blockgroups_stroke",
+      "id": "block-groups_null",
+      "type": "fill",
+      "source": "us-block-groups-10",
+      "source-layer": "block-groups",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
+      "id": "block-groups_stroke",
       "type": "line",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
@@ -1463,15 +1556,11 @@
               0
             ],
             [
-              5,
+              10,
               0
             ],
             [
-              7,
-              0
-            ],
-            [
-              9,
+              11,
               1
             ]
           ]
@@ -1479,9 +1568,9 @@
       }
     },
     {
-      "id": "zipcodes",
+      "id": "zip-codes",
       "type": "fill",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
@@ -1491,9 +1580,26 @@
       }
     },
     {
-      "id": "zipcodes_stroke",
+      "id": "zip-codes_null",
+      "type": "fill",
+      "source": "us-zip-codes-10",
+      "source-layer": "zip-codes",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
+      "id": "zip-codes_stroke",
       "type": "line",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes",
       "layout": {
         "visibility": "none"
@@ -1509,15 +1615,11 @@
               0
             ],
             [
-              3,
+              9,
               0
             ],
             [
-              5,
-              0
-            ],
-            [
-              7,
+              10,
               1
             ]
           ]
@@ -1527,19 +1629,61 @@
     {
       "id": "tracts",
       "type": "fill",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": {
+          "property": "pr-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(215, 227, 244, 0.7)"
+            ],
+            [
+              7,
+              "rgba(170, 191, 226, 0.75)"
+            ],
+            [
+              13,
+              "rgba(133, 157, 204, 0.8)"
+            ],
+            [
+              20,
+              "rgba(81, 101, 165, 0.85)"
+            ],
+            [
+              26,
+              "rgba(37, 51, 132, 0.9)"
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "tracts_null",
+      "type": "fill",
+      "source": "us-tracts-10",
+      "source-layer": "tracts",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
       "id": "tracts_stroke",
       "type": "line",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
@@ -1555,15 +1699,11 @@
               0
             ],
             [
-              5,
-              0
-            ],
-            [
-              7,
-              0
-            ],
-            [
               9,
+              0
+            ],
+            [
+              10,
               1
             ]
           ]
@@ -1573,19 +1713,36 @@
     {
       "id": "counties",
       "type": "fill",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": "rgba(0,0,0,0)"
+      }
+    },
+    {
+      "id": "counties_null",
+      "type": "fill",
+      "source": "us-counties-10",
+      "source-layer": "counties",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
       }
     },
     {
       "id": "counties_stroke",
       "type": "line",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
@@ -1619,7 +1776,7 @@
     {
       "id": "states",
       "type": "fill",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states",
       "layout": {
         "visibility": "none"
@@ -1629,9 +1786,26 @@
       }
     },
     {
+      "id": "states_null",
+      "type": "fill",
+      "source": "us-states-10",
+      "source-layer": "states",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "states_stroke",
       "type": "line",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states",
       "layout": {
         "visibility": "none"
@@ -1710,9 +1884,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -1838,9 +2010,7 @@
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -1925,9 +2095,7 @@
         "icon-image": "circle-11",
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2050,17 +2218,13 @@
             [
               4,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               5,
               [
-                "Metropolis Medium",
-                "",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -2163,9 +2327,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Regular",
-          "Klokantech Noto Sans Regular",
-          "Klokantech Noto Sans CJK Regular"
+          "Metropolis+Regular"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2223,9 +2385,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis Medium",
-          "Metropolis Medium",
-          "Metropolis Medium"
+          "Metropolis+Medium"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2260,7 +2420,7 @@
     {
       "id": "cities",
       "type": "fill",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
@@ -2270,9 +2430,26 @@
       }
     },
     {
+      "id": "cities_null",
+      "type": "fill",
+      "source": "us-cities-10",
+      "source-layer": "cities",
+      "layout": {
+        "visibility": "none"
+      },
+      "filter": [
+        "<",
+        "none-10",
+        0
+      ],
+      "paint": {
+        "fill-pattern": "stripes"
+      }
+    },
+    {
       "id": "cities_stroke",
       "type": "line",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
@@ -2304,20 +2481,50 @@
       }
     },
     {
-      "id": "blockgroups_bubbles",
+      "id": "block-groups_bubbles",
       "type": "circle",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
         "visibility": "none"
       },
       "paint": {
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
+        "circle-stroke-width": {
+          "default": 1,
+          "stops": [
+            [
+              5,
+              0
+            ],
+            [
+              12,
+              1
+            ],
+            [
+              14,
+              2
+            ]
+          ]
+        },
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -2334,90 +2541,6 @@
           "stops": [
             [
               {
-                "zoom": 6,
-                "value": 0
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 2
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 4
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 6
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 8
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 10
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 0
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 2
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 4
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 6
-              },
-              1.4625
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 8
-              },
-              1.9500000000000002
-            ],
-            [
-              {
-                "zoom": 7,
-                "value": 10
-              },
-              2.4375
-            ],
-            [
-              {
                 "zoom": 8,
                 "value": 0
               },
@@ -2426,37 +2549,23 @@
             [
               {
                 "zoom": 8,
-                "value": 2
+                "value": 20
               },
               1
             ],
             [
               {
                 "zoom": 8,
-                "value": 4
+                "value": 40
               },
-              1.90125
+              1
             ],
             [
               {
                 "zoom": 8,
-                "value": 6
+                "value": 60
               },
-              2.8518749999999997
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 8
-              },
-              3.8025
-            ],
-            [
-              {
-                "zoom": 8,
-                "value": 10
-              },
-              4.753125
+              1
             ],
             [
               {
@@ -2468,37 +2577,23 @@
             [
               {
                 "zoom": 9,
-                "value": 2
+                "value": 20
               },
-              1.85371875
+              1
             ],
             [
               {
                 "zoom": 9,
-                "value": 4
+                "value": 40
               },
-              3.7074375
+              1.2999999999999998
             ],
             [
               {
                 "zoom": 9,
-                "value": 6
+                "value": 60
               },
-              5.56115625
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 8
-              },
-              7.414875
-            ],
-            [
-              {
-                "zoom": 9,
-                "value": 10
-              },
-              9.268593749999999
+              1.95
             ],
             [
               {
@@ -2510,53 +2605,94 @@
             [
               {
                 "zoom": 10,
-                "value": 2
+                "value": 20
               },
-              3.6147515625
+              1.2674999999999998
             ],
             [
               {
                 "zoom": 10,
-                "value": 4
+                "value": 40
               },
-              7.229503125
+              2.5349999999999997
             ],
             [
               {
                 "zoom": 10,
-                "value": 6
+                "value": 60
               },
-              10.844254687499998
+              3.8024999999999998
             ],
             [
               {
-                "zoom": 10,
-                "value": 8
+                "zoom": 11,
+                "value": 0
               },
-              14.45900625
+              1
             ],
             [
               {
-                "zoom": 10,
-                "value": 10
+                "zoom": 11,
+                "value": 20
               },
-              18.0737578125
+              2.4716249999999995
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 40
+              },
+              4.943249999999999
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 60
+              },
+              7.414874999999999
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 20
+              },
+              4.0244234062499995
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 40
+              },
+              8.048846812499999
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 60
+              },
+              12.073270218749999
             ]
           ]
         }
       }
     },
     {
-      "id": "blockgroups_text",
+      "id": "block-groups_text",
       "type": "symbol",
-      "source": "us-block-groups",
+      "source": "us-block-groups-10",
       "source-layer": "block-groups-centers",
       "minzoom": 8,
       "layout": {
         "text-field": "{n}",
         "text-font": [
-          "Metropolis Regular",
-          ""
+          "Metropolis+Regular"
         ],
         "text-size": 12,
         "text-letter-spacing": 0.07,
@@ -2568,7 +2704,19 @@
       "paint": {
         "text-color": "rgba(0, 0, 0, 1)",
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              12.75,
+              0
+            ],
+            [
+              13,
+              1
+            ]
+          ]
+        }
       }
     },
     {
@@ -2585,62 +2733,54 @@
     {
       "id": "tracts_bubbles",
       "type": "circle",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts-centers",
-      "minzoom": 5,
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              14,
               "rgba(255,4,0,0.8)"
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [5, 0],
+            [9, 1],
+            [14, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
           "stops": [
             [
               {
-                "zoom": 6,
-                "value": 0
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 20
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 40
-              },
-              1
-            ],
-            [
-              {
-                "zoom": 6,
-                "value": 60
-              },
-              1
-            ],
-            [
-              {
                 "zoom": 7,
                 "value": 0
               },
@@ -2658,14 +2798,21 @@
                 "zoom": 7,
                 "value": 40
               },
-              1.6249999999999998
+              1
             ],
             [
               {
                 "zoom": 7,
                 "value": 60
               },
-              2.4375
+              1
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 80
+              },
+              1
             ],
             [
               {
@@ -2679,21 +2826,28 @@
                 "zoom": 8,
                 "value": 20
               },
-              1.5843749999999999
+              1
             ],
             [
               {
                 "zoom": 8,
                 "value": 40
               },
-              3.1687499999999997
+              1
             ],
             [
               {
                 "zoom": 8,
                 "value": 60
               },
-              4.753125
+              1.4625
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 80
+              },
+              1.95
             ],
             [
               {
@@ -2707,21 +2861,28 @@
                 "zoom": 9,
                 "value": 20
               },
-              3.0895312499999994
+              1
             ],
             [
               {
                 "zoom": 9,
                 "value": 40
               },
-              6.179062499999999
+              1.9012499999999999
             ],
             [
               {
                 "zoom": 9,
                 "value": 60
               },
-              9.268593749999999
+              2.8518749999999997
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 80
+              },
+              3.8024999999999998
             ],
             [
               {
@@ -2735,39 +2896,115 @@
                 "zoom": 10,
                 "value": 20
               },
-              6.024585937499999
+              1.8537187499999999
             ],
             [
               {
                 "zoom": 10,
                 "value": 40
               },
-              12.049171874999997
+              3.7074374999999997
             ],
             [
               {
                 "zoom": 10,
                 "value": 60
               },
-              18.0737578125
+              5.561156249999999
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 80
+              },
+              7.414874999999999
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 20
+              },
+              3.6147515624999995
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 40
+              },
+              7.229503124999999
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 60
+              },
+              10.844254687499998
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 80
+              },
+              14.459006249999998
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 20
+              },
+              5.885719231640624
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 40
+              },
+              11.771438463281248
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 60
+              },
+              17.65715769492187
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 80
+              },
+              23.542876926562496
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
     {
       "id": "tracts_text",
       "type": "symbol",
-      "source": "us-tracts",
+      "source": "us-tracts-10",
       "source-layer": "tracts-centers",
-      "minzoom": 8,
       "layout": {
         "text-field": "{n}",
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -2782,27 +3019,44 @@
           ]
         },
         "text-letter-spacing": 0.07,
-        "visibility": "none",
         "text-justify": "center",
-        "text-max-width": 4
+        "text-max-width": 4,
+        "visibility": "none"
       },
       "paint": {
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              11.75,
+              0
+            ],
+            [
+              12,
+              1
+            ]
+          ]
+        }
       }
     },
     {
       "id": "counties_bubbles",
       "type": "circle",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties-centers",
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -2813,8 +3067,23 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
+        "circle-stroke-width": { 
+          "default": 1,
+          "stops": [
+            [0, 0],
+            [6, 2]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -2859,7 +3128,7 @@
                 "zoom": 2,
                 "value": 10
               },
-              1.1
+              1
             ],
             [
               {
@@ -2880,28 +3149,28 @@
                 "zoom": 3,
                 "value": 4
               },
-              1.037212
+              1
             ],
             [
               {
                 "zoom": 3,
                 "value": 6
               },
-              1.5558180000000001
+              1.2857999999999998
             ],
             [
               {
                 "zoom": 3,
                 "value": 8
               },
-              2.074424
+              1.7144
             ],
             [
               {
                 "zoom": 3,
                 "value": 10
               },
-              2.59303
+              2.143
             ],
             [
               {
@@ -2915,35 +3184,35 @@
                 "zoom": 4,
                 "value": 2
               },
-              1.1409332000000003
+              1
             ],
             [
               {
                 "zoom": 4,
                 "value": 4
               },
-              2.2818664000000006
+              1.7144
             ],
             [
               {
                 "zoom": 4,
                 "value": 6
               },
-              3.4227996000000003
+              2.5715999999999997
             ],
             [
               {
                 "zoom": 4,
                 "value": 8
               },
-              4.563732800000001
+              3.4288
             ],
             [
               {
                 "zoom": 4,
                 "value": 10
               },
-              5.7046660000000005
+              4.286
             ],
             [
               {
@@ -2957,88 +3226,130 @@
                 "zoom": 5,
                 "value": 2
               },
-              2.9242117916000003
+              1.9972759999999998
             ],
             [
               {
                 "zoom": 5,
                 "value": 4
               },
-              5.848423583200001
+              3.9945519999999997
             ],
             [
               {
                 "zoom": 5,
                 "value": 6
               },
-              8.772635374800002
+              5.991827999999999
             ],
             [
               {
                 "zoom": 5,
                 "value": 8
               },
-              11.696847166400001
+              7.989103999999999
             ],
             [
               {
                 "zoom": 5,
                 "value": 10
               },
-              14.621058958000003
+              9.986379999999999
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 0
               },
               1
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 2
               },
-              4.8249494561400015
+              2.995914
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 4
               },
-              9.649898912280003
+              5.991828
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 6
               },
-              14.474848368420002
+              8.987741999999997
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 8
               },
-              19.299797824560006
+              11.983656
             ],
             [
               {
-                "zoom": 6.5,
+                "zoom": 6,
                 "value": 10
               },
-              24.124747280700007
+              14.979569999999999
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 0
+              },
+              2
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 2
+              },
+              8
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 4
+              },
+              12
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 6
+              },
+              16
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 8
+              },
+              20
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 10
+              },
+              36
             ]
-          ]
+          ],
+          "type": "exponential"
         }
       }
     },
     {
       "id": "counties_text",
       "type": "symbol",
-      "source": "us-counties",
+      "source": "us-counties-10",
       "source-layer": "counties-centers",
-      "minzoom": 7,
       "layout": {
         "text-field": "{n}",
         "text-allow-overlap": false,
@@ -3047,15 +3358,13 @@
         "text-optional": false,
         "symbol-spacing": 2500,
         "icon-allow-overlap": false,
-        "visibility": "none",
         "symbol-placement": "point",
-        "text-padding": 4,
+        "text-padding": 6,
         "text-justify": "center",
         "text-keep-upright": true,
         "text-line-height": 1.2,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -3070,26 +3379,44 @@
           ]
         },
         "text-letter-spacing": 0.07,
-        "text-max-width": 3
+        "text-max-width": 3,
+        "visibility": "none"
       },
       "paint": {
         "icon-translate-anchor": "map",
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              7.75,
+              0
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        }
       }
     },
     {
       "id": "states_bubbles",
       "type": "circle",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states-centers",
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3100,7 +3427,16 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
         "circle-stroke-width": 2,
         "circle-radius": {
           "property": "er-10",
@@ -3225,7 +3561,7 @@
     {
       "id": "states_text",
       "type": "symbol",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "states-centers",
       "layout": {
         "text-field": "{n}",
@@ -3251,15 +3587,13 @@
             [
               3,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ],
             [
               7,
               [
-                "Metropolis Medium",
-                ""
+                "Metropolis+Medium"
               ]
             ]
           ]
@@ -3281,15 +3615,22 @@
     {
       "id": "cities_bubbles",
       "type": "circle",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities-centers",
+      "minzoom": 8,
+      "maxzoom": 24,
       "layout": {
         "visibility": "none"
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3300,8 +3641,33 @@
             ]
           ]
         },
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 2,
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [
+              0,
+              "rgba(255, 255, 255, 1)"
+            ]
+          ]
+        },
+        "circle-stroke-width": {
+          "default": 1,
+          "stops": [
+            [
+              5,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              14,
+              2
+            ]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -3658,14 +4024,12 @@
             ]
           ]
         }
-      },
-      "minzoom": 8,
-      "maxzoom": 24
+      }
     },
     {
       "id": "cities_text",
       "type": "symbol",
-      "source": "us-cities",
+      "source": "us-cities-10",
       "source-layer": "cities-centers",
       "minzoom": 9,
       "layout": {
@@ -3687,9 +4051,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis Medium",
-          "",
-          ""
+          "Metropolis+Medium"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -3756,8 +4118,8 @@
         "text-opacity": {
           "stops": [
             [
-              7,
-              1
+              9.75,
+              0
             ],
             [
               10,
@@ -3768,9 +4130,9 @@
       }
     },
     {
-      "id": "zipcodes_bubbles",
+      "id": "zip-codes_bubbles",
       "type": "circle",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes-centers",
       "minzoom": 6,
       "layout": {
@@ -3778,8 +4140,13 @@
       },
       "paint": {
         "circle-color": {
+          "property": "er-10",
           "default": "rgba(0,0,0,0)",
           "stops": [
+            [
+              -1,
+              "rgba(198,204,207,0.8)"
+            ],
             [
               0,
               "rgba(255,120,119,0.8)"
@@ -3790,8 +4157,30 @@
             ]
           ]
         },
-        "circle-stroke-width": 2,
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": {
+          "default": 1,
+          "stops": [
+            [
+              5,
+              0
+            ],
+            [
+              8,
+              1
+            ],
+            [
+              14,
+              2
+            ]
+          ]
+        },
+        "circle-stroke-color": {
+          "property": "er-10",
+          "default": "rgba(0, 0, 0, 0)",
+          "stops": [
+            [0, "rgba(255, 255, 255, 1)"]
+          ]
+        },
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -3806,23 +4195,30 @@
             [
               {
                 "zoom": 6,
-                "value": 5
+                "value": 20
               },
               1
             ],
             [
               {
                 "zoom": 6,
-                "value": 10
+                "value": 40
               },
               1
             ],
             [
               {
                 "zoom": 6,
-                "value": 15
+                "value": 60
               },
-              1.25
+              1
+            ],
+            [
+              {
+                "zoom": 6,
+                "value": 80
+              },
+              1
             ],
             [
               {
@@ -3834,23 +4230,30 @@
             [
               {
                 "zoom": 7,
-                "value": 5
+                "value": 20
               },
-              1.302083333333333
+              1
             ],
             [
               {
                 "zoom": 7,
-                "value": 10
+                "value": 40
               },
-              2.604166666666666
+              1.21875
             ],
             [
               {
                 "zoom": 7,
-                "value": 15
+                "value": 60
               },
-              3.90625
+              1.828125
+            ],
+            [
+              {
+                "zoom": 7,
+                "value": 80
+              },
+              2.4375
             ],
             [
               {
@@ -3862,23 +4265,30 @@
             [
               {
                 "zoom": 8,
-                "value": 5
+                "value": 20
               },
-              3.255208333333333
+              1.18828125
             ],
             [
               {
                 "zoom": 8,
-                "value": 10
+                "value": 40
               },
-              6.510416666666666
+              2.3765625
             ],
             [
               {
                 "zoom": 8,
-                "value": 15
+                "value": 60
               },
-              9.765625
+              3.5648437499999996
+            ],
+            [
+              {
+                "zoom": 8,
+                "value": 80
+              },
+              4.753125
             ],
             [
               {
@@ -3890,23 +4300,30 @@
             [
               {
                 "zoom": 9,
-                "value": 5
+                "value": 20
               },
-              8.138020833333332
+              2.3171484374999998
             ],
             [
               {
                 "zoom": 9,
-                "value": 10
+                "value": 40
               },
-              16.276041666666664
+              4.6342968749999995
             ],
             [
               {
                 "zoom": 9,
-                "value": 15
+                "value": 60
               },
-              24.4140625
+              6.9514453125
+            ],
+            [
+              {
+                "zoom": 9,
+                "value": 80
+              },
+              9.268593749999999
             ],
             [
               {
@@ -3918,32 +4335,179 @@
             [
               {
                 "zoom": 10,
-                "value": 5
+                "value": 20
               },
-              20.345052083333332
+              4.518439453125
             ],
             [
               {
                 "zoom": 10,
-                "value": 10
+                "value": 40
               },
-              40.690104166666664
+              9.03687890625
             ],
             [
               {
                 "zoom": 10,
-                "value": 15
+                "value": 60
               },
-              61.03515625
+              13.555318359374997
+            ],
+            [
+              {
+                "zoom": 10,
+                "value": 80
+              },
+              18.0737578125
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 20
+              },
+              8.810956933593749
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 40
+              },
+              17.621913867187498
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 60
+              },
+              26.432870800781245
+            ],
+            [
+              {
+                "zoom": 11,
+                "value": 80
+              },
+              35.243827734374996
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 20
+              },
+              14.346440627124021
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 40
+              },
+              28.692881254248043
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 60
+              },
+              43.03932188137206
+            ],
+            [
+              {
+                "zoom": 12,
+                "value": 80
+              },
+              57.385762508496086
+            ],
+            [
+              {
+                "zoom": 13,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 13,
+                "value": 20
+              },
+              29.93384836849427
+            ],
+            [
+              {
+                "zoom": 13,
+                "value": 40
+              },
+              59.86769673698854
+            ],
+            [
+              {
+                "zoom": 13,
+                "value": 60
+              },
+              89.80154510548282
+            ],
+            [
+              {
+                "zoom": 13,
+                "value": 80
+              },
+              119.73539347397708
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 0
+              },
+              1
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 20
+              },
+              58.37100431856383
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 40
+              },
+              116.74200863712765
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 60
+              },
+              175.1130129556915
+            ],
+            [
+              {
+                "zoom": 14,
+                "value": 80
+              },
+              233.4840172742553
             ]
           ]
         }
       }
     },
     {
-      "id": "zipcodes_text",
+      "id": "zip-codes_text",
       "type": "symbol",
-      "source": "us-zip-codes",
+      "source": "us-zip-codes-10",
       "source-layer": "zip-codes-centers",
       "minzoom": 8,
       "layout": {
@@ -3951,8 +4515,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis Medium",
-          ""
+          "Metropolis+Medium"
         ],
         "text-size": {
           "stops": [
@@ -3973,13 +4536,25 @@
       },
       "paint": {
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": 2
+        "text-halo-width": 2,
+        "text-opacity": {
+          "stops": [
+            [
+              10.75,
+              0
+            ],
+            [
+              11,
+              1
+            ]
+          ]
+        }
       }
     },
     {
       "id": "united-states",
       "type": "line",
-      "source": "us-states",
+      "source": "us-states-10",
       "source-layer": "country",
       "paint": {
         "line-width": 10,

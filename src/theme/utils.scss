@@ -8,3 +8,31 @@
     margin:0;
     padding:0;
 }
+
+@mixin down-arrow($size: 6px, $color: rgba(0,0,0,0.8)) {
+  &:after {
+    content:"";
+    display:block;
+    width:0;height:0;
+    border:$size solid transparent;
+    border-top-color: $color;
+    position: absolute;
+    bottom: -2*$size;
+    left: 50%;
+    margin-left: -$size;
+  }
+}
+
+@mixin left-arrow($size: 6px, $color: rgba(0,0,0,0.8)) {
+  &:after {
+    content:"";
+    display:block;
+    width:0;height:0;
+    border:$size solid transparent;
+    border-right-color: $color;
+    position: absolute;
+    left: -2*$size;
+    top: 50%;
+    margin-top: -$size;
+  }
+}

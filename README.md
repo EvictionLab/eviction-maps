@@ -87,6 +87,15 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## `app-ui-select`
 
+### Inputs
+  - `values`: an aray of values or objects to select from
+  - `selectedValue`: an optional value to select by default
+  - `labelProperty`: an optional property to use for the item label if an object array is passed to `values`
+  - `label`: label the input field
+
+### Outputs
+  - `change`: emits the selected value on change
+
 ## `app-ui-hint`
 
 ## `app-ui-dialog`

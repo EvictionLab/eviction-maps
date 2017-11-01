@@ -8,9 +8,11 @@ export const DataLevels: Array<MapLayerGroup> = [
             'states',
             'states_stroke',
             'states_bubbles',
-            'states_text'
+            'states_text',
+            'states_null'
         ],
-        'zoom': [0, 6]
+        'minzoom': 0,
+        'zoom': [0, 7]
     },
     {
         'id': 'counties',
@@ -19,20 +21,24 @@ export const DataLevels: Array<MapLayerGroup> = [
             'counties',
             'counties_stroke',
             'counties_bubbles',
-            'counties_text'
+            'counties_text',
+            'counties_null'
         ],
-        'zoom': [6, 8]
+        'minzoom': 0,
+        'zoom': [7, 9]
     },
     {
-        'id': 'zipcodes',
+        'id': 'zip-codes',
         'name': 'Zip Codes',
         'layerIds': [
-            'zipcodes',
-            'zipcodes_stroke',
-            'zipcodes_bubbles',
-            'zipcodes_text'
+            'zip-codes',
+            'zip-codes_stroke',
+            'zip-codes_bubbles',
+            'zip-codes_text',
+            'zip-codes_null'
         ],
-        'zoom': [9, 10]
+        'minzoom': 6,
+        'zoom': [9, 11]
     },
     {
         'id': 'cities',
@@ -41,8 +47,10 @@ export const DataLevels: Array<MapLayerGroup> = [
             'cities',
             'cities_stroke',
             'cities_bubbles',
-            'cities_text'
-        ]
+            'cities_text',
+            'cities_null'
+        ],
+        'minzoom': 7
     },
     {
         'id': 'tracts',
@@ -51,19 +59,23 @@ export const DataLevels: Array<MapLayerGroup> = [
             'tracts',
             'tracts_stroke',
             'tracts_bubbles',
-            'tracts_text'
+            'tracts_text',
+            'tracts_null'
         ],
-        'zoom': [8, 9]
+        'minzoom': 7,
+        'zoom': [11, 13]
     },
     {
-       'id': 'blockgroups',
+       'id': 'block-groups',
        'name': 'Block Groups',
        'layerIds': [
-          'blockgroups',
-          'blockgroups_stroke',
-          'blockgroups_bubbles',
-          'blockgroups_text'
+          'block-groups',
+          'block-groups_stroke',
+          'block-groups_bubbles',
+          'block-groups_text',
+          'block-groups_null'
        ],
-       'zoom': [ 10, 16 ]
+       'minzoom': 7,
+       'zoom': [ 13, 16 ]
     }
  ];

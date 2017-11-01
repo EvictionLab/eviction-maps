@@ -11,7 +11,7 @@ import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { DataLevels } from '../../data/data-levels';
-import { DataAttributes } from '../../data/data-attributes';
+import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -37,11 +37,15 @@ export class MapComponent {
   @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
   zoom: number;
   dataYear = 2010;
+  censusYear = 2010;
   dataLevels: Array<MapLayerGroup> = DataLevels;
+  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
   attributes: Array<MapDataAttribute> = DataAttributes;
+  bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
   mapFeatures: Observable<Object>;
   activeDataLevel: MapLayerGroup;
   activeDataHighlight: MapDataAttribute;
+  activeBubbleHighlight: MapDataAttribute;
   mapConfig = {
     style: './assets/style.json',
     center: [-98.5556199, 39.8097343],
@@ -51,9 +55,10 @@ export class MapComponent {
   };
   legend;
   mapEventLayers: Array<string> =
-    [ 'states', 'cities', 'tracts', 'blockgroups', 'zipcodes', 'counties' ];
+    [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
   private _bounds;
+  private _mapInstance;
 
   constructor(
     private map: MapService,
@@ -79,23 +84,47 @@ export class MapComponent {
   }
 
   /**
+   * Set data level based on layer ID string input
+   * @param layerId layer ID string
+   */
+  setDataLevelFromLayer(layerId: string) {
+    const dataLevel = this.dataLevels.filter(l => l.id === layerId)[0];
+    this.setGroupVisibility(dataLevel);
+  }
+
+  /**
    * Sets the highlights (choropleths) to a different data property available in the tile data.
    * @param attr the map data attribute to set highlights for
    */
   setDataHighlight(attr: MapDataAttribute) {
     const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
     this.activeDataHighlight = dataAttr;
-    console.log(this.activeDataHighlight);
     this.updateLegend();
     this.mapEventLayers.forEach((layerId) => {
-      const layerStem = layerId.split('-')[0];
       const newFill = {
         'property': dataAttr.id,
         'default': dataAttr.default,
-        'stops': (dataAttr.fillStops[layerStem] ?
-          dataAttr.fillStops[layerStem] : dataAttr.fillStops['default'])
+        'stops': (dataAttr.fillStops[layerId] ?
+          dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
       };
       this.map.setLayerStyle(layerId, 'fill-color', newFill);
+      this.map.setLayerFilterProperty(`${layerId}_null`, dataAttr.id);
+    });
+  }
+
+  /**
+   * Similar to setDataHighlight, but specific to bubble layers
+   * @param attr map data attribute to set bubble properties
+   */
+  setBubbleHighlight(attr: MapDataAttribute) {
+    const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
+    this.activeBubbleHighlight = bubbleAttr;
+    // Not used yet, but will be in future
+    this.updateLegend();
+    this.mapEventLayers.forEach((layerId) => {
+      ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
+        this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
+      });
     });
   }
 
@@ -109,19 +138,31 @@ export class MapComponent {
   }
 
   /**
+   * Zoom to Point feature
+   * @param feature Point feature
+   */
+  zoomToPointFeature(feature: MapFeature) {
+    this.map.zoomToPoint(feature);
+  }
+
+  /**
    * Sets the data year for the map, updates data highlights and layers
    * @param year
    */
   setDataYear(year: number) {
     this.yearChange.emit(year);
     this.dataYear = year;
-    this.setDataHighlight(this.addYearToObject(this.activeDataHighlight, this.dataYear));
+
+    // Get census year, check if changed, update sources only if it did
+    const censusYear = this.yearToCensusYear(year);
+    if (this.censusYear !== censusYear) {
+      this.censusYear = censusYear;
+      this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
+    }
+
+    this.setDataHighlight(this.activeDataHighlight);
+    this.setBubbleHighlight(this.activeBubbleHighlight);
     this.setGroupVisibility(this.activeDataLevel);
-    this.mapEventLayers.forEach((layer) => {
-      this.map.setLayerDataProperty(
-        `${layer}_bubbles`, 'circle-radius', `er-${('' + year).slice(2)}`
-      );
-    });
     this.updateLegend();
   }
 
@@ -130,7 +171,7 @@ export class MapComponent {
    */
   getLegendGradient() {
     return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, ${this.legend[0][1]}, ${this.legend[this.legend.length - 1][1]})`
+      `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
     );
   }
 
@@ -152,9 +193,12 @@ export class MapComponent {
    * @param map mapbox instance
    */
   onMapReady(map) {
+    this._mapInstance = map;
     this.map.setMapInstance(map);
+    this.map.setupHoverPopup(this.mapEventLayers);
     this.activeDataLevel = this.dataLevels[0];
     this.activeDataHighlight = this.attributes[0];
+    this.activeBubbleHighlight = this.bubbleAttributes[0];
     this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitch = true;
@@ -172,6 +216,10 @@ export class MapComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
+    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
+    if (this.activeDataLevel.minzoom > zoom) {
+      this.autoSwitch = true;
+    }
     if (this.autoSwitch) {
       const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
       if (visibleGroups.length > 0) {
@@ -212,6 +260,7 @@ export class MapComponent {
    */
   onFeatureClick(feature) {
     if (feature && feature.properties) {
+      console.log(feature);
       this.featureClick.emit(feature);
     }
   }
@@ -222,7 +271,7 @@ export class MapComponent {
    */
   onFeatureHover(feature) {
     this.featureHover.emit(feature);
-    if (feature) {
+    if (feature && feature.layer.id === this.activeDataLevel.id) {
       const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
       this.map.setSourceData('hover', union);
     } else {
@@ -242,5 +291,13 @@ export class MapComponent {
       dataObject.id += '-' + ('' + year).slice(2);
     }
     return dataObject;
+  }
+
+  /**
+   * Convert any year to the nearest decennial census year
+   * @param year
+   */
+  private yearToCensusYear(year: number) {
+    return Math.floor(year / 10) * 10;
   }
 }

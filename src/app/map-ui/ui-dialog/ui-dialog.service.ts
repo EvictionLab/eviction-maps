@@ -56,6 +56,12 @@ export class UiDialogService {
     return this.showDialog(dialog);
   }
 
+  showDownloadDialog(component, config: Object) {
+    this.currentDialogRef = this.modalService.show(component);
+    this.currentDialogRef.content.setFormConfig(config);
+    return this.currentDialogRef.content.buttonClicked;
+  }
+
   /**
    * Helper function for showing form dialogs.
    * @param title title for the form dialog

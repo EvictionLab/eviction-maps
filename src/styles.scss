@@ -13,11 +13,45 @@ html, body {
   font-family: $fontStack!important;
 }
 
-
 .btn.btn-close { 
   font-size: 24px; 
   width:40px;
   height:40px;
   background:none;
   line-height:1;
+  color: $closeButtonColor;
+  &.alt { color: $altCloseButtonColor }
+}
+
+.footer {
+  padding: 64px 0;
+  background: rgb(43,43,43);
+  height:400px;
+  margin: 24px 0 0 0;
+  width:100%;
+  .placeholder {
+    max-width: 840px;
+    margin:auto;
+    img { width:100%; }
+  }
+}
+
+// STYLE OVERRIDES
+
+// hide the track on the year slider so it's not confused for range
+.app-wrapper app-ui-slider .el-slider .track.track-value {
+  background:none!important;
+}
+
+// make cards in the data panel fill the width
+.data-content .location-card {
+  flex:1;
+  // no button for data panel cards
+  .card-footer { display: none;}
+}
+
+// override mapbox popup styles
+.app-wrapper {
+  .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
+  .mapboxgl-popup-close-button { display: none; }
 }

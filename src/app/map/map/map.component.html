@@ -18,41 +18,47 @@
           tabindex="4"
           class="eviction-select"
           label="Eviction"
-          [values]="['Judgments', 'Filings']"
+          labelProperty="name"
+          [selectedValue]="activeBubbleHighlight"
+          [values]="bubbleAttributes"
+          (change)="setBubbleHighlight($event)"
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
-          class="layer-select"
-          label="Display"
-          labelProperty="name"
-          [selectedValue]="activeDataLevel"
-          [values]="dataLevels" 
-          (change)="setGroupVisibility($event)">
-      </app-ui-select>
-      <app-ui-select
-          tabindex="6"
           class="highlight-select"
-          label="Display"
+          label="Highlight"
           labelProperty="name"
           [values]="attributes"
           (change)="setDataHighlight($event)">
       </app-ui-select>
-      <div *ngIf="activeDataHighlight" class="map-legend" [style.background]="getLegendGradient()">
-          <span class="legend-start">{{legend[0][0]}}</span>
+      <app-ui-select
+          tabindex="6"
+          class="layer-select"
+          label="Display"
+          labelProperty="name"
+          [selectedValue]="activeDataLevel"
+          [values]="selectDataLevels" 
+          (change)="setGroupVisibility($event)">
+      </app-ui-select>
+      <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
+          <span class="legend-start">{{legend[1][0]}}</span>
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 
-          *ngIf="activeDataLevel"
+          *ngIf="activeDataLevel && activeDataHighlight.name !== 'None'"
           class="legend-hint"
-          [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[0][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
+          [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"
       ></app-ui-hint>
   </div>
-  <app-ui-slider tabindex="9"
+  <div class="year-slider-container">
+    <app-ui-slider tabindex="9"
       class="year-slider"
       [currentValue]="dataYear" 
       [min]="1990" 
-      [max]="2015" 
+      [max]="2016" 
       (change)="setDataYear($event)"
-  ></app-ui-slider>
+    ></app-ui-slider>
+  </div>
+  
 </div>

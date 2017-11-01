@@ -3,6 +3,10 @@
 // Page Layout
 .app-wrapper {
   min-height:100%;
+  &.map-active {
+    height: calc(100vh - 56px);
+    overflow: hidden;
+  }
   app-map {
     position:relative;
     display:block;
@@ -84,6 +88,4 @@
 
 .footer {
   width:100%;
-  height: 520px;
-  background:#333;
 }
