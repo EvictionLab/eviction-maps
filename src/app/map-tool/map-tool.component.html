@@ -20,10 +20,17 @@
         </div>
     </div>
     <app-map
-        [autoSwitch]="autoSwitchLayers"
-        [boundingBox]="mapBounds"
-        (featureClick)="onFeatureSelect($event)"
-        (yearChange)="dataService.setActiveYear($event)"
+      [mapConfig]="dataService.mapConfig"
+      [autoSwitch]="autoSwitchLayers"
+      [bubbleOptions]="dataService.bubbleAttributes"
+      [layerOptions]="dataService.dataLevels"
+      [choroplethOptions]="dataService.dataAttributes"
+      [(boundingBox)]="dataService.mapView"
+      [(year)]="dataService.activeYear"
+      [(selectedBubble)]="dataService.activeBubbleHighlight"
+      [(selectedChoropleth)]="dataService.activeDataHighlight"
+      [(selectedLayer)]="dataService.activeDataLevel"
+      (featureClick)="onFeatureSelect($event)"
     ></app-map>
     <app-location-cards 
         *ngIf="dataService.activeFeatures.length > 0" 

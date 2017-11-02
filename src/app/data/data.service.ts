@@ -10,14 +10,12 @@ import * as bbox from '@turf/bbox';
 import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 
-
 import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
 import { MapFeature } from '../map-tool/map/map-feature';
 import { DataAttributes, BubbleAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
-
 
 @Injectable()
 export class DataService {
@@ -27,23 +25,15 @@ export class DataService {
   activeYear = 2015;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
-  get activeDataHighlight(): MapDataAttribute {
-    return this.data.highlight || DataAttributes[0];
-  }
-  set activeDataHighlight(newValue: MapDataAttribute) {
-    this.data.highlight = newValue;
-  }
-  get activeBubbleHighlight(): MapDataAttribute {
-    return this.data.bubble || BubbleAttributes[0];
-  }
-  set activeBubbleHighlight(newValue: MapDataAttribute) {
-    this.data.bubble = newValue;
-  }
+  activeDataHighlight: MapDataAttribute = DataAttributes[0];
+  activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
   mapView;
-  private data = {
-    bubble: null,
-    level: null,
-    highlight: null
+  mapConfig = {
+    style: './assets/style.json',
+    center: [-98.5556199, 39.8097343],
+    zoom: 3,
+    minZoom: 3,
+    maxZoom: 14
   };
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/';
@@ -78,34 +68,6 @@ export class DataService {
         this.activeFeatures = [ ...this.activeFeatures, feature ];
       }
     }
-  }
-
-  setActiveBubbleAttribute(newValue: MapDataAttribute) {
-    this.activeBubbleHighlight = newValue;
-    return this.activeBubbleHighlight;
-  }
-
-  setActiveDataHighlight(newValue: MapDataAttribute) {
-    this.activeDataHighlight = newValue;
-    return this.activeDataHighlight;
-  }
-
-  setActiveDataLevel(newValue: MapLayerGroup) {
-    this.activeDataLevel = newValue;
-  }
-
-  setActiveYear(newValue: number) {
-    this.activeYear = newValue;
-  }
-
-  getMapConfig() {
-    return {
-      style: './assets/style.json',
-      center: [-98.5556199, 39.8097343],
-      zoom: 3,
-      minZoom: 3,
-      maxZoom: 14
-    };
   }
 
   /**
@@ -201,30 +163,5 @@ export class DataService {
       { responseType: ResponseContentType.ArrayBuffer }
     );
   }
-
-  /**
-   * Gets the currently active data attribute with the year appended
-   * @param type either 'choropleth' or 'bubble'
-   */
-  getAttributeWithYear(type: string) {
-    const data = (type === 'choropleth') ? this.activeDataHighlight : this.activeBubbleHighlight;
-    return this.addYearToObject(data, this.activeYear);
-  }
-
-  /**
-   * Add year to data attribute or level from selector
-   * @param dataObject
-   * @param year
-   */
-  private addYearToObject(dataObject: MapDataObject, year: number): MapDataObject {
-    if (!dataObject) { return null; }
-    if (/.*\d{2}.*/g.test(dataObject.id)) {
-      dataObject.id = dataObject.id.replace(/\d{2}/g, ('' + year).slice(2));
-    } else {
-      dataObject.id += '-' + ('' + year).slice(2);
-    }
-    return dataObject;
-  }
-
 
 }

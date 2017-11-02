@@ -20,7 +20,6 @@ import { DataService } from '../data/data.service';
 })
 export class MapToolComponent implements OnInit {
   title = 'Eviction Lab';
-  mapBounds;
   autoSwitchLayers = true;
   verticalOffset;
   enableZoom;
@@ -83,7 +82,7 @@ export class MapToolComponent implements OnInit {
           this.dataService.addLocation(data);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
-              this.mapBounds = feature['bbox'];
+              this.dataService.mapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }
