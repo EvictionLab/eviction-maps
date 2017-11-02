@@ -1,11 +1,13 @@
-import { Component, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import * as bbox from '@turf/bbox';
 import * as polylabel from 'polylabel';
 import * as _isEqual from 'lodash.isequal';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
+import 'rxjs/add/operator/switchMap';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -16,59 +18,39 @@ import { DataService } from '../data/data.service';
   templateUrl: './map-tool.component.html',
   styleUrls: ['./map-tool.component.scss']
 })
-export class MapToolComponent {
+export class MapToolComponent implements OnInit {
   title = 'Eviction Lab';
   mapBounds;
   autoSwitchLayers = true;
-  activeFeatures = [];
-  year = 2010;
   verticalOffset;
   enableZoom;
   @ViewChild(MapComponent) map;
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private pageScrollService: PageScrollService,
-    private dataService: DataService,
+    public dataService: DataService,
     @Inject(DOCUMENT) private document: any
-  ) {
+  ) {}
+
+  ngOnInit() {
+    this.configurePageScroll();
+    console.log('init');
+    this.route.paramMap.subscribe(this.setRouteParams.bind(this));
+  }
+
+  setRouteParams(params: ParamMap) {
+    // this.setYear(parseFloat(params.get('year')));
+  }
+
+  configurePageScroll() {
     PageScrollConfig.defaultDuration = 1000;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations
     PageScrollConfig.defaultEasingLogic = {
         ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
     };
-  }
-
-  setYear(year: number) {
-    this.year = year;
-  }
-
-  /**
-   * Adds a location to the cards and data panel
-   * @param feature the feature for the corresponding location to add
-   */
-  addLocation(feature) {
-    if (this.activeFeatures.length < 3) {
-      const i = this.activeFeatures.findIndex((f) => {
-        return f.properties.n === feature.properties.n &&
-          f.properties.pl === feature.properties.pl;
-      });
-      if (!(i > -1)) {
-        this.activeFeatures = [ ...this.activeFeatures, feature ];
-      }
-    }
-  }
-
-  /**
-   * Removes a location from the cards and data panel
-   */
-  removeLocation(feature) {
-    const featuresCopy = this.activeFeatures.slice();
-    const i = featuresCopy.findIndex((f) => _isEqual(f, feature));
-    if (i > -1) {
-      featuresCopy.splice(i, 1);
-      this.activeFeatures = featuresCopy;
-    }
   }
 
   /**
@@ -80,7 +62,7 @@ export class MapToolComponent {
       feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
     const featureLonLat = polylabel(coords, 1.0);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, true)
-      .subscribe(data => this.addLocation(data));
+      .subscribe(data => this.dataService.addLocation(data));
   }
 
   /**
@@ -98,7 +80,7 @@ export class MapToolComponent {
             console.log('could not find feature');
           }
           this.map.setDataLevelFromLayer(layerId);
-          this.addLocation(data);
+          this.dataService.addLocation(data);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
               this.mapBounds = feature['bbox'];

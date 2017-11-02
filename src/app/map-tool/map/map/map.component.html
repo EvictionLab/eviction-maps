@@ -19,42 +19,46 @@
           class="eviction-select"
           label="Eviction"
           labelProperty="name"
-          [selectedValue]="activeBubbleHighlight"
-          [values]="bubbleAttributes"
-          (change)="setBubbleHighlight($event)"
+          [selectedValue]="dataService.activeBubbleHighlight"
+          [values]="dataService.bubbleAttributes"
+          (change)="tmpSetBubble($event)"
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
           class="highlight-select"
           label="Census Data"
           labelProperty="name"
-          [values]="attributes"
-          (change)="setDataHighlight($event)">
+          [values]="dataService.dataAttributes"
+          (change)="tmpSetChoropleth($event)">
       </app-ui-select>
       <app-ui-select
           tabindex="6"
           class="layer-select"
           label="Map Level"
           labelProperty="name"
-          [selectedValue]="activeDataLevel"
+          [selectedValue]="dataService.activeDataLevel"
           [values]="selectDataLevels" 
           (change)="setGroupVisibility($event)">
       </app-ui-select>
-      <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
+      <div 
+        *ngIf="dataService.activeDataHighlight && dataService.activeDataHighlight.name !== 'None'" 
+        class="map-legend" 
+        [style.background]="getLegendGradient()"
+      >
           <span class="legend-start">{{legend[1][0]}}</span>
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 
-          *ngIf="activeDataLevel && activeDataHighlight.name !== 'None'"
+          *ngIf="dataService.activeDataHighlight && dataService.activeDataHighlight.name !== 'None'"
           class="legend-hint"
-          [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
+          [hint]="'The colored ' + dataService.activeDataLevel['name'] + ' on the map represent ' + dataService.activeDataHighlight['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"
       ></app-ui-hint>
   </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"
       class="year-slider"
-      [currentValue]="dataYear" 
+      [currentValue]="dataService.activeYear" 
       [min]="1990" 
       [max]="2016" 
       (change)="setDataYear($event)"

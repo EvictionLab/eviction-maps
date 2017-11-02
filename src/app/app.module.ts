@@ -10,7 +10,7 @@ import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 
 const appRoutes: Routes = [
-  { path: '', component: MapToolComponent },
+  { path: '', component: MapToolComponent }
 ];
 
 @NgModule({

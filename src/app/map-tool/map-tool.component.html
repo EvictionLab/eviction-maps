@@ -1,4 +1,8 @@
-<div id="top" class="app-wrapper" [class.map-active]="activeFeatures.length === 0" [class.data-active]="activeFeatures.length > 0">
+<div id="top" 
+  class="app-wrapper" 
+  [class.map-active]="dataService.activeFeatures.length === 0" 
+  [class.data-active]="dataService.activeFeatures.length > 0"
+>
     <div class="header-wrapper">
         <div class="header-content">
             <img src="./assets/logo.png" class="header-logo" />
@@ -19,21 +23,21 @@
         [autoSwitch]="autoSwitchLayers"
         [boundingBox]="mapBounds"
         (featureClick)="onFeatureSelect($event)"
-        (yearChange)="setYear($event)"
+        (yearChange)="dataService.setActiveYear($event)"
     ></app-map>
     <app-location-cards 
-        *ngIf="activeFeatures.length > 0" 
-        [features]="activeFeatures"
-        [year]="year"
+        *ngIf="dataService.activeFeatures.length > 0" 
+        [features]="dataService.activeFeatures"
+        [year]="dataService.activeYear"
         (viewMore)="goToDataPanel($event)"
-        (dismissedCard)="removeLocation($event)"
+        (dismissedCard)="dataService.removeLocation($event)"
     ></app-location-cards>
     <app-data-panel
         id="data-panel"
-        *ngIf="activeFeatures.length > 0"
-        [year]="year"
-        [locations]="activeFeatures" 
-        (locationRemoved)="removeLocation($event)"
+        *ngIf="dataService.activeFeatures.length > 0"
+        [year]="dataService.activeYear"
+        [locations]="dataService.activeFeatures" 
+        (locationRemoved)="dataService.removeLocation($event)"
         (locationAdded)="onSearchSelect($event, false)"
     ></app-data-panel>
     <div class="footer">

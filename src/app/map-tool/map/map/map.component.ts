@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -10,8 +10,7 @@ import { MapDataObject } from '../map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
-import { DataLevels } from '../../../data/data-levels';
-import { DataAttributes, BubbleAttributes } from '../../../data/data-attributes';
+import { DataService } from '../../../data/data.service';
 
 @Component({
   selector: 'app-map',
@@ -19,7 +18,7 @@ import { DataAttributes, BubbleAttributes } from '../../../data/data-attributes'
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
   @Input()
   get boundingBox() { return this._bounds; }
   set boundingBox(val) {
@@ -29,58 +28,57 @@ export class MapComponent {
       this.bboxChange.emit(val);
     }
   }
+
   @Input() autoSwitch = true;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
   @Output() evictionTypeChange: EventEmitter<string> = new EventEmitter();
   @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
-  zoom: number;
-  dataYear = 2010;
+  zoom = 3;
   censusYear = 2010;
-  dataLevels: Array<MapLayerGroup> = DataLevels;
-  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
-  attributes: Array<MapDataAttribute> = DataAttributes;
-  bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
-  mapFeatures: Observable<Object>;
-  activeDataLevel: MapLayerGroup;
-  activeDataHighlight: MapDataAttribute;
-  activeBubbleHighlight: MapDataAttribute;
-  mapConfig = {
-    style: './assets/style.json',
-    center: [-98.5556199, 39.8097343],
-    zoom: 3,
-    minZoom: 3,
-    maxZoom: 14
-  };
+  mapConfig;
   legend;
   mapEventLayers: Array<string> =
     [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
+  get selectDataLevels(): Array<MapLayerGroup> {
+    return (this.dataService.dataLevels.filter((l) => l.minzoom <= this.zoom) || []);
+  }
   private _bounds;
   private _mapInstance;
 
   constructor(
+    public dataService: DataService,
     private map: MapService,
     private _sanitizer: DomSanitizer
   ) { }
+
+  ngOnInit() {
+    this.mapConfig = this.dataService.getMapConfig();
+  }
 
   /**
    * Sets the visibility on a layer group
    * @param mapLayer the layer group that was selected
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
-    // Only change data level and turn off auto switch if wasn't already
-    // changed by the onMapZoom event handler
-    if (this.activeDataLevel !== layerGroup) {
-      this.activeDataLevel = layerGroup;
-      this.autoSwitch = false;
+    if (this._mapInstance) {
+      console.log('setting group vis', layerGroup, this.dataService.activeDataLevel);
+      // Only change data level and turn off auto switch if wasn't already
+      // changed by the onMapZoom event handler
+      if (this.dataService.activeDataLevel !== layerGroup) {
+        this.dataService.setActiveDataLevel(layerGroup);
+        this.autoSwitch = false;
+      }
+      this.dataService.dataLevels.forEach((group: MapLayerGroup) => {
+        console.log('setting visisbility', group.id, layerGroup.id);
+        this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
+      });
+      // Reset the hover layer
+      this.map.setSourceData('hover');
     }
-    this.dataLevels.forEach((group: MapLayerGroup) => {
-      this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
-    });
-    // Reset the hover layer
-    this.map.setSourceData('hover');
+
   }
 
   /**
@@ -88,44 +86,45 @@ export class MapComponent {
    * @param layerId layer ID string
    */
   setDataLevelFromLayer(layerId: string) {
-    const dataLevel = this.dataLevels.filter(l => l.id === layerId)[0];
+    const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
     this.setGroupVisibility(dataLevel);
   }
 
-  /**
-   * Sets the highlights (choropleths) to a different data property available in the tile data.
-   * @param attr the map data attribute to set highlights for
-   */
-  setDataHighlight(attr: MapDataAttribute) {
-    const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
-    this.activeDataHighlight = dataAttr;
-    this.updateLegend();
-    this.mapEventLayers.forEach((layerId) => {
-      const newFill = {
-        'property': dataAttr.id,
-        'default': dataAttr.default,
-        'stops': (dataAttr.fillStops[layerId] ?
-          dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
-      };
-      this.map.setLayerStyle(layerId, 'fill-color', newFill);
-      this.map.setLayerFilterProperty(`${layerId}_null`, dataAttr.id);
-    });
+  tmpSetBubble(newValue) {
+    this.dataService.setActiveBubbleAttribute(newValue);
+    this.updateMapData();
   }
 
-  /**
-   * Similar to setDataHighlight, but specific to bubble layers
-   * @param attr map data attribute to set bubble properties
-   */
-  setBubbleHighlight(attr: MapDataAttribute) {
-    const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
-    this.activeBubbleHighlight = bubbleAttr;
-    // Not used yet, but will be in future
-    this.updateLegend();
-    this.mapEventLayers.forEach((layerId) => {
-      ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
-        this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
+  tmpSetChoropleth(newValue) {
+    this.dataService.setActiveDataHighlight(newValue);
+    this.updateMapData();
+  }
+
+  updateMapData() {
+    if (this._mapInstance) {
+      const bubble = this.dataService.getAttributeWithYear('bubble') as MapDataAttribute;
+      const choropleth = this.dataService.getAttributeWithYear('choropleth') as MapDataAttribute;
+      this.mapEventLayers.forEach((layerId) => {
+        // update choropleth
+        if (choropleth) {
+          const newFill = {
+            'property': choropleth.id,
+            'default': choropleth.default,
+            'stops': (choropleth.fillStops[layerId] ?
+              choropleth.fillStops[layerId] : choropleth.fillStops['default'])
+          };
+          this.map.setLayerStyle(layerId, 'fill-color', newFill);
+          this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
+          this.updateLegend();
+        }
+        // update bubbles
+        if (bubble) {
+          ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
+            this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, bubble.id);
+          });
+        }
       });
-    });
+    }
   }
 
   /**
@@ -150,20 +149,19 @@ export class MapComponent {
    * @param year
    */
   setDataYear(year: number) {
+    this.dataService.setActiveYear(year);
     this.yearChange.emit(year);
-    this.dataYear = year;
+    this.onYearChange(year);
+  }
 
+  onYearChange(year: number) {
     // Get census year, check if changed, update sources only if it did
     const censusYear = this.yearToCensusYear(year);
     if (this.censusYear !== censusYear) {
       this.censusYear = censusYear;
-      this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
+      this.map.updateCensusSource(this.dataService.dataLevels, ('' + this.censusYear).slice(2));
     }
-
-    this.setDataHighlight(this.activeDataHighlight);
-    this.setBubbleHighlight(this.activeBubbleHighlight);
-    this.setGroupVisibility(this.activeDataLevel);
-    this.updateLegend();
+    this.updateMapData();
   }
 
   /**
@@ -179,12 +177,16 @@ export class MapComponent {
    * Update the legend to correspond to the fill stops on the active data highlight
    */
   updateLegend() {
-    if (!this.activeDataLevel || !this.activeDataHighlight) {
+    const dataLevel = this.dataService.activeDataLevel;
+    const dataHighlight = this.dataService.activeDataHighlight;
+    console.log('update legend', dataHighlight);
+    if (!dataLevel || !dataHighlight) {
       this.legend = null;
       return;
     }
-    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
-      this.activeDataHighlight.fillStops['default'];
+    this.legend =
+      dataHighlight.fillStops[dataLevel.id] ||
+      dataHighlight.fillStops['default'];
   }
 
   /**
@@ -196,15 +198,10 @@ export class MapComponent {
     this._mapInstance = map;
     this.map.setMapInstance(map);
     this.map.setupHoverPopup(this.mapEventLayers);
-    this.activeDataLevel = this.dataLevels[0];
-    this.activeDataHighlight = this.attributes[0];
-    this.activeBubbleHighlight = this.bubbleAttributes[0];
-    this.setDataYear(this.dataYear);
+    this.updateMapData();
+    // this.setDataYear(this.dataYear);
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitch = true;
-    // FIXME: Doing a hack to get layers because we likely won't be loading them outside
-    // of prototypes anyway
-    setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
     this.map.isLoading$.distinctUntilChanged()
       .debounceTime(200)
       .subscribe((state) => { this.mapLoading = state; });
@@ -216,16 +213,16 @@ export class MapComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
-    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
-    if (this.activeDataLevel.minzoom > zoom) {
+    if (this.dataService.activeDataLevel && this.dataService.activeDataLevel.minzoom > zoom) {
       this.autoSwitch = true;
     }
     if (this.autoSwitch) {
-      const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
+      const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataService.dataLevels, zoom);
       if (visibleGroups.length > 0) {
-        this.activeDataLevel = visibleGroups[0];
-        this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
-        this.updateLegend();
+        if (this.dataService.activeDataLevel !== visibleGroups[0]) {
+          this.dataService.setActiveDataLevel(visibleGroups[0]);
+          this.updateMapData();
+        }
       }
     }
   }
@@ -246,11 +243,7 @@ export class MapComponent {
    * Updates mapFeatures on map render
    * @param event
    */
-  onMapRender(event) {
-    if (this.activeDataLevel) {
-      this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
-    }
-  }
+  onMapRender(event) {}
 
   /**
    * Activates a feature if it is currently in a "hovered" state
@@ -271,27 +264,15 @@ export class MapComponent {
    */
   onFeatureHover(feature) {
     this.featureHover.emit(feature);
-    if (feature && feature.layer.id === this.activeDataLevel.id) {
-      const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
+    if (feature && feature.layer.id === this.dataService.activeDataLevel.id) {
+      const union = this.map.getUnionFeature(this.dataService.activeDataLevel.id, feature);
       this.map.setSourceData('hover', union);
     } else {
       this.map.setSourceData('hover');
     }
   }
 
-  /**
-   * Add year to data attribute or level from selector
-   * @param dataObject
-   * @param year
-   */
-  private addYearToObject(dataObject: MapDataObject, year: number) {
-    if (/.*\d{2}.*/g.test(dataObject.id)) {
-      dataObject.id = dataObject.id.replace(/\d{2}/g, ('' + year).slice(2));
-    } else {
-      dataObject.id += '-' + ('' + year).slice(2);
-    }
-    return dataObject;
-  }
+
 
   /**
    * Convert any year to the nearest decennial census year
