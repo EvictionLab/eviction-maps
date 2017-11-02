@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Http, Response, ResponseContentType } from '@angular/http';
-import { MapFeature } from '../eviction-visualization/map/map-feature';
+import { MapFeature } from '../map-tool/map/map-feature';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -62,7 +62,7 @@ export class DataService {
       const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
       const layer = tile.layers[layerId];
       for (let i = 0; i < layer.length; ++i) {
-        const feat = layer.feature(i).toGeoJSON(coords.x, coords.y, this.maxZoom);
+        const feat = layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
         if (inside(point, feat)) {
           feat.properties.bbox = bbox(feat);
           return feat;
@@ -103,10 +103,10 @@ export class DataService {
    * @param coords
    * @param year
    */
-  private requestTile(layerId: string, coords: any, year?) {
+  private requestTile(layerId: string, coords: any, year = null) {
     const tilesetUrl = year ?
-      this.tileBase + this.tilePrefix + layerId :
-      this.tileBase + this.tilePrefix + layerId + '-' + year;
+      this.tileBase + this.tilePrefix + layerId + '-' + year :
+      this.tileBase + this.tilePrefix + layerId;
     return this.http.get(
       `${tilesetUrl}/${this.maxZoom}/${coords.x}/${coords.y}.pbf`,
       { responseType: ResponseContentType.ArrayBuffer }

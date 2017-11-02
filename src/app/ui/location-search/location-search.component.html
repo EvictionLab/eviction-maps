@@ -1,0 +1,6 @@
+<app-predictive-search
+  [(selected)]="search.query"
+  [options]="search.results"
+  optionField="properties.label"
+  (selectionChange)="onSearchSelect($event)">
+</app-predictive-search>

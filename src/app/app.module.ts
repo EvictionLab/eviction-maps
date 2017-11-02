@@ -2,25 +2,28 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { HttpModule } from '@angular/http';
+import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { MapModule } from './map/map.module';
-import { MapUiModule } from './map-ui/map-ui.module';
-import { DataPanelModule } from './data-panel/data-panel.module';
-import { PlatformService } from './platform.service';
-import { SearchService } from './search/search.service';
+import { UiModule } from './ui/ui.module';
+import { MapToolModule } from './map-tool/map-tool.module';
+import { MapToolComponent } from './map-tool/map-tool.component';
+
+const appRoutes: Routes = [
+  { path: '', component: MapToolComponent },
+];
 
 @NgModule({
   declarations: [ AppComponent ],
   imports: [
-    HttpModule,
-    MapUiModule,
-    DataPanelModule,
+    UiModule,
+    MapToolModule,
     BrowserModule,
-    MapModule,
-    Ng2PageScrollModule
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: true }
+    )
   ],
-  providers: [ PlatformService, SearchService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

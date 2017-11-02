@@ -1,0 +1,91 @@
+@import '../../theme';
+
+// Page Layout
+.app-wrapper {
+  min-height:100%;
+  &.map-active {
+    height: calc(100vh - 56px);
+    overflow: hidden;
+  }
+  app-map {
+    position:relative;
+    display:block;
+    width:100%;
+    margin-top: $toolbarHeight;
+    height: calc(100vh - #{$toolbarHeight});
+    z-index:10;
+  }
+  app-location-cards {
+    position: absolute;
+    top:0;
+    left:0;
+    margin-top: $toolbarHeight;
+    height: calc(100vh - #{$toolbarHeight});
+    z-index:100;
+    pointer-events: none;
+    display:flex;
+    align-content: flex-start;
+    justify-content: flex-start;
+    align-items: center;
+    width:100%;
+  }
+  app-data-panel {
+    display:block;
+    position:relative;
+    width:100%;
+    background:#fff;
+    z-index:200;
+  }
+}
+
+// App Header Bar
+// - Search bar overlaps logo on left on mobile
+// - Search bar in center of header bar on desktop
+.header-wrapper {
+  position:absolute;
+  top:0;
+  left:0;right:0;
+  height: $toolbarHeight;
+  background:#fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  z-index:999;
+  .header-content {
+    padding: 8px 16px;
+    display:flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+    max-width: $maxContentWidth;
+    position:relative;
+    margin:0 auto;
+    box-sizing:border-box;
+  }
+  .header-logo { 
+    height: 40px;
+  }
+  .language-select {
+    position: absolute;
+    right: 64px;
+  }
+  .search {
+    position:absolute;
+    left:16px;
+    min-width:174px;
+    width:50%;
+  }
+}
+@media(min-width: 767px) {
+  .header-wrapper .search {
+      position:absolute;
+      left:0px;
+      right:0;
+      margin: 0 auto;
+      min-width:174px;
+      width:46%;
+  }
+}
+// End App Header Bar
+
+.footer {
+  width:100%;
+}
