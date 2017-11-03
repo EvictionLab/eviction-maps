@@ -60,20 +60,22 @@ export class MapComponent implements OnInit {
   @Input()
   set year(newYear: number) {
     this._store.year = newYear;
-    this.yearChange.emit(newYear);
-    this.updateCensusYear();
-    this.updateMapData();
+    if (newYear) {
+      this.yearChange.emit(newYear);
+      this.updateCensusYear();
+      this.updateMapData();
+    }
   }
   get year() { return this._store.year; }
 
   /** Mapboxgl map configuration */
   @Input() mapConfig;
   /** Options available for bubbles */
-  @Input() bubbleOptions: MapDataAttribute[];
+  @Input() bubbleOptions: MapDataAttribute[] = [];
   /** Options available for choropleths */
-  @Input() choroplethOptions: MapDataAttribute[];
+  @Input() choroplethOptions: MapDataAttribute[] = [];
   /** Available layers to toggle between */
-  @Input() layerOptions: MapLayerGroup[];
+  @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
@@ -127,24 +129,6 @@ export class MapComponent implements OnInit {
       // Reset the hover layer
       this.map.setSourceData('hover');
     }
-  }
-
-  /**
-   * Set data level based on layer ID string input
-   * @param layerId layer ID string
-   */
-  setDataLevelFromLayer(layerId: string) {
-    const dataLevel = this.layerOptions.filter(l => l.id === layerId)[0];
-    this.setGroupVisibility(dataLevel);
-  }
-
-  /**
-   * Updates the bubbles and choropleths on the map with the currently
-   * selected layer, bubble, choropleth, and year.
-   */
-  updateMapData() {
-    this.updateMapBubbles();
-    this.updateMapChoropleths();
   }
 
   /**
@@ -257,7 +241,7 @@ export class MapComponent implements OnInit {
    * Gets the currently active data attribute with the year appended
    * @param type either 'choropleth' or 'bubble'
    */
-  getAttributeWithYear(type: string) {
+  private getAttributeWithYear(type: string) {
     const data = (type === 'choropleth') ? this.selectedChoropleth : this.selectedBubble;
     return this.addYearToObject(data, this.year);
   }
@@ -337,5 +321,14 @@ export class MapComponent implements OnInit {
         });
       }
     }
+  }
+
+  /**
+   * Updates the bubbles and choropleths on the map with the currently
+   * selected layer, bubble, choropleth, and year.
+   */
+  private updateMapData() {
+    this.updateMapBubbles();
+    this.updateMapChoropleths();
   }
 }

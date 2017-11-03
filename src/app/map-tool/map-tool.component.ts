@@ -35,7 +35,6 @@ export class MapToolComponent implements OnInit {
 
   ngOnInit() {
     this.configurePageScroll();
-    console.log('init');
     this.route.paramMap.subscribe(this.setRouteParams.bind(this));
   }
 
@@ -78,7 +77,8 @@ export class MapToolComponent implements OnInit {
           if (data === {}) {
             console.log('could not find feature');
           }
-          this.map.setDataLevelFromLayer(layerId);
+          const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
+          this.map.setGroupVisibility(dataLevel);
           this.dataService.addLocation(data);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
