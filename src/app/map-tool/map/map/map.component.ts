@@ -91,7 +91,7 @@ export class MapComponent implements OnInit {
   censusYear = 2010;
   legend;
   mapLoading = false;
-  private mapEventLayers: Array<string>;
+  mapEventLayers: Array<string>;
   private zoom = 3;
   private _store = {
     layer: null,
