@@ -6,7 +6,6 @@
       (zoom)="onMapZoom($event)"
       (featureClick)="onFeatureClick($event)"
       (hoverChanged)="onFeatureHover($event)"
-      (render)="onMapRender($event)"
       (moveEnd)="onMapMoveEnd($event)"
   >
   </app-mapbox>
@@ -19,45 +18,49 @@
           class="eviction-select"
           label="Eviction"
           labelProperty="name"
-          [selectedValue]="activeBubbleHighlight"
-          [values]="bubbleAttributes"
-          (change)="setBubbleHighlight($event)"
+          [selectedValue]="selectedBubble"
+          [values]="bubbleOptions"
+          (change)="selectedBubble = $event"
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
           class="highlight-select"
           label="Census Data"
           labelProperty="name"
-          [values]="attributes"
-          (change)="setDataHighlight($event)">
+          [values]="choroplethOptions"
+          (change)="selectedChoropleth = $event">
       </app-ui-select>
       <app-ui-select
           tabindex="6"
           class="layer-select"
           label="Map Level"
           labelProperty="name"
-          [selectedValue]="activeDataLevel"
+          [selectedValue]="selectedLayer"
           [values]="selectDataLevels" 
           (change)="setGroupVisibility($event)">
       </app-ui-select>
-      <div *ngIf="activeDataHighlight && activeDataHighlight.name !== 'None'" class="map-legend" [style.background]="getLegendGradient()">
+      <div 
+        *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None'" 
+        class="map-legend" 
+        [style.background]="getLegendGradient()"
+      >
           <span class="legend-start">{{legend[1][0]}}</span>
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 
-          *ngIf="activeDataLevel && activeDataHighlight.name !== 'None'"
+          *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None'"
           class="legend-hint"
-          [hint]="'The colored ' + activeDataLevel['name'] + ' on the map represent ' + activeDataHighlight['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
+          [hint]="'The colored ' + selectedLayer['name'] + ' on the map represent ' + selectedChoropleth['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"
       ></app-ui-hint>
   </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"
       class="year-slider"
-      [currentValue]="dataYear" 
+      [currentValue]="year" 
       [min]="1990" 
       [max]="2016" 
-      (change)="setDataYear($event)"
+      (change)="year=$event"
     ></app-ui-slider>
   </div>
   

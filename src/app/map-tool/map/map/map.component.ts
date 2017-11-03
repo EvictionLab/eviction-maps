@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -10,8 +10,6 @@ import { MapDataObject } from '../map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
-import { DataLevels } from '../../../data/data-levels';
-import { DataAttributes, BubbleAttributes } from '../../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -19,45 +17,89 @@ import { DataAttributes, BubbleAttributes } from '../../../data/data-attributes'
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent {
+export class MapComponent implements OnInit {
+  /** Sets and gets the bounds for the map */
   @Input()
-  get boundingBox() { return this._bounds; }
+  get boundingBox() { return this._store.bounds; }
   set boundingBox(val) {
-    if (!_isEqual(val, this._bounds)) {
-      this._bounds = val;
+    if (val && !_isEqual(val, this._store.bounds)) {
+      this._store.bounds = val;
       this.map.zoomToBoundingBox(val);
-      this.bboxChange.emit(val);
+      this.boundingBoxChange.emit(val);
     }
   }
+
+  /** Sets and gets the bubble attribute to display on the map */
+  @Input()
+  set selectedBubble(newBubble: MapDataAttribute) {
+    this._store.bubble = newBubble;
+    this.selectedBubbleChange.emit(newBubble);
+    this.updateMapBubbles();
+  }
+  get selectedBubble(): MapDataAttribute { return this._store.bubble; }
+
+  /** Sets and gets the choropleth attribute to display on the map */
+  @Input()
+  set selectedChoropleth(newChoropleth: MapDataAttribute) {
+    this._store.choropleth = newChoropleth;
+    this.selectedChoroplethChange.emit(newChoropleth);
+    this.updateMapChoropleths();
+  }
+  get selectedChoropleth(): MapDataAttribute { return this._store.choropleth; }
+
+  /** Sets and gets the layer to display on the map */
+  @Input()
+  set selectedLayer(newLayer: MapLayerGroup) {
+    this._store.layer = newLayer;
+    this.selectedLayerChange.emit(newLayer);
+    this.updateMapData();
+  }
+  get selectedLayer(): MapLayerGroup { return this._store.layer; }
+
+  /** Sets and gets the year to display data on the map */
+  @Input()
+  set year(newYear: number) {
+    this._store.year = newYear;
+    if (newYear) {
+      this.yearChange.emit(newYear);
+      this.updateCensusYear();
+      this.updateMapData();
+    }
+  }
+  get year() { return this._store.year; }
+
+  /** Mapboxgl map configuration */
+  @Input() mapConfig;
+  /** Options available for bubbles */
+  @Input() bubbleOptions: MapDataAttribute[] = [];
+  /** Options available for choropleths */
+  @Input() choroplethOptions: MapDataAttribute[] = [];
+  /** Available layers to toggle between */
+  @Input() layerOptions: MapLayerGroup[] = [];
+  /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
+  @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
-  @Output() evictionTypeChange: EventEmitter<string> = new EventEmitter();
-  @Output() bboxChange: EventEmitter<Array<number>> = new EventEmitter();
-  zoom: number;
-  dataYear = 2010;
+  @Output() selectedLayerChange: EventEmitter<MapLayerGroup> = new EventEmitter();
+  @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  get selectDataLevels(): Array<MapLayerGroup> {
+    return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
+  }
   censusYear = 2010;
-  dataLevels: Array<MapLayerGroup> = DataLevels;
-  selectDataLevels: Array<MapLayerGroup> = DataLevels.filter(l => l.minzoom < 3);
-  attributes: Array<MapDataAttribute> = DataAttributes;
-  bubbleAttributes: Array<MapDataAttribute> = BubbleAttributes;
-  mapFeatures: Observable<Object>;
-  activeDataLevel: MapLayerGroup;
-  activeDataHighlight: MapDataAttribute;
-  activeBubbleHighlight: MapDataAttribute;
-  mapConfig = {
-    style: './assets/style.json',
-    center: [-98.5556199, 39.8097343],
-    zoom: 3,
-    minZoom: 3,
-    maxZoom: 14
-  };
   legend;
-  mapEventLayers: Array<string> =
-    [ 'states', 'cities', 'tracts', 'block-groups', 'zip-codes', 'counties' ];
   mapLoading = false;
-  private _bounds;
+  mapEventLayers: Array<string>;
+  private zoom = 3;
+  private _store = {
+    layer: null,
+    bubble: null,
+    choropleth: null,
+    year: null,
+    bounds: null
+  };
   private _mapInstance;
 
   constructor(
@@ -65,76 +107,28 @@ export class MapComponent {
     private _sanitizer: DomSanitizer
   ) { }
 
+  ngOnInit() {
+    this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+  }
+
   /**
    * Sets the visibility on a layer group
    * @param mapLayer the layer group that was selected
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
-    // Only change data level and turn off auto switch if wasn't already
-    // changed by the onMapZoom event handler
-    if (this.activeDataLevel !== layerGroup) {
-      this.activeDataLevel = layerGroup;
-      this.autoSwitch = false;
-    }
-    this.dataLevels.forEach((group: MapLayerGroup) => {
-      this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
-    });
-    // Reset the hover layer
-    this.map.setSourceData('hover');
-  }
-
-  /**
-   * Set data level based on layer ID string input
-   * @param layerId layer ID string
-   */
-  setDataLevelFromLayer(layerId: string) {
-    const dataLevel = this.dataLevels.filter(l => l.id === layerId)[0];
-    this.setGroupVisibility(dataLevel);
-  }
-
-  /**
-   * Sets the highlights (choropleths) to a different data property available in the tile data.
-   * @param attr the map data attribute to set highlights for
-   */
-  setDataHighlight(attr: MapDataAttribute) {
-    const dataAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
-    this.activeDataHighlight = dataAttr;
-    this.updateLegend();
-    this.mapEventLayers.forEach((layerId) => {
-      const newFill = {
-        'property': dataAttr.id,
-        'default': dataAttr.default,
-        'stops': (dataAttr.fillStops[layerId] ?
-          dataAttr.fillStops[layerId] : dataAttr.fillStops['default'])
-      };
-      this.map.setLayerStyle(layerId, 'fill-color', newFill);
-      this.map.setLayerFilterProperty(`${layerId}_null`, dataAttr.id);
-    });
-  }
-
-  /**
-   * Similar to setDataHighlight, but specific to bubble layers
-   * @param attr map data attribute to set bubble properties
-   */
-  setBubbleHighlight(attr: MapDataAttribute) {
-    const bubbleAttr: MapDataAttribute = this.addYearToObject(attr, this.dataYear);
-    this.activeBubbleHighlight = bubbleAttr;
-    // Not used yet, but will be in future
-    this.updateLegend();
-    this.mapEventLayers.forEach((layerId) => {
-      ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
-        this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, attr.id);
+    if (this._mapInstance) {
+      // Only change data level and turn off auto switch if wasn't already
+      // changed by the onMapZoom event handler
+      if (this.selectedLayer !== layerGroup) {
+        this.selectedLayer = layerGroup;
+        this.autoSwitch = false;
+      }
+      this.layerOptions.forEach((group: MapLayerGroup) => {
+        this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
-    });
-  }
-
-  /**
-   * Sets the zoom level across both the map and zoom control components
-   * @param zoomLevel new zoom level
-   */
-  setMapZoomLevel(zoomLevel: number) {
-    this.zoom = +zoomLevel;
-    this.map.setZoomLevel(zoomLevel);
+      // Reset the hover layer
+      this.map.setSourceData('hover');
+    }
   }
 
   /**
@@ -143,27 +137,6 @@ export class MapComponent {
    */
   zoomToPointFeature(feature: MapFeature) {
     this.map.zoomToPoint(feature);
-  }
-
-  /**
-   * Sets the data year for the map, updates data highlights and layers
-   * @param year
-   */
-  setDataYear(year: number) {
-    this.yearChange.emit(year);
-    this.dataYear = year;
-
-    // Get census year, check if changed, update sources only if it did
-    const censusYear = this.yearToCensusYear(year);
-    if (this.censusYear !== censusYear) {
-      this.censusYear = censusYear;
-      this.map.updateCensusSource(this.dataLevels, ('' + this.censusYear).slice(2));
-    }
-
-    this.setDataHighlight(this.activeDataHighlight);
-    this.setBubbleHighlight(this.activeBubbleHighlight);
-    this.setGroupVisibility(this.activeDataLevel);
-    this.updateLegend();
   }
 
   /**
@@ -179,12 +152,15 @@ export class MapComponent {
    * Update the legend to correspond to the fill stops on the active data highlight
    */
   updateLegend() {
-    if (!this.activeDataLevel || !this.activeDataHighlight) {
+    const dataLevel = this.selectedLayer;
+    const dataHighlight = this.selectedChoropleth;
+    if (!dataLevel || !dataHighlight) {
       this.legend = null;
       return;
     }
-    this.legend = this.activeDataHighlight.fillStops[this.activeDataLevel.id] ||
-      this.activeDataHighlight.fillStops['default'];
+    this.legend =
+      dataHighlight.fillStops[dataLevel.id] ||
+      dataHighlight.fillStops['default'];
   }
 
   /**
@@ -196,15 +172,9 @@ export class MapComponent {
     this._mapInstance = map;
     this.map.setMapInstance(map);
     this.map.setupHoverPopup(this.mapEventLayers);
-    this.activeDataLevel = this.dataLevels[0];
-    this.activeDataHighlight = this.attributes[0];
-    this.activeBubbleHighlight = this.bubbleAttributes[0];
-    this.setDataYear(this.dataYear);
+    this.updateMapData();
     this.onMapZoom(this.mapConfig.zoom);
     this.autoSwitch = true;
-    // FIXME: Doing a hack to get layers because we likely won't be loading them outside
-    // of prototypes anyway
-    setTimeout(() => { this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel); }, 1000);
     this.map.isLoading$.distinctUntilChanged()
       .debounceTime(200)
       .subscribe((state) => { this.mapLoading = state; });
@@ -216,16 +186,15 @@ export class MapComponent {
    */
   onMapZoom(zoom) {
     this.zoom = zoom;
-    this.selectDataLevels = DataLevels.filter((l) => l.minzoom <= zoom);
-    if (this.activeDataLevel.minzoom > zoom) {
+    if (this.selectedLayer && this.selectedLayer.minzoom > zoom) {
       this.autoSwitch = true;
     }
     if (this.autoSwitch) {
-      const visibleGroups = this.map.filterLayerGroupsByZoom(this.dataLevels, zoom);
+      const visibleGroups = this.map.filterLayerGroupsByZoom(this.layerOptions, zoom);
       if (visibleGroups.length > 0) {
-        this.activeDataLevel = visibleGroups[0];
-        this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
-        this.updateLegend();
+        if (this.selectedLayer !== visibleGroups[0]) {
+          this.selectedLayer = visibleGroups[0];
+        }
       }
     }
   }
@@ -238,18 +207,8 @@ export class MapComponent {
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._bounds = this.map.getBoundsArray();
-    this.bboxChange.emit(this.boundingBox);
-  }
-
-  /**
-   * Updates mapFeatures on map render
-   * @param event
-   */
-  onMapRender(event) {
-    if (this.activeDataLevel) {
-      this.mapFeatures = this.map.queryMapLayer(this.activeDataLevel);
-    }
+    this._store.bounds = this.map.getBoundsArray();
+    this.boundingBoxChange.emit(this.boundingBox);
   }
 
   /**
@@ -260,7 +219,6 @@ export class MapComponent {
    */
   onFeatureClick(feature) {
     if (feature && feature.properties) {
-      console.log(feature);
       this.featureClick.emit(feature);
     }
   }
@@ -271,8 +229,8 @@ export class MapComponent {
    */
   onFeatureHover(feature) {
     this.featureHover.emit(feature);
-    if (feature && feature.layer.id === this.activeDataLevel.id) {
-      const union = this.map.getUnionFeature(this.activeDataLevel.id, feature);
+    if (feature && feature.layer.id === this.selectedLayer.id) {
+      const union = this.map.getUnionFeature(this.selectedLayer.id, feature);
       this.map.setSourceData('hover', union);
     } else {
       this.map.setSourceData('hover');
@@ -280,11 +238,21 @@ export class MapComponent {
   }
 
   /**
+   * Gets the currently active data attribute with the year appended
+   * @param type either 'choropleth' or 'bubble'
+   */
+  private getAttributeWithYear(type: string) {
+    const data = (type === 'choropleth') ? this.selectedChoropleth : this.selectedBubble;
+    return this.addYearToObject(data, this.year);
+  }
+
+  /**
    * Add year to data attribute or level from selector
    * @param dataObject
    * @param year
    */
-  private addYearToObject(dataObject: MapDataObject, year: number) {
+  private addYearToObject(dataObject: MapDataObject, year: number): MapDataObject {
+    if (!dataObject) { return null; }
     if (/.*\d{2}.*/g.test(dataObject.id)) {
       dataObject.id = dataObject.id.replace(/\d{2}/g, ('' + year).slice(2));
     } else {
@@ -294,10 +262,73 @@ export class MapComponent {
   }
 
   /**
+   * Checks to see if the current year is in a different census source
+   * and updates if it is.
+   */
+  private updateCensusYear() {
+    // Get census year, check if changed, update sources only if it did
+    const censusYear = this.yearToCensusYear(this.year);
+    if (this.censusYear !== censusYear) {
+      this.censusYear = censusYear;
+      this.map.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
+    }
+  }
+
+  /**
    * Convert any year to the nearest decennial census year
    * @param year
    */
   private yearToCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
+  }
+
+  /**
+   * Updates the bubbles on the map, based on the current year ans selected
+   * bubble attribute.
+   */
+  private updateMapBubbles() {
+    if (this._mapInstance) {
+      const bubble = this.addYearToObject(this.selectedBubble, this.year);
+      if (bubble) {
+        this.mapEventLayers.forEach((layerId) => {
+          ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
+            this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, bubble.id);
+          });
+        });
+      }
+    }
+  }
+
+  /**
+   * Updates the choropleths on the map, based on the current year ans selected
+   * choropleth attribute.
+   */
+  private updateMapChoropleths() {
+    if (this._mapInstance) {
+      const choropleth =
+        this.addYearToObject(this.selectedChoropleth, this.year) as MapDataAttribute;
+      if (choropleth) {
+        this.mapEventLayers.forEach((layerId) => {
+            const newFill = {
+              'property': choropleth.id,
+              'default': choropleth.default,
+              'stops': (choropleth.fillStops[layerId] ?
+                choropleth.fillStops[layerId] : choropleth.fillStops['default'])
+            };
+            this.map.setLayerStyle(layerId, 'fill-color', newFill);
+            this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
+            this.updateLegend();
+        });
+      }
+    }
+  }
+
+  /**
+   * Updates the bubbles and choropleths on the map with the currently
+   * selected layer, bubble, choropleth, and year.
+   */
+  private updateMapData() {
+    this.updateMapBubbles();
+    this.updateMapChoropleths();
   }
 }
