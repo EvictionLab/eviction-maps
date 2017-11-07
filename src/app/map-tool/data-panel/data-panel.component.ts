@@ -148,6 +148,13 @@ export class DataPanelComponent implements OnChanges {
   }
 
   /**
+   * Adding method because calling window directly in the template doesn't work
+   */
+  getCurrentUrl() {
+    return window.location.href;
+  }
+
+  /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {

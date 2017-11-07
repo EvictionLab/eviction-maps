@@ -6,6 +6,7 @@ import { UiModule } from '../../ui/ui.module';
 
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
+import { SocialSharePopupDirective } from './social-share-popup.directive';
 
 @NgModule({
   exports: [ DataPanelComponent ],
@@ -15,7 +16,7 @@ import { DownloadFormComponent } from './download-form/download-form.component';
     UiModule,
     GraphModule.forRoot()
   ],
-  declarations: [ DataPanelComponent, DownloadFormComponent ],
+  declarations: [ DataPanelComponent, DownloadFormComponent, SocialSharePopupDirective ],
   entryComponents: [ DataPanelComponent, DownloadFormComponent ]
 })
 export class DataPanelModule { }

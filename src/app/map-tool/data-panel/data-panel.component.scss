@@ -219,6 +219,11 @@ app-location-cards {
 
 .data-panel-footer .action-wrapper .social-icons {
   text-align: center;
+
+  a:hover {
+    text-decoration: none;
+  }
+
   .btn {
     display: inline-block;
     width: 40px;
