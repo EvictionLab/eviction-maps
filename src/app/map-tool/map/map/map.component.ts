@@ -22,10 +22,13 @@ export class MapComponent implements OnInit {
   @Input()
   get boundingBox() { return this._store.bounds; }
   set boundingBox(val) {
-    if (val && !_isEqual(val, this._store.bounds)) {
-      this._store.bounds = val;
-      this.map.zoomToBoundingBox(val);
-      this.boundingBoxChange.emit(val);
+    if (val && !_isEqual(val, this._store.bounds) && val.length === 4) {
+      this._store.bounds =
+        val.map(v => Math.round(v * 1000) / 1000); // round bounds to 3 decimals
+      if (this._mapInstance) {
+        this.map.zoomToBoundingBox(this._store.bounds);
+      }
+      this.boundingBoxChange.emit(this._store.bounds);
     }
   }
 
@@ -62,8 +65,10 @@ export class MapComponent implements OnInit {
     this._store.year = newYear;
     if (newYear) {
       this.yearChange.emit(newYear);
-      this.updateCensusYear();
-      this.updateMapData();
+      if (this._mapInstance) {
+        this.updateCensusYear();
+        this.updateMapData();
+      }
     }
   }
   get year() { return this._store.year; }
@@ -101,6 +106,8 @@ export class MapComponent implements OnInit {
     bounds: null
   };
   private _mapInstance;
+  // switch to restore auto switching layers once a map move has ended.
+  private restoreAutoSwitch = false;
 
   constructor(
     private map: MapService,
@@ -143,9 +150,12 @@ export class MapComponent implements OnInit {
    * Returns sanitized gradient for the legend
    */
   getLegendGradient() {
-    return this._sanitizer.bypassSecurityTrustStyle(
-      `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
-    );
+    if (this.legend && this.legend.length) {
+      return this._sanitizer.bypassSecurityTrustStyle(
+        `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
+      );
+    }
+    return null;
   }
 
   /**
@@ -172,12 +182,17 @@ export class MapComponent implements OnInit {
     this._mapInstance = map;
     this.map.setMapInstance(map);
     this.map.setupHoverPopup(this.mapEventLayers);
+    this.setGroupVisibility(this.selectedLayer);
+    this.updateCensusYear();
     this.updateMapData();
-    this.onMapZoom(this.mapConfig.zoom);
-    this.autoSwitch = true;
     this.map.isLoading$.distinctUntilChanged()
       .debounceTime(200)
       .subscribe((state) => { this.mapLoading = state; });
+    if (this.boundingBox) {
+      this.map.zoomToBoundingBox(this.boundingBox);
+      this.autoSwitch = false; // needs to be off when navigating to a param location
+      this.restoreAutoSwitch = true; // restore auto switch after zoom
+    }
   }
 
   /**
@@ -207,8 +222,11 @@ export class MapComponent implements OnInit {
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._store.bounds = this.map.getBoundsArray();
-    this.boundingBoxChange.emit(this.boundingBox);
+    this._store.bounds = this.map.getBoundsArray()
+      .reduce((a, b) => a.concat(b))
+      .map(v => Math.round(v * 1000) / 1000);
+    this.boundingBoxChange.emit(this._store.bounds);
+    if (this.restoreAutoSwitch) { this.autoSwitch = true; }
   }
 
   /**

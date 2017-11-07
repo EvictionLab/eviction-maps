@@ -21,7 +21,7 @@
     </div>
     <app-map
       [mapConfig]="dataService.mapConfig"
-      [autoSwitch]="autoSwitchLayers"
+      [autoSwitch]="dataService.autoSwitchLayers"
       [bubbleOptions]="dataService.bubbleAttributes"
       [layerOptions]="dataService.dataLevels"
       [choroplethOptions]="dataService.dataAttributes"
@@ -31,20 +31,25 @@
       [(selectedChoropleth)]="dataService.activeDataHighlight"
       [(selectedLayer)]="dataService.activeDataLevel"
       (featureClick)="onFeatureSelect($event)"
+      (boundingBoxChange)="updateRoute()"
+      (yearChange)="updateRoute()"
+      (selectedBubbleChange)="updateRoute()"
+      (selectedChoroplethChange)="updateRoute()"
+      (selectedLayerChange)="updateRoute()"
     ></app-map>
     <app-location-cards 
         *ngIf="dataService.activeFeatures.length > 0" 
         [features]="dataService.activeFeatures"
         [year]="dataService.activeYear"
         (viewMore)="goToDataPanel($event)"
-        (dismissedCard)="dataService.removeLocation($event)"
+        (dismissedCard)="dataService.removeLocation($event); updateRoute()"
     ></app-location-cards>
     <app-data-panel
         id="data-panel"
         *ngIf="dataService.activeFeatures.length > 0"
         [year]="dataService.activeYear"
         [locations]="dataService.activeFeatures" 
-        (locationRemoved)="dataService.removeLocation($event)"
+        (locationRemoved)="dataService.removeLocation($event); updateRoute()"
         (locationAdded)="onSearchSelect($event, false)"
     ></app-data-panel>
     <div class="footer">

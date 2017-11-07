@@ -9,8 +9,33 @@ import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 
+const defaultData = {
+  mapConfig: {
+    style: './assets/style.json',
+    center: [-98.5795, 39.8283],
+    zoom: 3,
+    minZoom: 3,
+    maxZoom: 14
+  },
+  year: 2016
+};
+
 const appRoutes: Routes = [
-  { path: '', component: MapToolComponent }
+  {
+    path: ':locations/:year/:geography/:type/:choropleth/:bounds',
+    component: MapToolComponent,
+    data: defaultData
+  },
+  {
+    path: 'link', // optional path for URL parameters
+    component: MapToolComponent,
+    data: defaultData
+  },
+  {
+    path: '',
+    redirectTo: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06', // default view
+    pathMatch: 'full'
+  }
 ];
 
 @NgModule({
