@@ -11,23 +11,12 @@ import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 
-
 import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
 import { MapFeature } from '../map-tool/map/map-feature';
 import { DataAttributes, BubbleAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
-
-// maps GeoIds to their corresponding level
-// currently not compatible with zip codes
-const GEOID_MAP = {
-  2: 'states',
-  5: 'counties',
-  7: 'cities',
-  11: 'tracts',
-  12: 'block-groups'
-};
 
 @Injectable()
 export class DataService {
@@ -47,7 +36,9 @@ export class DataService {
   private tilesetYears = ['90', '00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: Http) {}
+  constructor(private http: Http) {
+    setInterval(this.getUrlParameters.bind(this), 5000);
+  }
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID
@@ -117,6 +108,7 @@ export class DataService {
     param += 'type=' + this.stripYearFromAttr(this.activeBubbleHighlight.id) + ';';
     param += 'geography=' + this.activeDataLevel.id + ';';
     param += 'choropleth=' + this.stripYearFromAttr(this.activeDataHighlight.id) + ';';
+    console.log('params', param);
     return param;
   }
 
@@ -148,12 +140,20 @@ export class DataService {
     }
   }
 
+  /**
+   * Gets a LonLat value for the center of the feature
+   * @param feature 
+   */
   getFeatureLonLat(feature) {
     const coords = feature.geometry['type'] === 'MultiPolygon' ?
     feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
     return polylabel(coords, 1.0);
   }
 
+  /**
+   * Gets the X/Y coords from a feature
+   * @param feature 
+   */
   getFeatureXY(feature) {
     return this.getXYFromLonLat(this.getFeatureLonLat(feature));
   }

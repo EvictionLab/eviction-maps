@@ -29,6 +29,47 @@ Before running the tests make sure you are serving the app via `ng serve`.
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
+# Deep Linking
+
+The following options can be set through app routes or URL parameters:
+
+  - Locations
+  - Map Bounds
+  - Eviction Type
+  - Choropleth Highlight
+  - Geography Layer
+
+## Routes
+
+Routes for the app are as follows:
+
+http://{{BASE_URL}}/:locations/:year/:geography/:type/:choropleth/:bounds
+
+With the following options
+
+  - `:locations`: a list of locations separated by `+`.  Each location is formatted as `{{layerId}},{{x}},{{y}}`.  Set to `none` for no active locations.
+    - e.g. `states,257,381+counties,230,385` would activate Illinois and Kearney County
+  - `:year`: a year anywhere from 1990 to 2016
+  - `:geography`: `states`, `counties`, `cities`, `zip-codes`, `tracts`, or `block-groups`. 
+  - `:type`: an ID for the corresponding `BubbleAttribute` (`er` or `efr`)
+  - `:choropleth`: an ID for the corresponding choropleth `DataAttribute` (`p` or `pr`, more to come)
+  - `:bounds` a comma separated bounding box for the map to zoom to `{{west}},{{south}},{{east}},{{north}}`
+
+Data must be set through routes in this order `:locations/:year/:geography/:type/:choropleth/:bounds`.  If you want to set only one of these parameters, use the URL Parameters.
+
+## URL Parameters
+
+Map settings can also be set through URL parameters instead of routes, with the following format:
+
+http://{{BASE_URL}}/link;locations={{locations}};year={{year}};geography={{geography}};type={{type}};choropleth={{choropleth}};bounds={{bounds}}
+
+All settings are optional, so you could set only the year, eviction rate bubbles, and bounds with:
+
+http://{{BASE_URL}}/link;year=2015;type=er;bounds=-92.52,38.25,-86.53,41.76
+
+### Getting the Current URL Parameters
+
+A string of the URL parameters based on the current view is available using `DataService.getUrlParameters()`, which returns a string of parameters based on the current view.  (e.g. `year=2015;type=er;bounds=-92.52,38.25,-86.53,41.76`).
 
 # App Components 
 

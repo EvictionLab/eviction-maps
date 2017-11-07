@@ -179,13 +179,13 @@ export class MapToolComponent implements OnInit {
   private getLocationsFromString(locations: string) {
     return locations.split('+').map(loc => {
       const locArray = loc.split(',');
-      if (locArray.length !== 3) { return null; }
+      if (locArray.length !== 3) { return null; } // invalid location
       return {
         layer: locArray[0],
         lonLat: this.dataService.getLonLatFromXYZ(
           parseFloat(locArray[1]), parseFloat(locArray[2])
         )
       };
-    });
+    }).filter(loc => loc); // filter null values
   }
 }

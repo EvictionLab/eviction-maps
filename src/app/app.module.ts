@@ -19,32 +19,42 @@ const mapConfig = {
 
 const appRoutes: Routes = [
   {
-    path: ':geography/:year/:type/:choropleth/:locations',
+    path: ':locations/:year/:geography/:type/:choropleth/:bounds',
     component: MapToolComponent,
     data: { mapConfig: mapConfig }
   },
   {
-    path: ':geography/:year/:type/:choropleth',
+    path: ':locations/:year/:geography/:type/:choropleth',
     component: MapToolComponent,
     data: { mapConfig: mapConfig }
   },
   {
-    path: ':geography/:year/:type',
+    path: ':locations/:year/:geography/:type/:choropleth',
     component: MapToolComponent,
     data: { mapConfig: mapConfig }
   },
   {
-    path: ':geography/:year',
+    path: ':locations/:year/:geography/:type',
     component: MapToolComponent,
     data: { mapConfig: mapConfig }
   },
   {
-    path: ':geography',
+    path: ':locations/:year/:geography',
     component: MapToolComponent,
     data: { mapConfig: mapConfig }
   },
   {
-    path: 'map',
+    path: ':locations/:year',
+    component: MapToolComponent,
+    data: { mapConfig: mapConfig }
+  },
+  {
+    path: ':locations',
+    component: MapToolComponent,
+    data: { mapConfig: mapConfig }
+  },
+  {
+    path: 'link',
     component: MapToolComponent,
     data: { mapConfig: mapConfig, year: 2015 }
   },
