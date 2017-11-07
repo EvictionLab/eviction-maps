@@ -36,9 +36,7 @@ export class DataService {
   private tilesetYears = ['90', '00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: Http) {
-    setInterval(this.getUrlParameters.bind(this), 5000);
-  }
+  constructor(private http: Http) {}
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID
