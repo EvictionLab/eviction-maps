@@ -9,54 +9,66 @@ import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 
-const mapConfig = {
-  style: './assets/style.json',
-  center: [-98.5556199, 39.8097343],
-  zoom: 3,
-  minZoom: 3,
-  maxZoom: 14
+const defaultData = {
+  mapConfig: {
+    style: './assets/style.json',
+    center: [-98.5556199, 39.8097343],
+    zoom: 3,
+    minZoom: 3,
+    maxZoom: 14
+  },
+  year: 2015,
+  locations: 'none',
+  geography: 'states',
+  types: 'none',
+  choropleth: 'none'
 };
 
 const appRoutes: Routes = [
   {
     path: ':locations/:year/:geography/:type/:choropleth/:bounds',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations/:year/:geography/:type/:choropleth',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations/:year/:geography/:type/:choropleth',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations/:year/:geography/:type',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations/:year/:geography',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations/:year',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: ':locations',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig }
+    data: defaultData
   },
   {
     path: 'link',
     component: MapToolComponent,
-    data: { mapConfig: mapConfig, year: 2015 }
+    data: defaultData
+  },
+  {
+    path: 'map',
+    component: MapToolComponent,
+    data: defaultData
   },
   {
     path: '',

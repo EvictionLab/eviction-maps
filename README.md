@@ -67,9 +67,11 @@ All settings are optional, so you could set only the year, eviction rate bubbles
 
 http://{{BASE_URL}}/link;year=2015;type=er;bounds=-92.52,38.25,-86.53,41.76
 
-### Getting the Current URL Parameters
+### Getting the Current URL Parameters / Route Array
 
 A string of the URL parameters based on the current view is available using `DataService.getUrlParameters()`, which returns a string of parameters based on the current view.  (e.g. `year=2015;type=er;bounds=-92.52,38.25,-86.53,41.76`).
+
+An array containing all of the route parameter values is also available with `DataService.getRouteArray()`
 
 # App Components 
 

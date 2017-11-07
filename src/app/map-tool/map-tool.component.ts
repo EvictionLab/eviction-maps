@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
+import 'rxjs/add/operator/take';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -18,6 +19,7 @@ export class MapToolComponent implements OnInit {
   autoSwitchLayers = true;
   verticalOffset;
   enableZoom;
+  currentRoute = [];
   @ViewChild(MapComponent) map;
 
   constructor(
@@ -30,14 +32,15 @@ export class MapToolComponent implements OnInit {
 
   ngOnInit() {
     this.configurePageScroll();
-    this.route.data.subscribe(this.setMapToolData.bind(this));
-    this.route.paramMap.subscribe(this.setRouteParams.bind(this));
+    this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
+    this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
   }
 
   /**
    * Configures the data service based on any route parameters
    */
   setRouteParams(params: ParamMap) {
+    console.log('setting route params');
     if (params.has('year')) {
       this.dataService.activeYear = params.get('year');
     }
@@ -63,10 +66,16 @@ export class MapToolComponent implements OnInit {
     }
   }
 
+  /** Update route if it has changed */
+  updateRoute() {
+    this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+  }
+
   /**
    * Configures the data service with any static data passed through the route
    */
   setMapToolData(data) {
+    console.log('setting data');
     this.dataService.mapConfig = data.mapConfig;
     if (data.hasOwnProperty('year')) {
       this.dataService.activeYear = data.year;

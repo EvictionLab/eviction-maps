@@ -31,6 +31,11 @@
       [(selectedChoropleth)]="dataService.activeDataHighlight"
       [(selectedLayer)]="dataService.activeDataLevel"
       (featureClick)="onFeatureSelect($event)"
+      (boundingBoxChange)="updateRoute()"
+      (yearChange)="updateRoute()"
+      (selectedBubbleChange)="updateRoute()"
+      (selectedChoroplethChange)="updateRoute()"
+      (selectedLayerChange)="updateRoute()"
     ></app-map>
     <app-location-cards 
         *ngIf="dataService.activeFeatures.length > 0" 
