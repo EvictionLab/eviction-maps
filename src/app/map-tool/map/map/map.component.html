@@ -27,6 +27,7 @@
           class="highlight-select"
           label="Census Data"
           labelProperty="name"
+          [selectedValue]="selectedChoropleth"
           [values]="choroplethOptions"
           (change)="selectedChoropleth = $event">
       </app-ui-select>
@@ -40,7 +41,7 @@
           (change)="setGroupVisibility($event)">
       </app-ui-select>
       <div 
-        *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None'" 
+        *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length" 
         class="map-legend" 
         [style.background]="getLegendGradient()"
       >
@@ -48,7 +49,7 @@
           <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
       </div>
       <app-ui-hint 
-          *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None'"
+          *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length"
           class="legend-hint"
           [hint]="'The colored ' + selectedLayer['name'] + ' on the map represent ' + selectedChoropleth['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"

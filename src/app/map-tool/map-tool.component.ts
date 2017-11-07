@@ -1,13 +1,8 @@
 import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import * as bbox from '@turf/bbox';
-import * as polylabel from 'polylabel';
-import * as _isEqual from 'lodash.isequal';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
-import 'rxjs/add/operator/switchMap';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -35,20 +30,47 @@ export class MapToolComponent implements OnInit {
 
   ngOnInit() {
     this.configurePageScroll();
+    this.route.data.subscribe(this.setMapToolData.bind(this));
     this.route.paramMap.subscribe(this.setRouteParams.bind(this));
   }
 
+  /**
+   * Configures the data service based on any route parameters
+   */
   setRouteParams(params: ParamMap) {
-    // this.setYear(parseFloat(params.get('year')));
+    if (params.has('year')) {
+      this.dataService.activeYear = params.get('year');
+    }
+    if (params.has('choropleth')) {
+      this.dataService.setChoroplethHighlight(params.get('choropleth'));
+    }
+    if (params.has('type')) {
+      this.dataService.setBubbleHighlight(params.get('type'));
+    }
+    if (params.has('geography')) {
+      this.dataService.setGeographyLevel(params.get('geography'));
+      this.autoSwitchLayers = false;
+    }
+    if (params.has('locations')) {
+      const locations = this.getLocationsFromString(params.get('locations'));
+      this.dataService.setLocations(locations);
+    }
+    if (params.has('bounds')) {
+      const b = params.get('bounds').split(',');
+      if (b.length === 4) {
+        this.dataService.setMapBounds(b);
+      }
+    }
   }
 
-  configurePageScroll() {
-    PageScrollConfig.defaultDuration = 1000;
-    // easing function pulled from:
-    // https://joshondesign.com/2013/03/01/improvedEasingEquations
-    PageScrollConfig.defaultEasingLogic = {
-        ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
-    };
+  /**
+   * Configures the data service with any static data passed through the route
+   */
+  setMapToolData(data) {
+    this.dataService.mapConfig = data.mapConfig;
+    if (data.hasOwnProperty('year')) {
+      this.dataService.activeYear = data.year;
+    }
   }
 
   /**
@@ -56,9 +78,7 @@ export class MapToolComponent implements OnInit {
    * @param feature returned from featureClick event
    */
   onFeatureSelect(feature: MapFeature) {
-    const coords = feature.geometry['type'] === 'MultiPolygon' ?
-      feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
-    const featureLonLat = polylabel(coords, 1.0);
+    const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, true)
       .subscribe(data => this.dataService.addLocation(data));
   }
@@ -137,5 +157,35 @@ export class MapToolComponent implements OnInit {
     this.verticalOffset === 0 ?
       this.map.enableZoom() :
       this.map.disableZoom();
+  }
+
+  /**
+   * Configures options for the `ng2-page-scroll` module
+   */
+  private configurePageScroll() {
+    PageScrollConfig.defaultDuration = 1000;
+    // easing function pulled from:
+    // https://joshondesign.com/2013/03/01/improvedEasingEquations
+    PageScrollConfig.defaultEasingLogic = {
+        ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
+    };
+  }
+
+  /**
+   * Gets an array of objects containing the layer type and
+   * longitude / latitude coordinates for the locations in the string. 
+   * @param locations string that represents locations
+   */
+  private getLocationsFromString(locations: string) {
+    return locations.split('+').map(loc => {
+      const locArray = loc.split(',');
+      if (locArray.length !== 3) { return null; }
+      return {
+        layer: locArray[0],
+        lonLat: this.dataService.getLonLatFromXYZ(
+          parseFloat(locArray[1]), parseFloat(locArray[2])
+        )
+      };
+    });
   }
 }

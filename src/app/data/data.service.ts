@@ -9,6 +9,8 @@ import * as inside from '@turf/inside';
 import * as bbox from '@turf/bbox';
 import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
+import * as polylabel from 'polylabel';
+
 
 import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
@@ -17,30 +19,106 @@ import { MapFeature } from '../map-tool/map/map-feature';
 import { DataAttributes, BubbleAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
 
+// maps GeoIds to their corresponding level
+// currently not compatible with zip codes
+const GEOID_MAP = {
+  2: 'states',
+  5: 'counties',
+  7: 'cities',
+  11: 'tracts',
+  12: 'block-groups'
+};
+
 @Injectable()
 export class DataService {
   get dataLevels() { return DataLevels; }
   get dataAttributes() { return DataAttributes; }
   get bubbleAttributes() { return BubbleAttributes; }
-  activeYear = 2015;
+  activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
   mapView;
-  mapConfig = {
-    style: './assets/style.json',
-    center: [-98.5556199, 39.8097343],
-    zoom: 3,
-    minZoom: 3,
-    maxZoom: 14
-  };
+  mapConfig;
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/';
   private tilePrefix = 'evictions-';
   private tilesetYears = ['90', '00', '10'];
-  private maxZoom = 10;
-  constructor(private http: Http) { }
+  private queryZoom = 10;
+
+  constructor(private http: Http) {}
+
+  /**
+   * Sets the choropleth layer based on the provided `DataAttributes` ID
+   * @param id string corresponding to the `MapDataAttribute` in `DataAttributes`
+   */
+  setChoroplethHighlight(id: string) {
+    const dataAttr = this.dataAttributes.find((attr) => attr.id === id);
+    if (dataAttr) {
+      this.activeDataHighlight = dataAttr;
+    }
+  }
+
+  /**
+   * Sets the bubble layer based on the provided `BubbleAttributes` ID
+   * @param id string corresponding to the `MapDataAttribute` in `BubbleAttributes`
+   */
+  setBubbleHighlight(id: string) {
+    const bubbleAttr = this.bubbleAttributes.find((attr) => attr.id === id);
+    if (bubbleAttr) {
+      this.activeBubbleHighlight = bubbleAttr;
+    }
+  }
+
+  /**
+   * Sets the layer geography based on the provided `DataLevels` ID
+   * @param id string of the MapLayerGroup in `DataLevels`
+   */
+  setGeographyLevel(id: string) {
+    const geoLevel = this.dataLevels.find((level) => level.id === id);
+    if (geoLevel) {
+      this.activeDataLevel = geoLevel;
+    }
+  }
+
+  /** */
+  setLocations(locations) {
+    locations.forEach(l => {
+      this.getTileData(l.layer, l.lonLat, true)
+        .subscribe((data) => { this.addLocation(data); });
+    });
+  }
+
+  /**
+   * Sets the bounding box for the map to focus to
+   * @param mapBounds an array with four coordinates representing south, west, north, east
+   */
+  setMapBounds(mapBounds) {
+    this.mapView = mapBounds;
+  }
+
+  /**
+   * Returns the URL parameters for the current view
+   */
+  getUrlParameters() {
+    let param = '';
+    // locations
+    this.activeFeatures.forEach((f, i, arr) => {
+      if (i === 0) { param += 'locations='; }
+      const xy = this.getFeatureXY(f);
+      param += f.properties['layerId'] + ',' + xy.x + ',' + xy.y;
+      param += (i === arr.length - 1 ? ';' : '+');
+    });
+    param += 'year=' + this.activeYear + ';';
+    if (this.mapView) {
+      param += 'bounds=' + this.mapView.join() + ';';
+    }
+    param += 'type=' + this.stripYearFromAttr(this.activeBubbleHighlight.id) + ';';
+    param += 'geography=' + this.activeDataLevel.id + ';';
+    param += 'choropleth=' + this.stripYearFromAttr(this.activeDataHighlight.id) + ';';
+    return param;
+  }
 
   /**
    * Removes a location from the cards and data panel
@@ -70,6 +148,16 @@ export class DataService {
     }
   }
 
+  getFeatureLonLat(feature) {
+    const coords = feature.geometry['type'] === 'MultiPolygon' ?
+    feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
+    return polylabel(coords, 1.0);
+  }
+
+  getFeatureXY(feature) {
+    return this.getXYFromLonLat(this.getFeatureLonLat(feature));
+  }
+
   /**
    * Takes the layer to be queried and coordinates for an object,
    * determines which tile to request, parses it, and then returns
@@ -80,7 +168,7 @@ export class DataService {
    * @param multiYear specifies whether to merge multiple year tiles
    */
   getTileData(layerId: string, lonLat: number[], multiYear = false): Observable<MapFeature> {
-    const coords = this.getCoords(lonLat);
+    const coords = this.getXYFromLonLat(lonLat);
     const parseTile = this.getParser(layerId, lonLat);
     if (multiYear) {
       const tileRequests = this.tilesetYears.map((y) => {
@@ -96,9 +184,23 @@ export class DataService {
    * Get the X/Y coords based on lonLat
    * @param lonLat
    */
-  getCoords(lonLat) {
-    const xyzCoords = this.mercator.xyz([lonLat[0], lonLat[1], lonLat[0], lonLat[1]], 10);
+  getXYFromLonLat(lonLat) {
+    const xyzCoords = this.mercator.xyz(
+      [lonLat[0], lonLat[1], lonLat[0], lonLat[1]], this.queryZoom
+    );
     return { x: xyzCoords.maxX, y: xyzCoords.maxY };
+  }
+
+  /**
+   * Gets the longitude and latitude from x, y, and z values.
+   */
+  getLonLatFromXYZ(x: number, y: number, z: number = this.queryZoom) {
+    const bbox = this.mercator.bbox(x, y, z);
+    return [ ((bbox[0] + bbox[2]) / 2), ((bbox[1] + bbox[3]) / 2) ];
+  }
+
+  private stripYearFromAttr(attr: string) {
+    return attr.split('-')[0];
   }
 
   /**
@@ -108,13 +210,14 @@ export class DataService {
    */
   private getParser(layerId, lonLat) {
     const point = this.getPoint(lonLat);
-    const coords = this.getCoords(lonLat);
+    const coords = this.getXYFromLonLat(lonLat);
     return (res: Response): MapFeature => {
       const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
       const layer = tile.layers[layerId];
       for (let i = 0; i < layer.length; ++i) {
         const feat = layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
         if (inside(point, feat)) {
+          feat.properties.layerId = layerId;
           feat.properties.bbox = bbox(feat);
           return feat;
         }
@@ -159,7 +262,7 @@ export class DataService {
       this.tileBase + this.tilePrefix + layerId + '-' + year :
       this.tileBase + this.tilePrefix + layerId;
     return this.http.get(
-      `${tilesetUrl}/${this.maxZoom}/${coords.x}/${coords.y}.pbf`,
+      `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
       { responseType: ResponseContentType.ArrayBuffer }
     );
   }
