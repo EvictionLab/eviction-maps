@@ -47,8 +47,8 @@ http://{{BASE_URL}}/:locations/:year/:geography/:type/:choropleth/:bounds
 
 With the following options
 
-  - `:locations`: a list of locations separated by `+`.  Each location is formatted as `{{layerId}},{{x}},{{y}}`.  Set to `none` for no active locations.
-    - e.g. `states,257,381+counties,230,385` would activate Illinois and Kearney County
+  - `:locations`: a list of locations separated by `+`.  Each location is formatted as `{{layerId}},{{lon}},{{lat}}`.  Set to `none` for no active locations.
+    - e.g. `states,-92.285,38.41+states,-93.34,42.163` would activate Missouri and Iowa
   - `:year`: a year anywhere from 1990 to 2016
   - `:geography`: `states`, `counties`, `cities`, `zip-codes`, `tracts`, or `block-groups`. 
   - `:type`: an ID for the corresponding `BubbleAttribute` (`er` or `efr`)

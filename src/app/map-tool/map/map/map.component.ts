@@ -22,12 +22,13 @@ export class MapComponent implements OnInit {
   @Input()
   get boundingBox() { return this._store.bounds; }
   set boundingBox(val) {
-    if (val && !_isEqual(val, this._store.bounds)) {
-      this._store.bounds = val;
+    if (val && !_isEqual(val, this._store.bounds) && val.length === 4) {
+      this._store.bounds =
+        val.map(v => Math.round(v * 1000) / 1000); // round bounds to 3 decimals
       if (this._mapInstance) {
-        this.map.zoomToBoundingBox(val);
+        this.map.zoomToBoundingBox(this._store.bounds);
       }
-      this.boundingBoxChange.emit(val);
+      this.boundingBoxChange.emit(this._store.bounds);
     }
   }
 
@@ -81,7 +82,7 @@ export class MapComponent implements OnInit {
   /** Available layers to toggle between */
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
-  @Input() autoSwitch = false;
+  @Input() autoSwitch = true;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
@@ -105,6 +106,8 @@ export class MapComponent implements OnInit {
     bounds: null
   };
   private _mapInstance;
+  // switch to restore auto switching layers once a map move has ended.
+  private restoreAutoSwitch = false;
 
   constructor(
     private map: MapService,
@@ -188,6 +191,7 @@ export class MapComponent implements OnInit {
     if (this.boundingBox) {
       this.map.zoomToBoundingBox(this.boundingBox);
       this.autoSwitch = false; // needs to be off when navigating to a param location
+      this.restoreAutoSwitch = true; // restore auto switch after zoom
     }
   }
 
@@ -218,8 +222,11 @@ export class MapComponent implements OnInit {
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._store.bounds = this.map.getBoundsArray().reduce((a, b) => a.concat(b));
+    this._store.bounds = this.map.getBoundsArray()
+      .reduce((a, b) => a.concat(b))
+      .map(v => Math.round(v * 1000) / 1000);
     this.boundingBoxChange.emit(this._store.bounds);
+    if (this.restoreAutoSwitch) { this.autoSwitch = true; }
   }
 
   /**

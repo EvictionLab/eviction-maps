@@ -16,7 +16,7 @@ import { DataService } from '../data/data.service';
 })
 export class MapToolComponent implements OnInit {
   title = 'Eviction Lab';
-  autoSwitchLayers = true;
+  // autoSwitchLayers = true;
   verticalOffset;
   enableZoom;
   currentRoute = [];
@@ -50,8 +50,11 @@ export class MapToolComponent implements OnInit {
       this.dataService.setBubbleHighlight(params.get('type'));
     }
     if (params.has('geography')) {
-      this.dataService.setGeographyLevel(params.get('geography'));
-      this.autoSwitchLayers = false;
+      const geo = params.get('geography');
+      if (geo !== 'auto') {
+        this.dataService.setGeographyLevel(geo);
+        // this.autoSwitchLayers = false;
+      }
     }
     if (params.has('locations')) {
       const locations = this.getLocationsFromString(params.get('locations'));
@@ -99,7 +102,7 @@ export class MapToolComponent implements OnInit {
    * @param updateMap moves the map to the selected location if true
    */
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
-    this.autoSwitchLayers = false;
+    // this.autoSwitchLayers = false;
     if (feature) {
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(layerId, feature.geometry['coordinates'], true)
@@ -192,9 +195,7 @@ export class MapToolComponent implements OnInit {
       if (locArray.length !== 3) { return null; } // invalid location
       return {
         layer: locArray[0],
-        lonLat: this.dataService.getLonLatFromXYZ(
-          parseFloat(locArray[1]), parseFloat(locArray[2])
-        )
+        lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
       };
     }).filter(loc => loc); // filter null values
   }

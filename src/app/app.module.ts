@@ -33,7 +33,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/none/2016/states/none/none/-136.80,20.68,-57.60,52.06', // default view
+    redirectTo: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06', // default view
     pathMatch: 'full'
   }
 ];

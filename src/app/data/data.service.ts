@@ -28,6 +28,7 @@ export class DataService {
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
+  autoSwitchLayers = true;
   mapView;
   mapConfig;
   private mercator = new SphericalMercator({ size: 256 });
@@ -102,8 +103,8 @@ export class DataService {
    */
   getRouteArray() {
     const locations = this.activeFeatures.map((f, i, arr) => {
-      const xy = this.getFeatureXY(f);
-      return f.properties['layerId'] + ',' + xy.x + ',' + xy.y;
+      const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
+      return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
     return [
       (locations === '' ? 'none' : locations),
@@ -145,20 +146,12 @@ export class DataService {
 
   /**
    * Gets a LonLat value for the center of the feature
-   * @param feature 
+   * @param feature
    */
-  getFeatureLonLat(feature) {
+  getFeatureLonLat(feature): Array<number> {
     const coords = feature.geometry['type'] === 'MultiPolygon' ?
     feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
     return polylabel(coords, 1.0);
-  }
-
-  /**
-   * Gets the X/Y coords from a feature
-   * @param feature 
-   */
-  getFeatureXY(feature) {
-    return this.getXYFromLonLat(this.getFeatureLonLat(feature));
   }
 
   /**
