@@ -12,16 +12,12 @@ import { MapToolComponent } from './map-tool/map-tool.component';
 const defaultData = {
   mapConfig: {
     style: './assets/style.json',
-    center: [-98.5556199, 39.8097343],
+    center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 3,
     maxZoom: 14
   },
-  year: 2015,
-  locations: 'none',
-  geography: 'states',
-  types: 'none',
-  choropleth: 'none'
+  year: 2016
 };
 
 const appRoutes: Routes = [
@@ -31,48 +27,13 @@ const appRoutes: Routes = [
     data: defaultData
   },
   {
-    path: ':locations/:year/:geography/:type/:choropleth',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: ':locations/:year/:geography/:type/:choropleth',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: ':locations/:year/:geography/:type',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: ':locations/:year/:geography',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: ':locations/:year',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: ':locations',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: 'link',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: 'map',
+    path: 'link', // optional path for URL parameters
     component: MapToolComponent,
     data: defaultData
   },
   {
     path: '',
-    redirectTo: '/map',
+    redirectTo: '/none/2016/states/none/none/-136.80,20.68,-57.60,52.06', // default view
     pathMatch: 'full'
   }
 ];

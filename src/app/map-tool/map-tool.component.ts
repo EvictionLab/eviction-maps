@@ -40,7 +40,6 @@ export class MapToolComponent implements OnInit {
    * Configures the data service based on any route parameters
    */
   setRouteParams(params: ParamMap) {
-    console.log('setting route params');
     if (params.has('year')) {
       this.dataService.activeYear = params.get('year');
     }
@@ -66,20 +65,19 @@ export class MapToolComponent implements OnInit {
     }
   }
 
-  /** Update route if it has changed */
-  updateRoute() {
-    this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
-  }
-
   /**
    * Configures the data service with any static data passed through the route
    */
   setMapToolData(data) {
-    console.log('setting data');
     this.dataService.mapConfig = data.mapConfig;
     if (data.hasOwnProperty('year')) {
       this.dataService.activeYear = data.year;
     }
+  }
+
+  /** Update route if it has changed */
+  updateRoute() {
+    this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
   }
 
   /**
@@ -89,7 +87,10 @@ export class MapToolComponent implements OnInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, true)
-      .subscribe(data => this.dataService.addLocation(data));
+      .subscribe(data => {
+        this.dataService.addLocation(data);
+        this.updateRoute();
+      });
   }
 
   /**
