@@ -1,12 +1,12 @@
 // Import theming mixins
-@import "theme/utils.scss";
-@import "theme/ui-slider.theme";
-@import "theme/ui-graph.theme";
-@import "theme/ui-toggle.theme";
-@import "theme/ui-select.theme";
-@import "theme/ui-dialog.theme";
-@import "theme/predictive-search.theme";
-@import "theme/progress-bar.theme";
+@import "theme/mixins/utils.scss";
+@import "theme/mixins/ui-slider.theme";
+@import "theme/mixins/ui-graph.theme";
+@import "theme/mixins/ui-toggle.theme";
+@import "theme/mixins/ui-select.theme";
+@import "theme/mixins/ui-dialog.theme";
+@import "theme/mixins/predictive-search.theme";
+@import "theme/mixins/progress-bar.theme";
 
 // Defaults
 
@@ -93,10 +93,8 @@ $selectCaret: $color1;
 // Progress Bars
 $progressBarColor: $color1;
 
-app-progress-bar { @include progress-bar-colors($progressBarColor); }
-
 // Cards
-$cardBg: #fff;
+$cardBg: $defaultBackground;
 $cardHeaderBg1: $color1;
 $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
@@ -110,8 +108,15 @@ $cardValueTextSize: 18px;
 // Header
 $headerHeightSm: 56px;
 $headerHeightLg: 90px;
-$headerButtonColor: #666;
-$headerActiveButtonColor: $color1;
+$headerContentHeight: 56px; // height form field / buttons on large displays
+$headerButtonColor: #666; // color for mobile icon buttons
+$headerActiveButtonColor: $color1; // color for active mobile icon button
+
+// Search
+$searchTextColor: $textColor;
+$searchHighlightTextColor: $defaultBackground;
+$searchHighlightBackgroundColor: $color1;
+$searchPlaceholderColor: $secondaryTextColor;
 
 // Sizing - panel header
 $headerRowHeight: 72px;

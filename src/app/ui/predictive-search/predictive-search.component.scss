@@ -1,8 +1,4 @@
-@import "../../../theme/predictive-search.theme";
-
-$searchTextColor: #000;
-$searchHighlightTextColor: #fff;
-$searchHighlightBackgroundColor: rgb(224,64,0);
+@import "../../../theme";
 
 .search-container {
   position:relative;
@@ -13,17 +9,20 @@ $searchHighlightBackgroundColor: rgb(224,64,0);
   position: absolute;
   top:10px;
   left:8px;
-  color: #999;
 }
 
 .search-container .clear {
   position: absolute;
-  top: 6px;
   right: 8px;
-  color: #999;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1;
   cursor: pointer;
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  margin: auto;
 }
 
 input {
@@ -32,10 +31,11 @@ input {
 }
 
 :host {
-   /deep/ .dropdown-menu {
-     border-radius: 0;
-   }
-   /deep/ {
-    @include predictive-search-colors($searchTextColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
-   }
+  /deep/ .dropdown-menu {
+    border-radius: 0;
+  }
+  /deep/ {
+    @include predictive-search-colors($searchTextColor, $searchPlaceholderColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
+    input::placeholder { color: $searchPlaceholderColor;  }
+  }
 }
