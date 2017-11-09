@@ -2,6 +2,8 @@
 
 @import 'theme';
 
+@import './theme/base/typography';
+
 // PAGE STYLES
 
 html, body {
@@ -12,6 +14,218 @@ html, body {
   height:100%;
   font-family: $fontStack!important;
 }
+
+// Temporary Button Overrides
+.app-wrapper {
+  .btn {
+    border-radius: 2px;
+    border:none;
+    @include miniLabelText();
+  }
+  .btn-primary {
+    background: $primaryButtonColor;
+    height: 56px;
+    &:hover {
+      background: lighten($color1, 5%);
+    }
+    &:active, &:focus, &:active:focus {
+      background: darken($color1, 5%);
+    }
+  }
+}
+
+
+.el-svg-button {
+  display: block;
+  position: relative;
+  width:40px;
+  height:40px;
+  padding:0; margin:0;
+  background: none;
+  border:none;
+  text-align:center;
+  @include microLabelText();
+  svg {
+    margin: -6px auto 2px;
+  }
+  span {
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    right:0;
+    text-align:center;
+  }
+}
+
+// HEADER BAR
+
+// Mobile styles
+// - 5 icons at the top
+
+.header-wrapper {
+  position:absolute;
+  top:0;left:0;right:0;
+  width: 100%;
+  height: $headerHeightSm;
+  background:$defaultBackground;
+  box-shadow: $z1shadow;
+  padding: 0 $defaultPadding;
+  z-index:999;
+  .header-content {
+    position:relative;
+    width: 100%;
+    max-width: $maxContentWidth;    
+    height:100%;
+    padding:0;
+    margin:0 auto;
+    box-sizing:border-box;
+  }
+  // icon button styles
+  .header-icons {
+    width: 100%;
+    height: 100%;
+    display:flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+  }
+  .el-svg-button {
+    color: $headerButtonColor;
+    path { fill: $headerButtonColor; }
+  }
+  .el-svg-button.active,
+  .el-svg-button:active,
+  .el-svg-button:focus {
+    color: $headerActiveButtonColor;     
+    path { fill: $headerActiveButtonColor; }
+  }
+  .el-button-home svg {
+    width: 24px;
+    height: 23px;
+  }
+  .el-button-search svg {
+    width: 21px;
+    height: 21px;
+  }
+  .el-button-map svg {
+    width: 22px;
+    height: 24px;
+  }
+  .el-button-help svg {
+    width: 15px;
+    height: 22px;
+  }
+  .el-button-menu svg {
+    width: 22px;
+    height: 22px;
+  }
+  .header-logo { 
+    display: none;
+  }
+  .header-search {
+    display: none;
+  }
+  .language-select {
+    display: none;
+  }
+}
+
+// Tablet+
+// - Increases height
+// - Shows logo
+// - Shows search bar
+// - Hides all icons, except menu
+@media(min-width: 767px) {
+  .header-wrapper {
+    height: $headerHeightLg;
+    .header-content {
+      display:flex;
+      justify-content: space-between;
+      align-content: center;
+      align-items: center;
+    }
+    .header-icons {
+      flex:none;
+      width:52px;
+      height:56px;
+      order: 3;
+    }
+    .header-icons .el-svg-button {
+      display: none;
+    }
+    .header-icons .el-button-menu {
+      display:block;
+      width:52px;
+      height:56px;
+      svg {
+        width: 40px;
+        height: 35px;
+        margin-top: -8px;
+      }
+      span {
+        font-size: 11px;
+        bottom: -4px;
+      }
+    }
+    .header-logo {
+      order:1;
+      display:block;
+      width:250px;
+      flex: none;
+      img { width:100%;}
+    }
+    .header-search {
+      position:relative;
+      display:flex;
+      order: 2;
+      flex: 1;
+      max-width: 400px;
+      margin: 0 $defaultPadding*2;
+      .search {
+        flex:1;
+        width:auto;
+        margin-right: 12px;
+      }
+      .form-control {
+        height:56px;
+        border-radius:2px;
+        padding-left: 36px;
+      }
+      .search-container .glyphicon.glyphicon-search {
+        color: $color1;
+        width: 15px;
+        height: 15px;
+        top: 0;
+        bottom: 0;
+        left: 12px;
+        margin: auto;
+      }
+      .btn {
+        display:block;
+        width:110px;
+        flex:none;
+      }
+    }
+  }
+}
+
+// Desktop+
+// - adds language toggle
+@media(min-width: 1024px) {
+  .header-wrapper {
+    .header-search {
+      max-width: 640px;
+      .btn {
+        margin-right: 12px;
+      }
+    }
+    .language-select {
+      display:block;
+    }
+  }
+}
+
+
 
 .btn.btn-close { 
   font-size: 24px; 

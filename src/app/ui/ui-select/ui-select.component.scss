@@ -54,3 +54,33 @@
       }
     }
   }
+
+  // OVERRIDES
+
+  // Vertical treatment with arrow on bottom
+  :host-context(.vertical-select) {
+    .el-select .dropdown-toggle.btn {
+      height:56px;
+      padding: 6px 12px;
+      span {
+        position: relative;
+        top: -7px;
+        text-align: center;
+      }
+      .svg-down-arrow {
+        top:auto;
+        left: 0;
+        bottom: 11px;
+        right: 0;
+        margin: auto;
+      }
+    }
+  }
+
+  // 1px border and no drop shadow when in header
+  :host-context(.header-content) {
+    .el-select .dropdown-toggle.btn {
+      box-shadow: none;
+      border: 1px solid #efefef;
+    }
+  }

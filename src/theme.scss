@@ -10,14 +10,35 @@
 
 // Defaults
 
-$maxContentWidth: 1024px;
+$maxContentWidth: 1200px;
 $defaultPadding: 16px;
-$z1shadow: 0 1px 3px rgba(0,0,0,0.25);
+$z1shadow: 0 1px 3px rgba(0,0,0,0.3);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
 
 // Typography
-$fontStack: Roboto, sans-serif;
+$fontStack: Akkurat-Regular, sans-serif;
+$boldFontStack: Akkurat-Bold, sans-serif;
+$altFontStack: GT-Eesti-Text-Bold, sans-serif;
+
+$microTextSize: 9px;
+$miniTextSize: 11px;
+
+@mixin microLabelText() {
+  font-family: $boldFontStack;
+  font-size: $microTextSize;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 0.7px;
+}
+
+@mixin miniLabelText() {
+  font-family: $boldFontStack;
+  font-size: $miniTextSize;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
 
 // Colors
 $textColor: #000;
@@ -36,6 +57,7 @@ $color5: #b5c2b7;
 
 // Buttons
 
+$primaryButtonColor: $color1;
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 
@@ -85,8 +107,11 @@ $cardLabelText: rgba(0,0,0,0.33);
 $cardLabelTextSize: 11px;
 $cardValueTextSize: 18px;
 
-// Sizing - toolbar
-$toolbarHeight: 56px;
+// Header
+$headerHeightSm: 56px;
+$headerHeightLg: 90px;
+$headerButtonColor: #666;
+$headerActiveButtonColor: $color1;
 
 // Sizing - panel header
 $headerRowHeight: 72px;

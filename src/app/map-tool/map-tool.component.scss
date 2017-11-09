@@ -4,23 +4,23 @@
 .app-wrapper {
   min-height:100%;
   &.map-active {
-    height: calc(100vh - 56px);
+    height: calc(100vh - #{$headerHeightSm});
     overflow: hidden;
   }
   app-map {
     position:relative;
     display:block;
     width:100%;
-    margin-top: $toolbarHeight;
-    height: calc(100vh - #{$toolbarHeight});
+    margin-top: $headerHeightSm;
+    height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
   app-location-cards {
     position: absolute;
     top:0;
     left:0;
-    margin-top: $toolbarHeight;
-    height: calc(100vh - #{$toolbarHeight});
+    margin-top: $headerHeightSm;
+    height: calc(100vh - #{$headerHeightSm});
     z-index:100;
     pointer-events: none;
     display:flex;
@@ -38,54 +38,20 @@
   }
 }
 
-// App Header Bar
-// - Search bar overlaps logo on left on mobile
-// - Search bar in center of header bar on desktop
-.header-wrapper {
-  position:absolute;
-  top:0;
-  left:0;right:0;
-  height: $toolbarHeight;
-  background:#fff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
-  z-index:999;
-  .header-content {
-    padding: 8px 16px;
-    display:flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    max-width: $maxContentWidth;
-    position:relative;
-    margin:0 auto;
-    box-sizing:border-box;
+// Tablet+
+// - Adjust height of map / location cards to reflect large header.
+@media(min-width: 768px) {
+  .app-wrapper {
+    &.map-active {
+      height: calc(100vh - #{$headerHeightLg});
+    }
+    app-map {
+      margin-top: $headerHeightLg;
+      height: calc(100vh - #{$headerHeightLg});
+    }
+    app-location-cards {
+      margin-top: $headerHeightLg;
+      height: calc(100vh - #{$headerHeightLg});
+    }
   }
-  .header-logo { 
-    height: 40px;
-  }
-  .language-select {
-    position: absolute;
-    right: 64px;
-  }
-  .search {
-    position:absolute;
-    left:16px;
-    min-width:174px;
-    width:50%;
-  }
-}
-@media(min-width: 767px) {
-  .header-wrapper .search {
-      position:absolute;
-      left:0px;
-      right:0;
-      margin: 0 auto;
-      min-width:174px;
-      width:46%;
-  }
-}
-// End App Header Bar
-
-.footer {
-  width:100%;
 }
