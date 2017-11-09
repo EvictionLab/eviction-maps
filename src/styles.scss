@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'theme';
+@import './theme/base/typography';
+
+// Header Bar
+@import './theme/components/header-bar';
 
 // PAGE STYLES
 
@@ -54,4 +58,49 @@ html, body {
 .app-wrapper {
   .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
   .mapboxgl-popup-close-button { display: none; }
+}
+
+.modal .modal-dialog .modal-content {
+  border-radius:0;
+}
+
+// Temporary Button Overrides
+.app-wrapper {
+  .btn {
+    border-radius: 2px;
+    border:none;
+    @include miniLabelText();
+  }
+  .btn-primary {
+    background: $primaryButtonColor;
+    height: 56px;
+    &:hover {
+      background: lighten($color1, 5%);
+    }
+    &:active, &:focus, &:active:focus {
+      background: darken($color1, 5%);
+    }
+  }
+}
+
+.el-svg-button {
+  display: block;
+  position: relative;
+  width:40px;
+  height:40px;
+  padding:0; margin:0;
+  background: none;
+  border:none;
+  text-align:center;
+  @include microLabelText();
+  svg {
+    margin: -6px auto 2px;
+  }
+  span {
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    right:0;
+    text-align:center;
+  }
 }

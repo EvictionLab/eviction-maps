@@ -1,23 +1,44 @@
 // Import theming mixins
-@import "theme/utils.scss";
-@import "theme/ui-slider.theme";
-@import "theme/ui-graph.theme";
-@import "theme/ui-toggle.theme";
-@import "theme/ui-select.theme";
-@import "theme/ui-dialog.theme";
-@import "theme/predictive-search.theme";
-@import "theme/progress-bar.theme";
+@import "theme/mixins/utils.scss";
+@import "theme/mixins/ui-slider.theme";
+@import "theme/mixins/ui-graph.theme";
+@import "theme/mixins/ui-toggle.theme";
+@import "theme/mixins/ui-select.theme";
+@import "theme/mixins/ui-dialog.theme";
+@import "theme/mixins/predictive-search.theme";
+@import "theme/mixins/progress-bar.theme";
 
 // Defaults
 
-$maxContentWidth: 1024px;
+$maxContentWidth: 1200px;
 $defaultPadding: 16px;
-$z1shadow: 0 1px 3px rgba(0,0,0,0.25);
+$z1shadow: 0 1px 3px rgba(0,0,0,0.3);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
 
 // Typography
-$fontStack: Roboto, sans-serif;
+$fontStack: Akkurat-Regular, sans-serif;
+$boldFontStack: Akkurat-Bold, sans-serif;
+$altFontStack: GT-Eesti-Text-Bold, sans-serif;
+
+$microTextSize: 9px;
+$miniTextSize: 11px;
+
+@mixin microLabelText() {
+  font-family: $boldFontStack;
+  font-size: $microTextSize;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 0.7px;
+}
+
+@mixin miniLabelText() {
+  font-family: $boldFontStack;
+  font-size: $miniTextSize;
+  text-transform: uppercase;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
 
 // Colors
 $textColor: #000;
@@ -36,6 +57,7 @@ $color5: #b5c2b7;
 
 // Buttons
 
+$primaryButtonColor: $color1;
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 
@@ -71,10 +93,8 @@ $selectCaret: $color1;
 // Progress Bars
 $progressBarColor: $color1;
 
-app-progress-bar { @include progress-bar-colors($progressBarColor); }
-
 // Cards
-$cardBg: #fff;
+$cardBg: $defaultBackground;
 $cardHeaderBg1: $color1;
 $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
@@ -85,8 +105,18 @@ $cardLabelText: rgba(0,0,0,0.33);
 $cardLabelTextSize: 11px;
 $cardValueTextSize: 18px;
 
-// Sizing - toolbar
-$toolbarHeight: 56px;
+// Header
+$headerHeightSm: 56px;
+$headerHeightLg: 90px;
+$headerContentHeight: 56px; // height form field / buttons on large displays
+$headerButtonColor: #666; // color for mobile icon buttons
+$headerActiveButtonColor: $color1; // color for active mobile icon button
+
+// Search
+$searchTextColor: $textColor;
+$searchHighlightTextColor: $defaultBackground;
+$searchHighlightBackgroundColor: $color1;
+$searchPlaceholderColor: $secondaryTextColor;
 
 // Sizing - panel header
 $headerRowHeight: 72px;

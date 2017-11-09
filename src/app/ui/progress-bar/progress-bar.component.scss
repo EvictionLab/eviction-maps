@@ -1,10 +1,7 @@
-@import "../../../theme/progress-bar.theme";
+@import "../../../theme";
 
 // default theme
-$progressBarColor: rgb(224,64,0);
-:host-context(.theme-default) {
-  @include progress-bar-colors($progressBarColor);
-}
+@include progress-bar-colors($progressBarColor);
 
 // Implementation based on https://codepen.io/shalimano/pen/wBmNGJ
 :host {

@@ -16,10 +16,10 @@
 }
 .map-ui {
     position:absolute;
-    max-width: $maxContentWidth - ($defaultPadding*2);
+    max-width: $maxContentWidth;
     width: calc(100% - #{($defaultPadding*2)});
     margin:auto;
-    top:12px;
+    top:0px;
     left:0;
     right:0;
     height:0;
@@ -32,7 +32,7 @@
 app-ui-select {
   position: absolute;
   width:32%;
-  top: 20px;
+  top: 16px;
   ::ng-deep .el-select-label {
     display: none;
   }
@@ -71,8 +71,7 @@ app-ui-select.open {
   app-ui-select {
     float:left;
     width:auto;
-    margin: 4px;
-    top: inherit;
+    margin: 0 4px;
     position: relative;
     ::ng-deep .el-select .el-select-label {
       display: inherit;
