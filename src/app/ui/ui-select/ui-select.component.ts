@@ -11,6 +11,7 @@ import * as _isEqual from 'lodash.isequal';
 export class UiSelectComponent implements OnInit {
   @Input() label: string; // optional label for the select dropdown
   @Input() labelProperty: string; // only provided if values are an object
+  @Input() bottomLabel: string;
   @Input()
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
