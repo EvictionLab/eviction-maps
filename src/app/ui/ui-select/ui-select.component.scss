@@ -16,7 +16,6 @@
       box-sizing: border-box;
       min-width: 140px;
       padding:0;
-      max-height: 190px;
       overflow: auto;
       & > li > a {
         padding: 0px 12px;
@@ -27,6 +26,17 @@
         box-sizing: border-box;
       }
       & li:first-child a { border-top: none; }
+      & > li, & > li > a {
+        cursor: pointer;
+      }
+      & > li.bottom-label, & > li.bottom-label > a {
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.5);
+        cursor: inherit;
+      }
+      & > li.bottom-label:hover, & > li.bottom-label > a:hover {
+        background: inherit;
+      }
     }
     .dropdown-toggle.btn {
       position:relative;
@@ -53,6 +63,10 @@
         }
       }
     }
+  }
+
+  @media(max-width: 768px) {
+    .el-select .dropdown-menu { max-height: 190px; }
   }
 
   // OVERRIDES

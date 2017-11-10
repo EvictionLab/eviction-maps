@@ -38,6 +38,7 @@
           labelProperty="name"
           [selectedValue]="selectedLayer"
           [values]="selectDataLevels" 
+          [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
           (change)="setGroupVisibility($event)">
       </app-ui-select>
       <div 
