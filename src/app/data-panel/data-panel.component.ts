@@ -74,9 +74,16 @@ export class DataPanelComponent implements OnChanges {
    * @param hoverItems the currently hovered item(s)
    */
   onGraphHover(hoverItems) {
-    this.tooltips = hoverItems ?
-      (this.graphType === 'bar' ? [ hoverItems ] : hoverItems) :
-      [];
+    if (hoverItems) {
+      if (this.graphType === 'line' && hoverItems.length > 1) {
+        // HACK: throw away any hover items that are more than one
+        // If singular tooltips are used, the angular-d3-graph library
+        // should be modified so it doesn't emit multiple on touch
+      } else {
+        this.tooltips = hoverItems ?
+        (this.graphType === 'bar' ? [ hoverItems ] : hoverItems) : [];
+      }
+    }
   }
 
   trackTooltips(index, item) {
