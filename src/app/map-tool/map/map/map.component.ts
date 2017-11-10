@@ -147,6 +147,14 @@ export class MapComponent implements OnInit {
   }
 
   /**
+   * Zoom to Polygon feature
+   * @param feature Polygon feature
+   */
+  zoomToFeature(feature: MapFeature) {
+    this.map.zoomToFeature(feature);
+  }
+
+  /**
    * Returns sanitized gradient for the legend
    */
   getLegendGradient() {

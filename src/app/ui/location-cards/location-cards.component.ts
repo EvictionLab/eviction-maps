@@ -20,6 +20,8 @@ export class LocationCardsComponent implements OnInit {
   @Output() viewMore = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  @Output() clickedHeader = new EventEmitter();
+  clickHeader = false;
   cardPropertyKeys: Array<string>;
   get abbrYear() { return this.year.toString().slice(-2); }
 
@@ -27,6 +29,7 @@ export class LocationCardsComponent implements OnInit {
 
   ngOnInit() {
     this.cardPropertyKeys = Object.keys(this.cardProperties);
+    this.clickHeader = this.clickedHeader.observers.length > 0;
   }
 
 }
