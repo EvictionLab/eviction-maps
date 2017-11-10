@@ -17,6 +17,8 @@
         border-bottom: 6px solid $cardHeaderBg1;
         padding-right: 48px;
         h1 { font-size: $cardHeaderTextSize; margin:4px 0 0 0; }
+        h1.clickheader { cursor: pointer; }
+        h1.clickheader:hover { text-decoration: underline; }
         small { display: block; color: $cardHeaderBg1; margin: 8px 0 0 0; text-transform: uppercase; }
         .btn { position:absolute; top: 10px; right: 0px; background: none; color: $cardLabelText; }
     }

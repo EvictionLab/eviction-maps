@@ -20,6 +20,8 @@ export class LocationCardsComponent implements OnInit {
   @Output() viewMore = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  @Output() clickedHeader = new EventEmitter();
+  @Input() clickHeader = false;
   cardPropertyKeys: Array<string>;
   get abbrYear() { return this.year.toString().slice(-2); }
 

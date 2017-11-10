@@ -1,6 +1,6 @@
 <div *ngFor="let f of features" class="location-card">
   <div class="card-header">
-    <h1>{{f.properties.n}} <small>{{f.properties['pl']}}</small> </h1>
+    <h1 [class.clickheader]="clickHeader" (click)="clickHeader ? clickedHeader.emit(f) : false">{{f.properties.n}} <small>{{f.properties['pl']}}</small> </h1>
     <button class="btn btn-close" (click)="dismissedCard.emit(f)">&times;</button>
   </div>
   <div class="card-content">

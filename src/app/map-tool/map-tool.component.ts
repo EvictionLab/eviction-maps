@@ -125,6 +125,17 @@ export class MapToolComponent implements OnInit {
   }
 
   /**
+   * Set map layer and view from clicked location card header
+   * @param feature clicked feature from card
+   */
+  onCardHeaderClick(feature: MapFeature) {
+    const layerId = feature.properties['layerId'];
+    const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
+    this.map.setGroupVisibility(dataLevel);
+    this.map.zoomToFeature(feature);
+  }
+
+  /**
    * Triggers a scroll to the top of the page
    */
   goToTop() {
