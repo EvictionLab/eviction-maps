@@ -85,7 +85,6 @@
         [features]="dataService.activeFeatures"
         [year]="dataService.activeYear"
         (viewMore)="goToDataPanel($event)"
-        [clickHeader]="true"
         (clickedHeader)="onCardHeaderClick($event)"
         (dismissedCard)="dataService.removeLocation($event); updateRoute()"
     ></app-location-cards>
