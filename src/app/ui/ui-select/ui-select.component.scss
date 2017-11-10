@@ -16,8 +16,6 @@
       box-sizing: border-box;
       min-width: 140px;
       padding:0;
-      // TODO: It seems like this isn't necessary
-      // max-height: 190px;
       overflow: auto;
       & > li > a {
         padding: 0px 12px;
@@ -65,6 +63,10 @@
         }
       }
     }
+  }
+
+  @media(max-width: 768px) {
+    .el-select .dropdown-menu { max-height: 190px; }
   }
 
   // OVERRIDES
