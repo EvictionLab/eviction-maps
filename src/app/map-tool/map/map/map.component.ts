@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the bounds for the map */
   @Input()
   get boundingBox() { return this._store.bounds; }
@@ -83,6 +83,8 @@ export class MapComponent implements OnInit {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
+  /** Handles if zoom is enabled on the map */
+  @Input() scrollZoom: boolean;
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
@@ -116,6 +118,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.scrollZoom) {
+      changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
+    }
   }
 
   /**

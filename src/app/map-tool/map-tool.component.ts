@@ -18,7 +18,8 @@ export class MapToolComponent implements OnInit {
   title = 'Eviction Lab';
   // autoSwitchLayers = true;
   verticalOffset;
-  enableZoom;
+  enableZoom = true;
+  wheelEvent = false;
   currentRoute = [];
   @ViewChild(MapComponent) map;
 
@@ -151,36 +152,45 @@ export class MapToolComponent implements OnInit {
     this.pageScrollService.start(pageScrollInstance);
   }
 
-  /**
-   * Set the vertical offset on scroll
+    /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
    */
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
-    this.verticalOffset = window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
-    if (this.verticalOffset !== 0) {
-      this.map.disableZoom();
-    }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
+    this.verticalOffset = this.getVerticalOffset();
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
     }
   }
 
   /**
-   * Enables / disables zoom on mouse wheel events
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @Debounce(250)
+  onWheel() {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }
+
+  /**
+   * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
-  @Debounce(400)
-  onwheel(e) {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop || 0;
-    }
-    this.verticalOffset === 0 ?
-      this.map.enableZoom() :
-      this.map.disableZoom();
+  onBeginWheel() { this.wheelEvent = true; }
+
+  private getVerticalOffset() {
+    return window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
   }
 
   /**

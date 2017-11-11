@@ -1,5 +1,9 @@
 <div class="data-wrapper">
   <div class="data-content">
+    <div class="data-content-inner">
+      <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
+        (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
+    </div>
     <div class="graph-container">
       <div class="data-content-inner">
         <div class="graph-area">
@@ -47,8 +51,6 @@
       </div>
     </div>
     <div class="data-content-inner">
-      <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
-        (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
       <div class="data-panel-footer">
         <div class="action-wrapper">
           <div class="social-icons">
