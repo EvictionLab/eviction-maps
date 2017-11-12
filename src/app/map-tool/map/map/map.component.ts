@@ -155,6 +155,14 @@ export class MapComponent implements OnInit {
   }
 
   /**
+   * Zoom to bounding box
+   * @param bbox
+   */
+  zoomToBoundingBox(bbox: number[]) {
+    this.map.zoomToBoundingBox(bbox);
+  }
+
+  /**
    * Returns sanitized gradient for the legend
    */
   getLegendGradient() {
