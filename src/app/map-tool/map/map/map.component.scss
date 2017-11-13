@@ -27,6 +27,20 @@
     pointer-events:all;
 }
 
+app-location-cards {
+  position: absolute;
+  top:0;
+  left:0;
+  height: calc(100vh - #{$headerHeightSm});
+  z-index:100;
+  pointer-events: none;
+  display:flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: center;
+  width:100%;
+}
+
 // Select boxes
 
 app-ui-select {
@@ -88,6 +102,9 @@ app-ui-select.open {
     left: inherit;
     right: inherit;
     width: auto;
+  }
+  app-location-cards {
+    height: calc(100vh - #{$headerHeightLg});
   }
 }
 
