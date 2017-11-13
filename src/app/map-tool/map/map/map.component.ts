@@ -97,6 +97,7 @@ export class MapComponent implements OnInit {
   legend;
   mapLoading = false;
   mapEventLayers: Array<string>;
+  get fullWidth(): boolean { return window.innerWidth >= 767; };
   private zoom = 3;
   private _store = {
     layer: null,
