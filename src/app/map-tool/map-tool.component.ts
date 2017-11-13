@@ -89,7 +89,7 @@ export class MapToolComponent implements OnInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
-    this.dataService.getTileData(feature['layer']['id'], featureLonLat, true)
+    this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         this.dataService.addLocation(data);
         this.updateRoute();
@@ -105,9 +105,10 @@ export class MapToolComponent implements OnInit {
     // this.autoSwitchLayers = false;
     if (feature) {
       const layerId = feature.properties['layerId'];
-      this.dataService.getTileData(layerId, feature.geometry['coordinates'], true)
-        .subscribe(data => {
-          if (data === {}) {
+      this.dataService.getTileData(
+        layerId, feature.geometry['coordinates'], feature.properties['name'], true
+      ).subscribe(data => {
+          if (!data.properties.n) {
             console.log('could not find feature');
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
