@@ -82,7 +82,7 @@ export class DataService {
 
   /**
    * Sets the bounding box for the map to focus to
-   * @param mapBounds an array with four coordinates representing south, west, north, east
+   * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
     this.mapView = mapBounds;
@@ -229,7 +229,12 @@ export class DataService {
 
       if (matchFeat) {
         matchFeat.properties.layerId = layerId;
-        matchFeat.properties.bbox = bbox(matchFeat);
+        matchFeat.bbox = [
+          matchFeat.properties['west'],
+          matchFeat.properties['south'],
+          matchFeat.properties['east'],
+          matchFeat.properties['north']
+        ];
         return matchFeat;
       }
 
