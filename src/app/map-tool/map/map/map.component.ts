@@ -83,6 +83,10 @@ export class MapComponent implements OnInit {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
+  @Input() activeFeatures: MapFeature[] = [];
+  @Output() viewMore: EventEmitter<any> = new EventEmitter();
+  @Output() clickedHeader: EventEmitter<any> = new EventEmitter();
+  @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();

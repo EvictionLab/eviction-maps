@@ -12,6 +12,14 @@
 </div>
 <div class="map-ui-wrapper">
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
+  <app-location-cards 
+    *ngIf="activeFeatures.length > 0"
+    [features]="activeFeatures"
+    [year]="year"
+    (viewMore)="viewMore.emit($event)"
+    (clickedHeader)="clickedHeader.emit($event)"
+    (dismissedCard)="dismissedCard.emit($event)"
+  ></app-location-cards>
   <div class="map-ui">
       <app-ui-select
           tabindex="4"
