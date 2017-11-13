@@ -10,7 +10,6 @@ import { MapDataObject } from '../map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
-import { DataService } from '../../../data/data.service';
 
 @Component({
   selector: 'app-map',
@@ -84,6 +83,7 @@ export class MapComponent implements OnInit {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
+  @Input() activeFeatures: MapFeature[] = [];
   @Output() viewMore: EventEmitter<any> = new EventEmitter();
   @Output() clickedHeader: EventEmitter<any> = new EventEmitter();
   @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
@@ -115,8 +115,7 @@ export class MapComponent implements OnInit {
 
   constructor(
     private map: MapService,
-    private _sanitizer: DomSanitizer,
-    public dataService: DataService
+    private _sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {

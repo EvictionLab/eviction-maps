@@ -12,6 +12,14 @@
 </div>
 <div class="map-ui-wrapper">
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
+  <app-location-cards 
+    *ngIf="activeFeatures.length > 0"
+    [features]="activeFeatures"
+    [year]="year"
+    (viewMore)="viewMore.emit($event)"
+    (clickedHeader)="clickedHeader.emit($event)"
+    (dismissedCard)="dismissedCard.emit($event)"
+  ></app-location-cards>
   <div class="map-ui">
       <app-ui-select
           tabindex="4"
@@ -55,14 +63,6 @@
           [hint]="'The colored ' + selectedLayer['name'] + ' on the map represent ' + selectedChoropleth['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
           placement="bottom"
       ></app-ui-hint>
-      <app-location-cards 
-        *ngIf="dataService.activeFeatures.length > 0" 
-        [features]="dataService.activeFeatures"
-        [year]="dataService.activeYear"
-        (viewMore)="viewMore.emit($event)"
-        (clickedHeader)="clickedHeader.emit($event)"
-        (dismissedCard)="dismissedCard.emit($event)"
-      ></app-location-cards>
   </div>
   <div class="year-slider-container">
     <app-ui-slider tabindex="9"

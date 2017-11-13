@@ -5,7 +5,6 @@ import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
 import { HttpModule } from '@angular/http';
 import { MapService } from '../map.service';
-import { DataService } from '../../../data/data.service';
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -16,8 +15,7 @@ describe('MapComponent', () => {
       declarations: [ MapComponent, MapboxComponent ],
       imports: [ UiModule, HttpModule ],
       providers: [
-        { provide: MapService, useValue: { updateCensusSource: () => {} } },
-        DataService
+        { provide: MapService, useValue: { updateCensusSource: () => {} } }
       ]
     })
     .compileComponents();
