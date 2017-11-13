@@ -3,7 +3,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
+import { HttpModule } from '@angular/http';
 import { MapService } from '../map.service';
+import { DataService } from '../../../data/data.service';
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -12,8 +14,11 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule ],
-      providers: [ { provide: MapService, useValue: { updateCensusSource: () => {} } } ]
+      imports: [ UiModule, HttpModule ],
+      providers: [
+        { provide: MapService, useValue: { updateCensusSource: () => {} } },
+        DataService
+      ]
     })
     .compileComponents();
   }));
