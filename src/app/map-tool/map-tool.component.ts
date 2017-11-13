@@ -132,7 +132,11 @@ export class MapToolComponent implements OnInit {
     const layerId = feature.properties['layerId'];
     const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
-    this.map.zoomToFeature(feature);
+    if (feature.hasOwnProperty('bbox')) {
+      this.map.zoomToBoundingBox(feature.bbox);
+    } else {
+      this.map.zoomToPointFeature(feature);
+    }
   }
 
   /**

@@ -82,7 +82,7 @@ export class DataService {
 
   /**
    * Sets the bounding box for the map to focus to
-   * @param mapBounds an array with four coordinates representing south, west, north, east
+   * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
     this.mapView = mapBounds;
@@ -214,7 +214,12 @@ export class DataService {
         const feat = layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
         if (inside(point, feat)) {
           feat.properties.layerId = layerId;
-          feat.properties.bbox = bbox(feat);
+          feat.bbox = [
+            feat.properties['west'],
+            feat.properties['south'],
+            feat.properties['east'],
+            feat.properties['north']
+          ];
           return feat;
         }
       }
