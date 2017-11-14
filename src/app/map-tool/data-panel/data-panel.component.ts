@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
@@ -8,7 +8,7 @@ import { MapFeature } from '../map/map-feature';
   templateUrl: './data-panel.component.html',
   styleUrls: ['./data-panel.component.scss']
 })
-export class DataPanelComponent implements OnChanges {
+export class DataPanelComponent implements OnInit, OnChanges {
 
   @Input() locations: MapFeature[] = [];
   @Input() year: number;
@@ -29,13 +29,23 @@ export class DataPanelComponent implements OnChanges {
   };
   graphProp = 'er';
   graphSettings;
-  lineStartYear = this.year;
-  lineEndYear = 2017;
-  barYear = this.year;
-  startSelect = this.generateYearArray(1990, this.lineEndYear - 1);
-  endSelect = this.generateYearArray(this.lineStartYear + 1, 2017);
+  lineStartYear: number;
+  startSelect: Array<number>;
+  lineEndYear: number;
+  endSelect: Array<number>;
+  barYear: number;
+  barYearSelect: Array<number>;
+  private minYear = 1990;
+  private maxYear = new Date().getFullYear();
 
-  constructor(public dialogService: UiDialogService) { }
+  constructor(public dialogService: UiDialogService) {}
+
+  ngOnInit() {
+    this.updateLineYears(this.year, this.maxYear);
+    this.barYear = this.year;
+    this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
+    console.log('line end select', this.endSelect);
+  }
 
   /**
    * Update the graph data when locations or year changes.
@@ -61,11 +71,11 @@ export class DataPanelComponent implements OnChanges {
   /**
    * Updates the graph to the `start` and `end` X values
    */
-  updateLineYears(start: number, end: number) {
-    this.lineStartYear = start;
-    this.lineEndYear = Math.max(end, start + 1);
-    this.startSelect = this.generateYearArray(1990, this.lineEndYear - 1);
-    this.endSelect = this.generateYearArray(this.lineStartYear + 1, 2016);
+  updateLineYears(start: any, end: any) {
+    this.lineStartYear = Number(start);
+    this.lineEndYear = Math.max(Number(end), this.lineStartYear + 1);
+    this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
+    this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
     this.setGraphData();
   }
 
@@ -144,6 +154,7 @@ export class DataPanelComponent implements OnChanges {
   generateYearArray(start: number, end: number): Array<number> {
     const arr = [];
     for (let i = start; i <= end; i++) { arr.push(i); }
+    if (arr.length === 0) { arr.push(end); }
     return arr;
   }
 
