@@ -37,7 +37,7 @@
               <app-ui-select [values]="endSelect" [selectedValue]="lineEndYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
             </div>
             <div *ngIf="graphType === 'bar'">
-              <app-ui-select [selectedValue]="year" [values]="generateYearArray(1990, 2016)"
+              <app-ui-select [selectedValue]="year" [values]="barYearSelect"
                 (change)="updateBarYear($event)"></app-ui-select>
             </div>
           </div>
