@@ -1,4 +1,4 @@
-<div class="map-legend">
+<div class="map-legend" *ngIf="fillStops">
   <app-ui-hint class="legend-hint" [hint]="hint" placement="left"></app-ui-hint>
   <div class="legend" [style.background]="legendGradient">
     <span class="legend-start">{{fillStops[1][0]}}</span>

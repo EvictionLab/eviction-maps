@@ -15,10 +15,12 @@ export class UiMapLegendComponent implements OnInit {
   @Input() layer;
   /** Gets the fill stops based on the selected choropleth */
   get fillStops() {
+    if (!this.choropleth || !this.layer) { return null; }
     return this.choropleth.fillStops[this.layer.id] || this.choropleth.fillStops['default'];
   }
   /** Gets the text for the hint */
   get hint(): string {
+    if (!this.choropleth || !this.layer || !this.fillStops) { return null; }
     return 'The colored ' + this.layer['name'] + ' on the map represent ' +
       this.choropleth['name'] + ' from ' + this.fillStops[1][0] + ' to ' +
       this.fillStops[this.fillStops.length - 1][0] + '.';
