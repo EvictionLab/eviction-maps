@@ -67,9 +67,8 @@
       }
     }
   }
-
-  @media(min-width: 767px) {
-    // more space for dropdown menus
+  // more space for dropdown menus
+  :host-context(.gt-mobile) {
     .el-select .dropdown-menu { max-height: 300px; }
   }
 

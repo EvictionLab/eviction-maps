@@ -1,0 +1,8 @@
+<div class="map-legend">
+  <app-ui-hint class="legend-hint" [hint]="hint" placement="left"></app-ui-hint>
+  <div class="legend" [style.background]="legendGradient">
+    <span class="legend-start">{{fillStops[1][0]}}</span>
+    <span class="legend-middle">{{(fillStops[1][0] + fillStops[fillStops.length - 1][0]) / 2}}</span>
+    <span class="legend-end">{{fillStops[fillStops.length - 1][0]}}</span>
+  </div>
+</div>

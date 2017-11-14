@@ -16,6 +16,12 @@ $z1shadow: 0 1px 3px rgba(0,0,0,0.3);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
 
+// Breakpoints
+$gtMobile: 767px;
+$gtTablet: 1024px;
+$gtSmallDesktop: 1279px;
+$gtLargeDesktop: 1599px;
+
 // Typography
 $fontStack: Akkurat-Regular, sans-serif;
 $boldFontStack: Akkurat-Bold, sans-serif;
@@ -88,6 +94,8 @@ $toggleHoverForeground: #000;
 $sliderText: $altTextColor;
 $sliderBackground: #000;
 $sliderTrack: rgba(0,0,0,0.15);
+$timeSliderHeight: 40px;
+$timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
 $selectText: $textColor;
@@ -112,9 +120,6 @@ $cardLabelText: rgba(0,0,0,0.33);
 $cardLabelTextSize: 11px;
 $cardValueTextSize: 18px;
 
-// Time Slider
-$timeSliderHeight: 40px;
-
 // Header
 $headerHeightSm: 56px;
 $headerHeightLg: 90px;
@@ -127,6 +132,14 @@ $searchTextColor: $textColor;
 $searchHighlightTextColor: $defaultBackground;
 $searchHighlightBackgroundColor: $color1;
 $searchPlaceholderColor: $secondaryTextColor;
+
+// Legend
+$legendHeight: 40px;
+$legendBackground: #f8f8f9;
+$legendIconColor: $color1;
+$legendIconBackground: $defaultBackground;
+$legendFontSize: 11px;
+$legendTextColor: #fff;
 
 // Sizing - panel header
 $headerRowHeight: 72px;

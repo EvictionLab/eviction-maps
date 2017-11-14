@@ -1,0 +1,56 @@
+@import '../../../theme';
+
+:host {
+  display:block;
+  pointer-events:all;
+}
+
+.map-legend {
+  height: 100%;
+  width: 100%;
+  background: $legendBackground;
+  box-shadow: $z1shadow;
+  .legend {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    font-size: $legendFontSize;
+    line-height: $legendHeight;
+    font-weight:bold;
+    padding: 0 8px;
+    color: $legendTextColor;
+    text-align:center;
+    .legend-start { float: left;}
+    .legend-end { float: right; }
+  }
+}
+// hint icon above the legend on the right
+app-ui-hint.legend-hint {
+  position: absolute;
+  width: $legendHeight;
+  height: $legendHeight;
+  top: -$legendHeight;
+  right:0;
+  left:auto;
+  margin:auto;
+  // adjust for white circle behind icon
+  ::ng-deep .hint-button span {
+    width: 18px;
+    height: 18px;
+    padding: 2px;
+    border-radius: 100%;
+    background: $legendIconBackground;
+    color: $legendIconColor; 
+  }
+}
+// larger than tablet:
+//    hint icon to the left of the legend
+:host-context(.gt-tablet) {
+  app-ui-hint.legend-hint {
+    top: 8px;
+    bottom:0;
+    left: -$legendHeight;
+    right:auto;
+  }
+}
+

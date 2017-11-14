@@ -14,6 +14,7 @@
 </div>
 <div class="map-ui-wrapper">
   <ng-content></ng-content>
+  <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
   <app-location-cards 
     *ngIf="activeFeatures.length > 0"
@@ -51,31 +52,15 @@
           [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
           (change)="setGroupVisibility($event)">
       </app-ui-select>
-      <div 
-        *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length" 
-        class="map-legend" 
-      >
-        <div class="legend-bg"></div>
-        <div class="legend" [style.background]="getLegendGradient()">
-            <span class="legend-start">{{legend[1][0]}}</span>
-            <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
-        </div>
+      <!-- map legend here -->
+    </div>
+    <div class="year-slider-container">
+        <app-ui-slider tabindex="9"
+          class="year-slider"
+          [currentValue]="year" 
+          [min]="1990" 
+          [max]="2016" 
+          (change)="year=$event"
+        ></app-ui-slider>
       </div>
-      <app-ui-hint 
-          *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length"
-          class="legend-hint"
-          [hint]="'The colored ' + selectedLayer['name'] + ' on the map represent ' + selectedChoropleth['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
-          [placement]="fullWidth ? 'bottom' : 'right'"
-      ></app-ui-hint>
-  </div>
-  <div class="year-slider-container">
-    <app-ui-slider tabindex="9"
-      class="year-slider"
-      [currentValue]="year" 
-      [min]="1990" 
-      [max]="2016" 
-      (change)="year=$event"
-    ></app-ui-slider>
-  </div>
-  
 </div>
