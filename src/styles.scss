@@ -156,7 +156,7 @@ html, body {
   }
 }
 
-@media(min-width: 1600px) {
+@media(min-width: $gtLargeDesktop) {
   // move buttons to gutter
   .data-wrapper .btn-map,
   .btn-compare {

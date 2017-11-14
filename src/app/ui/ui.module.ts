@@ -16,6 +16,7 @@ import { UiDialogComponent } from './ui-dialog/ui-dialog.component';
 import { UiDialogService } from './ui-dialog/ui-dialog.service';
 import { UiHintComponent } from './ui-hint/ui-hint.component';
 import { LocationCardsComponent } from './location-cards/location-cards.component';
+import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 
 @NgModule({
   exports: [
@@ -26,7 +27,8 @@ import { LocationCardsComponent } from './location-cards/location-cards.componen
     UiSliderComponent,
     UiToggleComponent,
     ProgressBarComponent,
-    UiHintComponent
+    UiHintComponent,
+    UiMapLegendComponent
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { LocationCardsComponent } from './location-cards/location-cards.componen
     UiToggleComponent,
     ProgressBarComponent,
     UiDialogComponent,
-    UiHintComponent
+    UiHintComponent,
+    UiMapLegendComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent, LocationCardsComponent ]

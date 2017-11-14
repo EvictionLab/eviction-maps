@@ -1,15 +1,14 @@
 @import '../../../../theme';
 
-
-
 // Map UI Layout
-
+// ----
+// Map fills the component width and height
 .map-wrapper {
   width:100%;
   height:100%;
   display:block;
 }
-
+// Map UI Wrapper spans the entire width of the viewport
 .map-ui-wrapper {
     pointer-events:none;
     position: absolute;
@@ -20,6 +19,7 @@
     bottom: 0;
     right: 0;
 }
+// Map UI maxes out at the max content width
 .map-ui {
     position:absolute;
     max-width: $maxContentWidth;
@@ -32,7 +32,14 @@
     z-index:49;
     pointer-events:all;
 }
+// ----
+// End Map UI Layout
 
+// Map Location Cards
+// ----
+// default:
+//    Fix location cards to the left side of the window
+// ----
 app-location-cards {
   position: absolute;
   top:0;
@@ -46,13 +53,27 @@ app-location-cards {
   align-items: center;
   width:100%;
 }
+// ----
+// greater than tablet:
+//    Adjust cards container to account for the larger header height
+// ----
+:host-context(.gt-tablet) {
+  app-location-cards { height: calc(100vh - #{$headerHeightLg}); }
+}
+// ----
+// End Map Location Cards
 
-// Select boxes
 
+// Map Data Select Boxes
+// ----
+// default: 
+//    hide labels and adjust width so the select menus
+//    span the full width of the window.
+// ----
 app-ui-select {
   position: absolute;
   width:32%;
-  top: 16px;
+  top:0;
   ::ng-deep .el-select-label {
     display: none;
   }
@@ -66,16 +87,11 @@ app-ui-select {
     white-space: nowrap;
   }
 }
-app-ui-select:nth-of-type(1) {
-  left: 0;
-}
-app-ui-select:nth-of-type(2) {
-  left: 34%;
-}
-app-ui-select:nth-of-type(3) {
-  right: 0;
-}
-
+// position the dropwdowns
+app-ui-select:nth-of-type(1) { left: 0; }
+app-ui-select:nth-of-type(2) { left: 34%; }
+app-ui-select:nth-of-type(3) { right: 0; }
+// span full width when open
 app-ui-select.open {
   left: 0;
   right: 0;
@@ -86,8 +102,11 @@ app-ui-select.open {
     display: inherit;
   }
 }
-
-@media (min-width: 767px) {
+// ----
+// greater than tablet: 
+//    float the dropdowns on the top left side of the map
+// ----
+:host-context(.gt-tablet) {
   app-ui-select {
     float:left;
     width:auto;
@@ -101,7 +120,9 @@ app-ui-select.open {
       font-size: 12px;
     }
   }
-  app-ui-select:nth-of-type(1), app-ui-select:nth-of-type(2), app-ui-select:nth-of-type(3) {
+  app-ui-select:nth-of-type(1), 
+  app-ui-select:nth-of-type(2), 
+  app-ui-select:nth-of-type(3) {
     left: inherit;
   }
   app-ui-select.open {
@@ -109,80 +130,69 @@ app-ui-select.open {
     right: inherit;
     width: auto;
   }
-  app-location-cards {
-    height: calc(100vh - #{$headerHeightLg});
-  }
 }
+// ----
+// End Map Data Select Boxes
 
 
 // Map Legend
-
-.legend-hint {
-  position: absolute;
-  top: 52px;
-  left: 0;
-  right: 220px;
+// ----
+// mobile / tablet: 
+//    map spans entire width at bottom of map
+// ----
+app-ui-map-legend {
+  width: 100%;
+  height: $legendHeight;
+  position:absolute;
+  bottom: $timeSliderHeight;
+  right:0;
+  left:0;
 }
-
-.map-legend {
-  position: absolute;
-  height: 24px;
-  right: 0;
-  top: 56px;
-  left: 30px;
-  width: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
-  
-  & > .legend-bg {
-    background-color: #f8f8f9;
-  }
-
-  & > div {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    font-size:11px;
-    font-weight:bold;
-    padding: 4px;
-
-    .legend-end {
-      float: right;
+// ----
+// larger than tablet: 
+//    move legend to top right of the map
+// ----
+:host-context(.gt-tablet) {
+  app-ui-map-legend {
+    width:calc(100% - #{$defaultPadding*2});
+    max-width: $maxContentWidth;
+    margin:auto;
+    top:0;
+    right:0;
+    left:0;
+    bottom: auto;
+    ::ng-deep .map-legend {
+      width: 268px;
+      position:absolute;
+      right:0;
+      top:0;
     }
   }
 }
+// ----
+// End Map Legend
 
-@media (min-width: 767px) {
-  .map-legend {
-    height: 24px;
-    width: 200px;
-    left: auto;
-    float: right;
-    top: 16px;
-  }
-  .legend-hint {
-    top: 12px;
-    right: 200px;
-    left: auto;
-  }
-}
 
 // Year Slider
-
+// ----
+// default: 
+//    Place year slider at the bottom of the window below the map
+// ----
 .year-slider-container {
   @include fill-parent();
-  top:auto;
-  height:40px;
+  top: auto;
+  height: $timeSliderHeight;
   z-index: 1000;
-  background:#fff;
-  padding: 0 16px;
+  background: $timeSliderBackground;
+  padding: 0 $defaultPadding;
   box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  // keep the slider component within the max content width
   .year-slider {
-    margin:auto;
+    margin: auto;
     max-width: $maxContentWidth - $defaultPadding*4;
-    height:40px;
-    display:block;
+    height: $timeSliderHeight;
+    display: block;
   }
 }
-
-  
-
+// ----
+// End Year Slider

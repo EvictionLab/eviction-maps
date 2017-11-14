@@ -24,9 +24,9 @@
   }
 }
 
-// Tablet+
-// - Adjust height of map / location cards to reflect large header.
-@media(min-width: 768px) {
+// Larger than tablet:
+//    Adjust height of map / location cards to reflect large header.
+:host-context(.gt-mobile) {
   .app-wrapper {
     &.map-active {
       height: calc(100vh - #{$headerHeightLg});

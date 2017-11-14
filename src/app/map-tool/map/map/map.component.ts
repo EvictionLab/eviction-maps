@@ -1,7 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import * as _isEqual from 'lodash.isequal';
 
 import { MapDataAttribute } from '../map-data-attribute';
@@ -103,14 +102,15 @@ export class MapComponent implements OnInit, OnChanges {
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
   }
-  /**  */
-  get mapButtonOffset(): string {
-    return '0px';
+  /** Gets if the legend should be shown or not */
+  get showLegend(): boolean {
+    return this.selectedLayer &&
+      this.selectedChoropleth &&
+      this.selectedChoropleth.name !== 'None';
   }
-  /** Gets if this is a  */
+  /** Gets if the legend is full width */
   get fullWidth(): boolean { return window.innerWidth >= 767; }
   censusYear = 2010;
-  legend;
   mapLoading = false;
   mapEventLayers: Array<string>;
   private zoom = 3;
@@ -125,10 +125,7 @@ export class MapComponent implements OnInit, OnChanges {
   // switch to restore auto switching layers once a map move has ended.
   private restoreAutoSwitch = false;
 
-  constructor(
-    private map: MapService,
-    private _sanitizer: DomSanitizer
-  ) { }
+  constructor(private map: MapService) { }
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
@@ -182,33 +179,6 @@ export class MapComponent implements OnInit, OnChanges {
    */
   zoomToBoundingBox(bbox: number[]) {
     this.map.zoomToBoundingBox(bbox);
-  }
-
-  /**
-   * Returns sanitized gradient for the legend
-   */
-  getLegendGradient() {
-    if (this.legend && this.legend.length) {
-      return this._sanitizer.bypassSecurityTrustStyle(
-        `linear-gradient(to right, ${this.legend[1][1]}, ${this.legend[this.legend.length - 1][1]})`
-      );
-    }
-    return null;
-  }
-
-  /**
-   * Update the legend to correspond to the fill stops on the active data highlight
-   */
-  updateLegend() {
-    const dataLevel = this.selectedLayer;
-    const dataHighlight = this.selectedChoropleth;
-    if (!dataLevel || !dataHighlight) {
-      this.legend = null;
-      return;
-    }
-    this.legend =
-      dataHighlight.fillStops[dataLevel.id] ||
-      dataHighlight.fillStops['default'];
   }
 
   /**
@@ -373,7 +343,6 @@ export class MapComponent implements OnInit, OnChanges {
             };
             this.map.setLayerStyle(layerId, 'fill-color', newFill);
             this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
-            this.updateLegend();
         });
       }
     }

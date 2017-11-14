@@ -76,7 +76,7 @@
 // - Shows logo
 // - Shows search bar
 // - Hides all icons, except menu
-@media(min-width: 767px) {
+@media(min-width: $gtMobile) {
   .header-wrapper {
     height: $headerHeightLg;
     .header-content {
@@ -152,7 +152,7 @@
 
 // Desktop+
 // - adds language toggle
-@media(min-width: 1024px) {
+@media(min-width: $gtTablet) {
   .header-wrapper {
     .header-search {
       max-width: 640px;

@@ -164,7 +164,7 @@
     &:nth-child(4) .legend-marker { background: $graphColor4; }
   }
 }
-@media(min-width: 768px) {
+:host-context(.gt-mobile) {
   .graph-area { 
     width:60%; 
     display:inline-block;
@@ -172,7 +172,6 @@
   .graph-legend {
     width: 40%;
     float:right;
-    
   }
 }
 
