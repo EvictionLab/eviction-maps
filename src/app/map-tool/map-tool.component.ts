@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import Debounce from 'debounce-decorator';
 import 'rxjs/add/operator/take';
+import {scaleLinear} from 'd3-scale';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -17,11 +18,13 @@ import { DataService } from '../data/data.service';
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab';
   // autoSwitchLayers = true;
-  verticalOffset;
-  enableZoom = true;
-  wheelEvent = false;
+  enableZoom = true; // controls if map scroll zoom is enabled
+  wheelEvent = false; // tracks if there is an active wheel event
   currentRoute = [];
+  verticalOffset; // stores the amount the page has scrolled
   panelOffset: number; // tracks the vertical offset to the data panel
+  offsetToTranslate; // function that maps vertical offset to the
+  /** gets if the page has scrolled enough to fix the "back to map" button */
   get isDataButtonFixed() {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
     return (this.verticalOffset - this.panelOffset) > 0;
@@ -48,6 +51,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+    this.setOffsetToTranslate();
   }
 
   /**
@@ -58,6 +62,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onresize(e) {
     this.panelOffset =
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+    this.setOffsetToTranslate();
   }
 
 
@@ -233,6 +238,16 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     PageScrollConfig.defaultEasingLogic = {
         ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
     };
+  }
+
+  /**
+   * Sets the function that maps page vertical offset to the
+   * amount to translate the "back to map" button
+   */
+  private setOffsetToTranslate() {
+    this.offsetToTranslate = scaleLinear()
+      .domain([0, this.panelOffset - 130])
+      .range([-this.panelOffset / 2 + 90, 0]);
   }
 
   /**

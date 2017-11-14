@@ -124,6 +124,11 @@ html, body {
   &.active { 
     pointer-events:all; 
     background-color: rgba(0,0,0,0.1);
+    .btn-map { opacity: 1; }
+  }
+  .btn-map {
+    opacity: 0;
+    transition: opacity 0.2s ease;
   }
   .show-map-overlay {
     @include fill-parent();
@@ -151,7 +156,7 @@ html, body {
   }
 }
 
-@media(min-width: 1580px) {
+@media(min-width: 1600px) {
   // move buttons to gutter
   .data-wrapper .btn-map,
   .btn-compare {

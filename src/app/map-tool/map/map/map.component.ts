@@ -99,14 +99,20 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
   @Output() showDataClick = new EventEmitter();
   @Output() showMapClick = new EventEmitter();
+  /** Gets the layers available at the current zoom */
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
   }
+  /**  */
+  get mapButtonOffset(): string {
+    return '0px';
+  }
+  /** Gets if this is a  */
+  get fullWidth(): boolean { return window.innerWidth >= 767; }
   censusYear = 2010;
   legend;
   mapLoading = false;
   mapEventLayers: Array<string>;
-  get fullWidth(): boolean { return window.innerWidth >= 767; }
   private zoom = 3;
   private _store = {
     layer: null,
