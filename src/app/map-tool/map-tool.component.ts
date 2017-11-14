@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -14,13 +14,20 @@ import { DataService } from '../data/data.service';
   templateUrl: './map-tool.component.html',
   styleUrls: ['./map-tool.component.scss']
 })
-export class MapToolComponent implements OnInit {
+export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab';
   // autoSwitchLayers = true;
   verticalOffset;
-  enableZoom;
+  enableZoom = true;
+  wheelEvent = false;
   currentRoute = [];
+  panelOffset: number; // tracks the vertical offset to the data panel
+  get isDataButtonFixed() {
+    if (!this.panelOffset || !this.verticalOffset) { return false; }
+    return (this.verticalOffset - this.panelOffset) > 0;
+  }
   @ViewChild(MapComponent) map;
+  @ViewChild('divider') dividerEl;
 
   constructor(
     private route: ActivatedRoute,
@@ -35,6 +42,24 @@ export class MapToolComponent implements OnInit {
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
     this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
   }
+
+  /**
+   * Set the panel offset when the divider element is present
+   */
+  ngAfterViewInit() {
+    this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
+  /**
+   * Update the position of the data panel on window resize
+   * @param e resize event
+   */
+  @HostListener('window:resize', [ '$event' ])
+  onresize(e) {
+    this.panelOffset =
+      this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
 
   /**
    * Configures the data service based on any route parameters
@@ -156,42 +181,52 @@ export class MapToolComponent implements OnInit {
     this.pageScrollService.start(pageScrollInstance);
   }
 
-  /**
-   * Set the vertical offset on scroll
+    /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
    */
   @HostListener('window:scroll', ['$event'])
   onscroll(e) {
-    this.verticalOffset = window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
-    if (this.verticalOffset !== 0) {
-      this.map.disableZoom();
-    }
-    if (this.verticalOffset === 0) {
-      this.map.enableZoom();
+    this.verticalOffset = this.getVerticalOffset();
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
     }
   }
 
   /**
-   * Enables / disables zoom on mouse wheel events
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @Debounce(250)
+  onWheel() {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }
+
+  /**
+   * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
-  @Debounce(400)
-  onwheel(e) {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = window.pageYOffset ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop || 0;
-    }
-    this.verticalOffset === 0 ?
-      this.map.enableZoom() :
-      this.map.disableZoom();
+  onBeginWheel() { this.wheelEvent = true; }
+
+  private getVerticalOffset() {
+    return window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop || 0;
   }
 
   /**
    * Configures options for the `ng2-page-scroll` module
    */
   private configurePageScroll() {
+    PageScrollConfig.defaultScrollOffset = 120;
     PageScrollConfig.defaultDuration = 1000;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations

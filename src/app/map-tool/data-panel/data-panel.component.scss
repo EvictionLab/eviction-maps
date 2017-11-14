@@ -3,7 +3,7 @@
 .data-content {
     position:relative;
     width:100%;
-    padding:0 $defaultPadding;
+    padding:0 $defaultPadding 96px;
     box-sizing: border-box;
     overflow:auto;
     border-top: 1px solid #eee;
@@ -11,6 +11,7 @@
       max-width: $maxContentWidth;
       padding: 16px;
       margin:auto;
+      &.top-content { position: relative; }
     }
 }
 

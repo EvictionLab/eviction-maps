@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
@@ -17,7 +17,7 @@ import { MapService } from '../map.service';
   styleUrls: ['./map.component.scss'],
   providers: [ MapService ]
 })
-export class MapComponent implements OnInit {
+export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the bounds for the map */
   @Input()
   get boundingBox() { return this._store.bounds; }
@@ -83,9 +83,12 @@ export class MapComponent implements OnInit {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   @Input() autoSwitch = true;
+  /** Handles if zoom is enabled on the map */
+  @Input() scrollZoom: boolean;
+  /** Tracks the vertical (scroll) offset */
+  @Input() verticalOffset = 0;
   @Input() activeFeatures: MapFeature[] = [];
-  @Output() viewMore: EventEmitter<any> = new EventEmitter();
-  @Output() clickedHeader: EventEmitter<any> = new EventEmitter();
+  @Output() clickedCardHeader: EventEmitter<any> = new EventEmitter();
   @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
@@ -94,6 +97,8 @@ export class MapComponent implements OnInit {
   @Output() selectedLayerChange: EventEmitter<MapLayerGroup> = new EventEmitter();
   @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  @Output() showDataClick = new EventEmitter();
+  @Output() showMapClick = new EventEmitter();
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
   }
@@ -101,7 +106,7 @@ export class MapComponent implements OnInit {
   legend;
   mapLoading = false;
   mapEventLayers: Array<string>;
-  get fullWidth(): boolean { return window.innerWidth >= 767; };
+  get fullWidth(): boolean { return window.innerWidth >= 767; }
   private zoom = 3;
   private _store = {
     layer: null,
@@ -121,6 +126,12 @@ export class MapComponent implements OnInit {
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.scrollZoom) {
+      changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
+    }
   }
 
   /**

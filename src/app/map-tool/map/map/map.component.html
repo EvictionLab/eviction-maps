@@ -1,23 +1,25 @@
-<div class="map-wrapper">
+<div class="map-wrapper" 
+  [style.transform]="'translateY('+ (verticalOffset > 90 ? (verticalOffset-90)/3 : 0) +'px)'"
+>
   <app-mapbox
-      [mapConfig]="mapConfig" 
-      [eventLayers]="mapEventLayers"
-      (ready)="onMapReady($event)"
-      (zoom)="onMapZoom($event)"
-      (featureClick)="onFeatureClick($event)"
-      (hoverChanged)="onFeatureHover($event)"
-      (moveEnd)="onMapMoveEnd($event)"
+    [mapConfig]="mapConfig" 
+    [eventLayers]="mapEventLayers"
+    (ready)="onMapReady($event)"
+    (zoom)="onMapZoom($event)"
+    (featureClick)="onFeatureClick($event)"
+    (hoverChanged)="onFeatureHover($event)"
+    (moveEnd)="onMapMoveEnd($event)"
   >
   </app-mapbox>
 </div>
 <div class="map-ui-wrapper">
+  <ng-content></ng-content>
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
   <app-location-cards 
     *ngIf="activeFeatures.length > 0"
     [features]="activeFeatures"
     [year]="year"
-    (viewMore)="viewMore.emit($event)"
-    (clickedHeader)="clickedHeader.emit($event)"
+    (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
   ></app-location-cards>
   <div class="map-ui">

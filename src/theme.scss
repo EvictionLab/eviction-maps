@@ -56,10 +56,17 @@ $color4: #4a4238;
 $color5: #b5c2b7;
 
 // Buttons
-
+$buttonColor: #efefef;
+$buttonHoverColor: #dfdfdf;
 $primaryButtonColor: $color1;
+$primaryButtonHoverColor: darken($color1, 3%);
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
+
+$buttonHeight: 56px;
+$buttonHeightSm: 40px;
+
+$pageNavButtonWidth: 192px; // buttons to toggle between data and map
 
 // Graph
 $graphColor1: $color1;
@@ -104,6 +111,9 @@ $cardHeaderTextSize: 16px;
 $cardLabelText: rgba(0,0,0,0.33);
 $cardLabelTextSize: 11px;
 $cardValueTextSize: 18px;
+
+// Time Slider
+$timeSliderHeight: 40px;
 
 // Header
 $headerHeightSm: 56px;

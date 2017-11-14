@@ -53,9 +53,11 @@
       .svg-down-arrow {
         position:absolute;
         right:8px;
-        top:11px;
+        top:0px;
+        bottom:0;
         width:14px;
         height: 8px;
+        margin:auto;
         polyline {
           stroke: $selectCaret;
           stroke-width: 2px;
