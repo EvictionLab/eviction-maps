@@ -85,6 +85,11 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() autoSwitch = true;
   /** Handles if zoom is enabled on the map */
   @Input() scrollZoom: boolean;
+  /** Tracks the vertical (scroll) offset */
+  @Input() verticalOffset = 0;
+  @Input() activeFeatures: MapFeature[] = [];
+  @Output() clickedCardHeader: EventEmitter<any> = new EventEmitter();
+  @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
@@ -92,6 +97,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() selectedLayerChange: EventEmitter<MapLayerGroup> = new EventEmitter();
   @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  @Output() showDataClick = new EventEmitter();
+  @Output() showMapClick = new EventEmitter();
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
   }
@@ -99,6 +106,7 @@ export class MapComponent implements OnInit, OnChanges {
   legend;
   mapLoading = false;
   mapEventLayers: Array<string>;
+  get fullWidth(): boolean { return window.innerWidth >= 767; }
   private zoom = 3;
   private _store = {
     layer: null,
@@ -160,6 +168,14 @@ export class MapComponent implements OnInit, OnChanges {
    */
   zoomToFeature(feature: MapFeature) {
     this.map.zoomToFeature(feature);
+  }
+
+  /**
+   * Zoom to bounding box
+   * @param bbox
+   */
+  zoomToBoundingBox(bbox: number[]) {
+    this.map.zoomToBoundingBox(bbox);
   }
 
   /**

@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 
+// Theme Mixins and Variables
 @import 'theme';
+
+// Base Styles
 @import './theme/base/typography';
+@import './theme/base/buttons';
+
 
 // Header Bar
 @import './theme/components/header-bar';
@@ -66,21 +71,7 @@ html, body {
 
 // Temporary Button Overrides
 .app-wrapper {
-  .btn {
-    border-radius: 2px;
-    border:none;
-    @include miniLabelText();
-  }
-  .btn-primary {
-    background: $primaryButtonColor;
-    height: 56px;
-    &:hover {
-      background: lighten($color1, 5%);
-    }
-    &:active, &:focus, &:active:focus {
-      background: darken($color1, 5%);
-    }
-  }
+
 }
 
 .el-svg-button {
@@ -102,5 +93,81 @@ html, body {
     left:0;
     right:0;
     text-align:center;
+  }
+}
+
+.down-arrow {
+  margin-bottom:4px;
+  width:14px;
+  height:8px;
+  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+}
+.up-arrow {
+  margin-bottom:4px;
+  width:14px;
+  height:8px;
+  transform: rotate(180deg);
+  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+}
+.map-overlay {
+  @include fill-parent();
+  pointer-events:none;
+  height: calc(100% - #{$timeSliderHeight});
+  padding-bottom: $timeSliderHeight;
+  transition: background-color 0.2s ease;
+  background-color: rgba(0,0,0,0);
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  z-index: 50;
+  &.active { 
+    pointer-events:all; 
+    background-color: rgba(0,0,0,0.1);
+  }
+  .show-map-overlay {
+    @include fill-parent();
+    pointer-events:all;
+    z-index:51;
+  }
+}
+
+.btn-map, 
+.btn-compare {
+  position:absolute;
+  bottom: 16px;
+  left:0;
+  right:0;
+  width: $pageNavButtonWidth;
+  margin:auto;
+}
+.btn-compare {
+  pointer-events: all;
+  transition: transform 0.2s ease;
+  white-space: normal;
+  transform: translateY(150%);
+  &.visible {
+    transform: translateY(0px);
+  }
+}
+
+@media(min-width: 1580px) {
+  // move buttons to gutter
+  .data-wrapper .btn-map,
+  .btn-compare {
+    position: absolute;
+    left: 50%;
+    margin-left: (-$maxContentWidth / 2) - $pageNavButtonWidth - $defaultPadding/2;
+  }
+  // back button in the gutter of the data panel
+  .data-wrapper .btn-map {
+    margin-top:24px;
+    top: 0;
+    bottom:auto;
+    &.fixed { position:fixed; }
+  }
+  // hide back button in overlay
+  .map-overlay .btn-map {
+    display: none;
   }
 }

@@ -1,5 +1,6 @@
 <div class="data-wrapper">
   <div class="data-content">
+    <ng-content></ng-content>
     <div class="data-content-inner">
       <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
         (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>

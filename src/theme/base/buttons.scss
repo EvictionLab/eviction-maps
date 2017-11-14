@@ -1,0 +1,67 @@
+// wrapped in body to override bootstrap
+body {
+  
+  // Default button
+  .btn {
+    border-radius: 2px;
+    border:none;
+    @include miniLabelText();
+    background:$buttonColor;
+    height: $buttonHeight;
+    padding: 0 $defaultPadding;
+    &:hover {
+      background: $buttonHoverColor;
+    }
+    &:active, &:focus, &:active:focus {
+      background: darken($buttonHoverColor, 5%);
+    }
+  }
+
+  // Buttons with smaller height
+  .btn.btn-small {
+    height: $buttonHeightSm;
+  }
+
+  // Primary color buttons
+  .btn-primary {
+    border: none;
+    background: $primaryButtonColor;
+    height: 56px;
+    &:hover {
+      background: $primaryButtonHoverColor;
+    }
+    &:active, &:focus, &:active:focus {
+      background: darken($primaryButtonHoverColor, 5%);
+    }
+  }
+
+  // Square buttons with border
+  .btn-border {
+    background: $defaultBackground;
+    color: $color1;
+    box-shadow: inset 0 0 0 3px #fff, 
+                inset 0 0px 0px 6px #ccc;
+    border-radius:0;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    font-weight: 500;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    // icon above button label
+    svg { display:block; margin: 0 auto 6px;}
+    // icon below button label
+    span + svg { margin: 4px auto; }
+    // active style
+    &.active, &:active, &:focus, &:active:focus {
+      box-shadow: 0 0 0 2px #fff, 0px 1px 3px 2px rgba(0,0,0,0.34);
+      border: 3px solid $primaryButtonColor;      
+    }
+    // raised button
+    &.z1 {
+      box-shadow: inset 0 0 0 3px #fff, 
+                  inset 0 0px 0px 6px #ccc,
+                  $z1shadow;
+    }
+  }
+
+}

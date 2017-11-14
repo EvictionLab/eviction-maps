@@ -2,138 +2,138 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Natural Earth",
-  "sprite": "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/sprites",
+  "sprite": "https://tiles.evictionlab.org/sprites",
   "sources": {
     "openmaptiles": {
       "type": "vector",
       "tiles": [
-        "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/{z}/{x}/{y}.pbf"
+        "https://openmaptiles.evictionlab.org/{z}/{x}/{y}.pbf"
       ]
     },
     "us-block-groups-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-block-groups-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-block-groups-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-tracts-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-tracts-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-tracts-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-tracts-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-cities-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-cities-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-cities-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-cities-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-counties-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-counties-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-counties-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-counties-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-states-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-states-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/evictions-states-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/fixtures/evictions-states-10/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
@@ -144,7 +144,7 @@
       }
     }
   },
-  "glyphs": "https://s3.us-east-1.amazonaws.com/eviction-lab-openmaptiles/fonts/{fontstack}/{range}.pbf",
+  "glyphs": "https://openmaptiles.evictionlab.org/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -2530,7 +2530,7 @@
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              60,
               "rgba(255,4,0,0.8)"
             ]
           ]
@@ -2752,7 +2752,7 @@
               "rgba(255,120,119,0.8)"
             ],
             [
-              14,
+              80,
               "rgba(255,4,0,0.8)"
             ]
           ]
@@ -3422,7 +3422,7 @@
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              3,
               "rgba(255,4,0,0.8)"
             ]
           ]
@@ -4152,7 +4152,7 @@
               "rgba(255,120,119,0.8)"
             ],
             [
-              40,
+              80,
               "rgba(255,4,0,0.8)"
             ]
           ]

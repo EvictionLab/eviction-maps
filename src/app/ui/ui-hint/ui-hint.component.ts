@@ -8,5 +8,5 @@ import { Component, OnInit, Input } from '@angular/core';
 export class UiHintComponent {
   @Input() hint: string;
   @Input() placement = 'top';
-  @Input() triggers = 'focus';
+  @Input() triggers = 'click';
 }

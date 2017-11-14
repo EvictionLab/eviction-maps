@@ -15,20 +15,6 @@
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
-  app-location-cards {
-    position: absolute;
-    top:0;
-    left:0;
-    margin-top: $headerHeightSm;
-    height: calc(100vh - #{$headerHeightSm});
-    z-index:100;
-    pointer-events: none;
-    display:flex;
-    align-content: flex-start;
-    justify-content: flex-start;
-    align-items: center;
-    width:100%;
-  }
   app-data-panel {
     display:block;
     position:relative;
@@ -46,10 +32,6 @@
       height: calc(100vh - #{$headerHeightLg});
     }
     app-map {
-      margin-top: $headerHeightLg;
-      height: calc(100vh - #{$headerHeightLg});
-    }
-    app-location-cards {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
     }

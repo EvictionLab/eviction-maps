@@ -32,7 +32,7 @@ export class DataService {
   mapView;
   mapConfig;
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://s3.us-east-2.amazonaws.com/eviction-lab-tilesets/fixtures/';
+  private tileBase = 'https://tiles.evictionlab.org/fixtures/';
   private tilePrefix = 'evictions-';
   private tilesetYears = ['90', '00', '10'];
   private queryZoom = 10;
@@ -75,14 +75,14 @@ export class DataService {
   /** */
   setLocations(locations) {
     locations.forEach(l => {
-      this.getTileData(l.layer, l.lonLat, true)
+      this.getTileData(l.layer, l.lonLat, null, true)
         .subscribe((data) => { this.addLocation(data); });
     });
   }
 
   /**
    * Sets the bounding box for the map to focus to
-   * @param mapBounds an array with four coordinates representing south, west, north, east
+   * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
     this.mapView = mapBounds;
@@ -161,11 +161,14 @@ export class DataService {
    *
    * @param layerId ID of layer to query for tile data
    * @param lonLat array of [lon, lat]
+   * @param featName feature name to check as fallback
    * @param multiYear specifies whether to merge multiple year tiles
    */
-  getTileData(layerId: string, lonLat: number[], multiYear = false): Observable<MapFeature> {
+  getTileData(
+    layerId: string, lonLat: number[], featName: string | null, multiYear = false
+  ): Observable<MapFeature> {
     const coords = this.getXYFromLonLat(lonLat);
-    const parseTile = this.getParser(layerId, lonLat);
+    const parseTile = this.getParser(layerId, lonLat, featName);
     if (multiYear) {
       const tileRequests = this.tilesetYears.map((y) => {
         return this.requestTile(layerId, coords, y).map(parseTile);
@@ -204,21 +207,37 @@ export class DataService {
    * @param layerId
    * @param lonLat
    */
-  private getParser(layerId, lonLat) {
+  private getParser(layerId, lonLat, featName) {
     const point = this.getPoint(lonLat);
     const coords = this.getXYFromLonLat(lonLat);
     return (res: Response): MapFeature => {
       const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
       const layer = tile.layers[layerId];
-      for (let i = 0; i < layer.length; ++i) {
-        const feat = layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
-        if (inside(point, feat)) {
-          feat.properties.layerId = layerId;
-          feat.properties.bbox = bbox(feat);
-          return feat;
-        }
+      const features = [...Array(layer.length)].fill(null).map((d, i) => {
+        return layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
+      });
+
+      let matchFeat;
+      const containsPoint = features.filter(feat => inside(point, feat));
+      if (containsPoint.length) {
+        matchFeat = containsPoint[0];
+      } else {
+        const matchesName = features.filter(feat =>
+          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase()));
+        matchFeat = matchesName.length ? matchesName[0] : false;
       }
-      // Return empty object if nothing found for now
+
+      if (matchFeat) {
+        matchFeat.properties.layerId = layerId;
+        matchFeat.bbox = [
+          matchFeat.properties['west'],
+          matchFeat.properties['south'],
+          matchFeat.properties['east'],
+          matchFeat.properties['north']
+        ];
+        return matchFeat;
+      }
+
       return {} as MapFeature;
     };
   }

@@ -17,7 +17,6 @@ export class LocationCardsComponent implements OnInit {
     'pr': 'Poverty Rate',
     'p': 'Population'
   };
-  @Output() viewMore = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   @Output() clickedHeader = new EventEmitter();

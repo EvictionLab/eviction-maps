@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -14,14 +14,20 @@ import { DataService } from '../data/data.service';
   templateUrl: './map-tool.component.html',
   styleUrls: ['./map-tool.component.scss']
 })
-export class MapToolComponent implements OnInit {
+export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab';
   // autoSwitchLayers = true;
   verticalOffset;
   enableZoom = true;
   wheelEvent = false;
   currentRoute = [];
+  panelOffset: number; // tracks the vertical offset to the data panel
+  get isDataButtonFixed() {
+    if (!this.panelOffset || !this.verticalOffset) { return false; }
+    return (this.verticalOffset - this.panelOffset) > 0;
+  }
   @ViewChild(MapComponent) map;
+  @ViewChild('divider') dividerEl;
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +42,24 @@ export class MapToolComponent implements OnInit {
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
     this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
   }
+
+  /**
+   * Set the panel offset when the divider element is present
+   */
+  ngAfterViewInit() {
+    this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
+  /**
+   * Update the position of the data panel on window resize
+   * @param e resize event
+   */
+  @HostListener('window:resize', [ '$event' ])
+  onresize(e) {
+    this.panelOffset =
+      this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
 
   /**
    * Configures the data service based on any route parameters
@@ -90,7 +114,7 @@ export class MapToolComponent implements OnInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
-    this.dataService.getTileData(feature['layer']['id'], featureLonLat, true)
+    this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         this.dataService.addLocation(data);
         this.updateRoute();
@@ -106,9 +130,10 @@ export class MapToolComponent implements OnInit {
     // this.autoSwitchLayers = false;
     if (feature) {
       const layerId = feature.properties['layerId'];
-      this.dataService.getTileData(layerId, feature.geometry['coordinates'], true)
-        .subscribe(data => {
-          if (data === {}) {
+      this.dataService.getTileData(
+        layerId, feature.geometry['coordinates'], feature.properties['name'], true
+      ).subscribe(data => {
+          if (!data.properties.n) {
             console.log('could not find feature');
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
@@ -133,7 +158,11 @@ export class MapToolComponent implements OnInit {
     const layerId = feature.properties['layerId'];
     const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
-    this.map.zoomToFeature(feature);
+    if (feature.hasOwnProperty('bbox')) {
+      this.map.zoomToBoundingBox(feature.bbox);
+    } else {
+      this.map.zoomToPointFeature(feature);
+    }
   }
 
   /**
@@ -197,6 +226,7 @@ export class MapToolComponent implements OnInit {
    * Configures options for the `ng2-page-scroll` module
    */
   private configurePageScroll() {
+    PageScrollConfig.defaultScrollOffset = 120;
     PageScrollConfig.defaultDuration = 1000;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations

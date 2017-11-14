@@ -1,17 +1,27 @@
-<div class="map-wrapper">
+<div class="map-wrapper" 
+  [style.transform]="'translateY('+ (verticalOffset > 90 ? (verticalOffset-90)/3 : 0) +'px)'"
+>
   <app-mapbox
-      [mapConfig]="mapConfig" 
-      [eventLayers]="mapEventLayers"
-      (ready)="onMapReady($event)"
-      (zoom)="onMapZoom($event)"
-      (featureClick)="onFeatureClick($event)"
-      (hoverChanged)="onFeatureHover($event)"
-      (moveEnd)="onMapMoveEnd($event)"
+    [mapConfig]="mapConfig" 
+    [eventLayers]="mapEventLayers"
+    (ready)="onMapReady($event)"
+    (zoom)="onMapZoom($event)"
+    (featureClick)="onFeatureClick($event)"
+    (hoverChanged)="onFeatureHover($event)"
+    (moveEnd)="onMapMoveEnd($event)"
   >
   </app-mapbox>
 </div>
 <div class="map-ui-wrapper">
+  <ng-content></ng-content>
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
+  <app-location-cards 
+    *ngIf="activeFeatures.length > 0"
+    [features]="activeFeatures"
+    [year]="year"
+    (clickedHeader)="clickedCardHeader.emit($event)"
+    (dismissedCard)="dismissedCard.emit($event)"
+  ></app-location-cards>
   <div class="map-ui">
       <app-ui-select
           tabindex="4"
@@ -44,16 +54,18 @@
       <div 
         *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length" 
         class="map-legend" 
-        [style.background]="getLegendGradient()"
       >
-          <span class="legend-start">{{legend[1][0]}}</span>
-          <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
+        <div class="legend-bg"></div>
+        <div class="legend" [style.background]="getLegendGradient()">
+            <span class="legend-start">{{legend[1][0]}}</span>
+            <span class="legend-end">{{legend[legend.length - 1][0]}}</span>
+        </div>
       </div>
       <app-ui-hint 
           *ngIf="selectedChoropleth && selectedChoropleth.name !== 'None' && legend && legend.length"
           class="legend-hint"
           [hint]="'The colored ' + selectedLayer['name'] + ' on the map represent ' + selectedChoropleth['name'] + ' from ' + legend[1][0] + ' to ' + legend[legend.length - 1][0] + '.'" 
-          placement="bottom"
+          [placement]="fullWidth ? 'bottom' : 'right'"
       ></app-ui-hint>
   </div>
   <div class="year-slider-container">
