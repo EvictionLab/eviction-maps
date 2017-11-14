@@ -144,7 +144,7 @@
       }
     }
   },
-  "glyphs": "https://openmaptiles.evictionlab.org/fonts/{fontstack}/{range}.pbf",
+  "glyphs": "https://tiles.evictionlab.org/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",
@@ -1133,7 +1133,7 @@
         "text-transform": "none",
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1181,7 +1181,7 @@
         "text-size": 10,
         "symbol-spacing": 350,
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "symbol-placement": "line",
         "visibility": "visible",
@@ -1321,7 +1321,7 @@
         "text-size": 10,
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "center",
         "visibility": "visible",
@@ -1366,7 +1366,7 @@
         "text-size": 10,
         "text-transform": "none",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1451,7 +1451,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "left",
         "visibility": "visible",
@@ -1884,7 +1884,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2010,7 +2010,7 @@
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Regular"
+          "Akkurat+Regular"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2095,7 +2095,7 @@
         "icon-image": "circle-11",
         "text-transform": "none",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -2218,13 +2218,13 @@
             [
               4,
               [
-                "Metropolis+Medium"
+                "Akkurat+Bold"
               ]
             ],
             [
               5,
               [
-                "Metropolis+Medium"
+                "Akkurat+Bold"
               ]
             ]
           ]
@@ -2327,7 +2327,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis+Regular"
+          "Akkurat+Regular"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2385,7 +2385,7 @@
         "visibility": "none",
         "text-field": "{name_en}",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-transform": "uppercase",
         "text-size": {
@@ -2692,7 +2692,7 @@
       "layout": {
         "text-field": "{n}",
         "text-font": [
-          "Metropolis+Regular"
+          "Akkurat+Regular"
         ],
         "text-size": 12,
         "text-letter-spacing": 0.07,
@@ -3004,7 +3004,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-size": {
           "stops": [
@@ -3364,7 +3364,7 @@
         "text-keep-upright": true,
         "text-line-height": 1.2,
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-size": {
           "stops": [
@@ -3587,13 +3587,13 @@
             [
               3,
               [
-                "Metropolis+Medium"
+                "Akkurat+Bold"
               ]
             ],
             [
               7,
               [
-                "Metropolis+Medium"
+                "Akkurat+Bold"
               ]
             ]
           ]
@@ -4051,7 +4051,7 @@
         },
         "text-transform": "none",
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-justify": "left",
         "visibility": "none",
@@ -4515,7 +4515,7 @@
         "text-ignore-placement": false,
         "text-allow-overlap": false,
         "text-font": [
-          "Metropolis+Medium"
+          "Akkurat+Bold"
         ],
         "text-size": {
           "stops": [
