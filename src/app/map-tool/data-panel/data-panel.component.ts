@@ -166,6 +166,28 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
 
   /**
+   * Display dialog with error message if mailto link doesn't open after 1 second
+   * @param e
+   */
+  checkMailto(e) {
+    // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
+    let timeout;
+
+    window.addEventListener('blur', () => clearTimeout(timeout));
+    timeout = setTimeout(() => {
+      this.dialogService.showDialog({
+        title: 'Email Link Error',
+        content: [
+          {
+            type: 'text',
+            data: 'Please set a default mail client in your browser to use the email link.'
+          }
+        ]
+      });
+    }, 1000);
+  }
+
+  /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
