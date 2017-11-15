@@ -1,5 +1,12 @@
 @import '../../theme';
 
+// Fixed progress bar
+app-progress-bar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
 // Page Layout
 .app-wrapper {
   min-height:100%;

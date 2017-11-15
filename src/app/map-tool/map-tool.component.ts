@@ -29,6 +29,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
     return (this.verticalOffset - this.panelOffset) > 0;
   }
+  get isLoading() {
+    return this.map.mapLoading || this.dataService.isLoading;
+  }
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl;
 
@@ -119,10 +122,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
+    this.dataService.isLoading = true;
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         this.dataService.addLocation(data);
         this.updateRoute();
+        this.dataService.isLoading = false;
       });
   }
 
@@ -134,6 +139,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     // this.autoSwitchLayers = false;
     if (feature) {
+      this.dataService.isLoading = true;
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
@@ -151,6 +157,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
               this.map.zoomToPointFeature(feature);
             }
           }
+          this.dataService.isLoading = false;
         });
     }
   }
