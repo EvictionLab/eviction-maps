@@ -19,6 +19,7 @@
   <app-location-cards 
     *ngIf="activeFeatures.length > 0"
     [features]="activeFeatures"
+    [cardProperties]="cardProps"
     [year]="year"
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"

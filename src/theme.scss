@@ -26,23 +26,44 @@ $gtLargeDesktop: 1599px;
 $fontStack: Akkurat-Regular, sans-serif;
 $boldFontStack: Akkurat-Bold, sans-serif;
 $altFontStack: GT-Eesti-Text-Bold, sans-serif;
+$numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 
 $microTextSize: 9px;
 $miniTextSize: 11px;
 
-@mixin microLabelText() {
-  font-family: $boldFontStack;
-  font-size: $microTextSize;
-  text-transform: uppercase;
+@mixin defaultFont($size) {
+  font-family: $fontStack;
+  font-size: $size;
   font-weight: normal;
+}
+
+@mixin defaultFontBold($size) {
+  font-family: $boldFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin altFont($size) {
+  font-family: $altFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin numberFont($size) {
+  font-family: $numberFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin microLabelText() {
+  @include defaultFontBold($microTextSize);
+  text-transform: uppercase;
   letter-spacing: 0.7px;
 }
 
 @mixin miniLabelText() {
-  font-family: $boldFontStack;
-  font-size: $miniTextSize;
+  @include defaultFontBold($miniTextSize);  
   text-transform: uppercase;
-  font-weight: normal;
   letter-spacing: 1px;
 }
 
@@ -54,15 +75,16 @@ $linkColor: #22ABED;
 
 $defaultBackground: #fff;
 $secondaryBackground: #F4F7F9;
+$shadingColor: #efefef;
 
 $color1: #e24000;
-$color2: #2c897f;
 $color3: #434878;
+$color2: #2c897f;
 $color4: #4a4238;
 $color5: #b5c2b7;
 
 // Buttons
-$buttonColor: #efefef;
+$buttonColor: $shadingColor;
 $buttonHoverColor: #dfdfdf;
 $primaryButtonColor: $color1;
 $primaryButtonHoverColor: darken($color1, 3%);
@@ -83,7 +105,7 @@ $graphColor4: $color4;
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
 // Toggles
-$toggleBorderColor: #efefef;
+$toggleBorderColor: $shadingColor;
 $toggleForeground: #C6CCCF;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
@@ -109,16 +131,81 @@ $selectCaret: $color1;
 $progressBarColor: $color1;
 
 // Cards
+
+// colors
 $cardBg: $defaultBackground;
 $cardHeaderBg1: $color1;
 $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
-$cardHeaderTextSize: 16px;
-$cardLabelText: rgba(0,0,0,0.33);
-$cardLabelTextSize: 11px;
-$cardValueTextSize: 18px;
+$cardLabelText: #919191;
+$cardValueText: #050403;
+
+// colors - cards in panel
+$panelCardLabelText: #050403;
+$panelCardValueText: #434878;
+$panelCardBorder: $shadingColor;
+
+// type
+$cardLabelTextSize: 15px;
+$cardValueTextSize: 24px;
+
+// layout
+$cardWidth: 200px;
+$cardHeaderHeight: 120px;
+
+// mixins - default card heading style
+@mixin cardHeading() {
+  @include defaultFontBold(22px);
+  margin: 0; 
+  letter-spacing: 0.37px;  
+  line-height: 1.16666;
+  text-transform: capitalize;
+}
+
+// Overrides for heading in data panel
+@mixin panelCardHeading() {
+  @include altFont(26px);
+  letter-spacing: 0.5px;  
+  line-height: 1.16666;
+  text-transform: uppercase;
+}
+
+// Default card subheading
+@mixin cardSubheading() {
+  @include defaultFontBold(13px);  
+  margin: 8px 0 0 0; 
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+// Overrides for subheading in data panel
+@mixin panelCardSubheading() {
+  @include defaultFontBold(14px);
+}
+
+@mixin cardStatLabel() {
+  font-size: $cardLabelTextSize; 
+  color: $cardLabelText; 
+}
+
+@mixin panelCardStatLabel() {
+  font-size: 18px;
+}
+
+@mixin cardStatValue() {
+  @include numberFont($cardValueTextSize);
+  color: $cardValueText;
+}
+
+@mixin panelCardStatValue() {
+  font-size: 18px;
+}
+
+@mixin addLocationLabel() {
+  @include defaultFontBold(21px);
+}
 
 // Header
 $headerHeightSm: 56px;
@@ -132,6 +219,11 @@ $searchTextColor: $textColor;
 $searchHighlightTextColor: $defaultBackground;
 $searchHighlightBackgroundColor: $color1;
 $searchPlaceholderColor: $secondaryTextColor;
+$searchHeight: 56px;
+
+@mixin inputText() {
+  @include defaultFont(18px);
+}
 
 // Legend
 $legendHeight: 40px;

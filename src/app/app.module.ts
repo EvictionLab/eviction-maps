@@ -46,7 +46,7 @@ const appRoutes: Routes = [
     BrowserModule,
     RouterModule.forRoot(
       appRoutes,
-      { enableTracing: true, useHash: true }
+      { useHash: true }
     )
   ],
   bootstrap: [ AppComponent ]

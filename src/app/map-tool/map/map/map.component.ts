@@ -37,6 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.bubble = newBubble;
     this.selectedBubbleChange.emit(newBubble);
     this.updateMapBubbles();
+    this.updateCardProperties();
   }
   get selectedBubble(): MapDataAttribute { return this._store.bubble; }
 
@@ -46,6 +47,7 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.choropleth = newChoropleth;
     this.selectedChoroplethChange.emit(newChoropleth);
     this.updateMapChoropleths();
+    this.updateCardProperties();
   }
   get selectedChoropleth(): MapDataAttribute { return this._store.choropleth; }
 
@@ -113,6 +115,7 @@ export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
   mapLoading = false;
   mapEventLayers: Array<string>;
+  cardProps;
   private zoom = 3;
   private _store = {
     layer: null,
@@ -129,6 +132,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+    this.updateCardProperties();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -306,6 +310,22 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private yearToCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
+  }
+
+  /**
+   * Updates card properties to correspond to selected data
+   */
+  private updateCardProperties() {
+    if (this.bubbleOptions.length === 0 || this.choroplethOptions.length === 0) { return; }
+    const cardProps = {};
+    const bubbleStat = (this.selectedBubble.name === 'None') ?
+      this.bubbleOptions[1] : this.selectedBubble;
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id === 'none') ?
+      this.choroplethOptions[1] : this.selectedChoropleth;
+    cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
+    cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(" Rate", "s");
+    cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+    this.cardProps = cardProps;
   }
 
   /**

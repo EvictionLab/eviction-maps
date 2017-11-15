@@ -38,4 +38,24 @@ input {
     @include predictive-search-colors($searchTextColor, $searchPlaceholderColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
     input::placeholder { color: $searchPlaceholderColor;  }
   }
+  .search {
+    flex:1;
+    width:auto;
+    margin-right: 12px;
+  }
+  .form-control {
+    height: $searchHeight;
+    border-radius:2px;
+    padding-left: 36px;
+    @include inputText();
+  }
+  .search-container .glyphicon.glyphicon-search {
+    color: $color1;
+    width: 15px;
+    height: 15px;
+    top: 0;
+    bottom: 0;
+    left: 12px;
+    margin: auto;
+  }
 }
