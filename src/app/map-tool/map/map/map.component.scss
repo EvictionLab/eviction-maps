@@ -134,6 +134,13 @@ app-ui-select.open {
 // ----
 // End Map Data Select Boxes
 
+// Map Progress Bar
+//   z-index greater than ui-select
+// ----
+app-progress-bar {
+  z-index: 102;
+}
+
 
 // Map Legend
 // ----
