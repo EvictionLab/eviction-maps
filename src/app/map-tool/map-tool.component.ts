@@ -8,6 +8,7 @@ import {scaleLinear} from 'd3-scale';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
+import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
 
 @Component({
@@ -33,6 +34,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     return this.map.mapLoading || this.dataService.isLoading;
   }
   @ViewChild(MapComponent) map;
+  @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
 
   constructor(
@@ -145,11 +147,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            console.log('could not find feature');
+            this.toast.display('Could not find data for location.');
+          } else {
+            this.dataService.addLocation(data);
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
           this.map.setGroupVisibility(dataLevel);
-          this.dataService.addLocation(data);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
               this.dataService.mapView = feature['bbox'];
