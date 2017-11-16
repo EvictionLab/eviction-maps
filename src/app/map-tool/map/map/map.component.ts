@@ -148,6 +148,7 @@ export class MapComponent implements OnInit, OnChanges {
       if (this.selectedLayer !== layerGroup) {
         this.selectedLayer = layerGroup;
         this.autoSwitch = false;
+        this.restoreAutoSwitch = false;
       }
       this.layerOptions.forEach((group: MapLayerGroup) => {
         this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
@@ -198,8 +199,11 @@ export class MapComponent implements OnInit, OnChanges {
       .subscribe((state) => { this.mapLoading = state; });
     if (this.boundingBox) {
       this.map.zoomToBoundingBox(this.boundingBox);
-      this.autoSwitch = false; // needs to be off when navigating to a param location
-      this.restoreAutoSwitch = true; // restore auto switch after zoom
+      // Only toggle if autoSwitch is currently on
+      if (this.autoSwitch) {
+        this.autoSwitch = false; // needs to be off when navigating to a param location
+        this.restoreAutoSwitch = true; // restore auto switch after zoom
+      }
     }
   }
 
