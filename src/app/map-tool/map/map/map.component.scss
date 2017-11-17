@@ -195,7 +195,7 @@ app-ui-select.none-selected {
 //    map spans entire width at bottom of map
 app-ui-map-legend {
   width: 100%;
-  height: $legendHeight;
+  height: grid(2.5);
   position:absolute;
   bottom: $timeSliderHeight;
   right:0;
@@ -210,6 +210,7 @@ app-ui-map-legend {
 //    move legend to top right of the map
 :host-context(.gt-tablet) {
   app-ui-map-legend {
+    height: grid(5);
     width:calc(100% - #{$defaultPadding*2});
     max-width: $maxContentWidth;
     margin:auto;
@@ -244,15 +245,17 @@ app-ui-map-legend {
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
-  padding: 0 $defaultPadding;
+  padding: 0 grid(5);
   box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
   border-bottom: 1px solid $shadingColor;
+  
   // keep the slider component within the max content width
   .year-slider {
     margin: auto;
     max-width: $maxContentWidth - $defaultPadding*4;
     height: $timeSliderHeight;
     display: block;
+    ::ng-deep .el-slider .scrubber-marker { border: 5px solid $color1; }
   }
 }
 // only show when host has slider-active class

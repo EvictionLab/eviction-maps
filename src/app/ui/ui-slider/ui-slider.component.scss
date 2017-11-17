@@ -13,10 +13,11 @@
     user-select: none;
     .track {
         position:absolute;
-        height:4px;
+        height: grid(1);
         top:0;
         bottom:0;
         margin:auto;
+        border-radius: 4px;
     }
     .track-value {
         transition: width 0.1s ease;
@@ -26,30 +27,28 @@
     }
     .scrubber {
         position:absolute;
-        width: 40px;
-        height:40px;
+        width: grid(8);
+        height: grid(5);
         top:0;left:0;bottom:0;
         margin:auto;
-        margin-left:-20px;
+        margin-left:-1*grid(8)/2;
         transition: left 0.1s ease;
         cursor: move;
-        &:hover .scrubber-marker {
-            transform: scale(1.3333);
-        }
     }
     .scrubber-label {
         position:absolute;
         text-align:center;
-        padding: 7px 10px 6px 10px;
-        font-size:10px;
-        top: -9px;
+        padding: grid(1) 0;
+        @include numberFont(13px);
+        top: -1*grid(4) - 4px;
         left:0;right:0;
         margin:auto;
         font-weight: 500;
         letter-spacing: 0.4px;
-        line-height: 10px;
-        width:44px;
-        margin-left: -2px;
+        line-height: 1;
+        width: grid(8);
+        height: grid(4);
+        border-radius:2px;
         &:after {
             // label arrow
             content:'';
@@ -59,20 +58,19 @@
             right:0;
             margin:auto;
             border: 10px solid transparent;
-            top: 20px;
-            transform: scale(0.666, 1);
+            top: grid(4);
+            transform: scale(0.75, 1);
         }
     }
     // circle marker for scrubber
     .scrubber-marker {
-        width:20px;
-        height:20px;
-        border-radius: 10px;
+        width:25px;
+        height:25px;
+        border-radius: 15px;
         margin:auto;
         position:absolute;
         top:0;left:0;right:0;bottom:0;
         transition: transform 0.2s ease;
-        transform: scale(1);
     }
 }
 

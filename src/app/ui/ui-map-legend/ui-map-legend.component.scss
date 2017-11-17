@@ -14,14 +14,13 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    font-size: $legendFontSize;
-    line-height: $legendHeight;
-    font-weight:bold;
     padding: 0 8px;
     color: $legendTextColor;
     text-align:center;
-    .legend-start { float: left;}
-    .legend-end { float: right; }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include numberFont($legendFontSize);
   }
 }
 // hint icon above the legend on the right
