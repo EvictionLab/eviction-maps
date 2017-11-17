@@ -148,6 +148,10 @@ html, body {
   width: $pageNavButtonWidth;
   margin:auto;
 }
+// bring button above data panel content
+.btn-map {
+  z-index:2;
+}
 .btn-compare {
   pointer-events: all;
   transition: transform 0.2s ease;
