@@ -8,6 +8,7 @@ import {scaleLinear} from 'd3-scale';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
+import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
 
 @Component({
@@ -29,7 +30,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
     return (this.verticalOffset - this.panelOffset) > 0;
   }
+  get isLoading() {
+    return this.map.mapLoading || this.dataService.isLoading;
+  }
   @ViewChild(MapComponent) map;
+  @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
 
   constructor(
@@ -119,10 +124,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
+    this.dataService.isLoading = true;
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         this.dataService.addLocation(data);
         this.updateRoute();
+        this.dataService.isLoading = false;
       });
   }
 
@@ -134,16 +141,18 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     // this.autoSwitchLayers = false;
     if (feature) {
+      this.dataService.isLoading = true;
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            console.log('could not find feature');
+            this.toast.display('Could not find data for location.');
+          } else {
+            this.dataService.addLocation(data);
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
           this.map.setGroupVisibility(dataLevel);
-          this.dataService.addLocation(data);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
               this.dataService.mapView = feature['bbox'];
@@ -151,6 +160,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
               this.map.zoomToPointFeature(feature);
             }
           }
+          this.dataService.isLoading = false;
         });
     }
   }

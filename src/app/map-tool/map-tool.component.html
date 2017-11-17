@@ -1,3 +1,5 @@
+<app-progress-bar *ngIf="isLoading"></app-progress-bar>
+<app-ui-toast></app-ui-toast>
 <div id="top" 
   class="app-wrapper" 
   [class.map-active]="dataService.activeFeatures.length === 0" 
