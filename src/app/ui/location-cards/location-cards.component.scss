@@ -151,6 +151,7 @@
   // drop card width
   .location-card {
     width: $cardWidth;
+    min-width: $cardWidth;
     // align header text at the bottom of the header
     .card-header {
       justify-content: flex-end; 
