@@ -12,11 +12,15 @@
 .data-wrapper {
   border-top: 1px solid #eee;
 }
+
+// Data panel header text
+// ----
 .data-header {
   @include dataPanelHeader(14px);
   text-align: center;  
   margin: grid(5) grid(4);
 }
+// increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
   .data-header { margin: grid(8) 0 grid(4); }
 }

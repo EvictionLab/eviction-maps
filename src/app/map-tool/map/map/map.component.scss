@@ -19,7 +19,6 @@
     bottom: 0;
     right: 0;
 }
-
 // Map UI maxes out at the max content width
 .map-ui {
     position:absolute;
@@ -33,16 +32,22 @@
     z-index:49;
     pointer-events:all;
 }
+// only the slider is active:
+//    drop the map height
 :host-context(.slider-active) {
   .map-wrapper {
     height: calc(100% - #{$timeSliderHeight});
   }
 }
+// slider and the cards are active
+//    drop the map height to account for slider + cards
 :host-context(.cards-active.slider-active) {
   .map-wrapper {
     height: calc(100% - #{($cardHeaderHeight + $timeSliderHeight)});
   }
 }
+// larger than tablet and slider is active:
+//    drop the height to account for slider only
 .gt-tablet :host-context(.slider-active) {
   .map-wrapper {
     height: calc(100% - #{$timeSliderHeight});
@@ -71,6 +76,7 @@ app-location-cards {
 }
 // greater than tablet:
 //    Adjust cards container to account for the larger header height
+//    center cards vertically over the map
 :host-context(.gt-tablet) {
   app-location-cards { 
     pointer-events: none;
@@ -152,7 +158,6 @@ app-ui-select.open {
 // ----
 // mobile / tablet: 
 //    map spans entire width at bottom of map
-// ----
 app-ui-map-legend {
   width: 100%;
   height: $legendHeight;
@@ -185,6 +190,8 @@ app-ui-map-legend {
     }
   }
 }
+// large than tablet:
+//    legend is on the top right of the header
 .gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
   bottom: auto;
 }
