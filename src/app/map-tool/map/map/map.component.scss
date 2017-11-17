@@ -195,7 +195,7 @@ app-ui-select.none-selected {
 //    map spans entire width at bottom of map
 app-ui-map-legend {
   width: 100%;
-  height: grid(2.5);
+  height: $legendHeight/2;
   position:absolute;
   bottom: $timeSliderHeight;
   right:0;
@@ -210,7 +210,7 @@ app-ui-map-legend {
 //    move legend to top right of the map
 :host-context(.gt-tablet) {
   app-ui-map-legend {
-    height: grid(5);
+    height: $legendHeight;
     width:calc(100% - #{$defaultPadding*2});
     max-width: $maxContentWidth;
     margin:auto;

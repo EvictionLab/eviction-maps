@@ -14,7 +14,7 @@
     position: absolute;
     height: 100%;
     width: 100%;
-    padding: 0 8px;
+    padding: 0 grid(1);
     color: $legendTextColor;
     text-align:center;
     display: flex;
@@ -28,17 +28,20 @@ app-ui-hint.legend-hint {
   position: absolute;
   width: $legendHeight;
   height: $legendHeight;
-  top: -$legendHeight;
+  top: -$legendHeight - grid(1);
   right:0;
   left:auto;
   margin:auto;
   // adjust for white circle behind icon
   ::ng-deep .hint-button span {
-    width: 18px;
-    height: 18px;
-    padding: 2px;
+    width: grid(2.5); // needs to be nudged so alignment is proper
+    height: grid(2.5);
+    font-size: grid(2.5);
+    padding: 0;
+    box-sizing: content-box;
     border-radius: 100%;
     background: $legendIconBackground;
+    border: grid(0.25) solid $legendIconBackground;
     color: $legendIconColor; 
   }
 }
@@ -46,7 +49,7 @@ app-ui-hint.legend-hint {
 //    hint icon to the left of the legend
 :host-context(.gt-tablet) {
   app-ui-hint.legend-hint {
-    top: 8px;
+    top: grid(1);
     bottom:0;
     left: -$legendHeight;
     right:auto;
