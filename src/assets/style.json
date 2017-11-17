@@ -14,126 +14,126 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-block-groups-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-block-groups-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-block-groups-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-zip-codes-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-zip-codes-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-zip-codes-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-zip-codes-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-tracts-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-tracts-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-tracts-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-tracts-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-tracts-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-tracts-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-cities-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-cities-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-cities-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-cities-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-cities-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-cities-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-cities-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-counties-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-counties-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-counties-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-counties-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-counties-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-counties-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-counties-10/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-90": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-states-90/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-states-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-states-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-states-00/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/fixtures/evictions-states-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/staging/evictions-states-10/{z}/{x}/{y}.pbf"
       ]
     },
     "hover": {
