@@ -142,7 +142,7 @@
 .gt-mobile .map-ui-wrapper :host-context {
   .location-card { 
     width: 100%; 
-    min-width: $cardWidth; 
+    min-width: grid(35); 
   }
 }
 // tablet and larger displays:
