@@ -1,56 +1,57 @@
 <div class="data-wrapper">
-  <div class="data-content">
-    <ng-content></ng-content>
+  <ng-content></ng-content>
+  <div class="data-header">
+      <p>Displaying eviction statistics for <span>{{year}}</span></p>
+  </div>
+  <app-location-cards class="card-table" [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
+  (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
+  <div class="graph-container">
     <div class="data-content-inner">
-      <app-location-cards [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
-        (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
-    </div>
-    <div class="graph-container">
-      <div class="data-content-inner">
-        <div class="graph-area">
-          <div class="graph-header">
-            <div class="graph-data-toggle">
-              <span>Showing eviction: </span>
-              <app-ui-toggle [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>                
-            </div>  
-            <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
-          </div>
-          <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
-            <div class="line-tooltips" *ngIf="graphType === 'line'">
-              <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
-                <span class="line-tooltip-value">{{tooltip.y}}</span>
-              </div>
-            </div>
-            <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-              <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
-                <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
-              </div>
-            </div>
-          </app-graph>
+      <div class="graph-area">
+        <div class="graph-header">
+          <div class="graph-data-toggle">
+            <span>Showing eviction: </span>
+            <app-ui-toggle [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>                
+          </div>  
+          <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
         </div>
-        <div class="graph-legend">
-          <div class="graph-year-select">
-            <span>Displaying {{cardProps[graphProp]}} from</span>
-            <div *ngIf="graphType === 'line'">
-              <app-ui-select [values]="startSelect" [selectedValue]="year" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
-              <span>to</span>
-              <app-ui-select [values]="endSelect" [selectedValue]="lineEndYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
-            </div>
-            <div *ngIf="graphType === 'bar'">
-              <app-ui-select [selectedValue]="year" [values]="barYearSelect"
-                (change)="updateBarYear($event)"></app-ui-select>
+        <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
+          <div class="line-tooltips" *ngIf="graphType === 'line'">
+            <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
+              <span class="line-tooltip-value">{{tooltip.y}}</span>
             </div>
           </div>
-          <ul>
-            <li *ngFor="let location of locations">
-              <span class="legend-marker"></span>
-              <span class="legend-label">{{ location.properties["n"] }}</span>
-              <button class="btn btn-remove" (click)="locationRemoved.emit(location)">Remove</button>
-            </li>
-          </ul>
+          <div class="bar-tooltips" *ngIf="graphType === 'bar'">
+            <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
+              <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
+            </div>
+          </div>
+        </app-graph>
+      </div>
+      <div class="graph-legend">
+        <div class="graph-year-select">
+          <span>Displaying {{cardProps[graphProp]}} from</span>
+          <div *ngIf="graphType === 'line'">
+            <app-ui-select [values]="startSelect" [selectedValue]="year" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
+            <span>to</span>
+            <app-ui-select [values]="endSelect" [selectedValue]="lineEndYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
+          </div>
+          <div *ngIf="graphType === 'bar'">
+            <app-ui-select [selectedValue]="year" [values]="barYearSelect"
+              (change)="updateBarYear($event)"></app-ui-select>
+          </div>
         </div>
+        <ul>
+          <li *ngFor="let location of locations">
+            <span class="legend-marker"></span>
+            <span class="legend-label">{{ location.properties["n"] }}</span>
+            <button class="btn btn-remove" (click)="locationRemoved.emit(location)">Remove</button>
+          </li>
+        </ul>
       </div>
     </div>
+  </div>
+  <div class="data-content">
     <div class="data-content-inner">
       <div class="data-panel-footer">
         <div class="action-wrapper">

@@ -122,30 +122,10 @@
       flex: 1;
       max-width: 400px;
       margin: 0 $defaultPadding*2;
-      .search {
-        flex:1;
-        width:auto;
-        margin-right: 12px;
-      }
-      .form-control {
-        height: $headerContentHeight;
-        border-radius:2px;
-        padding-left: 36px;
-      }
-      .search-container .glyphicon.glyphicon-search {
-        color: $color1;
-        width: 15px;
-        height: 15px;
-        top: 0;
-        bottom: 0;
-        left: 12px;
-        margin: auto;
-      }
-      .btn {
-        display:block;
-        width:110px;
-        flex:none;
-      }
+    }
+    .search {
+      width: 100%;
+      max-width: 400px;
     }
   }
 }

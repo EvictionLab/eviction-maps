@@ -83,7 +83,7 @@ html, body {
   background: none;
   border:none;
   text-align:center;
-  @include microLabelText();
+  @include smallCapsText(9px);
   svg {
     margin: -6px auto 2px;
   }
@@ -95,7 +95,6 @@ html, body {
     text-align:center;
   }
 }
-
 .down-arrow {
   margin-bottom:4px;
   width:14px;
@@ -109,11 +108,12 @@ html, body {
   transform: rotate(180deg);
   polyline { stroke-width: 3px; stroke: #999; fill: none;}
 }
+
+
 .map-overlay {
   @include fill-parent();
   pointer-events:none;
-  height: calc(100% - #{$timeSliderHeight});
-  padding-bottom: $timeSliderHeight;
+  height: 100%;
   transition: background-color 0.2s ease;
   background-color: rgba(0,0,0,0);
   display:flex;
@@ -126,6 +126,9 @@ html, body {
     background-color: rgba(0,0,0,0.1);
     .btn-map { opacity: 1; }
   }
+  .btn-compare {
+    display:none;
+  }
   .btn-map {
     opacity: 0;
     transition: opacity 0.2s ease;
@@ -136,7 +139,6 @@ html, body {
     z-index:51;
   }
 }
-
 .btn-map, 
 .btn-compare {
   position:absolute;
@@ -146,6 +148,10 @@ html, body {
   width: $pageNavButtonWidth;
   margin:auto;
 }
+// bring button above data panel content
+.btn-map {
+  z-index:2;
+}
 .btn-compare {
   pointer-events: all;
   transition: transform 0.2s ease;
@@ -153,6 +159,13 @@ html, body {
   transform: translateY(150%);
   &.visible {
     transform: translateY(0px);
+  }
+}
+
+@media(min-width: $gtTablet) {
+  .map-overlay .btn-compare { display:block; }
+  .map-overlay {
+    height: calc(100% - #{$timeSliderHeight});
   }
 }
 

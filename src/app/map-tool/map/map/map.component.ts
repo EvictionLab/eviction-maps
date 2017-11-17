@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -37,6 +37,7 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.bubble = newBubble;
     this.selectedBubbleChange.emit(newBubble);
     this.updateMapBubbles();
+    this.updateCardProperties();
   }
   get selectedBubble(): MapDataAttribute { return this._store.bubble; }
 
@@ -46,6 +47,7 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.choropleth = newChoropleth;
     this.selectedChoroplethChange.emit(newChoropleth);
     this.updateMapChoropleths();
+    this.updateCardProperties();
   }
   get selectedChoropleth(): MapDataAttribute { return this._store.choropleth; }
 
@@ -98,6 +100,14 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
   @Output() showDataClick = new EventEmitter();
   @Output() showMapClick = new EventEmitter();
+  @HostBinding('class.cards-active') get cardsActive() {
+    return this.activeFeatures.length;
+  }
+  @HostBinding('class.slider-active') get sliderActive() {
+    return (this.selectedBubble && this.selectedBubble.name !== 'None') ||
+      (this.selectedChoropleth && this.selectedChoropleth.name !== 'None') ||
+      this.cardsActive;
+  }
   /** Gets the layers available at the current zoom */
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
@@ -113,6 +123,7 @@ export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
   mapLoading = false;
   mapEventLayers: Array<string>;
+  cardProps;
   private zoom = 3;
   private _store = {
     layer: null,
@@ -129,6 +140,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+    this.updateCardProperties();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -310,6 +322,30 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private yearToCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
+  }
+
+  /**
+   * Updates card properties to correspond to selected data
+   */
+  private updateCardProperties() {
+    if (
+      this.bubbleOptions.length === 0 || this.choroplethOptions.length === 0 ||
+      !this.selectedBubble || !this.selectedChoropleth
+    ) { return; }
+    const cardProps = {};
+    const bubbleStat = (this.selectedBubble.name === 'None') ?
+      this.bubbleOptions[1] : this.selectedBubble;
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.name === 'None') ?
+      null : this.selectedChoropleth;
+    // need to strip the year from the ID to pass to location cards
+    cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
+    // dropping the 'r' from the stat and removing the word "rate"
+    // TODO: we should have a better way of managing these labels
+    cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(' Rate', 's');
+    if (choroStat) {
+      cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+    }
+    this.cardProps = cardProps;
   }
 
   /**

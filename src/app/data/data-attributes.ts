@@ -96,10 +96,10 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'er',
-    'name': 'Judgments'
+    'name': 'Judgment Rate'
   },
   {
     'id': 'efr',
-    'name': 'Filings'
+    'name': 'Filing Rate'
   }
 ];
