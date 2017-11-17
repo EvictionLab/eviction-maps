@@ -59,9 +59,7 @@
     color: $headerButtonColor;
     path { fill: $headerButtonColor; }
   }
-  .el-svg-button.active,
-  .el-svg-button:active,
-  .el-svg-button:focus {
+  .el-svg-button.active {
     color: $headerActiveButtonColor;     
     path { fill: $headerActiveButtonColor; }
   }
@@ -89,7 +87,9 @@
     display: none;
   }
   .header-search {
-    
+    display:none;
+    margin-top: grid(2);
+    &.active { display: block; }
   }
   .language-select {
     display: none;

@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
+import { PlatformService } from './platform.service';
 
 const defaultData = {
   mapConfig: {
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
       { useHash: true }
     )
   ],
+  providers: [ PlatformService ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

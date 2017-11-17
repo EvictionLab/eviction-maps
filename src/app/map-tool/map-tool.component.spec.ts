@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { HeaderBarComponent  } from './header-bar/header-bar.component';
 import { MapToolComponent } from './map-tool.component';
+
 import { MapModule } from './map/map.module';
 import { HttpModule } from '@angular/http';
 import { DataPanelModule } from './data-panel/data-panel.module';
@@ -14,7 +16,7 @@ describe('MapToolComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapToolComponent ],
+      declarations: [ MapToolComponent, HeaderBarComponent ],
       imports: [
         UiModule,
         DataPanelModule,
