@@ -18,8 +18,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   tooltips = [];
   graphType = 'bar';
   cardProps = {
-    'er': 'Judgement Rate',
-    'e': 'Judgements',
+    'er': 'Judgment Rate',
+    'e': 'Judgments',
     'efr': 'Filing Rate',
     'ef': 'Filings',
     'pr': 'Poverty Rate',
