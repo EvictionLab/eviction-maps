@@ -9,7 +9,7 @@
 
 
 // Header Bar
-@import './theme/components/header-bar';
+// @import './theme/components/header-bar';
 
 // PAGE STYLES
 
@@ -68,33 +68,6 @@ html, body {
 .modal .modal-dialog .modal-content {
   border-radius:0;
 }
-
-// Temporary Button Overrides
-.app-wrapper {
-
-}
-
-.el-svg-button {
-  display: block;
-  position: relative;
-  width:40px;
-  height:40px;
-  padding:0; margin:0;
-  background: none;
-  border:none;
-  text-align:center;
-  @include smallCapsText(9px);
-  svg {
-    margin: -6px auto 2px;
-  }
-  span {
-    position:absolute;
-    bottom:-2px;
-    left:0;
-    right:0;
-    text-align:center;
-  }
-}
 .down-arrow {
   margin-bottom:4px;
   width:14px;
@@ -108,8 +81,6 @@ html, body {
   transform: rotate(180deg);
   polyline { stroke-width: 3px; stroke: #999; fill: none;}
 }
-
-
 .map-overlay {
   @include fill-parent();
   pointer-events:none;

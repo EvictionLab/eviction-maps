@@ -25,6 +25,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   verticalOffset; // stores the amount the page has scrolled
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
+  activeMenuItem; // tracks the active menu item on mobile
   /** gets if the page has scrolled enough to fix the "back to map" button */
   get isDataButtonFixed() {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
@@ -163,6 +164,10 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           this.dataService.isLoading = false;
         });
     }
+  }
+
+  onMenuSelect(itemId: string) {
+    this.activeMenuItem = itemId;
   }
 
   /**

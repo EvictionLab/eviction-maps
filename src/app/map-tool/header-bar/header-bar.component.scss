@@ -1,6 +1,29 @@
+@import '../../../theme';
+
 // HEADER BAR
 
-
+// SVG Icon Buttons for header
+.el-svg-button {
+  display: block;
+  position: relative;
+  width:40px;
+  height:40px;
+  padding:0; margin:0;
+  background: none;
+  border:none;
+  text-align:center;
+  @include smallCapsText(9px);
+  svg {
+    margin: -6px auto 2px;
+  }
+  span {
+    position:absolute;
+    bottom:-2px;
+    left:0;
+    right:0;
+    text-align:center;
+  }
+}
 
 // Mobile styles
 // - 5 icons at the top
@@ -66,7 +89,7 @@
     display: none;
   }
   .header-search {
-    display: none;
+    
   }
   .language-select {
     display: none;
