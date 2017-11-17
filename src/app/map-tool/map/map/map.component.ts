@@ -88,6 +88,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() scrollZoom: boolean;
   /** Tracks the vertical (scroll) offset */
   @Input() verticalOffset = 0;
+  /** Tracks the currently selected menu item for mobile menu */
+  @Input() activeMenuItem: string;
   @Input() activeFeatures: MapFeature[] = [];
   @Output() clickedCardHeader: EventEmitter<any> = new EventEmitter();
   @Output() dismissedCard: EventEmitter<any> = new EventEmitter();

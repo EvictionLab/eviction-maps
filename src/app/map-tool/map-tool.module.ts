@@ -8,9 +8,10 @@ import { MapModule } from './map/map.module';
 import { UiModule } from '../ui/ui.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
 import { DataService } from '../data/data.service';
+import { HeaderBarComponent } from './header-bar/header-bar.component';
 
 @NgModule({
-  declarations: [ MapToolComponent ],
+  declarations: [ MapToolComponent, HeaderBarComponent ],
   exports: [ MapToolComponent ],
   imports: [
     CommonModule,

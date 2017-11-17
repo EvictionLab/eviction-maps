@@ -16,6 +16,7 @@ export class UiSelectComponent implements OnInit {
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
     this._selectedValue = newValue;
+    this.noneSelected = this.getLabel(newValue) === 'None';
     this.change.emit(newValue);
   }
   get selectedValue() { return this._selectedValue; }
@@ -24,8 +25,10 @@ export class UiSelectComponent implements OnInit {
   @ViewChild(BsDropdownDirective) dropdown;
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
-  private valuesArray = false; // true if `values` is an array of values instead of objects
+  private valuesArray = true; // true if `values` is an array of values instead of objects
   @HostBinding('class.open') open = false;
+  /** Tracks if the "none" option is selected */
+  @HostBinding('class.none-selected') noneSelected = true;
   private _selectedValue;
 
   /**
@@ -37,6 +40,7 @@ export class UiSelectComponent implements OnInit {
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
+      this.noneSelected = this.getLabel(this._selectedValue) === 'None';
     }
   }
 

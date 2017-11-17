@@ -24,11 +24,11 @@
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
   ></app-location-cards>
-  <div class="map-ui">
+  <div class="map-ui" [class.active]="activeMenuItem === 'map'">
       <app-ui-select
           tabindex="4"
           class="eviction-select"
-          label="Eviction"
+          label="Eviction Data"
           labelProperty="name"
           [selectedValue]="selectedBubble"
           [values]="bubbleOptions"
@@ -53,7 +53,6 @@
           [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
           (change)="setGroupVisibility($event)">
       </app-ui-select>
-      <!-- map legend here -->
     </div>
 </div>
 <div class="year-slider-container">

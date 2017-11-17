@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
+import { PlatformService } from './platform.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -14,7 +15,8 @@ describe('AppComponent', () => {
       ],
       declarations: [
         AppComponent
-      ]
+      ],
+      providers: [ PlatformService ]
     }).compileComponents();
   }));
 
