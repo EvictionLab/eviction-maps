@@ -335,14 +335,16 @@ export class MapComponent implements OnInit, OnChanges {
     const cardProps = {};
     const bubbleStat = (this.selectedBubble.name === 'None') ?
       this.bubbleOptions[1] : this.selectedBubble;
-    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id === 'none') ?
-      this.choroplethOptions[1] : this.selectedChoropleth;
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.name === 'None') ?
+      null : this.selectedChoropleth;
     // need to strip the year from the ID to pass to location cards
     cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
     // dropping the 'r' from the stat and removing the word "rate"
     // TODO: we should have a better way of managing these labels
     cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(' Rate', 's');
-    cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+    if (choroStat) {
+      cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+    }
     this.cardProps = cardProps;
   }
 

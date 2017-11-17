@@ -61,6 +61,7 @@
     color: $cardLabelText;
     &:hover { color: $color1; }
   }
+  // set colors for cards
   &:nth-child(1) .card-header {
     border-bottom-color: $cardHeaderBg1;
     path { fill: $cardHeaderBg1; }
@@ -101,38 +102,60 @@
   }
 }
 
+// default mobile styles for map cards
 :host-context(.map-ui-wrapper) {
   box-shadow: $z1shadow;
+  // location cards fill most of the viewport width
   .location-card {
     min-width: 75vw;
+    // align location text at top of card header
     .card-header {
       justify-content: flex-start;
     }
+    // overlay the card content at the bottom of the header
     .card-content { 
       position:absolute;
       bottom:0;
       left:0;
-      padding: grid(1) grid(2);
+      padding: grid(1) 0 grid(1) grid(2);
       li { float:left; margin-right: grid(2); }
-      li:nth-child(n+3) { display: none; } 
+      li:last-child { margin-right: 0; }
+      // hide the second stat (raw evictions) when there is a selected choropleth
+      li:nth-child(2) { display:none; }
+      // show the second stat if there is no selected choropleth
+      li:nth-child(2):last-child { display: block; }
     }
   }
 }
 
+// display all three data attributes in card when space permits
+@media(min-width: 380px) {
+  :host-context(.map-ui-wrapper) {
+    .location-card {
+      .card-content { 
+        li:nth-child(2) { display: block; } 
+      }
+    }
+  }
+}
+// split cards across viewport on devices larger than mobile 
 .gt-mobile .map-ui-wrapper :host-context {
   .location-card { 
     width: 100%; 
     min-width: $cardWidth; 
   }
 }
-
+// tablet and larger displays:
 .gt-tablet .map-ui-wrapper :host-context {
   box-shadow:none;
+  // drop card width
   .location-card {
     width: $cardWidth;
+    // align header text at the bottom of the header
     .card-header {
       justify-content: flex-end; 
     }
+    // increase font sizes
     .card-heading { 
       @include cardHeading($cardHeadingSize);
     }
@@ -140,11 +163,11 @@
       margin: grid(1) 0 0 0;     
       @include smallCapsText($cardSubheadingSize);
     }
+    // stacked statistics
     .card-content {
       position: static;
       padding: $defaultPadding;
       li { float: none; margin-right: 0; }
-      li:nth-child(n+3) { display: block; } 
       .card-stat-label {
         font-size: $cardLabelTextSize;
       }
@@ -173,8 +196,8 @@
     box-shadow:none;
     margin-right: grid(2);
     &:last-child { margin-right: 0; }
-    .card-header {
-      svg { 
+    // marker icon
+    .card-header svg { 
         display:block; 
         width: 28px; 
         height: 40px;
@@ -183,7 +206,6 @@
         bottom:0;
         left:0;
         margin:auto;
-      }
     }
     .card-heading { 
       @include panelCardHeading($panelCardHeadingSize);
