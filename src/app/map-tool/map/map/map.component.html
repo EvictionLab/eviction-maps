@@ -12,8 +12,9 @@
   >
   </app-mapbox>
 </div>
+<ng-content></ng-content>
 <div class="map-ui-wrapper">
-  <ng-content></ng-content>
+  
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
   <app-progress-bar *ngIf="mapLoading"></app-progress-bar>
   <app-location-cards 
@@ -55,13 +56,13 @@
       </app-ui-select>
       <!-- map legend here -->
     </div>
-    <div class="year-slider-container">
-        <app-ui-slider tabindex="9"
-          class="year-slider"
-          [currentValue]="year" 
-          [min]="1990" 
-          [max]="2016" 
-          (change)="year=$event"
-        ></app-ui-slider>
-      </div>
+</div>
+<div class="year-slider-container">
+  <app-ui-slider tabindex="9"
+    class="year-slider"
+    [currentValue]="year" 
+    [min]="1990" 
+    [max]="2016" 
+    (change)="year=$event"
+  ></app-ui-slider>
 </div>

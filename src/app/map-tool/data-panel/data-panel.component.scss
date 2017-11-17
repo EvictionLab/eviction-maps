@@ -1,18 +1,39 @@
 @import '../../../theme';
 
+@mixin dataPanelHeader($size) {
+  @include defaultFont($size);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  span {
+    @include defaultFontBold($size);
+  }
+}
+
+.data-wrapper {
+  border-top: 1px solid #eee;
+}
+.data-header {
+  @include dataPanelHeader(14px);
+  text-align: center;  
+  margin: grid(5) grid(4);
+}
+:host-context(.gt-tablet) {
+  .data-header { margin: grid(8) 0 grid(4); }
+}
+
 .data-content {
-    position:relative;
-    width:100%;
-    padding:0 $defaultPadding 96px;
-    box-sizing: border-box;
-    overflow:auto;
-    border-top: 1px solid #eee;
-    .data-content-inner {
-      max-width: $maxContentWidth;
-      padding: 16px;
-      margin:auto;
-      &.top-content { position: relative; }
-    }
+  position:relative;
+  width:100%;
+  box-sizing: border-box;
+  overflow:auto;
+  // padding at the bottom to leave space for "back to map" button
+  padding: 0 $defaultPadding grid(12); 
+  .data-content-inner {
+    max-width: $maxContentWidth;
+    padding: $defaultPadding;
+    margin: auto;
+    &.top-content { position: relative; }
+  }
 }
 
 .share-container {
@@ -22,8 +43,8 @@
 
 .graph-container {
   background: $secondaryBackground;
-  margin: 0 -16px 32px;
-  padding: 32px;
+  margin: 0 -grid(2) grid(4);
+  padding: grid(4);
 }
 
 .graph-area { 

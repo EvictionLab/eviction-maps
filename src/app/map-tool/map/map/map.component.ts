@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -100,6 +100,14 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
   @Output() showDataClick = new EventEmitter();
   @Output() showMapClick = new EventEmitter();
+  @HostBinding('class.cards-active') get cardsActive() {
+    return this.activeFeatures.length;
+  }
+  @HostBinding('class.slider-active') get sliderActive() {
+    return (this.selectedBubble && this.selectedBubble.name !== 'None') ||
+      (this.selectedChoropleth && this.selectedChoropleth.name !== 'None') ||
+      this.cardsActive;
+  }
   /** Gets the layers available at the current zoom */
   get selectDataLevels(): Array<MapLayerGroup> {
     return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
@@ -327,10 +335,10 @@ export class MapComponent implements OnInit, OnChanges {
       this.choroplethOptions[1] : this.selectedChoropleth;
     // need to strip the year from the ID to pass to location cards
     cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
-    cardProps[choroStat.id.split('-')[0]] = choroStat.name;
     // dropping the 'r' from the stat and removing the word "rate"
     // TODO: we should have a better way of managing these labels
     cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(' Rate', 's');
+    cardProps[choroStat.id.split('-')[0]] = choroStat.name;
     this.cardProps = cardProps;
   }
 

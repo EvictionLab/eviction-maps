@@ -5,7 +5,7 @@ body {
   .btn {
     border-radius: 2px;
     border:none;
-    @include miniLabelText();
+    @include smallCapsText($buttonTextSize);
     background:$buttonColor;
     height: $buttonHeight;
     padding: 0 $defaultPadding;

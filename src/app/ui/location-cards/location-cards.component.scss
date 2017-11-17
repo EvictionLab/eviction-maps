@@ -1,13 +1,32 @@
 
 @import '../../../theme';
 
+// Card Typography Mixins
+// ----
+// Default style for card headings
+@mixin cardHeading($size) {
+  @include defaultFontBold($size);
+  letter-spacing: 0.37px;  
+  line-height: 1.16666;
+  text-transform: capitalize;
+}
+// Overrides for heading in data panel
+@mixin panelCardHeading($size) {
+  @include altFont($size);
+  letter-spacing: 0.5px;  
+  line-height: 1.16666;
+  text-transform: uppercase;
+}
+
+// Base Card Styles
+// ----
 .location-card {
   pointer-events: all;
   background: $cardBg;
   box-shadow: $z1shadow;
   position:relative;
-  width: $cardWidth;
-  z-index:20;
+  width: 100%;
+  z-index: 20;
   &:nth-child(2) { z-index: 19; }
   &:nth-child(3) { z-index: 18; }
   &:nth-child(4) { z-index: 17; }
@@ -20,17 +39,19 @@
     justify-content: flex-end;
     padding: $defaultPadding;
     color: $cardHeaderBg1;
-    border-bottom: 10px solid transparent;
+    border-bottom: grid(1) solid transparent;
     height: $cardHeaderHeight;
-    padding-right: 48px;
+    padding-right: grid(6);
     &.clickable { cursor: pointer; }
     &.clickable:hover { background: $shadingColor; }
   }
   .card-heading { 
-    @include cardHeading();
+    margin: 0; 
+    @include cardHeading(18px);
   }
   .card-subheading {
-    @include cardSubheading();
+    margin: grid(0.5) 0 0 0;     
+    @include smallCapsText(12px);
   }
   .btn-close { 
     position:absolute;
@@ -66,70 +87,123 @@
       padding:0; 
       list-style:none; 
     }
-    .card-stats li { margin-bottom: 8px; }
+    .card-stats li { margin-bottom: grid(1); }
     .card-stats li:last-child { margin-bottom: 0;}
-    .card-stat-label { 
-      display:block; 
-      @include cardStatLabel();
+    .card-stat-label {
+      display:block;       
+      color: $cardLabelText;
+      font-size: 12px;
     }
     .card-stat-value {
-      @include cardStatValue();
+      @include numberFont(14px);
+      color: $cardValueText;
     }
   }
 }
 
-:host-context(.collapsed) {
+:host-context(.map-ui-wrapper) {
+  box-shadow: $z1shadow;
+  .location-card {
+    min-width: 75vw;
+    .card-header {
+      justify-content: flex-start;
+    }
+    .card-content { 
+      position:absolute;
+      bottom:0;
+      left:0;
+      padding: grid(1) grid(2);
+      li { float:left; margin-right: grid(2); }
+      li:nth-child(n+3) { display: none; } 
+    }
+  }
+}
 
+.gt-mobile .map-ui-wrapper :host-context {
+  .location-card { 
+    width: 100%; 
+    min-width: $cardWidth; 
+  }
+}
+
+.gt-tablet .map-ui-wrapper :host-context {
+  box-shadow:none;
+  .location-card {
+    width: $cardWidth;
+    .card-header {
+      justify-content: flex-end; 
+    }
+    .card-heading { 
+      @include cardHeading($cardHeadingSize);
+    }
+    .card-subheading {
+      margin: grid(1) 0 0 0;     
+      @include smallCapsText($cardSubheadingSize);
+    }
+    .card-content {
+      position: static;
+      padding: $defaultPadding;
+      li { float: none; margin-right: 0; }
+      li:nth-child(n+3) { display: block; } 
+      .card-stat-label {
+        font-size: $cardLabelTextSize;
+      }
+      .card-stat-value {
+        @include numberFont($cardValueTextSize);
+      }
+    }
+  }
 }
 
 // Location cards in the data panel
+// ----
 //  - switch from box shadows to borders
 //  - table-like stat labels and values
 //  - switch header style and add marker
 //  - first 2 stats have alternate treatment
 //  - stat groups
 //  - additional "card" for addign a location
-:host-context(.data-content) {
+:host-context(.data-wrapper) {
+  margin:0;
   overflow:auto;
+  padding:0px grid(4) grid(5);
   .location-card {
-    min-width: 280px;
-    width: auto;
+    min-width: grid(32);
+    width: 100%;
     box-shadow:none;
-    margin-right: 32px;
+    margin-right: grid(2);
+    &:last-child { margin-right: 0; }
     .card-header {
       svg { 
         display:block; 
-        width: 40px; 
-        height: 58px;
+        width: 28px; 
+        height: 40px;
         position:absolute;
-        top:0;
+        top:12px;
         bottom:0;
         left:0;
         margin:auto;
       }
     }
-    &:last-child { margin-right: 0; }
     .card-heading { 
-      @include panelCardHeading();
-      margin-left: 48px;
+      @include panelCardHeading($panelCardHeadingSize);
+      margin-left: grid(4);
     }
     .card-subheading { 
-      @include panelCardSubheading(); 
-      margin-left: 48px;
-      margin-bottom: 8px;
+      font-size: $panelCardSubheadingSize;
+      margin-left: grid(4);
+      margin-bottom: grid(1);
     }
     .card-content { 
       position:relative; 
-      border: 1px solid #efefef;
+      border: 1px solid $panelCardBorder;
       padding:0;
     }
     .btn-close {
       top: auto;
-      bottom: 16px;
+      bottom: grid(5);
     }
-    .card-stats {
-      padding-top: 106px;
-    }
+    .card-stats { padding-top: grid(12); }
     .card-stats li {
       .card-stat-value { color: $panelCardValueText; }
       .card-stat-label { color: $panelCardLabelText; }
@@ -139,7 +213,7 @@
         width:50%;
         top:0;
         left:0;
-        height: 106px;
+        height: grid(12);
         border-bottom:1px solid $panelCardBorder;
         text-align:center;
         display:flex;
@@ -147,12 +221,12 @@
         justify-content: center;
         align-items: center;
         .card-stat-label {
-          @include defaultFontBold(13px);
+          @include defaultFontBold($panelCardLabelTextLg);
           text-transform: uppercase;
           letter-spacing:0.5px;
         }
         .card-stat-value {
-          @include numberFont(24px);
+          @include numberFont($panelCardLabelValueLg);
         }
       }
       &:nth-child(2) {
@@ -163,28 +237,25 @@
       // all other stats
       &:nth-child(n+3) {
         text-align:left;
-        padding: 10px $defaultPadding;
+        padding: grid(1) $defaultPadding;
         margin-bottom:0;
         display: flex;
         align-items: stretch;
         justify-content: space-between;
-        &:nth-child(even) { 
+        &:nth-child(odd) { 
           background: $secondaryBackground;
-          // margin: 0 -$defaultPadding;
-          // padding: 6px $defaultPadding;
         }
         .card-stat-label { 
           width: 60%;
-          @include panelCardStatLabel();
+          font-size: $panelCardStatTextSize;
         }
         .card-stat-value {
           width: 33.333%;
           text-align:left;
-          @include panelCardStatValue();
+          font-size: $panelCardStatTextSize;
         }
       }
     }
-
     &.location-add {
       position:relative;
       .card-header { border-bottom-color: $secondaryBackground; }
@@ -203,11 +274,65 @@
         align-items: center;
         justify-content: center;
         p {
-          @include addLocationLabel();
+          @include defaultFontBold($cardAddLocationTextSize);
           margin: $defaultPadding 0;
         }
       }
       app-location-search { width: 100%;}
     } 
+  }
+}
+
+// Larger than tablet in data panel
+// ----
+//  - Boost font sizes
+//  - Adjust margins / padding
+//  - No horizontal overflow on wrapper
+// ----
+// Workaround for multiple host contexts below
+// https://github.com/angular/angular/issues/19199
+.gt-tablet .data-wrapper :host-context {
+  overflow:none;
+  max-width: $maxContentWidth;
+  margin: auto;
+  padding: 0 grid(4) grid(6);
+  .location-card {
+    margin-right: grid(4);
+    min-width: grid(34);
+    flex:1;
+    &:last-child { margin-right: 0; }
+    .card-header svg {
+      top:0;
+      width: 40px; 
+      height: 58px;
+    }
+    .card-heading { 
+      font-size: 26px; 
+      margin-left: grid(6);
+    }
+    .card-subheading { 
+      margin-left: grid(6); 
+    }
+    .btn-close {
+      bottom: 44px;
+      font-size: 32px;
+    }
+    .card-stats { 
+      padding-top: grid(13); 
+      li:nth-child(1),
+      li:nth-child(2) {
+        height: grid(13);
+        .card-stat-label { font-size: $panelCardLabelTextLg_t; }
+        .card-stat-value { font-size: $panelCardLabelValueLg_t; }
+      }
+      li:nth-child(n+3) { 
+        padding: grid(1.5) $defaultPadding; 
+        .card-stat-label,
+        .card-stat-value { font-size: $panelCardStatTextSize_t; }
+      }
+    }
+    &.location-add .card-content p {
+      font-size: $cardAddLocationTextSize_t;
+    }
   }
 }
