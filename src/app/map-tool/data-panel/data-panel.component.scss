@@ -51,6 +51,15 @@
   padding: grid(4);
 }
 
+.graph-header {
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  .graph-year-select {
+    div { display:inline-block; }
+  }
+}
+
 .graph-area { 
   display: block; 
   width:100%;
