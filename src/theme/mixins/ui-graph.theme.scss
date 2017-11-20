@@ -1,0 +1,14 @@
+// Graph theme
+@mixin graph-colors($c1, $c2, $c3, $c4) {
+  $strokeWidth: 4;
+    .app-graph {
+        .line-0 { stroke: $c1; stroke-width: $strokeWidth; }
+        .line-1 { stroke: $c2; stroke-width: $strokeWidth; }
+        .line-2 { stroke: $c3; stroke-width: $strokeWidth; }
+        .line-3 { stroke: $c4; stroke-width: $strokeWidth; }
+        .bar-0 { fill: $c1; }
+        .bar-1 { fill: $c2; }
+        .bar-2 { fill: $c3; }
+        .bar-3 { fill: $c4; }
+    }
+}

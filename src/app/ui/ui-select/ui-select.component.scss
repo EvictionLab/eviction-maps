@@ -1,0 +1,103 @@
+@import '../../../theme';
+
+:host {
+    @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
+}
+
+.el-select {
+    width: auto;
+    display:block;
+    position:relative;
+    .dropdown-menu {
+      border-radius: 0;
+      border: none;
+      margin-top: 1px;
+      width: 100%;
+      box-sizing: border-box;
+      min-width: 140px;
+      max-height: 220px; // prevent dropdown menu from going off screen
+      padding:0;
+      overflow: auto;
+      & > li > a {
+        padding: 0px 12px;
+        line-height: 40px;
+        white-space: nowrap;
+        border-top: 1px solid #eee;
+        height: 40px;
+        box-sizing: border-box;
+      }
+      & li:first-child a { border-top: none; }
+      & > li, & > li > a {
+        cursor: pointer;
+      }
+      & > li.bottom-label, & > li.bottom-label > a {
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.5);
+        cursor: inherit;
+      }
+      & > li.bottom-label:hover, & > li.bottom-label > a:hover {
+        background: inherit;
+      }
+    }
+    .dropdown-toggle.btn {
+      position:relative;
+      border:none;
+      border-radius: 0;
+      box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+      text-transform: uppercase;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      font-size:12px;
+      width:100%;
+      text-align:left;
+      padding-right: 32px;
+      .svg-down-arrow {
+        position:absolute;
+        right:8px;
+        top:0px;
+        bottom:0;
+        width:14px;
+        height: 8px;
+        margin:auto;
+        polyline {
+          stroke: $selectCaret;
+          stroke-width: 2px;
+          fill:none;
+        }
+      }
+    }
+  }
+  // more space for dropdown menus
+  :host-context(.gt-mobile) {
+    .el-select .dropdown-menu { max-height: 300px; }
+  }
+
+  // OVERRIDES
+
+  // Vertical treatment with arrow on bottom
+  :host-context(.vertical-select) {
+    .el-select .dropdown-toggle.btn {
+      height:56px;
+      padding: 6px 12px;
+      text-align: center;
+      span {
+        position: relative;
+        top: -7px;
+      }
+      .svg-down-arrow {
+        top:auto;
+        left: 0;
+        bottom: 11px;
+        right: 0;
+        margin: auto;
+      }
+    }
+  }
+
+  // 1px border and no drop shadow when in header
+  :host-context(.header-content) {
+    .el-select .dropdown-toggle.btn {
+      box-shadow: none;
+      border: 1px solid #efefef;
+    }
+  }

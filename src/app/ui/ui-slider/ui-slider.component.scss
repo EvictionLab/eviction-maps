@@ -1,0 +1,111 @@
+@import "../../../theme";
+
+:host {
+  @include slider-colors($sliderText, $sliderBackground, $sliderTrack);
+}
+
+.el-slider {
+    width:100%;
+    height:100%;
+    pointer-events: all;
+    position:relative;
+    cursor: pointer;
+    user-select: none;
+    .track {
+        position:absolute;
+        height: grid(1);
+        top:0;
+        bottom:0;
+        margin:auto;
+        border-radius: 4px;
+    }
+    .track-value {
+        transition: width 0.1s ease;
+    }
+    .track-full { 
+        width:100%; 
+    }
+    .scrubber {
+        position:absolute;
+        width: grid(8);
+        height: grid(5);
+        top:0;left:0;bottom:0;
+        margin:auto;
+        margin-left:-1*grid(8)/2;
+        transition: left 0.1s ease;
+        cursor: move;
+    }
+    .scrubber-label {
+        position:absolute;
+        text-align:center;
+        padding: grid(1) 0;
+        @include numberFont(13px);
+        top: -1*grid(4) - 4px;
+        left:0;right:0;
+        margin:auto;
+        font-weight: 500;
+        letter-spacing: 0.4px;
+        line-height: 1;
+        width: grid(8);
+        height: grid(4);
+        border-radius:2px;
+        &:after {
+            // label arrow
+            content:'';
+            position:absolute;
+            width:0;height:0;
+            left:0;
+            right:0;
+            margin:auto;
+            border: 10px solid transparent;
+            top: grid(4);
+            transform: scale(0.75, 1);
+        }
+    }
+    // circle marker for scrubber
+    .scrubber-marker {
+        width:25px;
+        height:25px;
+        border-radius: 15px;
+        margin:auto;
+        position:absolute;
+        top:0;left:0;right:0;bottom:0;
+        transition: transform 0.2s ease;
+    }
+}
+
+// vertical styles
+.el-slider.vertical {
+    .track {
+        width:4px;
+        position: absolute;
+        left:0;
+        right:0;
+        top:auto;
+        bottom:0;
+        margin:auto;
+    }
+    .track-full {
+        width:4px;
+        height:100%;
+    }
+    .scrubber {
+        margin-left:auto;
+        top:auto;
+        margin-bottom: -20px;
+    }
+    .scrubber-label {
+        top: 0;
+        bottom: 0;
+        left:32px;right:auto;
+        margin:auto;
+        line-height: 1;
+        height: 18px;
+        min-width: 32px;
+        &:after {
+            left: -11px;
+            right: auto;
+            top: 2px;
+        }
+    }
+}

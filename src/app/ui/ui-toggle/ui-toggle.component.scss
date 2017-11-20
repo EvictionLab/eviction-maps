@@ -1,0 +1,20 @@
+@import '../../../theme';
+
+:host {
+  display: block;
+  padding: 0;
+  border: 1px solid $toggleBorderColor;
+  border-radius: 2px;
+  
+}
+
+button {
+  padding:4px 8px;
+  background: $toggleBackground;
+  border: none;
+  border-left: 1px solid $toggleBorderColor;
+  color: $toggleForeground;
+  &:hover { color: $toggleHoverForeground; }
+  &:first-child { border-left: none; }
+  &.selected { color: $toggleSelectedBackground; }
+}

@@ -1,0 +1,66 @@
+<div class="map-wrapper" 
+  [style.transform]="'translateY('+ (verticalOffset > 90 ? (verticalOffset-90)/3 : 0) +'px)'"
+>
+  <app-mapbox
+    [mapConfig]="mapConfig" 
+    [eventLayers]="mapEventLayers"
+    (ready)="onMapReady($event)"
+    (zoom)="onMapZoom($event)"
+    (featureClick)="onFeatureClick($event)"
+    (hoverChanged)="onFeatureHover($event)"
+    (moveEnd)="onMapMoveEnd($event)"
+  >
+  </app-mapbox>
+</div>
+<ng-content></ng-content>
+<div class="map-ui-wrapper">
+  
+  <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
+  <app-location-cards 
+    *ngIf="activeFeatures.length > 0"
+    [features]="activeFeatures"
+    [cardProperties]="cardProps"
+    [year]="year"
+    (clickedHeader)="clickedCardHeader.emit($event)"
+    (dismissedCard)="dismissedCard.emit($event)"
+  ></app-location-cards>
+  <div class="map-ui" [class.active]="activeMenuItem === 'map'">
+      <app-ui-select
+          tabindex="4"
+          class="eviction-select"
+          label="Eviction Data"
+          labelProperty="name"
+          [selectedValue]="selectedBubble"
+          [values]="bubbleOptions"
+          (change)="selectedBubble = $event"
+      ></app-ui-select>
+      <app-ui-select
+          tabindex="5"
+          class="highlight-select"
+          label="Census Data"
+          labelProperty="name"
+          [selectedValue]="selectedChoropleth"
+          [values]="choroplethOptions"
+          (change)="selectedChoropleth = $event">
+      </app-ui-select>
+      <app-ui-select
+          tabindex="6"
+          class="layer-select"
+          label="Map Level"
+          labelProperty="name"
+          [selectedValue]="selectedLayer"
+          [values]="selectDataLevels" 
+          [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
+          (change)="setGroupVisibility($event)">
+      </app-ui-select>
+    </div>
+</div>
+<div class="year-slider-container">
+  <app-ui-slider tabindex="9"
+    class="year-slider"
+    [currentValue]="year" 
+    [min]="1990" 
+    [max]="2016" 
+    (change)="year=$event"
+  ></app-ui-slider>
+</div>

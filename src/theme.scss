@@ -1,26 +1,204 @@
-@import "app/map-ui/ui-slider/ui-slider.theme";
+// Import theming mixins
+@import "theme/mixins/utils.scss";
+@import "theme/mixins/ui-slider.theme";
+@import "theme/mixins/ui-graph.theme";
+@import "theme/mixins/ui-toggle.theme";
+@import "theme/mixins/ui-select.theme";
+@import "theme/mixins/ui-dialog.theme";
+@import "theme/mixins/predictive-search.theme";
+@import "theme/mixins/progress-bar.theme";
 
-$maxContentWidth: 1024px;
-$defaultPadding: 16px;
-$fontStack: Roboto, sans-serif;
-$primaryColor: rgb(224,64,0);
 
-// App Toolbar
-$toolbarHeight: 56px;
+// Layout
+// ----
 
-// Tooltip Header Row
-$headerRowHeight: 72px;
+// shortcut function for sizing based on grid
+@function grid($n) { @return $n * $gridSize; }
 
-// Mixins
+$gridSize: 8px; // base grid value used for margins and element sizing
+$defaultPadding: grid(2); // default padding for containers
+$maxContentWidth: 1200px; // max width for page content
+$gtMobile: 767px; // greater than mobile device breakpoint
+$gtTablet: 1024px; // greater than tablet device breakpoint
+$gtSmallDesktop: 1279px; // greater than small desktop device breakpoint
+$gtLargeDesktop: 1599px; // greater than large desktop device breakpoint
 
-@mixin fill-parent() {
-    position:absolute;
-    width:100%;
-    height:100%;
-    top:0;left:0;right:0;bottom:0;
-    margin:0;
-    padding:0;
+
+// Typography
+// ----
+$fontStack: Akkurat-Regular, sans-serif;
+$boldFontStack: Akkurat-Bold, sans-serif;
+$altFontStack: GT-Eesti-Text-Bold, sans-serif;
+$numberFontStack:  "Gotham A", "Gotham B", sans-serif;
+
+@mixin defaultFont($size) {
+  font-family: $fontStack;
+  font-size: $size;
+  font-weight: normal;
 }
+
+@mixin defaultFontBold($size) {
+  font-family: $boldFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin altFont($size) {
+  font-family: $altFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin numberFont($size) {
+  font-family: $numberFontStack;
+  font-size: $size;
+  font-weight: normal;
+}
+
+@mixin smallCapsText($size) {
+  @include defaultFontBold($size);
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+
+@mixin inputText() {
+  @include defaultFont(18px);
+}
+
+// Base Colors
+// ----
+$textColor: #000;
+$secondaryTextColor: rgba(0,0,0,0.5);
+$altTextColor: #fff; // text on dark backgrounds
+$linkColor: #22ABED;
+$defaultBackground: #fff;
+$secondaryBackground: #F4F7F9;
+$shadingColor: #efefef;
+$color1: #e24000;
+$color2: #434878;
+$color3: #2c897f;
+$color4: #4a4238;
+$color5: #b5c2b7;
+
+
+// Shadows
+// ----
+$z1shadow: 0 1px 3px rgba(0,0,0,0.3);
+$z2shadow: 0 2px 5px rgba(0,0,0,0.5);
+$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+
+// Buttons
+// ----
+// layout
+$buttonHeight: grid(7);
+$buttonHeightSm: grid(5);
+// colors
+$buttonColor: $shadingColor;
+$buttonHoverColor: darken($buttonColor, 5%);
+$primaryButtonColor: $color1;
+$primaryButtonHoverColor: darken($color1, 3%);
+$closeButtonColor: rgba(0,0,0,0.5);
+$altCloseButtonColor: #fff;
+// fonts
+$buttonTextSize: 11px;
+
+$pageNavButtonWidth: grid(24); // buttons to toggle between data and map
+
+// Graph
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
+
+app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
+
+// Toggles
+$toggleBorderColor: $shadingColor;
+$toggleForeground: #C6CCCF;
+$toggleBackground: #fff;
+$toggleSelectedBackground: $color1;
+$toggleSelectedForeground: $altTextColor;
+$toggleHoverForeground: #000;
+
+// Slider
+$sliderText: $altTextColor;
+$sliderBackground: #000;
+$sliderTrack: rgba(0,0,0,0.15);
+$timeSliderHeight: 40px;
+$timeSliderBackground: $defaultBackground;
+
+// Select Dropdowns
+$selectText: $textColor;
+$selectLabelText: $secondaryTextColor;
+$selectBackground: #fff;
+$selectHighlightText: $textColor;
+$selectHighlightBackground: #eee;
+$selectCaret: $color1;
+
+// Progress Bars
+$progressBarColor: $color1;
+
+// Cards
+// ----
+// layout
+$cardWidth: grid(25);
+$cardHeaderHeight: grid(15);
+// colors
+$cardBg: $defaultBackground;
+$cardHeaderBg1: $color1;
+$cardHeaderBg2: $color2;
+$cardHeaderBg3: $color3;
+$cardHeaderBg4: $color4;
+$cardHeaderText: $altTextColor;
+$cardLabelText: #919191;
+$cardValueText: #050403;
+// colors - cards in data panel
+$panelCardLabelText: #050403;
+$panelCardValueText: #434878;
+$panelCardBorder: $shadingColor;
+// font sizes
+$cardHeadingSize: 22px;
+$cardSubheadingSize: 13px;
+$cardLabelTextSize: 15px;
+$cardValueTextSize: 24px;
+// font sizes - data panel treatment
+$panelCardHeadingSize: 20px;
+$panelCardSubheadingSize: 14px;
+$panelCardLabelTextLg: 11px;
+$panelCardLabelValueLg: 21px;
+$panelCardStatTextSize: 14px;
+// font sizes - data panel greater than tablet
+$panelCardLabelTextLg_t: 13px;
+$panelCardLabelValueLg_t: 24px;
+$panelCardStatTextSize_t: 18px;
+// font sizes - add location
+$cardAddLocationTextSize: 16px; 
+$cardAddLocationTextSize_t: 21px; 
+
+
+// Header Bar
+// ----
+$headerHeightSm: grid(7);
+$headerHeightLg: grid(11);
+$headerContentHeight: grid(7); // height form field / buttons on large displays
+$headerButtonColor: #666; // color for mobile icon buttons
+$headerActiveButtonColor: $color1; // color for active mobile icon button
+
+// Search
+$searchTextColor: $textColor;
+$searchHighlightTextColor: $defaultBackground;
+$searchHighlightBackgroundColor: $color1;
+$searchPlaceholderColor: $secondaryTextColor;
+$searchHeight: grid(7);
+
+// Legend
+$legendHeight: grid(5);
+$legendBackground: #f8f8f9;
+$legendIconColor: $color1;
+$legendIconBackground: $defaultBackground;
+$legendFontSize: 11px;
+$legendTextColor: #fff;
+
 
 
 // TODO: 
