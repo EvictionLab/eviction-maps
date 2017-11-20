@@ -204,7 +204,9 @@ export class MapComponent implements OnInit, OnChanges {
   onMapReady(map) {
     this._mapInstance = map;
     this.map.setMapInstance(map);
-    this.map.setupHoverPopup(this.mapEventLayers);
+    if (this.fullWidth) {
+      this.map.setupHoverPopup(this.mapEventLayers);
+    }
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
