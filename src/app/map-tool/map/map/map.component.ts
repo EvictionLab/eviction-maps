@@ -91,6 +91,7 @@ export class MapComponent implements OnInit, OnChanges {
   /** Tracks the currently selected menu item for mobile menu */
   @Input() activeMenuItem: string;
   @Input() activeFeatures: MapFeature[] = [];
+  @Output() mapReady: EventEmitter<any> = new EventEmitter();
   @Output() clickedCardHeader: EventEmitter<any> = new EventEmitter();
   @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
@@ -126,6 +127,7 @@ export class MapComponent implements OnInit, OnChanges {
   mapLoading = false;
   mapEventLayers: Array<string>;
   cardProps;
+  downloadUrl;
   private zoom = 3;
   private _store = {
     layer: null,
@@ -203,6 +205,7 @@ export class MapComponent implements OnInit, OnChanges {
    */
   onMapReady(map) {
     this._mapInstance = map;
+    this.mapReady.emit(map);
     this.map.setMapInstance(map);
     if (this.fullWidth) {
       this.map.setupHoverPopup(this.mapEventLayers);

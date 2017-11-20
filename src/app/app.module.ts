@@ -1,7 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { AceEditorModule } from 'ng2-ace-editor';
-import { Ng2FileInputModule } from 'ng2-file-input';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { HttpModule } from '@angular/http';
 import { RouterModule, Routes } from '@angular/router';
@@ -10,6 +8,8 @@ import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { PlatformService } from './platform.service';
+import { EditorModule } from './editor/editor.module';
+import { EditorComponent } from './editor/editor.component';
 
 const defaultData = {
   mapConfig: {
@@ -34,6 +34,11 @@ const appRoutes: Routes = [
     data: defaultData
   },
   {
+    path: 'editor', // optional path for URL parameters
+    component: EditorComponent,
+    data: defaultData
+  },
+  {
     path: '',
     redirectTo: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06', // default view
     pathMatch: 'full'
@@ -45,12 +50,8 @@ const appRoutes: Routes = [
   imports: [
     UiModule,
     MapToolModule,
+    EditorModule,
     BrowserModule,
-    AceEditorModule,
-    Ng2FileInputModule.forRoot({
-      dropText: '',
-      browseText: 'Load JSON File'
-    }),
     RouterModule.forRoot(
       appRoutes,
       { useHash: true }

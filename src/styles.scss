@@ -32,16 +32,6 @@ html, body {
   &.alt { color: $altCloseButtonColor }
 }
 
-[ace-editor] {
-  @include fill-parent();
-  right:auto;
-  width:50%;
-  transition: transform 0.2s ease;
-  transform: none;
-  &.off {
-    transform: translateX(-100%);
-  }
-}
 
 .footer {
   padding: 64px 0;
@@ -198,33 +188,5 @@ app-map-tooltip {
   width: 100%;
 }
 
-ng2-file-input {
-  position:absolute;
-  bottom:0;
-  left:0;
-  right:0;
-  height: 64px;
-  z-index:1000;
-  padding: 16px;
-  pointer-events: all;
-  input[type=file] { display: none; }
-}
-
-.save-btn {
-  z-index: 10000;
-  pointer-events: all;
-  position: absolute;
-  left: 146px;
-  bottom: 14px;
-}
-
-.editor-btn {
-  z-index: 10000;
-  pointer-events: all;
-  position: absolute;
-  left: 234px;
-  bottom: 14px;
-}
 
 .map-legend { display: none; }
-

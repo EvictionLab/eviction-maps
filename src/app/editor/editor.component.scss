@@ -1,0 +1,80 @@
+@import '../../theme';
+
+:host {
+  @include fill-parent();
+  overflow:hidden;
+  ::ng-deep .map-overlay { display: none; }
+}
+
+.map {
+  width:50%;
+  height:100%;
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  ::ng-deep app-map-tool app-header-bar { display:none; }
+}
+
+.editor {
+  @include fill-parent();
+  right:auto;
+  width:50%;
+  transition: transform 0.2s ease;
+  transform: none;
+  &.off {
+    transform: translateX(-100%);
+  }
+  [ace-editor] {
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:56px;
+    width:100%;
+    height: calc(100% - 56px);
+  }
+  .editor-toolbar {
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    display:flex;
+    align-items: flex-start;
+    height: 56px;
+    background:#333;
+    .btn, ::ng-deep .btn { 
+      margin:8px; 
+      height:40px;
+      line-height:40px;
+    }
+  }
+  ng2-file-input {
+    input[type=file] { display: none; }
+    .btn { height:40px;}
+  }
+  .save-btn {
+    pointer-events: all;
+  }
+  .editor-btn {
+    pointer-events: all;
+  }
+}
+
+.editor.off + .map {
+  width:100%;
+}
+
+.editor-btn {
+  position:absolute;
+  right:50%;
+  bottom:0;
+  margin:8px; 
+  height:40px;
+  line-height:40px;
+  z-index:10000;
+}
+
+
+.gt-mobile :host-context .map ::ng-deep app-map-tool .app-wrapper app-map { height: 100vh!important; margin-top: 0!important; }
+
+.gt-mobile :host-context ::ng-deep .app-wrapper app-data-panel { display:none; }

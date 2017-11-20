@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener, EventEmitter } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -26,6 +26,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
+  mapReady: EventEmitter<any>;
   /** gets if the page has scrolled enough to fix the "back to map" button */
   get isDataButtonFixed() {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
@@ -57,6 +58,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+    this.mapReady = this.map.mapReady;
     this.setOffsetToTranslate();
   }
 
@@ -116,7 +118,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /** Update route if it has changed */
   updateRoute() {
-    this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+    // this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+  }
+
+  updateMapStyle(json) {
+    this.map.updateStyle(json);
+  }
+
+  getStyleJson() {
+    return this.map.getStyle();
   }
 
   /**

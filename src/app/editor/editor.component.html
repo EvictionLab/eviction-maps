@@ -1,0 +1,15 @@
+<div class="editor" [class.off]="!editorActive">
+  <div #editor ace-editor
+    [(text)]="mapStyle"
+    (textChanged)="updateStyle($event)"
+  ></div>
+  <div class="editor-toolbar">
+    <a class="btn save-btn" download="style.json" [href]="downloadUrl">Save File</a>
+    <ng2-file-input (onAdded)="onStyleAdded($event)" browseText="Load JSON File" [multiple]="false" [show-previews]="false"></ng2-file-input>
+    
+  </div>
+</div>
+<div class="map">
+  <app-map-tool></app-map-tool>
+</div>
+<button class="btn editor-btn" (click)="toggleEditor($event)">Toggle Editor</button>

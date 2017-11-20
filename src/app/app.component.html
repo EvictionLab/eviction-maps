@@ -1,10 +1,1 @@
-<div #editor ace-editor
-    [(text)]="styleJson"
-    (textChanged)="updateStyle($event)"
-    [class.off]="!editorActive"
-></div>
-<ng2-file-input (onAdded)="onStyleAdded($event)" browseText="Load JSON File" [multiple]="false" [show-previews]="false"></ng2-file-input>
-<a class="btn save-btn btn-primary" download="style.json" [href]="downloadUrl">Save File</a>
-<button class="btn editor-btn btn-secondary" (click)="toggleEditor($event)">Toggle Editor</button>
 <router-outlet></router-outlet>
-
