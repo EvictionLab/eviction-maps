@@ -1,0 +1,58 @@
+@import "../../../theme";
+
+// default theme
+@include progress-bar-colors($progressBarColor);
+
+// Implementation based on https://codepen.io/shalimano/pen/wBmNGJ
+:host {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 5px;
+  overflow-x: hidden;
+}
+
+.progress-line {
+  position: absolute;
+  opacity: 0.4;
+  width: 150%;
+  height: 5px;
+}
+
+.subline{
+  position: absolute;
+  height: 5px;
+}
+
+.subline.progress {
+  left: 0;
+}
+
+.inc{
+  animation: increase 2s infinite;
+}
+
+.dec{
+  animation: decrease 2s 0.5s infinite;
+}
+
+@keyframes increase {
+  from {
+    left: -5%;
+    width: 5%;
+  }
+  to {
+    left: 130%;
+    width: 100%;
+  }
+}
+@keyframes decrease {
+  from {
+    left: -80%;
+    width: 80%;
+  }
+  to {
+    left: 110%;
+    width: 10%;
+  }
+}

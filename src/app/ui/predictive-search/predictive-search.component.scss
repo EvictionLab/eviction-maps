@@ -1,0 +1,61 @@
+@import "../../../theme";
+
+.search-container {
+  position:relative;
+  width:100%;
+}
+
+.search-container .glyphicon {
+  position: absolute;
+  top:10px;
+  left:8px;
+}
+
+.search-container .clear {
+  position: absolute;
+  right: 8px;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  height: 24px;
+  width: 24px;
+  text-align: center;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+input {
+  padding-left:32px;
+  border-radius: 0;
+}
+
+:host {
+  /deep/ .dropdown-menu {
+    border-radius: 0;
+  }
+  /deep/ {
+    @include predictive-search-colors($searchTextColor, $searchPlaceholderColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
+    input::placeholder { color: $searchPlaceholderColor;  }
+  }
+  .search {
+    flex:1;
+    width:auto;
+    margin-right: 12px;
+  }
+  .form-control {
+    height: $searchHeight;
+    border-radius:2px;
+    padding-left: 36px;
+    @include inputText();
+  }
+  .search-container .glyphicon.glyphicon-search {
+    color: $color1;
+    width: 15px;
+    height: 15px;
+    top: 0;
+    bottom: 0;
+    left: 12px;
+    margin: auto;
+  }
+}

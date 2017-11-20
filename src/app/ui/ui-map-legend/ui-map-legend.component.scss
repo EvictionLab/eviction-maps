@@ -1,0 +1,58 @@
+@import '../../../theme';
+
+:host {
+  display:block;
+  pointer-events:all;
+}
+
+.map-legend {
+  height: 100%;
+  width: 100%;
+  background: $legendBackground;
+  box-shadow: $z1shadow;
+  .legend {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    padding: 0 grid(1);
+    color: $legendTextColor;
+    text-align:center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include numberFont($legendFontSize);
+  }
+}
+// hint icon above the legend on the right
+app-ui-hint.legend-hint {
+  position: absolute;
+  width: $legendHeight;
+  height: $legendHeight;
+  top: -$legendHeight - grid(1);
+  right:0;
+  left:auto;
+  margin:auto;
+  // adjust for white circle behind icon
+  ::ng-deep .hint-button span {
+    width: grid(2.5); // needs to be nudged so alignment is proper
+    height: grid(2.5);
+    font-size: grid(2.5);
+    padding: 0;
+    box-sizing: content-box;
+    border-radius: 100%;
+    background: $legendIconBackground;
+    border: grid(0.25) solid $legendIconBackground;
+    color: $legendIconColor; 
+  }
+}
+// larger than tablet:
+//    hint icon to the left of the legend
+:host-context(.gt-tablet) {
+  app-ui-hint.legend-hint {
+    top: grid(1);
+    bottom:0;
+    left: -$legendHeight;
+    right:auto;
+  }
+}
+

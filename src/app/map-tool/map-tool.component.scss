@@ -1,0 +1,47 @@
+@import '../../theme';
+
+// Fixed progress bar
+app-progress-bar {
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+}
+
+// Page Layout
+.app-wrapper {
+  min-height:100%;
+  &.map-active {
+    height: calc(100vh - #{$headerHeightSm});
+    overflow: hidden;
+  }
+  app-map {
+    position:relative;
+    display:block;
+    width:100%;
+    margin-top: $headerHeightSm;
+    height: calc(100vh - #{$headerHeightSm});
+    z-index:10;
+  }
+  app-data-panel {
+    display:block;
+    position:relative;
+    width:100%;
+    background:#fff;
+    z-index:200;
+  }
+}
+
+
+// Larger than tablet:
+//    Adjust height of map / location cards to reflect large header.
+:host-context(.gt-mobile) {
+  .app-wrapper {
+    &.map-active {
+      height: calc(100vh - #{$headerHeightLg});
+    }
+    app-map {
+      margin-top: $headerHeightLg;
+      height: calc(100vh - #{$headerHeightLg});
+    }
+  }
+}
