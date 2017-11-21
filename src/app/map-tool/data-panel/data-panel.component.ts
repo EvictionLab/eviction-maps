@@ -14,6 +14,21 @@ export class DataPanelComponent implements OnInit, OnChanges {
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  get barGraphSettings() {
+    return {
+      axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } },
+      margin: { left: 48, right: 16, bottom: 24, top: 16 }
+    };
+  }
+  get lineGraphSettings() {
+    return {
+      axis: {
+        x: { label: 'Year', tickFormat: '.0f' },
+        y: { label: this.cardProps[this.graphProp] }
+      },
+      margin: { left: 48, right: 16, bottom: 24, top: 16 }
+    };
+  }
   graphData;
   tooltips = [];
   graphType = 'bar';
@@ -133,17 +148,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
   setGraphData() {
     this.tooltips = [];
     if (this.graphType === 'line') {
-      this.graphSettings = {
-        axis: {
-          x: { label: 'Year', tickFormat: '.0f' },
-          y: { label: this.cardProps[this.graphProp] }
-        }
-      };
+      this.graphSettings = this.lineGraphSettings;
       this.graphData = [ ...this.createLineGraphData() ];
     } else {
-      this.graphSettings = {
-        axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } }
-      };
+      this.graphSettings = this.barGraphSettings;
       this.graphData = [ ...this.createBarGraphData() ];
     }
   }

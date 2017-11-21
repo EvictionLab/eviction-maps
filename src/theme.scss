@@ -109,6 +109,8 @@ $graphColor1: $color1;
 $graphColor2: $color2;
 $graphColor3: $color3;
 $graphColor4: $color4;
+$graphAxisLines: #fff;
+$graphAxisLabels: #919191;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 

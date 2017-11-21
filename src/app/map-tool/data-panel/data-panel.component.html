@@ -8,22 +8,22 @@
   <div class="graph-container">
     <div class="data-content-inner">
       <div class="graph-header">
-        <app-ui-toggle [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>
-        <app-ui-toggle [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
+        <app-ui-toggle class="graph-eviction-toggle" [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>
+        <app-ui-toggle class="graph-type-toggle" [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
         <div class="graph-year-select">
-          <span>Displaying {{cardProps[graphProp]}} from</span>
-          <div *ngIf="graphType === 'line'">
+          <span class="graph-year-label">Date range</span>
+          <div class="graph-line-selects" *ngIf="graphType === 'line'">
             <app-ui-select [values]="startSelect" [selectedValue]="year" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
             <span>to</span>
             <app-ui-select [values]="endSelect" [selectedValue]="lineEndYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
           </div>
-          <div *ngIf="graphType === 'bar'">
+          <div class="graph-bar-select" *ngIf="graphType === 'bar'">
             <app-ui-select [selectedValue]="year" [values]="barYearSelect"
               (change)="updateBarYear($event)"></app-ui-select>
           </div>
         </div>
       </div>
-      <div class="graph-area">
+      <div class="graph-area" [class.line-graph]="graphType === 'line'" [class.bar-graph]="graphType === 'bar'">
         <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
           <div class="line-tooltips" *ngIf="graphType === 'line'">
             <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
@@ -40,7 +40,9 @@
       <div class="graph-legend">
         <ul>
           <li *ngFor="let location of locations">
-            <span class="legend-marker"></span>
+            <svg class="legend-marker marker" viewBox="0 0 40 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <path d="M20,0 C29.8203125,0 40,6.75551115 40,19.0800608 C40,27.2964272 33.3333333,40.2697402 20,58 C6.66666667,40.3015304 3.48313052e-16,27.3282173 0,19.0800608 C0,6.70782593 10.1796875,0 20,0 Z M19.5,29.7038377 C24.4705627,29.7038377 28.5,25.6678161 28.5,20.6891311 C28.5,15.7104461 24.4705627,11.6744245 19.5,11.6744245 C14.5294373,11.6744245 10.5,15.7104461 10.5,20.6891311 C10.5,25.6678161 14.5294373,29.7038377 19.5,29.7038377 Z" id="Combined-Shape"></path>
+            </svg>
             <span class="legend-label">{{ location.properties["n"] }}</span>
             <button class="btn btn-remove" (click)="locationRemoved.emit(location)">Remove</button>
           </li>
