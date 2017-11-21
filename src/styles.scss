@@ -160,33 +160,4 @@ html, body {
   .map-overlay .btn-map {
     display: none;
   }
-
 }
-
-.header-wrapper {
-  display:none;
-}
-
-app-map-tooltip {
-  display: none;
-}
-
-.app-wrapper .map-wrapper,
-.app-wrapper .map-ui-wrapper {
-  top:0;
-}
-
-.app-wrapper .map-wrapper,
-.app-wrapper.map-active .map-ui-wrapper {
-  height:100%;
-}
-
-.app-wrapper {
-  transition: width 0.2s ease;
-}
-.app-wrapper.editor-off {
-  width: 100%;
-}
-
-
-.map-legend { display: none; }

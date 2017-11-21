@@ -38,6 +38,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild(MapComponent) map;
   @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
+  private urlParts;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +50,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.configurePageScroll();
+    this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
     this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
   }
@@ -118,15 +120,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /** Update route if it has changed */
   updateRoute() {
-    // this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
-  }
-
-  updateMapStyle(json) {
-    this.map.updateStyle(json);
-  }
-
-  getStyleJson() {
-    return this.map.getStyle();
+    if (this.urlParts && this.urlParts[0].path !== 'editor') {
+      this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+    }
   }
 
   /**

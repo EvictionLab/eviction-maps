@@ -78,3 +78,21 @@
 .gt-mobile :host-context .map ::ng-deep app-map-tool .app-wrapper app-map { height: 100vh!important; margin-top: 0!important; }
 
 .gt-mobile :host-context ::ng-deep .app-wrapper app-data-panel { display:none; }
+
+.gt-mobile :host-context ::ng-deep {
+
+  .app-wrapper .map-wrapper,
+  .app-wrapper .map-ui-wrapper {
+    top:0;
+  }
+
+  .app-wrapper .map-wrapper,
+  .app-wrapper.map-active .map-ui-wrapper {
+    height:100%;
+  }
+
+  .app-wrapper {
+    transition: width 0.2s ease;
+  }
+
+}
