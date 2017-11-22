@@ -28,7 +28,7 @@
     "@turf/union": "^4.7.3",
     "@types/geojson": "^1.0.3",
     "@types/mapbox-gl": "^0.39.5",
-    "angular-d3-graph": "^0.1.9",
+    "angular-d3-graph": "^0.1.92",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "debounce-decorator": "^1.0.6",

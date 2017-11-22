@@ -16,17 +16,28 @@ export class DataPanelComponent implements OnInit, OnChanges {
   @Output() locationAdded = new EventEmitter();
   get barGraphSettings() {
     return {
-      axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } },
-      margin: { left: 48, right: 16, bottom: 24, top: 16 }
+      axis: {
+        x: { label: null, tickFormat: null },
+        y: { label: this.cardProps[this.graphProp], tickSize: '-100%', ticks: 5 }
+      },
+      margin: { left: 48, right: 16, bottom: 32, top: 16 }
     };
   }
   get lineGraphSettings() {
     return {
       axis: {
-        x: { label: 'Year', tickFormat: '.0f' },
-        y: { label: this.cardProps[this.graphProp] }
+        x: {
+          label: null,
+          tickFormat: '.0f',
+          ticks: Math.min(5, this.lineEndYear - this.lineStartYear)
+        },
+        y: {
+          label: this.cardProps[this.graphProp],
+          tickSize: '-100%',
+          ticks: 5
+        }
       },
-      margin: { left: 48, right: 16, bottom: 24, top: 16 }
+      margin: { left: 48, right: 16, bottom: 48, top: 16 }
     };
   }
   graphData;
