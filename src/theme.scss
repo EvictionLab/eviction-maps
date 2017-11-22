@@ -105,6 +105,7 @@ $buttonTextSize: 11px;
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
 // Graph
+// ----
 $graphColor1: $color1;
 $graphColor2: $color2;
 $graphColor3: $color3;
@@ -114,13 +115,22 @@ $graphAxisLabels: #919191;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
-// Toggles
+// UI Toggle
+// ----
 $toggleBorderColor: $shadingColor;
 $toggleForeground: #C6CCCF;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
 $toggleHoverForeground: #000;
+
+// UI Switch
+// ----
+$onTextColor: #050403;
+$offTextColor: #919191;
+$switchBorder: 5px solid $color1;
+$switchTextSize: 14px;
+$switchTrackColor: #c6cccf;
 
 // Slider
 $sliderText: $altTextColor;

@@ -18,6 +18,7 @@ import { UiHintComponent } from './ui-hint/ui-hint.component';
 import { LocationCardsComponent } from './location-cards/location-cards.component';
 import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 import { UiToastComponent } from './ui-toast/ui-toast.component';
+import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 
 @NgModule({
   exports: [
@@ -30,7 +31,8 @@ import { UiToastComponent } from './ui-toast/ui-toast.component';
     ProgressBarComponent,
     UiHintComponent,
     UiMapLegendComponent,
-    UiToastComponent
+    UiToastComponent,
+    UiSwitchComponent
   ],
   imports: [
     CommonModule,
@@ -51,7 +53,8 @@ import { UiToastComponent } from './ui-toast/ui-toast.component';
     UiDialogComponent,
     UiHintComponent,
     UiMapLegendComponent,
-    UiToastComponent
+    UiToastComponent,
+    UiSwitchComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent, LocationCardsComponent ]

@@ -8,7 +8,7 @@
   <div class="graph-container">
     <div class="data-content-inner">
       <div class="graph-header">
-        <app-ui-toggle class="graph-eviction-toggle" [values]="[ 'Judgments', 'Filings' ]" (selectedValueChanged)="changeGraphProperty($event)"></app-ui-toggle>
+        <app-ui-switch leftLabel="Judgements" rightLabel="Filings" (switched)="changeGraphProperty($event)"></app-ui-switch>
         <app-ui-toggle class="graph-type-toggle" [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
         <div class="graph-year-select">
           <span class="graph-year-label">Date range</span>

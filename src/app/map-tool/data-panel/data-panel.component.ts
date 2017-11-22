@@ -125,8 +125,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.setGraphData();
   }
 
-  changeGraphProperty(selected: string) {
-    this.graphProp = selected === 'Judgments' ? 'er' : 'efr';
+  /**
+   * Toggles the graph between judgments / filings
+   */
+  changeGraphProperty(filings: boolean) {
+    this.graphProp = filings ? 'efr' : 'er';
     this.setGraphData();
   }
 
@@ -160,6 +163,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
+      console.log('setting line graph', this.graphSettings);
       this.graphData = [ ...this.createLineGraphData() ];
     } else {
       this.graphSettings = this.barGraphSettings;
