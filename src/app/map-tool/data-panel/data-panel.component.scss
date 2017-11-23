@@ -107,6 +107,7 @@
         stroke: $graphAxisLines;
         stroke-width: 2px;
       }
+      .app-graph .line { stroke-width: 5px; }
       // tick labels
       .axis .tick text {
         fill: $graphAxisLabels;
@@ -253,6 +254,16 @@
   }
 }
 
+:host-context(.gt-small-desktop) {
+  .graph-legend {
+    padding-left: grid(5);
+    padding-right: grid(5);
+  }
+  .graph-header .graph-year-select {
+    margin-left: grid(5);
+  }
+}
+
 // Tooltips
 // ----
 .line-tooltips, .bar-tooltips {
@@ -330,8 +341,9 @@ app-location-cards {
 .data-panel-footer {
   clear:both;
   display:flex;
+  flex-direction: column;
   align-content: space-between;
-  align-items:flex-start;
+  align-items:center;
   justify-content: space-around;
   .action-wrapper {
     width:268px;
@@ -339,18 +351,23 @@ app-location-cards {
     .btn { 
       display:block; 
       width: 100%; 
-      max-width: 200px;
       margin:auto;
       margin-bottom:4px;
     }
     span { 
-      max-width: 220px;
-      color: #999; 
-      font-size: 11px;
-      line-height: 16px;
+      max-width: 264px;
+      color: #919191; 
+      @include defaultFont(14px);
       display: block;
-      margin: 10px auto 0;
+      margin: 10px auto grid(4);
+      line-height: 22px;
     }
+  }
+}
+:host-context(.gt-mobile) {
+  .data-panel-footer {
+    flex-direction: row;
+    align-items: flex-start;
   }
 }
 

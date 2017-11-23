@@ -61,8 +61,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   endSelect: Array<number>;
   barYear: number;
   barYearSelect: Array<number>;
-  private minYear = 1990;
-  private maxYear = new Date().getFullYear();
+  minYear = 1990;
+  maxYear = new Date().getFullYear();
 
   constructor(public dialogService: UiDialogService) {}
 
@@ -163,8 +163,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
-      console.log('setting line graph', this.graphSettings);
-      this.graphData = [ ...this.createLineGraphData() ];
+      // HACK FIX: the axis does not get set properly when switching to the line graph
+      //  unless the settings are set first
+      setTimeout(() => { this.graphData = [ ...this.createLineGraphData() ]; }, 10);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [ ...this.createBarGraphData() ];
