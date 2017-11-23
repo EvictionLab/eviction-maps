@@ -30,20 +30,18 @@ export class UiSwitchComponent {
     this.touch.x = touchobj.pageX;
     this.touch.y = touchobj.pageY;
     this.touch.time = new Date().getTime();
-    e.preventDefault();
   }
 
   /** Check is the touch event was a swipe and switch in the appropriate direction */
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
     const touchobj = e.changedTouches[0];
     const elapsedTime = new Date().getTime() - this.touch.time;
-    const distX = touchobj.pageX - this.touch.x;
-    const distY = touchobj.pageY - this.touch.y;
+    const distX = Math.abs(touchobj.pageX - this.touch.x);
+    const distY = Math.abs(touchobj.pageY - this.touch.y);
     const isSwipe = (elapsedTime <= 1600 && distX >= 56 && distX > distY);
     if (isSwipe) {
       this.on = (touchobj.pageX > this.touch.x);
     }
-    e.preventDefault();
   }
 
 }

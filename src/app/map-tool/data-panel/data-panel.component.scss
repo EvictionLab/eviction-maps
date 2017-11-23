@@ -86,7 +86,7 @@
       justify-content: space-between;
       span { 
         line-height: grid(5); 
-        margin: 0 grid(2); 
+        margin: 0 grid(1.5); 
         @include yearSelectLabel(10px);
       }
     }
@@ -195,8 +195,8 @@
     }
   }
   .graph-legend {
-    padding-left: grid(5);
-    padding-right: grid(5);
+    padding-left: grid(3);
+    padding-right: grid(3);
     ul {
       flex-direction:row;
     }
@@ -216,6 +216,7 @@
 }
 :host-context(.gt-tablet) {
   .graph-header {
+    position: relative;
     .graph-year-label { 
       display: block; 
       float: left;
@@ -223,6 +224,18 @@
       margin-right: grid(2);
       color: $graphAxisLabels;
       line-height: grid(5);
+    }
+    .graph-year-select {
+      margin-left: grid(3);
+      position: absolute;
+      left: 66.6666%;
+      top: 0;
+    }
+    .graph-type-toggle {
+      position: absolute;
+      right: 33.333333%;
+      margin-right: grid(2);
+      top: 0;
     }
     .graph-bar-select { display: block; float:left; }
     .graph-line-selects span { @include yearSelectLabel(14px); }
