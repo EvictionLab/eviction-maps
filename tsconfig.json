@@ -16,6 +16,10 @@
       "dom"
     ]
   },
+  "include": [
+    "src/**/*",
+    "node_modules/angular-d3-graph/module.ts"
+  ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts"
