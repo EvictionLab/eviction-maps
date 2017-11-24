@@ -101,3 +101,10 @@
       border: 1px solid #efefef;
     }
   }
+
+  :host-context(.z0) {
+    .dropdown-toggle.btn {
+      border: 1px solid $shadingColor;
+      box-shadow: none;
+    }
+  }

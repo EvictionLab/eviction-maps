@@ -1,0 +1,58 @@
+@import '../../../theme';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-label {
+  margin: 0 grid(2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  &.left {
+    @include defaultFontBold(14px);
+    color: $onTextColor;
+  }
+  &.right {
+    @include defaultFont(14px);
+    color: $offTextColor;
+  }
+}
+
+.switch-container {
+  position: relative;
+  width: grid(7);
+  height: grid(4);
+  border-radius: grid(2);
+  background: $switchTrackColor;
+}
+
+.switch-toggle {
+  position: absolute;
+  top:0;left:0;
+  width: grid(4);
+  height: grid(4);
+  border: $switchBorder;
+  border-radius: grid(2);
+  background: $defaultBackground;
+  transition: transform 0.2s ease;
+  transform: translateX(0);
+}
+
+:host-context(.on) {
+  .switch-toggle {
+    transform: translateX(grid(3));
+  }
+  .switch-label {
+    &.right {
+      @include defaultFontBold($switchTextSize);
+      color: $onTextColor;
+    }
+    &.left {
+      @include defaultFont($switchTextSize);
+      color: $offTextColor;
+    }
+  }
+
+}

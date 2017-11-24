@@ -14,6 +14,32 @@ export class DataPanelComponent implements OnInit, OnChanges {
   @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  get barGraphSettings() {
+    return {
+      axis: {
+        x: { label: null, tickFormat: null },
+        y: { label: this.cardProps[this.graphProp], tickSize: '-100%', ticks: 5 }
+      },
+      margin: { left: 48, right: 16, bottom: 32, top: 16 }
+    };
+  }
+  get lineGraphSettings() {
+    return {
+      axis: {
+        x: {
+          label: null,
+          tickFormat: '.0f',
+          ticks: Math.min(5, this.lineEndYear - this.lineStartYear)
+        },
+        y: {
+          label: this.cardProps[this.graphProp],
+          tickSize: '-100%',
+          ticks: 5
+        }
+      },
+      margin: { left: 48, right: 16, bottom: 48, top: 16 }
+    };
+  }
   graphData;
   tooltips = [];
   graphType = 'bar';
@@ -35,8 +61,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   endSelect: Array<number>;
   barYear: number;
   barYearSelect: Array<number>;
-  private minYear = 1990;
-  private maxYear = new Date().getFullYear();
+  minYear = 1990;
+  maxYear = new Date().getFullYear();
 
   constructor(public dialogService: UiDialogService) {}
 
@@ -99,8 +125,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.setGraphData();
   }
 
-  changeGraphProperty(selected: string) {
-    this.graphProp = selected === 'Judgments' ? 'er' : 'efr';
+  /**
+   * Toggles the graph between judgments / filings
+   */
+  changeGraphProperty(filings: boolean) {
+    this.graphProp = filings ? 'efr' : 'er';
     this.setGraphData();
   }
 
@@ -133,17 +162,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
   setGraphData() {
     this.tooltips = [];
     if (this.graphType === 'line') {
-      this.graphSettings = {
-        axis: {
-          x: { label: 'Year', tickFormat: '.0f' },
-          y: { label: this.cardProps[this.graphProp] }
-        }
-      };
-      this.graphData = [ ...this.createLineGraphData() ];
+      this.graphSettings = this.lineGraphSettings;
+      // HACK FIX: the axis does not get set properly when switching to the line graph
+      //  unless the settings are set first
+      setTimeout(() => { this.graphData = [ ...this.createLineGraphData() ]; }, 10);
     } else {
-      this.graphSettings = {
-        axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } }
-      };
+      this.graphSettings = this.barGraphSettings;
       this.graphData = [ ...this.createBarGraphData() ];
     }
   }
