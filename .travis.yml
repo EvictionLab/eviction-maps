@@ -43,3 +43,8 @@ notifications:
     template:
       - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}. <http://eviction-maps.s3-website.us-east-2.amazonaws.com/|View Staging Site>"
     secure: QKNsPr0rrXouVNjg2RSTZJcJMz7z9cyntRaVC+flt+pD0TgomkCasLU9OhszYEdon4QduU05sJsiNvBGICKBcv2guSg818l2DyxgYucuPC8hs4EP0EHlS6M1saafBGXqQT4YZLbSykXYbs9eKw708j9j5mjn77PRwyX/cFXfPGjFe2K5SOaAh0GD+iUwkzh4guhDZ/vJlQGmEFZ6ylrk0m8f1vkLIuglVg5PZaQaVXBIMO5VUKLSVNFXmLkx3oZiaaEgB/FaFLZZfBH+4CrYyic0s47YVuVip3cJmZYO2fqhUo4RnXcHtJiWb7hZk55g8ruyXqI1mFt/Hm0PmXMj0gIgYOod+Jm5KnPkPauXUGPeaqoJn/Nv14lnmZ71PEuJA6if1ZsUV9i7w6xACizW2K1t0QlX94AD08egtzGbDNE6gZljHPPVHGvwYJxm5hQIXiAE2/bt+636pQaBr08gPuZb047AksND8Uc74FFf89Fdgf/BgMEONO6vdTebXH4/gjHGahwpdHVIOZZyB06VPbEv66hNsrqAnCXDKA0Xs6kAo9AM1DZhm8MKawlFMRtuBy8nbZ6oKAwZWNMV2RqksbooKzdGZTAZuqpBXdkRv6p4AMAso0XWvNVO2Vax2V7mnOek14c8k2BWRTRY37ZTn3daEnAwjqpq7/u2njYHoc8=
+addons:
+  browserstack:
+    username: laneolson3
+    access_key:
+      secure: "uWA258Bl0IhEgiPmP8cSxtwNggOLGVlFlhttu2ham+dEUTv/LxSVNpnFjkIYBWK4WjuFv8zq9/s5P/bza8nNPnGsKFQWT8yLTm7jutw9rQ9IsPBziTmmgeuE0djKDyNEYc7q1EzsWGHeRjzBUXEML2m99Oab7Ma97GseRZbiH+NJYT3Vv470o2X2KRUQRCMM3CxW4tY6qxVXEhyDy0GEr1/nKHlf/yJmY3q7fjfo4GlwAD9RMH/1oTG8zU3dc7cdxNJPfQX0YzA1yNzAB7zJi6nkKhVriVMcQpjkwY4FqjYyXUnfk0vDpEva1rZD9g3Y/JArAnGohu6la5CMjVgHgl++M0/Uh9eeuuTiqS0hD3e21OHql6f3g8taQQYWt45Pg0P5+AYjQBaMEhN9XhJ2AXFuuk3LCfBHGKkVZ6B41PJZVKNbJcMJXVS/qu0DAHMwMroOWTJ09+B1Btzu5EXppViYyLg9wY79vPUa2ZY7m1i9QiWGgCEFqretthHUl4Hpz0wsBaqAxxrsvt37PIIdON7LGI44jS7/gUdUTMX9juRd3TA3FeTFOA5tGvtFRSfhvoGU859ZkK5C10Bm4Bxd/Aw5JLJPKznlpHIOuhjj5ldKYnoid4caQOcEtmYEEK/uT/bFNkw+VISkARrYkH3QAMuuVyLJmL8pUGrrjZpUxHg="
