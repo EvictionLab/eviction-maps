@@ -2,17 +2,31 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter } = require('jasmine-spec-reporter');
+const browserstack = require('browserstack-local');
 
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
-  capabilities: {
-    'browserName': 'chrome'
+  // seleniumAddress: 'http://hub-cloud.browserstack.com/wd/hub',
+  commonCapabilities: {
+    'browserstack.user': process.env['BROWSERSTACK_USER'],
+    'browserstack.key': process.env['BROWSERSTACK_ACCESS_KEY'],
+    'browserstack.local': true,
+    'browserstack.debug': 'true'
   },
-  directConnect: true,
-  baseUrl: 'http://localhost:4200/',
+  multiCapabilities: [{
+    'browserName': 'Chrome'
+  }, {
+    'browserName': 'Safari'
+  }, {
+    'browserName': 'Firefox'
+  }, {
+    'browserName': 'IE'
+  }],
+  // directConnect: true,
+  // baseUrl: 'http://localhost:4200/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
@@ -24,5 +38,31 @@ exports.config = {
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
+  },
+  // https://github.com/browserstack/protractor-browserstack
+  // Code to start browserstack local before start of test
+  beforeLaunch: function () {
+    console.log("Connecting local");
+    return new Promise(function (resolve, reject) {
+      exports.bs_local = new browserstack.Local();
+      exports.bs_local.start({ 'key': exports.config.commonCapabilities['browserstack.key'] }, function (error) {
+        if (error) return reject(error);
+        console.log('Connected. Now testing...');
+
+        resolve();
+      });
+    });
+  },
+
+  // Code to stop browserstack local after end of test
+  afterLaunch: function () {
+    return new Promise(function (resolve, reject) {
+      exports.bs_local.stop(resolve);
+    });
   }
 };
+
+// https://www.browserstack.com/automate/protractor
+exports.config.multiCapabilities.forEach(function (caps) {
+  for (var i in exports.config.commonCapabilities) caps[i] = caps[i] || exports.config.commonCapabilities[i];
+});
