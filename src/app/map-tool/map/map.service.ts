@@ -58,8 +58,6 @@ export class MapService {
       const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
       if (features.length) {
         const feat: MapFeature = features[0];
-        // Check if labels are visible, don't display tooltip if so
-        const labelLayer = this.map.getLayer(`${feat['layer']['id']}_text`);
         const labelFeatures = this.map.queryRenderedFeatures(undefined, {
           layers: [`${feat['layer']['id']}_text`],
           filter: [
@@ -67,7 +65,17 @@ export class MapService {
             ['==', 'n', feat.properties.n],
           ]
         });
-        if (labelFeatures.length && labelLayer.paint['text-opacity'] > 0) {
+        // Check if labels are visible, don't display tooltip if so
+        const labelLayerOpacity = this.map.getPaintProperty(
+          `${feat['layer']['id']}_text`, 'text-opacity'
+        );
+        let labelsVisible;
+        if (labelLayerOpacity) {
+          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+        } else {
+          labelsVisible = false;
+        }
+        if (labelFeatures.length && !labelsVisible) {
           this.popup.remove();
         } else {
           this.popup.setLngLat(e.lngLat)
