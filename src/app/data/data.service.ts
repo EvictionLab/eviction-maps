@@ -33,7 +33,7 @@ export class DataService {
   mapConfig;
   isLoading = false;
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://tiles.evictionlab.org/fixtures/';
+  private tileBase = 'https://tiles.evictionlab.org/staging/';
   private tilePrefix = 'evictions-';
   private tilesetYears = ['90', '00', '10'];
   private queryZoom = 10;
