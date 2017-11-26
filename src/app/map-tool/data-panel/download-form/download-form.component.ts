@@ -1,7 +1,7 @@
 import { Component, EventEmitter } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { MapFeature } from '../../map/map-feature';
 import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
 

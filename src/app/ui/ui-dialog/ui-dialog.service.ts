@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/modal-options.class';
-
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UiDialogComponent } from './ui-dialog.component';
 import { DialogResponse } from './ui-dialog.types';
 
