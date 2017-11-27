@@ -106,6 +106,7 @@ app-ui-select {
   position: absolute;
   width:33.3333%;
   top:0;
+  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
   ::ng-deep {
     .el-select .el-select-label,
     .el-select .el-select-value {
@@ -124,13 +125,12 @@ app-ui-select {
 // position the dropwdowns
 app-ui-select:nth-of-type(1) { left: 0; }
 app-ui-select:nth-of-type(2) { left: 33.33333%; }
-app-ui-select:nth-of-type(3) { right: 0; }
+app-ui-select:nth-of-type(3) { left: 66.66666%; right: 0; }
 // span full width when open
 app-ui-select.open {
   left: 0;
   right: 0;
   width: 100%;
-  transition: width 0.2s ease;
   z-index: 101;
   ::ng-deep .el-select .el-select-label {
     display: inherit;
