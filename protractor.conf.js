@@ -5,8 +5,8 @@ const { SpecReporter } = require('jasmine-spec-reporter');
 const browserstack = require('browserstack-local');
 
 exports.config = {
-  getPageTimeout: 30000,
-  allScriptsTimeout: 30000,
+  getPageTimeout: 60000,
+  allScriptsTimeout: 60000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
@@ -21,18 +21,18 @@ exports.config = {
     'browserName': 'Chrome'
   }, {
     'browserName': 'Safari',
-    'browser_version': '9'
+    'browser_version': '10'
   }, {
     'browserName': 'Firefox'
   }, {
     'browserName': 'IE',
     'browser_version': '11'
   }],
-  baseUrl: 'http://localhost:49152/',
+  baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: 60000,
     print: function() {}
   },
   onPrepare() {

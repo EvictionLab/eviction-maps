@@ -2,8 +2,7 @@ import { browser, by, element } from 'protractor';
 
 export class AppPage {
   navigateTo() {
-    browser.get('/');
-    return browser.refresh();
+    return browser.get('/');
   }
 
   getMapElement() {
