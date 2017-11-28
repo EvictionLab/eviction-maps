@@ -18,6 +18,7 @@ describe('eviction-maps App', () => {
   });
 
   it('should update the route', () => {
+    browser.waitForAngular();
     expect(page.getFullPath()).toContain('states');
   });
 });
