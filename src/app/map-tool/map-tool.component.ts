@@ -65,12 +65,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
-  ) {
-    // this language will be used as a fallback when a translation isn't found in the current language
-    translate.setDefaultLang('en');
-    // the lang to use, if the lang isn't available, it will use the current loader to get them
-    translate.use('en');
-  }
+  ) {}
 
   ngOnInit() {
     this.configurePageScroll();
@@ -197,6 +192,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   onMenuSelect(itemId: string) {
     this.activeMenuItem = itemId;
+  }
+
+  onLanguageSelect(lang: string) {
+    const langCode = lang.toLowerCase() === 'english' ? 'en' : 'es';
+    this.translate.use(langCode);
   }
 
   /**
