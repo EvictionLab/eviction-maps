@@ -53,6 +53,6 @@
     <div [class.active]="activeMenuItem === 'search'" class="header-search">
       <app-location-search class="search" (locationSelected)="selectLocation.emit($event)"></app-location-search>
     </div>
-    <app-ui-select class="language-select vertical-select" [values]="['English', 'Spanish']"></app-ui-select>
+    <app-ui-select class="language-select vertical-select" (change)="selectLanguage.emit($event)" [values]="['English', 'Spanish']"></app-ui-select>
   </div>
 </div>
