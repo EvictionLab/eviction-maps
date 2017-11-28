@@ -26,7 +26,9 @@ exports.config = {
     'browserName': 'Firefox'
   }, {
     'browserName': 'IE',
-    'browser_version': '11'
+    'browser_version': '11',
+    'os': 'Windows',
+    'os_version': '10'
   }],
   baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
