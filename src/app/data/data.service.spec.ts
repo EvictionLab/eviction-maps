@@ -2,7 +2,6 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { DataService } from './data.service';
-import { HttpClient } from 'selenium-webdriver/http';
 
 describe('DataService', () => {
   beforeEach(() => {
