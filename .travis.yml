@@ -15,8 +15,9 @@ before_script:
 - npm install -g @angular/cli
 script:
 - ng test --watch=false --sourcemaps=false
-- npm run e2e
 - ng build --prod
+after_script:
+- npm run e2e
 before_deploy:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
