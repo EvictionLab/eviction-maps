@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import 'rxjs/add/operator/take';
 import {scaleLinear} from 'd3-scale';
+import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -61,9 +62,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
+    private translate: TranslateService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) {
+    // this language will be used as a fallback when a translation isn't found in the current language
+    translate.setDefaultLang('en');
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    translate.use('en');
+  }
 
   ngOnInit() {
     this.configurePageScroll();

@@ -3,6 +3,8 @@ import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import { PlatformService } from './platform.service';
+import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+
 
 @Component({
   selector: 'app-root',
@@ -15,10 +17,14 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
 
-  constructor(private platform: PlatformService) {}
+  constructor(private platform: PlatformService, private translate: TranslateService) {}
 
-  /** Sets the size relevant classes on init */
-  ngOnInit() { this.onWindowResize(); }
+  /** Sets the language and size relevant classes on init */
+  ngOnInit() { 
+    this.translate.setDefaultLang('en');
+    this.translate.use('en');
+    this.onWindowResize(); 
+  }
 
   /** Sets the booleans that determine the classes on the app component */
   @HostListener('window:resize') onWindowResize() {
