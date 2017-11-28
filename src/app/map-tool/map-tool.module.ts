@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapToolComponent } from './map-tool.component';
 import { MapModule } from './map/map.module';
@@ -19,7 +20,8 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
     UiModule,
     DataPanelModule,
     MapModule,
-    Ng2PageScrollModule
+    Ng2PageScrollModule,
+    TranslateModule
   ],
   providers: [ DataService ]
 })

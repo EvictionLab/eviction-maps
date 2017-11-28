@@ -8,6 +8,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class HeaderBarComponent {
   @Output() selectMenuItem = new EventEmitter();
   @Output() selectLocation = new EventEmitter();
+  @Output() selectLanguage = new EventEmitter();
   activeMenuItem: string;
 
   constructor() { }

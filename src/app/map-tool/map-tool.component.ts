@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import 'rxjs/add/operator/take';
 import {scaleLinear} from 'd3-scale';
+import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -61,6 +62,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
+    private translate: TranslateService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
@@ -190,6 +192,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   onMenuSelect(itemId: string) {
     this.activeMenuItem = itemId;
+  }
+
+  onLanguageSelect(lang: string) {
+    const langCode = lang.toLowerCase() === 'english' ? 'en' : 'es';
+    this.translate.use(langCode);
   }
 
   /**
