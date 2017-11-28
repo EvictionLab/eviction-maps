@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { HeaderBarComponent } from './header-bar.component';
 import { UiModule } from '../../ui/ui.module';
 import { By } from '@angular/platform-browser';
+
 
 describe('HeaderBarComponent', () => {
   let component: HeaderBarComponent;
@@ -10,8 +11,11 @@ describe('HeaderBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HeaderBarComponent ],
-      imports: [ UiModule, HttpModule ]
+      declarations: [ 
+        HeaderBarComponent, 
+      ],
+      // ignore child components, they have their own tests
+      schemas: [NO_ERRORS_SCHEMA] 
     })
     .compileComponents();
   }));

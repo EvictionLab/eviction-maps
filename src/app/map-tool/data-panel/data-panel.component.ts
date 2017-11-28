@@ -70,7 +70,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.updateLineYears(this.year, this.maxYear);
     this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
-    console.log('line end select', this.endSelect);
   }
 
   /**

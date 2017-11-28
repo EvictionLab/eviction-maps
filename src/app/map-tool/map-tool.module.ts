@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { TranslateModule } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
   exports: [ MapToolComponent ],
   imports: [
     CommonModule,
-    HttpModule,
+    HttpClientModule,
     UiModule,
     DataPanelModule,
     MapModule,

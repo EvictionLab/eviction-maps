@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Http, Response, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -38,7 +38,7 @@ export class DataService {
   private tilesetYears = ['90', '00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID
@@ -211,8 +211,8 @@ export class DataService {
   private getParser(layerId, lonLat, featName) {
     const point = this.getPoint(lonLat);
     const coords = this.getXYFromLonLat(lonLat);
-    return (res: Response): MapFeature => {
-      const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
+    return (res: ArrayBuffer): MapFeature => {
+      const tile = new vt.VectorTile(new Protobuf(res));
       const layer = tile.layers[layerId];
       const features = [...Array(layer.length)].fill(null).map((d, i) => {
         return layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
@@ -279,7 +279,7 @@ export class DataService {
       this.tileBase + this.tilePrefix + layerId;
     return this.http.get(
       `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
-      { responseType: ResponseContentType.ArrayBuffer }
+      { responseType: 'arraybuffer' }
     );
   }
 
