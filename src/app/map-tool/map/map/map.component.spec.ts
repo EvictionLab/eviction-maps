@@ -3,8 +3,14 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
-import { HttpModule } from '@angular/http';
 import { MapService } from '../map.service';
+
+class mapServiceStub {
+  updateCensusSource() {}
+  createMap(settings) { return this; }
+  addControl(...args) { return this; }
+  on(...args) { return this; }
+}
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -13,10 +19,12 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule, HttpModule ],
-      providers: [
-        { provide: MapService, useValue: { updateCensusSource: () => {} } }
-      ]
+      imports: [ UiModule ]
+    })
+    TestBed.overrideComponent(MapComponent, {
+      set: {
+        providers: [ {provide: MapService, useValue: new mapServiceStub()  } ],
+      }
     })
     .compileComponents();
   }));
