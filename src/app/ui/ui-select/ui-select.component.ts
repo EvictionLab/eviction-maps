@@ -16,7 +16,7 @@ export class UiSelectComponent implements OnInit {
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
     this._selectedValue = newValue;
-    this.noneSelected = this.getLabel(newValue) === 'None';
+    this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
     this.change.emit(newValue);
   }
   get selectedValue() { return this._selectedValue; }
@@ -35,12 +35,12 @@ export class UiSelectComponent implements OnInit {
    * set the selected value to the first item if no selected value is given
    */
   ngOnInit() {
-    if (this.values.length) {
+    if (this.values && this.values.length) {
       this.valuesArray = (typeof this.values[0] === 'string' || typeof this.values[0] === 'number');
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
-      this.noneSelected = this.getLabel(this._selectedValue) === 'None';
+      this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
     }
   }
 

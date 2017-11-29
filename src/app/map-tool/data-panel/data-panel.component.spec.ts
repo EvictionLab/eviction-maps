@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DataPanelComponent } from './data-panel.component';
 import { DataPanelModule } from './data-panel.module';
 import { FileExportService } from './download-form/file-export.service';
@@ -26,7 +27,7 @@ describe('DataPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ DataPanelModule, HttpClientModule ]
+      imports: [ DataPanelModule, HttpClientModule, TranslateModule.forRoot() ]
     })
     .compileComponents();
   }));

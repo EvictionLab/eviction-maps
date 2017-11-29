@@ -127,7 +127,7 @@ html, body {
   pointer-events: all;
   transition: transform 0.2s ease;
   white-space: normal;
-  transform: translateY(150%);
+  transform: translateY(200%);
   &.visible {
     transform: translateY(0px);
   }

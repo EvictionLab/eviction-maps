@@ -1,15 +1,17 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { DataService } from './data.service';
 
 describe('DataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataService],
+      providers: [DataService, TranslateService ],
       imports: [
         HttpClientModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        TranslateModule.forRoot()
       ]
     });
   });

@@ -25,6 +25,14 @@ export class UiMapLegendComponent implements OnInit {
       this.choropleth['name'] + ' from ' + this.fillStops[1][0] + ' to ' +
       this.fillStops[this.fillStops.length - 1][0] + '.';
   }
+  get hintData() {
+    return {
+      geography: this.layer['name'],
+      attribute: this.choropleth['name'],
+      min: this.fillStops[1][0],
+      max: this.fillStops[this.fillStops.length - 1][0]
+    }
+  }
   /** Gets the CSS background gradient for the legend */
   get legendGradient() {
     if (this.fillStops && this.fillStops.length) {

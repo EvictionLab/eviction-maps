@@ -152,6 +152,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.dataService.isLoading = true;
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
+        console.log('got data', data);
         this.dataService.addLocation(data);
         this.updateRoute();
         this.dataService.isLoading = false;
@@ -194,9 +195,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.activeMenuItem = itemId;
   }
 
-  onLanguageSelect(lang: string) {
-    const langCode = lang.toLowerCase() === 'english' ? 'en' : 'es';
-    this.translate.use(langCode);
+  onLanguageSelect(lang) {
+    console.log('updating lang', lang);
+    this.translate.use(lang.id);
   }
 
   /**

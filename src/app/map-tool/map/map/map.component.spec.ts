@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
@@ -19,7 +20,7 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule ]
+      imports: [ UiModule, TranslateModule.forRoot() ]
     })
     TestBed.overrideComponent(MapComponent, {
       set: {

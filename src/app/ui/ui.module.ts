@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
@@ -40,7 +41,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    TypeaheadModule
+    TypeaheadModule,
+    TranslateModule
   ],
   declarations: [
     UiSelectComponent,
