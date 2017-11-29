@@ -201,7 +201,7 @@ export class MapService {
    * Ordinarily would try to generalize this, but updating the map style for each layer
    * or even layer group seems unnecessary.
    * @param layerGroups
-   * @param sourceSuffix i.e. 90, 00, 10
+   * @param sourceSuffix i.e. 00, 10
    */
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();

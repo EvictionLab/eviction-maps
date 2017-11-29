@@ -61,7 +61,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   endSelect: Array<number>;
   barYear: number;
   barYearSelect: Array<number>;
-  minYear = 1990;
+  minYear = 2000;
   maxYear = new Date().getFullYear();
 
   constructor(public dialogService: UiDialogService) {}

@@ -10,13 +10,6 @@
         "https://openmaptiles.evictionlab.org/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-block-groups-90": {
-      "type": "vector",
-      "maxzoom": 10,
-      "tiles": [
-        "https://tiles.evictionlab.org/staging/evictions-block-groups-90/{z}/{x}/{y}.pbf"
-      ]
-    },
     "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
@@ -29,13 +22,6 @@
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/staging/evictions-block-groups-10/{z}/{x}/{y}.pbf"
-      ]
-    },
-    "us-tracts-90": {
-      "type": "vector",
-      "maxzoom": 10,
-      "tiles": [
-        "https://tiles.evictionlab.org/staging/evictions-tracts-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-tracts-00": {
@@ -52,13 +38,6 @@
         "https://tiles.evictionlab.org/staging/evictions-tracts-10/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-cities-90": {
-      "type": "vector",
-      "maxzoom": 10,
-      "tiles": [
-        "https://tiles.evictionlab.org/staging/evictions-cities-90/{z}/{x}/{y}.pbf"
-      ]
-    },
     "us-cities-00": {
       "type": "vector",
       "maxzoom": 10,
@@ -73,13 +52,6 @@
         "https://tiles.evictionlab.org/staging/evictions-cities-10/{z}/{x}/{y}.pbf"
       ]
     },
-    "us-counties-90": {
-      "type": "vector",
-      "maxzoom": 10,
-      "tiles": [
-        "https://tiles.evictionlab.org/staging/evictions-counties-90/{z}/{x}/{y}.pbf"
-      ]
-    },
     "us-counties-00": {
       "type": "vector",
       "maxzoom": 10,
@@ -92,13 +64,6 @@
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/staging/evictions-counties-10/{z}/{x}/{y}.pbf"
-      ]
-    },
-    "us-states-90": {
-      "type": "vector",
-      "maxzoom": 10,
-      "tiles": [
-        "https://tiles.evictionlab.org/staging/evictions-states-90/{z}/{x}/{y}.pbf"
       ]
     },
     "us-states-00": {
