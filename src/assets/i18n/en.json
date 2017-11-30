@@ -12,7 +12,9 @@
     "SOCIAL_HINT": "Share a link to this map and information.",
     "ADD_LABEL": "Add another location",
     "ADD_SEARCH_HINT": "Search for places",
-    "MAP_LINK": "Back To Map"    
+    "MAP_LINK": "Back To Map",
+    "SHARE_LINK": "Share a Link",
+    "SHARE_HINT": "Copy the link below:"
   },
   "HEADER": {
     "HOME": "Home",
