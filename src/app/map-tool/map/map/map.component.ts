@@ -364,13 +364,17 @@ export class MapComponent implements OnInit, OnChanges {
           const newRadius = {
             'property': bubble.id,
             'default': bubble.default,
-            'stops': (bubble.fillStops[layerId] ?
-              bubble.fillStops[layerId] : bubble.fillStops['default'])
+            'stops': (bubble.stops[layerId] ?
+              bubble.stops[layerId] : bubble.stops['default'])
+          };
+          const newColor = {
+            'property': bubble.id,
+            'default': 'rgba(0,0,0,0)',
+            'stops': bubble.stops['circle-color']
           };
           this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', newRadius);
-          ['circle-color', 'circle-stroke-color'].forEach(prop => {
-            this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, bubble.id);
-          });
+          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-color', newColor);
+          this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
         });
       }
     }
@@ -389,8 +393,8 @@ export class MapComponent implements OnInit, OnChanges {
             const newFill = {
               'property': choropleth.id,
               'default': choropleth.default,
-              'stops': (choropleth.fillStops[layerId] ?
-                choropleth.fillStops[layerId] : choropleth.fillStops['default'])
+              'stops': (choropleth.stops[layerId] ?
+                choropleth.stops[layerId] : choropleth.stops['default'])
             };
             this.map.setLayerStyle(layerId, 'fill-color', newFill);
             this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);

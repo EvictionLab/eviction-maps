@@ -36,7 +36,7 @@ describe('MapComponent', () => {
       'id': 'none',
       'name': 'None',
       'default': 'rgba(0, 0, 0, 0)',
-      'fillStops': {
+      'stops': {
         'default': [
           [0, 'rgba(0, 0, 0, 0)']
         ]

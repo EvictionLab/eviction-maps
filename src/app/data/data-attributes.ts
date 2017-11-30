@@ -5,7 +5,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'none',
     'name': 'None',
     'default': 'rgba(0, 0, 0, 0)',
-    'fillStops': {
+    'stops': {
       'default': [
         [0, 'rgba(0, 0, 0, 0)']
       ]
@@ -15,7 +15,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'p',
     'name': 'Population',
     'default': 'rgba(0, 0, 0, 0)',
-    'fillStops': {
+    'stops': {
       'default': [
         [-1.0, 'rgba(198, 204, 207, 0.6)'],
         [0, 'rgba(238, 226, 239, 0.7)'],
@@ -68,7 +68,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'pr',
     'name': 'Poverty Rate',
     'default': 'rgba(0, 0, 0, 0)',
-    'fillStops': {
+    'stops': {
       'default': [
         [-1.0, 'rgba(198, 204, 207, 0.6)'],
         [0, 'rgba(215, 227, 244, 0.7)'],
@@ -86,7 +86,7 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
     'id': 'none',
     'name': 'None',
     'default': 0,
-    'fillStops': {
+    'stops': {
       'default': [
         [
           {
@@ -102,7 +102,7 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
     'id': 'er',
     'name': 'Judgment Rate',
     'default': 0,
-    'fillStops': {
+    'stops': {
       'default': [
         [
           {
@@ -110,6 +110,20 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'value': 0
           },
           1
+        ]
+      ],
+      'circle-color': [
+        [
+          -1,
+          'rgba(198,204,207,0.8)'
+        ],
+        [
+          0,
+          'rgba(255,120,119,0.8)'
+        ],
+        [
+          6,
+          'rgba(255,4,0,0.8)'
         ]
       ],
       'states': [
@@ -996,7 +1010,7 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
     'id': 'efr',
     'name': 'Filing Rate',
     'default': 0,
-    'fillStops': {
+    'stops': {
       'default': [
         [
           {
@@ -1004,6 +1018,20 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'value': 0
           },
           1
+        ]
+      ],
+      'circle-color': [
+        [
+          -1,
+          'rgba(198,204,207,0.8)'
+        ],
+        [
+          0,
+          'rgba(255,120,119,0.8)'
+        ],
+        [
+          15,
+          'rgba(255,4,0,0.8)'
         ]
       ],
       'states': [

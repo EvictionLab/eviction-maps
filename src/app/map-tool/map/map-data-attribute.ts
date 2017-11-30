@@ -5,7 +5,7 @@ export interface MapDataAttribute extends MapDataObject {
     name: string;
     format?: string;
     default?: string | number;
-    fillStops?: {
+    stops?: {
         [id: string]: Array<Array<any>>
     };
 }
