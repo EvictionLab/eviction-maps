@@ -20,6 +20,7 @@ import { LocationCardsComponent } from './location-cards/location-cards.componen
 import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 import { UiToastComponent } from './ui-toast/ui-toast.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
+import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
 
 @NgModule({
   exports: [
@@ -33,7 +34,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     UiHintComponent,
     UiMapLegendComponent,
     UiToastComponent,
-    UiSwitchComponent
+    UiSwitchComponent,
+    UiCopyClipboardComponent
   ],
   imports: [
     CommonModule,
@@ -56,7 +58,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     UiHintComponent,
     UiMapLegendComponent,
     UiToastComponent,
-    UiSwitchComponent
+    UiSwitchComponent,
+    UiCopyClipboardComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent, LocationCardsComponent ]
