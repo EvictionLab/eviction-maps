@@ -14,7 +14,6 @@
 </div>
 <ng-content></ng-content>
 <div class="map-ui-wrapper">
-  
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
   <app-location-cards 
     *ngIf="activeFeatures.length > 0"
@@ -28,7 +27,7 @@
       <app-ui-select
           tabindex="4"
           class="eviction-select"
-          label="Eviction Data"
+          [label]="'MAP.EVICTION_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedBubble"
           [values]="bubbleOptions"
@@ -37,7 +36,7 @@
       <app-ui-select
           tabindex="5"
           class="highlight-select"
-          label="Census Data"
+          [label]="'MAP.CENSUS_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedChoropleth"
           [values]="choroplethOptions"
@@ -46,11 +45,11 @@
       <app-ui-select
           tabindex="6"
           class="layer-select"
-          label="Map Level"
+          [label]="'MAP.LAYER_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedLayer"
           [values]="selectDataLevels" 
-          [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
+          [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
           (change)="setGroupVisibility($event)">
       </app-ui-select>
     </div>

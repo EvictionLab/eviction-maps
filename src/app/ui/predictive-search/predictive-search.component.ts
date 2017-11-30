@@ -13,6 +13,7 @@ export class PredictiveSearchComponent implements OnInit {
   @Input() options: Object[];
   @Input() optionsLimit = 5;
   @Input() waitMs = 500;
+  @Input() placeholder;
   @Output() selectedChange = new EventEmitter();
   @Output() selectionChange: EventEmitter<Object> = new EventEmitter<Object>();
 

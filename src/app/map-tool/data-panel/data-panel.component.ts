@@ -44,14 +44,14 @@ export class DataPanelComponent implements OnInit, OnChanges {
   tooltips = [];
   graphType = 'bar';
   cardProps = {
-    'er': 'Judgment Rate',
-    'e': 'Judgments',
-    'efr': 'Filing Rate',
-    'ef': 'Filings',
-    'pr': 'Poverty Rate',
-    'p': 'Population',
-    'roh': 'Renter Occupied Houses',
-    'ahs': 'Average House Size'
+    'er': 'STATS.JUDGMENT_RATE',
+    'e': 'STATS.JUDGMENTS',
+    'efr': 'STATS.FILING_RATE',
+    'ef': 'STATS.FILINGS',
+    'pr': 'STATS.POVERTY_RATE',
+    'p': 'STATS.POPULATION',
+    'roh': 'STATS.RENTER_OCCUPIED',
+    'ahs': 'STATS.AVG_HOUSEHOLD'
   };
   graphProp = 'er';
   graphSettings;

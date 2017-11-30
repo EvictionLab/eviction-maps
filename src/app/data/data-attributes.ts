@@ -4,6 +4,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
   {
     'id': 'none',
     'name': 'None',
+    'langKey': 'STATS.NONE',
     'default': 'rgba(0, 0, 0, 0)',
     'fillStops': {
       'default': [
@@ -14,6 +15,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
   {
     'id': 'p',
     'name': 'Population',
+    'langKey': 'STATS.POPULATION',
     'default': 'rgba(0, 0, 0, 0)',
     'fillStops': {
       'default': [
@@ -67,6 +69,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
   {
     'id': 'pr',
     'name': 'Poverty Rate',
+    'langKey': 'STATS.POVERTY_RATE',
     'default': 'rgba(0, 0, 0, 0)',
     'fillStops': {
       'default': [
@@ -84,14 +87,17 @@ export const DataAttributes: Array<MapDataAttribute> = [
 export const BubbleAttributes: Array<MapDataAttribute> = [
   {
     'id': 'none',
-    'name': 'None'
+    'name': 'None',
+    'langKey': 'STATS.NONE'
   },
   {
     'id': 'er',
-    'name': 'Judgment Rate'
+    'name': 'Judgment Rate',
+    'langKey': 'STATS.JUDGMENT_RATE'
   },
   {
     'id': 'efr',
-    'name': 'Filing Rate'
+    'name': 'Filing Rate',
+    'langKey': 'STATS.FILING_RATE'
   }
 ];

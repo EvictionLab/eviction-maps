@@ -4,6 +4,7 @@ import { MapboxComponent } from './mapbox/mapbox.component';
 import { MapComponent } from './map/map.component';
 import { UiModule } from '../../ui/ui.module';
 
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   exports: [
@@ -12,7 +13,8 @@ import { UiModule } from '../../ui/ui.module';
   ],
   imports: [
     CommonModule,
-    UiModule
+    UiModule,
+    TranslateModule
   ],
   declarations: [MapboxComponent, MapComponent]
 })

@@ -1,5 +1,5 @@
 <div class="map-legend" *ngIf="fillStops">
-  <app-ui-hint class="legend-hint" [hint]="hint" placement="left"></app-ui-hint>
+  <app-ui-hint class="legend-hint" [hint]="'MAP.LEGEND_HINT' | translate:hintData" placement="left"></app-ui-hint>
   <div class="legend" [style.background]="legendGradient">
     <span class="legend-start">{{fillStops[1][0]}}</span>
     <span class="legend-middle">{{(fillStops[1][0] + fillStops[fillStops.length - 1][0]) / 2}}</span>
