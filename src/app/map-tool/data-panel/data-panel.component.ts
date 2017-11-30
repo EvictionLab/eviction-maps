@@ -2,11 +2,13 @@ import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChange
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-data-panel',
   templateUrl: './data-panel.component.html',
-  styleUrls: ['./data-panel.component.scss']
+  styleUrls: ['./data-panel.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class DataPanelComponent implements OnInit, OnChanges {
 
@@ -18,7 +20,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       axis: {
         x: { label: null, tickFormat: null },
-        y: { label: this.cardProps[this.graphProp], tickSize: '-100%', ticks: 5 }
+        y: { 
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]), 
+          tickSize: '-100%', 
+          ticks: 5
+        }
       },
       margin: { left: 48, right: 16, bottom: 32, top: 16 }
     };
@@ -32,7 +38,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
           ticks: Math.min(5, this.lineEndYear - this.lineStartYear)
         },
         y: {
-          label: this.cardProps[this.graphProp],
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
           tickSize: '-100%',
           ticks: 5
         }
@@ -65,12 +71,21 @@ export class DataPanelComponent implements OnInit, OnChanges {
   maxYear = 2016;
   lineEndYear: number = this.maxYear;
 
-  constructor(public dialogService: UiDialogService) {}
+  constructor(
+    public dialogService: UiDialogService, 
+    private translatePipe: TranslatePipe,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.updateLineYears(this.year, this.maxYear);
     this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
+    // Update graph axis settings on language change
+    this.translate.onLangChange.subscribe(() => {
+      this.graphSettings = this.graphType === 'bar' ?
+        this.barGraphSettings : this.lineGraphSettings;
+    });
   }
 
   /**
@@ -160,10 +175,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
       this.graphData = [ ...this.createLineGraphData() ];
-      console.log('set graph data', this.graphData);
-      // HACK FIX: the axis does not get set properly when switching to the line graph
-      //  unless the settings are set first
-      setTimeout(() => { this.graphData = [ ...this.createLineGraphData() ]; }, 100);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [ ...this.createBarGraphData() ];
