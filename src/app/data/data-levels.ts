@@ -4,6 +4,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   {
     'id': 'states',
     'name': 'States',
+    'langKey': 'LAYERS.STATES',
     'layerIds': [
       'states',
       'states_stroke',
@@ -17,6 +18,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   {
     'id': 'counties',
     'name': 'Counties',
+    'langKey': 'LAYERS.COUNTIES',
     'layerIds': [
       'counties',
       'counties_stroke',
@@ -30,6 +32,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   {
     'id': 'cities',
     'name': ' Cities',
+    'langKey': 'LAYERS.CITIES',
     'layerIds': [
       'cities',
       'cities_stroke',
@@ -43,6 +46,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   {
     'id': 'tracts',
     'name': 'Tracts',
+    'langKey': 'LAYERS.TRACTS',
     'layerIds': [
       'tracts',
       'tracts_stroke',
@@ -56,6 +60,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   {
     'id': 'block-groups',
     'name': 'Block Groups',
+    'langKey': 'LAYERS.BLOCK_GROUPS',
     'layerIds': [
       'block-groups',
       'block-groups_stroke',

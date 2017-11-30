@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
@@ -19,6 +20,7 @@ import { LocationCardsComponent } from './location-cards/location-cards.componen
 import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 import { UiToastComponent } from './ui-toast/ui-toast.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
+import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
 
 @NgModule({
   exports: [
@@ -32,7 +34,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     UiHintComponent,
     UiMapLegendComponent,
     UiToastComponent,
-    UiSwitchComponent
+    UiSwitchComponent,
+    UiCopyClipboardComponent
   ],
   imports: [
     CommonModule,
@@ -40,7 +43,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
-    TypeaheadModule
+    TypeaheadModule,
+    TranslateModule
   ],
   declarations: [
     UiSelectComponent,
@@ -54,7 +58,8 @@ import { UiSwitchComponent } from './ui-switch/ui-switch.component';
     UiHintComponent,
     UiMapLegendComponent,
     UiToastComponent,
-    UiSwitchComponent
+    UiSwitchComponent,
+    UiCopyClipboardComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent, LocationCardsComponent ]

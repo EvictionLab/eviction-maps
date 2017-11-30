@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -20,9 +21,13 @@ import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
-  get dataLevels() { return DataLevels; }
-  get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  dataLevels = DataLevels;
+  dataAttributes = DataAttributes;
+  bubbleAttributes = BubbleAttributes;
+  languageOptions = [
+    { id: 'en', name: '', langKey: 'HEADER.EN' },
+    { id: 'es', name: '', langKey: 'HEADER.ES' }
+  ]
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
@@ -38,7 +43,42 @@ export class DataService {
   private tilesetYears = ['00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private translate: TranslateService) {
+    translate.onLangChange.subscribe((lang) => {
+      this.updateLanguage(lang.translations);
+    });
+  }
+
+
+  updateLanguage(translations) {
+    if (translations.hasOwnProperty('HEADER')) {
+      const header = translations['HEADER'];
+      this.languageOptions = this.languageOptions.map(l => {
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }        
+        return l;
+      })
+    }
+    // translate census attribute names
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.dataAttributes = DataAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+      this.bubbleAttributes = BubbleAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+    }
+    // translate geography layers
+    if (translations.hasOwnProperty('LAYERS')) {
+      const layers = translations['LAYERS'];
+      this.dataLevels = DataLevels.map((l) => {
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }        
+        return l;
+      });
+    }
+  }
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID

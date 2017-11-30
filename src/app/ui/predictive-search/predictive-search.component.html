@@ -7,7 +7,7 @@
          [typeaheadOptionsLimit]="optionsLimit"
          (typeaheadOnSelect)="updateSelection($event)"
          [typeaheadWaitMs]="waitMs"
-         placeholder="Search for a place"
+         [placeholder]="placeholder"
          class="form-control">
   <span class="clear"
         [style.display]="selected ? 'block' : 'none'"

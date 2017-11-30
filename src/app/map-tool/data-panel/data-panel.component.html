@@ -1,17 +1,21 @@
 <div class="data-wrapper">
   <ng-content></ng-content>
   <div class="data-header">
-      <p>Displaying eviction statistics for <span>{{year}}</span></p>
+      <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
   </div>
   <app-location-cards class="card-table" [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
   (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
   <div class="graph-container">
     <div class="data-content-inner">
       <div class="graph-header">
-        <app-ui-switch leftLabel="Judgments" rightLabel="Filings" (switched)="changeGraphProperty($event)"></app-ui-switch>
+        <app-ui-switch 
+          [leftLabel]="'DATA.JUDGMENTS'| translate" 
+          [rightLabel]="'DATA.FILINGS' | translate" 
+          (switched)="changeGraphProperty($event)"
+        ></app-ui-switch>
         <app-ui-toggle class="graph-type-toggle" [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
         <div class="graph-year-select">
-          <span class="graph-year-label">Date range</span>
+          <span class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
           <div class="graph-line-selects" *ngIf="graphType === 'line'">
             <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
             <span>to</span>
@@ -44,7 +48,7 @@
               <path d="M20,0 C29.8203125,0 40,6.75551115 40,19.0800608 C40,27.2964272 33.3333333,40.2697402 20,58 C6.66666667,40.3015304 3.48313052e-16,27.3282173 0,19.0800608 C0,6.70782593 10.1796875,0 20,0 Z M19.5,29.7038377 C24.4705627,29.7038377 28.5,25.6678161 28.5,20.6891311 C28.5,15.7104461 24.4705627,11.6744245 19.5,11.6744245 C14.5294373,11.6744245 10.5,15.7104461 10.5,20.6891311 C10.5,25.6678161 14.5294373,29.7038377 19.5,29.7038377 Z" id="Combined-Shape"></path>
             </svg>
             <span class="legend-label">{{ location.properties["n"] }}</span>
-            <button class="btn btn-remove" (click)="locationRemoved.emit(location)">Remove</button>
+            <button class="btn btn-remove" (click)="locationRemoved.emit(location)">{{ 'DATA.REMOVE_BUTTON' | translate }}</button>
           </li>
         </ul>
       </div>
@@ -78,25 +82,28 @@
                 </svg>
               </button>
             </a>
-            <button class="btn btn-border btn-social-icon btn-link">
+            <ng-template #popTemplate>
+              <app-ui-copy-clipboard [copyText]="getCurrentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
+            </ng-template>
+            <button class="btn btn-border btn-social-icon btn-link" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M16,6H13V7.9H16C18.26,7.9 20.1,9.73 20.1,12A4.1,4.1 0 0,1 16,16.1H13V18H16A6,6 0 0,0 22,12C22,8.68 19.31,6 16,6M3.9,12C3.9,9.73 5.74,7.9 8,7.9H11V6H8A6,6 0 0,0 2,12A6,6 0 0,0 8,18H11V16.1H8C5.74,16.1 3.9,14.26 3.9,12M8,13H16V11H8V13Z"
                 />
               </svg>
             </button>
           </div>
-          <span>Share a link to this map and information</span>
+          <span>{{ 'DATA.SOCIAL_HINT' | translate }}</span>
         </div>
         <div class="action-wrapper">
-          <button class="btn btn-border" (click)="showDownloadDialog($event)">Save</button>
-          <span>Download the current data and graphs in PowerPoint, PDF, or spreadsheet files</span>
+          <button class="btn btn-border" (click)="showDownloadDialog($event)">{{ 'DATA.DOWNLOAD_BUTTON' | translate }}</button>
+          <span>{{ 'DATA.DOWNLOAD_HINT' | translate }}</span>
         </div>
         <div class="action-wrapper">
-          <button class="btn btn-border">Get More Data</button>
-          <span>Search for and access spreadsheets of full data sets from across the U.S</span>
+          <button class="btn btn-border">{{ 'DATA.GET_DATA' | translate }}</button>
+          <span>{{ 'DATA.GET_DATA_HINT' | translate }}</span>
         </div>
       </div>
 
     </div>
-  </div>
+  </div> 
 </div>

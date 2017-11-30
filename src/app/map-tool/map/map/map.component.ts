@@ -106,8 +106,8 @@ export class MapComponent implements OnInit, OnChanges {
     return this.activeFeatures.length;
   }
   @HostBinding('class.slider-active') get sliderActive() {
-    return (this.selectedBubble && this.selectedBubble.name !== 'None') ||
-      (this.selectedChoropleth && this.selectedChoropleth.name !== 'None') ||
+    return (this.selectedBubble && !this.selectedBubble.id.includes('none')) ||
+      (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
       this.cardsActive;
   }
   /** Gets the layers available at the current zoom */
@@ -118,7 +118,7 @@ export class MapComponent implements OnInit, OnChanges {
   get showLegend(): boolean {
     return this.selectedLayer &&
       this.selectedChoropleth &&
-      this.selectedChoropleth.name !== 'None';
+      !this.selectedChoropleth.id.includes('none');
   }
   /** Gets if the legend is full width */
   get fullWidth(): boolean { return window.innerWidth >= 767; }
@@ -337,17 +337,20 @@ export class MapComponent implements OnInit, OnChanges {
       !this.selectedBubble || !this.selectedChoropleth
     ) { return; }
     const cardProps = {};
-    const bubbleStat = (this.selectedBubble.name === 'None') ?
+    const bubbleStat = (this.selectedBubble.id === 'none') ?
       this.bubbleOptions[1] : this.selectedBubble;
-    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.name === 'None') ?
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id === 'none') ?
       null : this.selectedChoropleth;
-    // need to strip the year from the ID to pass to location cards
-    cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
-    // dropping the 'r' from the stat and removing the word "rate"
-    // TODO: we should have a better way of managing these labels
-    cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(' Rate', 's');
+    const bubbleAttr = bubbleStat.id.split('-')[0];
+    if (bubbleAttr === 'er' || bubbleAttr === 'none') {
+      cardProps['er'] = 'STATS.JUDGMENT_RATE';
+      cardProps['e'] = 'STATS.JUDGMENTS';
+    } else if (bubbleAttr === 'efr') {
+      cardProps['efr'] = 'STATS.FILING_RATE';
+      cardProps['ef'] = 'STATS.FILINGS';
+    }
     if (choroStat) {
-      cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+      cardProps[choroStat.id.split('-')[0]] = choroStat.langKey;
     }
     this.cardProps = cardProps;
   }

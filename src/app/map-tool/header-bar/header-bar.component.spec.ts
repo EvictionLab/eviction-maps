@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed, tick, fakeAsync } from '@angular/core/testing';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { HeaderBarComponent } from './header-bar.component';
 import { UiModule } from '../../ui/ui.module';
 import { By } from '@angular/platform-browser';
@@ -11,6 +12,7 @@ describe('HeaderBarComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ TranslateModule.forRoot() ],
       declarations: [ 
         HeaderBarComponent, 
       ],

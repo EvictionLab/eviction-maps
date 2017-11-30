@@ -4,7 +4,7 @@ import { MapToolComponent } from './map-tool.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { DataService } from '../data/data.service';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MapToolModule } from './map-tool.module';
 import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
@@ -39,6 +39,7 @@ describe('MapToolComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MapToolModule,
+        TranslateModule.forRoot(),
         RouterTestingModule
       ]
     })
@@ -46,7 +47,7 @@ describe('MapToolComponent', () => {
       set: {
         providers: [
           {provide: DataService, useClass: DataServiceStub },
-          {provide: TranslateService, useClass: TranslateServiceStub}
+          TranslateService
         ]
       }
     })
