@@ -55,14 +55,15 @@ export class DataPanelComponent implements OnInit, OnChanges {
   };
   graphProp = 'er';
   graphSettings;
-  lineStartYear: number;
   startSelect: Array<number>;
-  lineEndYear: number;
+
   endSelect: Array<number>;
   barYear: number;
   barYearSelect: Array<number>;
   minYear = 2000;
-  maxYear = new Date().getFullYear();
+  lineStartYear: number = this.minYear;
+  maxYear = 2016;
+  lineEndYear: number = this.maxYear;
 
   constructor(public dialogService: UiDialogService) {}
 
@@ -77,9 +78,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
    */
   ngOnChanges(changes: SimpleChanges) {
     if (changes.locations) {
-      this.setGraphData();
-    }
-    if (changes.year && this.graphType === 'bar') {
       this.setGraphData();
     }
   }
@@ -121,7 +119,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
-    this.setGraphData();
   }
 
   /**
@@ -162,9 +159,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
+      this.graphData = [ ...this.createLineGraphData() ];
+      console.log('set graph data', this.graphData);
       // HACK FIX: the axis does not get set properly when switching to the line graph
       //  unless the settings are set first
-      setTimeout(() => { this.graphData = [ ...this.createLineGraphData() ]; }, 10);
+      setTimeout(() => { this.graphData = [ ...this.createLineGraphData() ]; }, 100);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [ ...this.createBarGraphData() ];
@@ -239,9 +238,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
         const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        if (yVal) {
-          return { x: year, y: yVal };
-        }
+        return yVal ? { x: year, y: yVal } : { x: year, y: -1 };
       });
   }
 
