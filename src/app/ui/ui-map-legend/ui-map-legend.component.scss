@@ -8,19 +8,23 @@
 .map-legend {
   height: 100%;
   width: 100%;
-  background: $legendBackground;
-  box-shadow: $z1shadow;
+  padding: grid(2) grid(2) 0;
   .legend {
     position: absolute;
-    height: 100%;
-    width: 100%;
-    padding: 0 grid(1);
+    left: grid(2);
+    bottom: grid(1);
+    height: grid(1.5);
+    width: calc(100% - #{grid(8)});
+    padding: 0;
     color: $legendTextColor;
     text-align:center;
     display: flex;
     align-items: center;
     justify-content: space-between;
     @include numberFont($legendFontSize);
+    span {
+      margin-top: -1*grid(3.75);
+    }
   }
 }
 // hint icon above the legend on the right
@@ -28,31 +32,39 @@ app-ui-hint.legend-hint {
   position: absolute;
   width: $legendHeight;
   height: $legendHeight;
-  top: -$legendHeight - grid(1);
-  right:0;
+  top: 0;
+  bottom:0;
+  right:grid(0.5);
   left:auto;
   margin:auto;
   // adjust for white circle behind icon
-  ::ng-deep .hint-button span {
-    width: grid(2.5); // needs to be nudged so alignment is proper
-    height: grid(2.5);
-    font-size: grid(2.5);
+  ::ng-deep .hint-button {
+    width: grid(5);
+    height: 100%;
+    font-size: grid(3);
+    line-height:1;
     padding: 0;
     box-sizing: content-box;
     border-radius: 100%;
-    background: $legendIconBackground;
-    border: grid(0.25) solid $legendIconBackground;
-    color: $legendIconColor; 
-  }
-}
-// larger than tablet:
-//    hint icon to the left of the legend
-:host-context(.gt-tablet) {
-  app-ui-hint.legend-hint {
-    top: grid(1);
-    bottom:0;
-    left: -$legendHeight;
-    right:auto;
+    color: $legendIconColor;
+    span {
+      top:1px;
+      width: grid(3);
+      height: grid(3);
+    }
   }
 }
 
+:host-context(.gt-mobile) {
+  .map-legend {
+    .legend {
+      left: grid(1);
+      height: grid(2.5);
+      width: calc(100% - #{grid(7)});
+      span {
+        margin-top: -1*grid(4.25);
+        font-size: 11px;
+      }
+    }
+  }
+}

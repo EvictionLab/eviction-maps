@@ -15,11 +15,23 @@ body {
     &:active, &:focus, &:active:focus {
       background: darken($buttonHoverColor, 5%);
     }
+    // icon above button label
+    svg{ display:block; margin: 0 auto 6px;}
+
+    // icon below button label
+    span + svg { margin: 4px auto; }
+    &.z1 { box-shadow: $z1shadow; }
   }
 
   // Buttons with smaller height
   .btn.btn-small {
     height: $buttonHeightSm;
+  }
+
+  .btn.btn-large {
+    height: grid(8);
+    @include smallCapsText(15px);
+
   }
 
   // Primary color buttons
@@ -47,10 +59,6 @@ body {
     font-weight: 500;
     padding: 8px 16px;
     box-sizing: border-box;
-    // icon above button label
-    svg { display:block; margin: 0 auto 6px;}
-    // icon below button label
-    span + svg { margin: 4px auto; }
     // active style
     &.active, &:active, &:focus, &:active:focus {
       box-shadow: 0 0 0 2px #fff, 0px 1px 3px 2px rgba(0,0,0,0.34);

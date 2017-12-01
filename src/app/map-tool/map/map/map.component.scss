@@ -197,11 +197,14 @@ app-ui-select.none-selected {
 //    map spans entire width at bottom of map
 app-ui-map-legend {
   width: 100%;
-  height: $legendHeight/2;
+  height: $legendHeight;
+  background: $legendBackground;
   position:absolute;
   bottom: $timeSliderHeight;
   right:0;
   left:0;
+  box-shadow: $z1shadow;
+  border-bottom: 1px solid $shadingColor;
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
@@ -209,29 +212,29 @@ app-ui-map-legend {
   bottom: $timeSliderHeight + $cardHeaderHeight;
 }
 // larger than tablet: 
-//    move legend to top right of the map
-:host-context(.gt-tablet) {
+//    move legend to bottom right of the map
+:host-context(.gt-mobile) {
   app-ui-map-legend {
-    height: $legendHeight;
-    width:calc(100% - #{$defaultPadding*2});
+    height: grid(6); // 6 * 8 = 48px
+    width: grid(43); // 43 * 8 = 344px
     max-width: $maxContentWidth;
     margin:auto;
-    top:0;
-    right:0;
-    left:0;
-    bottom: auto;
-    ::ng-deep .map-legend {
-      width: grid(34);
-      position:absolute;
-      right:0;
-      top:0;
-    }
+    top:auto;
+    left:auto;
+    right:$pageMarginLg;
+    bottom: $timeSliderHeight + $pageMarginLg;
   }
 }
+// large than mobile:
+//    legend is on the bottom right of the map, above cards
+.gt-mobile :host-context(.cards-active.slider-active) app-ui-map-legend {
+  bottom: $timeSliderHeight + $cardHeaderHeight + $pageMarginLg;
+}
+
 // large than tablet:
-//    legend is on the top right of the header
+//    cards removed from bottom, adjust accordingly
 .gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: auto;
+  bottom: $timeSliderHeight + $pageMarginLg;
 }
 // - End Map Legend
 
@@ -247,14 +250,13 @@ app-ui-map-legend {
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
-  padding: 0 grid(5);
-  box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  padding: 0 $pageMargin;
   border-bottom: 1px solid $shadingColor;
   
   // keep the slider component within the max content width
   .year-slider {
     margin: auto;
-    max-width: $maxContentWidth - $defaultPadding*4;
+    max-width: $maxContentWidth - $pageMarginLg*2;
     height: $timeSliderHeight;
     display: block;
     ::ng-deep .el-slider .scrubber-marker { border: 5px solid $color1; }
@@ -268,10 +270,16 @@ app-ui-map-legend {
 :host-context(.cards-active) {
   .year-slider-container { bottom: $cardHeaderHeight; }
 }
+.gt-mobile :host-context {
+  .year-slider-container {
+      box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  }
+}
 // fixed at the bottom of the screen abover the overlay on 
 // devices larger than tablet
 .gt-tablet :host-context {
   .year-slider-container { 
+    padding: 0 $pageMarginLg;
     bottom: 0; 
     z-index:51;
   }
