@@ -1146,48 +1146,6 @@
       }
     },
     {
-      "id": "boundary_state",
-      "type": "line",
-      "metadata": {
-        "mapbox:group": "a14c9607bc7954ba1df7205bf660433f"
-      },
-      "source": "openmaptiles",
-      "source-layer": "boundary",
-      "minzoom": 3,
-      "maxzoom": 7,
-      "filter": [
-        "==",
-        "admin_level",
-        4
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "bevel",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(248, 153, 156, 1)",
-        "line-width": {
-          "stops": [
-            [
-              3,
-              1
-            ],
-            [
-              6,
-              1
-            ]
-          ]
-        },
-        "line-blur": 0.4,
-        "line-dasharray": [
-          2,
-          2
-        ],
-        "line-opacity": 1
-      }
-    },
-    {
       "id": "boundary_country",
       "type": "line",
       "metadata": {
@@ -4012,6 +3970,47 @@
             ]
           ]
         }
+      }
+    },
+        {
+      "id": "boundary_state",
+      "type": "line",
+      "metadata": {
+        "mapbox:group": "a14c9607bc7954ba1df7205bf660433f"
+      },
+      "source": "openmaptiles",
+      "source-layer": "boundary",
+      "minzoom": 3,
+      "filter": [
+        "==",
+        "admin_level",
+        4
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "bevel",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(248, 153, 156, 1)",
+        "line-width": {
+          "stops": [
+            [
+              3,
+              1
+            ],
+            [
+              7,
+              2
+            ]
+          ]
+        },
+        "line-blur": 0.4,
+        "line-dasharray": [
+          2,
+          2
+        ],
+        "line-opacity": 1
       }
     },
     {
