@@ -106,7 +106,8 @@ app-ui-select {
   position: absolute;
   width:33.3333%;
   top:0;
-  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
+  z-index: 100;
+  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
   ::ng-deep {
     .el-select .el-select-label,
     .el-select .el-select-value {
@@ -132,6 +133,7 @@ app-ui-select.open {
   right: 0;
   width: 100%;
   z-index: 101;
+  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
   ::ng-deep .el-select .el-select-label {
     display: inherit;
   }
