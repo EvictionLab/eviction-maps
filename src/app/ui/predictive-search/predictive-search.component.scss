@@ -38,6 +38,20 @@ input {
     @include predictive-search-colors($searchTextColor, $searchPlaceholderColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
     input::placeholder { color: $searchPlaceholderColor;  }
   }
+  /deep/ typeahead-container {
+    right: 0;
+
+    ul.dropdown-menu {
+      width: 100%;
+      overflow-x: hidden;
+
+      li.active a {
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
   .search {
     flex:1;
     width:auto;
