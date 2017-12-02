@@ -3946,11 +3946,7 @@
           ]
         },
         "line-blur": 0.4,
-        "line-dasharray": [
-          2,
-          2
-        ],
-        "line-opacity": 1
+        "line-opacity": 0.8
       }
     }
   ]
