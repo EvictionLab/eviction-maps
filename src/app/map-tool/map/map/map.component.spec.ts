@@ -33,6 +33,7 @@ describe('MapComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
+    component.year = 2010;
     component.choroplethOptions = [{
       'id': 'none',
       'name': 'None',

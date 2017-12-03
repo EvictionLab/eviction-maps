@@ -1,4 +1,4 @@
-import { Component, EventEmitter, ElementRef, AfterViewInit, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
+import { Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -11,7 +11,8 @@ export class UiSliderComponent implements AfterViewInit {
   set value(value: number) {
     const boundsValue = (this.min && this.max) ?
       Math.min(this.max, Math.max(this.min, value)) : value;
-    this._currentValue = this.getStepValue(boundsValue);    
+    this._currentValue = this.getStepValue(boundsValue);   
+     
   }
   get value(): number {
     return this._currentValue;
@@ -30,9 +31,14 @@ export class UiSliderComponent implements AfterViewInit {
   private elRect = null;
   private _currentValue = 0;
 
+  constructor(private cdRef:ChangeDetectorRef) {}
+
   ngAfterViewInit() {
     this.setSliderDimensions();
     this.updatePosition();
+    // need to notify of changes when modifying inside of AfterViewInit
+    // https://github.com/angular/angular/issues/14748
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -114,7 +120,7 @@ export class UiSliderComponent implements AfterViewInit {
     return (Math.round((val * step)) / step);
   }
 
-  private updatePosition() {
+  updatePosition() {
     this.position = (this.value - this.min) / (this.max - this.min);
     this.valueChange.emit(this.value);
   }
