@@ -238,6 +238,7 @@ app-location-cards {
 :host-context(.gt-tablet) {
   .map-ui app-ui-select {
     width:auto;
+    max-width:31%; // prevent selects from wrapping to new line
     margin: 0 grid(2) 0 0;
   }
 }
