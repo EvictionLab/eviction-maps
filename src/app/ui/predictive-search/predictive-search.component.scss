@@ -59,7 +59,6 @@ input {
   }
   .form-control {
     height: $searchHeight;
-    border-radius:2px;
     padding-left: 36px;
     @include inputText();
   }

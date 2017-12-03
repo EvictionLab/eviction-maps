@@ -39,12 +39,36 @@
 .gt-mobile :host-context {
   .map-ui { 
     display: block;
-    width: calc(100% - #{($pageMargin)});    
+    width: calc(100% - #{($pageMarginLg*2)});    
   }
 }
-
-
 // - End Map UI Layout
+
+// Map Zoom Controls
+// ----
+// Hide rotate button because it's confusing
+app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
+  display: none;
+}
+// center controls vertically on the right side of the map
+app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
+  top: 0;
+  bottom:$timeSliderHeight;
+  margin:auto;
+  height:110px;
+  right:$pageMargin;
+  left: auto;
+}
+// increase page margins and account for larger time slider
+:host-context(.gt-mobile) {
+  app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
+    top: 0;
+    bottom:$timeSliderLg;
+    right:$pageMarginLg;
+    left: auto;
+  }
+}
+// - End Map Zoom Control
 
 
 // Map Location Cards
@@ -305,7 +329,7 @@ app-ui-map-legend {
 }
 .gt-mobile :host-context {
   .year-slider-container {
-    padding: 0 ($pageMarginLg + grid(2)); // add grid(2) so slider marker aligns with margin edge
+    padding: 0 ($pageMarginLg + grid(2)) 0 $pageMarginLg; // add grid(2) so slider marker aligns with margin edge
     height: $timeSliderLg;
     box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
   }
