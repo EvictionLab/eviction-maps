@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -59,6 +59,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   urlParts;
 
   constructor(
+    private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
@@ -124,6 +125,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         this.dataService.setMapBounds(b);
       }
     }
+    this.cdRef.detectChanges();
   }
 
   /**
