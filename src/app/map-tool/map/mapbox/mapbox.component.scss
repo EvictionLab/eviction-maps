@@ -4,16 +4,3 @@
   position:absolute;
   left:0;right:0;top:0;bottom:0;
 }
-// Hide rotate button because it's confusing
-:host ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
-  display: none;
-}
-// center controls vertically on the right side of the map
-:host ::ng-deep .mapboxgl-ctrl-top-left {
-  top: 0;
-  bottom:40px;
-  margin:auto;
-  height:110px;
-  right:16px;
-  left: auto;
-}
