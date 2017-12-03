@@ -60,10 +60,9 @@
 <div class="year-slider-container">
   <app-ui-slider tabindex="9"
     class="year-slider"
-    [label]="'Year'"
-    [currentValue]="year" 
+    [label]="year"
+    [(value)]="year" 
     [min]="2000" 
     [max]="2016" 
-    (change)="year=$event"
   ></app-ui-slider>
 </div>

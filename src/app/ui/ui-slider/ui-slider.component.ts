@@ -1,39 +1,45 @@
-import { Component, EventEmitter, ElementRef, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
-
-// TODO: add key bindings
+import { Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
+import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-ui-slider',
   templateUrl: './ui-slider.component.html',
   styleUrls: ['./ui-slider.component.scss']
 })
-export class UiSliderComponent {
+export class UiSliderComponent implements AfterViewInit {
+  @Input()
+  set value(value: number) {
+    const boundsValue = (this.min && this.max) ?
+      Math.min(this.max, Math.max(this.min, value)) : value;
+    this._currentValue = this.getStepValue(boundsValue);   
+     
+  }
+  get value(): number {
+    return this._currentValue;
+  }
+  @Input() label;
+  @Input() min;
+  @Input() max;
+  @Input() step = 1;
+  @Output() valueChange = new EventEmitter<number>();
+  @ViewChild('scrubber') scrubber: ElementRef;
+  @ViewChild('container') el: ElementRef;
+  @HostBinding('class.active') pressed = false;
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
-  @Input() label;
-  @Input() vertical = false;
-  @Input() min = 0;
-  @Input() max = 100;
-  @Input() step = 1;
-  @Output() change = new EventEmitter<number>();
-  @ViewChild('scrubber') scrubber;
-  @HostBinding('class.active') pressed = false;
+  get pxValue() { return this.elRect ? this.position * this.elRect.width : 0 }
   private elRect = null;
   private _currentValue = 0;
 
-  /**
-   * Using getter and setter on currentValue to handle
-   * updates from external components
-   */
-  @Input() set currentValue(value) {
-    this.setValue(value);
-  }
+  constructor(private cdRef:ChangeDetectorRef) {}
 
-  get currentValue() {
-    return this._currentValue;
+  ngAfterViewInit() {
+    this.setSliderDimensions();
+    this.updatePosition();
+    // need to notify of changes when modifying inside of AfterViewInit
+    // https://github.com/angular/angular/issues/14748
+    this.cdRef.detectChanges();
   }
-
-  constructor(public el: ElementRef) { }
 
   /**
    * Update the slider dimensions when the window resizes
@@ -71,7 +77,7 @@ export class UiSliderComponent {
    */
   @HostListener('document:mouseup', ['$event']) onRelease(e) {
     if (this.pressed) {
-      this.setValue();
+      this.updatePosition();
       this.pressed = false;
     }
   }
@@ -92,31 +98,18 @@ export class UiSliderComponent {
 
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
     if (this.pressed && e.touches && e.touches.length === 1) {
-      this.setValue();
+      this.updatePosition();
       this.pressed = false;
     }
   }
 
   // TODO: change so keydown only triggers on element focus
   @HostListener('keydown', ['$event']) onKeypress(e) {
-    if (this.vertical && (e.keyCode === 38 || e.keyCode === 40)) {
-      if (e.keyCode === 38) {
-        // up
-        this.setValue(this._currentValue + this.step);
-      }
-      if (e.keyCode === 40) {
-        this.setValue(this._currentValue - this.step);
-      }
-      this.change.emit(this.getStepValue());
-    } else if (!this.vertical && (e.keyCode === 37 || e.keyCode === 39)) {
-      if (e.keyCode === 37) {
-        // left
-        this.setValue(this._currentValue - this.step);
-      }
-      if (e.keyCode === 39) {
-        this.setValue(this._currentValue + this.step);
-      }
-      this.change.emit(this.getStepValue());
+    if ((e.keyCode === 37 || e.keyCode === 39)) {
+      // left or right
+      this.value = (e.keyCode === 37) ?
+        this.value - this.step : this.value + this.step;
+      this.updatePosition();
     }
   }
 
@@ -127,14 +120,9 @@ export class UiSliderComponent {
     return (Math.round((val * step)) / step);
   }
 
-
-  /**
-   * Set the value and scrubber position
-   * @param val the slider value
-   */
-  setValue(val: number = this._currentValue) {
-    this._currentValue = this.getStepValue(Math.min(this.max, Math.max(this.min, val)));
-    this.position = (this._currentValue - this.min) / (this.max - this.min);
+  updatePosition() {
+    this.position = (this.value - this.min) / (this.max - this.min);
+    this.valueChange.emit(this.value);
   }
 
   /**
@@ -168,14 +156,11 @@ export class UiSliderComponent {
    */
   private setScrubberPosition(e) {
     if (e.clientX && this.elRect) {
-      const maxVal =
-        this.vertical ? this.getVerticalValue(e.clientY) : this.getHorizontalValue(e.clientX);
-      this.setValue(maxVal);
+      const maxVal = this.getHorizontalValue(e.clientX);
       this.position = Math.min(1, maxVal);
       const newValue = this.getStepValue();
-      if (newValue !== this.currentValue) {
-        this.currentValue = newValue;
-        this.change.emit(newValue);
+      if (newValue !== this.value) {
+        this.value = newValue;
       }
     }
   }
