@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { RouterModule, Routes } from '@angular/router';
@@ -51,6 +52,7 @@ const appRoutes: Routes = [
     UiModule,
     MapToolModule,
     BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     TranslateModule.forRoot({
       loader: {

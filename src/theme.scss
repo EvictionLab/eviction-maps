@@ -1,6 +1,5 @@
 // Import theming mixins
 @import "theme/mixins/utils.scss";
-@import "theme/mixins/ui-slider.theme";
 @import "theme/mixins/ui-graph.theme";
 @import "theme/mixins/ui-toggle.theme";
 @import "theme/mixins/ui-select.theme";
@@ -137,8 +136,10 @@ $switchTrackColor: #c6cccf;
 // Slider
 $sliderText: $altTextColor;
 $sliderBackground: #000;
-$sliderTrack: rgba(0,0,0,0.15);
-$timeSliderHeight: 40px;
+$sliderTrack: #C6CCCF;
+$sliderLabel: #A3A7A8;
+$timeSliderHeight: grid(5); // 40px
+$timeSliderLg: grid(11); // 88px
 $timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
