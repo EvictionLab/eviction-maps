@@ -17,6 +17,8 @@
 
 $gridSize: 8px; // base grid value used for margins and element sizing
 $defaultPadding: grid(2); // default padding for containers
+$pageMargin: grid(2); // page margin on mobile
+$pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
 $gtMobile: 767px; // greater than mobile device breakpoint
 $gtTablet: 1024px; // greater than tablet device breakpoint
@@ -100,7 +102,7 @@ $primaryButtonHoverColor: darken($color1, 3%);
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 // fonts
-$buttonTextSize: 12px;
+$buttonTextSize: 14px;
 
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
@@ -205,11 +207,11 @@ $searchHeight: grid(7);
 
 // Legend
 $legendHeight: grid(5);
-$legendBackground: #f8f8f9;
-$legendIconColor: $color1;
+$legendBackground: #fff;
+$legendIconColor: #666;
 $legendIconBackground: $defaultBackground;
-$legendFontSize: 11px;
-$legendTextColor: #fff;
+$legendFontSize: 10px;
+$legendTextColor: #7f7f7f;
 
 
 

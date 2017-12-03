@@ -72,14 +72,14 @@ html, body {
   margin-bottom:4px;
   width:14px;
   height:8px;
-  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
 .up-arrow {
   margin-bottom:4px;
   width:14px;
   height:8px;
   transform: rotate(180deg);
-  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
 .map-overlay {
   @include fill-parent();
@@ -113,10 +113,12 @@ html, body {
 .btn-map, 
 .btn-compare {
   position:absolute;
-  bottom: 16px;
+  bottom: $pageMarginLg;
   left:0;
   right:0;
-  width: $pageNavButtonWidth;
+  width: grid(28);
+  height: grid(8);
+  font-size:15px;
   margin:auto;
 }
 // bring button above data panel content
@@ -137,26 +139,5 @@ html, body {
   .map-overlay .btn-compare { display:block; }
   .map-overlay {
     height: calc(100% - #{$timeSliderHeight});
-  }
-}
-
-@media(min-width: $gtLargeDesktop) {
-  // move buttons to gutter
-  .data-wrapper .btn-map,
-  .btn-compare {
-    position: absolute;
-    left: 50%;
-    margin-left: (-$maxContentWidth / 2) - $pageNavButtonWidth - $defaultPadding/2;
-  }
-  // back button in the gutter of the data panel
-  .data-wrapper .btn-map {
-    margin-top:24px;
-    top: 0;
-    bottom:auto;
-    &.fixed { position:fixed; }
-  }
-  // hide back button in overlay
-  .map-overlay .btn-map {
-    display: none;
   }
 }
