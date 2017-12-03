@@ -22,6 +22,11 @@ html, body {
   font-family: $fontStack!important;
 }
 
+body {
+  height:auto;
+  overflow-x:hidden;
+}
+
 .btn.btn-close { 
   font-size: 24px; 
   width:40px;

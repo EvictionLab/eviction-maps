@@ -65,10 +65,12 @@
     bottom: 0;
     margin: auto;
     margin-left: -1 * grid(8) / 2;
-    transition: left 0.1s ease;
+    transition: transform 0.1s cubic-bezier(0,.66,.66,1);
     cursor: move;
   }  
   .scrubber-label {
+    opacity:0;
+    transition: opacity 0.2s ease-in-out;
     position: absolute;
     text-align: center;
     padding: 0;  
@@ -97,6 +99,11 @@
       transform: scale(0.75, 1);
     }
   }
+  &.active, &:hover {
+    .scrubber-label {
+      opacity:1;
+    }
+  }
 
   // circle marker for scrubber
   .scrubber-marker {
@@ -110,7 +117,6 @@
     left: 0;
     right: 0;
     bottom: 0;
-    transition: transform 0.2s ease;
   }
 }
 
