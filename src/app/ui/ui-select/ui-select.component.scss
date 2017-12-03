@@ -1,29 +1,49 @@
 @import '../../../theme';
 
+@mixin ui-select-colors($text, $background, $labelText, $highlightBackground, $highlightText, $caretColor) {
+  .el-select {
+      .dropdown-toggle.btn { 
+          color: $text;
+          background: $background;
+      }
+      .el-select-label { color: $labelText; }
+      .highlighted { background: $highlightBackground; color: $highlightText; }
+      .caret { color: $caretColor; }
+  }
+}
+
 :host {
-    @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
+  @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
 }
 
 .el-select {
     width: auto;
     display:block;
     position:relative;
+    .el-select-label {
+      @include defaultFont(13px);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+    }
+    .el-select-value {
+      font-size: 13px;
+    }
     .dropdown-menu {
       border-radius: 0;
       border: none;
       margin-top: 1px;
       width: 100%;
       box-sizing: border-box;
-      min-width: 140px;
-      max-height: 220px; // prevent dropdown menu from going off screen
+      min-width: grid(18);
+      max-height: grid(28); // prevent dropdown menu from going off screen
       padding:0;
       overflow: auto;
       & > li > a {
-        padding: 0px 12px;
-        line-height: 40px;
+        padding: 0px $defaultPadding;
+        line-height: grid(5);
         white-space: nowrap;
-        border-top: 1px solid #eee;
-        height: 40px;
+        border-top: 1px solid $shadingColor;
+        height: grid(5);
         box-sizing: border-box;
       }
       & li:first-child a { border-top: none; }
@@ -40,24 +60,23 @@
       }
     }
     .dropdown-toggle.btn {
+      height: grid(6);
+      padding: grid(1) grid(4) grid(1) grid(2);
       position:relative;
       border:none;
       border-radius: 0;
-      box-shadow: 0 1px 1px rgba(0,0,0,0.1), 0 1px 3px rgba(0, 0, 0, 0.1);
+      box-shadow: $z1shadow;
       text-transform: uppercase;
-      font-weight: 500;
-      letter-spacing: 0.04em;
-      font-size:12px;
+      @include smallCapsText(13px);
       width:100%;
       text-align:left;
-      padding-right: 32px;
       .svg-down-arrow {
         position:absolute;
-        right:8px;
+        right:grid(1);
         top:0px;
         bottom:0;
         width:14px;
-        height: 8px;
+        height: grid(1);
         margin:auto;
         polyline {
           stroke: $selectCaret;
@@ -77,7 +96,7 @@
   // Vertical treatment with arrow on bottom
   :host-context(.vertical-select) {
     .el-select .dropdown-toggle.btn {
-      height:56px;
+      height:grid(7);
       padding: 6px 12px;
       text-align: center;
       span {
@@ -98,7 +117,11 @@
   :host-context(.header-content) {
     .el-select .dropdown-toggle.btn {
       box-shadow: none;
-      border: 1px solid #efefef;
+      border: 1px solid $shadingColor;
+      padding-right: grid(1.5)!important; // never want to add padding for down arrow
+      .svg-down-arrow {
+        right: 0!important; // never want to reposition down arrow
+      }
     }
   }
 
@@ -106,5 +129,18 @@
     .dropdown-toggle.btn {
       border: 1px solid $shadingColor;
       box-shadow: none;
+    }
+  }
+
+  :host-context(.gt-tablet) {
+    .el-select .el-select-label,
+    .el-select .el-select-value {
+      font-size: 14px;
+    }
+    .el-select .dropdown-toggle.btn {
+      padding-right: grid(5);
+      .svg-down-arrow {
+        right: grid(2);
+      }
     }
   }

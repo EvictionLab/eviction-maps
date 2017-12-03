@@ -132,90 +132,89 @@ app-location-cards {
 // default: 
 //    hide labels and adjust width so the select menus
 //    span the full width of the window.
-app-ui-select {
+.map-ui app-ui-select {
   position: absolute;
   width:33.3333%;
   top:0;
   z-index: 100;
   transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
+  // position the dropwdowns
+  &:nth-of-type(1) { left: 0; }
+  &:nth-of-type(2) { left: 33.33333%; }
+  &:nth-of-type(3) { left: 66.66666%; right: 0; }
+  // span full width when open
+  &.open {
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 101;
+    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
+    ::ng-deep .el-select .el-select-label {
+      display: inherit;
+    }
+  }
+  &.none-selected {
+    ::ng-deep .el-select {
+      .dropdown-toggle { 
+        overflow: visible;
+        text-overflow: none;
+        white-space: normal;
+      }
+      .el-select-label { display: inherit; }
+      .el-select-value { display: none; }
+    }
+  }
   ::ng-deep {
     .el-select .el-select-label,
     .el-select .el-select-value {
-      font-size: 11px;
       display:block;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .el-select .dropdown-toggle {
+    .el-select .dropdown-toggle.btn {
       white-space: nowrap;
       height: grid(7);
-      padding: grid(1.5) grid(2) grid(1) grid(1);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: grid(3);
     }
-  }
-}
-// position the dropwdowns
-app-ui-select:nth-of-type(1) { left: 0; }
-app-ui-select:nth-of-type(2) { left: 33.33333%; }
-app-ui-select:nth-of-type(3) { left: 66.66666%; right: 0; }
-// span full width when open
-app-ui-select.open {
-  left: 0;
-  right: 0;
-  width: 100%;
-  z-index: 101;
-  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
-  ::ng-deep .el-select .el-select-label {
-    display: inherit;
-  }
-}
-app-ui-select.none-selected {
-  ::ng-deep .el-select {
-    .dropdown-toggle { 
-      overflow: visible;
-      text-overflow: none;
-      white-space: normal;
-    }
-    .el-select-label { display: inherit; }
-    .el-select-value { display: none; }
   }
 }
 :host-context(.gt-mobile) {
-  app-ui-select {
+  // label inline with selected value
+  .map-ui app-ui-select {
+    float:left;
+    width:32%;
+    margin: 0 2% 0 0;
+    position: relative;
     ::ng-deep .el-select .el-select-label,
     ::ng-deep .el-select .el-select-value {
       display: inline;
     }
-    ::ng-deep {
-      .el-select .dropdown-toggle {
-        height: grid(5);
-        padding: grid(1) grid(4) grid(1) grid(2);
-      }
+    // drop height for one line
+    ::ng-deep .el-select .dropdown-toggle.btn {
+      height: grid(6);
+    }
+    // don't open to full width anymore
+    &.open {
+      left: inherit;
+      right: inherit;
+      width: auto;
+    }
+    &:nth-of-type(1), 
+    &:nth-of-type(2), 
+    &:nth-of-type(3) {
+      left: inherit;
+    }
+    &:nth-of-type(3) {
+      margin-right: 0;
     }
   }
 }
-// greater than tablet: 
-//    float the dropdowns on the top left side of the map
 :host-context(.gt-tablet) {
-  app-ui-select {
-    float:left;
+  .map-ui app-ui-select {
     width:auto;
-    margin: 0 4px;
-    position: relative;
-
-    ::ng-deep .el-select .el-select-label,
-    ::ng-deep .el-select .el-select-value {
-      font-size: 12px;
-    }
-  }
-  app-ui-select:nth-of-type(1), 
-  app-ui-select:nth-of-type(2), 
-  app-ui-select:nth-of-type(3) {
-    left: inherit;
-  }
-  app-ui-select.open {
-    left: inherit;
-    right: inherit;
-    width: auto;
+    margin: 0 grid(2) 0 0;
   }
 }
 // - End Map Data Select Boxes
