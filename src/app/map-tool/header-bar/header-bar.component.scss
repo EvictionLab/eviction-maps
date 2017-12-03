@@ -6,8 +6,8 @@
 .el-svg-button {
   display: block;
   position: relative;
-  width:40px;
-  height:40px;
+  width:grid(5);
+  height:grid(5);
   padding:0; margin:0;
   background: none;
   border:none;
@@ -35,7 +35,7 @@
   height: $headerHeightSm;
   background:$defaultBackground;
   box-shadow: $z1shadow;
-  padding: 0 $defaultPadding;
+  padding: 0 $pageMargin;
   z-index:999;
   .header-content {
     position:relative;
@@ -104,6 +104,7 @@
 @media(min-width: $gtMobile) {
   .header-wrapper {
     height: $headerHeightLg;
+    padding: 0 $pageMarginLg;    
     .header-content {
       display:flex;
       justify-content: space-between;
@@ -112,8 +113,8 @@
     }
     .header-icons {
       flex:none;
-      width:52px;
-      height:56px;
+      width:grid(5);
+      height:grid(7);
       order: 4;
     }
     .header-icons .el-svg-button {
@@ -121,7 +122,7 @@
     }
     .header-icons .el-button-menu {
       display:block;
-      width:52px;
+      width: grid(5);
       height: $headerContentHeight;
       svg {
         width: 40px;
@@ -136,7 +137,7 @@
     .header-logo {
       order:1;
       display:block;
-      width:250px;
+      width:grid(31);
       flex: none;
       img { width:100%;}
     }
@@ -145,31 +146,41 @@
       display:flex;
       order: 2;
       flex: 1;
-      max-width: 400px;
-      margin: 0 $defaultPadding*2;
+      max-width: grid(50);
+      margin: 0 0 0 grid(3);
     }
     .language-select {
+      display:block;
+      margin: 0 grid(3) 0 grid(1);
       order: 3;
     }
     .search {
       width: 100%;
-      max-width: 400px;
+      max-width: grid(50);
     }
   }
 }
 
-// Desktop+
+// Desktop+s
 // - adds language toggle
 @media(min-width: $gtTablet) {
   .header-wrapper {
-    .header-search {
-      max-width: 640px;
-      .btn {
-        margin-right: 12px;
-      }
+    .header-content {
+      justify-content: flex-start;
+      align-content: center;
+      align-items: center;
     }
-    .language-select {
-      display:block;
+    .header-search {
+      flex:1;
+      max-width: none;
+      display:flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-right: grid(1);
+      .search {
+        max-width: grid(50);
+        
+      }
     }
   }
 }

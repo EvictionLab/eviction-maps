@@ -27,6 +27,14 @@ body {
   overflow-x:hidden;
 }
 
+body {
+  .form-control {
+    border: 1px solid $shadingColor;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+}
+
 .btn.btn-close { 
   font-size: 24px; 
   width:40px;
