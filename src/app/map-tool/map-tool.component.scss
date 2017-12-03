@@ -11,7 +11,7 @@ app-progress-bar {
 .app-wrapper {
   min-height:100%;
   &.map-active {
-    height: calc(100vh - #{$headerHeightSm});
+    height: 100vh;
     overflow: hidden;
   }
   app-map {
@@ -36,9 +36,6 @@ app-progress-bar {
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-mobile) {
   .app-wrapper {
-    &.map-active {
-      height: calc(100vh - #{$headerHeightLg});
-    }
     app-map {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
