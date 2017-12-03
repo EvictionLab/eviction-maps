@@ -10,6 +10,7 @@ import { Component, EventEmitter, ElementRef, HostListener, HostBinding, ViewChi
 export class UiSliderComponent {
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
+  @Input() label;
   @Input() vertical = false;
   @Input() min = 0;
   @Input() max = 100;

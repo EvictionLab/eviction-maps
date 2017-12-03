@@ -337,9 +337,9 @@ export class MapComponent implements OnInit, OnChanges {
       !this.selectedBubble || !this.selectedChoropleth
     ) { return; }
     const cardProps = {};
-    const bubbleStat = (this.selectedBubble.id === 'none') ?
+    const bubbleStat = (this.selectedBubble.id.includes('none')) ?
       this.bubbleOptions[1] : this.selectedBubble;
-    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id === 'none') ?
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id.includes('none')) ?
       null : this.selectedChoropleth;
     const bubbleAttr = bubbleStat.id.split('-')[0];
     if (bubbleAttr === 'er' || bubbleAttr === 'none') {

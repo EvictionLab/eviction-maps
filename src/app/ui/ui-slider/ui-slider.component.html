@@ -1,3 +1,4 @@
+<span class="slider-label" *ngIf="label">{{label}}</span>
 <div class="el-slider" [class.vertical]="vertical">
   <div class="track track-full"></div>
   <div class="track track-value" [style.width]="vertical ? null : percent" [style.height]="vertical ? percent : null"></div>

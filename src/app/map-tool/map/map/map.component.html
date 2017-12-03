@@ -15,8 +15,11 @@
 <ng-content></ng-content>
 <div class="map-ui-wrapper">
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
-  <app-location-cards 
+  <app-location-cards
     *ngIf="activeFeatures.length > 0"
+    [class.cards-2]="activeFeatures.length === 2"
+    [class.cards-3]="activeFeatures.length === 3"
+    [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"
     [features]="activeFeatures"
     [cardProperties]="cardProps"
     [year]="year"
@@ -57,6 +60,7 @@
 <div class="year-slider-container">
   <app-ui-slider tabindex="9"
     class="year-slider"
+    [label]="'Year'"
     [currentValue]="year" 
     [min]="2000" 
     [max]="2016" 
