@@ -1,8 +1,9 @@
-<div class="el-slider" [class.vertical]="vertical">
+<span class="slider-label" *ngIf="label">{{label}}</span>
+<div #container class="el-slider">
   <div class="track track-full"></div>
-  <div class="track track-value" [style.width]="vertical ? null : percent" [style.height]="vertical ? percent : null"></div>
-  <div #scrubber class="scrubber" [style.left]="vertical ? null : percent" [style.bottom]="vertical ? percent : null">
+  <div class="track track-value" [style.width]="percent"></div>
+  <div #scrubber class="scrubber" [style.transform]="'translateX('+pxValue+'px)'">
     <span class="scrubber-marker"></span>
-    <span class="scrubber-label">{{ getStepValue(currentValue) }}</span>
+    <span class="scrubber-label">{{ getStepValue(value) }}</span>
   </div>
 </div>

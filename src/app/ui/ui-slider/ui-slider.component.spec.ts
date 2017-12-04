@@ -19,7 +19,7 @@ describe('UiSliderComponent', () => {
     component.min = 200;
     component.max = 1000;
     component.step = 10;
-    component.currentValue = 600;
+    component.value = 600;
     fixture.detectChanges();
   });
 
@@ -33,32 +33,36 @@ describe('UiSliderComponent', () => {
   });
 
   it('should accept a new value and update the position', () => {
-    component.setValue(800);
+    component.value = 800;
+    component.updatePosition();
     fixture.detectChanges();
     expect(component.position).toEqual(0.75);
     expect(component.percent).toEqual('75%');
   });
 
   it('should not allow less than min value', () => {
-    component.setValue(-100);
+    component.value = (-100);
+    component.updatePosition();    
     fixture.detectChanges();
-    expect(component.currentValue).toEqual(200);
+    expect(component.value).toEqual(200);
     expect(component.position).toEqual(0);
     expect(component.percent).toEqual('0%');
   });
 
   it('should not exceed max value', () => {
-    component.setValue(10000);
+    component.value = (10000);
+    component.updatePosition();    
     fixture.detectChanges();
-    expect(component.currentValue).toEqual(1000);
+    expect(component.value).toEqual(1000);
     expect(component.position).toEqual(1);
     expect(component.percent).toEqual('100%');
   });
 
   it('should round to the nearest step value', () => {
-    component.setValue(404);
+    component.value = (404);
+    component.updatePosition();    
     fixture.detectChanges();
-    expect(component.currentValue).toEqual(400);
+    expect(component.value).toEqual(400);
     expect(component.position).toEqual(0.25);
     expect(component.percent).toEqual('25%');
   });

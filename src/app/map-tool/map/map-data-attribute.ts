@@ -3,9 +3,10 @@ import { MapDataObject } from './map-data-object';
 export interface MapDataAttribute extends MapDataObject {
     id: string;
     name: string;
+    langKey?: string;
     format?: string;
-    default?: string;
-    fillStops?: {
+    default?: string | number;
+    stops?: {
         [id: string]: Array<Array<any>>
     };
 }

@@ -34,36 +34,41 @@
     pointer-events:all;
     &.active { display: block; }
 }
-// only the slider is active:
-//    drop the map height
-:host-context(.slider-active) {
-  .map-wrapper {
-    height: calc(100% - #{$timeSliderHeight});
-  }
-}
-// slider and the cards are active
-//    drop the map height to account for slider + cards
-:host-context(.cards-active.slider-active) {
-  .map-wrapper {
-    height: calc(100% - #{($cardHeaderHeight + $timeSliderHeight)});
-  }
-}
 // larger than mobile:
 //    show select boxes by default
 .gt-mobile :host-context {
   .map-ui { 
     display: block;
-    width: calc(100% - #{($defaultPadding*2)});    
-  }
-}
-// larger than tablet and slider is active:
-//    drop the height to account for slider only
-.gt-tablet :host-context(.slider-active) {
-  .map-wrapper {
-    height: calc(100% - #{$timeSliderHeight});
+    width: calc(100% - #{($pageMarginLg*2)});    
   }
 }
 // - End Map UI Layout
+
+// Map Zoom Controls
+// ----
+// Hide rotate button because it's confusing
+app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
+  display: none;
+}
+// center controls vertically on the right side of the map
+app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
+  top: 0;
+  bottom:$timeSliderHeight;
+  margin:auto;
+  height:110px;
+  right:$pageMargin;
+  left: auto;
+}
+// increase page margins and account for larger time slider
+:host-context(.gt-mobile) {
+  app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
+    top: 0;
+    bottom:$timeSliderLg;
+    right:$pageMarginLg;
+    left: auto;
+  }
+}
+// - End Map Zoom Control
 
 
 // Map Location Cards
@@ -71,6 +76,7 @@
 // default:
 //    Fix location cards to botom of the window
 app-location-cards {
+  background: $defaultBackground;
   pointer-events:all;
   position: absolute;
   bottom:0;
@@ -88,10 +94,58 @@ app-location-cards {
 //    Adjust cards container to account for the larger header height
 //    center cards vertically over the map
 :host-context(.gt-tablet) {
-  app-location-cards { 
+  app-location-cards {
+    background: none;
     pointer-events: none;
     align-items: center;
-    height: calc(100vh - #{$headerHeightLg}); 
+    height: calc(100vh - #{$headerHeightLg});
+    &.no-census-data ::ng-deep .location-card {
+      height: grid(34);
+    }
+    ::ng-deep {
+      .location-card {
+        height: grid(42);
+        position:absolute;
+        margin:auto;
+        top:0;bottom:0;left:0;right:auto;
+        transform: translateX(0);
+        transition: transform 0.2s ease;
+        transform: translateX(0);
+      }
+      .location-card:nth-child(1) { z-index: 17; }
+      .location-card:nth-child(2) { z-index: 18; }
+      .location-card:nth-child(3) { z-index: 19; }      
+    }
+    &.cards-2 {
+      ::ng-deep {
+        .location-card:nth-child(1) { transform: translateX(7%); }
+        .location-card:nth-child(2) { transform: translateX(0); }
+      }
+      &.expanded ::ng-deep {
+        .location-card:nth-child(1) { transform: translateX(100%); }
+      }
+    }
+    &.cards-3 {
+      ::ng-deep {
+        .location-card:nth-child(1) { transform: translateX(15%); }
+        .location-card:nth-child(2) { transform: translateX(7%); }
+        .location-card:nth-child(3) { transform: translateX(0); }
+      }
+      &.expanded ::ng-deep {
+        .location-card:nth-child(1) { transform: translateX(200%); }
+        .location-card:nth-child(2) { transform: translateX(100%); }
+      }
+    }
+  }
+}
+// greater than tablet when slider is active:
+//    Drop height of card container
+.gt-tablet :host-context(.slider-active) {
+  app-location-cards {
+    top:0;
+    bottom: auto;
+    margin:auto;
+    height: calc(100vh - #{$headerHeightLg} - #{$timeSliderLg});
   }
 }
 // - End Map Location Cards
@@ -102,88 +156,90 @@ app-location-cards {
 // default: 
 //    hide labels and adjust width so the select menus
 //    span the full width of the window.
-app-ui-select {
+.map-ui app-ui-select {
   position: absolute;
   width:33.3333%;
   top:0;
+  z-index: 100;
+  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
+  // position the dropwdowns
+  &:nth-of-type(1) { left: 0; }
+  &:nth-of-type(2) { left: 33.33333%; }
+  &:nth-of-type(3) { left: 66.66666%; right: 0; }
+  // span full width when open
+  &.open {
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 101;
+    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
+    ::ng-deep .el-select .el-select-label {
+      display: inherit;
+    }
+  }
+  &.none-selected {
+    ::ng-deep .el-select {
+      .dropdown-toggle { 
+        overflow: visible;
+        text-overflow: none;
+        white-space: normal;
+      }
+      .el-select-label { display: inherit; }
+      .el-select-value { display: none; }
+    }
+  }
   ::ng-deep {
     .el-select .el-select-label,
     .el-select .el-select-value {
-      font-size: 11px;
       display:block;
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .el-select .dropdown-toggle {
+    .el-select .dropdown-toggle.btn {
       white-space: nowrap;
       height: grid(7);
-      padding: grid(1.5) grid(2) grid(1) grid(1);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-right: grid(3);
     }
-  }
-}
-// position the dropwdowns
-app-ui-select:nth-of-type(1) { left: 0; }
-app-ui-select:nth-of-type(2) { left: 33.33333%; }
-app-ui-select:nth-of-type(3) { right: 0; }
-// span full width when open
-app-ui-select.open {
-  left: 0;
-  right: 0;
-  width: 100%;
-  transition: width 0.2s ease;
-  z-index: 101;
-  ::ng-deep .el-select .el-select-label {
-    display: inherit;
-  }
-}
-app-ui-select.none-selected {
-  ::ng-deep .el-select {
-    .dropdown-toggle { 
-      overflow: visible;
-      text-overflow: none;
-      white-space: normal;
-    }
-    .el-select-label { display: inherit; }
-    .el-select-value { display: none; }
   }
 }
 :host-context(.gt-mobile) {
-  app-ui-select {
+  // label inline with selected value
+  .map-ui app-ui-select {
+    float:left;
+    width:32%;
+    margin: 0 2% 0 0;
+    position: relative;
     ::ng-deep .el-select .el-select-label,
     ::ng-deep .el-select .el-select-value {
       display: inline;
     }
-    ::ng-deep {
-      .el-select .dropdown-toggle {
-        height: grid(5);
-        padding: grid(1) grid(4) grid(1) grid(2);
-      }
+    // drop height for one line
+    ::ng-deep .el-select .dropdown-toggle.btn {
+      height: grid(6);
+    }
+    // don't open to full width anymore
+    &.open {
+      left: inherit;
+      right: inherit;
+      width: auto;
+    }
+    &:nth-of-type(1), 
+    &:nth-of-type(2), 
+    &:nth-of-type(3) {
+      left: inherit;
+    }
+    &:nth-of-type(3) {
+      margin-right: 0;
     }
   }
 }
-// greater than tablet: 
-//    float the dropdowns on the top left side of the map
 :host-context(.gt-tablet) {
-  app-ui-select {
-    float:left;
+  .map-ui app-ui-select {
     width:auto;
-    margin: 0 4px;
-    position: relative;
-
-    ::ng-deep .el-select .el-select-label,
-    ::ng-deep .el-select .el-select-value {
-      font-size: 12px;
-    }
-  }
-  app-ui-select:nth-of-type(1), 
-  app-ui-select:nth-of-type(2), 
-  app-ui-select:nth-of-type(3) {
-    left: inherit;
-  }
-  app-ui-select.open {
-    left: inherit;
-    right: inherit;
-    width: auto;
+    max-width:31%; // prevent selects from wrapping to new line
+    margin: 0 grid(2) 0 0;
   }
 }
 // - End Map Data Select Boxes
@@ -195,11 +251,14 @@ app-ui-select.none-selected {
 //    map spans entire width at bottom of map
 app-ui-map-legend {
   width: 100%;
-  height: $legendHeight/2;
+  height: $legendHeight;
+  background: $legendBackground;
   position:absolute;
   bottom: $timeSliderHeight;
   right:0;
   left:0;
+  box-shadow: $z1shadow;
+  border-bottom: 1px solid $shadingColor;
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
@@ -207,29 +266,32 @@ app-ui-map-legend {
   bottom: $timeSliderHeight + $cardHeaderHeight;
 }
 // larger than tablet: 
-//    move legend to top right of the map
-:host-context(.gt-tablet) {
+//    move legend to bottom right of the map
+:host-context(.gt-mobile) {
   app-ui-map-legend {
-    height: $legendHeight;
-    width:calc(100% - #{$defaultPadding*2});
+    height: grid(6); // 6 * 8 = 48px
+    width: grid(43); // 43 * 8 = 344px
     max-width: $maxContentWidth;
     margin:auto;
-    top:0;
-    right:0;
-    left:0;
-    bottom: auto;
-    ::ng-deep .map-legend {
-      width: grid(34);
-      position:absolute;
-      right:0;
-      top:0;
-    }
+    top:auto;
+    left:auto;
+    right:$pageMarginLg;
+    bottom: $timeSliderHeight + $pageMarginLg;
   }
 }
+// large than mobile:
+//    legend is on the bottom right of the map, above cards
+.gt-mobile :host-context(.slider-active) app-ui-map-legend {
+  bottom: $timeSliderLg + $pageMarginLg;
+}
+.gt-mobile :host-context(.cards-active.slider-active) app-ui-map-legend {
+  bottom: $timeSliderLg + $cardHeaderHeight + $pageMarginLg;
+}
+
 // large than tablet:
-//    legend is on the top right of the header
+//    cards removed from bottom, adjust accordingly
 .gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: auto;
+  bottom: $timeSliderLg + $pageMarginLg;
 }
 // - End Map Legend
 
@@ -239,37 +301,44 @@ app-ui-map-legend {
 // default: 
 //    Place year slider at the bottom of the window below the map
 .year-slider-container {
-  display:none;
   @include fill-parent();
   top: auto;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
-  padding: 0 grid(5);
-  box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  padding: 0 grid(4) 0 $pageMargin;
   border-bottom: 1px solid $shadingColor;
-  
+  transition: transform 0.2s ease;
+  transform: translateY(120%);
   // keep the slider component within the max content width
   .year-slider {
     margin: auto;
-    max-width: $maxContentWidth - $defaultPadding*4;
+    max-width: $maxContentWidth - $pageMarginLg*2;
     height: $timeSliderHeight;
-    display: block;
-    ::ng-deep .el-slider .scrubber-marker { border: 5px solid $color1; }
   }
 }
 // only show when host has slider-active class
 :host-context(.slider-active) {
-  .year-slider-container { display: block; }
+  .year-slider-container {
+    transform: translateY(0);
+  }
 }
 // increase offset from the bottom if cards are shown
 :host-context(.cards-active) {
   .year-slider-container { bottom: $cardHeaderHeight; }
 }
+.gt-mobile :host-context {
+  .year-slider-container {
+    padding: 0 ($pageMarginLg + grid(2)) 0 $pageMarginLg; // add grid(2) so slider marker aligns with margin edge
+    height: $timeSliderLg;
+    box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+  }
+  .year-slider { height: $timeSliderLg; }
+}
 // fixed at the bottom of the screen abover the overlay on 
 // devices larger than tablet
 .gt-tablet :host-context {
-  .year-slider-container { 
+  .year-slider-container {
     bottom: 0; 
     z-index:51;
   }

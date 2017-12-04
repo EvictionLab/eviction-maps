@@ -1,15 +1,34 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
-import Debounce from 'debounce-decorator';
 import 'rxjs/add/operator/take';
 import {scaleLinear} from 'd3-scale';
+import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
+
+// Temporarily adding debounce function here to avoid compilation errors
+// caused by the `debounce-decorator`.  See the following issues for more:
+// https://github.com/angular/angular-cli/issues/8434
+// https://github.com/Microsoft/TypeScript/issues/17384
+function debounce(func, wait, immediate) {
+	var timeout;
+	return function() {
+		var context = this, args = arguments;
+		var later = function() {
+			timeout = null;
+			if (!immediate) func.apply(context, args);
+		};
+		var callNow = immediate && !timeout;
+		clearTimeout(timeout);
+		timeout = setTimeout(later, wait);
+		if (callNow) func.apply(context, args);
+	};
+};
 
 @Component({
   selector: 'app-map-tool',
@@ -37,17 +56,21 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild(MapComponent) map;
   @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
+  urlParts;
 
   constructor(
+    private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
+    private translate: TranslateService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
 
   ngOnInit() {
     this.configurePageScroll();
+    this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
     this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
   }
@@ -102,6 +125,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         this.dataService.setMapBounds(b);
       }
     }
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -116,7 +140,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /** Update route if it has changed */
   updateRoute() {
-    this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+    if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
+      this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+    }
   }
 
   /**
@@ -128,6 +154,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.dataService.isLoading = true;
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
+        console.log('got data', data);
         this.dataService.addLocation(data);
         this.updateRoute();
         this.dataService.isLoading = false;
@@ -168,6 +195,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   onMenuSelect(itemId: string) {
     this.activeMenuItem = itemId;
+  }
+
+  onLanguageSelect(lang) {
+    console.log('updating lang', lang);
+    this.translate.use(lang.id);
   }
 
   /**
@@ -221,14 +253,13 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * the wheel events
    */
   @HostListener('document:wheel', ['$event'])
-  @Debounce(250)
-  onWheel() {
+  onWheel = debounce(() => {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = this.getVerticalOffset();
     }
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
-  }
+  }, 250, false);
 
   /**
    * Set wheel flag while scrolling with the wheel

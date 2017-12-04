@@ -9,6 +9,10 @@
       "geojson"
     ]
   },
+  "include": [
+    "../src/**/*",
+    "../node_modules/angular-d3-graph/module.ts"
+  ],
   "exclude": [
     "test.ts",
     "**/*.spec.ts"

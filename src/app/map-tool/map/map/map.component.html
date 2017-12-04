@@ -14,10 +14,12 @@
 </div>
 <ng-content></ng-content>
 <div class="map-ui-wrapper">
-  
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
-  <app-location-cards 
+  <app-location-cards
     *ngIf="activeFeatures.length > 0"
+    [class.cards-2]="activeFeatures.length === 2"
+    [class.cards-3]="activeFeatures.length === 3"
+    [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"
     [features]="activeFeatures"
     [cardProperties]="cardProps"
     [year]="year"
@@ -28,7 +30,7 @@
       <app-ui-select
           tabindex="4"
           class="eviction-select"
-          label="Eviction Data"
+          [label]="'MAP.EVICTION_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedBubble"
           [values]="bubbleOptions"
@@ -37,7 +39,7 @@
       <app-ui-select
           tabindex="5"
           class="highlight-select"
-          label="Census Data"
+          [label]="'MAP.CENSUS_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedChoropleth"
           [values]="choroplethOptions"
@@ -46,11 +48,11 @@
       <app-ui-select
           tabindex="6"
           class="layer-select"
-          label="Map Level"
+          [label]="'MAP.LAYER_SELECT' | translate"
           labelProperty="name"
           [selectedValue]="selectedLayer"
           [values]="selectDataLevels" 
-          [bottomLabel]="selectDataLevels.length < layerOptions.length ? 'Zoom for more' : false"
+          [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
           (change)="setGroupVisibility($event)">
       </app-ui-select>
     </div>
@@ -58,9 +60,9 @@
 <div class="year-slider-container">
   <app-ui-slider tabindex="9"
     class="year-slider"
-    [currentValue]="year" 
-    [min]="1990" 
+    [label]="year"
+    [(value)]="year" 
+    [min]="2000" 
     [max]="2016" 
-    (change)="year=$event"
   ></app-ui-slider>
 </div>

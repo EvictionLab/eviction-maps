@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { Http, Response, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 const MapzenLayerMap = {
   'region': 'states',
@@ -23,7 +23,7 @@ export class SearchService {
   query: string;
   results: Observable<Object[]>;
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     this.results = Observable.create((observer: any) => {
       this.queryGeocoder(this.query)
         .subscribe((results: Object[]) => {
@@ -38,7 +38,7 @@ export class SearchService {
    */
   queryGeocoder(query: string): Observable<Object[]> {
     return this.http.get(`${this.mapzenBase}text=${query}&${this.mapzenParams.join('&')}`)
-      .map(res => res.json().features);
+      .map(res => res['features']);
   }
 
   /**

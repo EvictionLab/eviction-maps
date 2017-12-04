@@ -47,21 +47,21 @@ describe('PredictiveSearchComponent', () => {
   });
 
   it('should display results on input', async(() => {
-    const el = inputEl.nativeElement;
+    const el = fixture.debugElement.query(By.css('input')).nativeElement;
     el.value = 't';
-    const event = new KeyboardEvent('keyup', { 'key': 't' });
-    el.dispatchEvent(event);
+    const event = new Event('input'); // typeahead is triggered by 'input' event
+    el.dispatchEvent(event);    
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(fixture.debugElement.nativeElement.querySelector('.dropdown') == null).toBeFalsy();
+      expect(fixture.debugElement.nativeElement.querySelector('.dropdown') === null).toBeFalsy();
     });
   }));
 
   it('should display the option field property', async(() => {
-    const el = inputEl.nativeElement;
+    const el = fixture.debugElement.query(By.css('input')).nativeElement;
     el.value = 't';
-    const event = new KeyboardEvent('keyup', { 'key': 't' });
+    const event = new Event('input');
     el.dispatchEvent(event);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -88,18 +88,11 @@ describe('PredictiveSearchComponent', () => {
     discardPeriodicTasks();
   }));
 
-  it('should display the clear button with input', fakeAsync(() => {
-    const el = inputEl.nativeElement;
-    el.value = 't';
-    const event = new KeyboardEvent('keyup', { 'key': 't' });
-    el.dispatchEvent(event);
+  it('should display the clear button with input', () => {
+    component.selected = 't';
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(expect(clearEl.nativeElement.style.display).toEqual('inherit'));
-    });
-    discardPeriodicTasks();
-  }));
+    expect(expect(clearEl.nativeElement.style.display).toEqual('block'));
+  });
 
   it('should clear the selection when clear button is clicked', fakeAsync(() => {
     component.updateSelection(new TypeaheadMatch(defaultOptions[0].name));

@@ -106,8 +106,8 @@ export class MapComponent implements OnInit, OnChanges {
     return this.activeFeatures.length;
   }
   @HostBinding('class.slider-active') get sliderActive() {
-    return (this.selectedBubble && this.selectedBubble.name !== 'None') ||
-      (this.selectedChoropleth && this.selectedChoropleth.name !== 'None') ||
+    return (this.selectedBubble && !this.selectedBubble.id.includes('none')) ||
+      (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
       this.cardsActive;
   }
   /** Gets the layers available at the current zoom */
@@ -118,7 +118,7 @@ export class MapComponent implements OnInit, OnChanges {
   get showLegend(): boolean {
     return this.selectedLayer &&
       this.selectedChoropleth &&
-      this.selectedChoropleth.name !== 'None';
+      !this.selectedChoropleth.id.includes('none');
   }
   /** Gets if the legend is full width */
   get fullWidth(): boolean { return window.innerWidth >= 767; }
@@ -204,7 +204,9 @@ export class MapComponent implements OnInit, OnChanges {
   onMapReady(map) {
     this._mapInstance = map;
     this.map.setMapInstance(map);
-    this.map.setupHoverPopup(this.mapEventLayers);
+    if (this.fullWidth) {
+      this.map.setupHoverPopup(this.mapEventLayers);
+    }
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
@@ -335,17 +337,20 @@ export class MapComponent implements OnInit, OnChanges {
       !this.selectedBubble || !this.selectedChoropleth
     ) { return; }
     const cardProps = {};
-    const bubbleStat = (this.selectedBubble.name === 'None') ?
+    const bubbleStat = (this.selectedBubble.id.includes('none')) ?
       this.bubbleOptions[1] : this.selectedBubble;
-    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.name === 'None') ?
+    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id.includes('none')) ?
       null : this.selectedChoropleth;
-    // need to strip the year from the ID to pass to location cards
-    cardProps[bubbleStat.id.split('-')[0]] = bubbleStat.name;
-    // dropping the 'r' from the stat and removing the word "rate"
-    // TODO: we should have a better way of managing these labels
-    cardProps[bubbleStat.id.split('-')[0].slice(0, -1)] = bubbleStat.name.replace(' Rate', 's');
+    const bubbleAttr = bubbleStat.id.split('-')[0];
+    if (bubbleAttr === 'er' || bubbleAttr === 'none') {
+      cardProps['er'] = 'STATS.JUDGMENT_RATE';
+      cardProps['e'] = 'STATS.JUDGMENTS';
+    } else if (bubbleAttr === 'efr') {
+      cardProps['efr'] = 'STATS.FILING_RATE';
+      cardProps['ef'] = 'STATS.FILINGS';
+    }
     if (choroStat) {
-      cardProps[choroStat.id.split('-')[0]] = choroStat.name;
+      cardProps[choroStat.id.split('-')[0]] = choroStat.langKey;
     }
     this.cardProps = cardProps;
   }
@@ -356,12 +361,23 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private updateMapBubbles() {
     if (this._mapInstance) {
-      const bubble = this.addYearToObject(this.selectedBubble, this.year);
+      const bubble = this.addYearToObject(this.selectedBubble, this.year) as MapDataAttribute;
       if (bubble) {
         this.mapEventLayers.forEach((layerId) => {
-          ['circle-radius', 'circle-color', 'circle-stroke-color'].forEach(prop => {
-            this.map.setLayerDataProperty(`${layerId}_bubbles`, prop, bubble.id);
-          });
+          const newRadius = {
+            'property': bubble.id,
+            'default': bubble.default,
+            'stops': (bubble.stops[layerId] ?
+              bubble.stops[layerId] : bubble.stops['default'])
+          };
+          const newColor = {
+            'property': bubble.id,
+            'default': 'rgba(0,0,0,0)',
+            'stops': bubble.stops['circle-color']
+          };
+          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', newRadius);
+          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-color', newColor);
+          this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
         });
       }
     }
@@ -380,8 +396,8 @@ export class MapComponent implements OnInit, OnChanges {
             const newFill = {
               'property': choropleth.id,
               'default': choropleth.default,
-              'stops': (choropleth.fillStops[layerId] ?
-                choropleth.fillStops[layerId] : choropleth.fillStops['default'])
+              'stops': (choropleth.stops[layerId] ?
+                choropleth.stops[layerId] : choropleth.stops['default'])
             };
             this.map.setLayerStyle(layerId, 'fill-color', newFill);
             this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);

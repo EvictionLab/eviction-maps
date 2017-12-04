@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Http, Response, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -20,9 +21,13 @@ import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
-  get dataLevels() { return DataLevels; }
-  get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  dataLevels = DataLevels;
+  dataAttributes = DataAttributes;
+  bubbleAttributes = BubbleAttributes;
+  languageOptions = [
+    { id: 'en', name: '', langKey: 'HEADER.EN' },
+    { id: 'es', name: '', langKey: 'HEADER.ES' }
+  ]
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
@@ -33,12 +38,47 @@ export class DataService {
   mapConfig;
   isLoading = false;
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://tiles.evictionlab.org/fixtures/';
+  private tileBase = 'https://tiles.evictionlab.org/staging/';
   private tilePrefix = 'evictions-';
-  private tilesetYears = ['90', '00', '10'];
+  private tilesetYears = ['00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient, private translate: TranslateService) {
+    translate.onLangChange.subscribe((lang) => {
+      this.updateLanguage(lang.translations);
+    });
+  }
+
+
+  updateLanguage(translations) {
+    if (translations.hasOwnProperty('HEADER')) {
+      const header = translations['HEADER'];
+      this.languageOptions = this.languageOptions.map(l => {
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }        
+        return l;
+      })
+    }
+    // translate census attribute names
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.dataAttributes = DataAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+      this.bubbleAttributes = BubbleAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+    }
+    // translate geography layers
+    if (translations.hasOwnProperty('LAYERS')) {
+      const layers = translations['LAYERS'];
+      this.dataLevels = DataLevels.map((l) => {
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }        
+        return l;
+      });
+    }
+  }
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID
@@ -211,8 +251,8 @@ export class DataService {
   private getParser(layerId, lonLat, featName) {
     const point = this.getPoint(lonLat);
     const coords = this.getXYFromLonLat(lonLat);
-    return (res: Response): MapFeature => {
-      const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
+    return (res: ArrayBuffer): MapFeature => {
+      const tile = new vt.VectorTile(new Protobuf(res));
       const layer = tile.layers[layerId];
       const features = [...Array(layer.length)].fill(null).map((d, i) => {
         return layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
@@ -279,7 +319,7 @@ export class DataService {
       this.tileBase + this.tilePrefix + layerId;
     return this.http.get(
       `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
-      { responseType: ResponseContentType.ArrayBuffer }
+      { responseType: 'arraybuffer' }
     );
   }
 

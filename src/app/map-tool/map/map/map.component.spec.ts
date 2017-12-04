@@ -1,10 +1,17 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
-import { HttpModule } from '@angular/http';
 import { MapService } from '../map.service';
+
+class mapServiceStub {
+  updateCensusSource() {}
+  createMap(settings) { return this; }
+  addControl(...args) { return this; }
+  on(...args) { return this; }
+}
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -13,10 +20,12 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule, HttpModule ],
-      providers: [
-        { provide: MapService, useValue: { updateCensusSource: () => {} } }
-      ]
+      imports: [ UiModule, TranslateModule.forRoot() ]
+    })
+    TestBed.overrideComponent(MapComponent, {
+      set: {
+        providers: [ {provide: MapService, useValue: new mapServiceStub()  } ],
+      }
     })
     .compileComponents();
   }));
@@ -24,11 +33,12 @@ describe('MapComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MapComponent);
     component = fixture.componentInstance;
+    component.year = 2010;
     component.choroplethOptions = [{
       'id': 'none',
       'name': 'None',
       'default': 'rgba(0, 0, 0, 0)',
-      'fillStops': {
+      'stops': {
         'default': [
           [0, 'rgba(0, 0, 0, 0)']
         ]

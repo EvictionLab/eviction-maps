@@ -1,9 +1,7 @@
 // Import theming mixins
 @import "theme/mixins/utils.scss";
-@import "theme/mixins/ui-slider.theme";
 @import "theme/mixins/ui-graph.theme";
 @import "theme/mixins/ui-toggle.theme";
-@import "theme/mixins/ui-select.theme";
 @import "theme/mixins/ui-dialog.theme";
 @import "theme/mixins/predictive-search.theme";
 @import "theme/mixins/progress-bar.theme";
@@ -17,6 +15,8 @@
 
 $gridSize: 8px; // base grid value used for margins and element sizing
 $defaultPadding: grid(2); // default padding for containers
+$pageMargin: grid(2); // page margin on mobile
+$pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
 $gtMobile: 767px; // greater than mobile device breakpoint
 $gtTablet: 1024px; // greater than tablet device breakpoint
@@ -100,19 +100,23 @@ $primaryButtonHoverColor: darken($color1, 3%);
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 // fonts
-$buttonTextSize: 11px;
+$buttonTextSize: 14px;
 
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
 // Graph
+// ----
 $graphColor1: $color1;
 $graphColor2: $color2;
 $graphColor3: $color3;
 $graphColor4: $color4;
+$graphAxisLines: #fff;
+$graphAxisLabels: #919191;
 
 app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
-// Toggles
+// UI Toggle
+// ----
 $toggleBorderColor: $shadingColor;
 $toggleForeground: #C6CCCF;
 $toggleBackground: #fff;
@@ -120,11 +124,21 @@ $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
 $toggleHoverForeground: #000;
 
+// UI Switch
+// ----
+$onTextColor: #050403;
+$offTextColor: #919191;
+$switchBorder: 5px solid $color1;
+$switchTextSize: 14px;
+$switchTrackColor: #c6cccf;
+
 // Slider
 $sliderText: $altTextColor;
 $sliderBackground: #000;
-$sliderTrack: rgba(0,0,0,0.15);
-$timeSliderHeight: 40px;
+$sliderTrack: #C6CCCF;
+$sliderLabel: #A3A7A8;
+$timeSliderHeight: grid(5); // 40px
+$timeSliderLg: grid(11); // 88px
 $timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
@@ -193,11 +207,11 @@ $searchHeight: grid(7);
 
 // Legend
 $legendHeight: grid(5);
-$legendBackground: #f8f8f9;
-$legendIconColor: $color1;
+$legendBackground: #fff;
+$legendIconColor: #666;
 $legendIconBackground: $defaultBackground;
-$legendFontSize: 11px;
-$legendTextColor: #fff;
+$legendFontSize: 10px;
+$legendTextColor: #7f7f7f;
 
 
 

@@ -6,8 +6,10 @@
   [class.data-active]="dataService.activeFeatures.length > 0"
 >
   <app-header-bar
+    [languageOptions]="dataService.languageOptions"
     (selectMenuItem)="onMenuSelect($event)"
     (selectLocation)="onSearchSelect($event)"
+    (selectLanguage)="onLanguageSelect($event)"
   ></app-header-bar>
   <app-map
     [mapConfig]="dataService.mapConfig"
@@ -35,19 +37,20 @@
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button
-        class="btn btn-border btn-compare z1" 
+        class="btn btn-primary btn-large btn-compare z1" 
         [class.visible]="(dataService.activeFeatures.length > 0) && enableZoom"
         (click)="goToDataPanel($event)"
       >
-        <span i18n>{dataService.activeFeatures.length, plural, =0 {View More Data} =1 {View More Data} other {View Full Comparison}}</span>
+        <span *ngIf="dataService.activeFeatures.length === 1">{{ 'MAP.DATA_LINK_SINGLE' | translate}}</span>
+        <span *ngIf="dataService.activeFeatures.length > 1">{{ 'MAP.DATA_LINK_MULTIPLE' | translate}}</span>        
         <svg class="down-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline></svg>
       </button>
       <div *ngIf="!enableZoom" class="show-map-overlay" (click)="goToTop()">
-        <button [style.transform]="'translateY(' + offsetToTranslate(verticalOffset) + 'px)'" class="btn btn-border btn-map z1">
+        <button [style.transform]="'translateY(' + offsetToTranslate(verticalOffset) + 'px)'" class="btn btn-large btn-primary btn-map z1">
           <svg class="up-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline>
           </svg>
-          <span>Back to Map</span>              
+          <span>{{ 'DATA.MAP_LINK' | translate }}</span>              
         </button>
       </div>
     </div>
@@ -62,11 +65,11 @@
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"
   >
-    <button (click)="goToTop()" class="btn btn-border btn-map" [class.fixed]="isDataButtonFixed">
+    <button (click)="goToTop()" class="btn btn-large btn-primary btn-map" [class.fixed]="isDataButtonFixed">
       <svg class="up-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <g><polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline></g>
       </svg>
-      <span>Back to Map</span>
+      <span>{{ 'DATA.MAP_LINK' | translate }}</span>
     </button>
   </app-data-panel>
   <div class="footer">

@@ -8,7 +8,7 @@
               id="Shape"></path>
           </g>
         </svg>
-        <span>Home</span>
+        <span>{{ 'HEADER.HOME' | translate }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'search'" class="el-svg-button el-button-search" (click)="onMenuSelect('search')">
         <svg viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -17,7 +17,7 @@
               id="Shape" transform="translate(90.486158, 32.500000) scale(-1, 1) translate(-90.486158, -32.500000) "></path>
           </g>
         </svg>
-        <span>Search</span>
+        <span>{{ 'HEADER.SEARCH' | translate }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'map'" class="el-svg-button el-button-map" (click)="onMenuSelect('map')">
         <svg viewBox="0 0 22 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -26,7 +26,7 @@
               id="Combined-Shape"></path>
           </g>
         </svg>
-        <span>Map</span>
+        <span>{{ 'HEADER.MAP' | translate }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'help'" class="el-svg-button el-button-help" (click)="onMenuSelect('help')">
         <svg viewBox="0 0 15 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -35,7 +35,7 @@
               id="?"></path>
           </g>
         </svg>
-        <span>Help</span>
+        <span>{{ 'HEADER.HELP' | translate }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'menu'" class="el-svg-button el-button-menu" (click)="onMenuSelect('menu')">
         <svg viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -44,15 +44,24 @@
               id="Combined-Shape"></path>
           </g>
         </svg>
-        <span>Menu</span>
+        <span>{{ 'HEADER.MENU' | translate }}</span>
       </button>
     </div>
     <div class="header-logo">
       <img src="./assets/images/eviction-lab-logo.svg" class="header-logo" />
     </div>
     <div [class.active]="activeMenuItem === 'search'" class="header-search">
-      <app-location-search class="search" (locationSelected)="selectLocation.emit($event)"></app-location-search>
+      <app-location-search 
+        class="search"
+        [placeholder]="'HEADER.SEARCH_HINT' | translate"
+        (locationSelected)="selectLocation.emit($event)"
+      ></app-location-search>
     </div>
-    <app-ui-select class="language-select vertical-select" [values]="['English', 'Spanish']"></app-ui-select>
+    <app-ui-select 
+      class="language-select vertical-select"
+      (change)="selectLanguage.emit($event)"
+      labelProperty="name"
+      [values]="languageOptions"
+    ></app-ui-select>
   </div>
 </div>

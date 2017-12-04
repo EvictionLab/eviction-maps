@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { UiMapLegendComponent } from './ui-map-legend.component';
 import { UiHintComponent } from '../ui-hint/ui-hint.component';
 
@@ -9,7 +11,7 @@ describe('UiMapLegendComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ TooltipModule.forRoot() ],
+      imports: [ TooltipModule.forRoot(), TranslateModule.forRoot() ],
       declarations: [ UiMapLegendComponent, UiHintComponent ]
     })
     .compileComponents();

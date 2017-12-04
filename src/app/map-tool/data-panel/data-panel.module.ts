@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { GraphModule } from 'angular-d3-graph/module';
-import { UiModule } from '../../ui/ui.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
+import { UiModule } from '../../ui/ui.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { SocialSharePopupDirective } from './social-share-popup.directive';
@@ -14,7 +16,9 @@ import { SocialSharePopupDirective } from './social-share-popup.directive';
     CommonModule,
     FormsModule,
     UiModule,
-    GraphModule.forRoot()
+    GraphModule.forRoot(),
+    TranslateModule,
+    PopoverModule.forRoot()
   ],
   declarations: [ DataPanelComponent, DownloadFormComponent, SocialSharePopupDirective ],
   entryComponents: [ DataPanelComponent, DownloadFormComponent ]

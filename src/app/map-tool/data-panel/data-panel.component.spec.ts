@@ -1,11 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpModule } from '@angular/http';
-
-import { DataPanelComponent } from './data-panel.component';
-import { UiModule } from '../../ui/ui.module';
-import { GraphModule } from 'angular-d3-graph/module';
 import { Observable } from 'rxjs/Observable';
-import { DataService } from '../../data/data.service';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { DataPanelComponent } from './data-panel.component';
+import { DataPanelModule } from './data-panel.module';
+import { FileExportService } from './download-form/file-export.service';
+import { DownloadFormComponent } from './download-form/download-form.component';
+
+export class FileExportStub {
+  getFileTypes() { 
+    return [
+      { name: 'Excel', value: 'xlsx', path: '/format/xlsx', checked: false },
+      { name: 'PowerPoint', value: 'pptx', path: '/format/pptx', checked: false },
+      { name: 'PDF', value: 'pdf', path: '/pdf', checked: false }
+    ];
+  }
+  setExportValues(...args) {}
+  sendFileRequest(...args) {}
+}
+
 
 describe('DataPanelComponent', () => {
   let component: DataPanelComponent;
@@ -13,9 +27,7 @@ describe('DataPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DataPanelComponent ],
-      imports: [ UiModule, GraphModule.forRoot(), HttpModule ],
-      providers: [ {provide: DataService, useValue: {} } ]
+      imports: [ DataPanelModule, HttpClientModule, TranslateModule.forRoot() ]
     })
     .compileComponents();
   }));

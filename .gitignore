@@ -41,3 +41,7 @@ yarn-error.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# BrowserStack files, general logs
+/*.log
+/*.err

@@ -22,6 +22,19 @@ html, body {
   font-family: $fontStack!important;
 }
 
+body {
+  height:auto;
+  overflow-x:hidden;
+}
+
+body {
+  .form-control {
+    border: 1px solid $shadingColor;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+}
+
 .btn.btn-close { 
   font-size: 24px; 
   width:40px;
@@ -72,91 +85,12 @@ html, body {
   margin-bottom:4px;
   width:14px;
   height:8px;
-  polyline { stroke-width: 3px; stroke: #999; fill: none;}
+  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
 .up-arrow {
   margin-bottom:4px;
   width:14px;
   height:8px;
   transform: rotate(180deg);
-  polyline { stroke-width: 3px; stroke: #999; fill: none;}
-}
-.map-overlay {
-  @include fill-parent();
-  pointer-events:none;
-  height: 100%;
-  transition: background-color 0.2s ease;
-  background-color: rgba(0,0,0,0);
-  display:flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  z-index: 50;
-  &.active { 
-    pointer-events:all; 
-    background-color: rgba(0,0,0,0.1);
-    .btn-map { opacity: 1; }
-  }
-  .btn-compare {
-    display:none;
-  }
-  .btn-map {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-  .show-map-overlay {
-    @include fill-parent();
-    pointer-events:all;
-    z-index:51;
-  }
-}
-.btn-map, 
-.btn-compare {
-  position:absolute;
-  bottom: 16px;
-  left:0;
-  right:0;
-  width: $pageNavButtonWidth;
-  margin:auto;
-}
-// bring button above data panel content
-.btn-map {
-  z-index:2;
-}
-.btn-compare {
-  pointer-events: all;
-  transition: transform 0.2s ease;
-  white-space: normal;
-  transform: translateY(150%);
-  &.visible {
-    transform: translateY(0px);
-  }
-}
-
-@media(min-width: $gtTablet) {
-  .map-overlay .btn-compare { display:block; }
-  .map-overlay {
-    height: calc(100% - #{$timeSliderHeight});
-  }
-}
-
-@media(min-width: $gtLargeDesktop) {
-  // move buttons to gutter
-  .data-wrapper .btn-map,
-  .btn-compare {
-    position: absolute;
-    left: 50%;
-    margin-left: (-$maxContentWidth / 2) - $pageNavButtonWidth - $defaultPadding/2;
-  }
-  // back button in the gutter of the data panel
-  .data-wrapper .btn-map {
-    margin-top:24px;
-    top: 0;
-    bottom:auto;
-    &.fixed { position:fixed; }
-  }
-  // hide back button in overlay
-  .map-overlay .btn-map {
-    display: none;
-  }
+  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
