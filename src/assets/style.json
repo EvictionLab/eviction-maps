@@ -1,7 +1,7 @@
 {
   "version": 8,
   "id": "eviction-lab",
-  "name": "Natural Earth",
+  "name": "Eviction Lab",
   "sprite": "https://tiles.evictionlab.org/sprites",
   "sources": {
     "openmaptiles": {
@@ -1143,99 +1143,6 @@
         ],
         "text-halo-width": 0,
         "text-halo-blur": 0
-      }
-    },
-    {
-      "id": "boundary_state",
-      "type": "line",
-      "metadata": {
-        "mapbox:group": "a14c9607bc7954ba1df7205bf660433f"
-      },
-      "source": "openmaptiles",
-      "source-layer": "boundary",
-      "minzoom": 3,
-      "maxzoom": 7,
-      "filter": [
-        "==",
-        "admin_level",
-        4
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "bevel",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(248, 153, 156, 1)",
-        "line-width": {
-          "stops": [
-            [
-              3,
-              1
-            ],
-            [
-              6,
-              1
-            ]
-          ]
-        },
-        "line-blur": 0.4,
-        "line-dasharray": [
-          2,
-          2
-        ],
-        "line-opacity": 1
-      }
-    },
-    {
-      "id": "boundary_country",
-      "type": "line",
-      "metadata": {
-        "mapbox:group": "a14c9607bc7954ba1df7205bf660433f"
-      },
-      "source": "openmaptiles",
-      "source-layer": "boundary",
-      "minzoom": 0,
-      "maxzoom": 15,
-      "filter": [
-        "==",
-        "admin_level",
-        2
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(248, 153, 156, 1)",
-        "line-width": {
-          "base": 1.1,
-          "stops": [
-            [
-              3,
-              1
-            ],
-            [
-              22,
-              20
-            ]
-          ]
-        },
-        "line-blur": {
-          "base": 1,
-          "stops": [
-            [
-              0,
-              0.4
-            ],
-            [
-              22,
-              4
-            ]
-          ]
-        },
-        "line-opacity": 1
       }
     },
     {
@@ -4015,13 +3922,31 @@
       }
     },
     {
-      "id": "united-states",
+      "id": "boundary_state",
       "type": "line",
       "source": "us-states-10",
-      "source-layer": "country",
+      "source-layer": "states",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "bevel",
+        "visibility": "visible"
+      },
       "paint": {
-        "line-width": 10,
-        "line-color": "rgba(255, 0, 0, 1)"
+        "line-color": "rgba(248, 153, 156, 1)",
+        "line-width": {
+          "stops": [
+            [
+              3,
+              1
+            ],
+            [
+              7,
+              2
+            ]
+          ]
+        },
+        "line-blur": 0.4,
+        "line-opacity": 0.8
       }
     }
   ]
