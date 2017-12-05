@@ -94,7 +94,6 @@
       "id": "background",
       "type": "background",
       "minzoom": 1,
-      "maxzoom": 14,
       "paint": {
         "background-color": "#f8f8f9"
       }
@@ -188,7 +187,6 @@
       "type": "fill",
       "source": "openmaptiles",
       "source-layer": "landuse",
-      "maxzoom": 14,
       "filter": [
         "all",
         [
@@ -228,7 +226,6 @@
       "source": "openmaptiles",
       "source-layer": "waterway",
       "minzoom": 9,
-      "maxzoom": 14,
       "filter": [
         "==",
         "$type",
@@ -1238,7 +1235,13 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 0.8,
+        "line-width": {
+          "stops": [
+            [0, 0],
+            [8, 0.5],
+            [14, 1.5]
+          ]
+        },
         "line-opacity": 0.8
       }
     },
@@ -1306,7 +1309,13 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 0.8,
+        "line-width": {
+          "stops": [
+            [0, 0],
+            [6, 0.5],
+            [14, 1.5]
+          ]
+        },
         "line-opacity": 0.8
       }
     },
@@ -1349,7 +1358,12 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 0.8,
+        "line-width": {
+          "stops": [
+            [0, 0.5],
+            [14, 1.5]
+          ]
+        },
         "line-opacity": 0.8
       }
     },
@@ -2036,7 +2050,13 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 0.8,
+        "line-width": {
+          "stops": [
+            [0, 0],
+            [4, 0.8],
+            [14, 1.5]
+          ]
+        },
         "line-opacity": 0.8
       }
     },
@@ -2072,7 +2092,7 @@
       },
       "paint": {
         "line-color": "rgba(255, 255, 255, 1)",
-        "line-opacity": 0.7,
+        "line-opacity": 0.5,
         "line-width": {
           "base": 1.4,
           "stops": [
@@ -2423,14 +2443,42 @@
       }
     },
     {
+      "id": "boundary_state",
+      "type": "line",
+      "source": "us-states-10",
+      "source-layer": "states",
+      "layout": {
+        "line-cap": "round",
+        "line-join": "bevel",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(248, 153, 156, 1)",
+        "line-width": {
+          "stops": [
+            [
+              3,
+              1
+            ],
+            [
+              7,
+              2
+            ]
+          ]
+        },
+        "line-blur": 0.4,
+        "line-opacity": 0.8
+      }
+    },
+    {
       "id": "hover",
       "type": "line",
       "source": "hover",
       "layout": {},
       "paint": {
-        "line-color": "rgba(255,255,255,0.5)",
-        "line-width": 4,
-        "line-opacity": 1
+        "line-color": "rgba(0,0,0,0.5)",
+        "line-width": 3,
+        "line-opacity": 0.5
       }
     },
     {
@@ -3829,34 +3877,6 @@
             ]
           ]
         }
-      }
-    },
-    {
-      "id": "boundary_state",
-      "type": "line",
-      "source": "us-states-10",
-      "source-layer": "states",
-      "layout": {
-        "line-cap": "round",
-        "line-join": "bevel",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(248, 153, 156, 1)",
-        "line-width": {
-          "stops": [
-            [
-              3,
-              1
-            ],
-            [
-              7,
-              2
-            ]
-          ]
-        },
-        "line-blur": 0.4,
-        "line-opacity": 0.8
       }
     }
   ]
