@@ -3320,7 +3320,6 @@
       "type": "circle",
       "source": "us-cities-10",
       "source-layer": "cities-centers",
-      "minzoom": 8,
       "maxzoom": 24,
       "layout": {
         "visibility": "none"
