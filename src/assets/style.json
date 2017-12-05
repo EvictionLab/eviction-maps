@@ -1238,24 +1238,8 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 1,
-        "line-opacity": {
-          "default": 0,
-          "stops": [
-            [
-              0,
-              0
-            ],
-            [
-              10,
-              0
-            ],
-            [
-              11,
-              1
-            ]
-          ]
-        }
+        "line-width": 0.8,
+        "line-opacity": 0.8
       }
     },
     {
@@ -1322,24 +1306,8 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 1,
-        "line-opacity": {
-          "default": 0,
-          "stops": [
-            [
-              0,
-              0
-            ],
-            [
-              9,
-              0
-            ],
-            [
-              10,
-              1
-            ]
-          ]
-        }
+        "line-width": 0.8,
+        "line-opacity": 0.8
       }
     },
     {
@@ -1381,28 +1349,8 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 1,
-        "line-opacity": {
-          "default": 0,
-          "stops": [
-            [
-              0,
-              0
-            ],
-            [
-              2,
-              0
-            ],
-            [
-              3,
-              0.5
-            ],
-            [
-              4,
-              1
-            ]
-          ]
-        }
+        "line-width": 0.8,
+        "line-opacity": 0.8
       }
     },
     {
@@ -2088,28 +2036,8 @@
       },
       "paint": {
         "line-color": "rgba(0,0,0,0.1)",
-        "line-width": 1,
-        "line-opacity": {
-          "default": 0,
-          "stops": [
-            [
-              0,
-              0
-            ],
-            [
-              5,
-              0
-            ],
-            [
-              7,
-              0
-            ],
-            [
-              9,
-              1
-            ]
-          ]
-        }
+        "line-width": 0.8,
+        "line-opacity": 0.8
       }
     },
     {
