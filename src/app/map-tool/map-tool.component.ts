@@ -161,8 +161,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           }
         } else {
           this.toast.display(
-            'You have selected the maximum allowed locations. ' +
-            'Dismiss one of the locations and try again.'
+            'Maximum limit reached. Please remove a location to add another.'
           );
         }
         this.updateRoute();
