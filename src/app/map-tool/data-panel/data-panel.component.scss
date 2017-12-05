@@ -111,12 +111,16 @@
       // tick labels
       .axis .tick text {
         fill: $graphAxisLabels;
-        font-size:10px;
+        @include numberFont(11px);
       }
       .axis line { stroke: #fff; }
       // hide tick lines
       .axis-x .tick {
         line { display:none; }
+      }
+      .label-y {
+        @include smallCapsText(12px);
+        fill: $graphAxisLabels;
       }
     }
   }
@@ -266,6 +270,25 @@
 
 // Tooltips
 // ----
+.year-marker {
+  position:absolute;
+  left:0;
+  top:20px;
+  height: calc(100% - #{grid(5)});
+  width:1px;
+  border-left: 1px dashed rgba(0,0,0,0.35);
+  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);
+  span {
+    position:absolute;
+    bottom: -1*grid(3);
+    left:0;
+    width: grid(4);
+    margin-left: -1*grid(2);
+    @include numberFont(14px);
+    text-align: center;
+  }
+
+}
 .line-tooltips, .bar-tooltips {
   @include fill-parent();
   pointer-events: none;
@@ -294,7 +317,7 @@
   margin-left: 12px;
   text-align:center;
   line-height: 15px;
-  transition: transform 0.4s ease;
+  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);  
   @include left-arrow(6px, rgba(0,0,0,0.8));
   &:after { z-index:5; }
   &:before {
@@ -306,7 +329,7 @@
     position:absolute;
     top: 7px;
     left:0px;
-    margin-left: -14px;
+    margin-left: -17px;
     z-index:1;
   }
   &:nth-child(1):before {
