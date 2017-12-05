@@ -173,7 +173,7 @@ export class DataService {
    * Adds a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
    */
-  addLocation(feature) {
+  addLocation(feature): boolean {
     if (this.activeFeatures.length < 3) {
       const i = this.activeFeatures.findIndex((f) => {
         return f.properties.n === feature.properties.n &&
@@ -181,8 +181,12 @@ export class DataService {
       });
       if (!(i > -1)) {
         this.activeFeatures = [ ...this.activeFeatures, feature ];
+        return true;
+      } else {
+        return false;
       }
     }
+    return false;
   }
 
   /**
