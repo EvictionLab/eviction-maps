@@ -1,6 +1,5 @@
 // Import theming mixins
 @import "theme/mixins/utils.scss";
-@import "theme/mixins/ui-graph.theme";
 @import "theme/mixins/ui-toggle.theme";
 @import "theme/mixins/ui-dialog.theme";
 @import "theme/mixins/predictive-search.theme";
@@ -79,6 +78,10 @@ $color2: #434878;
 $color3: #2c897f;
 $color4: #4a4238;
 $color5: #b5c2b7;
+$gradient1: linear-gradient(180deg, #F27636, #E04119);
+$gradient2: linear-gradient(180deg, #787EB0, #434878);
+$gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
+$gradient4: linear-gradient(180deg, #C6D5E0, #94AABD);
 
 
 // Shadows
@@ -113,7 +116,6 @@ $graphColor4: $color4;
 $graphAxisLines: #fff;
 $graphAxisLabels: #919191;
 
-app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
 // UI Toggle
 // ----
@@ -157,6 +159,7 @@ $progressBarColor: $color1;
 // layout
 $cardWidth: grid(25);
 $cardHeaderHeight: grid(15);
+$cardBarHeight: 10px;
 // colors
 $cardBg: $defaultBackground;
 $cardHeaderBg1: $color1;
@@ -166,12 +169,13 @@ $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
 $cardLabelText: #919191;
 $cardValueText: #050403;
+
 // colors - cards in data panel
 $panelCardLabelText: #050403;
 $panelCardValueText: #434878;
 $panelCardBorder: $shadingColor;
 // font sizes
-$cardHeadingSize: 22px;
+$cardHeadingSize: 19px;
 $cardSubheadingSize: 13px;
 $cardLabelTextSize: 15px;
 $cardValueTextSize: 24px;
