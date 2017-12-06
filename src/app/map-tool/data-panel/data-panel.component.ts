@@ -56,8 +56,19 @@ export class DataPanelComponent implements OnInit, OnChanges {
     'ef': 'STATS.FILINGS',
     'pr': 'STATS.POVERTY_RATE',
     'p': 'STATS.POPULATION',
-    'roh': 'STATS.RENTER_OCCUPIED',
-    'ahs': 'STATS.AVG_HOUSEHOLD'
+    'pro': 'STATS.PCT_RENTER',
+    'mgr': 'STATS.MED_RENT',
+    'mpv': 'STATS.MED_PROPERTY',
+    'mhi': 'STATS.MED_INCOME',
+    'divider': 'STATS.DEMOGRAPHICS',
+    'pw': 'STATS.PCT_WHITE',
+    'paa': 'STATS.PCT_AFR_AMER',
+    'ph': 'STATS.PCT_HISPANIC',
+    'pai': 'STATS.PCT_AMER_INDIAN',
+    'pa': 'STATS.PCT_ASIAN',
+    'pnp': 'STATS.PCT_HAW_ISL',
+    'pm': 'STATS.PCT_MULTIPLE',
+    'po': 'STATS.PCT_OTHER'
   };
   graphProp = 'er';
   graphSettings;
