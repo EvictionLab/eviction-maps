@@ -60,6 +60,11 @@ body {
 
 // STYLE OVERRIDES
 
+// no "map button" hint on tablet+
+@media(min-width: $gtMobile) {
+  .tooltip.map-hint { display:none!important;}
+}
+
 // hide the track on the year slider so it's not confused for range
 .app-wrapper app-ui-slider .el-slider .track.track-value {
   background:none!important;

@@ -24,7 +24,8 @@
     "MENU": "menú",
     "EN": "Inglés",
     "ES": "Español",
-    "SEARCH_HINT": "Buscar"
+    "SEARCH_HINT": "Buscar",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {

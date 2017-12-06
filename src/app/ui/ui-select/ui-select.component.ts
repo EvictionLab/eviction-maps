@@ -69,7 +69,9 @@ export class UiSelectComponent implements OnInit {
    */
   onIsOpenChange() {
     this.open = this.dropdown.isOpen;
-    this.dropdownList.nativeElement.scrollTop = 0;
+    if (this.dropdownList) {
+      this.dropdownList.nativeElement.scrollTop = 0;
+    }
   }
 
   @HostListener('keydown', ['$event']) onFocus(e) {
