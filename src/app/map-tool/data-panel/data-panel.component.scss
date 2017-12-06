@@ -54,6 +54,25 @@
 
 // Graphs
 // ----
+// mixins
+@mixin graph-colors($c1, $c2, $c3, $c4) {
+  $strokeWidth: 5;
+  .g0-start { stop-color: #F27636; }
+  .g0-end { stop-color: #E04119; }
+  .g1-start { stop-color: #787EB0; }
+  .g1-end { stop-color: #434878; }
+  .g2-start { stop-color: #57BEB6; }
+  .g2-end { stop-color: #2C897F; }
+  .g3-start { stop-color: #C6D5E0; }
+  .g3-end { stop-color: #94AABD; }
+  .app-graph {
+    .line-0 { stroke: $c1; stroke-width: $strokeWidth; }
+    .line-1 { stroke: $c2; stroke-width: $strokeWidth; }
+    .line-2 { stroke: $c3; stroke-width: $strokeWidth; }
+    .line-3 { stroke: $c4; stroke-width: $strokeWidth; }
+  }
+}
+// container
 .graph-container {
   background: $secondaryBackground;
   .data-content-inner {
@@ -98,11 +117,13 @@
   width:100%;
   text-align:right;
   app-graph {
+    
     display:block;
     width:100%;
     padding-top:56.25%;
     position:relative;
     ::ng-deep {
+      @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4);
       .axis path, .graph-rect { 
         stroke: $graphAxisLines;
         stroke-width: 2px;

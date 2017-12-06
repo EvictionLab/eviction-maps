@@ -1,6 +1,5 @@
 // Import theming mixins
 @import "theme/mixins/utils.scss";
-@import "theme/mixins/ui-graph.theme";
 @import "theme/mixins/ui-toggle.theme";
 @import "theme/mixins/ui-dialog.theme";
 @import "theme/mixins/predictive-search.theme";
@@ -113,7 +112,6 @@ $graphColor4: $color4;
 $graphAxisLines: #fff;
 $graphAxisLabels: #919191;
 
-app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
 // UI Toggle
 // ----
