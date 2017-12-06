@@ -1,4 +1,4 @@
-<div class="el-select" dropdown (isOpenChange)="open = dropdown.isOpen">
+<div class="el-select" dropdown (isOpenChange)="onIsOpenChange()">
   <button dropdownToggle type="button" class="btn btn-small dropdown-toggle">
     <span *ngIf="label" class="el-select-label">{{label}} </span> 
     <span class="el-select-value">{{selectedLabel}}</span>
@@ -8,7 +8,7 @@
       </g>
     </svg>
   </button>
-  <ul *dropdownMenu class="dropdown-menu" role="menu">
+  <ul #dropdownList *dropdownMenu class="dropdown-menu" role="menu">
     <li *ngFor="let value of values" role="menuitem">
       <a 
         class="dropdown-item" 

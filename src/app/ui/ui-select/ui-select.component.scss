@@ -39,11 +39,10 @@
       padding:0;
       overflow: auto;
       & > li > a {
-        padding: 0px $defaultPadding;
-        line-height: grid(5);
-        white-space: nowrap;
+        padding: $defaultPadding;
         border-top: 1px solid $shadingColor;
-        height: grid(5);
+        min-height: grid(5);
+        white-space: normal;
         box-sizing: border-box;
       }
       & li:first-child a { border-top: none; }

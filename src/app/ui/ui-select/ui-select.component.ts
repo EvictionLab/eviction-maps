@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef
+} from '@angular/core';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import * as _isEqual from 'lodash.isequal';
 
@@ -23,6 +25,7 @@ export class UiSelectComponent implements OnInit {
   @Input() values: Array<any> = [];
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(BsDropdownDirective) dropdown;
+  @ViewChild('dropdownList') dropdownList: ElementRef;
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
   private valuesArray = true; // true if `values` is an array of values instead of objects
@@ -59,6 +62,14 @@ export class UiSelectComponent implements OnInit {
     const i = this.values.findIndex((v) => _isEqual(this.highlightedItem, v));
     const offset = previousItem ? -1 : 1;
     return this.values[(i + offset) % this.values.length];
+  }
+
+  /**
+   * Set open status, reset scrollTop in dropdown
+   */
+  onIsOpenChange() {
+    this.open = this.dropdown.isOpen;
+    this.dropdownList.nativeElement.scrollTop = 0;
   }
 
   @HostListener('keydown', ['$event']) onFocus(e) {
