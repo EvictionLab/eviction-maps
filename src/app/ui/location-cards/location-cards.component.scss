@@ -103,6 +103,7 @@
     }
     .card-stats li { margin-bottom: grid(1); }
     .card-stats li:last-child { margin-bottom: 0;}
+
     .card-stat-label {
       display:block;       
       color: $cardLabelText;
@@ -289,6 +290,16 @@
           width: 33.333%;
           text-align:left;
           font-size: $panelCardStatTextSize;
+        }
+      }
+      &.divider {
+        background: $defaultBackground!important; // divider is always the same color
+        padding: grid(3) 0 grid(2) 0;
+        @include smallCapsText(12px);
+        .card-stat-label { 
+          width:100%; 
+          color: #A3A7A8; 
+          text-align:center; 
         }
       }
     }

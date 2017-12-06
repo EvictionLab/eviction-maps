@@ -45,6 +45,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison" 
   },
   "STATS": {
+    "DEMOGRAPHICS": "Desglose Demográfico",
     "NONE": "Nada",
     "JUDGMENTS_PER_DAY": "Desalojos por Día",
     "JUDGMENT_RATE": "Tasa de Desalojo",

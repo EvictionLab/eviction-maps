@@ -45,6 +45,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison"     
   },
   "STATS": {
+    "DEMOGRAPHICS": "Demographic Breakdown",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",
     "JUDGMENT_RATE": "Eviction Rate",
