@@ -3,6 +3,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { TranslateModule } from '@ngx-translate/core';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { MapToolComponent } from './map-tool.component';
 import { MapModule } from './map/map.module';
@@ -22,7 +23,8 @@ import { FooterComponent } from './footer/footer.component';
     DataPanelModule,
     MapModule,
     Ng2PageScrollModule,
-    TranslateModule
+    TranslateModule,
+    TooltipModule.forRoot()
   ],
   providers: [ DataService ]
 })

@@ -24,7 +24,8 @@
     "MENU": "Menu",
     "EN": "English",
     "ES": "Spanish",
-    "SEARCH_HINT": "Search for places"    
+    "SEARCH_HINT": "Search for places",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {
