@@ -715,14 +715,14 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         [
           {
             'zoom': 7,
-            'value': 8
+            'value': 12
           },
           1
         ],
         [
           {
             'zoom': 7,
-            'value': 12
+            'value': 20
           },
           1
         ],
@@ -743,16 +743,16 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         [
           {
             'zoom': 8,
-            'value': 8
+            'value': 12
           },
-          1.4625
+          2
         ],
         [
           {
             'zoom': 8,
-            'value': 12
+            'value': 20
           },
-          1.95
+          3
         ],
         [
           {
@@ -766,21 +766,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 9,
             'value': 4
           },
-          1.9
-        ],
-        [
-          {
-            'zoom': 9,
-            'value': 8
-          },
-          2.85
+          2
         ],
         [
           {
             'zoom': 9,
             'value': 12
           },
-          3.8
+          3.5
+        ],
+        [
+          {
+            'zoom': 9,
+            'value': 20
+          },
+          5
         ],
         [
           {
@@ -794,21 +794,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 10,
             'value': 4
           },
-          3.7
-        ],
-        [
-          {
-            'zoom': 10,
-            'value': 8
-          },
-          5.56
+          5
         ],
         [
           {
             'zoom': 10,
             'value': 12
           },
-          7.4
+          7.5
+        ],
+        [
+          {
+            'zoom': 10,
+            'value': 20
+          },
+          10
         ],
         [
           {
@@ -822,21 +822,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 11,
             'value': 4
           },
-          7.23
-        ],
-        [
-          {
-            'zoom': 11,
-            'value': 8
-          },
-          10.84
+          10
         ],
         [
           {
             'zoom': 11,
             'value': 12
           },
-          14.46
+          15
+        ],
+        [
+          {
+            'zoom': 11,
+            'value': 20
+          },
+          20
         ],
         [
           {
@@ -850,21 +850,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 12,
             'value': 4
           },
-          11.77
-        ],
-        [
-          {
-            'zoom': 12,
-            'value': 8
-          },
-          17.66
+          15
         ],
         [
           {
             'zoom': 12,
             'value': 12
           },
-          23.54
+          20
+        ],
+        [
+          {
+            'zoom': 12,
+            'value': 20
+          },
+          25
         ]
       ],
       'block-groups': [
@@ -1654,14 +1654,14 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 8,
             'value': 20
           },
-          1.4625
+          2
         ],
         [
           {
             'zoom': 8,
             'value': 30
           },
-          1.95
+          3
         ],
         [
           {
@@ -1675,21 +1675,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 9,
             'value': 10
           },
-          1.9
+          2
         ],
         [
           {
             'zoom': 9,
             'value': 20
           },
-          2.85
+          3.5
         ],
         [
           {
             'zoom': 9,
             'value': 30
           },
-          3.8
+          5
         ],
         [
           {
@@ -1703,21 +1703,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 10,
             'value': 10
           },
-          3.7
+          5
         ],
         [
           {
             'zoom': 10,
             'value': 20
           },
-          5.56
+          7.5
         ],
         [
           {
             'zoom': 10,
             'value': 30
           },
-          7.4
+          10
         ],
         [
           {
@@ -1731,21 +1731,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 11,
             'value': 10
           },
-          7.23
+          10
         ],
         [
           {
             'zoom': 11,
             'value': 20
           },
-          10.84
+          15
         ],
         [
           {
             'zoom': 11,
             'value': 30
           },
-          14.46
+          20
         ],
         [
           {
@@ -1759,21 +1759,21 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
             'zoom': 12,
             'value': 10
           },
-          11.77
+          15
         ],
         [
           {
             'zoom': 12,
             'value': 20
           },
-          17.66
+          20
         ],
         [
           {
             'zoom': 12,
             'value': 30
           },
-          23.54
+          25
         ]
       ],
       'block-groups': [
