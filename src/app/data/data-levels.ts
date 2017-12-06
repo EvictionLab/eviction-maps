@@ -27,7 +27,7 @@ export const DataLevels: Array<MapLayerGroup> = [
       'counties_null'
     ],
     'minzoom': 0,
-    'zoom': [5, 7]
+    'zoom': [5, 9]
   },
   {
     'id': 'cities',
@@ -41,7 +41,7 @@ export const DataLevels: Array<MapLayerGroup> = [
       'cities_null'
     ],
     'minzoom': 4,
-    'zoom': [7, 10]
+    'zoom': [9, 11]
   },
   {
     'id': 'tracts',
@@ -55,7 +55,7 @@ export const DataLevels: Array<MapLayerGroup> = [
       'tracts_null'
     ],
     'minzoom': 8,
-    'zoom': [10, 13]
+    'zoom': [11, 13]
   },
   {
     'id': 'block-groups',

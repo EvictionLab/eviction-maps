@@ -2061,108 +2061,8 @@
       }
     },
     {
-      "id": "highway_major_inner",
-      "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 13,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "class",
-          "primary",
-          "secondary",
-          "tertiary",
-          "trunk"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-opacity": 0.5,
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              10,
-              2
-            ],
-            [
-              20,
-              20
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "highway_name_other",
-      "type": "symbol",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
-      "source": "openmaptiles",
-      "source-layer": "transportation_name",
-      "minzoom": 13,
-      "filter": [
-        "all",
-        [
-          "!=",
-          "class",
-          "motorway"
-        ],
-        [
-          "==",
-          "$type",
-          "LineString"
-        ]
-      ],
-      "layout": {
-        "text-size": 10,
-        "text-max-angle": 45,
-        "text-transform": "none",
-        "symbol-spacing": 350,
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "symbol-placement": "line",
-        "visibility": "visible",
-        "text-rotation-alignment": "map",
-        "text-pitch-alignment": "viewport",
-        "text-field": "{name}",
-        "text-letter-spacing": 0.07,
-        "text-keep-upright": true
-      },
-      "paint": {
-        "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "#fff",
-        "text-translate": [
-          0,
-          0
-        ],
-        "text-halo-width": 2,
-        "text-halo-blur": 0
-      }
-    },
-    {
       "id": "highway_name_motorway",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation_name",
       "minzoom": 11,
@@ -2200,6 +2100,85 @@
           2
         ],
         "text-halo-width": 0,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      "id": "streets",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "in",
+          "class",
+          "primary",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-opacity": 0.9,
+        "line-width": {
+          "base": 2,
+          "stops": [
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              15
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "highway_name_other",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "transportation_name",
+      "minzoom": 12,
+      "filter": [
+        "all"
+      ],
+      "layout": {
+        "text-size": 10,
+        "text-max-angle": 45,
+        "text-transform": "none",
+        "symbol-spacing": 350,
+        "text-font": [
+          "Metropolis+Medium"
+        ],
+        "symbol-placement": "line",
+        "visibility": "visible",
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport",
+        "text-field": "{name}",
+        "text-letter-spacing": 0.07,
+        "text-keep-upright": true
+      },
+      "paint": {
+        "text-color": "rgba(48, 48, 48, 1)",
+        "text-halo-color": "#fff",
+        "text-translate": [
+          0,
+          0
+        ],
+        "text-halo-width": 2,
         "text-halo-blur": 0
       }
     },
@@ -3140,11 +3119,11 @@
         "text-opacity": {
           "stops": [
             [
-              6.75,
+              7.5,
               0
             ],
             [
-              7,
+              8,
               1
             ]
           ]
