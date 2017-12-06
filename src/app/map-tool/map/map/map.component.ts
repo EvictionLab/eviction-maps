@@ -36,7 +36,7 @@ export class MapComponent implements OnInit, OnChanges {
   set selectedBubble(newBubble: MapDataAttribute) {
     this._store.bubble = newBubble;
     this.selectedBubbleChange.emit(newBubble);
-    this.updateMapBubbles();
+    // this.updateMapBubbles();
     this.updateCardProperties();
   }
   get selectedBubble(): MapDataAttribute { return this._store.bubble; }
@@ -411,7 +411,7 @@ export class MapComponent implements OnInit, OnChanges {
    * selected layer, bubble, choropleth, and year.
    */
   private updateMapData() {
-    this.updateMapBubbles();
+    // this.updateMapBubbles();
     this.updateMapChoropleths();
   }
 }

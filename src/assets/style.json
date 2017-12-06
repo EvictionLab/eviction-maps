@@ -2219,24 +2219,7 @@
             ]
           ]
         },
-        "circle-color": {
-          "property": "er-10",
-          "default": "rgba(0,0,0,0)",
-          "stops": [
-            [
-              -1,
-              "rgba(198,204,207,0.8)"
-            ],
-            [
-              0,
-              "rgba(255,120,119,0.8)"
-            ],
-            [
-              60,
-              "rgba(255,4,0,0.8)"
-            ]
-          ]
-        },
+        "circle-color": "rgba(255,4,0,0.6)",
         "circle-radius": {
           "property": "er-10",
           "default": 0,
@@ -2469,24 +2452,7 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-color": {
-          "property": "er-10",
-          "default": "rgba(0,0,0,0)",
-          "stops": [
-            [
-              -1,
-              "rgba(198,204,207,0.8)"
-            ],
-            [
-              0,
-              "rgba(255,120,119,0.8)"
-            ],
-            [
-              80,
-              "rgba(255,4,0,0.8)"
-            ]
-          ]
-        },
+        "circle-color": "rgba(255,4,0,0.6)",
         "circle-stroke-color": {
           "property": "er-10",
           "default": "rgba(0, 0, 0, 0)",
@@ -2779,24 +2745,7 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-color": {
-          "property": "er-10",
-          "default": "rgba(0,0,0,0)",
-          "stops": [
-            [
-              -1,
-              "rgba(198,204,207,0.8)"
-            ],
-            [
-              0,
-              "rgba(255,120,119,0.8)"
-            ],
-            [
-              10,
-              "rgba(255,4,0,0.8)"
-            ]
-          ]
-        },
+        "circle-color": "rgba(255,4,0,0.6)",
         "circle-stroke-color": {
           "property": "er-10",
           "default": "rgba(0, 0, 0, 0)",
@@ -3139,24 +3088,7 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-color": {
-          "property": "er-10",
-          "default": "rgba(0,0,0,0)",
-          "stops": [
-            [
-              -1,
-              "rgba(198,204,207,0.8)"
-            ],
-            [
-              0,
-              "rgba(255,120,119,0.8)"
-            ],
-            [
-              3,
-              "rgba(255,4,0,0.8)"
-            ]
-          ]
-        },
+        "circle-color": "rgba(255,4,0,0.6)",
         "circle-stroke-color": {
           "property": "er-10",
           "default": "rgba(0, 0, 0, 0)",
@@ -3352,24 +3284,7 @@
         "visibility": "none"
       },
       "paint": {
-        "circle-color": {
-          "property": "er-10",
-          "default": "rgba(0,0,0,0)",
-          "stops": [
-            [
-              -1,
-              "rgba(198,204,207,0.8)"
-            ],
-            [
-              0,
-              "rgba(255,120,119,0.8)"
-            ],
-            [
-              80,
-              "rgba(255,4,0,0.8)"
-            ]
-          ]
-        },
+        "circle-color": "rgba(255,4,0,0.6)",
         "circle-stroke-color": {
           "property": "er-10",
           "default": "rgba(0, 0, 0, 0)",
