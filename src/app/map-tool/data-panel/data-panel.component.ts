@@ -127,10 +127,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
       [];
   }
 
-  trackTooltips(index, item) {
-    return item.id;
-  }
+  /** track tooltips by ID so they are animated properly */
+  trackTooltips(index, item) { return item.id; }
 
+  /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
@@ -174,10 +174,14 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
-      this.graphData = [ ...this.createLineGraphData() ];
+      this.graphData = [...this.createLineGraphData()];
+      // HACK: something with the dimensions is not set correctly when updating settings
+      //    for now, update in timeout until this is fixed
+      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings } }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
-      this.graphData = [ ...this.createBarGraphData() ];
+      this.graphData = [...this.createBarGraphData()];
+      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings } }, 1250);
     }
   }
 
