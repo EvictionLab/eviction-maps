@@ -21,8 +21,8 @@ export class UiMapLegendComponent implements OnInit {
   /** Gets the text for the hint */
   get hint(): string {
     if (!this.choropleth || !this.layer || !this.stops) { return null; }
-    return 'The colored ' + this.layer['name'] + ' on the map represent ' +
-      this.choropleth['name'] + ' from ' + this.stops[1][0] + ' to ' +
+    return 'The colored ' + this.stripHtmlFromString(this.layer['name']) +
+    ' on the map represent ' + this.choropleth['name'] + ' from ' + this.stops[1][0] + ' to ' +
       this.stops[this.stops.length - 1][0] + '.';
   }
   get hintData() {
@@ -46,5 +46,9 @@ export class UiMapLegendComponent implements OnInit {
   constructor(private sanitizer: DomSanitizer) { }
 
   ngOnInit() {}
+
+  private stripHtmlFromString(htmlString: string) {
+    return htmlString.replace(/<(?:.|\n)*?>*.<\/(?:.|\n)*?>+/gm, '');
+  }
 
 }
