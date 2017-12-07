@@ -227,6 +227,8 @@
 
 :host-context(.gt-mobile) {
   .graph-header {
+    background: $defaultBackground;
+    box-shadow: $z1shadow;
     flex-direction: row;
     padding:0 grid(2);
     .graph-eviction-toggle {

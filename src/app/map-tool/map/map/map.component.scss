@@ -55,9 +55,22 @@ app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
   top: 0;
   bottom:$timeSliderHeight;
   margin:auto;
-  height:110px;
+  height:grid(18);
   right:$pageMargin;
   left: auto;
+  .mapboxgl-ctrl-group {
+    border-radius:0;
+    box-shadow: $z1shadow;
+     & > button {
+       border-bottom: none;
+       border-radius:0;
+       width: grid(5);
+       height: grid(5);
+       &.mapboxgl-ctrl-zoom-in {
+         border-bottom: 1px solid $shadingColor;
+       }
+     }
+  }
 }
 // increase page margins and account for larger time slider
 :host-context(.gt-mobile) {
