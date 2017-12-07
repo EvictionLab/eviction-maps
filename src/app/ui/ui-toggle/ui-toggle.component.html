@@ -1,3 +1,3 @@
 <button *ngFor="let value of values" (click)="selectedValue = value" [class.selected]="selectedValue === value">
-  {{ value[labelProperty] || value }}
+  <span>{{ value[labelProperty] || value }}</span>
 </button>

@@ -36,3 +36,32 @@
     margin-top: -$size;
   }
 }
+
+@function to-string($value) {
+  @return inspect($value);
+}
+
+/// Replace `$search` with `$replace` in `$string`
+/// @author Hugo Giraudel
+/// @param {String} $string - Initial string
+/// @param {String} $search - Substring to replace
+/// @param {String} $replace ('') - New value
+/// @return {String} - Updated string
+@function str-replace($string, $search, $replace: '') {
+  $realString: to-string($string);
+  $index: str-index($realString, $search);
+  
+  @if $index {
+    @return str-slice($realString, 1, $index - 1) + $replace + str-replace(str-slice($realString, $index + str-length($search)), $search, $replace);
+  }
+  
+  @return $realString;
+}
+// bar chart function that returns the bar chart image data-url
+@function bar-chart($color) {
+  @return url("data:image/svg+xml,%3Csvg%20width%3D'26px'%20height%3D'26px'%20viewBox%3D'0%200%2026%2026'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke%3D'#{str-replace($color, '#', '%23')}'%20fill-rule%3D'evenodd'%3E%3Cpath%20d%3D'M6.11816406%2C8.125%20L6.11816406%2C20.1513672'%20stroke-width%3D'4'%3E%3C%2Fpath%3E%3Cpath%20d%3D'M13.1181641%2C4.125%20L13.1181641%2C20.1513672'%20stroke-width%3D'4'%3E%3C%2Fpath%3E%3Cpath%20d%3D'M20.1181641%2C11.125%20L20.1181641%2C20.1513672'%20stroke-width%3D'4'%3E%3C%2Fpath%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
+
+@function line-chart($color) {
+  @return url("data:image/svg+xml,%0A%3Csvg%20width%3D'26px'%20height%3D'26px'%20viewBox%3D'0%200%2026%2026'%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%3E%3Cg%20stroke%3D'#{str-replace($color, '#', '%23')}'%20fill%3D'none'%20fill-rule%3D'evenodd'%3E%3Cpolyline%20stroke%3D'#{str-replace($color, '#', '%23')}'%20stroke-width%3D'3'%20points%3D'3.83300781%2017.9126345%208.27341885%2012.9951358%2012.1909175%2016.9126345%2016.4824219%208.66601562%2021.7636719%208.66601562'%3E%3C%2Fpolyline%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+}
