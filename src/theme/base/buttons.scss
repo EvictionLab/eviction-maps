@@ -31,7 +31,6 @@ body {
   .btn.btn-large {
     height: grid(8);
     @include smallCapsText(15px);
-
   }
 
   // Primary color buttons

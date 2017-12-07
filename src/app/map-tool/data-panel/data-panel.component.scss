@@ -95,6 +95,25 @@
   }
   .graph-type-toggle {
     order: 3;
+    ::ng-deep {
+      height: grid(6);
+      button {
+        width: grid(6);
+        height: grid(4.5);
+        box-sizing:border-box;
+        background-repeat: no-repeat;
+        background-position: center;
+        span { display:none;}
+      }
+      button:first-child {
+        background-image: bar-chart($grey3);
+        &.selected { background-image: bar-chart($color1); }
+      }
+      button:last-child {
+        background-image: line-chart($grey3);
+        &.selected { background-image: line-chart($color1); }
+      }
+    }
   }
   .graph-year-select {
     order: 2;
