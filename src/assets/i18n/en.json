@@ -1,7 +1,7 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
-    "DATE_RANGE": "Date Range",
+    "DATE_RANGE": "Displaying year",
     "JUDGMENTS": "Judgments",
     "FILINGS": "Filings",
     "REMOVE_BUTTON": "Remove",

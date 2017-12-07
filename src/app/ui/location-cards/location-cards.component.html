@@ -11,7 +11,9 @@
     <ul class="card-stats">
       <li *ngFor="let propName of cardPropertyKeys; let i = index;" [class]="propName">
         <span class="card-stat-label">{{ cardProperties[propName] | translate }}</span>
-        <span *ngIf="propName !== 'divider'" class="card-stat-value">{{ f.properties[propName + '-' + abbrYear] >= 0 ? (f.properties[propName + '-' + abbrYear] | number) : 'Unavailable' }}</span>
+        <span *ngIf="propName !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[propName + '-' + abbrYear] >= 0)">
+          {{ f.properties[propName + '-' + abbrYear] >= 0 ? (f.properties[propName + '-' + abbrYear] | number) : 'Unavailable' }}
+        </span>
       </li>
     </ul>
   </div>

@@ -112,6 +112,10 @@
     .card-stat-value {
       @include numberFont(14px);
       color: $cardValueText;
+      &.unavailable {
+        @include defaultFont(14px);
+        color: $black;
+      }
     }
   }
 }
@@ -131,8 +135,20 @@
       position:absolute;
       bottom:0;
       left:0;
+      width:100%;
       padding: grid(1) 0 grid(1) grid(2);
-      li { float:left; margin-right: grid(2); }
+      li { 
+        float:left; 
+        padding-right: grid(2); 
+        max-width: 33.3333%;
+        span {
+          display:block;
+          width:100%;
+          white-space: nowrap;
+          overflow:hidden; 
+          text-overflow: ellipsis;
+        }
+      }
       li:last-child { margin-right: 0; }
       // hide the second stat (raw evictions) when there is a selected choropleth
       li:nth-child(2) { display:none; }
@@ -157,6 +173,13 @@
   .location-card { 
     width: 100%; 
     min-width: grid(35); 
+    .card-content li { 
+      max-width: none;
+      span {
+        overflow:auto;
+        white-space: normal;
+      }
+    }
   }
 }
 // tablet and larger displays:
@@ -188,6 +211,9 @@
       }
       .card-stat-value {
         @include numberFont($cardValueTextSize);
+        &.unavailable {
+          @include defaultFont($cardValueTextSize);
+        }
       }
     }
   }
@@ -242,7 +268,12 @@
     }
     .card-stats { padding-top: grid(12); }
     .card-stats li {
-      .card-stat-value { color: $panelCardValueText; }
+      .card-stat-value { 
+        color: $panelCardValueText;
+        &.unavailable {
+          color: $grey3;
+        }
+      }
       .card-stat-label { color: $panelCardLabelText; }
       // first two stats
       &:nth-child(1), &:nth-child(2) {
@@ -361,7 +392,7 @@
       margin-left: grid(6); 
     }
     .btn-close {
-      bottom: grid(5);
+      bottom: grid(4.5);
     }
     .card-stats { 
       padding-top: grid(13); 
@@ -375,6 +406,9 @@
         padding: grid(1.5) $defaultPadding; 
         .card-stat-label,
         .card-stat-value { font-size: $panelCardStatTextSize_t; }
+      }
+      li.divider .card-stat-label {
+        font-size:14px;
       }
     }
     &.location-add .card-content p {

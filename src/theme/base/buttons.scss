@@ -31,14 +31,13 @@ body {
   .btn.btn-large {
     height: grid(8);
     @include smallCapsText(15px);
-
   }
 
   // Primary color buttons
   .btn-primary {
     border: none;
     background: $primaryButtonColor;
-    height: 56px;
+    height: grid(7);
     &:hover {
       background: $primaryButtonHoverColor;
     }
@@ -50,25 +49,22 @@ body {
   // Square buttons with border
   .btn-border {
     background: $defaultBackground;
-    color: $color1;
-    box-shadow: inset 0 0 0 3px #fff, 
-                inset 0 0px 0px 8px #efefef;
+    color: $grey1;
+    box-shadow: inset 0 0 0 3px $white, 
+                inset 0 0px 0px 8px $grey5;
     border-radius:2px;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     font-weight: 500;
-    padding: 8px 16px;
+    padding: grid(1) grid(2);
     box-sizing: border-box;
+    svg path { fill: $grey1; }
+    &:hover { background: $grey5; }
     // active style
     &.active, &:active, &:focus, &:active:focus {
-      box-shadow: 0 0 0 2px #fff, 0px 1px 3px 2px rgba(0,0,0,0.34);
-      border: 3px solid $primaryButtonColor;      
-    }
-    // raised button
-    &.z1 {
-      box-shadow: inset 0 0 0 3px #fff, 
-                  inset 0 0px 0px 6px #ccc,
-                  $z1shadow;
+      box-shadow: inset 0 0 0 3px $white, 
+        inset 0 0px 0px 8px darken($grey5, 5%);
+      background: $grey5;
     }
   }
 

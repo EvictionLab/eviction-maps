@@ -27,6 +27,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  // TEMPORARY - should have a focus style for accessibility
+  &:focus {
+    outline:none;
+  }
 }
 .slider-label {
   margin-right: grid(2);

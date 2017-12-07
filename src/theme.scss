@@ -66,13 +66,14 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 
 // Base Colors
 // ----
-$textColor: #000;
-$secondaryTextColor: rgba(0,0,0,0.5);
-$altTextColor: #fff; // text on dark backgrounds
-$linkColor: #22ABED;
-$defaultBackground: #fff;
-$secondaryBackground: #F4F7F9;
-$shadingColor: #efefef;
+$black: #050403;
+$grey0: #666;
+$grey1: #7F7F7F;
+$grey2: #A3A7A8;
+$grey3: #C6CCCF;
+$grey4: #efefef;
+$grey5: #F4F7F9;
+$white: #fff;
 $color1: #e24000;
 $color2: #434878;
 $color3: #2c897f;
@@ -82,11 +83,17 @@ $gradient1: linear-gradient(180deg, #F27636, #E04119);
 $gradient2: linear-gradient(180deg, #787EB0, #434878);
 $gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
 $gradient4: linear-gradient(180deg, #C6D5E0, #94AABD);
-
+$shadingColor: $grey4;
+$textColor: $black;
+$secondaryTextColor: $grey2;
+$altTextColor: $white; // text on dark backgrounds
+$defaultBackground: $white;
+$linkColor: $color1;
+$secondaryBackground: $grey5;
 
 // Shadows
 // ----
-$z1shadow: 0 1px 3px rgba(0,0,0,0.3);
+$z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
 
