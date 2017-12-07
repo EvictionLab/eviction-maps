@@ -3271,7 +3271,8 @@
         "icon-color": "rgba(0, 0, 0, 1)",
         "text-halo-width": 2,
         "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-color": "rgba(31, 31, 31, 1)"
+        "text-color": "rgba(31, 31, 31, 1)",
+        "text-opacity": 0
       }
     },
     {

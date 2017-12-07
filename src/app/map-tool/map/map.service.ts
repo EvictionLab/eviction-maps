@@ -75,7 +75,7 @@ export class MapService {
         } else {
           labelsVisible = false;
         }
-        if (labelFeatures.length && !labelsVisible) {
+        if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
           this.popup.remove();
         } else {
           this.popup.setLngLat(e.lngLat)
