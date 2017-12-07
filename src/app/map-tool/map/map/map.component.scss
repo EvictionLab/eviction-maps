@@ -275,7 +275,7 @@ app-ui-map-legend {
 :host-context(.gt-mobile) {
   app-ui-map-legend {
     height: grid(6); // 6 * 8 = 48px
-    width: grid(43); // 43 * 8 = 344px
+    width: grid(42.5); // 42.5 * 8 = 340px
     max-width: $maxContentWidth;
     margin:auto;
     top:auto;
