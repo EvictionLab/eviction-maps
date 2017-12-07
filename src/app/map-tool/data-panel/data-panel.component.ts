@@ -56,8 +56,19 @@ export class DataPanelComponent implements OnInit, OnChanges {
     'ef': 'STATS.FILINGS',
     'pr': 'STATS.POVERTY_RATE',
     'p': 'STATS.POPULATION',
-    'roh': 'STATS.RENTER_OCCUPIED',
-    'ahs': 'STATS.AVG_HOUSEHOLD'
+    'pro': 'STATS.PCT_RENTER',
+    'mgr': 'STATS.MED_RENT',
+    'mpv': 'STATS.MED_PROPERTY',
+    'mhi': 'STATS.MED_INCOME',
+    'divider': 'STATS.DEMOGRAPHICS',
+    'pw': 'STATS.PCT_WHITE',
+    'paa': 'STATS.PCT_AFR_AMER',
+    'ph': 'STATS.PCT_HISPANIC',
+    'pai': 'STATS.PCT_AMER_INDIAN',
+    'pa': 'STATS.PCT_ASIAN',
+    'pnp': 'STATS.PCT_HAW_ISL',
+    'pm': 'STATS.PCT_MULTIPLE',
+    'po': 'STATS.PCT_OTHER'
   };
   graphProp = 'er';
   graphSettings;
@@ -127,10 +138,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
       [];
   }
 
-  trackTooltips(index, item) {
-    return item.id;
-  }
+  /** track tooltips by ID so they are animated properly */
+  trackTooltips(index, item) { return item.id; }
 
+  /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
@@ -174,10 +185,14 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
-      this.graphData = [ ...this.createLineGraphData() ];
+      this.graphData = [...this.createLineGraphData()];
+      // HACK: something with the dimensions is not set correctly when updating settings
+      //    for now, update in timeout until this is fixed
+      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings } }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
-      this.graphData = [ ...this.createBarGraphData() ];
+      this.graphData = [...this.createBarGraphData()];
+      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings } }, 1250);
     }
   }
 

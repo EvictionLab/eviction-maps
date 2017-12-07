@@ -81,6 +81,198 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [20, 'rgba(37, 51, 132, 0.9)']
       ]
     }
+  },
+  {
+    'id': 'pro',
+    'name': '% Renter Occupied',
+    'langKey': 'STATS.PCT_RENTER',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'mgr',
+    'name': 'Median Gross Rent',
+    'langKey': 'STATS.MED_RENT',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [250, 'rgba(170, 191, 226, 0.75)'],
+        [500, 'rgba(133, 157, 204, 0.8)'],
+        [750, 'rgba(81, 101, 165, 0.85)'],
+        [1000, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'mpv',
+    'name': 'Median Property Value',
+    'langKey': 'STATS.MED_PROPERTY',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [50000, 'rgba(170, 191, 226, 0.75)'],
+        [100000, 'rgba(133, 157, 204, 0.8)'],
+        [150000, 'rgba(81, 101, 165, 0.85)'],
+        [200000, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'mhi',
+    'name': 'Median Household Income',
+    'langKey': 'STATS.MED_INCOME',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25000, 'rgba(170, 191, 226, 0.75)'],
+        [50000, 'rgba(133, 157, 204, 0.8)'],
+        [75000, 'rgba(81, 101, 165, 0.85)'],
+        [100000, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'pw',
+    'name': '% White',
+    'langKey': 'STATS.PCT_WHITE',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'paa',
+    'name': '% African American',
+    'langKey': 'STATS.PCT_AFR_AMER',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'ph',
+    'name': '% Hispanic/Latinx',
+    'langKey': 'STATS.PCT_HISPANIC',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'pai',
+    'name': '% American Indian/Alaskan Native',
+    'langKey': 'STATS.PCT_AMER_INDIAN',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'pa',
+    'name': '% Asian',
+    'langKey': 'STATS.PCT_ASIAN',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'pnp',
+    'name': '% Native Hawaiian or Pacific Islander',
+    'langKey': 'STATS.PCT_HAW_ISL',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'pm',
+    'name': '% Multiple Races',
+    'langKey': 'STATS.PCT_MULTIPLE',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
+    'id': 'po',
+    'name': '% Other Race',
+    'langKey': 'STATS.PCT_OTHER',
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
   }
 ];
 

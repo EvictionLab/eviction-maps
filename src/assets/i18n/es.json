@@ -24,7 +24,8 @@
     "MENU": "menú",
     "EN": "Inglés",
     "ES": "Español",
-    "SEARCH_HINT": "Buscar"
+    "SEARCH_HINT": "Buscar",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {
@@ -44,6 +45,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison" 
   },
   "STATS": {
+    "DEMOGRAPHICS": "Desglose Demográfico",
     "NONE": "Nada",
     "JUDGMENTS_PER_DAY": "Desalojos por Día",
     "JUDGMENT_RATE": "Tasa de Desalojo",

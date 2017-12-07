@@ -24,7 +24,8 @@
     "MENU": "Menu",
     "EN": "English",
     "ES": "Spanish",
-    "SEARCH_HINT": "Search for places"    
+    "SEARCH_HINT": "Search for places",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {
@@ -44,6 +45,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison"     
   },
   "STATS": {
+    "DEMOGRAPHICS": "Demographic Breakdown",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",
     "JUDGMENT_RATE": "Eviction Rate",
@@ -54,17 +56,17 @@
     "POPULATION": "Population",
     "AVG_HOUSEHOLD": "Average Household Size",
     "RENTER_OCCUPIED": "Renter Occupied Households",
-    "PCT_RENTER": "Percent Renter Occupied",
+    "PCT_RENTER": "% Renter Occupied",
     "MED_RENT": "Median Gross Rent",
     "MED_INCOME": "Median Household Income",
     "MED_PROPERTY": "Median Property Value",
     "PCT_WHITE": "% White",
     "PCT_AFR_AMER": "% African American",
-    "PCT_HISPANIC": "% Hispanic",
+    "PCT_HISPANIC": "% Hispanic/Latinx",
     "PCT_AMER_INDIAN": "% American Indian and Alaska Native",
     "PCT_ASIAN": "% Asian",
     "PCT_HAW_ISL": "% Native Hawaiian or Pacific Islander",
-    "PCT_MULTIPLE": "% Multiple",
-    "PCT_OTHER": "% Other"
+    "PCT_MULTIPLE": "% Multiple Races",
+    "PCT_OTHER": "% Other Race"
   }
 }

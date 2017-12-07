@@ -13,7 +13,6 @@
   ></app-header-bar>
   <app-map
     [mapConfig]="dataService.mapConfig"
-    [autoSwitch]="dataService.autoSwitchLayers"
     [bubbleOptions]="dataService.bubbleAttributes"
     [layerOptions]="dataService.dataLevels"
     [choroplethOptions]="dataService.dataAttributes"
@@ -72,9 +71,5 @@
       <span>{{ 'DATA.MAP_LINK' | translate }}</span>
     </button>
   </app-data-panel>
-  <div class="footer">
-    <div class="placeholder">
-      <img src="./assets/images/footer.png" />
-    </div>
-  </div>
+  <app-footer></app-footer>
 </div>

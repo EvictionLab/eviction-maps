@@ -1,0 +1,153 @@
+@import '../../../theme';
+
+footer {
+  width:100%;
+  margin-top: grid(3);
+  background: linear-gradient(180deg, #393939 0%, #2F2D2B 100%);
+  padding: grid(6) $pageMargin grid(8);
+  color: #fff;
+  @include defaultFont(14px);
+  a {
+    color: #fff;
+    &:hover { color: $linkColor; }
+  }
+}
+
+.footer-content {
+  margin:auto;
+  max-width: $maxContentWidth;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  // padding on immediate children
+  > * {
+    padding: grid(2) 0;
+  }
+}
+
+.footer-logo {
+  svg {
+    width: 100px;
+    height: 96px;
+    // logo colours
+    .cls-1 { fill: #fff; }
+    .cls-2 { fill: #e24000; }
+  }
+}
+
+.footer-navigation {
+  ul {
+    width:100%;
+    padding:0;
+    margin:0; 
+    list-style: none;
+    text-align:center;
+    line-height: 28px;
+  }
+}
+
+.footer-social {
+  p { 
+    @include defaultFont(12px);
+    text-align:center;
+    line-height: 28px;
+  }
+  ul {
+    width:100%;
+    padding:0;
+    margin:0; 
+    list-style: none;
+    text-align:center;
+    height: grid(7);
+  }
+  li {
+    display:inline-block;
+    margin-right: grid(1);
+    &:last-child { margin-right: 0; }
+  }
+  a {
+    position:relative;
+    width: grid(7);
+    height: grid(7);
+    border: 5px solid #333;
+    display:block;
+  }
+  svg {
+    @include fill-parent();
+    margin:auto;
+    width: grid(4);
+    height: grid(4);
+    path, polyline { fill: #fff; }
+  }
+}
+
+.footer-copyright {
+  color: #7f7f7f;
+  text-align:center;
+  @include defaultFont(12px);
+}
+
+
+:host-context(.gt-mobile) {
+  .footer-content {
+    padding: grid(6) $pageMarginLg grid(2);
+  }
+  .footer-logo {
+    svg {
+      width: 157px;
+      height: 150px;
+    }
+  }
+}
+
+// switch to horizontal layout
+:host-context(.gt-tablet) {
+  footer {
+    font-size: 18px;
+    line-height: 34px;
+  }
+
+  .footer-content {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .footer-logo {
+      svg {
+        width: 188px;
+        height: 180px;
+      }
+  }
+  .footer-navigation {       
+    // two columns of links
+    ul {
+      width: grid(40);
+      display:flex;
+      flex-direction: column;
+      flex-wrap:wrap;
+      height: grid(17.5);
+      text-align:left;
+      line-height: 34px; 
+      li { width: grid(20);}
+    }
+  }
+  .footer-social {
+    width:100%;
+    margin-top: grid(2);
+  }
+}
+
+:host-context(.gt-small-desktop) {
+  .footer-social {
+    width:auto;
+    p {
+      font-size: 14px; 
+      text-align: left; 
+    }
+  }
+  .footer-copyright {
+    font-size:14px;
+  }
+}

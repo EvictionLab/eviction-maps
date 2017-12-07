@@ -184,7 +184,7 @@ app-location-cards {
         text-overflow: none;
         white-space: normal;
       }
-      .el-select-label { display: inherit; }
+      .el-select-label { display: block; }
       .el-select-value { display: none; }
     }
   }
@@ -194,6 +194,10 @@ app-location-cards {
       display:block;
       overflow: hidden;
       text-overflow: ellipsis;
+      span {
+        display:inline-block;
+        margin-left: grid(0.5);
+      }
     }
     .el-select .dropdown-toggle.btn {
       white-space: nowrap;

@@ -1,6 +1,19 @@
+@import '../../../../theme';
+
 .mapboxgl-map {
   width:100%;
   height:100%;
   position:absolute;
   left:0;right:0;top:0;bottom:0;
+}
+
+::ng-deep {
+  .mapboxgl-popup-content {
+    background-color: $tooltipBackground;
+    color: $tooltipFontColor;
+    font-family: $fontStack;
+  }
+  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+    border-top-color: $tooltipBackground;
+  }
 }

@@ -54,11 +54,27 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the layer to display on the map */
   @Input()
   set selectedLayer(newLayer: MapLayerGroup) {
-    this._store.layer = newLayer;
-    this.selectedLayerChange.emit(newLayer);
-    this.updateMapData();
+    // if "auto" option is selected, turn on auto switch and return
+    if (newLayer.id === 'auto') {
+      this.autoSwitch = true;
+      return;
+    }
+    if (this._store.layer) {
+      if (this._store.layer.id !== newLayer.id) {
+        // update the layer if it has changed
+        this._store.layer = newLayer;
+        this.updateSelectedLayerName();
+        this.selectedLayerChange.emit(this._store.layer);
+        this.updateMapData();
+      }
+    } else {
+      // if there is no value yet, set it
+      this._store.layer = newLayer
+    }
   }
-  get selectedLayer(): MapLayerGroup { return this._store.layer; }
+  get selectedLayer(): MapLayerGroup {
+    return this._store.layer;
+  }
 
   /** Sets and gets the year to display data on the map */
   @Input()
@@ -82,8 +98,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() choroplethOptions: MapDataAttribute[] = [];
   /** Available layers to toggle between */
   @Input() layerOptions: MapLayerGroup[] = [];
-  /** Toggle for auto switch between layerOptions based on min / max zooms */
-  @Input() autoSwitch = true;
   /** Handles if zoom is enabled on the map */
   @Input() scrollZoom: boolean;
   /** Tracks the vertical (scroll) offset */
@@ -110,9 +124,18 @@ export class MapComponent implements OnInit, OnChanges {
       (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
       this.cardsActive;
   }
+  /** Toggle for auto switch between layerOptions based on min / max zooms */
+  set autoSwitch(on: boolean) {
+    this._store.autoSwitch = on;
+    this.updateSelectedLayerName();
+  }
+  get autoSwitch(): boolean {
+    return this._store.autoSwitch;
+  }
   /** Gets the layers available at the current zoom */
   get selectDataLevels(): Array<MapLayerGroup> {
-    return (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
+    const selectOptions = (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
+    return [ this.autoSelect, ...selectOptions ];
   }
   /** Gets if the legend should be shown or not */
   get showLegend(): boolean {
@@ -127,18 +150,21 @@ export class MapComponent implements OnInit, OnChanges {
   mapEventLayers: Array<string>;
   cardProps;
   private zoom = 3;
+  private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
   private _store = {
     layer: null,
     bubble: null,
     choropleth: null,
     year: null,
-    bounds: null
+    bounds: null,
+    autoSwitch: true
   };
   private _mapInstance;
   // switch to restore auto switching layers once a map move has ended.
   private restoreAutoSwitch = false;
 
   constructor(private map: MapService) { }
+
 
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
@@ -156,6 +182,7 @@ export class MapComponent implements OnInit, OnChanges {
    * @param mapLayer the layer group that was selected
    */
   setGroupVisibility(layerGroup: MapLayerGroup) {
+    if (layerGroup && layerGroup.id === 'auto') { this.autoSwitch = true; return; }
     if (this._mapInstance) {
       // Only change data level and turn off auto switch if wasn't already
       // changed by the onMapZoom event handler
@@ -326,6 +353,21 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private yearToCensusYear(year: number) {
     return Math.floor(year / 10) * 10;
+  }
+
+  /**
+   * Updates the selected layer's name with the word "auto" if
+   * auto switch is enabled
+   * TODO: translate "auto"
+   */
+  private updateSelectedLayerName() {
+    const autoLabel = '<span>(auto)</span>'
+    if (this._store.layer) {
+      const strippedName = this._store.layer.name.replace(autoLabel, '');
+      this._store.layer = this.autoSwitch ?
+        { ...this._store.layer, name: strippedName + autoLabel } :
+        { ...this._store.layer, name: strippedName };
+    }
   }
 
   /**
