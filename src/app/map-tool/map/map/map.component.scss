@@ -136,7 +136,8 @@ app-location-cards {
         .location-card:nth-child(2) { transform: translateX(0); }
       }
       &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(100%); }
+        .location-card:nth-child(1) { transform: translateX(0%); }
+        .location-card:nth-child(2) { transform: translateX(100%); }
       }
     }
     &.cards-3 {
@@ -146,8 +147,9 @@ app-location-cards {
         .location-card:nth-child(3) { transform: translateX(0); }
       }
       &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(200%); }
+        .location-card:nth-child(1) { transform: translateX(0%); }
         .location-card:nth-child(2) { transform: translateX(100%); }
+        .location-card:nth-child(3) { transform: translateX(200%); }
       }
     }
   }

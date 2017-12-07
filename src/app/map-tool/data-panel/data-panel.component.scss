@@ -77,43 +77,30 @@
   background: $secondaryBackground;
   .data-content-inner {
     margin: 0 auto grid(4);
-    padding: grid(3) 0;
+    padding: 0 0 grid(3) 0;
     max-width: $maxContentWidth;
   }
 }
 // header with graph controls
 .graph-header {
-  display:flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  > * {
-    margin: grid(1);
+  background: $defaultBackground;
+  box-shadow: $z1shadow;
+  .graph-header-inner {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: $maxContentWidth;
+    height:100%;
+    margin:auto;
+    padding: grid(2) 0;
+    > * {
+      margin: grid(1);
+    }
   }
+
   .graph-eviction-toggle {
     order: 1;
-  }
-  .graph-type-toggle {
-    order: 3;
-    ::ng-deep {
-      height: grid(6);
-      button {
-        width: grid(6);
-        height: grid(4.5);
-        box-sizing:border-box;
-        background-repeat: no-repeat;
-        background-position: center;
-        span { display:none;}
-      }
-      button:first-child {
-        background-image: bar-chart($grey3);
-        &.selected { background-image: bar-chart($color1); }
-      }
-      button:last-child {
-        background-image: line-chart($grey3);
-        &.selected { background-image: line-chart($color1); }
-      }
-    }
   }
   .graph-year-select {
     order: 2;
@@ -123,20 +110,45 @@
       align-items: flex-start;
       justify-content: space-between;
       span { 
-        line-height: grid(5); 
+        line-height: grid(6); 
         margin: 0 grid(1.5); 
         @include yearSelectLabel(10px);
       }
     }
   }
 }
+.graph-type-toggle {
+  position:absolute;
+  right: $pageMargin;
+  top: $pageMargin;
+  ::ng-deep {
+    height: grid(6);
+    button {
+      width: grid(6);
+      height: grid(4.5);
+      box-sizing:border-box;
+      background-repeat: no-repeat;
+      background-position: center;
+      span { display:none;}
+    }
+    button:first-child {
+      background-image: bar-chart($grey3);
+      &.selected { background-image: bar-chart($color1); }
+    }
+    button:last-child {
+      background-image: line-chart($grey3);
+      &.selected { background-image: line-chart($color1); }
+    }
+  }
+}
 // graph style
 .graph-area { 
+  position:relative;
   display: block; 
   width:100%;
   text-align:right;
+  padding-top: grid(8);
   app-graph {
-    
     display:block;
     width:100%;
     padding-top:56.25%;
@@ -173,10 +185,6 @@
 }
 .graph-legend {
   padding: grid(3) grid(2) 0;
-  .graph-year-select {
-    margin-bottom: grid(2);
-    div span { margin: 0 grid(1); }
-  }
   ul {
     list-style: none;
     margin:0;
@@ -190,9 +198,10 @@
     position:relative;
     width:100%;
     margin: grid(1.5) 0;
+    height: grid(5);
     .legend-marker {
-      height: grid(3);
-      width: grid(2);
+      height: grid(4);
+      width: grid(3);
       position:absolute;
       top:0; left:0;
       margin: auto;
@@ -204,18 +213,10 @@
       line-height: 24px;
       @include defaultFontBold(18px);
     }
-    .btn-remove { 
+    .btn-close { 
       position:absolute;
       right:0;
-      top:2px;
-      padding:0;
-      margin:auto 0;
-      color: $linkColor; 
-      background:none;
-      @include defaultFontBold(9px);
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      height: 24px;
+      top:-1*grid(1);
     }
     &:last-child { border-bottom: none; }
     &:nth-child(1) .legend-marker path { fill: $graphColor1; }
@@ -227,18 +228,24 @@
 
 :host-context(.gt-mobile) {
   .graph-header {
-    background: $defaultBackground;
-    box-shadow: $z1shadow;
-    flex-direction: row;
-    padding:0 grid(2);
+    height: grid(11);
+    .graph-header-inner {
+      flex-direction: row;
+      padding: 0 $pageMarginLg;
+    }
+    .graph-year-label { 
+      display: block; 
+      @include yearSelectLabel(14px);
+      margin-right: grid(2);
+      color: $graphAxisLabels;
+      line-height: grid(6);
+    }
     .graph-eviction-toggle {
       order: 1;
     }
-    .graph-type-toggle {
-      order: 2;
-    }
     .graph-year-select {
-      order: 3;
+      order: 2;
+      display:flex;
     }
   }
   .graph-legend {
@@ -252,40 +259,32 @@
       .legend-label {
         margin-right:0;
       }
-      .btn-remove { 
-        display:block;
-        position:static;
-        margin-left: grid(5);
-        @include smallCapsText(11px);
+      .btn-close { 
+        position:absolute;
+        right:-1*grid(5);
+        top: -1*grid(1);
       }
     }
   }
 }
 :host-context(.gt-tablet) {
+  .graph-container {
+    position:relative;
+    padding-top: grid(11);
+  }
   .graph-header {
-    position: relative;
-    .graph-year-label { 
-      display: block; 
-      float: left;
-      @include yearSelectLabel(14px);
-      margin-right: grid(2);
-      color: $graphAxisLabels;
-      line-height: grid(5);
-    }
-    .graph-year-select {
-      margin-left: grid(3);
-      position: absolute;
-      left: 66.6666%;
-      top: 0;
-    }
-    .graph-type-toggle {
-      position: absolute;
-      right: 33.333333%;
-      margin-right: grid(2);
-      top: 0;
-    }
-    .graph-bar-select { display: block; float:left; }
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
+    // .graph-bar-select { display: block; float:left; }
     .graph-line-selects span { @include yearSelectLabel(14px); }
+  }
+  .graph-type-toggle {
+    position: absolute;
+    right: grid(2);
+    top: grid(2);
   }
   .graph-area { 
     width:66.666666%; 
@@ -294,8 +293,14 @@
   .graph-legend {
     width: 33.33333%;
     float:right;
+    padding-top: grid(9);
     ul {
       flex-direction:column;
+    }
+    li { 
+      width:100%; 
+      .btn-close { position: absolute; }
+      .legend-label { font-size: 21px; }
     }
   }
 }
