@@ -264,6 +264,10 @@ app-ui-map-legend {
   left:0;
   box-shadow: $z1shadow;
   border-bottom: 1px solid $shadingColor;
+  ::ng-deep .hint-button svg {
+    width: grid(3);
+    height: grid(3);
+  }
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
@@ -282,6 +286,11 @@ app-ui-map-legend {
     left:auto;
     right:$pageMarginLg;
     bottom: $timeSliderHeight + $pageMarginLg;
+    ::ng-deep .hint-button svg {
+      width: grid(3.75); // 30px
+      height: grid(3.75);
+      margin-top: grid(0.5);
+    }
   }
 }
 // large than mobile:
@@ -308,6 +317,7 @@ app-ui-map-legend {
 .year-slider-container {
   @include fill-parent();
   top: auto;
+  box-shadow: $z1shadow;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;

@@ -112,6 +112,10 @@
     .card-stat-value {
       @include numberFont(14px);
       color: $cardValueText;
+      &.unavailable {
+        @include defaultFont(14px);
+        color: $black;
+      }
     }
   }
 }
@@ -207,6 +211,9 @@
       }
       .card-stat-value {
         @include numberFont($cardValueTextSize);
+        &.unavailable {
+          @include defaultFont($cardValueTextSize);
+        }
       }
     }
   }
@@ -261,7 +268,12 @@
     }
     .card-stats { padding-top: grid(12); }
     .card-stats li {
-      .card-stat-value { color: $panelCardValueText; }
+      .card-stat-value { 
+        color: $panelCardValueText;
+        &.unavailable {
+          color: $grey3;
+        }
+      }
       .card-stat-label { color: $panelCardLabelText; }
       // first two stats
       &:nth-child(1), &:nth-child(2) {
@@ -394,6 +406,9 @@
         padding: grid(1.5) $defaultPadding; 
         .card-stat-label,
         .card-stat-value { font-size: $panelCardStatTextSize_t; }
+      }
+      li.divider .card-stat-label {
+        font-size:14px;
       }
     }
     &.location-add .card-content p {
