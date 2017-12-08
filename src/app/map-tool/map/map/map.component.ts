@@ -413,6 +413,7 @@ export class MapComponent implements OnInit, OnChanges {
               bubble.stops[layerId] : bubble.stops['default'])
           };
           this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', newRadius);
+          this.map.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
           this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
         });
       }

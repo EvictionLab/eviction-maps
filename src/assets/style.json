@@ -2191,6 +2191,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "er-10",
+        -1
+      ],
       "paint": {
         "circle-stroke-color": {
           "property": "er-10",
@@ -2451,6 +2456,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "er-10",
+        -1
+      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
         "circle-stroke-color": {
@@ -2744,6 +2754,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "er-10",
+        -1
+      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
         "circle-stroke-color": {
@@ -3087,6 +3102,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "er-10",
+        -1
+      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
         "circle-stroke-color": {
@@ -3284,6 +3304,11 @@
       "layout": {
         "visibility": "none"
       },
+      "filter": [
+        ">",
+        "er-10",
+        -1
+      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
         "circle-stroke-color": {
