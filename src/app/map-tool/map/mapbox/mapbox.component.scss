@@ -13,7 +13,37 @@
     color: $tooltipFontColor;
     font-family: $fontStack;
   }
-  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip {
+  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip, {
+    border-bottom: none;
     border-top-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    border-right: none;
+  }
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
+    border-left: none;
+  }
+  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-right: none;
+    border-left-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-left: none;
+    border-right-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-top: none;
+    border-bottom-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-right: none;
+  }
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-left: none;
   }
 }
