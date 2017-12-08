@@ -258,9 +258,10 @@ export class MapService {
   /**
    * Zoom to supplied point feature
    * @param feature Point feature
+   * @param zoom Zoom level
    */
-  zoomToPoint(feature: MapFeature) {
-    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: 12 });
+  zoomToPoint(feature: MapFeature, zoom: number) {
+    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: zoom });
   }
 
   /**

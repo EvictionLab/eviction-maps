@@ -202,9 +202,10 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    * Zoom to Point feature
    * @param feature Point feature
+   * @param zoom Zoom level
    */
-  zoomToPointFeature(feature: MapFeature) {
-    this.map.zoomToPoint(feature);
+  zoomToPointFeature(feature: MapFeature, zoom = 14) {
+    this.map.zoomToPoint(feature, zoom);
   }
 
   /**
