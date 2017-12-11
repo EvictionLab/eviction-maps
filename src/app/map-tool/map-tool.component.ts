@@ -3,6 +3,8 @@ import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 
@@ -188,13 +190,18 @@ export class MapToolComponent implements OnInit, AfterViewInit {
             this.dataService.addLocation(data);
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
-          this.map.setGroupVisibility(dataLevel);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
               this.dataService.mapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }
+            // Wait for map to be done loading, then set data layer
+            this.map.map.isLoading$.distinctUntilChanged()
+              .debounceTime(500)
+              .filter(state => !state)
+              .first()
+              .subscribe((state) => this.map.setGroupVisibility(dataLevel));
           }
           this.dataService.isLoading = false;
         });
