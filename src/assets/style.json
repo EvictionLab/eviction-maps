@@ -6,7 +6,7 @@
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "maxzoom": 13,
+      "maxzoom": 12,
       "tiles": [
         "https://openmaptiles.evictionlab.org/{z}/{x}/{y}.pbf"
       ]
