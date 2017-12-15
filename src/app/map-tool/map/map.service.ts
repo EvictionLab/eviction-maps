@@ -181,6 +181,10 @@ export class MapService {
     return this.map.getBounds().toArray();
   }
 
+  /**
+   * Returns source data
+   * @param sourceId ID of source to return
+   */
   getSourceData(sourceId) {
     return (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource)['_data']['features'];
   }
@@ -194,10 +198,15 @@ export class MapService {
   setSourceData(sourceId: string, features?: MapFeature[]) {
     (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
       'type': 'FeatureCollection',
-      'features': features
+      'features': features ? features : []
     });
   }
 
+  /**
+   * Sets or updates highlight features
+   * @param layerId String ID of current displayed map layer
+   * @param features Array of active features to highlight
+   */
   updateHighlightFeatures(layerId: string, features: MapFeature[]) {
     const highlightSource = this.getSourceData('highlight');
     const geoids = highlightSource.map(f => f['properties']['GEOID']);

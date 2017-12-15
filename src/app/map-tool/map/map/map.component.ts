@@ -180,8 +180,6 @@ export class MapComponent implements OnInit, OnChanges {
         this.map.updateHighlightFeatures(
           this.selectedLayer.id, changes.activeFeatures.currentValue
         );
-      } else if (!changes.activeFeatures.firstChange) {
-        this.map.setSourceData('highlight');
       }
     }
   }
@@ -295,6 +293,7 @@ export class MapComponent implements OnInit, OnChanges {
       .map(v => Math.round(v * 1000) / 1000);
     this.boundingBoxChange.emit(this._store.bounds);
     if (this.restoreAutoSwitch) { this.autoSwitch = true; }
+    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   /**
