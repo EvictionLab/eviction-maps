@@ -14,6 +14,7 @@ export class MapService {
   private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
+  private colors = ['#e24000', '#434878', '#2c897f'];
 
   constructor() { }
 
@@ -180,18 +181,43 @@ export class MapService {
     return this.map.getBounds().toArray();
   }
 
+  getSourceData(sourceId) {
+    return (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource)['_data']['features'];
+  }
+
   /**
    * Set the data of a GeoJSON layer source, or empty the data if no
    * feature supplied
    * @param sourceId ID of GeoJSON source to modify
-   * @param feature MapFeature object
+   * @param features Array of MapFeature objects
    */
-  setSourceData(sourceId: string, feature?: MapFeature) {
-    const features = feature ? [feature] : [];
+  setSourceData(sourceId: string, features?: MapFeature[]) {
     (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
       'type': 'FeatureCollection',
       'features': features
     });
+  }
+
+  updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+    const highlightSource = this.getSourceData('highlight');
+    const geoids = highlightSource.map(f => f['properties']['GEOID']);
+
+    const highlightFeatures = features.map((f, i) => {
+      let feat;
+      if (
+        f.properties['layerId'] !== layerId &&
+        geoids.indexOf(f['properties']['GEOID']) !== -1
+      ) {
+        feat = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        )[0];
+      } else {
+        feat = this.getUnionFeature(f.properties['layerId'], f);
+      }
+      feat['properties']['color'] = this.colors[i];
+      return feat;
+    });
+    this.setSourceData('highlight', highlightFeatures);
   }
 
   /**

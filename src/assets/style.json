@@ -81,6 +81,13 @@
         "https://tiles.evictionlab.org/staging/evictions-states-10/{z}/{x}/{y}.pbf"
       ]
     },
+    "highlight": {
+      "type": "geojson",
+      "data": {
+        "type": "FeatureCollection",
+        "features": []
+      }
+    },
     "hover": {
       "type": "geojson",
       "data": {
@@ -2449,6 +2456,20 @@
         "line-color": "rgba(255,255,255,0.8)",
         "line-width": 3,
         "line-opacity": 0.5
+      }
+    },
+    {
+      "id": "highlight",
+      "type": "line",
+      "source": "highlight",
+      "layout": {},
+      "paint": {
+        "line-width": 3,
+        "line-opacity": 0.5,
+        "line-color": {
+          "property": "color",
+          "type": "identity"
+        }
       }
     },
     {

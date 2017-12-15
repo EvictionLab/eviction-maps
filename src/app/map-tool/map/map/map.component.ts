@@ -175,6 +175,15 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.scrollZoom) {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
+    if (changes.activeFeatures && !this.mapLoading) {
+      if (changes.activeFeatures.currentValue.length) {
+        this.map.updateHighlightFeatures(
+          this.selectedLayer.id, changes.activeFeatures.currentValue
+        );
+      } else if (!changes.activeFeatures.firstChange) {
+        this.map.setSourceData('highlight');
+      }
+    }
   }
 
   /**
@@ -249,6 +258,9 @@ export class MapComponent implements OnInit, OnChanges {
         this.restoreAutoSwitch = true; // restore auto switch after zoom
       }
     }
+    this.map.updateHighlightFeatures(
+      this.selectedLayer.id, this.activeFeatures
+    );
   }
 
   /**
@@ -305,7 +317,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.featureHover.emit(feature);
     if (feature && feature.layer.id === this.selectedLayer.id) {
       const union = this.map.getUnionFeature(this.selectedLayer.id, feature);
-      this.map.setSourceData('hover', union);
+      this.map.setSourceData('hover', [union]);
     } else {
       this.map.setSourceData('hover');
     }
