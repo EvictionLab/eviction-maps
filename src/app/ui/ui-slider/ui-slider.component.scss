@@ -33,7 +33,7 @@
   }
 }
 .slider-label {
-  margin-right: grid(2);
+  margin-left: grid(2);
   @include defaultFont(14px);
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -126,7 +126,7 @@
 
 :host-context(.gt-mobile) {
   .slider-label {
-    margin-right: grid(3);
+    margin-left: grid(3);
   }
   .el-slider {
     .scrubber-label {

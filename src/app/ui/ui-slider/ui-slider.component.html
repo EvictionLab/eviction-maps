@@ -1,4 +1,3 @@
-<span class="slider-label" *ngIf="label">{{label}}</span>
 <div #container class="el-slider">
   <div class="track track-full"></div>
   <div class="track track-value" [style.width]="percent"></div>
@@ -7,3 +6,4 @@
     <span class="scrubber-label">{{ getStepValue(value) }}</span>
   </div>
 </div>
+<span class="slider-label" *ngIf="label">{{label}}</span>
