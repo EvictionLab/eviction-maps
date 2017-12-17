@@ -407,13 +407,14 @@ export class MapComponent implements OnInit, OnChanges {
       const bubble = this.addYearToObject(this.selectedBubble, this.year) as MapDataAttribute;
       if (bubble) {
         this.mapEventLayers.forEach((layerId) => {
-          const newRadius = {
-            'property': bubble.id,
-            'default': bubble.default,
-            'stops': (bubble.stops[layerId] ?
-              bubble.stops[layerId] : bubble.stops['default'])
-          };
-          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', newRadius);
+          const expression = (bubble.expressions[layerId] ?
+            bubble.expressions[layerId] : bubble.expressions['default']);
+
+          // Update property used in expression
+          if (expression.length > 1) {
+            expression[2][2][1] = bubble.id;
+          }
+          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
           this.map.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
           this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
         });

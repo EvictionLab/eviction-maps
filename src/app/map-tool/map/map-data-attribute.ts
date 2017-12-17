@@ -9,4 +9,7 @@ export interface MapDataAttribute extends MapDataObject {
     stops?: {
         [id: string]: Array<Array<any>>
     };
+    expressions?: {
+        [id: string]: Array<any>
+    };
 }
