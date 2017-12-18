@@ -16,14 +16,14 @@ import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
 import { MapFeature } from '../map-tool/map/map-feature';
-import { DataAttributes, BubbleAttributes, BubbleExpressions } from './data-attributes';
+import { DataAttributes, BubbleAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
   dataLevels = DataLevels;
   dataAttributes = DataAttributes;
-  bubbleAttributes = BubbleExpressions;
+  bubbleAttributes = BubbleAttributes;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
@@ -32,7 +32,7 @@ export class DataService {
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
-  activeBubbleHighlight: MapDataAttribute = BubbleExpressions[0];
+  activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
   autoSwitchLayers = true;
   mapView;
   mapConfig;
@@ -65,7 +65,7 @@ export class DataService {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
-      this.bubbleAttributes = BubbleExpressions.map((a) => {
+      this.bubbleAttributes = BubbleAttributes.map((a) => {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
