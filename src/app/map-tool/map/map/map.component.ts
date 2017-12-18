@@ -175,12 +175,10 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.scrollZoom) {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
-    if (changes.activeFeatures && !this.mapLoading) {
-      if (changes.activeFeatures.currentValue.length) {
-        this.map.updateHighlightFeatures(
-          this.selectedLayer.id, changes.activeFeatures.currentValue
-        );
-      }
+    if (changes.activeFeatures && this.map.mapCreated) {
+      const features = (changes.activeFeatures.currentValue ?
+        changes.activeFeatures.currentValue : []);
+      this.map.updateHighlightFeatures(this.selectedLayer.id, features);
     }
   }
 

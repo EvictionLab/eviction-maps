@@ -15,6 +15,7 @@ export class MapService {
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
   private colors = ['#e24000', '#434878', '#2c897f'];
+  get mapCreated() { return this.map !== undefined; }
 
   constructor() { }
 
