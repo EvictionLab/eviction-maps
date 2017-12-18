@@ -2459,13 +2459,24 @@
       }
     },
     {
+      "id": "highlight-outline",
+      "type": "line",
+      "source": "highlight",
+      "layout": {},
+      "paint": {
+        "line-width": 5,
+        "line-opacity": 0.75,
+        "line-color": "#ffffff"
+      }
+    },
+    {
       "id": "highlight",
       "type": "line",
       "source": "highlight",
       "layout": {},
       "paint": {
-        "line-width": 3,
-        "line-opacity": 0.5,
+        "line-width": 2,
+        "line-opacity": 0.9,
         "line-color": {
           "property": "color",
           "type": "identity"
