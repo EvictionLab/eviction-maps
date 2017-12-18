@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
+import * as polylabel from 'polylabel';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
@@ -14,6 +15,8 @@ export class MapService {
   private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
+  private colors = ['#e24000', '#434878', '#2c897f'];
+  get mapCreated() { return this.map !== undefined; }
 
   constructor() { }
 
@@ -150,6 +153,24 @@ export class MapService {
   }
 
   /**
+   * Returns a boolean indicating if a layer has any features matching
+   * the query
+   * 
+   * @param layerId ID of vector tile layer to query
+   * @param feature feature with attributes to query
+   */
+  hasRenderedFeatures(layerId: string, feature: MapFeature): boolean {
+    return this.map.queryRenderedFeatures(undefined, {
+      layers: [layerId],
+      filter: [
+        'all',
+        ['==', 'n', feature.properties.n],
+        ['==', 'pl', feature.properties.pl]
+      ]
+    }).length > 0;
+  }
+
+  /**
    * Queries a layer for all features matching the name and parent-location of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
@@ -170,7 +191,7 @@ export class MapService {
         currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
         nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
       );
-    }, feature) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }) as GeoJSON.Feature<GeoJSON.Polygon>;
   }
 
   /**
@@ -181,17 +202,56 @@ export class MapService {
   }
 
   /**
+   * Returns source data
+   * @param sourceId ID of source to return
+   */
+  getSourceData(sourceId) {
+    return (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource)['_data']['features'];
+  }
+
+  /**
    * Set the data of a GeoJSON layer source, or empty the data if no
    * feature supplied
    * @param sourceId ID of GeoJSON source to modify
-   * @param feature MapFeature object
+   * @param features Array of MapFeature objects
    */
-  setSourceData(sourceId: string, feature?: MapFeature) {
-    const features = feature ? [feature] : [];
+  setSourceData(sourceId: string, features?: MapFeature[]) {
     (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
       'type': 'FeatureCollection',
-      'features': features
+      'features': features ? features : []
     });
+  }
+
+  /**
+   * Sets or updates highlight features
+   * @param layerId String ID of current displayed map layer
+   * @param features Array of active features to highlight
+   */
+  updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+    const highlightSource = this.getSourceData('highlight');
+    const geoids = highlightSource.map(f => f['properties']['GEOID']);
+
+    const highlightFeatures = features.map((f, i) => {
+      let feat;
+      // If feature is in active layer, update bounds
+      // Otherwise, check if currently added or use bounding box
+      if (
+        f.properties['layerId'] === layerId &&
+        this.hasRenderedFeatures(f.properties['layerId'], f)
+      ) {
+        feat = this.getUnionFeature(f.properties['layerId'], f);
+      } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
+        feat = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        )[0];
+      } else {
+        f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
+        feat = f;
+      }
+      feat['properties']['color'] = this.colors[i];
+      return feat;
+    });
+    this.setSourceData('highlight', highlightFeatures);
   }
 
   /**
@@ -273,5 +333,29 @@ export class MapService {
       [box[0], box[1]],
       [box[2], box[3]]
     ], { padding: 50 });
+  }
+
+  /**
+   * Based on @turf/bbox-polygon which isn't importing correctly
+   * @param bbox Bounding box
+   */
+  private bboxPolygon(bbox: Array<number>): Array<Array<Array<number>>> {
+    const west = bbox[0];
+    const south = bbox[1];
+    const east = bbox[2];
+    const north = bbox[3];
+
+    const lowLeft = [west, south];
+    const topLeft = [west, north];
+    const topRight = [east, north];
+    const lowRight = [east, south];
+
+    return [[
+      lowLeft,
+      lowRight,
+      topRight,
+      topLeft,
+      lowLeft
+    ]];
   }
 }

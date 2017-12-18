@@ -175,6 +175,11 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.scrollZoom) {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
+    if (changes.activeFeatures && this.map.mapCreated) {
+      const features = (changes.activeFeatures.currentValue ?
+        changes.activeFeatures.currentValue : []);
+      this.map.updateHighlightFeatures(this.selectedLayer.id, features);
+    }
   }
 
   /**
@@ -238,9 +243,16 @@ export class MapComponent implements OnInit, OnChanges {
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
-    this.map.isLoading$.distinctUntilChanged()
+    this.map.isLoading$
       .debounceTime(200)
-      .subscribe((state) => { this.mapLoading = state; });
+      .distinctUntilChanged()
+      .subscribe((state) => {
+        this.mapLoading = state;
+        // Whenever map finishes loading, update boundaries
+        if (!this.mapLoading) {
+          this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+        }
+      });
     if (this.boundingBox) {
       this.map.zoomToBoundingBox(this.boundingBox);
       // Only toggle if autoSwitch is currently on
@@ -283,6 +295,7 @@ export class MapComponent implements OnInit, OnChanges {
       .map(v => Math.round(v * 1000) / 1000);
     this.boundingBoxChange.emit(this._store.bounds);
     if (this.restoreAutoSwitch) { this.autoSwitch = true; }
+    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   /**
@@ -305,7 +318,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.featureHover.emit(feature);
     if (feature && feature.layer.id === this.selectedLayer.id) {
       const union = this.map.getUnionFeature(this.selectedLayer.id, feature);
-      this.map.setSourceData('hover', union);
+      this.map.setSourceData('hover', [union]);
     } else {
       this.map.setSourceData('hover');
     }
@@ -451,5 +464,6 @@ export class MapComponent implements OnInit, OnChanges {
   private updateMapData() {
     this.updateMapBubbles();
     this.updateMapChoropleths();
+    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 }
