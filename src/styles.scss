@@ -75,9 +75,13 @@ body {
 
 // STYLE OVERRIDES
 
-// no "map button" hint on tablet+
+// no mobile "map button" hint on tablet+
 @media(min-width: $gtMobile) {
-  .tooltip.map-hint { display:none!important;}
+  .tooltip.map-hint-mobile { display:none!important;}
+}
+// no desktop "map button" hint on mobile
+@media(max-width: $gtMobile) {
+  .tooltip.map-hint-desktop { display:none!important;}
 }
 
 // hide the track on the year slider so it's not confused for range

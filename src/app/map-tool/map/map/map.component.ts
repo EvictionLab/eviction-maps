@@ -1,4 +1,7 @@
-import { Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import {
+  Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
+  HostListener
+} from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -124,6 +127,12 @@ export class MapComponent implements OnInit, OnChanges {
       (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
       this.cardsActive;
   }
+  @ViewChild('pop') mapTooltip;
+  tooltipEnabled = true;
+  @HostListener('document:click', ['$event']) dismissTooltip() {
+    this.mapTooltip.hide();
+    this.tooltipEnabled = false;
+  }
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   set autoSwitch(on: boolean) {
     this._store.autoSwitch = on;
@@ -169,6 +178,8 @@ export class MapComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
     this.updateCardProperties();
+    // Show tooltip 1 second after init
+    setTimeout(() => { this.mapTooltip.show(); }, 1000);
   }
 
   ngOnChanges(changes: SimpleChanges) {
