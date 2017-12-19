@@ -35,6 +35,11 @@
           [selectedValue]="selectedBubble"
           [values]="bubbleOptions"
           (change)="selectedBubble = $event"
+          #pop="bs-tooltip"
+          containerClass="map-hint-desktop"
+          [isDisabled]="!tooltipEnabled"
+          placement="bottom"
+          [tooltip]="'HEADER.MAP_HINT' | translate"
       ></app-ui-select>
       <app-ui-select
           tabindex="5"
