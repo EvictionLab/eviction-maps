@@ -7,6 +7,7 @@ import { DataPanelComponent } from './data-panel.component';
 import { DataPanelModule } from './data-panel.module';
 import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
+import { PlatformService } from '../../platform.service';
 
 export class FileExportStub {
   getFileTypes() { 
