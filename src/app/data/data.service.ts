@@ -182,7 +182,10 @@ export class DataService {
     const featIndex = geoids.indexOf(feature.properties.GEOID);
 
     if (featIndex !== -1) {
-      this.activeFeatures[featIndex] = feature;
+      // Assigning properties and geometry rather than the whole feature
+      // so that a state change isn't triggered
+      this.activeFeatures[featIndex].properties = feature.properties;
+      this.activeFeatures[featIndex].geometry = feature.geometry;
       return true;
     }
     if (this.activeFeatures.length < 3) {
