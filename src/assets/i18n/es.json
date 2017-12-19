@@ -14,7 +14,8 @@
     "ADD_SEARCH_HINT": "Buscar",
     "MAP_LINK": "Mapa",
     "SHARE_LINK": "Share a Link",
-    "SHARE_HINT": "Copy the link below:"
+    "SHARE_HINT": "Copy the link below:",
+    "COPY_SUCCESS": "Copied!"
   },
   "HEADER": {
     "HOME": "Home",
