@@ -9,6 +9,7 @@ import { UiModule } from '../../ui/ui.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { SocialSharePopupDirective } from './social-share-popup.directive';
+import { PlatformService } from '../../platform.service';
 
 @NgModule({
   exports: [ DataPanelComponent ],
@@ -21,6 +22,7 @@ import { SocialSharePopupDirective } from './social-share-popup.directive';
     PopoverModule.forRoot()
   ],
   declarations: [ DataPanelComponent, DownloadFormComponent, SocialSharePopupDirective ],
+  providers: [ PlatformService ],
   entryComponents: [ DataPanelComponent, DownloadFormComponent ]
 })
 export class DataPanelModule { }
