@@ -154,14 +154,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.dataService.isLoading = true;
+    this.dataService.addLocation(feature);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        if (this.dataService.activeFeatures.length < 3) {
-          const locationAdded = this.dataService.addLocation(data);
-          if (!locationAdded) {
-            this.toast.display('You have already selected this location.');
-          }
-        } else {
+        const locationUpdated = this.dataService.addLocation(data);
+        if (!locationUpdated) {
           this.toast.display(
             'Maximum limit reached. Please remove a location to add another.'
           );
