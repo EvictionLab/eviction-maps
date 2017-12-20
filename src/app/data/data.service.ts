@@ -38,7 +38,7 @@ export class DataService {
   mapConfig;
   isLoading = false;
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://tiles.evictionlab.org/staging/';
+  private tileBase = 'https://tiles.evictionlab.org/';
   private tilePrefix = 'evictions-';
   private tilesetYears = ['00', '10'];
   private queryZoom = 10;
@@ -170,21 +170,27 @@ export class DataService {
   }
 
   /**
-   * Adds a location to the cards and data panel
+   * Adds or updates a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
    */
   addLocation(feature): boolean {
+    // Process feature if bbox and layerId not included based on current data level
+    if (!(feature.properties.bbox && feature.properties.bbox)) {
+      feature = this.processMapFeature(feature);
+    }
+    const geoids = this.activeFeatures.map(f => f.properties.GEOID);
+    const featIndex = geoids.indexOf(feature.properties.GEOID);
+
+    if (featIndex !== -1) {
+      // Assigning properties and geometry rather than the whole feature
+      // so that a state change isn't triggered
+      this.activeFeatures[featIndex].properties = feature.properties;
+      this.activeFeatures[featIndex].geometry = feature.geometry;
+      return true;
+    }
     if (this.activeFeatures.length < 3) {
-      const i = this.activeFeatures.findIndex((f) => {
-        return f.properties.n === feature.properties.n &&
-          f.properties.pl === feature.properties.pl;
-      });
-      if (!(i > -1)) {
-        this.activeFeatures = [ ...this.activeFeatures, feature ];
-        return true;
-      } else {
-        return false;
-      }
+      this.activeFeatures = [ ...this.activeFeatures, feature ];
+      return true;
     }
     return false;
   }
@@ -243,6 +249,29 @@ export class DataService {
     return [ ((bbox[0] + bbox[2]) / 2), ((bbox[1] + bbox[3]) / 2) ];
   }
 
+
+  /**
+   * Processes the bounding box and properties of a feature returned
+   * from the
+   * @param layerId
+   * @param feature
+   */
+  processMapFeature(feature: MapFeature, layerId?: string): MapFeature {
+    // Add layer if specified or included on feature (usually on click)
+    if (layerId) {
+      feature.properties.layerId = layerId;
+    } else if (feature['layer']) {
+      feature.properties.layerId = feature['layer']['id'];
+    }
+    feature.bbox = [
+      +feature.properties['west'],
+      +feature.properties['south'],
+      +feature.properties['east'],
+      +feature.properties['north']
+    ];
+    return feature;
+  }
+
   private stripYearFromAttr(attr: string) {
     return attr.split('-')[0];
   }
@@ -273,14 +302,7 @@ export class DataService {
       }
 
       if (matchFeat) {
-        matchFeat.properties.layerId = layerId;
-        matchFeat.bbox = [
-          matchFeat.properties['west'],
-          matchFeat.properties['south'],
-          matchFeat.properties['east'],
-          matchFeat.properties['north']
-        ];
-        return matchFeat;
+        return this.processMapFeature(matchFeat, layerId);
       }
 
       return {} as MapFeature;

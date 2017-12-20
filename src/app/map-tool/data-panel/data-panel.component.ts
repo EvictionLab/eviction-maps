@@ -1,8 +1,12 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges
+} from '@angular/core';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PlatformService } from '../../platform.service';
+import { PlatformLocation } from '@angular/common';
 
 @Component({
   selector: 'app-data-panel',
@@ -83,9 +87,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineEndYear: number = this.maxYear;
 
   constructor(
-    public dialogService: UiDialogService, 
+    public dialogService: UiDialogService,
     private translatePipe: TranslatePipe,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private platform: PlatformService
   ) {}
 
   ngOnInit() {
@@ -218,6 +223,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * @param e
    */
   checkMailto(e) {
+    // Cancel if on mobile, since behavior isn't the same
+    if (this.platform.isMobile) {
+      return;
+    }
     // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
     let timeout;
 

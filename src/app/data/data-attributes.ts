@@ -294,71 +294,6 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
     }
   },
   {
-    'id': 'efr',
-    'name': 'Filing Rate',
-    'langKey': 'STATS.FILING_RATE',
-    'default': 0,
-    'expressions': {
-      'default': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
-        ]
-      ],
-      'states': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
-          4, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 0.2, 1.5]]
-        ]
-      ],
-      'counties': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          4, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]]
-        ]
-      ],
-      'cities': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
-        ]
-      ],
-      'tracts': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
-        ]
-      ],
-      'block-groups': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
-        ]
-      ]
-    }
-  },
-  {
     'id': 'er',
     'name': 'Judgment Rate',
     'langKey': 'STATS.JUDGMENT_RATE',
@@ -420,6 +355,71 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
           7, ['/', ['var', 'data_prop'], 8],
           10, ['/', ['var', 'data_prop'], 2.5],
           12, ['/', ['var', 'data_prop'], 0.8]
+        ]
+      ]
+    }
+  },
+  {
+    'id': 'efr',
+    'name': 'Filing Rate',
+    'langKey': 'STATS.FILING_RATE',
+    'default': 0,
+    'expressions': {
+      'default': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
+          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+        ]
+      ],
+      'states': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          2, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
+          4, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 0.2, 1.5]]
+        ]
+      ],
+      'counties': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          2, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          4, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]]
+        ]
+      ],
+      'cities': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
+          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+        ]
+      ],
+      'tracts': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
+          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+        ]
+      ],
+      'block-groups': [
+        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        [
+          'interpolate', ['linear'], ['zoom'],
+          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
+          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
         ]
       ]
     }
