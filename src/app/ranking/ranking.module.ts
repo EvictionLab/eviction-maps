@@ -7,7 +7,7 @@ import { RankingPanelComponent } from './ranking-panel/ranking-panel.component';
 import { RankingService } from './ranking.service';
 import { RankingScaleComponent } from './ranking-scale/ranking-scale.component';
 
-class RankingConfig {
+export class RankingConfig {
   dataUrl: string
 }
 

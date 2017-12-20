@@ -1,0 +1,73 @@
+{
+  "DATA": {
+    "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
+    "DATE_RANGE": "Displaying year",
+    "JUDGMENTS": "Judgments",
+    "FILINGS": "Filings",
+    "REMOVE_BUTTON": "Remove",
+    "DOWNLOAD_BUTTON": "Download",
+    "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files.",
+    "GET_DATA": "Get More Data",
+    "GET_DATA_HINT": "Search for and access spreadsheets of full data sets from across the U.S.",
+    "SOCIAL_HINT": "Share a link to this map and information.",
+    "ADD_LABEL": "Add another location",
+    "ADD_SEARCH_HINT": "Search for places",
+    "MAP_LINK": "Back To Map",
+    "SHARE_LINK": "Share a Link",
+    "SHARE_HINT": "Copy the link below:",
+    "COPY_SUCCESS": "Copied!"
+  },
+  "HEADER": {
+    "HOME": "Home",
+    "SEARCH": "Search",
+    "MAP": "Map",
+    "HELP": "Help",
+    "MENU": "Menu",
+    "EN": "English",
+    "ES": "Spanish",
+    "SEARCH_HINT": "Search for places",
+    "MAP_HINT": "Start Here"
+  },
+  "HELP": "Lorem Ipsum",
+  "LAYERS": {
+    "STATES": "States",
+    "COUNTIES": "Counties",
+    "CITIES": "Cities",
+    "TRACTS": "Census Tracts",
+    "BLOCK_GROUPS": "Block Groups"
+  },
+  "MAP": {
+    "EVICTION_SELECT": "Eviction Data",
+    "CENSUS_SELECT": "Census Data",
+    "LAYER_SELECT": "Map Level",
+    "ZOOM_HINT": "Zoom for More",
+    "LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
+    "DATA_LINK_SINGLE": "View More Data",
+    "DATA_LINK_MULTIPLE": "View Full Comparison"     
+  },
+  "STATS": {
+    "DEMOGRAPHICS": "Demographic Breakdown",
+    "NONE": "None",
+    "JUDGMENTS_PER_DAY": "Evictions Per Day",
+    "JUDGMENT_RATE": "Eviction Rate",
+    "JUDGMENTS": "Evictions",
+    "FILING_RATE": "Eviction Filing Rate",
+    "FILINGS": "Eviction Filings",
+    "POVERTY_RATE": "Poverty Rate",
+    "POPULATION": "Population",
+    "AVG_HOUSEHOLD": "Average Household Size",
+    "RENTER_OCCUPIED": "Renter Occupied Households",
+    "PCT_RENTER": "% Renter Occupied",
+    "MED_RENT": "Median Gross Rent",
+    "MED_INCOME": "Median Household Income",
+    "MED_PROPERTY": "Median Property Value",
+    "PCT_WHITE": "% White",
+    "PCT_AFR_AMER": "% African American",
+    "PCT_HISPANIC": "% Hispanic/Latinx",
+    "PCT_AMER_INDIAN": "% American Indian and Alaska Native",
+    "PCT_ASIAN": "% Asian",
+    "PCT_HAW_ISL": "% Native Hawaiian or Pacific Islander",
+    "PCT_MULTIPLE": "% Multiple Races",
+    "PCT_OTHER": "% Other Race"
+  }
+}
