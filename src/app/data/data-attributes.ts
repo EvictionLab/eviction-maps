@@ -303,11 +303,11 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], 16],
-          6, ['/', ['var', 'data_prop'], 8],
-          8, ['/', ['var', 'data_prop'], 2.5],
-          9, ['/', ['var', 'data_prop'], 0.8],
-          10, ['/', ['var', 'data_prop'], 0.8]
+          4, ['/', ['var', 'data_prop'], 4],
+          6, ['/', ['var', 'data_prop'], 3],
+          8, ['/', ['var', 'data_prop'], 2],
+          9, ['/', ['var', 'data_prop'], 1],
+          10, ['/', ['var', 'data_prop'], 0.5]
         ]
       ],
       'states': [
@@ -323,38 +323,39 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], 2.5],
-          4, ['/', ['var', 'data_prop'], 2.5],
-          5, ['/', ['var', 'data_prop'], 0.8]
+          2, ['/', ['var', 'data_prop'], 4],
+          4, ['/', ['var', 'data_prop'], 2],
+          6, ['/', ['var', 'data_prop'], 1],
+          8, ['/', ['var', 'data_prop'], 0.5]
         ]
       ],
       'cities': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], 16],
-          6, ['/', ['var', 'data_prop'], 8],
-          8, ['/', ['var', 'data_prop'], 2.5],
-          9, ['/', ['var', 'data_prop'], 0.8],
-          10, ['/', ['var', 'data_prop'], 0.8]
+          4, ['/', ['var', 'data_prop'], 4],
+          6, ['/', ['var', 'data_prop'], 3],
+          8, ['/', ['var', 'data_prop'], 2],
+          9, ['/', ['var', 'data_prop'], 1],
+          10, ['/', ['var', 'data_prop'], 0.5]
         ]
       ],
       'tracts': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], 8],
-          10, ['/', ['var', 'data_prop'], 2.5],
-          12, ['/', ['var', 'data_prop'], 0.8]
+          8, ['/', ['var', 'data_prop'], 4],
+          10, ['/', ['var', 'data_prop'], 1],
+          12, ['/', ['var', 'data_prop'], 0.5]
         ]
       ],
       'block-groups': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], 8],
-          10, ['/', ['var', 'data_prop'], 2.5],
-          12, ['/', ['var', 'data_prop'], 0.8]
+          8, ['/', ['var', 'data_prop'], 8],
+          10, ['/', ['var', 'data_prop'], 2],
+          12, ['/', ['var', 'data_prop'], 1]
         ]
       ]
     }
@@ -369,10 +370,11 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+          4, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 3, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
+          9, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
         ]
       ],
       'states': [
@@ -388,38 +390,39 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          4, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]]
+          2, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
+          4, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
         ]
       ],
       'cities': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 16, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+          4, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
+          6, ['/', ['var', 'data_prop'], ['*', 3, 1.5]],
+          8, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
+          9, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
         ]
       ],
       'tracts': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+          8, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
+          12, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
         ]
       ],
       'block-groups': [
         'let', 'data_prop', ['min', 20, ['get', 'PROP']],
         [
           'interpolate', ['linear'], ['zoom'],
-          7, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 2.5, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]]
+          8, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
+          10, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
+          12, ['/', ['var', 'data_prop'], ['*', 1, 1.5]]
         ]
       ]
     }
