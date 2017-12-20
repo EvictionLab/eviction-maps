@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { RankingLocation } from '../ranking-location';
 
 @Component({
   selector: 'app-ranking-list',
@@ -7,7 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RankingListComponent implements OnInit {
 
-  constructor() { }
+  @Input() list: Array<RankingLocation>;
+  @Input() dataProperty: string;
+  @Output() locationSelected: EventEmitter<RankingLocation>;
+
+  constructor() {}
 
   ngOnInit() {
   }

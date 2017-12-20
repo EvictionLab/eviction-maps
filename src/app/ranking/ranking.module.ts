@@ -5,6 +5,7 @@ import { RankingUiComponent } from './ranking-ui/ranking-ui.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { RankingPanelComponent } from './ranking-panel/ranking-panel.component';
 import { RankingService } from './ranking.service';
+import { RankingScaleComponent } from './ranking-scale/ranking-scale.component';
 
 class RankingConfig {
   dataUrl: string
@@ -14,7 +15,7 @@ class RankingConfig {
   imports: [
     CommonModule
   ],
-  declarations: [RankingToolComponent, RankingUiComponent, RankingListComponent, RankingPanelComponent]
+  declarations: [RankingToolComponent, RankingUiComponent, RankingListComponent, RankingPanelComponent, RankingScaleComponent]
 })
 export class RankingModule {
   static forRoot(config: RankingConfig): ModuleWithProviders {

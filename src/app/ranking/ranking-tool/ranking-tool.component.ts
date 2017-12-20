@@ -9,6 +9,7 @@ import { RankingService } from '../ranking.service';
 })
 export class RankingToolComponent implements OnInit {
   activeTab: string; // tab ID for the active tab
+  region: string; // ID representing the region (state or all)
   areaType: string; // ID representing the selected area type
   dataProperty: string; // object key representing the data property to sort by
   listData: Array<RankingLocation>; // Array of locations to show the rank list for

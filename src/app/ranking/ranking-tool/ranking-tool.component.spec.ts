@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { RankingService } from '../ranking.service';
 import { RankingToolComponent } from './ranking-tool.component';
 
 describe('RankingToolComponent', () => {
@@ -10,6 +11,13 @@ describe('RankingToolComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ RankingToolComponent ]
     })
+    TestBed.overrideComponent(RankingToolComponent, {
+      set: {
+        providers: [
+          { provide: RankingService, useValue: { loadCsvData: () => {} } }
+        ]
+      }
+    })  
     .compileComponents();
   }));
 
