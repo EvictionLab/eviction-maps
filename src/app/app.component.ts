@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -9,8 +9,8 @@ import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 import { RankingConfig } from './ranking/ranking.module';
 import { DataService } from './data/data.service';
-import { UiToastComponent } from './ui/ui-toast/ui-toast.component';
 import { MapFeature } from './map-tool/map/map-feature';
+import { ToastsManager } from 'ng2-toastr';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +18,8 @@ import { MapFeature } from './map-tool/map/map-feature';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  isLoading = false;
   mapComponent: MapToolComponent;
-  @ViewChild(UiToastComponent) toast;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
@@ -30,8 +30,12 @@ export class AppComponent implements OnInit {
     private platform: PlatformService,
     private translate: TranslateService,
     private router: Router,
-    private dataService: DataService
-  ) { }
+    public dataService: DataService,
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef
+  ) {
+      this.toastr.setRootViewContainerRef(vRef);
+  }
 
   /** Sets the language and size relevant classes on init */
   ngOnInit() { 

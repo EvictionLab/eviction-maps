@@ -7,6 +7,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { ToastsManager } from 'ng2-toastr';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -65,6 +66,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private router: Router,
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
+    private toast: ToastsManager,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
@@ -157,9 +159,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         const locationUpdated = this.dataService.addLocation(data);
         if (!locationUpdated) {
-          // this.toast.display(
-          //   'Maximum limit reached. Please remove a location to add another.'
-          // );
+          this.toast.error(
+            'Maximum limit reached. Please remove a location to add another.'
+          );
         }
         this.updateRoute();
         this.dataService.isLoading = false;
@@ -180,7 +182,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            // this.toast.display('Could not find data for location.');
+            this.toast.error('Could not find data for location.');
           } else {
             this.dataService.addLocation(data);
           }

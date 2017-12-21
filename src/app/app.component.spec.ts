@@ -11,6 +11,8 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DataService } from './data/data.service';
+import { ToastModule } from 'ng2-toastr';
+
 export class TranslateServiceStub{
   public get(key: any): any {
     Observable.of(key);
@@ -25,7 +27,8 @@ describe('AppComponent', () => {
         MapToolModule,
         RouterTestingModule,
         TranslateModule,
-        TooltipModule.forRoot()
+        TooltipModule.forRoot(),
+        ToastModule.forRoot()
       ],
       declarations: [
         AppComponent, HeaderBarComponent, FooterComponent

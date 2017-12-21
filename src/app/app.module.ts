@@ -7,7 +7,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-
+import { ToastModule } from 'ng2-toastr';
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
@@ -42,7 +42,8 @@ export function createTranslateLoader(http: HttpClient) {
       }
     }),
     RouterModule.forRoot([], { useHash: true }),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [ PlatformService, DataService ],
   bootstrap: [AppComponent],

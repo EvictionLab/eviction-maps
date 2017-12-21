@@ -8,6 +8,7 @@ import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate
 import { MapToolModule } from './map-tool.module';
 import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
+import { ToastModule } from 'ng2-toastr'; 
 
 export class TranslateServiceStub{
   public get(key: any): any {
@@ -40,7 +41,8 @@ describe('MapToolComponent', () => {
       imports: [
         MapToolModule,
         TranslateModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        ToastModule.forRoot()
       ]
     })
     TestBed.overrideComponent(MapToolComponent, {
