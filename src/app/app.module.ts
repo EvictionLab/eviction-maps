@@ -12,39 +12,12 @@ import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { PlatformService } from './platform.service';
+import { RankingModule } from './ranking/ranking.module';
+import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
-
-const defaultData = {
-  mapConfig: {
-    style: './assets/style.json',
-    center: [-98.5795, 39.8283],
-    zoom: 3,
-    minZoom: 2,
-    maxZoom: 14
-  },
-  year: 2016
-};
-
-const appRoutes: Routes = [
-  {
-    path: ':locations/:year/:geography/:type/:choropleth/:bounds',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: 'link', // optional path for URL parameters
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: '',
-    redirectTo: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06', // default view
-    pathMatch: 'full'
-  }
-];
 
 @NgModule({
   declarations: [ AppComponent ],
@@ -54,6 +27,9 @@ const appRoutes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RankingModule.forRoot({
+      dataUrl: 'http://eviction-lab-prototypes.s3-website.us-east-2.amazonaws.com/csv-search-example/ranking-search.csv'
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -61,12 +37,10 @@ const appRoutes: Routes = [
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(
-      appRoutes,
-      { useHash: true }
-    )
+    RouterModule.forRoot([], { useHash: true })
   ],
   providers: [ PlatformService ],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent],
+  entryComponents: [ MapToolComponent, RankingToolComponent ]
 })
 export class AppModule { }
