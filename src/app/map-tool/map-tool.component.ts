@@ -12,6 +12,7 @@ import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
+import { PlatformService } from '../platform.service';
 
 // Temporarily adding debounce function here to avoid compilation errors
 // caused by the `debounce-decorator`.  See the following issues for more:
@@ -66,6 +67,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private router: Router,
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
+    private platform: PlatformService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
@@ -134,6 +136,10 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Configures the data service with any static data passed through the route
    */
   setMapToolData(data) {
+    // Set default zoom to 2 on mobile
+    if (this.platform.isMobile) {
+      data.mapConfig.zoom = 2;
+    }
     this.dataService.mapConfig = data.mapConfig;
     if (data.hasOwnProperty('year')) {
       this.dataService.activeYear = data.year;
