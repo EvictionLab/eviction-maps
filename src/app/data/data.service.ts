@@ -202,7 +202,6 @@ export class DataService {
   getFeatureLonLat(feature): Array<number> {
     const coords = feature.geometry['type'] === 'MultiPolygon' ?
       feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
-    console.log('coords', coords, polylabel(coords, 1.0));
     return polylabel(coords, 1.0);
   }
 

@@ -2,6 +2,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RankingService } from '../ranking.service';
 import { RankingToolComponent } from './ranking-tool.component';
+import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
+import { RankingListComponent } from '../ranking-list/ranking-list.component';
+import { RankingScaleComponent } from '../ranking-scale/ranking-scale.component';
+import { RankingPanelComponent } from '../ranking-panel/ranking-panel.component';
 
 describe('RankingToolComponent', () => {
   let component: RankingToolComponent;
@@ -9,7 +13,13 @@ describe('RankingToolComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RankingToolComponent ]
+      declarations: [
+        RankingToolComponent,
+        RankingUiComponent,
+        RankingListComponent,
+        RankingScaleComponent,
+        RankingPanelComponent
+      ]
     })
     TestBed.overrideComponent(RankingToolComponent, {
       set: {

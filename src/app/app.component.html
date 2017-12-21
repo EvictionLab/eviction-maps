@@ -6,5 +6,5 @@
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
-<router-outlet></router-outlet>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
 <app-footer></app-footer>

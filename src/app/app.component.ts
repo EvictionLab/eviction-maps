@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -18,6 +18,7 @@ import { MapFeature } from './map-tool/map/map-feature';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  mapComponent: MapToolComponent;
   @ViewChild(UiToastComponent) toast;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
@@ -40,6 +41,12 @@ export class AppComponent implements OnInit {
     this.onWindowResize(); 
   }
 
+  /** Fired when a route is activated */
+  onActivate(component: any) {
+    if (component.id && component.id === 'map-tool') {
+      this.mapComponent = component;
+    }
+  }
 
   onMenuSelect(itemId: string) {
     this.activeMenuItem = itemId;
@@ -50,40 +57,10 @@ export class AppComponent implements OnInit {
   }
 
  /**
-   * Sets auto changing of layers to false, and zooms the map the selected features
-   * @param feature map feature returned from select
-   * @param updateMap moves the map to the selected location if true
+   * Forward search select to the component
    */
-  onSearchSelect(feature: MapFeature | null, updateMap = true) {
-    // this.autoSwitchLayers = false;
-    if (feature) {
-      this.dataService.isLoading = true;
-      const layerId = feature.properties['layerId'];
-      this.dataService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'], true
-      ).subscribe(data => {
-          if (!data.properties.n) {
-            this.toast.display('Could not find data for location.');
-          } else {
-            this.dataService.addLocation(data);
-          }
-          this.dataService.activeDataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
-          if (updateMap) {
-            if (feature.hasOwnProperty('bbox')) {
-              this.dataService.mapView = feature['bbox'];
-            }
-          }
-          // this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
-          //   // Wait for map to be done loading, then set data layer
-          //   this.map.map.isLoading$.distinctUntilChanged()
-          //     .debounceTime(500)
-          //     .filter(state => !state)
-          //     .first()
-          //     .subscribe((state) => this.map.setGroupVisibility(dataLevel));
-          // }
-          this.dataService.isLoading = false;
-        });
-    }
+  onSearchSelect(...args: any[]) {
+    return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
   }
 
   /**

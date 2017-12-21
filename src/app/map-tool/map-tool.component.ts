@@ -37,7 +37,8 @@ function debounce(func, wait, immediate) {
   styleUrls: ['./map-tool.component.scss']
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
-  title = 'Eviction Lab';
+  title = 'Eviction Lab - Map';
+  id = 'map-tool';
   // autoSwitchLayers = true;
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event

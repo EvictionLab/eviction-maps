@@ -18,8 +18,13 @@
     [(selectedChoropleth)]="dataService.activeDataHighlight"
     [(selectedLayer)]="dataService.activeDataLevel"
     (featureClick)="onFeatureSelect($event)"
+    (boundingBoxChange)="updateRoute()"
+    (yearChange)="updateRoute()"
+    (selectedBubbleChange)="updateRoute()"
+    (selectedChoroplethChange)="updateRoute()"
+    (selectedLayerChange)="updateRoute()"
     (clickedCardHeader)="onCardHeaderClick($event)"
-    (dismissedCard)="dataService.removeLocation($event)"
+    (dismissedCard)="dataService.removeLocation($event); updateRoute()"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button
