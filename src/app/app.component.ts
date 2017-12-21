@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, HostListener, HostBinding } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,9 @@ import { Routes, Router } from '@angular/router';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 import { RankingConfig } from './ranking/ranking.module';
+import { DataService } from './data/data.service';
+import { UiToastComponent } from './ui/ui-toast/ui-toast.component';
+import { MapFeature } from './map-tool/map/map-feature';
 
 @Component({
   selector: 'app-root',
@@ -15,15 +18,18 @@ import { RankingConfig } from './ranking/ranking.module';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  @ViewChild(UiToastComponent) toast;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
+  private activeMenuItem;
 
   constructor(
     private platform: PlatformService,
     private translate: TranslateService,
-    private router: Router
+    private router: Router,
+    private dataService: DataService
   ) { }
 
   /** Sets the language and size relevant classes on init */
@@ -32,6 +38,52 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.onWindowResize(); 
+  }
+
+
+  onMenuSelect(itemId: string) {
+    this.activeMenuItem = itemId;
+  }
+
+  onLanguageSelect(lang) {
+    this.translate.use(lang.id);
+  }
+
+ /**
+   * Sets auto changing of layers to false, and zooms the map the selected features
+   * @param feature map feature returned from select
+   * @param updateMap moves the map to the selected location if true
+   */
+  onSearchSelect(feature: MapFeature | null, updateMap = true) {
+    // this.autoSwitchLayers = false;
+    if (feature) {
+      this.dataService.isLoading = true;
+      const layerId = feature.properties['layerId'];
+      this.dataService.getTileData(
+        layerId, feature.geometry['coordinates'], feature.properties['name'], true
+      ).subscribe(data => {
+          if (!data.properties.n) {
+            this.toast.display('Could not find data for location.');
+          } else {
+            this.dataService.addLocation(data);
+          }
+          this.dataService.activeDataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
+          if (updateMap) {
+            if (feature.hasOwnProperty('bbox')) {
+              this.dataService.mapView = feature['bbox'];
+            }
+          }
+          // this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+          //   // Wait for map to be done loading, then set data layer
+          //   this.map.map.isLoading$.distinctUntilChanged()
+          //     .debounceTime(500)
+          //     .filter(state => !state)
+          //     .first()
+          //     .subscribe((state) => this.map.setGroupVisibility(dataLevel));
+          // }
+          this.dataService.isLoading = false;
+        });
+    }
   }
 
   /**

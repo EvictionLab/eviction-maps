@@ -1,16 +1,8 @@
-<app-progress-bar *ngIf="isLoading"></app-progress-bar>
-<app-ui-toast></app-ui-toast>
 <div id="top" 
   class="app-wrapper" 
   [class.map-active]="dataService.activeFeatures.length === 0" 
   [class.data-active]="dataService.activeFeatures.length > 0"
 >
-  <app-header-bar
-    [languageOptions]="dataService.languageOptions"
-    (selectMenuItem)="onMenuSelect($event)"
-    (selectLocation)="onSearchSelect($event)"
-    (selectLanguage)="onLanguageSelect($event)"
-  ></app-header-bar>
   <app-map
     [mapConfig]="dataService.mapConfig"
     [bubbleOptions]="dataService.bubbleAttributes"
@@ -26,13 +18,8 @@
     [(selectedChoropleth)]="dataService.activeDataHighlight"
     [(selectedLayer)]="dataService.activeDataLevel"
     (featureClick)="onFeatureSelect($event)"
-    (boundingBoxChange)="updateRoute()"
-    (yearChange)="updateRoute()"
-    (selectedBubbleChange)="updateRoute()"
-    (selectedChoroplethChange)="updateRoute()"
-    (selectedLayerChange)="updateRoute()"
     (clickedCardHeader)="onCardHeaderClick($event)"
-    (dismissedCard)="dataService.removeLocation($event); updateRoute()"
+    (dismissedCard)="dataService.removeLocation($event)"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button
@@ -71,5 +58,4 @@
       <span>{{ 'DATA.MAP_LINK' | translate }}</span>
     </button>
   </app-data-panel>
-  <app-footer></app-footer>
 </div>

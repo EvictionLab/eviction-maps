@@ -10,7 +10,6 @@ import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-transl
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
-import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
 
 // Temporarily adding debounce function here to avoid compilation errors
@@ -56,7 +55,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     return this.map.mapLoading || this.dataService.isLoading;
   }
   @ViewChild(MapComponent) map;
-  @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
   urlParts;
 
@@ -95,7 +93,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.setOffsetToTranslate();
   }
-
 
   /**
    * Configures the data service based on any route parameters
@@ -159,9 +156,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         const locationUpdated = this.dataService.addLocation(data);
         if (!locationUpdated) {
-          this.toast.display(
-            'Maximum limit reached. Please remove a location to add another.'
-          );
+          // this.toast.display(
+          //   'Maximum limit reached. Please remove a location to add another.'
+          // );
         }
         this.updateRoute();
         this.dataService.isLoading = false;
@@ -182,7 +179,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            this.toast.display('Could not find data for location.');
+            // this.toast.display('Could not find data for location.');
           } else {
             this.dataService.addLocation(data);
           }
@@ -203,15 +200,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           this.dataService.isLoading = false;
         });
     }
-  }
-
-  onMenuSelect(itemId: string) {
-    this.activeMenuItem = itemId;
-  }
-
-  onLanguageSelect(lang) {
-    console.log('updating lang', lang);
-    this.translate.use(lang.id);
   }
 
   /**

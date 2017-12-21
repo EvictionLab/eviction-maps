@@ -1,1 +1,10 @@
+<app-progress-bar *ngIf="isLoading"></app-progress-bar>
+<app-ui-toast></app-ui-toast>
+<app-header-bar
+  [languageOptions]="dataService.languageOptions"
+  (selectMenuItem)="onMenuSelect($event)"
+  (selectLocation)="onSearchSelect($event)"
+  (selectLanguage)="onLanguageSelect($event)"
+></app-header-bar>
 <router-outlet></router-outlet>
+<app-footer></app-footer>

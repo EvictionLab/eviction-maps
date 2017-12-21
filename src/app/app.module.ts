@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
@@ -14,13 +15,16 @@ import { MapToolComponent } from './map-tool/map-tool.component';
 import { PlatformService } from './platform.service';
 import { RankingModule } from './ranking/ranking.module';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
+import { DataService } from './data/data.service';
+import { HeaderBarComponent } from './header-bar/header-bar.component';
+import { FooterComponent } from './footer/footer.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
 @NgModule({
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent ],
   imports: [
     UiModule,
     MapToolModule,
@@ -37,9 +41,10 @@ export function createTranslateLoader(http: HttpClient) {
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot([], { useHash: true })
+    RouterModule.forRoot([], { useHash: true }),
+    TooltipModule.forRoot()
   ],
-  providers: [ PlatformService ],
+  providers: [ PlatformService, DataService ],
   bootstrap: [AppComponent],
   entryComponents: [ MapToolComponent, RankingToolComponent ]
 })
