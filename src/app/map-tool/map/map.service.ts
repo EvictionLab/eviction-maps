@@ -245,6 +245,7 @@ export class MapService {
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         )[0];
       } else {
+        f.geometry['type'] = 'Polygon';
         f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
         feat = f;
       }
