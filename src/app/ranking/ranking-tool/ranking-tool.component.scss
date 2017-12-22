@@ -4,6 +4,16 @@
   margin-top: $headerHeightSm;
 }
 
+.page-content {
+  padding: $pageMargin;
+}
+
+:host-context(.gt-mobile) {
+  .page-content {
+    padding: $pageMarginLg;
+  }
+}
+
 .nav-bar {
   height: grid(8);
   box-shadow: $z1shadow;
@@ -19,6 +29,8 @@
     padding:0;
     margin:0;
     height:100%;
+    overflow:hidden;
+    
     li {
       display:inline-block;
       @include defaultFontBold(16px);

@@ -9,7 +9,7 @@
           <a routerLink="/evictions">Top Evicting Areas</a>
         </li>
         <li [class.active]="activeTab === 'evictors'">
-          <a routerLink="/evictors">Top Evictors</a>
+          <a>Top Evictors</a>
         </li>
       </ul>
       <app-ranking-ui
@@ -26,8 +26,18 @@
       ></app-ranking-ui>
     </div>
   </div>
-  
-  <app-ranking-list></app-ranking-list>
+  <div class="page-content">
+    <div class="content-inner">
+        <app-ranking-list *ngIf="areaType && dataProperty"
+          [class]="'area-'+areaType.value"
+          [list]="truncatedList"
+          [dataProperty]="dataProperty.value"
+          [maxValue]="dataMax"
+      ></app-ranking-list>
+    </div>
+  </div>
+
+
   <app-ranking-panel></app-ranking-panel>
 </div>
 

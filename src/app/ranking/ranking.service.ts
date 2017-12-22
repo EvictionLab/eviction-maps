@@ -61,11 +61,20 @@ export class RankingService {
     let data = region !== 'United States' ?
       this.data.filter(l => l.parentLocation === region && l.areaType === areaType) :
       this.data.filter(l => l.areaType === areaType)
-    data = invert ?
-      data.sort((a, b) => a[sortProperty] - b[sortProperty]) :
-      data.sort((a, b) => b[sortProperty] - a[sortProperty]);
+    data = data.sort(this.getComparator(sortProperty, invert));
     console.timeEnd('sort rankings');
     return data;
+  }
+
+  /** Creates a function to use for sorting the data */
+  private getComparator(prop, invert?: boolean) {
+    return (a, b) => {
+      const item1 = invert ? a : b;
+      const item2 = invert ? b : a;
+      if (!item1[prop] || isNaN(item1[prop])) { return -1; }
+      if (!item2[prop] || isNaN(item2[prop])) { return 1; }
+      return item1[prop] - item2[prop];
+    }
   }
 
   /**

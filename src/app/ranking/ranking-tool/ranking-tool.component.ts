@@ -10,18 +10,35 @@ import { RankingService } from '../ranking.service';
   styleUrls: ['./ranking-tool.component.scss']
 })
 export class RankingToolComponent implements OnInit {
+  /** identifier for the component so AppComponent can detect type */
   id = 'ranking-tool';
-  activeTab = "evictions"; // tab ID for the active tab
-  region = "United States"; // string representing the region
-  areaType = null; // ID representing the selected area type
-  dataProperty = null; // object key representing the data property to sort by
-  listData: Array<RankingLocation>; // Array of locations to show the rank list for
-  selectedLocation: RankingLocation; // the currently selected location for the data panel
+  /** tab ID for the active tab */
+  activeTab = 'evictions';
+  /** string representing the region */
+  region = 'United States';
+  /** ID representing the selected area type */
+  areaType = null;
+  /** object key representing the data property to sort by */
+  dataProperty = null;
+  /** the currently selected location for the data panel */
+  selectedLocation: RankingLocation;
+  /** tracks if the data has been loaded and parsed */
   isDataReady = false;
+  /** A shortened version of `listData`, containing only the first `topCount` items */
+  truncatedList: Array<RankingLocation>;
+  /** Stores the maximum value in the truncated List */
+  dataMax = 1;
+  /** full list of data for the current UI selections */
+  private listData: Array<RankingLocation>; // Array of locations to show the rank list for  
+  /** number of items to show in the list */
+  private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
-  get canRetrieveData():boolean {
+  private get canRetrieveData():boolean {
+    return this.canNavigate && this.isDataReady;
+  }
+  private get canNavigate(): boolean {
     return this.region && this.areaType.hasOwnProperty('value') &&
-      this.dataProperty.hasOwnProperty('value') && this.isDataReady;
+      this.dataProperty.hasOwnProperty('value');
   }
 
   constructor(
@@ -30,7 +47,7 @@ export class RankingToolComponent implements OnInit {
     private router: Router
   ) { }
 
-  /** Load the ranking data on init */
+  /** Listen for when the data is ready and for route changes */
   ngOnInit() {
     this.rankings.isReady.subscribe((ready) => {
       this.isDataReady = ready;
@@ -39,8 +56,11 @@ export class RankingToolComponent implements OnInit {
     this.route.url.subscribe(this.onRouteChange.bind(this));
   }
 
+  /** 
+   * When the route changes, update the selected properties with the values
+   * in the route, and then update the list data 
+   */
   onRouteChange(url) {
-    console.log('route change', url);
     this.activeTab = url[0].path;
     if (this.activeTab === 'evictions') {
       this.region = url[1].path;
@@ -50,18 +70,32 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
+  /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
-    this.router.navigate(['/', this.activeTab, newRegion, this.areaType.value, this.dataProperty.value ]);    
+    if (this.canNavigate) {
+      this.router.navigate(
+        ['/', this.activeTab, newRegion, this.areaType.value, this.dataProperty.value]
+      );
+    }
   }
 
+  /** Update the route when the area type changes */
   onAreaTypeChange(areaType: { name: string, value: number }) {
-    this.router.navigate(['/', this.activeTab, this.region, areaType.value, this.dataProperty.value ]);    
+    if (this.canNavigate) {
+      this.router.navigate(
+        ['/', this.activeTab, this.region, areaType.value, this.dataProperty.value]
+      );
+    }
   }
 
-  onDataPropertyChange(dataProp: { name: string, value: string}) {
-    this.router.navigate(['/', this.activeTab, this.region, this.areaType.value, dataProp.value ]);    
+  /** Update the sort property when the area type changes */
+  onDataPropertyChange(dataProp: { name: string, value: string }) {
+    if (this.canNavigate) {
+      this.router.navigate(
+        ['/', this.activeTab, this.region, this.areaType.value, dataProp.value]
+      );
+    }
   }
-  
 
   /** Switch the selected location to the next one in the list */
   goToNextLocation() { }
@@ -74,10 +108,15 @@ export class RankingToolComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
-      console.log('getting data', this.region, this.areaType.value, this.dataProperty.value);
       this.listData =
         this.rankings.getSortedData(this.region, this.areaType.value, this.dataProperty.value);
-      console.log('got list data:', this.listData);
+      this.truncatedList = this.listData.slice(0, this.topCount);
+      this.dataMax = Math.max.apply(
+        Math, this.truncatedList.map(l => {
+          return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0
+        })
+      );
+      console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
     } else {
       console.warn('data is not ready yet');
     }

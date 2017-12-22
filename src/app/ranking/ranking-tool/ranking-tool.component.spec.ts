@@ -1,5 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
+import { UiModule } from '../../ui/ui.module';
 import { RankingService } from '../ranking.service';
 import { RankingToolComponent } from './ranking-tool.component';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
@@ -19,6 +21,9 @@ describe('RankingToolComponent', () => {
         RankingListComponent,
         RankingScaleComponent,
         RankingPanelComponent
+      ],
+      imports: [
+        UiModule, RouterTestingModule
       ]
     })
     TestBed.overrideComponent(RankingToolComponent, {

@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { UiModule } from '../../ui/ui.module';
 import { RankingUiComponent } from './ranking-ui.component';
 
 describe('RankingUiComponent', () => {
@@ -8,7 +9,8 @@ describe('RankingUiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RankingUiComponent ]
+      declarations: [RankingUiComponent],
+      imports: [ UiModule ]
     })
     .compileComponents();
   }));

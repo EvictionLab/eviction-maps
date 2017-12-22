@@ -92,7 +92,7 @@ export class AppComponent implements OnInit {
     };
     const defaultViews = {
       map: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06',
-      rankings: '/evictions/United%20States/0/eviction-rate',
+      rankings: '/evictions/United%20States/0/evictionRate',
       evictors: '/evictors'
     };
     const defaultRoute = window.location.pathname.includes('rankings') ?
