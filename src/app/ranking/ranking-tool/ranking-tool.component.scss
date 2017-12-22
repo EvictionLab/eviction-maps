@@ -1,0 +1,48 @@
+@import '../../../theme';
+
+.ranking-page {
+  margin-top: $headerHeightSm;
+}
+
+.nav-bar {
+  height: grid(8);
+  box-shadow: $z1shadow;
+  padding: 0 $pageMargin;
+  .content-inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  ul {
+    list-style: none;
+    padding:0;
+    margin:0;
+    height:100%;
+    li {
+      display:inline-block;
+      @include defaultFontBold(16px);
+      height:100%;
+      &.active {
+        border-bottom: grid(0.5) solid $color1;
+      }
+      a {
+        color: $black;
+        display:block;
+        height:100%;
+        line-height: grid(4);
+        padding: grid(2);
+        &:hover {
+          text-decoration: none;
+          background: $grey4;
+        }
+      }
+    }
+  }
+}
+
+:host-context(.gt-mobile) {
+  .ranking-page {
+    margin-top: $headerHeightLg;
+  }
+}

@@ -1,4 +1,34 @@
-<app-ranking-ui></app-ranking-ui>
-<app-ranking-list></app-ranking-list>
-<app-ranking-panel></app-ranking-panel>
+<div class="ranking-page">
+  <div class="hero">
+    <h1>Eviction Rankings</h1>
+  </div>
+  <div class="nav-bar nav-rankings">
+    <div class="content-inner">
+      <ul class="tabs">
+        <li [class.active]="activeTab === 'evictions'">
+          <a routerLink="/evictions">Top Evicting Areas</a>
+        </li>
+        <li [class.active]="activeTab === 'evictors'">
+          <a routerLink="/evictors">Top Evictors</a>
+        </li>
+      </ul>
+      <app-ranking-ui
+        *ngIf="activeTab === 'evictions'"
+        [regions]="rankings.regions"
+        [areaTypes]="rankings.areaTypes"
+        [dataProperties]="rankings.sortProps"
+        [selectedRegion]="region"
+        (selectedRegionChange)="onRegionChange($event)"
+        [selectedAreaType]="areaType"
+        (selectedAreaTypeChange)="onAreaTypeChange($event)"
+        [selectedDataProperty]="dataProperty"
+        (selectedDataPropertyChange)="onDataPropertyChange($event)"
+      ></app-ranking-ui>
+    </div>
+  </div>
+  
+  <app-ranking-list></app-ranking-list>
+  <app-ranking-panel></app-ranking-panel>
+</div>
+
 
