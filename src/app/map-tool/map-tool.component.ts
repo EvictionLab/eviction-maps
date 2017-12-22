@@ -7,10 +7,11 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { ToastsManager } from 'ng2-toastr';
+import { LoadingService } from '../loading.service';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
-import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
 
@@ -39,7 +40,8 @@ function debounce(func, wait, immediate) {
   styleUrls: ['./map-tool.component.scss']
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
-  title = 'Eviction Lab';
+  title = 'Eviction Lab - Map';
+  id = 'map-tool';
   // autoSwitchLayers = true;
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
@@ -53,22 +55,20 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
     return (this.verticalOffset - this.panelOffset) > 0;
   }
-  get isLoading() {
-    return this.map.mapLoading || this.dataService.isLoading;
-  }
   @ViewChild(MapComponent) map;
-  @ViewChild(UiToastComponent) toast;
   @ViewChild('divider') dividerEl;
   urlParts;
 
   constructor(
+    public loader: LoadingService,
+    public dataService: DataService,    
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
+    private toast: ToastsManager,
     private platform: PlatformService,
-    public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
 
@@ -97,7 +97,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.setOffsetToTranslate();
   }
-
 
   /**
    * Configures the data service based on any route parameters
@@ -159,18 +158,18 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
-    this.dataService.isLoading = true;
+    this.loader.start('feature');
     this.dataService.addLocation(feature);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         const locationUpdated = this.dataService.addLocation(data);
         if (!locationUpdated) {
-          this.toast.display(
+          this.toast.error(
             'Maximum limit reached. Please remove a location to add another.'
           );
         }
         this.updateRoute();
-        this.dataService.isLoading = false;
+        this.loader.end('feature');
       });
   }
 
@@ -182,13 +181,13 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     // this.autoSwitchLayers = false;
     if (feature) {
-      this.dataService.isLoading = true;
+      this.loader.start('search');
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            this.toast.display('Could not find data for location.');
+            this.toast.error('Could not find data for location.');
           } else {
             this.dataService.addLocation(data);
           }
@@ -206,18 +205,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
               .first()
               .subscribe((state) => this.map.setGroupVisibility(dataLevel));
           }
-          this.dataService.isLoading = false;
+          this.loader.end('search');
         });
     }
-  }
-
-  onMenuSelect(itemId: string) {
-    this.activeMenuItem = itemId;
-  }
-
-  onLanguageSelect(lang) {
-    console.log('updating lang', lang);
-    this.translate.use(lang.id);
   }
 
   /**

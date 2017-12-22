@@ -36,7 +36,6 @@ export class DataService {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
-  isLoading = false;
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://tiles.evictionlab.org/';
   private tilePrefix = 'evictions-';
@@ -201,7 +200,7 @@ export class DataService {
    */
   getFeatureLonLat(feature): Array<number> {
     const coords = feature.geometry['type'] === 'MultiPolygon' ?
-    feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
+      feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
     return polylabel(coords, 1.0);
   }
 

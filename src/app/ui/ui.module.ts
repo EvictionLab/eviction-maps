@@ -18,7 +18,6 @@ import { UiDialogService } from './ui-dialog/ui-dialog.service';
 import { UiHintComponent } from './ui-hint/ui-hint.component';
 import { LocationCardsComponent } from './location-cards/location-cards.component';
 import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
-import { UiToastComponent } from './ui-toast/ui-toast.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
 
@@ -33,7 +32,6 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     ProgressBarComponent,
     UiHintComponent,
     UiMapLegendComponent,
-    UiToastComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent
   ],
@@ -57,7 +55,6 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     UiDialogComponent,
     UiHintComponent,
     UiMapLegendComponent,
-    UiToastComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent
   ],

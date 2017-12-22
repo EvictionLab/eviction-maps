@@ -12,6 +12,7 @@ import { MapDataObject } from '../map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
+import { LoadingService } from '../../../loading.service';
 
 @Component({
   selector: 'app-map',
@@ -154,8 +155,17 @@ export class MapComponent implements OnInit, OnChanges {
   }
   /** Gets if the legend is full width */
   get fullWidth(): boolean { return window.innerWidth >= 767; }
+  /** Sets if the map is loading and informs the service */
+  set mapLoading(isLoading: boolean) {
+    this._store.loading = isLoading;
+    if (this.loader) {
+      isLoading ? this.loader.start('map') : this.loader.end('map');
+    }
+  }
+  /** Gets if the map is loading */
+  get mapLoading(): boolean { return this._store.loading; }
+  
   censusYear = 2010;
-  mapLoading = false;
   mapEventLayers: Array<string>;
   cardProps;
   private zoom = 3;
@@ -166,13 +176,16 @@ export class MapComponent implements OnInit, OnChanges {
     choropleth: null,
     year: null,
     bounds: null,
-    autoSwitch: true
+    autoSwitch: true,
+    loading: false
   };
   private _mapInstance;
   // switch to restore auto switching layers once a map move has ended.
   private restoreAutoSwitch = false;
 
-  constructor(private map: MapService) { }
+  constructor(private map: MapService, private loader: LoadingService) {
+    loader.start('map');
+  }
 
 
   ngOnInit() {

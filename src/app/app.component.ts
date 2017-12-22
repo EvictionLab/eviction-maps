@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener, HostBinding } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -8,6 +8,10 @@ import { Routes, Router } from '@angular/router';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 import { RankingConfig } from './ranking/ranking.module';
+import { DataService } from './data/data.service';
+import { MapFeature } from './map-tool/map/map-feature';
+import { ToastsManager } from 'ng2-toastr';
+import { LoadingService } from './loading.service';
 
 @Component({
   selector: 'app-root',
@@ -15,16 +19,24 @@ import { RankingConfig } from './ranking/ranking.module';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  mapComponent: MapToolComponent;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
+  private activeMenuItem;
 
   constructor(
+    public dataService: DataService,
+    public loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private toastr: ToastsManager,
+    private vRef: ViewContainerRef
+  ) {
+      this.toastr.setRootViewContainerRef(vRef);
+  }
 
   /** Sets the language and size relevant classes on init */
   ngOnInit() { 
@@ -32,6 +44,31 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.onWindowResize(); 
+  }
+
+  /** Fired when a route is activated */
+  onActivate(component: any) {
+    if (component.id && component.id === 'map-tool') {
+      this.mapComponent = component;
+    }
+  }
+
+  onMenuSelect(itemId: string) {
+    if (this.mapComponent) {
+      this.mapComponent.activeMenuItem = itemId;
+    }
+    
+  }
+
+  onLanguageSelect(lang) {
+    this.translate.use(lang.id);
+  }
+
+ /**
+   * Forward search select to the component
+   */
+  onSearchSelect(...args: any[]) {
+    return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
   }
 
   /**

@@ -8,6 +8,7 @@ import { RankingService } from '../ranking.service';
   styleUrls: ['./ranking-tool.component.scss']
 })
 export class RankingToolComponent implements OnInit {
+  id = 'ranking-tool';
   activeTab: string; // tab ID for the active tab
   region: string; // ID representing the region (state or all)
   areaType: string; // ID representing the selected area type

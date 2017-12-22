@@ -6,6 +6,7 @@ import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
+import { LoadingService } from '../../../loading.service';
 
 class mapServiceStub {
   updateCensusSource() {}
@@ -25,7 +26,7 @@ describe('MapComponent', () => {
     })
     TestBed.overrideComponent(MapComponent, {
       set: {
-        providers: [ {provide: MapService, useValue: new mapServiceStub()  } ],
+        providers: [ {provide: MapService, useValue: new mapServiceStub() }, LoadingService ],
       }
     })
     .compileComponents();
