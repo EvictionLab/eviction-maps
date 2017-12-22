@@ -269,7 +269,7 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapData();
     this.map.isLoading$
       .distinctUntilChanged()
-      .debounceTime(200)
+      .debounceTime(500)
       .subscribe((state) => {
         this.mapLoading = state;
         // Whenever map finishes loading, update boundaries
