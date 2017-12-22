@@ -20,7 +20,12 @@ export class RankingToolComponent implements OnInit {
 
   /** Load the ranking data on init */
   ngOnInit() {
-    this.rankings.loadCsvData();
+    this.rankings.isReady.subscribe((ready) => {
+      if (ready) {
+        this.listData = this.rankings.getSortedData(null, 0, 'evictionRate');
+        console.log('sorted data:', this.listData);
+      }
+    })
   }
 
   /** Switch the selected location to the next one in the list */

@@ -35,7 +35,7 @@ export function createTranslateLoader(http: HttpClient) {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
-      dataUrl: 'http://eviction-lab-prototypes.s3-website.us-east-2.amazonaws.com/csv-search-example/ranking-search.csv'
+      dataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv'
     }),
     TranslateModule.forRoot({
       loader: {
