@@ -24,7 +24,12 @@ describe('RankingToolComponent', () => {
     TestBed.overrideComponent(RankingToolComponent, {
       set: {
         providers: [
-          { provide: RankingService, useValue: { loadCsvData: () => {} } }
+          {
+            provide: RankingService, useValue: {
+              loadCsvData: () => { },
+              isReady: { subscribe: () => { } }
+            }
+          }
         ]
       }
     })  

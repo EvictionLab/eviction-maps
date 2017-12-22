@@ -21,7 +21,7 @@ export class RankingModule {
   static forRoot(config: RankingConfig): ModuleWithProviders {
     return {
       ngModule: RankingModule,
-      providers: [RankingService, {provide: 'config', useValue: RankingConfig}]
+      providers: [RankingService, {provide: 'config', useValue: config}]
     };
   }
 }

@@ -1,4 +1,4 @@
-export class RankingLocation {
+export interface RankingLocation {
   geoId: number;
   evictions: number;
   filings: number;
@@ -7,5 +7,5 @@ export class RankingLocation {
   name: string;
   parentLocation: string;
   latLon: Array<number>;
-  areaType: string;
+  areaType: number;
 }
