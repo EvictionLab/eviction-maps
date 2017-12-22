@@ -1,5 +1,9 @@
 <div class="data-wrapper">
   <ng-content></ng-content>
+  <div class="mobile-scroll-indicator">
+    <p *ngIf="locations.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
+    <p *ngIf="locations.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
+  </div>
   <div class="data-header">
       <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
   </div>

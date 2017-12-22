@@ -22,6 +22,9 @@ app-progress-bar {
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
+  app-map.cards-active {
+    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
+  }
   app-data-panel {
     display:block;
     position:relative;
@@ -31,10 +34,26 @@ app-progress-bar {
   }
 }
 
+// Larger than mobile:
+//    Adjust height of map / location cards to reflect large header.
+:host-context(.gt-mobile) {
+  .app-wrapper {
+    app-map {
+      margin-top: $headerHeightLg;
+      height: calc(100vh - #{$headerHeightLg});
+    }
+  }
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
+    }
+  }
+}
+
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-mobile) {
+:host-context(.gt-tablet) {
   .app-wrapper {
     app-map {
       margin-top: $headerHeightLg;

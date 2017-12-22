@@ -43,7 +43,9 @@
     "ZOOM_HINT": "Zoom for More",
     "LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
     "DATA_LINK_SINGLE": "View More Data",
-    "DATA_LINK_MULTIPLE": "View Full Comparison"     
+    "DATA_LINK_MULTIPLE": "View Full Comparison",
+    "SCROLL_DATA_SINGLE": "Scroll for More Data",
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
   },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
