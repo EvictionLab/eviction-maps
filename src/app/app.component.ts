@@ -82,7 +82,7 @@ export class AppComponent implements OnInit {
         style: './assets/style.json',
         center: [-98.5795, 39.8283],
         zoom: 3,
-        minZoom: 3,
+        minZoom: 2,
         maxZoom: 14
       },
       year: 2016
