@@ -54,7 +54,10 @@ export class AppComponent implements OnInit {
   }
 
   onMenuSelect(itemId: string) {
-    this.activeMenuItem = itemId;
+    if (this.mapComponent) {
+      this.mapComponent.activeMenuItem = itemId;
+    }
+    
   }
 
   onLanguageSelect(lang) {
