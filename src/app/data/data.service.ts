@@ -36,7 +36,6 @@ export class DataService {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
-  isLoading = false;
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://tiles.evictionlab.org/';
   private tilePrefix = 'evictions-';

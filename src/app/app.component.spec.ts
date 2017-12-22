@@ -12,6 +12,7 @@ import { FooterComponent } from './footer/footer.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DataService } from './data/data.service';
 import { ToastModule } from 'ng2-toastr';
+import { LoadingService } from './loading.service';
 
 export class TranslateServiceStub{
   public get(key: any): any {
@@ -35,6 +36,7 @@ describe('AppComponent', () => {
       ],
       providers: [
         PlatformService,
+        LoadingService,
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: DataService, useValue: { languageOptions: [] } }
       ]

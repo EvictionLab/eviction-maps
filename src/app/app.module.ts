@@ -8,6 +8,8 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule } from 'ng2-toastr';
+
+// local imports
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
@@ -18,6 +20,7 @@ import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.compon
 import { DataService } from './data/data.service';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoadingService } from './loading.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -45,7 +48,7 @@ export function createTranslateLoader(http: HttpClient) {
     TooltipModule.forRoot(),
     ToastModule.forRoot()
   ],
-  providers: [ PlatformService, DataService ],
+  providers: [ PlatformService, DataService, LoadingService ],
   bootstrap: [AppComponent],
   entryComponents: [ MapToolComponent, RankingToolComponent ]
 })

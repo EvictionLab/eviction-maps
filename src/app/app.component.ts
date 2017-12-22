@@ -11,6 +11,7 @@ import { RankingConfig } from './ranking/ranking.module';
 import { DataService } from './data/data.service';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
+import { LoadingService } from './loading.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,6 @@ import { ToastsManager } from 'ng2-toastr';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  isLoading = false;
   mapComponent: MapToolComponent;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
@@ -27,10 +27,11 @@ export class AppComponent implements OnInit {
   private activeMenuItem;
 
   constructor(
+    public dataService: DataService,
+    public loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
     private router: Router,
-    public dataService: DataService,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef
   ) {

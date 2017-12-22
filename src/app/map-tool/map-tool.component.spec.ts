@@ -9,6 +9,7 @@ import { MapToolModule } from './map-tool.module';
 import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
 import { ToastModule } from 'ng2-toastr'; 
+import { LoadingService } from '../loading.service';
 
 export class TranslateServiceStub{
   public get(key: any): any {
@@ -28,7 +29,6 @@ export class DataServiceStub {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
-  isLoading = false;
   getRouteArray() { return []; }
 }
 
@@ -49,7 +49,8 @@ describe('MapToolComponent', () => {
       set: {
         providers: [
           {provide: DataService, useClass: DataServiceStub },
-          TranslateService
+          TranslateService,
+          LoadingService
         ]
       }
     })

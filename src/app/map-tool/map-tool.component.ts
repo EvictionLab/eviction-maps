@@ -8,6 +8,7 @@ import 'rxjs/add/operator/first';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { ToastsManager } from 'ng2-toastr';
+import { LoadingService } from '../loading.service';
 
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
@@ -53,9 +54,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (!this.panelOffset || !this.verticalOffset) { return false; }
     return (this.verticalOffset - this.panelOffset) > 0;
   }
-  get isLoading() {
-    return this.map.mapLoading || this.dataService.isLoading;
-  }
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl;
   urlParts;
@@ -67,6 +65,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
     private toast: ToastsManager,
+    public loader: LoadingService,
     public dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {}
@@ -153,7 +152,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
-    this.dataService.isLoading = true;
+    this.loader.start('feature');
     this.dataService.addLocation(feature);
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
@@ -164,7 +163,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           );
         }
         this.updateRoute();
-        this.dataService.isLoading = false;
+        this.loader.end('feature');
       });
   }
 
@@ -176,7 +175,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     // this.autoSwitchLayers = false;
     if (feature) {
-      this.dataService.isLoading = true;
+      this.loader.start('search');
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
@@ -200,7 +199,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
               .first()
               .subscribe((state) => this.map.setGroupVisibility(dataLevel));
           }
-          this.dataService.isLoading = false;
+          this.loader.end('search');
         });
     }
   }
