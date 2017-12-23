@@ -38,7 +38,8 @@
       ></app-ranking-list>
     </div>
   </div>
-  <div class="page-fixed-bottom">
+  <div class="page-fixed-bottom" *ngIf="canRetrieveData">
+    <app-ranking-scale [min]="0" [max]="dataMax"></app-ranking-scale>
     <app-ranking-panel *ngIf="selectedIndex || selectedIndex === 0"
       [rank]="selectedIndex+1"
       [location]="truncatedList[selectedIndex]"

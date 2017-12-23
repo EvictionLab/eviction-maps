@@ -33,11 +33,12 @@ export class RankingToolComponent implements OnInit {
   /** number of items to show in the list */
   private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
-  private get canRetrieveData():boolean {
+  get canRetrieveData():boolean {
     return this.canNavigate && this.isDataReady;
   }
   private get canNavigate(): boolean {
-    return this.region && this.areaType.hasOwnProperty('value') &&
+    return this.region && this.areaType && this.dataProperty &&
+      this.areaType.hasOwnProperty('value') &&
       this.dataProperty.hasOwnProperty('value');
   }
 

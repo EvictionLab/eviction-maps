@@ -1,0 +1,37 @@
+@import '../../../theme';
+
+:host {
+  display:block;
+  width: 100%;
+  background: #333;
+  padding: 0 $pageMargin;
+  height: grid(6);
+}
+
+:host-context(.gt-mobile) {
+  padding: 0 $pageMarginLg;  
+}
+
+.content-inner {
+  margin:auto;
+}
+
+.scale-container {
+  margin-left: grid(9);
+}
+
+.scale-bar {
+  width:100%;
+  height: grid(1);
+  background: $color1;
+  margin-bottom: grid(1);
+}
+
+.scale-ticks {
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width:100%;
+  color: $white;
+}
+
