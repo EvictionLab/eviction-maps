@@ -10,7 +10,9 @@ export class RankingListComponent implements OnInit {
 
   @Input() list: Array<RankingLocation>;
   @Input() dataProperty: string;
-  @Output() locationSelected: EventEmitter<RankingLocation>;
+  @Input() maxValue: number;
+  @Input() selectedIndex: number;
+  @Output() locationSelected = new EventEmitter<number>();
 
   constructor() {}
 

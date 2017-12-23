@@ -1,3 +1,15 @@
-<p>
-  ranking-list works!
-</p>
+<ul *ngIf="dataProperty && list && maxValue" class="ranking-list">
+  <li 
+    *ngFor="let location of list; let i = index" 
+    [class.active]="selectedIndex === i"
+    (click)="locationSelected.emit(i)"
+  >
+    <span class="ranking-number">{{ i + 1 }}</span>
+    <div class="ranking-bar" [style.width]="''+(100*(location[dataProperty]/maxValue))+'%'"></div>
+    <div class="ranking-content">
+      <span class="ranking-value">{{location[dataProperty]}}</span>        
+      <span class="ranking-name">{{ location.name }}</span>
+      <span class="ranking-parent">{{location.parentLocation}}</span>
+    </div>
+  </li>
+</ul>
