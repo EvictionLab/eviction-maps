@@ -11,7 +11,8 @@ export class RankingListComponent implements OnInit {
   @Input() list: Array<RankingLocation>;
   @Input() dataProperty: string;
   @Input() maxValue: number;
-  @Output() locationSelected: EventEmitter<RankingLocation>;
+  @Input() selectedIndex: number;
+  @Output() locationSelected = new EventEmitter<number>();
 
   constructor() {}
 

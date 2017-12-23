@@ -20,8 +20,8 @@ export class RankingToolComponent implements OnInit {
   areaType = null;
   /** object key representing the data property to sort by */
   dataProperty = null;
-  /** the currently selected location for the data panel */
-  selectedLocation: RankingLocation;
+  /** the index of the selected location for the data panel */
+  selectedIndex: number;
   /** tracks if the data has been loaded and parsed */
   isDataReady = false;
   /** A shortened version of `listData`, containing only the first `topCount` items */
@@ -97,11 +97,23 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
+  onSelectLocation(index: number) {
+    this.selectedIndex = index;
+  }
+
   /** Switch the selected location to the next one in the list */
-  goToNextLocation() { }
+  onGoToNext() {
+    if (this.selectedIndex < this.topCount - 1) {
+      this.selectedIndex++;
+    }
+  }
   
   /** Switch the selected location to the previous one in the list */
-  goToPreviousLocation() { }
+  onGoToPrevious() {
+    if (this.selectedIndex > 0) {
+      this.selectedIndex--;
+    }
+  }
 
   /**
    * Update the list data based on the selected UI properties

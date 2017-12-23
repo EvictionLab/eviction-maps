@@ -1,0 +1,82 @@
+@import '../../../theme';
+
+.content-inner {
+  position:relative;
+  display:flex;
+  align-items: center;
+  justify-content:flex-start;
+}
+.panel-controls {
+  list-style:none;
+  margin:0;
+  padding:0;
+  li {
+    position:absolute;
+  }
+}
+
+.panel-rank {
+  min-width: grid(14);
+  height: grid(14);
+  padding: 0 grid(2);
+  margin:0 grid(5) 0 grid(3);
+  text-align:center;
+  flex:0;
+  background: $gradient4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .rank-number {
+    @include numberFont(24px);
+  }
+  .rank-label {
+    display:block;
+    @include smallCapsText(14px);
+  }
+}
+
+.panel-summary-heading {
+  display:flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  margin-bottom: grid(1);
+  h2 {
+    @include altFont(24px);
+    text-transform: uppercase;
+    line-height:1;
+    margin:0;
+    letter-spacing: 0.05em;
+    color: $color1;
+    margin-right: grid(1);
+  }
+  span {
+    @include smallCapsText(14px);
+    margin-right: grid(0.5);
+    display:block;
+    margin-bottom:-2px;
+  }
+}
+
+.panel-summary {
+  flex:1;
+}
+
+.panel-summary-content {
+  @include defaultFont(16px);
+}
+
+.panel-next, .panel-prev {
+  width: 48px;
+  height: 48px;
+  flex:0;
+  cursor: pointer;
+  &:hover {
+    background: $shadingColor;
+  }  
+}
+svg {
+  width: 48px;
+  height: 48px;
+  path { fill: $grey3; }
+}

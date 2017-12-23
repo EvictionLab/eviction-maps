@@ -33,12 +33,21 @@
           [list]="truncatedList"
           [dataProperty]="dataProperty.value"
           [maxValue]="dataMax"
+          [selectedIndex]="selectedIndex"
+          (locationSelected)="onSelectLocation($event)"
       ></app-ranking-list>
     </div>
   </div>
+  <div class="page-fixed-bottom">
+    <app-ranking-panel *ngIf="selectedIndex || selectedIndex === 0"
+      [rank]="selectedIndex+1"
+      [location]="truncatedList[selectedIndex]"
+      [dataProperty]="dataProperty"
+      (goToPrevious)="onGoToPrevious()"
+      (goToNext)="onGoToNext()"
+    ></app-ranking-panel>
+  </div>
 
-
-  <app-ranking-panel></app-ranking-panel>
 </div>
 
 

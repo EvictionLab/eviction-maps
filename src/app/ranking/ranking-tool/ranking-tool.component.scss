@@ -58,3 +58,18 @@
     margin-top: $headerHeightLg;
   }
 }
+
+
+.page-fixed-bottom {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background: $white;
+  padding: $pageMarginLg;
+  z-index:1000;
+  box-shadow: $z1shadow;
+  app-ranking-panel {
+    
+  }
+}

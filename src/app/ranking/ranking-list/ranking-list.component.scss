@@ -13,7 +13,7 @@ $rankBarHeight: grid(5);
     margin-left: $rankNumberSpace;
     margin-bottom: grid(2);
     display:block;
-    &:hover {
+    &:hover, &.active {
       cursor:pointer;
       .ranking-bar {
         opacity:1;
