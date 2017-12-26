@@ -39,7 +39,7 @@
           </div>
           <div class="bar-tooltips" *ngIf="graphType === 'bar'">
             <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
-              <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
+              <span *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : 'Unavailable' }}</span>
             </div>
           </div>
         </app-graph>
