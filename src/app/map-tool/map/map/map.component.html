@@ -25,6 +25,8 @@
     [year]="year"
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
+    [dollarProps]="dollarProps"
+    [percentProps]="percentProps"
   ></app-location-cards>
   <div class="map-ui" [class.active]="activeMenuItem === 'map'">
       <app-ui-select

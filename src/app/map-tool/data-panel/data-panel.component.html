@@ -3,8 +3,17 @@
   <div class="data-header">
       <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
   </div>
-  <app-location-cards class="card-table" [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
-  (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
+  <app-location-cards
+    class="card-table"
+    [allowAddLocation]="locations.length < 3"
+    [features]="locations"
+    [year]="year"
+    [cardProperties]="cardProps"
+    (dismissedCard)="locationRemoved.emit($event)"
+    (locationAdded)="locationAdded.emit($event)"
+    [dollarProps]="dollarProps"
+    [percentProps]="percentProps"
+  ></app-location-cards>
   <div class="graph-container">
     <div class="data-content-inner">
       <div class="graph-header">
