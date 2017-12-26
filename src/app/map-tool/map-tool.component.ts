@@ -70,7 +70,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) { translate.onLangChange.subscribe((lang) => this.updateRoute()); }
 
   ngOnInit() {
     this.configurePageScroll();
@@ -102,6 +102,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Configures the data service based on any route parameters
    */
   setRouteParams(params: ParamMap) {
+    if (params.has('lang')) {
+      this.translate.use(params.get('lang'));
+    }
     if (params.has('year')) {
       this.dataService.activeYear = params.get('year');
     }

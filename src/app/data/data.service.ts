@@ -132,7 +132,7 @@ export class DataService {
    * Returns the URL parameters for the current view
    */
   getUrlParameters() {
-    const paramMap = [ 'locations', 'year', 'geography', 'type', 'choropleth', 'bounds' ];
+    const paramMap = [ 'lang', 'locations', 'year', 'geography', 'type', 'choropleth', 'bounds' ];
     return this.getRouteArray().reduce((a, b, i) => {
       return a + ';' + paramMap[i] + '=' + b;
     }, '');
@@ -147,6 +147,7 @@ export class DataService {
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
     return [
+      this.translate.currentLang,
       (locations === '' ? 'none' : locations),
       this.activeYear,
       this.activeDataLevel.id,
