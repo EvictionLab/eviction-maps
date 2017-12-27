@@ -7,6 +7,7 @@ import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../platform.service';
 import { PlatformLocation } from '@angular/common';
+import { DataService } from '../../data/data.service';
 
 @Component({
   selector: 'app-data-panel',
@@ -88,6 +89,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   constructor(
     public dialogService: UiDialogService,
+    public dataService: DataService,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private platform: PlatformService
@@ -102,6 +104,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
     });
+    this.dataService.locations$.subscribe(d => this.setGraphData());
   }
 
   /**
