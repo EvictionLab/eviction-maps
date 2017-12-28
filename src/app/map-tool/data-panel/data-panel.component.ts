@@ -7,6 +7,7 @@ import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../platform.service';
 import { PlatformLocation } from '@angular/common';
+import { DollarProps, PercentProps } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-data-panel',
@@ -85,6 +86,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineStartYear: number = this.minYear;
   maxYear = 2016;
   lineEndYear: number = this.maxYear;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
 
   constructor(
     public dialogService: UiDialogService,
