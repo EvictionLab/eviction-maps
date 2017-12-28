@@ -14,6 +14,7 @@ export interface ExportType {
   value: string;
   path: string;
   checked: boolean;
+  description: string;
 }
 
 @Injectable()
@@ -23,10 +24,39 @@ export class FileExportService {
   features: MapFeature[];
   startYear: number;
   endYear: number;
+  description: string;
   filetypes: ExportType[] = [
-    { name: 'Excel', value: 'xlsx', path: '/format/xlsx', checked: false },
-    { name: 'PowerPoint', value: 'pptx', path: '/format/pptx', checked: false },
-    { name: 'PDF', value: 'pdf', path: '/pdf', checked: false }
+    {
+      name: 'Excel',
+      value: 'xlsx',
+      path: '/format/xlsx',
+      checked: false,
+      description: 'Export a spreadsheet of locations for the years 2000-2016 ' +
+        'including eviction, census, and ACS data.'
+    },
+    {
+      name: 'PowerPoint',
+      value: 'pptx',
+      path: '/format/pptx',
+      checked: false,
+      description: 'Export a presentation with slides for locations including maps and graphs.'
+    },
+    {
+      name: 'Word',
+      value: 'docx',
+      path: '/format/docx',
+      checked: false,
+      description: 'Export a Word document that includes and overview of evictions ' +
+        'in locations and issues related to evictions.'
+    },
+    {
+      name: 'PDF',
+      value: 'pdf',
+      path: '/pdf',
+      checked: false,
+      description: 'Export a PDF document that includes and overview of evictions ' +
+        'in locations and issues related to evictions.'
+    }
   ];
 
   constructor(private http: HttpClient) { }
@@ -74,7 +104,4 @@ export class FileExportService {
   private getFileTypePath(type: string): string {
     return this.filetypes.find(f => f.value === type).path;
   }
-
-
-
 }

@@ -15,7 +15,7 @@ export class DownloadFormComponent implements OnInit {
   loading = false;
   buttonClicked = new EventEmitter<DialogResponse>();
 
-  constructor(private exportService: FileExportService, public bsModalRef: BsModalRef) { }
+  constructor(public exportService: FileExportService, public bsModalRef: BsModalRef) { }
 
   ngOnInit() {
     this.filetypes = this.exportService.getFileTypes();
