@@ -36,6 +36,11 @@ export class DataService {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
+
+  // For tracking "soft" location updates
+  private _locations = new BehaviorSubject<MapFeature[]>([]);
+  locations$ = this._locations.asObservable();
+
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://tiles.evictionlab.org/';
   private tilePrefix = 'evictions-';
@@ -185,10 +190,12 @@ export class DataService {
       // so that a state change isn't triggered
       this.activeFeatures[featIndex].properties = feature.properties;
       this.activeFeatures[featIndex].geometry = feature.geometry;
+      this._locations.next(this.activeFeatures);
       return true;
     }
     if (this.activeFeatures.length < 3) {
       this.activeFeatures = [ ...this.activeFeatures, feature ];
+      this._locations.next(this.activeFeatures);
       return true;
     }
     return false;
