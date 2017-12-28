@@ -298,6 +298,9 @@
         }
         .card-stat-value {
           @include numberFont($panelCardLabelValueLg);
+          &.unavailable {
+            @include defaultFont($panelCardLabelValueLg);
+          }
         }
       }
       &:nth-child(2) {
