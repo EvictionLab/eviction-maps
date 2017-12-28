@@ -220,6 +220,10 @@
       line-height: 24px;
       @include defaultFontBold(18px);
     }
+    .legend-data {
+      margin-left: grid(5);
+      margin-top: grid(1);
+    }
     .btn-close { 
       position:absolute;
       right:0;

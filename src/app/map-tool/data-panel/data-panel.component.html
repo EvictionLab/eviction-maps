@@ -65,6 +65,10 @@
             </svg>
             <span class="legend-label">{{ location.properties["n"] }}</span>
             <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
+            <p class="legend-data">
+              <span *ngIf="graphType === 'bar'">{{ barYear }}: {{ location.properties[graphProp + "-" + abbrYear(barYear)] >= 0 ? location.properties[graphProp + "-" + abbrYear(barYear)] : "Unavailable" }}</span>
+              <span *ngIf="graphType === 'line' && tooltips[0]">{{ tooltips[0].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[0].x)]>= 0 ? location.properties[graphProp + "-" + abbrYear(tooltips[0].x)] : "Unavailable" }}</span>
+            </p>
           </li>
         </ul>
       </div>

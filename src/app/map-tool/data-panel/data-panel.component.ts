@@ -247,6 +247,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
+  abbrYear(year) { return year.toString().slice(-2); }
+
   /**
    * Genrates line graph data from the features in `locations`
    */
