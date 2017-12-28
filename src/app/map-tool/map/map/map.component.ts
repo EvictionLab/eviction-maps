@@ -13,6 +13,7 @@ import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../loading.service';
+import { DollarProps, PercentProps } from '../../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -168,6 +169,8 @@ export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
   mapEventLayers: Array<string>;
   cardProps;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
   private zoom = 3;
   private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
   private _store = {

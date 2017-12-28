@@ -8,6 +8,7 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../platform.service';
 import { PlatformLocation } from '@angular/common';
 import { DataService } from '../../data/data.service';
+import { DollarProps, PercentProps } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-data-panel',
@@ -86,6 +87,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineStartYear: number = this.minYear;
   maxYear = 2016;
   lineEndYear: number = this.maxYear;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
 
   constructor(
     public dialogService: UiDialogService,
@@ -165,7 +168,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   showDownloadDialog(e) {
     const config = {
-      lang: 'en',
+      lang: this.translate.currentLang,
       startYear: this.year,
       endYear: this.lineEndYear,
       features: this.locations
@@ -246,6 +249,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
       });
     }, 1000);
   }
+
+  abbrYear(year) { return year.toString().slice(-2); }
 
   /**
    * Genrates line graph data from the features in `locations`

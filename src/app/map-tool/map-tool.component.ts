@@ -148,7 +148,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /** Update route if it has changed */
   updateRoute() {
     if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
-      this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+      setTimeout(() => {
+        this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+      });
     }
   }
 

@@ -1,3 +1,13 @@
+@import '../../../../theme';
+
+.modal-title {
+    display: inline-block;
+}
+
+.description, .filetype {
+    margin-bottom: grid(2);
+}
+
 app-progress-bar {
     bottom: 0;
 }
