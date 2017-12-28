@@ -13,6 +13,12 @@
   border-top: 1px solid #eee;
 }
 
+.mobile-scroll-indicator p {
+  @include dataPanelHeader(14px);
+  text-align: center;
+  margin: grid(1) grid(4);
+}
+
 // Data panel header text
 // ----
 .data-header {
@@ -23,6 +29,7 @@
 // increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
   .data-header { margin: grid(8) 0 grid(4); }
+  .mobile-scroll-indicator { display: none; }
 }
 
 .data-content {
