@@ -144,6 +144,15 @@ export class DataService {
   }
 
   /**
+   * Returns query parameters
+   */
+  getQueryParameters() {
+    return {
+      lang: this.translate.currentLang
+    };
+  }
+
+  /**
    * Gets an array of values that represent the current route
    */
   getRouteArray() {

@@ -2,9 +2,11 @@ import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject,
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { ToastsManager } from 'ng2-toastr';
@@ -70,13 +72,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) { translate.onLangChange.subscribe((lang) => this.updateRoute()); }
 
   ngOnInit() {
     this.configurePageScroll();
     this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
-    this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
+    Observable.combineLatest(
+      this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
+    ).take(1).subscribe(this.setRouteParams.bind(this));
   }
 
   /**
@@ -101,29 +105,33 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /**
    * Configures the data service based on any route parameters
    */
-  setRouteParams(params: ParamMap) {
-    if (params.has('year')) {
-      this.dataService.activeYear = params.get('year');
+  setRouteParams(paramObj: Object) {
+    const params = paramObj['params'];
+    const queryParams = paramObj['queryParams'];
+
+    this.translate.use(queryParams['lang'] || 'en');
+    if (params['year']) {
+      this.dataService.activeYear = params['year'];
     }
-    if (params.has('choropleth')) {
-      this.dataService.setChoroplethHighlight(params.get('choropleth'));
+    if (params['choropleth']) {
+      this.dataService.setChoroplethHighlight(params['choropleth']);
     }
-    if (params.has('type')) {
-      this.dataService.setBubbleHighlight(params.get('type'));
+    if (params['type']) {
+      this.dataService.setBubbleHighlight(params['type']);
     }
-    if (params.has('geography')) {
-      const geo = params.get('geography');
+    if (params['geography']) {
+      const geo = params['geography'];
       if (geo !== 'auto') {
         this.dataService.setGeographyLevel(geo);
         // this.autoSwitchLayers = false;
       }
     }
-    if (params.has('locations')) {
-      const locations = this.getLocationsFromString(params.get('locations'));
+    if (params['locations']) {
+      const locations = this.getLocationsFromString(params['locations']);
       this.dataService.setLocations(locations);
     }
-    if (params.has('bounds')) {
-      const b = params.get('bounds').split(',');
+    if (params['bounds']) {
+      const b = params['bounds'].split(',');
       if (b.length === 4) {
         this.dataService.setMapBounds(b);
       }
@@ -149,7 +157,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   updateRoute() {
     if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
       setTimeout(() => {
-        this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+        this.router.navigate(this.dataService.getRouteArray(), {
+          replaceUrl: true, queryParams: this.dataService.getQueryParameters()
+        });
       });
     }
   }
