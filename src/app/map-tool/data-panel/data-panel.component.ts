@@ -253,6 +253,18 @@ export class DataPanelComponent implements OnInit, OnChanges {
   abbrYear(year) { return year.toString().slice(-2); }
 
   /**
+   * Return % or other suffix if in property list
+   * TODO: Duplicated from location-cards, need to refactor
+   * @param prop
+   */
+  suffix(prop: string) {
+    if (this.percentProps.indexOf(prop) !== -1) {
+      return '%';
+    }
+    return null;
+  }
+
+  /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
