@@ -9,77 +9,88 @@
       "maxzoom": 12,
       "tiles": [
         "https://openmaptiles.evictionlab.org/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"http://www.openmaptiles.org/\" target=\"_blank\">&copy; OpenMapTiles</a> <a href=\"http://www.openstreetmap.org/about/\" target=\"_blank\">&copy; OpenStreetMap contributors</a>"
     },
     "us-block-groups-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-block-groups-00/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-block-groups-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-block-groups-10/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-tracts-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-tracts-00/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-tracts-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-tracts-10/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-cities-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-cities-00/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-cities-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-cities-10/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-counties-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-counties-00/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-counties-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-counties-10/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-states-00": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-states-00/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "us-states-10": {
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
         "https://tiles.evictionlab.org/evictions-states-10/{z}/{x}/{y}.pbf"
-      ]
+      ],
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
     },
     "highlight": {
       "type": "geojson",
@@ -250,9 +261,6 @@
     {
       "id": "highway_major_subtle-copy-copy",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 9,
@@ -286,9 +294,6 @@
     {
       "id": "highway_motorway_casing",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -349,9 +354,6 @@
     {
       "id": "highway_path",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
@@ -393,9 +395,6 @@
     {
       "id": "highway_minor",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 14,
@@ -447,9 +446,6 @@
     {
       "id": "highway_major_casing",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 12,
@@ -487,9 +483,6 @@
     {
       "id": "highway_motorway_inner",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 9,
@@ -584,9 +577,6 @@
     {
       "id": "railway_transit",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -623,9 +613,6 @@
     {
       "id": "railway_transit_dashline",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -666,9 +653,6 @@
     {
       "id": "railway_service",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -704,9 +688,6 @@
     {
       "id": "railway_service_dashline",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 16,
@@ -743,9 +724,6 @@
     {
       "id": "railway",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 13,
@@ -793,9 +771,6 @@
     {
       "id": "railway_dashline",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 13,
@@ -847,9 +822,6 @@
     {
       "id": "highway_motorway_bridge_casing",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -928,9 +900,6 @@
     {
       "id": "highway_motorway_bridge_inner",
       "type": "line",
-      "metadata": {
-        "mapbox:group": "b6371a3f2f5a9932464fa3867530a2e5"
-      },
       "source": "openmaptiles",
       "source-layer": "transportation",
       "minzoom": 6,
@@ -996,9 +965,6 @@
     {
       "id": "place_suburb",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 14,
@@ -1040,9 +1006,6 @@
     {
       "id": "place_village",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 14,
@@ -1111,9 +1074,6 @@
     {
       "id": "place_town",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 14,
@@ -1421,9 +1381,6 @@
     {
       "id": "place_city",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 7,
@@ -1568,9 +1525,6 @@
     {
       "id": "place_capital",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 14,
@@ -1648,9 +1602,6 @@
     {
       "id": "place_city_large",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 5,
@@ -1792,9 +1743,6 @@
     {
       "id": "place_state",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 3,
@@ -1898,9 +1846,6 @@
     {
       "id": "place_country_other",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "maxzoom": 8,
@@ -1955,9 +1900,6 @@
     {
       "id": "place_country_major",
       "type": "symbol",
-      "metadata": {
-        "mapbox:group": "101da9f13b64a08fa4b6ac1168e89e5f"
-      },
       "source": "openmaptiles",
       "source-layer": "place",
       "minzoom": 0,
@@ -2112,7 +2054,7 @@
       }
     },
     {
-      "id": "streets",
+      "id": "major_streets",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
@@ -2127,8 +2069,6 @@
         [
           "in",
           "class",
-          "primary",
-          "secondary",
           "motorway",
           "trunk"
         ]
@@ -2150,7 +2090,50 @@
             ],
             [
               20,
-              15
+              10
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "streets",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "in",
+          "class",
+          "primary",
+          "secondary"
+        ]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-opacity": 0.9,
+        "line-width": {
+          "base": 2,
+          "stops": [
+            [
+              10,
+              2
+            ],
+            [
+              20,
+              6
             ]
           ]
         }
