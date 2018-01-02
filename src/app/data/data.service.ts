@@ -37,6 +37,9 @@ export class DataService {
   mapView;
   mapConfig;
 
+  get selectedLanguage() {
+    return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
+  }
   // For tracking "soft" location updates
   private _locations = new BehaviorSubject<MapFeature[]>([]);
   locations$ = this._locations.asObservable();
