@@ -55,7 +55,7 @@ app-progress-bar {
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-tablet) {
   .app-wrapper {
-    app-map {
+    app-map, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
     }
