@@ -109,15 +109,8 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     const params = paramObj['params'];
     const queryParams = paramObj['queryParams'];
 
-    this.translate.use(queryParams['lang'] || 'en');
     if (params['year']) {
       this.dataService.activeYear = params['year'];
-    }
-    if (params['choropleth']) {
-      this.dataService.setChoroplethHighlight(params['choropleth']);
-    }
-    if (params['type']) {
-      this.dataService.setBubbleHighlight(params['type']);
     }
     if (params['geography']) {
       const geo = params['geography'];
@@ -126,16 +119,25 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         // this.autoSwitchLayers = false;
       }
     }
-    if (params['locations']) {
-      const locations = this.getLocationsFromString(params['locations']);
-      this.dataService.setLocations(locations);
-    }
     if (params['bounds']) {
       const b = params['bounds'].split(',');
       if (b.length === 4) {
         this.dataService.setMapBounds(b);
       }
     }
+
+    this.translate.use(queryParams['lang'] || 'en');
+    if (queryParams['choropleth']) {
+      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
+    }
+    if (queryParams['type']) {
+      this.dataService.setBubbleHighlight(queryParams['type']);
+    }
+    if (queryParams['locations']) {
+      const locations = this.getLocationsFromString(queryParams['locations']);
+      this.dataService.setLocations(locations);
+    }
+
     this.cdRef.detectChanges();
   }
 

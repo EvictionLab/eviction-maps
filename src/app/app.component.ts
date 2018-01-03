@@ -91,7 +91,7 @@ export class AppComponent implements OnInit {
       year: 2016
     };
     const defaultViews = {
-      map: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06',
+      map: '/2016/auto/-136.80,20.68,-57.60,52.06',
       rankings: '/evictions/United%20States/0/evictionRate',
       evictors: '/evictors'
     };
@@ -99,7 +99,7 @@ export class AppComponent implements OnInit {
       defaultViews.rankings : defaultViews.map;
     const appRoutes: Routes = [
       {
-        path: ':locations/:year/:geography/:type/:choropleth/:bounds',
+        path: ':year/:geography/:bounds',
         component: MapToolComponent,
         data: defaultMapData
       },

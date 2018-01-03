@@ -140,7 +140,7 @@ export class DataService {
    * Returns the URL parameters for the current view
    */
   getUrlParameters() {
-    const paramMap = [ 'locations', 'year', 'geography', 'type', 'choropleth', 'bounds' ];
+    const paramMap = [ 'year', 'geography', 'bounds' ];
     return this.getRouteArray().reduce((a, b, i) => {
       return a + ';' + paramMap[i] + '=' + b;
     }, '');
@@ -150,8 +150,16 @@ export class DataService {
    * Returns query parameters
    */
   getQueryParameters() {
+    const locations = this.activeFeatures.map((f, i, arr) => {
+      const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
+      return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
+    }).join('+');
+
     return {
-      lang: this.translate.currentLang
+      lang: this.translate.currentLang,
+      type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
+      choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
+      locations: locations
     };
   }
 
@@ -159,16 +167,9 @@ export class DataService {
    * Gets an array of values that represent the current route
    */
   getRouteArray() {
-    const locations = this.activeFeatures.map((f, i, arr) => {
-      const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
-      return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
-    }).join('+');
     return [
-      (locations === '' ? 'none' : locations),
       this.activeYear,
       this.activeDataLevel.id,
-      this.stripYearFromAttr(this.activeBubbleHighlight.id),
-      this.stripYearFromAttr(this.activeDataHighlight.id),
       this.mapView ? this.mapView.join() : null
     ];
   }
