@@ -97,7 +97,7 @@ export class UiSliderComponent implements AfterViewInit {
   }
 
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
-    if (this.pressed && e.touches && e.touches.length === 1) {
+    if (this.pressed) {
       this.updatePosition();
       this.pressed = false;
     }
