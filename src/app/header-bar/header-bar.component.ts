@@ -7,6 +7,7 @@ import { Component, Input, Output, EventEmitter, HostListener, AfterViewInit, Vi
 })
 export class HeaderBarComponent implements AfterViewInit {
   @Input() languageOptions;
+  @Input() selectedLanguage;
   @Output() selectMenuItem = new EventEmitter();
   @Output() selectLocation = new EventEmitter();
   @Output() selectLanguage = new EventEmitter();
