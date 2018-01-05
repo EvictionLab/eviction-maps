@@ -35,6 +35,32 @@ export const MapzenSource: SearchSource = {
     }
 };
 
+export const MapboxSource: SearchSource = {
+    key: '',
+    baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
+    query: function(text: string) {
+        const queryParams = [
+            'country=us', 'autocomplete=true', 'types=region,district,place,locality,address'
+        ];
+        return `${this.baseUrl}${text}.json?${queryParams.join('&')}`;
+    },
+    results: function(results: Object) {
+        const layerMap = {
+            'region': 'states',
+            'district': 'cities',
+            'place': 'cities',
+            'locality': 'cities'
+        };
+
+        return results['features'].map(r => {
+            r.properties.label = r.matching_place_name;
+            r.properties.layerId = layerMap.hasOwnProperty(r.place_type[0]) ?
+                layerMap[r.place_type[0]] : 'block-groups';
+            return r;
+        });
+    }
+};
+
 export const OSMNamesSource: SearchSource = {
     key: 'ECgM5z4CQXQEdoCqJpBt',
     baseUrl: 'https://geocoder.tilehosting.com/us/q/',
