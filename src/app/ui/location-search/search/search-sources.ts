@@ -36,11 +36,14 @@ export const MapzenSource: SearchSource = {
 };
 
 export const MapboxSource: SearchSource = {
-    key: '',
+    key: 'pk.eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.4et5d5nstXWM5P0JG67XEQ',
     baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
     query: function(text: string) {
         const queryParams = [
-            'country=us', 'autocomplete=true', 'types=region,district,place,locality,address'
+            `access_token=${this.key}`,
+            'country=us',
+            'autocomplete=true',
+            'types=region,district,place,locality,address'
         ];
         return `${this.baseUrl}${text}.json?${queryParams.join('&')}`;
     },
@@ -53,7 +56,7 @@ export const MapboxSource: SearchSource = {
         };
 
         return results['features'].map(r => {
-            r.properties.label = r.matching_place_name;
+            r.properties.label = r.place_name;
             r.properties.layerId = layerMap.hasOwnProperty(r.place_type[0]) ?
                 layerMap[r.place_type[0]] : 'block-groups';
             return r;

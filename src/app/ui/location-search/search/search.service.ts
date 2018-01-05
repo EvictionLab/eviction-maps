@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SearchSource, MapzenSource } from './search-sources';
+import { SearchSource, MapboxSource } from './search-sources';
 
 @Injectable()
 export class SearchService {
-  source: SearchSource = MapzenSource;
+  source: SearchSource = MapboxSource;
   query: string;
   results: Observable<Object[]>;
 
