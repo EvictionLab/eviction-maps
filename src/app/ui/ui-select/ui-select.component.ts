@@ -2,6 +2,7 @@ import {
   Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef
 } from '@angular/core';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
+import { SelectService } from './select.service';
 import * as _isEqual from 'lodash.isequal';
 
 
@@ -33,6 +34,8 @@ export class UiSelectComponent implements OnInit {
   /** Tracks if the "none" option is selected */
   @HostBinding('class.none-selected') noneSelected = true;
   private _selectedValue;
+
+  constructor(private selectService: SelectService) { }
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -69,6 +72,7 @@ export class UiSelectComponent implements OnInit {
    */
   onIsOpenChange() {
     this.open = this.dropdown.isOpen;
+    this.selectService.setSelectOpen({ state: this.open, label: this.label });
     if (this.dropdownList) {
       this.dropdownList.nativeElement.scrollTop = 0;
     }
