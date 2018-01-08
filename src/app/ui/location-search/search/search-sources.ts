@@ -36,7 +36,9 @@ export const MapzenSource: SearchSource = {
 };
 
 export const MapboxSource: SearchSource = {
-    key: 'pk.eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.4et5d5nstXWM5P0JG67XEQ',
+    key: 'pk.' +
+        'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
+        '4et5d5nstXWM5P0JG67XEQ',
     baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
     query: function(text: string) {
         const queryParams = [
