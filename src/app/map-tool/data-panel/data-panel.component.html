@@ -45,7 +45,9 @@
         <app-ui-toggle class="graph-type-toggle" [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
         <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
           <div class="line-tooltips" *ngIf="graphType === 'line'">
-            <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips" [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'">
+            <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+                [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+                [style.display]="tooltip.xPos === null ? 'none' : 'inherit'">
               <span class="line-tooltip-value">{{tooltip.y}}</span>
             </div>
             <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>            
