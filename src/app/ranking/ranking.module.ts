@@ -10,7 +10,7 @@ import { RankingScaleComponent } from './ranking-scale/ranking-scale.component';
 import { UiModule } from '../ui/ui.module';
 
 export class RankingConfig {
-  dataUrl: string
+  dataUrl: string;
 }
 
 @NgModule({
@@ -19,7 +19,10 @@ export class RankingConfig {
     RouterModule,
     UiModule
   ],
-  declarations: [RankingToolComponent, RankingUiComponent, RankingListComponent, RankingPanelComponent, RankingScaleComponent]
+  declarations: [
+    RankingToolComponent, RankingUiComponent, RankingListComponent,
+    RankingPanelComponent, RankingScaleComponent
+  ]
 })
 export class RankingModule {
   static forRoot(config: RankingConfig): ModuleWithProviders {

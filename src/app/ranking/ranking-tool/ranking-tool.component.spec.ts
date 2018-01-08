@@ -25,7 +25,7 @@ describe('RankingToolComponent', () => {
       imports: [
         UiModule, RouterTestingModule
       ]
-    })
+    });
     TestBed.overrideComponent(RankingToolComponent, {
       set: {
         providers: [
@@ -37,7 +37,7 @@ describe('RankingToolComponent', () => {
           }
         ]
       }
-    })  
+    })
     .compileComponents();
   }));
 

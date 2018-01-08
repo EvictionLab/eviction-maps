@@ -12,7 +12,7 @@ import 'rxjs/add/operator/delay';
 const mockResponse = { path: 'http://localhost' };
 
 export class FileExportStub {
-  getFileTypes() { 
+  getFileTypes() {
     return [
       { name: 'Excel', value: 'xlsx', path: '/format/xlsx', checked: false },
       { name: 'PowerPoint', value: 'pptx', path: '/format/pptx', checked: false },
@@ -20,8 +20,8 @@ export class FileExportStub {
     ];
   }
   setExportValues(...args) {}
-  sendFileRequest(...args) { 
-    return { subscribe: (...args) => {} }
+  sendFileRequest(...args) {
+    return { subscribe: (...sArgs) => {} };
   }
 }
 
@@ -35,7 +35,7 @@ describe('DownloadFormComponent', () => {
       imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
       declarations: [ DownloadFormComponent ],
       providers: [ BsModalService, BsModalRef ]
-    })
+    });
     TestBed.overrideComponent(DownloadFormComponent, {
       set: {
         providers: [ {provide: FileExportService, useValue: new FileExportStub() }]

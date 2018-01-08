@@ -25,9 +25,9 @@ describe('DataService', () => {
   }));
 
   it(
-    'should make a single http request for data for a single year', 
+    'should make a single http request for data for a single year',
     inject(
-      [DataService, HttpTestingController], 
+      [DataService, HttpTestingController],
       (service: DataService, backend: HttpTestingController) => {
         service.getTileData('states', [50, 50], 'featureName', false).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
@@ -37,5 +37,5 @@ describe('DataService', () => {
         }, `GET request to endpoint with data`);
       }
     )
-  )
+  );
 });
