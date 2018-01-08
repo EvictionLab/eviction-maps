@@ -264,6 +264,15 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return null;
   }
 
+  getTooltipsYear(tooltips: Object[]) {
+    for (let i = 0; i < tooltips.length; ++i) {
+      if (tooltips[i]['x'] !== null) {
+        return tooltips[i]['x'];
+      }
+    }
+    return null;
+  }
+
   /**
    * Genrates line graph data from the features in `locations`
    */

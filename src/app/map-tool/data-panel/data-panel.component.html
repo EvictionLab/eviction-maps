@@ -47,7 +47,7 @@
           <div class="line-tooltips" *ngIf="graphType === 'line'">
             <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
                 [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-                [style.display]="tooltip.xPos === null ? 'none' : 'inherit'">
+                [style.display]="tooltip.x === null ? 'none' : 'inherit'">
               <span class="line-tooltip-value">{{tooltip.y}}</span>
             </div>
             <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>            
@@ -61,7 +61,7 @@
       </div>
       <div class="graph-legend">
         <ul>
-          <li *ngFor="let location of locations">
+          <li *ngFor="let location of locations; let i = index">
             <svg class="legend-marker marker" viewBox="0 0 40 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
               <path d="M20,0 C29.8203125,0 40,6.75551115 40,19.0800608 C40,27.2964272 33.3333333,40.2697402 20,58 C6.66666667,40.3015304 3.48313052e-16,27.3282173 0,19.0800608 C0,6.70782593 10.1796875,0 20,0 Z M19.5,29.7038377 C24.4705627,29.7038377 28.5,25.6678161 28.5,20.6891311 C28.5,15.7104461 24.4705627,11.6744245 19.5,11.6744245 C14.5294373,11.6744245 10.5,15.7104461 10.5,20.6891311 C10.5,25.6678161 14.5294373,29.7038377 19.5,29.7038377 Z" id="Combined-Shape"></path>
             </svg>
@@ -69,9 +69,9 @@
             <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
             <p class="legend-data">
               <span *ngIf="graphType === 'bar' && location.properties[graphProp + '-' + abbrYear(barYear)] >= 0; else unavailableBar">{{ barYear }}: {{ location.properties[graphProp + "-" + abbrYear(barYear)] }}{{ suffix(graphProp) }}</span>
-              <span *ngIf="graphType === 'line' && tooltips[0] && location.properties[graphProp + '-' + abbrYear(tooltips[0].x)] >= 0; else unavailableLine">{{ tooltips[0].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[0].x)] }}{{ suffix(graphProp) }}</span>
+              <span *ngIf="graphType === 'line' && tooltips[i] && tooltips[i].x !== null && location.properties[graphProp + '-' + abbrYear(tooltips[i].x)] >= 0; else unavailableLine">{{ tooltips[i].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[i].x)] }}{{ suffix(graphProp) }}</span>
               <ng-template #unavailableBar><span *ngIf="graphType === 'bar'">{{ barYear }}: Unavailable</span></ng-template>
-              <ng-template #unavailableLine><span *ngIf="graphType === 'line' && tooltips[0]">{{ tooltips[0].x }}: Unavailable</span></ng-template>
+              <ng-template #unavailableLine><span *ngIf="graphType === 'line' && tooltips[i] && getTooltipsYear(tooltips) !== null">{{ getTooltipsYear(tooltips) }}: Unavailable</span></ng-template>
             </p>
           </li>
         </ul>
