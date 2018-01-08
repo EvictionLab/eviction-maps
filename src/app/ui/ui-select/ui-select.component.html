@@ -8,7 +8,7 @@
       </g>
     </svg>
   </button>
-  <ul #dropdownList *dropdownMenu class="dropdown-menu" role="menu">
+  <ul #dropdownList *dropdownMenu class="dropdown-menu" role="menu" (wheel)="onSelectScroll($event)">
     <li *ngFor="let value of values" role="menuitem">
       <a 
         class="dropdown-item" 
