@@ -315,8 +315,9 @@ export class DataService {
       if (containsPoint.length) {
         matchFeat = containsPoint[0];
       } else {
-        const matchesName = features.filter(feat =>
-          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase()));
+        // Check if featName is non-null, filter featurues by it if exists
+        const matchesName = featName ? features.filter(feat =>
+          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase())) : features;
         matchFeat = matchesName.length ? matchesName[0] : false;
       }
 
