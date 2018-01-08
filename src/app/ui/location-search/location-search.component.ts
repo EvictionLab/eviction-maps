@@ -21,8 +21,6 @@ export class LocationSearchComponent {
    */
   onSearchSelect(feature) {
     if (feature) {
-      feature.properties['layerId'] =
-        this.search.getLayerName(feature.properties['layer']);
       this.locationSelected.emit(feature);
     }
   }
