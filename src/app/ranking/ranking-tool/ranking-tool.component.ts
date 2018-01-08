@@ -29,11 +29,11 @@ export class RankingToolComponent implements OnInit {
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
   /** full list of data for the current UI selections */
-  private listData: Array<RankingLocation>; // Array of locations to show the rank list for  
+  private listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
   private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
-  get canRetrieveData():boolean {
+  get canRetrieveData(): boolean {
     return this.canNavigate && this.isDataReady;
   }
   private get canNavigate(): boolean {
@@ -57,15 +57,15 @@ export class RankingToolComponent implements OnInit {
     this.route.url.subscribe(this.onRouteChange.bind(this));
   }
 
-  /** 
+  /**
    * When the route changes, update the selected properties with the values
-   * in the route, and then update the list data 
+   * in the route, and then update the list data
    */
   onRouteChange(url) {
     this.activeTab = url[0].path;
     if (this.activeTab === 'evictions') {
       this.region = url[1].path;
-      this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path));
+      this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
       this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
       this.updateEvictionList();
     }
@@ -108,7 +108,7 @@ export class RankingToolComponent implements OnInit {
       this.selectedIndex++;
     }
   }
-  
+
   /** Switch the selected location to the previous one in the list */
   onGoToPrevious() {
     if (this.selectedIndex > 0) {
@@ -126,7 +126,7 @@ export class RankingToolComponent implements OnInit {
       this.truncatedList = this.listData.slice(0, this.topCount);
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
-          return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0
+          return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
         })
       );
       console.log('got list data:', this.listData, this.truncatedList, this.dataMax);

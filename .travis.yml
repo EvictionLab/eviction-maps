@@ -15,6 +15,7 @@ before_script:
 - npm install -g @angular/cli
 script:
 - ng test --watch=false --sourcemaps=false
+- ng lint
 - ng build --prod
 after_script:
 - npm run e2e

@@ -27,7 +27,7 @@ export class DataService {
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
-  ]
+  ];
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
@@ -61,9 +61,9 @@ export class DataService {
     if (translations.hasOwnProperty('HEADER')) {
       const header = translations['HEADER'];
       this.languageOptions = this.languageOptions.map(l => {
-        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }        
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
         return l;
-      })
+      });
     }
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
@@ -81,7 +81,7 @@ export class DataService {
     if (translations.hasOwnProperty('LAYERS')) {
       const layers = translations['LAYERS'];
       this.dataLevels = DataLevels.map((l) => {
-        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }        
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
         return l;
       });
     }

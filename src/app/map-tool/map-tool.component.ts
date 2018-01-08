@@ -1,4 +1,6 @@
-import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import {
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -22,19 +24,20 @@ import { PlatformService } from '../platform.service';
 // https://github.com/angular/angular-cli/issues/8434
 // https://github.com/Microsoft/TypeScript/issues/17384
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+  let timeout;
+  return function() {
+    const context = this;
+    const args = arguments;
+    const later = function() {
+      timeout = null;
+      if (!immediate) { func.apply(context, args); }
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) { func.apply(context, args); }
+  };
+}
 
 @Component({
   selector: 'app-map-tool',
@@ -61,9 +64,23 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild('divider') dividerEl;
   urlParts;
 
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  onWheel = debounce(() => {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }, 250, false);
+
   constructor(
     public loader: LoadingService,
-    public dataService: DataService,    
+    public dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
@@ -270,20 +287,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Debounced wheel event on the document, enable zoom
-   * if the document is scrolled to the top at the end of
-   * the wheel events
-   */
-  @HostListener('document:wheel', ['$event'])
-  onWheel = debounce(() => {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
-    this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
-  }, 250, false);
-
-  /**
    * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
@@ -320,7 +323,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /**
    * Gets an array of objects containing the layer type and
-   * longitude / latitude coordinates for the locations in the string. 
+   * longitude / latitude coordinates for the locations in the string.
    * @param locations string that represents locations
    */
   private getLocationsFromString(locations: string) {

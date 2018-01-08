@@ -8,7 +8,7 @@ import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../loading.service';
 
-class mapServiceStub {
+class MapServiceStub {
   updateCensusSource() {}
   createMap(settings) { return this; }
   addControl(...args) { return this; }
@@ -23,10 +23,10 @@ describe('MapComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
       imports: [ UiModule, TranslateModule.forRoot(), TooltipModule.forRoot() ]
-    })
+    });
     TestBed.overrideComponent(MapComponent, {
       set: {
-        providers: [ {provide: MapService, useValue: new mapServiceStub() }, LoadingService ],
+        providers: [ {provide: MapService, useValue: new MapServiceStub() }, LoadingService ],
       }
     })
     .compileComponents();

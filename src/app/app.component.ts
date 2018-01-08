@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -39,11 +41,11 @@ export class AppComponent implements OnInit {
   }
 
   /** Sets the language and size relevant classes on init */
-  ngOnInit() { 
+  ngOnInit() {
     this.setupRoutes();
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-    this.onWindowResize(); 
+    this.onWindowResize();
   }
 
   /** Fired when a route is activated */
@@ -57,7 +59,6 @@ export class AppComponent implements OnInit {
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }
-    
   }
 
   onLanguageSelect(lang) {

@@ -155,7 +155,7 @@ export class MapService {
   /**
    * Returns a boolean indicating if a layer has any features matching
    * the query
-   * 
+   *
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */

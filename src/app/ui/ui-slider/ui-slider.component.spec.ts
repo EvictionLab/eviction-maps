@@ -42,7 +42,7 @@ describe('UiSliderComponent', () => {
 
   it('should not allow less than min value', () => {
     component.value = (-100);
-    component.updatePosition();    
+    component.updatePosition();
     fixture.detectChanges();
     expect(component.value).toEqual(200);
     expect(component.position).toEqual(0);
@@ -51,7 +51,7 @@ describe('UiSliderComponent', () => {
 
   it('should not exceed max value', () => {
     component.value = (10000);
-    component.updatePosition();    
+    component.updatePosition();
     fixture.detectChanges();
     expect(component.value).toEqual(1000);
     expect(component.position).toEqual(1);
@@ -60,7 +60,7 @@ describe('UiSliderComponent', () => {
 
   it('should round to the nearest step value', () => {
     component.value = (404);
-    component.updatePosition();    
+    component.updatePosition();
     fixture.detectChanges();
     expect(component.value).toEqual(400);
     expect(component.position).toEqual(0.25);

@@ -8,7 +8,7 @@ export class LoadingService {
   constructor() { }
 
   /**
-   * Triggers loading to start for a given identifier 
+   * Triggers loading to start for a given identifier
    */
   start(id: string) {
     this.isLoading = true;

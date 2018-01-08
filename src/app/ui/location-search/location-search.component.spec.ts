@@ -19,7 +19,7 @@ describe('LocationSearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LocationSearchComponent, PredictiveSearchComponent ],
       imports: [ FormsModule, TypeaheadModule.forRoot() ]
-    })
+    });
     TestBed.overrideComponent(LocationSearchComponent, {
       set: {
         providers: [ {provide: SearchService, useValue: searchServiceStub } ],

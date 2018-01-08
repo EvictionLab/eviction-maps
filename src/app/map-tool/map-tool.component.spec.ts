@@ -8,10 +8,10 @@ import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate
 import { MapToolModule } from './map-tool.module';
 import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
-import { ToastModule } from 'ng2-toastr'; 
+import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from '../loading.service';
 
-export class TranslateServiceStub{
+export class TranslateServiceStub {
   public get(key: any): any {
     Observable.of(key);
   }
@@ -44,7 +44,7 @@ describe('MapToolComponent', () => {
         RouterTestingModule,
         ToastModule.forRoot()
       ]
-    })
+    });
     TestBed.overrideComponent(MapToolComponent, {
       set: {
         providers: [
