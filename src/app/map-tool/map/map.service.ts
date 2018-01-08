@@ -380,7 +380,7 @@ export class MapService {
         this.bboxPolygon(currentFeat.bbox) : bbox(currentFeat)
     };
     // Update if current feature is a bounding box
-    if (area(currentFeat) === area(bboxPoly)) { console.log('bbox'); return true; }
+    if (area(currentFeat) === area(bboxPoly)) { return true; }
     // Update if current feature has less than 95% of the new feature's area
     // Accounts for the fact that more detailed boundaries have slightly less area
     if (area(currentFeat) < (area(newFeat) * 0.95)) { return true; }
