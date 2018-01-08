@@ -14,6 +14,7 @@ import { DataService } from './data/data.service';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
+import { SelectService } from './ui/ui-select/select.service';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
+  set selectOpen(state: boolean) { document.body.style.overflowY = state ? 'hidden' : null; }
   // Add software-button class if browser is Android or iOS Safari
   @HostBinding('class.software-button') get softwareButton() {
     const userAgent = navigator.userAgent.toLowerCase();
@@ -36,6 +38,7 @@ export class AppComponent implements OnInit {
   constructor(
     public dataService: DataService,
     public loader: LoadingService,
+    public selectService: SelectService,
     private platform: PlatformService,
     private translate: TranslateService,
     private router: Router,
@@ -43,6 +46,8 @@ export class AppComponent implements OnInit {
     private vRef: ViewContainerRef
   ) {
       this.toastr.setRootViewContainerRef(vRef);
+      this.selectService.selectOpen$
+        .subscribe((state) => { this.selectOpen = state; });
   }
 
   /** Sets the language and size relevant classes on init */

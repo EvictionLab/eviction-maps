@@ -8,6 +8,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
+import { SelectService } from './ui-select/select.service';
 import { PredictiveSearchComponent } from './predictive-search/predictive-search.component';
 import { LocationSearchComponent } from './location-search/location-search.component';
 import { UiSliderComponent } from './ui-slider/ui-slider.component';
@@ -58,7 +59,7 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     UiSwitchComponent,
     UiCopyClipboardComponent
   ],
-  providers: [ UiDialogService ],
+  providers: [ UiDialogService, SelectService ],
   entryComponents: [ UiDialogComponent, LocationCardsComponent ]
 })
 export class UiModule { }

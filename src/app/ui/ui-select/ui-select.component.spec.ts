@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { UiSelectComponent } from './ui-select.component';
+import { SelectService } from './select.service';
 
 describe('UiSelectComponent', () => {
   let component: UiSelectComponent;
@@ -14,7 +15,8 @@ describe('UiSelectComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UiSelectComponent ],
-      imports: [BsDropdownModule.forRoot()]
+      imports: [BsDropdownModule.forRoot()],
+      providers: [ SelectService ]
     })
     .compileComponents();
   }));
