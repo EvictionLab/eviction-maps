@@ -169,7 +169,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   showDownloadDialog(e) {
     const config = {
       lang: this.translate.currentLang,
-      startYear: this.year,
+      startYear: this.lineStartYear,
       endYear: this.lineEndYear,
       features: this.locations
     };
