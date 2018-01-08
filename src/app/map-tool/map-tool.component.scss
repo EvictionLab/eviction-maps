@@ -34,6 +34,15 @@ app-progress-bar {
   }
 }
 
+// Additional spacing for software button
+:host-context(.software-button) {
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightSm} - #{grid(12)});
+    }
+  }
+}
+
 // Larger than mobile:
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-mobile) {
@@ -50,6 +59,14 @@ app-progress-bar {
   }
 }
 
+// Additional spacing for software button
+:host-context(.gt-mobile.software-button) {
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
+    }
+  }
+}
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.

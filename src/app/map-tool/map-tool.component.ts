@@ -1,4 +1,7 @@
-import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import {
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener,
+  HostBinding
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
@@ -59,6 +62,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl;
+
+  // Add software-button class if browser is Android or iOS Safari
+  @HostBinding('class.software-button') get softwareButton() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.indexOf('android') > -1 || userAgent.indexOf('safari') > -1;
+  }
   urlParts;
 
   constructor(
