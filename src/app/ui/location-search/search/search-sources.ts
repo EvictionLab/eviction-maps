@@ -3,8 +3,10 @@ import { MapFeature } from '../../../map-tool/map/map-feature';
 export interface SearchSource {
     key: string;
     baseUrl: string;
+    csvUrl?: string;
+    featureList?: MapFeature[];
     query(text: string): string;
-    results(results: Object): MapFeature[];
+    results(results: Object, text?: string): MapFeature[];
 }
 
 export const MapzenSource: SearchSource = {
@@ -19,7 +21,7 @@ export const MapzenSource: SearchSource = {
         ];
         return `${this.baseUrl}text=${text}&${mapzenParams.join('&')}`;
     },
-    results: function(results: Object): MapFeature[] {
+    results: function (results: Object, text?: string): MapFeature[] {
         const layerMap = {
             'region': 'states',
             'county': 'counties',
@@ -40,7 +42,9 @@ export const MapboxSource: SearchSource = {
         'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
         '4et5d5nstXWM5P0JG67XEQ',
     baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
-    query: function(text: string) {
+    csvUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
+    featureList: [],
+    query: function (text: string) {
         const queryParams = [
             `access_token=${this.key}`,
             'country=us',
@@ -49,7 +53,7 @@ export const MapboxSource: SearchSource = {
         ];
         return `${this.baseUrl}${text}.json?${queryParams.join('&')}`;
     },
-    results: function(results: Object) {
+    results: function (results: Object, text?: string) {
         const layerMap = {
             'region': 'states',
             'district': 'cities',
@@ -57,12 +61,16 @@ export const MapboxSource: SearchSource = {
             'locality': 'cities'
         };
 
-        return results['features'].map(r => {
+        const countyFeatures = this.featureList.filter(f => {
+            return f.properties.label.toLowerCase().startsWith(text.toLowerCase());
+        });
+
+        return countyFeatures.concat(results['features'].map(r => {
             r.properties.label = r.place_name;
             r.properties.layerId = layerMap.hasOwnProperty(r.place_type[0]) ?
                 layerMap[r.place_type[0]] : 'block-groups';
             return r;
-        });
+        }));
     }
 };
 
@@ -72,7 +80,7 @@ export const OSMNamesSource: SearchSource = {
     query: function (text: string): string {
         return `${this.baseUrl}${text}.js?key=${this.key}`;
     },
-    results: function(results: Object): MapFeature[] {
+    results: function (results: Object, text?: string): MapFeature[] {
         return results['results'].map(r => {
             // Determine layer
             let layerId = 'cities';
