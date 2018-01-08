@@ -89,7 +89,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
-  ) { translate.onLangChange.subscribe((lang) => this.updateRoute()); }
+  ) {
+    translate.onLangChange.subscribe((lang) => this.updateRoute());
+    // Add click to dimiss to all toast messages
+    this.toast.onClickToast()
+      .subscribe(t => this.toast.dismissToast(t));
+  }
 
   ngOnInit() {
     this.configurePageScroll();
