@@ -1,4 +1,6 @@
-import { Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef } from '@angular/core';
+import {
+  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -26,6 +28,11 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
   set selectOpen(state: boolean) { document.body.style.overflowY = state ? 'hidden' : null; }
+  // Add software-button class if browser is Android or iOS Safari
+  @HostBinding('class.software-button') get softwareButton() {
+    const userAgent = navigator.userAgent.toLowerCase();
+    return userAgent.indexOf('android') > -1 || userAgent.indexOf('safari') > -1;
+  }
   private activeMenuItem;
 
   constructor(
@@ -44,11 +51,11 @@ export class AppComponent implements OnInit {
   }
 
   /** Sets the language and size relevant classes on init */
-  ngOnInit() { 
+  ngOnInit() {
     this.setupRoutes();
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-    this.onWindowResize(); 
+    this.onWindowResize();
   }
 
   /** Fired when a route is activated */
@@ -62,7 +69,6 @@ export class AppComponent implements OnInit {
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }
-    
   }
 
   onLanguageSelect(lang) {

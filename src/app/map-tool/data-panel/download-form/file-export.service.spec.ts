@@ -29,7 +29,7 @@ describe('FileExportService', () => {
         features: [],
         startYear: '2001',
         endYear: '2004'
-      })
+      });
       const downloadRequest = service.createDownloadRequest(['xlsx']);
       expect(downloadRequest.lang).toBe('en');
       expect(downloadRequest.hasOwnProperty('formats')).toBe(false);
@@ -55,7 +55,7 @@ describe('FileExportService', () => {
           features: [],
           startYear: '2001',
           endYear: '2004'
-        })
+        });
         service.sendFileRequest(['xlsx']).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
           const body = JSON.parse(req.body);

@@ -26,9 +26,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       axis: {
         x: { label: null, tickFormat: null },
-        y: { 
-          label: this.translatePipe.transform(this.cardProps[this.graphProp]), 
-          tickSize: '-100%', 
+        y: {
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          tickSize: '-100%',
           ticks: 5
         }
       },
@@ -169,7 +169,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   showDownloadDialog(e) {
     const config = {
       lang: this.translate.currentLang,
-      startYear: this.year,
+      startYear: this.lineStartYear,
       endYear: this.lineEndYear,
       features: this.locations
     };
@@ -199,11 +199,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphData = [...this.createLineGraphData()];
       // HACK: something with the dimensions is not set correctly when updating settings
       //    for now, update in timeout until this is fixed
-      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings } }, 1250);
+      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings }; }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [...this.createBarGraphData()];
-      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings } }, 1250);
+      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings }; }, 1250);
     }
   }
 

@@ -19,7 +19,8 @@ export class UiSelectComponent implements OnInit {
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
     this._selectedValue = newValue;
-    this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+    this.noneSelected = !this._selectedValue ||
+      (this._selectedValue.id && this._selectedValue.id === 'none');
     this.change.emit(newValue);
   }
   get selectedValue() { return this._selectedValue; }
@@ -46,7 +47,8 @@ export class UiSelectComponent implements OnInit {
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
-      this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+      this.noneSelected = !this._selectedValue ||
+        (this._selectedValue.id && this._selectedValue.id === 'none');
     }
   }
 

@@ -1,4 +1,6 @@
-import { Component, Input, Output, EventEmitter, HostListener, AfterViewInit, ViewChild } from '@angular/core';
+import {
+  Component, Input, Output, EventEmitter, HostListener, AfterViewInit, ViewChild
+} from '@angular/core';
 
 @Component({
   selector: 'app-header-bar',
@@ -18,8 +20,8 @@ export class HeaderBarComponent implements AfterViewInit {
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
     this.tooltipEnabled = false;
-  } 
-  
+  }
+
   ngAfterViewInit() {
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
   }

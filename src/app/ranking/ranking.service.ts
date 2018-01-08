@@ -56,11 +56,13 @@ export class RankingService {
    * @param areaType the area type to get data for (rural, mid-sized, cities)
    * @param sortProperty the property to sort the data by
    */
-  getSortedData(region: string, areaType: number, sortProperty: string, invert?: boolean): Array<RankingLocation> {
-    console.time('sort rankings')
+  getSortedData(
+    region: string, areaType: number, sortProperty: string, invert?: boolean
+  ): Array<RankingLocation> {
+    console.time('sort rankings');
     let data = region !== 'United States' ?
       this.data.filter(l => l.parentLocation === region && l.areaType === areaType) :
-      this.data.filter(l => l.areaType === areaType)
+      this.data.filter(l => l.areaType === areaType);
     data = data.sort(this.getComparator(sortProperty, invert));
     console.timeEnd('sort rankings');
     return data;
@@ -74,7 +76,7 @@ export class RankingService {
       if (!item1[prop] || isNaN(item1[prop])) { return -1; }
       if (!item2[prop] || isNaN(item2[prop])) { return 1; }
       return item1[prop] - item2[prop];
-    }
+    };
   }
 
   /**
@@ -84,7 +86,7 @@ export class RankingService {
   private parseCsvData(csv: string): Array<RankingLocation> {
     return csvParse(csv, (d) => {
       return {
-        geoId: parseInt(d.GEOID),
+        geoId: parseInt(d.GEOID, 10),
         evictions: parseFloat(d.evictions),
         filings: parseFloat(d['eviction-filings']),
         evictionRate: parseFloat(d['eviction-rate']),
@@ -92,7 +94,7 @@ export class RankingService {
         name: d['name'],
         parentLocation: d['parent-location'],
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
-        areaType: parseInt(d['area-type'])
+        areaType: parseInt(d['area-type'], 10)
       } as RankingLocation;
     });
   }

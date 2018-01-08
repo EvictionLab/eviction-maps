@@ -13,11 +13,11 @@ describe('HeaderBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ TranslateModule.forRoot(), TooltipModule.forRoot() ],
-      declarations: [ 
-        HeaderBarComponent, 
+      declarations: [
+        HeaderBarComponent,
       ],
       // ignore child components, they have their own tests
-      schemas: [NO_ERRORS_SCHEMA] 
+      schemas: [NO_ERRORS_SCHEMA]
     })
     .compileComponents();
   }));
