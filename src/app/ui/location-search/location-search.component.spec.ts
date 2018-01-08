@@ -11,7 +11,6 @@ describe('LocationSearchComponent', () => {
   let fixture: ComponentFixture<LocationSearchComponent>;
   const searchServiceStub = {
     queryGeocoder: () => {},
-    getLayerName: () => {},
     query: ''
   };
 

@@ -19,7 +19,6 @@ export class MapboxComponent implements AfterViewInit {
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() zoom: EventEmitter<number> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
-  @Output() render: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
   @Output() featureMouseEnter: EventEmitter<any> = new EventEmitter();
   @Output() featureMouseLeave: EventEmitter<any> = new EventEmitter();
@@ -102,10 +101,8 @@ export class MapboxComponent implements AfterViewInit {
         this.hoverChanged.emit(this.activeFeature);
       }
     });
-    this.map.on('render', (e) => {
-      this.render.emit(e);
-      this.mapService.setLoading(!this.map.loaded());
-    });
+    this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
+    this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
