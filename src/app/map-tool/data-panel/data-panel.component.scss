@@ -112,7 +112,7 @@
   .graph-year-select {
     order: 2;
     .graph-year-label { display: none; }
-    .graph-line-selects { 
+    .graph-select { 
       display:flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -289,8 +289,7 @@
     left:0;
     right:0;
     width:100%;
-    // .graph-bar-select { display: block; float:left; }
-    .graph-line-selects span { @include yearSelectLabel(14px); }
+    .graph-selects span { @include yearSelectLabel(14px); }
   }
   .graph-type-toggle {
     position: absolute;

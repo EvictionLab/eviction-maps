@@ -29,12 +29,12 @@
           ></app-ui-switch>
           <div class="graph-year-select">
             <span class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
-            <div class="graph-line-selects" *ngIf="graphType === 'line'">
+            <div class="graph-select" *ngIf="graphType === 'line'">
               <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
               <span>to</span>
               <app-ui-select class="z0" [values]="endSelect" [selectedValue]="maxYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
             </div>
-            <div class="graph-bar-select" *ngIf="graphType === 'bar'">
+            <div class="graph-select" *ngIf="graphType === 'bar'">
               <app-ui-select class="z0" [selectedValue]="year" [values]="barYearSelect"
                 (change)="updateBarYear($event)"></app-ui-select>
             </div>
