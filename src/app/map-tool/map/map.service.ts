@@ -5,6 +5,8 @@ import 'rxjs/add/operator/distinct';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
 import * as polylabel from 'polylabel';
+import area from '@turf/area';
+import { coordAll } from '@turf/meta';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
@@ -240,6 +242,12 @@ export class MapService {
         this.hasRenderedFeatures(f.properties['layerId'], f)
       ) {
         feat = this.getUnionFeature(f.properties['layerId'], f);
+        const geoidFeatures = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        );
+        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+          feat = geoidFeatures[0];
+        }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
         feat = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
@@ -358,5 +366,27 @@ export class MapService {
       topLeft,
       lowLeft
     ]];
+  }
+
+  /**
+   * Determines whether selected feature boundaries should update
+   * @param currentFeat
+   * @param newFeat
+   */
+  private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    const bboxPoly = {
+      type: 'Polygon',
+      coordinates: currentFeat.hasOwnProperty('bbox') ?
+        this.bboxPolygon(currentFeat.bbox) : bbox(currentFeat)
+    };
+    // Update if current feature is a bounding box
+    if (area(currentFeat) === area(bboxPoly)) { console.log('bbox'); return true; }
+    // Update if current feature has less than 95% of the new feature's area
+    // Accounts for the fact that more detailed boundaries have slightly less area
+    if (area(currentFeat) < (area(newFeat) * 0.95)) { return true; }
+    // Update if the current feature has fewer coordinates than the new feature,
+    // indicating that it's less detailed
+    if (coordAll(currentFeat).length < coordAll(newFeat).length) { return true; }
+    return false;
   }
 }
