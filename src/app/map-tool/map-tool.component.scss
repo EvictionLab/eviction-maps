@@ -70,7 +70,7 @@ app-progress-bar {
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet) {
+:host-context(.gt-tablet), :host-context(.gt-tablet.software-button) {
   .app-wrapper {
     app-map, app-map.cards-active {
       margin-top: $headerHeightLg;
