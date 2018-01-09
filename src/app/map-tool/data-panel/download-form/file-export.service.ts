@@ -79,7 +79,7 @@ export class FileExportService {
    */
   createDownloadRequest(fileValues: string[]): DownloadRequest {
     const exportFeatures = this.features.map(f => {
-      f.bbox = bbox(f);
+      if (!f.hasOwnProperty('bbox')) { f.bbox = bbox(f); }
       return f;
     });
     const downloadRequest: DownloadRequest = {
