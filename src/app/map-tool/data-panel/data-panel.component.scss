@@ -11,6 +11,7 @@
 
 .data-wrapper {
   border-top: 1px solid #eee;
+
 }
 
 .mobile-scroll-indicator p {
@@ -38,7 +39,7 @@
   box-sizing: border-box;
   overflow:auto;
   // padding at the bottom to leave space for "back to map" button
-  padding: 0 $defaultPadding grid(12); 
+  padding: 0 $defaultPadding grid(15); 
   .data-content-inner {
     max-width: $maxContentWidth;
     padding: $defaultPadding;
