@@ -338,20 +338,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Sets the tooltip and highlighted shape on the map
-   * @param feature the feature being hovered (or null if no longer hovering)
-   */
-  onFeatureHover(feature) {
-    this.featureHover.emit(feature);
-    if (feature && feature.layer.id === this.selectedLayer.id) {
-      const union = this.map.getUnionFeature(this.selectedLayer.id, feature);
-      this.map.setSourceData('hover', [union]);
-    } else {
-      this.map.setSourceData('hover');
-    }
-  }
-
-  /**
    * Gets the currently active data attribute with the year appended
    * @param type either 'choropleth' or 'bubble'
    */
