@@ -22,6 +22,9 @@ export class MapboxComponent implements AfterViewInit {
   @Output() zoom: EventEmitter<number> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
+  featureMouseEnter: EventEmitter<any> = new EventEmitter();
+  featureMouseLeave: EventEmitter<any> = new EventEmitter();
+  featureMouseMove: EventEmitter<any> = new EventEmitter();
 
   constructor(private mapService: MapService, private zone: NgZone) { }
 
@@ -85,11 +88,15 @@ export class MapboxComponent implements AfterViewInit {
     this.map = map;
     this.setupEmitters();
     this.zone.runOutsideAngular(() => {
-      this.eventLayers.forEach((layer) => {
-        // this.map.on('mouseenter', layer, (e) => this.onMouseEnterFeature());
-        // this.map.on('mouseleave', layer, (e) => this.onMouseLeaveFeature());
-        // this.map.on('mousemove', layer, (e) => this.onMouseMoveFeature(e));
-      });
+      this.featureMouseMove
+        .debounceTime(200)
+        .subscribe(e => this.onMouseMoveFeature(e));
+      this.featureMouseEnter
+        .debounceTime(200)
+        .subscribe(e => this.onMouseEnterFeature());
+      this.featureMouseLeave
+        .debounceTime(200)
+        .subscribe(e => this.onMouseLeaveFeature());
     });
     this.ready.emit(this.map);
   }
@@ -105,12 +112,12 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
+      this.map.on('mouseenter', layer, (ev) => this.featureMouseEnter.emit(ev));
+      this.map.on('mouseleave', layer, (ev) => this.featureMouseLeave.emit(ev));
+      this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
           this.featureClick.emit(e.features[0]);
-          this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature());
-          this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
-          this.map.on('mousemove', layer, (ev) => this.onMouseMoveFeature(e));
         }
       });
     });

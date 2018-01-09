@@ -62,10 +62,10 @@ export class MapService {
     this.popup = new mapboxgl.Popup({ closeButton: false });
     this.zone.runOutsideAngular(() => {
       Observable.fromEvent(this.map, 'mousemove')
-        .debounceTime(500)
-        .subscribe(e => this.updateHoverFeature(e, layerIds));
+        .debounceTime(200)
+        .subscribe(e => this.updateHoverTooltip(e, layerIds));
       Observable.fromEvent(this.map, 'mouseout')
-        .debounceTime(500)
+        .debounceTime(200)
         .subscribe(e => this.popup.remove());
     });
   }
@@ -318,7 +318,10 @@ export class MapService {
     ], { padding: 50 });
   }
 
-  private updateHoverFeature(e: any, layerIds: string[]) {
+  /**
+   * Update hover tooltip content
+   */
+  private updateHoverTooltip(e: any, layerIds: string[]) {
     const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
     if (features.length) {
       const feat: MapFeature = features[0];
