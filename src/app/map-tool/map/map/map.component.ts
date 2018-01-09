@@ -500,14 +500,15 @@ export class MapComponent implements OnInit, OnChanges {
 
   /** Animate the map based on scroll position */
   private parallaxMap() {
-    window.requestAnimationFrame(() => {
-      if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
-        this.mapEl.nativeElement.style.transform =
-          'translateY(' + ((window.scrollY - 90) / 3) + 'px)';
-      } else if (window.scrollY <= 0) {
-        this.mapEl.nativeElement.style.transform = 'translateY(0)';
-      }
-    });
-
+    if (window.scrollY < window.innerHeight) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
+          this.mapEl.nativeElement.style.transform =
+            'translateY(' + ((window.scrollY - 90) / 3) + 'px)';
+        } else if (window.scrollY <= 0) {
+          this.mapEl.nativeElement.style.transform = 'translateY(0)';
+        }
+      });
+    }
   }
 }

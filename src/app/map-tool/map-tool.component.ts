@@ -341,11 +341,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   private parallaxMapButton() {
-    window.requestAnimationFrame(() => {
-      if (this.verticalOffset < this.panelOffset && !this.enableZoom) {
+    if (this.verticalOffset < this.panelOffset && !this.enableZoom) {
+      window.requestAnimationFrame(() => {
         this.mapButton.nativeElement.style.transform =
           'translateY(' + this.offsetToTranslate(this.verticalOffset) + 'px)';
-      }
-    });
+      });
+    }
   }
 }
