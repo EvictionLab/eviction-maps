@@ -43,14 +43,6 @@ export class FileExportService {
       description: 'Export a presentation with slides for locations including maps and graphs.'
     },
     {
-      name: 'Word',
-      value: 'docx',
-      path: '/format/docx',
-      checked: false,
-      description: 'Export a Word document that includes and overview of evictions ' +
-        'in locations and issues related to evictions.'
-    },
-    {
       name: 'PDF',
       value: 'pdf',
       path: '/pdf',
