@@ -504,9 +504,9 @@ export class MapComponent implements OnInit, OnChanges {
       window.requestAnimationFrame(() => {
         if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
           this.mapEl.nativeElement.style.transform =
-            'translateY(' + ((window.scrollY - 90) / 3) + 'px)';
+            'translate3d(0,' + ((window.scrollY) / 3).toFixed(2) + 'px,0)';
         } else if (window.scrollY <= 0) {
-          this.mapEl.nativeElement.style.transform = 'translateY(0)';
+          this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
         }
       });
     }

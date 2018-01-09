@@ -344,7 +344,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (this.verticalOffset < this.panelOffset && !this.enableZoom) {
       window.requestAnimationFrame(() => {
         this.mapButton.nativeElement.style.transform =
-          'translateY(' + this.offsetToTranslate(this.verticalOffset) + 'px)';
+          'translate3d(0, ' + this.offsetToTranslate(this.verticalOffset).toFixed(2) + 'px, 0)';
       });
     }
   }

@@ -1,5 +1,6 @@
 <div class="map-wrapper" #mapEl>
-  <app-mapbox
+  <div class="test-parallax"></div>
+  <!-- <app-mapbox
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
     (ready)="onMapReady($event)"
@@ -8,7 +9,7 @@
     (hoverChanged)="onFeatureHover($event)"
     (moveEnd)="onMapMoveEnd($event)"
   >
-  </app-mapbox>
+  </app-mapbox> -->
 </div>
 <ng-content></ng-content>
 <div class="map-ui-wrapper">
