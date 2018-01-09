@@ -107,6 +107,9 @@ app-progress-bar {
     @include fill-parent();
     pointer-events:all;
     z-index:51;
+    &.hide {
+      display:none;
+    }
   }
 }
 .btn-map, 

@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
-  HostListener
+  HostListener, ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -150,6 +150,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.cardsActive;
   }
   @ViewChild('pop') mapTooltip;
+  @ViewChild('mapEl') mapEl: ElementRef;
   tooltipEnabled = true;
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
@@ -196,6 +197,8 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateCardProperties();
     // Show tooltip 1 second after init
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
+    // Update the animation on an interval
+    setInterval(this.parallaxMap.bind(this), 10);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -493,5 +496,18 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapBubbles();
     this.updateMapChoropleths();
     this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+  }
+
+  /** Animate the map based on scroll position */
+  private parallaxMap() {
+    window.requestAnimationFrame(() => {
+      if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
+        this.mapEl.nativeElement.style.transform =
+          'translateY(' + ((window.scrollY - 90) / 3) + 'px)';
+      } else if (window.scrollY <= 0) {
+        this.mapEl.nativeElement.style.transform = 'translateY(0)';
+      }
+    });
+
   }
 }

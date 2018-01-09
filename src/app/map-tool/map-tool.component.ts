@@ -1,5 +1,5 @@
 import {
-  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -55,13 +55,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
-  /** gets if the page has scrolled enough to fix the "back to map" button */
-  get isDataButtonFixed() {
-    if (!this.panelOffset || !this.verticalOffset) { return false; }
-    return (this.verticalOffset - this.panelOffset) > 0;
-  }
   @ViewChild(MapComponent) map;
-  @ViewChild('divider') dividerEl;
+  @ViewChild('divider') dividerEl: ElementRef;
+  @ViewChild('mapButton') mapButton: ElementRef;
   urlParts;
 
   /**
@@ -111,6 +107,8 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.setOffsetToTranslate();
+    // set interval for parallax animation
+    setInterval(this.parallaxMapButton.bind(this), 10);
   }
 
   /**
@@ -340,5 +338,14 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
       };
     }).filter(loc => loc); // filter null values
+  }
+
+  private parallaxMapButton() {
+    window.requestAnimationFrame(() => {
+      if (this.verticalOffset < this.panelOffset && !this.enableZoom) {
+        this.mapButton.nativeElement.style.transform =
+          'translateY(' + this.offsetToTranslate(this.verticalOffset) + 'px)';
+      }
+    });
   }
 }
