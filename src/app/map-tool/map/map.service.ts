@@ -154,20 +154,24 @@ export class MapService {
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
-  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
-    return this.map.queryRenderedFeatures(undefined, {
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
       layers: [layerId],
       filter: [
         'all',
         ['==', 'n', feature.properties.n],
         ['==', 'pl', feature.properties.pl]
       ]
-    }).reduce((currFeat, nextFeat) => {
-      return union(
-        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-      );
-    }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    });
+    if (queryFeatures.length > 0) {
+      return queryFeatures.reduce((currFeat, nextFeat) => {
+        return union(
+          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+        );
+      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }
+    return null;
   }
 
   /**
