@@ -196,6 +196,7 @@ export class MapComponent implements OnInit, OnChanges {
     // Show tooltip 1 second after init
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
     // Update the animation on an interval
+    // NOTE: Parallax is disabled on the map for performance, uncomment to re-enable.
     // setInterval(this.parallaxMap.bind(this), 10);
   }
 

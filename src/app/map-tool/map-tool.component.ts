@@ -57,7 +57,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   activeMenuItem; // tracks the active menu item on mobile
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
-  @ViewChild('mapButton') mapButton: ElementRef;
   urlParts;
 
   /**
