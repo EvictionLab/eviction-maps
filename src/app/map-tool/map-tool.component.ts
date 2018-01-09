@@ -107,8 +107,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.setOffsetToTranslate();
-    // set interval for parallax animation
-    setInterval(this.parallaxMapButton.bind(this), 10);
   }
 
   /**
@@ -338,14 +336,5 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
       };
     }).filter(loc => loc); // filter null values
-  }
-
-  private parallaxMapButton() {
-    if (this.verticalOffset < this.panelOffset && !this.enableZoom) {
-      window.requestAnimationFrame(() => {
-        this.mapButton.nativeElement.style.transform =
-          'translate3d(0, ' + this.offsetToTranslate(this.verticalOffset).toFixed(2) + 'px, 0)';
-      });
-    }
   }
 }

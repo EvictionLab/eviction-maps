@@ -125,8 +125,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Handles if zoom is enabled on the map */
   @Input() scrollZoom: boolean;
-  /** Tracks the vertical (scroll) offset */
-  @Input() verticalOffset = 0;
   /** Tracks the currently selected menu item for mobile menu */
   @Input() activeMenuItem: string;
   @Input() activeFeatures: MapFeature[] = [];
@@ -198,7 +196,7 @@ export class MapComponent implements OnInit, OnChanges {
     // Show tooltip 1 second after init
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
     // Update the animation on an interval
-    setInterval(this.parallaxMap.bind(this), 10);
+    // setInterval(this.parallaxMap.bind(this), 10);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -502,10 +500,10 @@ export class MapComponent implements OnInit, OnChanges {
   private parallaxMap() {
     if (window.scrollY < window.innerHeight) {
       window.requestAnimationFrame(() => {
-        if (window.scrollY > 0 && window.scrollY < window.innerHeight) {
+        if (window.scrollY > 0) {
           this.mapEl.nativeElement.style.transform =
-            'translate3d(0,' + ((window.scrollY) / 3).toFixed(2) + 'px,0)';
-        } else if (window.scrollY <= 0) {
+            'translate3d(0,' + (-(window.scrollY) / 2).toFixed(2) + 'px,0)';
+        } else {
           this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
         }
       });
