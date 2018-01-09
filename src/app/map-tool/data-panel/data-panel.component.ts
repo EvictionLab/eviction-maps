@@ -294,7 +294,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       .filter((year) => {
         // filter out years without data
         const propVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return (propVal && propVal !== -1);
+        return propVal !== null && propVal >= 0;
       })
       .map((year) => {
         // create points

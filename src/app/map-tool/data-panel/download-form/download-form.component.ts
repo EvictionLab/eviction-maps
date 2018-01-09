@@ -31,12 +31,16 @@ export class DownloadFormComponent implements OnInit {
       .filter(f => f.checked).map(f => f.value);
     this.exportService.sendFileRequest(filetypes)
       .subscribe(res => {
-        this.loading = false;
         if (!res.hasOwnProperty('path')) {
           console.log(`Error occured: ${res}`);
+          this.loading = false;
         } else {
-          window.location.href = res['path'];
-          this.dismiss({ accepted: true });
+          // Download after slight delay to make sure file is ready
+          setTimeout(() => {
+            window.location.href = res['path'];
+            this.dismiss({ accepted: true });
+            this.loading = false;
+          }, 500);
         }
       });
   }

@@ -1,9 +1,12 @@
 @import '../../../../theme';
 
+
 // Map UI Layout
 // ----
 // Map fills the component width and height
 .map-wrapper {
+  position:fixed;
+  top:0;
   width:100%;
   height:100%;
   display:block;

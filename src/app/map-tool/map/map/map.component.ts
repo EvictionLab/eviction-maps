@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
-  HostListener
+  HostListener, ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -125,8 +125,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Handles if zoom is enabled on the map */
   @Input() scrollZoom: boolean;
-  /** Tracks the vertical (scroll) offset */
-  @Input() verticalOffset = 0;
   /** Tracks the currently selected menu item for mobile menu */
   @Input() activeMenuItem: string;
   @Input() activeFeatures: MapFeature[] = [];
@@ -150,6 +148,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.cardsActive;
   }
   @ViewChild('pop') mapTooltip;
+  @ViewChild('mapEl') mapEl: ElementRef;
   tooltipEnabled = true;
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
@@ -196,6 +195,9 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateCardProperties();
     // Show tooltip 1 second after init
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
+    // Update the animation on an interval
+    // NOTE: Parallax is disabled on the map for performance, uncomment to re-enable.
+    // setInterval(this.parallaxMap.bind(this), 10);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -479,5 +481,19 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapBubbles();
     this.updateMapChoropleths();
     this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+  }
+
+  /** Animate the map based on scroll position */
+  private parallaxMap() {
+    if (window.scrollY < window.innerHeight) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 0) {
+          this.mapEl.nativeElement.style.transform =
+            'translate3d(0,' + (-(window.scrollY) / 2).toFixed(2) + 'px,0)';
+        } else {
+          this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
+        }
+      });
+    }
   }
 }

@@ -40,6 +40,12 @@ describe('FileExportService', () => {
     'should include formats in request if more than one filetype selected',
     inject(
       [FileExportService], (service: FileExportService) => {
+        service.setExportValues({
+          lang: 'en',
+          features: [],
+          startYear: '2001',
+          endYear: '2004'
+        });
         const downloadRequest = service.createDownloadRequest(['pptx', 'xlsx']);
         expect(downloadRequest.formats).toEqual(['pptx', 'xlsx']);
       }

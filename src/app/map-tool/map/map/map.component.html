@@ -1,6 +1,4 @@
-<div class="map-wrapper" 
-  [style.transform]="'translateY('+ (verticalOffset > 90 ? (verticalOffset-90)/3 : 0) +'px)'"
->
+<div class="map-wrapper" #mapEl>
   <app-mapbox
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"

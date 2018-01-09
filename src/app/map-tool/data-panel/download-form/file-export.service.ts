@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MapFeature } from '../../map/map-feature';
+import * as bbox from '@turf/bbox';
 
 export interface DownloadRequest {
   lang: string;
@@ -77,8 +78,12 @@ export class FileExportService {
    * Create the file request data
    */
   createDownloadRequest(fileValues: string[]): DownloadRequest {
+    const exportFeatures = this.features.map(f => {
+      if (!f.hasOwnProperty('bbox')) { f.bbox = bbox(f); }
+      return f;
+    });
     const downloadRequest: DownloadRequest = {
-      lang: this.lang, years: [this.startYear, this.endYear], features: this.features
+      lang: this.lang, years: [this.startYear, this.endYear], features: exportFeatures
     };
     if (this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1).length > 1) {
       downloadRequest.formats = fileValues;
