@@ -29,7 +29,8 @@ export class AppComponent implements OnInit {
   // Add software-button class if browser is Android or iOS Safari
   @HostBinding('class.software-button') get softwareButton() {
     const userAgent = navigator.userAgent.toLowerCase();
-    return userAgent.indexOf('android') > -1 || userAgent.indexOf('safari') > -1;
+    return userAgent.indexOf('android') > -1 ||
+      (userAgent.indexOf('safari') > -1 && userAgent.indexOf('chrome') === -1);
   }
   private activeMenuItem;
 
