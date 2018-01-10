@@ -2,10 +2,10 @@
   <app-mapbox
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
+    [selectedLayer]="selectedLayer"
     (ready)="onMapReady($event)"
     (zoom)="onMapZoom($event)"
     (featureClick)="onFeatureClick($event)"
-    (hoverChanged)="onFeatureHover($event)"
     (moveEnd)="onMapMoveEnd($event)"
   >
   </app-mapbox>

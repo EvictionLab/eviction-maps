@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
+import 'rxjs/add/observable/fromEvent';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
 import * as polylabel from 'polylabel';
@@ -20,7 +21,7 @@ export class MapService {
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
 
-  constructor() { }
+  constructor(private zone: NgZone) { }
 
   /** Expose any MapboxGL API functions that are needed  */
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
@@ -59,40 +60,13 @@ export class MapService {
    */
   setupHoverPopup(layerIds: string[]) {
     this.popup = new mapboxgl.Popup({ closeButton: false });
-    this.map.on('mousemove', (e) => {
-      const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
-      if (features.length) {
-        const feat: MapFeature = features[0];
-        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
-          layers: [`${feat['layer']['id']}_text`],
-          filter: [
-            'all',
-            ['==', 'n', feat.properties.n],
-          ]
-        });
-        // Check if labels are visible, don't display tooltip if so
-        const labelLayerOpacity = this.map.getPaintProperty(
-          `${feat['layer']['id']}_text`, 'text-opacity'
-        );
-        let labelsVisible;
-        if (labelLayerOpacity) {
-          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
-        } else {
-          labelsVisible = false;
-        }
-        if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
-          this.popup.remove();
-        } else {
-          this.popup.setLngLat(e.lngLat)
-            .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
-            .addTo(this.map);
-        }
-      } else {
-        this.popup.remove();
-      }
-    });
-    this.map.on('mouseout', (e) => {
-      this.popup.remove();
+    this.zone.runOutsideAngular(() => {
+      Observable.fromEvent(this.map, 'mousemove')
+        .debounceTime(200)
+        .subscribe(e => this.updateHoverTooltip(e, layerIds));
+      Observable.fromEvent(this.map, 'mouseout')
+        .debounceTime(200)
+        .subscribe(e => this.popup.remove());
     });
   }
 
@@ -180,20 +154,24 @@ export class MapService {
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
-  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
-    return this.map.queryRenderedFeatures(undefined, {
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
       layers: [layerId],
       filter: [
         'all',
         ['==', 'n', feature.properties.n],
         ['==', 'pl', feature.properties.pl]
       ]
-    }).reduce((currFeat, nextFeat) => {
-      return union(
-        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-      );
-    }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    });
+    if (queryFeatures.length > 0) {
+      return queryFeatures.reduce((currFeat, nextFeat) => {
+        return union(
+          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+        );
+      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }
+    return null;
   }
 
   /**
@@ -342,6 +320,42 @@ export class MapService {
       [box[0], box[1]],
       [box[2], box[3]]
     ], { padding: 50 });
+  }
+
+  /**
+   * Update hover tooltip content
+   */
+  private updateHoverTooltip(e: any, layerIds: string[]) {
+    const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
+    if (features.length) {
+      const feat: MapFeature = features[0];
+      const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+        layers: [`${feat['layer']['id']}_text`],
+        filter: [
+          'all',
+          ['==', 'n', feat.properties.n],
+        ]
+      });
+      // Check if labels are visible, don't display tooltip if so
+      const labelLayerOpacity = this.map.getPaintProperty(
+        `${feat['layer']['id']}_text`, 'text-opacity'
+      );
+      let labelsVisible;
+      if (labelLayerOpacity) {
+        labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+      } else {
+        labelsVisible = false;
+      }
+      if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
+        this.popup.remove();
+      } else {
+        this.popup.setLngLat(e.lngLat)
+          .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
+          .addTo(this.map);
+      }
+    } else {
+      this.popup.remove();
+    }
   }
 
   /**
