@@ -169,9 +169,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
   showDownloadDialog(e) {
     const config = {
       lang: this.translate.currentLang,
+      year: this.year,
       startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations
+      features: this.locations,
+      dataProp: this.dataService.activeDataHighlight.id,
+      bubbleProp: this.dataService.activeBubbleHighlight.id
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }

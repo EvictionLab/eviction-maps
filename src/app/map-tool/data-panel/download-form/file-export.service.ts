@@ -5,6 +5,9 @@ import * as bbox from '@turf/bbox';
 
 export interface DownloadRequest {
   lang: string;
+  year: number;
+  dataProp: string;
+  bubbleProp: string;
   years: number[];
   features: MapFeature[];
   formats?: string[];
@@ -23,8 +26,11 @@ export class FileExportService {
   downloadBase = 'https://exports.evictionlab.org';
   lang: string;
   features: MapFeature[];
+  year: number;
   startYear: number;
   endYear: number;
+  dataProp: string;
+  bubbleProp: string;
   description: string;
   filetypes: ExportType[] = [
     {
@@ -62,8 +68,11 @@ export class FileExportService {
   setExportValues(config: Object) {
     this.lang = config['lang'];
     this.features = config['features'];
+    this.year = config['year'];
     this.startYear = config['startYear'];
     this.endYear = config['endYear'];
+    this.dataProp = config['dataProp'];
+    this.bubbleProp = config['bubbleProp'];
   }
 
   /**
@@ -75,7 +84,8 @@ export class FileExportService {
       return f;
     });
     const downloadRequest: DownloadRequest = {
-      lang: this.lang, years: [this.startYear, this.endYear], features: exportFeatures
+      lang: this.lang, year: this.year, years: [this.startYear, this.endYear],
+      features: exportFeatures, dataProp: this.dataProp, bubbleProp: this.bubbleProp
     };
     if (this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1).length > 1) {
       downloadRequest.formats = fileValues;
