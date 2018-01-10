@@ -99,7 +99,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.updateLineYears(this.year, this.maxYear);
     this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
@@ -169,9 +168,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
   showDownloadDialog(e) {
     const config = {
       lang: this.translate.currentLang,
+      year: this.year,
       startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations
+      features: this.locations,
+      dataProp: this.dataService.activeDataHighlight.id,
+      bubbleProp: this.dataService.activeBubbleHighlight.id
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }
