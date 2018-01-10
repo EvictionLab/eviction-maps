@@ -20,7 +20,11 @@ import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
 
 // Pulled from https://stackoverflow.com/a/44635703
-function debounce(delay: number = 300): MethodDecorator {
+// Temporarily adding debounce decorator here to avoid compilation errors
+// See the following issues for more:
+// https://github.com/angular/angular-cli/issues/8434
+// https://github.com/Microsoft/TypeScript/issues/17384
+export function debounce(delay: number = 300): MethodDecorator {
   return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
     let timeout = null;
     const original = descriptor.value;
