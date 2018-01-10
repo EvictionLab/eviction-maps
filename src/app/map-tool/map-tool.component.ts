@@ -19,23 +19,16 @@ import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
 
-// Temporarily adding debounce function here to avoid compilation errors
-// caused by the `debounce-decorator`.  See the following issues for more:
-// https://github.com/angular/angular-cli/issues/8434
-// https://github.com/Microsoft/TypeScript/issues/17384
-function debounce(func, wait, immediate) {
-  let timeout;
-  return function() {
-    const context = this;
-    const args = arguments;
-    const later = function() {
-      timeout = null;
-      if (!immediate) { func.apply(context, args); }
+// Pulled from https://stackoverflow.com/a/44635703
+function debounce(delay: number = 300): MethodDecorator {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    let timeout = null;
+    const original = descriptor.value;
+    descriptor.value = function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => original.apply(this, args), delay);
     };
-    const callNow = immediate && !timeout;
-    clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
-    if (callNow) { func.apply(context, args); }
+    return descriptor;
   };
 }
 
@@ -58,20 +51,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
   urlParts;
-
-  /**
-   * Debounced wheel event on the document, enable zoom
-   * if the document is scrolled to the top at the end of
-   * the wheel events
-   */
-  @HostListener('document:wheel', ['$event'])
-  onWheel = debounce(() => {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
-    this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
-  }, 250, false);
 
   constructor(
     public loader: LoadingService,
@@ -106,6 +85,21 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.setOffsetToTranslate();
+  }
+
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @debounce(250)
+  onWheel() {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
   }
 
   /**
