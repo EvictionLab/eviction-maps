@@ -41,7 +41,7 @@
     "debounce-decorator": "^1.0.6",
     "intl": "^1.2.5",
     "lodash.isequal": "^4.5.0",
-    "mapbox-gl": "git://github.com/EvictionLab/mapbox-gl-js.git",
+    "mapbox-gl": "^0.43.0",
     "ng2-page-scroll": "^4.0.0-beta.11",
     "ng2-toastr": "^4.1.2",
     "ngx-bootstrap": "^2.0.0-beta.9",
