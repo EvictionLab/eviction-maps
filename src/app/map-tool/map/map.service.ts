@@ -1,10 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
+import 'rxjs/add/observable/fromEvent';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
 import * as polylabel from 'polylabel';
+import area from '@turf/area';
+import { coordAll } from '@turf/meta';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
@@ -18,7 +21,7 @@ export class MapService {
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
 
-  constructor() { }
+  constructor(private zone: NgZone) { }
 
   /** Expose any MapboxGL API functions that are needed  */
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
@@ -57,40 +60,13 @@ export class MapService {
    */
   setupHoverPopup(layerIds: string[]) {
     this.popup = new mapboxgl.Popup({ closeButton: false });
-    this.map.on('mousemove', (e) => {
-      const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
-      if (features.length) {
-        const feat: MapFeature = features[0];
-        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
-          layers: [`${feat['layer']['id']}_text`],
-          filter: [
-            'all',
-            ['==', 'n', feat.properties.n],
-          ]
-        });
-        // Check if labels are visible, don't display tooltip if so
-        const labelLayerOpacity = this.map.getPaintProperty(
-          `${feat['layer']['id']}_text`, 'text-opacity'
-        );
-        let labelsVisible;
-        if (labelLayerOpacity) {
-          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
-        } else {
-          labelsVisible = false;
-        }
-        if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
-          this.popup.remove();
-        } else {
-          this.popup.setLngLat(e.lngLat)
-            .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
-            .addTo(this.map);
-        }
-      } else {
-        this.popup.remove();
-      }
-    });
-    this.map.on('mouseout', (e) => {
-      this.popup.remove();
+    this.zone.runOutsideAngular(() => {
+      Observable.fromEvent(this.map, 'mousemove')
+        .debounceTime(200)
+        .subscribe(e => this.updateHoverTooltip(e, layerIds));
+      Observable.fromEvent(this.map, 'mouseout')
+        .debounceTime(200)
+        .subscribe(e => this.popup.remove());
     });
   }
 
@@ -155,7 +131,7 @@ export class MapService {
   /**
    * Returns a boolean indicating if a layer has any features matching
    * the query
-   * 
+   *
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
@@ -178,20 +154,24 @@ export class MapService {
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
-  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
-    return this.map.queryRenderedFeatures(undefined, {
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
       layers: [layerId],
       filter: [
         'all',
         ['==', 'n', feature.properties.n],
         ['==', 'pl', feature.properties.pl]
       ]
-    }).reduce((currFeat, nextFeat) => {
-      return union(
-        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-      );
-    }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    });
+    if (queryFeatures.length > 0) {
+      return queryFeatures.reduce((currFeat, nextFeat) => {
+        return union(
+          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+        );
+      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }
+    return null;
   }
 
   /**
@@ -240,6 +220,12 @@ export class MapService {
         this.hasRenderedFeatures(f.properties['layerId'], f)
       ) {
         feat = this.getUnionFeature(f.properties['layerId'], f);
+        const geoidFeatures = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        );
+        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+          feat = geoidFeatures[0];
+        }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
         feat = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
@@ -337,6 +323,42 @@ export class MapService {
   }
 
   /**
+   * Update hover tooltip content
+   */
+  private updateHoverTooltip(e: any, layerIds: string[]) {
+    const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
+    if (features.length) {
+      const feat: MapFeature = features[0];
+      const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+        layers: [`${feat['layer']['id']}_text`],
+        filter: [
+          'all',
+          ['==', 'n', feat.properties.n],
+        ]
+      });
+      // Check if labels are visible, don't display tooltip if so
+      const labelLayerOpacity = this.map.getPaintProperty(
+        `${feat['layer']['id']}_text`, 'text-opacity'
+      );
+      let labelsVisible;
+      if (labelLayerOpacity) {
+        labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+      } else {
+        labelsVisible = false;
+      }
+      if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
+        this.popup.remove();
+      } else {
+        this.popup.setLngLat(e.lngLat)
+          .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
+          .addTo(this.map);
+      }
+    } else {
+      this.popup.remove();
+    }
+  }
+
+  /**
    * Based on @turf/bbox-polygon which isn't importing correctly
    * @param bbox Bounding box
    */
@@ -358,5 +380,27 @@ export class MapService {
       topLeft,
       lowLeft
     ]];
+  }
+
+  /**
+   * Determines whether selected feature boundaries should update
+   * @param currentFeat
+   * @param newFeat
+   */
+  private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    const bboxPoly = {
+      type: 'Polygon',
+      coordinates: currentFeat.hasOwnProperty('bbox') ?
+        this.bboxPolygon(currentFeat.bbox) : bbox(currentFeat)
+    };
+    // Update if current feature is a bounding box
+    if (area(currentFeat) === area(bboxPoly)) { return true; }
+    // Update if current feature has less than 95% of the new feature's area
+    // Accounts for the fact that more detailed boundaries have slightly less area
+    if (area(currentFeat) < (area(newFeat) * 0.95)) { return true; }
+    // Update if the current feature has fewer coordinates than the new feature,
+    // indicating that it's less detailed
+    if (coordAll(currentFeat).length < coordAll(newFeat).length) { return true; }
+    return false;
   }
 }

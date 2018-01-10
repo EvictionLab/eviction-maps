@@ -50,7 +50,7 @@ describe('PredictiveSearchComponent', () => {
     const el = fixture.debugElement.query(By.css('input')).nativeElement;
     el.value = 't';
     const event = new Event('input'); // typeahead is triggered by 'input' event
-    el.dispatchEvent(event);    
+    el.dispatchEvent(event);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();

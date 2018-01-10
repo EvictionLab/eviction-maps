@@ -59,6 +59,7 @@
     </div>
     <app-ui-select 
       class="language-select vertical-select z0"
+      [selectedValue]="selectedLanguage"
       (change)="selectLanguage.emit($event)"
       labelProperty="name"
       [values]="languageOptions"

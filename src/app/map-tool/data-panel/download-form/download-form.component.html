@@ -5,11 +5,16 @@
   </button>
 </div>
 <div class="modal-body">
-  <div *ngFor="let f of filetypes; let i = index">
+  <div class="description">Generate a file export for
+    <span *ngFor="let feature of exportService.features; let isLast=last">
+      {{feature.properties.n}}{{isLast ? '' : ', '}}
+    </span> between {{ exportService.startYear }} and {{ exportService.endYear }}.</div>
+  <div *ngFor="let f of filetypes; let i = index" class="filetype">
     <div>
       <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="f.checked">
-      <label [attr.for]="'checkbox' + i">{{f.name}}</label>
+      <label [attr.for]="'checkbox' + i">{{ f.name }}</label>
     </div>
+    <div>{{ f.description }}</div>
   </div>
 </div>
 <div class="modal-footer">

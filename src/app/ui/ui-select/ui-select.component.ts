@@ -18,7 +18,8 @@ export class UiSelectComponent implements OnInit {
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
     this._selectedValue = newValue;
-    this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+    this.noneSelected = !this._selectedValue ||
+      (this._selectedValue.id && this._selectedValue.id === 'none');
     this.change.emit(newValue);
   }
   get selectedValue() { return this._selectedValue; }
@@ -33,6 +34,7 @@ export class UiSelectComponent implements OnInit {
   /** Tracks if the "none" option is selected */
   @HostBinding('class.none-selected') noneSelected = true;
   private _selectedValue;
+  private scrollMax = 0;
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -43,7 +45,8 @@ export class UiSelectComponent implements OnInit {
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
-      this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+      this.noneSelected = !this._selectedValue ||
+        (this._selectedValue.id && this._selectedValue.id === 'none');
     }
   }
 
@@ -71,6 +74,7 @@ export class UiSelectComponent implements OnInit {
     this.open = this.dropdown.isOpen;
     if (this.dropdownList) {
       this.dropdownList.nativeElement.scrollTop = 0;
+      this.setScrollMax();
     }
   }
 
@@ -99,8 +103,41 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
+  /** Do not propagate any menu wheel events to parent elements */
+  onSelectScroll(e) {
+    if (!this.scrollMax) { this.setScrollMax(); }
+    if (e.deltaY > 0) {
+      if (this.dropdownList.nativeElement.scrollTop >= this.scrollMax) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    } else if (e.deltaY < 0) {
+      if (this.dropdownList.nativeElement.scrollTop <= 0) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    }
+
+  }
+
+  /** Close the dropdown when the page starts scrolling */
+  @HostListener('document:scroll', ['$event']) onDocumentScroll(e) {
+    if (this.dropdown.isOpen) { this.dropdown.hide(); }
+  }
+
   @HostListener('blur', ['$event']) onBlur(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
+  }
+
+  private setScrollMax() {
+    this.scrollMax =
+      this.dropdownList.nativeElement.scrollHeight - this.dropdownList.nativeElement.clientHeight;
   }
 
 }

@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
-  HostListener
+  HostListener, ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -13,6 +13,7 @@ import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../loading.service';
+import { DollarProps, PercentProps } from '../../../data/data-attributes';
 
 @Component({
   selector: 'app-map',
@@ -21,6 +22,26 @@ import { LoadingService } from '../../../loading.service';
   providers: [ MapService ]
 })
 export class MapComponent implements OnInit, OnChanges {
+  censusYear = 2010;
+  mapEventLayers: Array<string>;
+  cardProps;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
+  private zoom = 3;
+  private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
+  private _store = {
+    layer: null,
+    bubble: null,
+    choropleth: null,
+    year: null,
+    bounds: null,
+    autoSwitch: true,
+    loading: false
+  };
+  private _mapInstance;
+  // switch to restore auto switching layers once a map move has ended.
+  private restoreAutoSwitch = false;
+
   /** Sets and gets the bounds for the map */
   @Input()
   get boundingBox() { return this._store.bounds; }
@@ -73,7 +94,7 @@ export class MapComponent implements OnInit, OnChanges {
       }
     } else {
       // if there is no value yet, set it
-      this._store.layer = newLayer
+      this._store.layer = newLayer;
     }
   }
   get selectedLayer(): MapLayerGroup {
@@ -104,8 +125,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Input() layerOptions: MapLayerGroup[] = [];
   /** Handles if zoom is enabled on the map */
   @Input() scrollZoom: boolean;
-  /** Tracks the vertical (scroll) offset */
-  @Input() verticalOffset = 0;
   /** Tracks the currently selected menu item for mobile menu */
   @Input() activeMenuItem: string;
   @Input() activeFeatures: MapFeature[] = [];
@@ -129,6 +148,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.cardsActive;
   }
   @ViewChild('pop') mapTooltip;
+  @ViewChild('mapEl') mapEl: ElementRef;
   tooltipEnabled = true;
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
@@ -164,24 +184,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
   /** Gets if the map is loading */
   get mapLoading(): boolean { return this._store.loading; }
-  
-  censusYear = 2010;
-  mapEventLayers: Array<string>;
-  cardProps;
-  private zoom = 3;
-  private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
-  private _store = {
-    layer: null,
-    bubble: null,
-    choropleth: null,
-    year: null,
-    bounds: null,
-    autoSwitch: true,
-    loading: false
-  };
-  private _mapInstance;
-  // switch to restore auto switching layers once a map move has ended.
-  private restoreAutoSwitch = false;
 
   constructor(private map: MapService, private loader: LoadingService) {
     loader.start('map');
@@ -193,6 +195,9 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateCardProperties();
     // Show tooltip 1 second after init
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
+    // Update the animation on an interval
+    // NOTE: Parallax is disabled on the map for performance, uncomment to re-enable.
+    // setInterval(this.parallaxMap.bind(this), 10);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -335,20 +340,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Sets the tooltip and highlighted shape on the map
-   * @param feature the feature being hovered (or null if no longer hovering)
-   */
-  onFeatureHover(feature) {
-    this.featureHover.emit(feature);
-    if (feature && feature.layer.id === this.selectedLayer.id) {
-      const union = this.map.getUnionFeature(this.selectedLayer.id, feature);
-      this.map.setSourceData('hover', [union]);
-    } else {
-      this.map.setSourceData('hover');
-    }
-  }
-
-  /**
    * Gets the currently active data attribute with the year appended
    * @param type either 'choropleth' or 'bubble'
    */
@@ -399,7 +390,7 @@ export class MapComponent implements OnInit, OnChanges {
    * TODO: translate "auto"
    */
   private updateSelectedLayerName() {
-    const autoLabel = '<span>(auto)</span>'
+    const autoLabel = '<span>(auto)</span>';
     if (this._store.layer) {
       const strippedName = this._store.layer.name.replace(autoLabel, '');
       this._store.layer = this.autoSwitch ?
@@ -490,5 +481,19 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapBubbles();
     this.updateMapChoropleths();
     this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+  }
+
+  /** Animate the map based on scroll position */
+  private parallaxMap() {
+    if (window.scrollY < window.innerHeight) {
+      window.requestAnimationFrame(() => {
+        if (window.scrollY > 0) {
+          this.mapEl.nativeElement.style.transform =
+            'translate3d(0,' + (-(window.scrollY) / 2).toFixed(2) + 'px,0)';
+        } else {
+          this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
+        }
+      });
+    }
   }
 }

@@ -428,3 +428,11 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
     }
   }
 ];
+
+export const PercentProps: Array<string> = [
+  'pr', 'pro', 'pw', 'paa', 'ph', 'pai', 'pa', 'pnp', 'pm', 'po', 'er', 'efr'
+];
+
+export const DollarProps: Array<string> = [
+  'mgr', 'mpv', 'mhi'
+];

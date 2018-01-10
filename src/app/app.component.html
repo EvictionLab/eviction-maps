@@ -1,6 +1,7 @@
 <app-progress-bar *ngIf="loader.isLoading"></app-progress-bar>
 <app-header-bar
   [languageOptions]="dataService.languageOptions"
+  [selectedLanguage]="dataService.selectedLanguage"
   (selectMenuItem)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"

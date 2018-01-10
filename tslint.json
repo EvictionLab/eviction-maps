@@ -46,8 +46,6 @@
       true,
       "debug",
       "info",
-      "time",
-      "timeEnd",
       "trace"
     ],
     "no-construct": true,
@@ -137,6 +135,9 @@
     "directive-class-suffix": true,
     "no-access-missing-member": true,
     "templates-use-public": true,
-    "invoke-injectable": true
+    "invoke-injectable": true,
+    "templates-no-negated-async": true,
+    "no-unused-css": true,
+    "no-unused-variable": true
   }
 }

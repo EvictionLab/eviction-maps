@@ -11,7 +11,6 @@ describe('LocationSearchComponent', () => {
   let fixture: ComponentFixture<LocationSearchComponent>;
   const searchServiceStub = {
     queryGeocoder: () => {},
-    getLayerName: () => {},
     query: ''
   };
 
@@ -19,7 +18,7 @@ describe('LocationSearchComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ LocationSearchComponent, PredictiveSearchComponent ],
       imports: [ FormsModule, TypeaheadModule.forRoot() ]
-    })
+    });
     TestBed.overrideComponent(LocationSearchComponent, {
       set: {
         providers: [ {provide: SearchService, useValue: searchServiceStub } ],

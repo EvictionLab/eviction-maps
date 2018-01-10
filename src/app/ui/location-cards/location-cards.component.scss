@@ -140,7 +140,7 @@
       li { 
         float:left; 
         padding-right: grid(2); 
-        max-width: 33.3333%;
+        max-width: 50%;
         span {
           display:block;
           width:100%;
@@ -154,6 +154,8 @@
       li:nth-child(2) { display:none; }
       // show the second stat if there is no selected choropleth
       li:nth-child(2):last-child { display: block; }
+      // On smaller screens, float the latter of two displayed stats to the right
+      li:nth-child(2):last-child, li:nth-child(3) { float: right; }
     }
   }
 }
@@ -163,7 +165,8 @@
   :host-context(.map-ui-wrapper) {
     .location-card {
       .card-content { 
-        li:nth-child(2) { display: block; } 
+        li:nth-child(2) { display: block; }
+        li:nth-child(2):last-child, li:nth-child(3) { float: left; }
       }
     }
   }
@@ -295,6 +298,9 @@
         }
         .card-stat-value {
           @include numberFont($panelCardLabelValueLg);
+          &.unavailable {
+            @include defaultFont($panelCardLabelValueLg);
+          }
         }
       }
       &:nth-child(2) {
@@ -376,7 +382,7 @@
   padding: 0 grid(4) grid(6);
   .location-card {
     margin-right: grid(4);
-    min-width: grid(34);
+    min-width: grid(45);
     flex:1;
     &:last-child { margin-right: 0; }
     .card-header svg {

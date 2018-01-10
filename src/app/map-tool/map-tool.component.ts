@@ -1,10 +1,14 @@
-import { Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener } from '@angular/core';
+import {
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { ToastsManager } from 'ng2-toastr';
@@ -20,19 +24,20 @@ import { PlatformService } from '../platform.service';
 // https://github.com/angular/angular-cli/issues/8434
 // https://github.com/Microsoft/TypeScript/issues/17384
 function debounce(func, wait, immediate) {
-	var timeout;
-	return function() {
-		var context = this, args = arguments;
-		var later = function() {
-			timeout = null;
-			if (!immediate) func.apply(context, args);
-		};
-		var callNow = immediate && !timeout;
-		clearTimeout(timeout);
-		timeout = setTimeout(later, wait);
-		if (callNow) func.apply(context, args);
-	};
-};
+  let timeout;
+  return function() {
+    const context = this;
+    const args = arguments;
+    const later = function() {
+      timeout = null;
+      if (!immediate) { func.apply(context, args); }
+    };
+    const callNow = immediate && !timeout;
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+    if (callNow) { func.apply(context, args); }
+  };
+}
 
 @Component({
   selector: 'app-map-tool',
@@ -50,18 +55,27 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
-  /** gets if the page has scrolled enough to fix the "back to map" button */
-  get isDataButtonFixed() {
-    if (!this.panelOffset || !this.verticalOffset) { return false; }
-    return (this.verticalOffset - this.panelOffset) > 0;
-  }
   @ViewChild(MapComponent) map;
-  @ViewChild('divider') dividerEl;
+  @ViewChild('divider') dividerEl: ElementRef;
   urlParts;
+
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  onWheel = debounce(() => {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }, 250, false);
 
   constructor(
     public loader: LoadingService,
-    public dataService: DataService,    
+    public dataService: DataService,
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
@@ -70,13 +84,20 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) {
+    translate.onLangChange.subscribe((lang) => this.updateRoute());
+    // Add click to dimiss to all toast messages
+    this.toast.onClickToast()
+      .subscribe(t => this.toast.dismissToast(t));
+  }
 
   ngOnInit() {
     this.configurePageScroll();
     this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
-    this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
+    Observable.combineLatest(
+      this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
+    ).take(1).subscribe(this.setRouteParams.bind(this));
   }
 
   /**
@@ -101,33 +122,39 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /**
    * Configures the data service based on any route parameters
    */
-  setRouteParams(params: ParamMap) {
-    if (params.has('year')) {
-      this.dataService.activeYear = params.get('year');
+  setRouteParams(paramObj: Object) {
+    const params = paramObj['params'];
+    const queryParams = paramObj['queryParams'];
+
+    if (params['year']) {
+      this.dataService.activeYear = params['year'];
     }
-    if (params.has('choropleth')) {
-      this.dataService.setChoroplethHighlight(params.get('choropleth'));
-    }
-    if (params.has('type')) {
-      this.dataService.setBubbleHighlight(params.get('type'));
-    }
-    if (params.has('geography')) {
-      const geo = params.get('geography');
+    if (params['geography']) {
+      const geo = params['geography'];
       if (geo !== 'auto') {
         this.dataService.setGeographyLevel(geo);
         // this.autoSwitchLayers = false;
       }
     }
-    if (params.has('locations')) {
-      const locations = this.getLocationsFromString(params.get('locations'));
-      this.dataService.setLocations(locations);
-    }
-    if (params.has('bounds')) {
-      const b = params.get('bounds').split(',');
+    if (params['bounds']) {
+      const b = params['bounds'].split(',');
       if (b.length === 4) {
         this.dataService.setMapBounds(b);
       }
     }
+
+    this.translate.use(queryParams['lang'] || 'en');
+    if (queryParams['choropleth']) {
+      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
+    }
+    if (queryParams['type']) {
+      this.dataService.setBubbleHighlight(queryParams['type']);
+    }
+    if (queryParams['locations']) {
+      const locations = this.getLocationsFromString(queryParams['locations']);
+      this.dataService.setLocations(locations);
+    }
+
     this.cdRef.detectChanges();
   }
 
@@ -148,7 +175,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /** Update route if it has changed */
   updateRoute() {
     if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
-      this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+      setTimeout(() => {
+        this.router.navigate(this.dataService.getRouteArray(), {
+          replaceUrl: true, queryParams: this.dataService.getQueryParameters()
+        });
+      });
     }
   }
 
@@ -256,20 +287,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Debounced wheel event on the document, enable zoom
-   * if the document is scrolled to the top at the end of
-   * the wheel events
-   */
-  @HostListener('document:wheel', ['$event'])
-  onWheel = debounce(() => {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
-    this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
-  }, 250, false);
-
-  /**
    * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
@@ -306,7 +323,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /**
    * Gets an array of objects containing the layer type and
-   * longitude / latitude coordinates for the locations in the string. 
+   * longitude / latitude coordinates for the locations in the string.
    * @param locations string that represents locations
    */
   private getLocationsFromString(locations: string) {

@@ -7,6 +7,8 @@ import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../platform.service';
 import { PlatformLocation } from '@angular/common';
+import { DataService } from '../../data/data.service';
+import { DollarProps, PercentProps } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-data-panel',
@@ -24,9 +26,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       axis: {
         x: { label: null, tickFormat: null },
-        y: { 
-          label: this.translatePipe.transform(this.cardProps[this.graphProp]), 
-          tickSize: '-100%', 
+        y: {
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          tickSize: '-100%',
           ticks: 5
         }
       },
@@ -85,9 +87,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineStartYear: number = this.minYear;
   maxYear = 2016;
   lineEndYear: number = this.maxYear;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
 
   constructor(
     public dialogService: UiDialogService,
+    public dataService: DataService,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private platform: PlatformService
@@ -102,6 +107,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
     });
+    this.dataService.locations$.subscribe(d => this.setGraphData());
   }
 
   /**
@@ -162,8 +168,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   showDownloadDialog(e) {
     const config = {
-      lang: 'en',
-      startYear: this.year,
+      lang: this.translate.currentLang,
+      startYear: this.lineStartYear,
       endYear: this.lineEndYear,
       features: this.locations
     };
@@ -193,11 +199,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphData = [...this.createLineGraphData()];
       // HACK: something with the dimensions is not set correctly when updating settings
       //    for now, update in timeout until this is fixed
-      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings } }, 1250);
+      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings }; }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [...this.createBarGraphData()];
-      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings } }, 1250);
+      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings }; }, 1250);
     }
   }
 
@@ -244,6 +250,20 @@ export class DataPanelComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
+  abbrYear(year) { return year.toString().slice(-2); }
+
+  /**
+   * Return % or other suffix if in property list
+   * TODO: Duplicated from location-cards, need to refactor
+   * @param prop
+   */
+  suffix(prop: string) {
+    if (this.percentProps.indexOf(prop) !== -1) {
+      return '%';
+    }
+    return null;
+  }
+
   /**
    * Genrates line graph data from the features in `locations`
    */
@@ -274,7 +294,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       .map((year) => {
         // create points
         const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return { x: year, y: yVal !== -1 ? yVal : undefined };
+        return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
   }
 

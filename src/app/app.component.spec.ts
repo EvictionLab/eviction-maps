@@ -14,7 +14,7 @@ import { DataService } from './data/data.service';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
 
-export class TranslateServiceStub{
+export class TranslateServiceStub {
   public get(key: any): any {
     Observable.of(key);
   }

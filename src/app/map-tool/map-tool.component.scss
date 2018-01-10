@@ -1,12 +1,5 @@
 @import '../../theme';
 
-// Fixed progress bar
-app-progress-bar {
-  position: fixed;
-  top: 0;
-  z-index: 1000;
-}
-
 // Page Layout
 .app-wrapper {
   min-height:100%;
@@ -22,6 +15,9 @@ app-progress-bar {
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
+  app-map.cards-active {
+    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
+  }
   app-data-panel {
     display:block;
     position:relative;
@@ -31,12 +27,45 @@ app-progress-bar {
   }
 }
 
+// Additional spacing for software button
+:host-context(.software-button) {
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightSm} - #{grid(12)});
+    }
+  }
+}
 
-// Larger than tablet:
+// Larger than mobile:
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-mobile) {
   .app-wrapper {
     app-map {
+      margin-top: $headerHeightLg;
+      height: calc(100vh - #{$headerHeightLg});
+    }
+  }
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
+    }
+  }
+}
+
+// Additional spacing for software button
+:host-context(.gt-mobile.software-button) {
+  .app-wrapper {
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
+    }
+  }
+}
+
+// Larger than tablet:
+//    Adjust height of map / location cards to reflect large header.
+:host-context(.gt-tablet), :host-context(.gt-tablet.software-button) {
+  .app-wrapper {
+    app-map, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
     }
@@ -71,6 +100,14 @@ app-progress-bar {
     @include fill-parent();
     pointer-events:all;
     z-index:51;
+    &.inactive {
+      pointer-events:none;
+    }
+    .btn-map {
+      position:fixed;
+      top:0;
+      bottom:0;
+    }
   }
 }
 .btn-map, 
@@ -87,6 +124,7 @@ app-progress-bar {
 // bring button above data panel content
 .btn-map {
   z-index:2;
+  bottom: grid(6);
 }
 .btn-compare {
   pointer-events: all;

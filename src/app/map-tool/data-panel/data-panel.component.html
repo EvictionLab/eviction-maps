@@ -1,10 +1,23 @@
 <div class="data-wrapper">
   <ng-content></ng-content>
+  <div class="mobile-scroll-indicator">
+    <p *ngIf="locations.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
+    <p *ngIf="locations.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
+  </div>
   <div class="data-header">
       <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
   </div>
-  <app-location-cards class="card-table" [allowAddLocation]="locations.length < 3" [features]="locations" [year]="year" [cardProperties]="cardProps"
-  (dismissedCard)="locationRemoved.emit($event)" (locationAdded)="locationAdded.emit($event)"></app-location-cards>
+  <app-location-cards
+    class="card-table"
+    [allowAddLocation]="locations.length < 3"
+    [features]="locations"
+    [year]="year"
+    [cardProperties]="cardProps"
+    (dismissedCard)="locationRemoved.emit($event)"
+    (locationAdded)="locationAdded.emit($event)"
+    [dollarProps]="dollarProps"
+    [percentProps]="percentProps"
+  ></app-location-cards>
   <div class="graph-container">
     <div class="data-content-inner">
       <div class="graph-header">
@@ -16,12 +29,12 @@
           ></app-ui-switch>
           <div class="graph-year-select">
             <span class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
-            <div class="graph-line-selects" *ngIf="graphType === 'line'">
+            <div class="graph-select" *ngIf="graphType === 'line'">
               <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
               <span>to</span>
               <app-ui-select class="z0" [values]="endSelect" [selectedValue]="maxYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
             </div>
-            <div class="graph-bar-select" *ngIf="graphType === 'bar'">
+            <div class="graph-select" *ngIf="graphType === 'bar'">
               <app-ui-select class="z0" [selectedValue]="year" [values]="barYearSelect"
                 (change)="updateBarYear($event)"></app-ui-select>
             </div>
@@ -39,7 +52,7 @@
           </div>
           <div class="bar-tooltips" *ngIf="graphType === 'bar'">
             <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
-              <span *ngIf="tooltip.data && tooltip.data.length">{{tooltip.data[0].y}}</span>
+              <span *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : 'Unavailable' }}</span>
             </div>
           </div>
         </app-graph>
@@ -52,6 +65,12 @@
             </svg>
             <span class="legend-label">{{ location.properties["n"] }}</span>
             <button class="btn btn-close" (click)="locationRemoved.emit(location)">&times;</button>
+            <p class="legend-data">
+              <span *ngIf="graphType === 'bar' && location.properties[graphProp + '-' + abbrYear(barYear)] >= 0; else unavailableBar">{{ barYear }}: {{ location.properties[graphProp + "-" + abbrYear(barYear)] }}{{ suffix(graphProp) }}</span>
+              <span *ngIf="graphType === 'line' && tooltips[0] && location.properties[graphProp + '-' + abbrYear(tooltips[0].x)] >= 0; else unavailableLine">{{ tooltips[0].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[0].x)] }}{{ suffix(graphProp) }}</span>
+              <ng-template #unavailableBar><span *ngIf="graphType === 'bar'">{{ barYear }}: Unavailable</span></ng-template>
+              <ng-template #unavailableLine><span *ngIf="graphType === 'line' && tooltips[0]">{{ tooltips[0].x }}: Unavailable</span></ng-template>
+            </p>
           </li>
         </ul>
       </div>

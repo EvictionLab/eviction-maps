@@ -1,13 +1,11 @@
-<div class="map-wrapper" 
-  [style.transform]="'translateY('+ (verticalOffset > 90 ? (verticalOffset-90)/3 : 0) +'px)'"
->
+<div class="map-wrapper" #mapEl>
   <app-mapbox
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
+    [selectedLayer]="selectedLayer"
     (ready)="onMapReady($event)"
     (zoom)="onMapZoom($event)"
     (featureClick)="onFeatureClick($event)"
-    (hoverChanged)="onFeatureHover($event)"
     (moveEnd)="onMapMoveEnd($event)"
   >
   </app-mapbox>
@@ -25,6 +23,8 @@
     [year]="year"
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
+    [dollarProps]="dollarProps"
+    [percentProps]="percentProps"
   ></app-location-cards>
   <div class="map-ui" [class.active]="activeMenuItem === 'map'">
       <app-ui-select

@@ -27,7 +27,7 @@ export class DataService {
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
-  ]
+  ];
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
@@ -36,6 +36,14 @@ export class DataService {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
+
+  get selectedLanguage() {
+    return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
+  }
+  // For tracking "soft" location updates
+  private _locations = new BehaviorSubject<MapFeature[]>([]);
+  locations$ = this._locations.asObservable();
+
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = 'https://tiles.evictionlab.org/';
   private tilePrefix = 'evictions-';
@@ -53,9 +61,9 @@ export class DataService {
     if (translations.hasOwnProperty('HEADER')) {
       const header = translations['HEADER'];
       this.languageOptions = this.languageOptions.map(l => {
-        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }        
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
         return l;
-      })
+      });
     }
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
@@ -73,7 +81,7 @@ export class DataService {
     if (translations.hasOwnProperty('LAYERS')) {
       const layers = translations['LAYERS'];
       this.dataLevels = DataLevels.map((l) => {
-        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }        
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
         return l;
       });
     }
@@ -132,26 +140,36 @@ export class DataService {
    * Returns the URL parameters for the current view
    */
   getUrlParameters() {
-    const paramMap = [ 'locations', 'year', 'geography', 'type', 'choropleth', 'bounds' ];
+    const paramMap = [ 'year', 'geography', 'bounds' ];
     return this.getRouteArray().reduce((a, b, i) => {
       return a + ';' + paramMap[i] + '=' + b;
     }, '');
   }
 
   /**
-   * Gets an array of values that represent the current route
+   * Returns query parameters
    */
-  getRouteArray() {
+  getQueryParameters() {
     const locations = this.activeFeatures.map((f, i, arr) => {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
+
+    return {
+      lang: this.translate.currentLang,
+      type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
+      choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
+      locations: locations
+    };
+  }
+
+  /**
+   * Gets an array of values that represent the current route
+   */
+  getRouteArray() {
     return [
-      (locations === '' ? 'none' : locations),
       this.activeYear,
       this.activeDataLevel.id,
-      this.stripYearFromAttr(this.activeBubbleHighlight.id),
-      this.stripYearFromAttr(this.activeDataHighlight.id),
       this.mapView ? this.mapView.join() : null
     ];
   }
@@ -185,10 +203,12 @@ export class DataService {
       // so that a state change isn't triggered
       this.activeFeatures[featIndex].properties = feature.properties;
       this.activeFeatures[featIndex].geometry = feature.geometry;
+      this._locations.next(this.activeFeatures);
       return true;
     }
     if (this.activeFeatures.length < 3) {
       this.activeFeatures = [ ...this.activeFeatures, feature ];
+      this._locations.next(this.activeFeatures);
       return true;
     }
     return false;
@@ -295,8 +315,9 @@ export class DataService {
       if (containsPoint.length) {
         matchFeat = containsPoint[0];
       } else {
-        const matchesName = features.filter(feat =>
-          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase()));
+        // Check if featName is non-null, filter featurues by it if exists
+        const matchesName = featName ? features.filter(feat =>
+          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase())) : features;
         matchFeat = matchesName.length ? matchesName[0] : false;
       }
 
