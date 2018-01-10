@@ -50,7 +50,8 @@ export class AppComponent implements OnInit {
     // Add software-button class if browser is Android or iOS Safari
     const userAgent = navigator.userAgent.toLowerCase();
     this.softwareButton = userAgent.indexOf('android') > -1 ||
-      (userAgent.indexOf('safari') > -1 && userAgent.indexOf('chrome') === -1);
+      ((userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) &&
+       userAgent.indexOf('crios') === -1);
   }
 
   /** Fired when a route is activated */
