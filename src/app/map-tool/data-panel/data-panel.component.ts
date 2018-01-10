@@ -302,15 +302,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   private generateLineData(feature) {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
-      .filter((year) => {
-        // filter out years without data
-        const propVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return propVal !== null && propVal >= 0;
-      })
       .map((year) => {
         // create points
         const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return { x: year, y: yVal };
+        return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
   }
 
