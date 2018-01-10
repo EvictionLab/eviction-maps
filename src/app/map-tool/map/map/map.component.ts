@@ -273,8 +273,8 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateCensusYear();
     this.updateMapData();
     this.map.isLoading$
+      .debounceTime(150)
       .distinctUntilChanged()
-      .debounceTime(500)
       .subscribe((state) => {
         this.mapLoading = state;
         // Whenever map finishes loading, update boundaries

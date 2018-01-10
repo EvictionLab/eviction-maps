@@ -91,10 +91,10 @@ export class MapboxComponent implements AfterViewInit {
     this.setupEmitters();
     this.zone.runOutsideAngular(() => {
       this.featureMouseMove
-        .debounceTime(200)
+        .debounceTime(100)
         .subscribe(e => this.onMouseMoveFeature(e));
       this.featureMouseLeave
-        .debounceTime(200)
+        .debounceTime(100)
         .subscribe(e => this.onMouseLeaveFeature());
     });
     this.ready.emit(this.map);

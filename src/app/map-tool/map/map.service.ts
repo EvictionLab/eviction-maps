@@ -62,10 +62,10 @@ export class MapService {
     this.popup = new mapboxgl.Popup({ closeButton: false });
     this.zone.runOutsideAngular(() => {
       Observable.fromEvent(this.map, 'mousemove')
-        .debounceTime(200)
+        .debounceTime(100)
         .subscribe(e => this.updateHoverTooltip(e, layerIds));
       Observable.fromEvent(this.map, 'mouseout')
-        .debounceTime(200)
+        .debounceTime(100)
         .subscribe(e => this.popup.remove());
     });
   }

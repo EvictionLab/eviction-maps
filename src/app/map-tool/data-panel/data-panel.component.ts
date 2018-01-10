@@ -89,6 +89,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineEndYear: number = this.maxYear;
   dollarProps = DollarProps;
   percentProps = PercentProps;
+  private graphTimeout; // tracks if a timeout is set to update graph settings
 
   constructor(
     public dialogService: UiDialogService,
@@ -107,6 +108,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
         this.barGraphSettings : this.lineGraphSettings;
     });
     this.dataService.locations$.subscribe(d => this.setGraphData());
+
   }
 
   /**
@@ -199,14 +201,25 @@ export class DataPanelComponent implements OnInit, OnChanges {
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
       this.graphData = [...this.createLineGraphData()];
-      // HACK: something with the dimensions is not set correctly when updating settings
-      //    for now, update in timeout until this is fixed
-      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings }; }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [...this.createBarGraphData()];
-      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings }; }, 1250);
     }
+    this.setGraphSettings();
+  }
+
+  /**
+   * Sets the settings for the graph
+   * WARNING: something with the dimensions is not set correctly when updating settings
+   *  delaying the update in a timeout seems to fix the issue.
+   */
+  setGraphSettings() {
+    if (this.graphTimeout) { clearTimeout(this.graphTimeout); } // clear timeout if one is set
+    this.graphTimeout = setTimeout(() => {
+      const settings = this.graphType === 'line' ? this.lineGraphSettings : this.barGraphSettings;
+      this.graphSettings = { ...settings };
+      this.graphTimeout = null;
+    }, 1250);
   }
 
   /**
