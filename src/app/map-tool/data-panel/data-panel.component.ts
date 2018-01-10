@@ -99,7 +99,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.updateLineYears(this.year, this.maxYear);
     this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
