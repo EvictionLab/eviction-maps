@@ -107,6 +107,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
         this.barGraphSettings : this.lineGraphSettings;
     });
     this.dataService.locations$.subscribe(d => this.setGraphData());
+    // HACK: something with the dimensions is not set correctly when updating settings
+    //    for now, update in timeout until this is fixed
+    setInterval(() => {
+      const settings = this.graphType === 'line' ? this.lineGraphSettings : this.barGraphSettings;
+      this.graphSettings = { ...settings };
+    }, 1250);
   }
 
   /**
@@ -199,13 +205,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
       this.graphData = [...this.createLineGraphData()];
-      // HACK: something with the dimensions is not set correctly when updating settings
-      //    for now, update in timeout until this is fixed
-      setTimeout(() => { this.graphSettings = { ...this.lineGraphSettings }; }, 1250);
     } else {
       this.graphSettings = this.barGraphSettings;
       this.graphData = [...this.createBarGraphData()];
-      setTimeout(() => { this.graphSettings = { ...this.barGraphSettings }; }, 1250);
     }
   }
 
