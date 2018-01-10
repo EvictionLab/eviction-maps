@@ -1,14 +1,14 @@
-<div class="el-select" dropdown (isOpenChange)="open = dropdown.isOpen">
+<div class="el-select" dropdown (isOpenChange)="onIsOpenChange()">
   <button dropdownToggle type="button" class="btn btn-small dropdown-toggle">
     <span *ngIf="label" class="el-select-label">{{label}} </span> 
-    <span class="el-select-value">{{selectedLabel}}</span>
+    <span class="el-select-value" [innerHTML]="selectedLabel"></span>
     <svg class="svg-down-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <g>
         <polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline>
       </g>
     </svg>
   </button>
-  <ul *dropdownMenu class="dropdown-menu" role="menu">
+  <ul #dropdownList *dropdownMenu class="dropdown-menu" role="menu" (wheel)="onSelectScroll($event)">
     <li *ngFor="let value of values" role="menuitem">
       <a 
         class="dropdown-item" 

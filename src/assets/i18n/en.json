@@ -1,7 +1,7 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
-    "DATE_RANGE": "Date Range",
+    "DATE_RANGE": "Displaying year",
     "JUDGMENTS": "Judgments",
     "FILINGS": "Filings",
     "REMOVE_BUTTON": "Remove",
@@ -14,7 +14,8 @@
     "ADD_SEARCH_HINT": "Search for places",
     "MAP_LINK": "Back To Map",
     "SHARE_LINK": "Share a Link",
-    "SHARE_HINT": "Copy the link below:"
+    "SHARE_HINT": "Copy the link below:",
+    "COPY_SUCCESS": "Copied!"
   },
   "HEADER": {
     "HOME": "Home",
@@ -24,7 +25,8 @@
     "MENU": "Menu",
     "EN": "English",
     "ES": "Spanish",
-    "SEARCH_HINT": "Search for places"    
+    "SEARCH_HINT": "Search for places",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {
@@ -41,9 +43,12 @@
     "ZOOM_HINT": "Zoom for More",
     "LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
     "DATA_LINK_SINGLE": "View More Data",
-    "DATA_LINK_MULTIPLE": "View Full Comparison"     
+    "DATA_LINK_MULTIPLE": "View Full Comparison",
+    "SCROLL_DATA_SINGLE": "Scroll for More Data",
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
   },
   "STATS": {
+    "DEMOGRAPHICS": "Demographic Breakdown",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",
     "JUDGMENT_RATE": "Eviction Rate",
@@ -54,17 +59,17 @@
     "POPULATION": "Population",
     "AVG_HOUSEHOLD": "Average Household Size",
     "RENTER_OCCUPIED": "Renter Occupied Households",
-    "PCT_RENTER": "Percent Renter Occupied",
+    "PCT_RENTER": "% Renter Occupied",
     "MED_RENT": "Median Gross Rent",
     "MED_INCOME": "Median Household Income",
     "MED_PROPERTY": "Median Property Value",
     "PCT_WHITE": "% White",
     "PCT_AFR_AMER": "% African American",
-    "PCT_HISPANIC": "% Hispanic",
+    "PCT_HISPANIC": "% Hispanic/Latinx",
     "PCT_AMER_INDIAN": "% American Indian and Alaska Native",
     "PCT_ASIAN": "% Asian",
     "PCT_HAW_ISL": "% Native Hawaiian or Pacific Islander",
-    "PCT_MULTIPLE": "% Multiple",
-    "PCT_OTHER": "% Other"
+    "PCT_MULTIPLE": "% Multiple Races",
+    "PCT_OTHER": "% Other Race"
   }
 }

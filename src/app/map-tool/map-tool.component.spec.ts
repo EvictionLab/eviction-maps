@@ -8,8 +8,10 @@ import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate
 import { MapToolModule } from './map-tool.module';
 import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
+import { ToastModule } from 'ng2-toastr';
+import { LoadingService } from '../loading.service';
 
-export class TranslateServiceStub{
+export class TranslateServiceStub {
   public get(key: any): any {
     Observable.of(key);
   }
@@ -27,7 +29,6 @@ export class DataServiceStub {
   autoSwitchLayers = true;
   mapView;
   mapConfig;
-  isLoading = false;
   getRouteArray() { return []; }
 }
 
@@ -40,14 +41,16 @@ describe('MapToolComponent', () => {
       imports: [
         MapToolModule,
         TranslateModule.forRoot(),
-        RouterTestingModule
+        RouterTestingModule,
+        ToastModule.forRoot()
       ]
-    })
+    });
     TestBed.overrideComponent(MapToolComponent, {
       set: {
         providers: [
           {provide: DataService, useClass: DataServiceStub },
-          TranslateService
+          TranslateService,
+          LoadingService
         ]
       }
     })

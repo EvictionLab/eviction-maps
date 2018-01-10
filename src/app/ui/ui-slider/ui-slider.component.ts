@@ -1,4 +1,7 @@
-import { Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding, ViewChild, Input, Output } from '@angular/core';
+import {
+  Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding,
+  ViewChild, Input, Output
+} from '@angular/core';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
@@ -11,8 +14,7 @@ export class UiSliderComponent implements AfterViewInit {
   set value(value: number) {
     const boundsValue = (this.min && this.max) ?
       Math.min(this.max, Math.max(this.min, value)) : value;
-    this._currentValue = this.getStepValue(boundsValue);   
-     
+    this._currentValue = this.getStepValue(boundsValue);
   }
   get value(): number {
     return this._currentValue;
@@ -27,11 +29,11 @@ export class UiSliderComponent implements AfterViewInit {
   @HostBinding('class.active') pressed = false;
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
-  get pxValue() { return this.elRect ? this.position * this.elRect.width : 0 }
+  get pxValue() { return this.elRect ? this.position * this.elRect.width : 0; }
   private elRect = null;
   private _currentValue = 0;
 
-  constructor(private cdRef:ChangeDetectorRef) {}
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   ngAfterViewInit() {
     this.setSliderDimensions();
@@ -97,7 +99,7 @@ export class UiSliderComponent implements AfterViewInit {
   }
 
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
-    if (this.pressed && e.touches && e.touches.length === 1) {
+    if (this.pressed) {
       this.updatePosition();
       this.pressed = false;
     }

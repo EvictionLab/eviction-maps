@@ -1,8 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges
+} from '@angular/core';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PlatformService } from '../../platform.service';
+import { PlatformLocation } from '@angular/common';
+import { DataService } from '../../data/data.service';
+import { DollarProps, PercentProps } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-data-panel',
@@ -20,9 +26,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       axis: {
         x: { label: null, tickFormat: null },
-        y: { 
-          label: this.translatePipe.transform(this.cardProps[this.graphProp]), 
-          tickSize: '-100%', 
+        y: {
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          tickSize: '-100%',
           ticks: 5
         }
       },
@@ -56,8 +62,19 @@ export class DataPanelComponent implements OnInit, OnChanges {
     'ef': 'STATS.FILINGS',
     'pr': 'STATS.POVERTY_RATE',
     'p': 'STATS.POPULATION',
-    'roh': 'STATS.RENTER_OCCUPIED',
-    'ahs': 'STATS.AVG_HOUSEHOLD'
+    'pro': 'STATS.PCT_RENTER',
+    'mgr': 'STATS.MED_RENT',
+    'mpv': 'STATS.MED_PROPERTY',
+    'mhi': 'STATS.MED_INCOME',
+    'divider': 'STATS.DEMOGRAPHICS',
+    'pw': 'STATS.PCT_WHITE',
+    'paa': 'STATS.PCT_AFR_AMER',
+    'ph': 'STATS.PCT_HISPANIC',
+    'pai': 'STATS.PCT_AMER_INDIAN',
+    'pa': 'STATS.PCT_ASIAN',
+    'pnp': 'STATS.PCT_HAW_ISL',
+    'pm': 'STATS.PCT_MULTIPLE',
+    'po': 'STATS.PCT_OTHER'
   };
   graphProp = 'er';
   graphSettings;
@@ -70,15 +87,19 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineStartYear: number = this.minYear;
   maxYear = 2016;
   lineEndYear: number = this.maxYear;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
+  private graphTimeout; // tracks if a timeout is set to update graph settings
 
   constructor(
-    public dialogService: UiDialogService, 
+    public dialogService: UiDialogService,
+    public dataService: DataService,
     private translatePipe: TranslatePipe,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private platform: PlatformService
   ) {}
 
   ngOnInit() {
-    this.updateLineYears(this.year, this.maxYear);
     this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
@@ -86,6 +107,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
     });
+    this.dataService.locations$.subscribe(d => this.setGraphData());
+
   }
 
   /**
@@ -127,10 +150,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
       [];
   }
 
-  trackTooltips(index, item) {
-    return item.id;
-  }
+  /** track tooltips by ID so they are animated properly */
+  trackTooltips(index, item) { return item.id; }
 
+  /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
@@ -146,10 +169,13 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   showDownloadDialog(e) {
     const config = {
-      lang: 'en',
-      startYear: this.year,
+      lang: this.translate.currentLang,
+      year: this.year,
+      startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations
+      features: this.locations,
+      dataProp: this.dataService.activeDataHighlight.id,
+      bubbleProp: this.dataService.activeBubbleHighlight.id
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }
@@ -174,11 +200,26 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.lineGraphSettings;
-      this.graphData = [ ...this.createLineGraphData() ];
+      this.graphData = [...this.createLineGraphData()];
     } else {
       this.graphSettings = this.barGraphSettings;
-      this.graphData = [ ...this.createBarGraphData() ];
+      this.graphData = [...this.createBarGraphData()];
     }
+    this.setGraphSettings();
+  }
+
+  /**
+   * Sets the settings for the graph
+   * WARNING: something with the dimensions is not set correctly when updating settings
+   *  delaying the update in a timeout seems to fix the issue.
+   */
+  setGraphSettings() {
+    if (this.graphTimeout) { clearTimeout(this.graphTimeout); } // clear timeout if one is set
+    this.graphTimeout = setTimeout(() => {
+      const settings = this.graphType === 'line' ? this.lineGraphSettings : this.barGraphSettings;
+      this.graphSettings = { ...settings };
+      this.graphTimeout = null;
+    }, 1250);
   }
 
   /**
@@ -203,6 +244,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * @param e
    */
   checkMailto(e) {
+    // Cancel if on mobile, since behavior isn't the same
+    if (this.platform.isMobile) {
+      return;
+    }
     // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
     let timeout;
 
@@ -218,6 +263,29 @@ export class DataPanelComponent implements OnInit, OnChanges {
         ]
       });
     }, 1000);
+  }
+
+  abbrYear(year) { return year.toString().slice(-2); }
+
+  /**
+   * Return % or other suffix if in property list
+   * TODO: Duplicated from location-cards, need to refactor
+   * @param prop
+   */
+  suffix(prop: string) {
+    if (this.percentProps.indexOf(prop) !== -1) {
+      return '%';
+    }
+    return null;
+  }
+
+  getTooltipsYear(tooltips: Object[]) {
+    for (let i = 0; i < tooltips.length; ++i) {
+      if (tooltips[i]['x'] !== null) {
+        return tooltips[i]['x'];
+      }
+    }
+    return null;
   }
 
   /**
@@ -247,15 +315,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   private generateLineData(feature) {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
-      .filter((year) => {
-        // filter out years without data
-        const propVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return (propVal && propVal !== -1);
-      })
       .map((year) => {
         // create points
         const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        return { x: year, y: yVal };
+        return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
   }
 

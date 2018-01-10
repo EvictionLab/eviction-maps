@@ -1,9 +1,12 @@
 @import '../../../../theme';
 
+
 // Map UI Layout
 // ----
 // Map fills the component width and height
 .map-wrapper {
+  position:fixed;
+  top:0;
   width:100%;
   height:100%;
   display:block;
@@ -55,9 +58,22 @@ app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
   top: 0;
   bottom:$timeSliderHeight;
   margin:auto;
-  height:110px;
+  height:grid(18);
   right:$pageMargin;
   left: auto;
+  .mapboxgl-ctrl-group {
+    border-radius:0;
+    box-shadow: $z1shadow;
+     & > button {
+       border-bottom: none;
+       border-radius:0;
+       width: grid(5);
+       height: grid(5);
+       &.mapboxgl-ctrl-zoom-in {
+         border-bottom: 1px solid $shadingColor;
+       }
+     }
+  }
 }
 // increase page margins and account for larger time slider
 :host-context(.gt-mobile) {
@@ -104,17 +120,18 @@ app-location-cards {
     }
     ::ng-deep {
       .location-card {
-        height: grid(42);
-        position:absolute;
-        margin:auto;
-        top:0;bottom:0;left:0;right:auto;
+        // height: grid(42);
+        // position:absolute;
+        // margin:auto;
+        // top:0;bottom:0;left:0;right:auto;
         transform: translateX(0);
         transition: transform 0.2s ease;
         transform: translateX(0);
+        position:relative;
       }
       .location-card:nth-child(1) { z-index: 17; }
-      .location-card:nth-child(2) { z-index: 18; }
-      .location-card:nth-child(3) { z-index: 19; }      
+      .location-card:nth-child(2) { z-index: 18; margin-left: -200px; }
+      .location-card:nth-child(3) { z-index: 19; margin-left: -200px; }      
     }
     &.cards-2 {
       ::ng-deep {
@@ -122,18 +139,20 @@ app-location-cards {
         .location-card:nth-child(2) { transform: translateX(0); }
       }
       &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(100%); }
+        .location-card:nth-child(1) { transform: translateX(0%); }
+        .location-card:nth-child(2) { transform: translateX(100%); }
       }
     }
     &.cards-3 {
       ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(15%); }
+        .location-card:nth-child(1) { transform: translateX(15%);}
         .location-card:nth-child(2) { transform: translateX(7%); }
         .location-card:nth-child(3) { transform: translateX(0); }
       }
       &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(200%); }
+        .location-card:nth-child(1) { transform: translateX(0%); }
         .location-card:nth-child(2) { transform: translateX(100%); }
+        .location-card:nth-child(3) { transform: translateX(200%); }
       }
     }
   }
@@ -184,7 +203,7 @@ app-location-cards {
         text-overflow: none;
         white-space: normal;
       }
-      .el-select-label { display: inherit; }
+      .el-select-label { display: block; }
       .el-select-value { display: none; }
     }
   }
@@ -194,6 +213,10 @@ app-location-cards {
       display:block;
       overflow: hidden;
       text-overflow: ellipsis;
+      span {
+        display:inline;
+        margin-left: grid(0.5);
+      }
     }
     .el-select .dropdown-toggle.btn {
       white-space: nowrap;
@@ -259,6 +282,10 @@ app-ui-map-legend {
   left:0;
   box-shadow: $z1shadow;
   border-bottom: 1px solid $shadingColor;
+  ::ng-deep .hint-button svg {
+    width: grid(3);
+    height: grid(3);
+  }
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
@@ -270,13 +297,18 @@ app-ui-map-legend {
 :host-context(.gt-mobile) {
   app-ui-map-legend {
     height: grid(6); // 6 * 8 = 48px
-    width: grid(43); // 43 * 8 = 344px
+    width: grid(42.5); // 42.5 * 8 = 340px
     max-width: $maxContentWidth;
     margin:auto;
     top:auto;
     left:auto;
     right:$pageMarginLg;
     bottom: $timeSliderHeight + $pageMarginLg;
+    ::ng-deep .hint-button svg {
+      width: grid(3.75); // 30px
+      height: grid(3.75);
+      margin-top: grid(0.5);
+    }
   }
 }
 // large than mobile:
@@ -303,6 +335,7 @@ app-ui-map-legend {
 .year-slider-container {
   @include fill-parent();
   top: auto;
+  box-shadow: $z1shadow;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;

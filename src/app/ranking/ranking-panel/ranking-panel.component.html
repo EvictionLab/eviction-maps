@@ -1,0 +1,26 @@
+<div *ngIf="location" class="content-inner">
+  <div class="panel-prev" (click)="goToPrevious.emit(true)">
+      <svg viewBox="0 0 24 24">
+          <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+      </svg>
+  </div>
+  <div class="panel-rank">
+    <span class="rank-number">{{ rank }}</span>
+    <span class="rank-label">Highest {{dataProperty.name}}</span>
+  </div>
+  <div class="panel-summary">
+    <div class="panel-summary-heading">
+      <h2>{{ location.name }}</h2>
+      <span>{{dataProperty.name}} </span>
+      <span>{{location[dataProperty.value]}}</span>
+    </div>
+    <p class="panel-summary-content">
+      There were {{location.evictions}} in the {{location.name}} area last year.  That amounts to {{ (location.evictions/365) | number: '1.2-2'}} people evicted every day.  {{ location.evictionRate }} in 100 renter homes are evicted each year.
+    </p>
+  </div>
+  <div class="panel-next" (click)="goToNext.emit(true)">
+      <svg viewBox="0 0 24 24">
+          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+      </svg>
+  </div>
+</div>

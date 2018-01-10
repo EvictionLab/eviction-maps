@@ -27,9 +27,13 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  // TEMPORARY - should have a focus style for accessibility
+  &:focus {
+    outline:none;
+  }
 }
 .slider-label {
-  margin-right: grid(2);
+  margin-left: grid(2);
   @include defaultFont(14px);
   letter-spacing: 0.5px;
   text-transform: uppercase;
@@ -122,7 +126,7 @@
 
 :host-context(.gt-mobile) {
   .slider-label {
-    margin-right: grid(3);
+    margin-left: grid(3);
   }
   .el-slider {
     .scrubber-label {

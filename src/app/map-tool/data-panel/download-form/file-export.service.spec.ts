@@ -29,7 +29,7 @@ describe('FileExportService', () => {
         features: [],
         startYear: '2001',
         endYear: '2004'
-      })
+      });
       const downloadRequest = service.createDownloadRequest(['xlsx']);
       expect(downloadRequest.lang).toBe('en');
       expect(downloadRequest.hasOwnProperty('formats')).toBe(false);
@@ -40,6 +40,12 @@ describe('FileExportService', () => {
     'should include formats in request if more than one filetype selected',
     inject(
       [FileExportService], (service: FileExportService) => {
+        service.setExportValues({
+          lang: 'en',
+          features: [],
+          startYear: '2001',
+          endYear: '2004'
+        });
         const downloadRequest = service.createDownloadRequest(['pptx', 'xlsx']);
         expect(downloadRequest.formats).toEqual(['pptx', 'xlsx']);
       }
@@ -55,7 +61,7 @@ describe('FileExportService', () => {
           features: [],
           startYear: '2001',
           endYear: '2004'
-        })
+        });
         service.sendFileRequest(['xlsx']).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
           const body = JSON.parse(req.body);

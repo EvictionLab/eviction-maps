@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef
+} from '@angular/core';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import * as _isEqual from 'lodash.isequal';
 
@@ -16,13 +18,15 @@ export class UiSelectComponent implements OnInit {
   set selectedValue(newValue) {
     if (_isEqual(newValue, this._selectedValue)) { return; }
     this._selectedValue = newValue;
-    this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+    this.noneSelected = !this._selectedValue ||
+      (this._selectedValue.id && this._selectedValue.id === 'none');
     this.change.emit(newValue);
   }
   get selectedValue() { return this._selectedValue; }
   @Input() values: Array<any> = [];
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(BsDropdownDirective) dropdown;
+  @ViewChild('dropdownList') dropdownList: ElementRef;
   highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
   private valuesArray = true; // true if `values` is an array of values instead of objects
@@ -30,6 +34,7 @@ export class UiSelectComponent implements OnInit {
   /** Tracks if the "none" option is selected */
   @HostBinding('class.none-selected') noneSelected = true;
   private _selectedValue;
+  private scrollMax = 0;
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -40,7 +45,8 @@ export class UiSelectComponent implements OnInit {
       if (!this._selectedValue) {
         this._selectedValue = this.values[0];
       }
-      this.noneSelected = !this._selectedValue || (this._selectedValue.id && this._selectedValue.id === 'none');
+      this.noneSelected = !this._selectedValue ||
+        (this._selectedValue.id && this._selectedValue.id === 'none');
     }
   }
 
@@ -59,6 +65,17 @@ export class UiSelectComponent implements OnInit {
     const i = this.values.findIndex((v) => _isEqual(this.highlightedItem, v));
     const offset = previousItem ? -1 : 1;
     return this.values[(i + offset) % this.values.length];
+  }
+
+  /**
+   * Set open status, reset scrollTop in dropdown
+   */
+  onIsOpenChange() {
+    this.open = this.dropdown.isOpen;
+    if (this.dropdownList) {
+      this.dropdownList.nativeElement.scrollTop = 0;
+      this.setScrollMax();
+    }
   }
 
   @HostListener('keydown', ['$event']) onFocus(e) {
@@ -86,8 +103,41 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
+  /** Do not propagate any menu wheel events to parent elements */
+  onSelectScroll(e) {
+    if (!this.scrollMax) { this.setScrollMax(); }
+    if (e.deltaY > 0) {
+      if (this.dropdownList.nativeElement.scrollTop >= this.scrollMax) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    } else if (e.deltaY < 0) {
+      if (this.dropdownList.nativeElement.scrollTop <= 0) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    }
+
+  }
+
+  /** Close the dropdown when the page starts scrolling */
+  @HostListener('document:scroll', ['$event']) onDocumentScroll(e) {
+    if (this.dropdown.isOpen) { this.dropdown.hide(); }
+  }
+
   @HostListener('blur', ['$event']) onBlur(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
+  }
+
+  private setScrollMax() {
+    this.scrollMax =
+      this.dropdownList.nativeElement.scrollHeight - this.dropdownList.nativeElement.clientHeight;
   }
 
 }

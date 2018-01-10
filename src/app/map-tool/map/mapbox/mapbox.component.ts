@@ -1,9 +1,10 @@
 import {
-  Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef
+  Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, NgZone
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
 import { MapLayerGroup } from '../../map/map-layer-group';
+import 'rxjs/add/observable/fromEvent';
 
 @Component({
   selector: 'app-mapbox',
@@ -16,17 +17,15 @@ export class MapboxComponent implements AfterViewInit {
   @ViewChild('map') mapEl: ElementRef;
   @Input() mapConfig: Object;
   @Input() eventLayers: Array<string> = [];
+  @Input() selectedLayer: MapLayerGroup;
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() zoom: EventEmitter<number> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
-  @Output() render: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
-  @Output() featureMouseEnter: EventEmitter<any> = new EventEmitter();
-  @Output() featureMouseLeave: EventEmitter<any> = new EventEmitter();
-  @Output() featureMouseMove: EventEmitter<any> = new EventEmitter();
-  @Output() hoverChanged: EventEmitter<any> = new EventEmitter();
+  featureMouseMove: EventEmitter<any> = new EventEmitter();
+  featureMouseLeave: EventEmitter<any> = new EventEmitter();
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService, private zone: NgZone) { }
 
   /**
    * Create map object from mapEl ViewChild
@@ -59,7 +58,7 @@ export class MapboxComponent implements AfterViewInit {
   onMouseLeaveFeature() {
     this.map.getCanvas().style.cursor = '';
     this.activeFeature = null;
-    this.hoverChanged.emit(this.activeFeature);
+    this.mapService.setSourceData('hover');
   }
 
   onMouseMoveFeature(e) {
@@ -71,7 +70,14 @@ export class MapboxComponent implements AfterViewInit {
         this.activeFeature.properties.pl !== feature.properties.pl
       ) {
         this.activeFeature = feature;
-        this.hoverChanged.emit(this.activeFeature);
+        if (feature && feature.layer.id === this.selectedLayer.id) {
+          const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
+          if (union !== null) {
+            this.mapService.setSourceData('hover', [union]);
+          }
+        } else {
+          this.mapService.setSourceData('hover');
+        }
       }
     }
   }
@@ -83,9 +89,14 @@ export class MapboxComponent implements AfterViewInit {
   onMapInstance(map) {
     this.map = map;
     this.setupEmitters();
-    this.featureMouseEnter.subscribe(this.onMouseEnterFeature.bind(this));
-    this.featureMouseLeave.subscribe(this.onMouseLeaveFeature.bind(this));
-    this.featureMouseMove.subscribe(this.onMouseMoveFeature.bind(this));
+    this.zone.runOutsideAngular(() => {
+      this.featureMouseMove
+        .debounceTime(100)
+        .subscribe(e => this.onMouseMoveFeature(e));
+      this.featureMouseLeave
+        .debounceTime(100)
+        .subscribe(e => this.onMouseLeaveFeature());
+    });
     this.ready.emit(this.map);
   }
 
@@ -94,27 +105,20 @@ export class MapboxComponent implements AfterViewInit {
    */
   private setupEmitters() {
     // Emit all zoom end events from map
-    this.map.on('moveend', (e) => { this.moveEnd.emit(e); });
-    this.map.on('zoom', (zoomEvent) => { this.zoom.emit(this.map.getZoom()); });
+    this.map.on('moveend', (e) => this.moveEnd.emit(e));
     // Emit feature on zoom end to account for geography details changing across zooms
-    this.map.on('zoomend', () => {
-      if (this.activeFeature) {
-        this.hoverChanged.emit(this.activeFeature);
-      }
-    });
-    this.map.on('render', (e) => {
-      this.render.emit(e);
-      this.mapService.setLoading(!this.map.loaded());
-    });
+    this.map.on('zoomend', () => this.zoom.emit(this.map.getZoom()));
+    this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
+    this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
+      this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature());
+      this.map.on('mouseleave', layer, (ev) => this.featureMouseLeave.emit(ev));
+      this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
           this.featureClick.emit(e.features[0]);
         }
       });
-      this.map.on('mouseenter', layer, (e) => { this.featureMouseEnter.emit(e); });
-      this.map.on('mouseleave', layer, (e) => { this.featureMouseLeave.emit(e); });
-      this.map.on('mousemove', layer, (e) => { this.featureMouseMove.emit(e); });
     });
   }
 }

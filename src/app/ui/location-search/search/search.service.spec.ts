@@ -7,7 +7,7 @@ import { SearchService } from './search.service';
 describe('SearchService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule,HttpClientTestingModule],
+      imports: [HttpClientModule, HttpClientTestingModule],
       providers: [SearchService]
     });
   });

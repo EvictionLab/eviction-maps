@@ -6,54 +6,37 @@ import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ToastModule } from 'ng2-toastr';
 
+// local imports
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { PlatformService } from './platform.service';
+import { RankingModule } from './ranking/ranking.module';
+import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
+import { DataService } from './data/data.service';
+import { HeaderBarComponent } from './header-bar/header-bar.component';
+import { FooterComponent } from './footer/footer.component';
+import { LoadingService } from './loading.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
-const defaultData = {
-  mapConfig: {
-    style: './assets/style.json',
-    center: [-98.5795, 39.8283],
-    zoom: 3,
-    minZoom: 3,
-    maxZoom: 14
-  },
-  year: 2016
-};
-
-const appRoutes: Routes = [
-  {
-    path: ':locations/:year/:geography/:type/:choropleth/:bounds',
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: 'link', // optional path for URL parameters
-    component: MapToolComponent,
-    data: defaultData
-  },
-  {
-    path: '',
-    redirectTo: '/none/2016/auto/none/none/-136.80,20.68,-57.60,52.06', // default view
-    pathMatch: 'full'
-  }
-];
-
 @NgModule({
-  declarations: [ AppComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent ],
   imports: [
     UiModule,
     MapToolModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    RankingModule.forRoot({
+      dataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv'
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -61,12 +44,12 @@ const appRoutes: Routes = [
         deps: [HttpClient]
       }
     }),
-    RouterModule.forRoot(
-      appRoutes,
-      { useHash: true }
-    )
+    RouterModule.forRoot([], { useHash: true }),
+    TooltipModule.forRoot(),
+    ToastModule.forRoot()
   ],
-  providers: [ PlatformService ],
-  bootstrap: [ AppComponent ]
+  providers: [ PlatformService, DataService, LoadingService ],
+  bootstrap: [AppComponent],
+  entryComponents: [ MapToolComponent, RankingToolComponent ]
 })
 export class AppModule { }

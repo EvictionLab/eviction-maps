@@ -1,12 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
+import { LoadingService } from '../../../loading.service';
 
-class mapServiceStub {
+class MapServiceStub {
   updateCensusSource() {}
   createMap(settings) { return this; }
   addControl(...args) { return this; }
@@ -20,11 +22,11 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule, TranslateModule.forRoot() ]
-    })
+      imports: [ UiModule, TranslateModule.forRoot(), TooltipModule.forRoot() ]
+    });
     TestBed.overrideComponent(MapComponent, {
       set: {
-        providers: [ {provide: MapService, useValue: new mapServiceStub()  } ],
+        providers: [ {provide: MapService, useValue: new MapServiceStub() }, LoadingService ],
       }
     })
     .compileComponents();

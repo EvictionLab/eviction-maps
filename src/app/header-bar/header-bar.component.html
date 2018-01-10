@@ -19,7 +19,7 @@
         </svg>
         <span>{{ 'HEADER.SEARCH' | translate }}</span>
       </button>
-      <button [class.active]="activeMenuItem === 'map'" class="el-svg-button el-button-map" (click)="onMenuSelect('map')">
+      <button #pop="bs-tooltip" containerClass="map-hint-mobile" [isDisabled]="!tooltipEnabled" placement="bottom" [tooltip]="'HEADER.MAP_HINT' | translate" [class.active]="activeMenuItem === 'map'" class="el-svg-button el-button-map" (click)="onMenuSelect('map')">
         <svg viewBox="0 0 22 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
           <g transform="translate(-138.000000, -20.000000)" fill="#666666">
             <path d="M138,22.7083333 L144.770833,20 L144.770833,41.2739583 L138,43.9822917 L138,22.7083333 Z M146.0625,20.0181152 L152.3125,22.6967611 L152.3125,43.9587402 L146.0625,41.2800944 L146.0625,20.0181152 Z M153.604167,22.7686422 L159.854167,20.0899963 L159.854167,41.3524963 L153.604167,44.0311422 L153.604167,22.7686422 Z"
@@ -58,7 +58,8 @@
       ></app-location-search>
     </div>
     <app-ui-select 
-      class="language-select vertical-select"
+      class="language-select vertical-select z0"
+      [selectedValue]="selectedLanguage"
       (change)="selectLanguage.emit($event)"
       labelProperty="name"
       [values]="languageOptions"

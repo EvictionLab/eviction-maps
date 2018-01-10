@@ -14,7 +14,8 @@
     "ADD_SEARCH_HINT": "Buscar",
     "MAP_LINK": "Mapa",
     "SHARE_LINK": "Share a Link",
-    "SHARE_HINT": "Copy the link below:"
+    "SHARE_HINT": "Copy the link below:",
+    "COPY_SUCCESS": "Copied!"
   },
   "HEADER": {
     "HOME": "Home",
@@ -24,7 +25,8 @@
     "MENU": "menú",
     "EN": "Inglés",
     "ES": "Español",
-    "SEARCH_HINT": "Buscar"
+    "SEARCH_HINT": "Buscar",
+    "MAP_HINT": "Start Here"
   },
   "HELP": "Lorem Ipsum",
   "LAYERS": {
@@ -41,9 +43,12 @@
     "ZOOM_HINT": "Zoom for More",
     "LEGEND_HINT": "{{geography}} = {{attribute}}, {{min}} - {{max}}.",
     "DATA_LINK_SINGLE": "View More Data",
-    "DATA_LINK_MULTIPLE": "View Full Comparison" 
+    "DATA_LINK_MULTIPLE": "View Full Comparison",
+    "SCROLL_DATA_SINGLE": "Scroll for More Data",
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
   },
   "STATS": {
+    "DEMOGRAPHICS": "Desglose Demográfico",
     "NONE": "Nada",
     "JUDGMENTS_PER_DAY": "Desalojos por Día",
     "JUDGMENT_RATE": "Tasa de Desalojo",

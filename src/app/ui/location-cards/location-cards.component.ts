@@ -22,6 +22,8 @@ export class LocationCardsComponent {
   @Input() allowAddLocation = false;
   @Input() features: Array<any>;
   @Input() year = 2010;
+  @Input() percentProps: Array<string>;
+  @Input() dollarProps: Array<string>;
   @Input()
   set cardProperties(value) {
     this._cardProps = value;
@@ -39,5 +41,27 @@ export class LocationCardsComponent {
   get abbrYear() { return this.year.toString().slice(-2); }
   private _cardProps;
   constructor() { }
+
+  /**
+   * Return $ or other prefix if in property list
+   * @param prop
+   */
+  prefix(prop: string) {
+    if (this.dollarProps.indexOf(prop) !== -1) {
+      return '$';
+    }
+    return null;
+  }
+
+  /**
+   * Return % or other suffix if in property list
+   * @param prop
+   */
+  suffix(prop: string) {
+    if (this.percentProps.indexOf(prop) !== -1) {
+      return '%';
+    }
+    return null;
+  }
 
 }

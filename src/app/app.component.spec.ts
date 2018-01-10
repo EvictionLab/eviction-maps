@@ -7,8 +7,14 @@ import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { PlatformService } from './platform.service';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
+import { HeaderBarComponent } from './header-bar/header-bar.component';
+import { FooterComponent } from './footer/footer.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { DataService } from './data/data.service';
+import { ToastModule } from 'ng2-toastr';
+import { LoadingService } from './loading.service';
 
-export class TranslateServiceStub{
+export class TranslateServiceStub {
   public get(key: any): any {
     Observable.of(key);
   }
@@ -21,12 +27,19 @@ describe('AppComponent', () => {
         UiModule,
         MapToolModule,
         RouterTestingModule,
-        TranslateModule
+        TranslateModule,
+        TooltipModule.forRoot(),
+        ToastModule.forRoot()
       ],
       declarations: [
-        AppComponent
+        AppComponent, HeaderBarComponent, FooterComponent
       ],
-      providers: [ PlatformService, {provide: TranslateService, useClass: TranslateServiceStub} ]
+      providers: [
+        PlatformService,
+        LoadingService,
+        { provide: TranslateService, useClass: TranslateServiceStub },
+        { provide: DataService, useValue: { languageOptions: [] } }
+      ]
     }).compileComponents();
   }));
 

@@ -1,4 +1,4 @@
-@import '../../../theme';
+@import '../../theme';
 
 // HEADER BAR
 
@@ -93,6 +93,10 @@
   }
   .language-select {
     display: none;
+    ::ng-deep .btn.dropdown-toggle {
+      @include defaultFont(13px);
+      text-transform: none;
+    }
   }
 }
 
@@ -107,7 +111,7 @@
     padding: 0 $pageMarginLg;    
     .header-content {
       display:flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-content: center;
       align-items: center;
     }
@@ -123,11 +127,13 @@
     .header-icons .el-button-menu {
       display:block;
       width: grid(5);
+      color: $color1;
       height: $headerContentHeight;
       svg {
         width: 40px;
         height: 35px;
         margin-top: -8px;
+        path { fill: $color1;}
       }
       span {
         font-size: 11px;
@@ -137,21 +143,21 @@
     .header-logo {
       order:1;
       display:block;
-      width:grid(31);
-      flex: none;
-      img { width:100%;}
+      width:grid(34.25);
+      flex: 1;
+      img { width: grid(34.25); }
     }
     .header-search {
       position:relative;
       display:flex;
       order: 2;
       flex: 1;
-      max-width: grid(50);
+      max-width: grid(37.5);
       margin: 0 0 0 grid(3);
     }
     .language-select {
       display:block;
-      margin: 0 grid(3) 0 grid(1);
+      margin: 0 grid(3) 0 grid(2);
       order: 3;
     }
     .search {
@@ -165,6 +171,9 @@
 // - adds language toggle
 @media(min-width: $gtTablet) {
   .header-wrapper {
+    .header-logo {
+      width: grid(39.5);
+    }
     .header-content {
       justify-content: flex-start;
       align-content: center;
@@ -178,7 +187,7 @@
       justify-content: flex-end;
       margin-right: grid(1);
       .search {
-        max-width: grid(50);
+        max-width: grid(37.5);
         
       }
     }
