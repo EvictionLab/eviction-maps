@@ -49,7 +49,7 @@
   <div #divider></div>
   <app-data-panel
       id="data-panel"
-      *ngIf="dataService.activeFeatures.length > 0"
+      [style.display]="dataService.activeFeatures.length > 0 ? 'inherit' : 'none'"
       [year]="dataService.activeYear"
       [locations]="dataService.activeFeatures" 
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"

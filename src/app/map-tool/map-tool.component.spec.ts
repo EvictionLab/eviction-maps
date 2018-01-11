@@ -23,6 +23,7 @@ export class DataServiceStub {
   get bubbleAttributes() { return BubbleAttributes; }
   activeYear = 2010;
   activeFeatures = [];
+  locations$ = Observable.of([]);
   activeDataLevel = DataLevels[0];
   activeDataHighlight = DataAttributes[0];
   activeBubbleHighlight = BubbleAttributes[0];
