@@ -15,7 +15,10 @@
     "MAP_LINK": "Mapa",
     "SHARE_LINK": "Share a Link",
     "SHARE_HINT": "Copy the link below:",
-    "COPY_SUCCESS": "Copied!"
+    "COPY_SUCCESS": "Copied!",
+    "TWEET_ONE_FEATURE": "Estoy revisando los datos de desalojo de {{year}} para {{place1}}. Ver los resultados {{link}}.",
+    "TWEET_TWO_FEATURES": "Comparé las tasas de desalojo del {{year}} en {{place1}} y {{place2}}. Ver los resultados {{link}}.",
+    "TWEET_THREE_FEATURES": "Comparé las tasas de desalojo del {{year}} en {{place1}}, {{place2}} y {{place3}}. Ver los resultados {{link}}."
   },
   "HEADER": {
     "HOME": "Home",

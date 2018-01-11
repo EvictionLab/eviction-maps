@@ -15,7 +15,10 @@
     "MAP_LINK": "Back To Map",
     "SHARE_LINK": "Share a Link",
     "SHARE_HINT": "Copy the link below:",
-    "COPY_SUCCESS": "Copied!"
+    "COPY_SUCCESS": "Copied!",
+    "TWEET_ONE_FEATURE": "I'm looking at {{year}} eviction data for {{place1}}. See the results at {{link}}.",
+    "TWEET_TWO_FEATURES": "I compared {{year}} eviction rates for {{place1}} and {{place2}}. See the results at {{link}}.",
+    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}."
   },
   "HEADER": {
     "HOME": "Home",
