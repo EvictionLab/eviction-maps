@@ -55,6 +55,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
   urlParts;
+  private removeToastShown = false;
 
   constructor(
     public loader: LoadingService,
@@ -188,15 +189,17 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
-    this.dataService.addLocation(feature);
+    const removedLocation = this.dataService.addLocation(feature);
+    if (removedLocation && !this.removeToastShown) {
+      this.toast.warning(
+        'The card for ' + removedLocation.properties.n + ' has been removed. ' +
+        'Only 3 locations can be active at once.'
+      );
+      this.removeToastShown = true;
+    }
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        const locationUpdated = this.dataService.addLocation(data);
-        if (!locationUpdated) {
-          this.toast.error(
-            'Maximum limit reached. Please remove a location to add another.'
-          );
-        }
+        this.dataService.updateLocation(data);
         this.updateRoute();
         this.loader.end('feature');
       });

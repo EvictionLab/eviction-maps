@@ -189,29 +189,38 @@ export class DataService {
   /**
    * Adds or updates a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
+   * @returns feature if one is removed to make room for the new one, null if not
    */
-  addLocation(feature): boolean {
+  addLocation(feature): MapFeature {
+    // Process feature if bbox and layerId not included based on current data level
+    if (!(feature.properties.bbox && feature.properties.bbox)) {
+      feature = this.processMapFeature(feature);
+    }
+    const removedLocation =
+      (this.activeFeatures.length < 3) ? null : this.activeFeatures.shift();
+    this.activeFeatures = [...this.activeFeatures, feature];
+    this._locations.next(this.activeFeatures);
+    return removedLocation;
+  }
+
+  /**
+   * Updates an active feature with updated geometry and properties
+   * @param feature the active feature to update
+   */
+  updateLocation(feature: MapFeature) {
     // Process feature if bbox and layerId not included based on current data level
     if (!(feature.properties.bbox && feature.properties.bbox)) {
       feature = this.processMapFeature(feature);
     }
     const geoids = this.activeFeatures.map(f => f.properties.GEOID);
     const featIndex = geoids.indexOf(feature.properties.GEOID);
-
     if (featIndex !== -1) {
       // Assigning properties and geometry rather than the whole feature
       // so that a state change isn't triggered
       this.activeFeatures[featIndex].properties = feature.properties;
       this.activeFeatures[featIndex].geometry = feature.geometry;
       this._locations.next(this.activeFeatures);
-      return true;
     }
-    if (this.activeFeatures.length < 3) {
-      this.activeFeatures = [ ...this.activeFeatures, feature ];
-      this._locations.next(this.activeFeatures);
-      return true;
-    }
-    return false;
   }
 
   /**
