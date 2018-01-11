@@ -406,6 +406,20 @@
   .line-tooltip-value {
     font-weight: 600;
   }
+  &.left {
+    @include right-arrow(6px, rgba(0,0,0,0.8));
+    margin-left: auto;
+    margin-right: 12px;
+
+    &:before {
+      top: 7px;
+      right: 0;
+      left: auto;
+      margin-left: auto;
+      margin-right: -17px;
+      z-index:1;
+    }
+  }
 }
 
 app-location-cards {

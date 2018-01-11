@@ -37,6 +37,20 @@
   }
 }
 
+@mixin right-arrow($size: 6px, $color: rgba(0,0,0,0.8)) {
+  &:after {
+    content:"";
+    display:block;
+    width:0;height:0;
+    border:$size solid transparent;
+    border-left-color: $color;
+    position: absolute;
+    right: -2*$size;
+    top: 50%;
+    margin-top: -$size;
+  }
+}
+
 @function to-string($value) {
   @return inspect($value);
 }
