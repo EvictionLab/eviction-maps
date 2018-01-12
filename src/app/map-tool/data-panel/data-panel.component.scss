@@ -316,6 +316,7 @@
     }
     li { 
       width:100%; 
+      margin: grid(1.5) 0 grid(3);
       .btn-close { position: absolute; right:0; }
       .legend-label { font-size: 21px; }
     }

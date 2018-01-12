@@ -32,7 +32,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
           ticks: 5
         }
       },
-      margin: { left: 48, right: 16, bottom: 32, top: 16 }
+      margin: { left: 60, right: 16, bottom: 32, top: 16 }
     };
   }
   get lineGraphSettings() {
@@ -49,7 +49,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
           ticks: 5
         }
       },
-      margin: { left: 48, right: 16, bottom: 48, top: 16 }
+      margin: { left: 60, right: 16, bottom: 48, top: 16 }
     };
   }
   graphData;
