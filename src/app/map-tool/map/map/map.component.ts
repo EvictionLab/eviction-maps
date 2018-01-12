@@ -95,8 +95,9 @@ export class MapComponent implements OnInit, OnChanges {
       }
     } else {
       // if there is no value yet, set it, and turn off auto-switch
+      // if layer zoom range is outside the current zoom
       this._store.layer = newLayer;
-      this.autoSwitch = false;
+      this.autoSwitch = newLayer.zoom[0] <= this.zoom && newLayer.zoom[1] >= this.zoom;
     }
   }
   get selectedLayer(): MapLayerGroup {
