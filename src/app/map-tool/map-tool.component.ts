@@ -44,7 +44,6 @@ export function debounce(delay: number = 300): MethodDecorator {
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab - Map';
   id = 'map-tool';
-  // autoSwitchLayers = true;
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
   currentRoute = [];
@@ -131,7 +130,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const geo = params['geography'];
       if (geo !== 'auto') {
         this.dataService.setGeographyLevel(geo);
-        // this.autoSwitchLayers = false;
       }
     }
     if (params['bounds']) {
@@ -208,7 +206,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param updateMap moves the map to the selected location if true
    */
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
-    // this.autoSwitchLayers = false;
     if (feature) {
       this.loader.start('search');
       const layerId = feature.properties['layerId'];

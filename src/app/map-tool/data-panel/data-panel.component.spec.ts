@@ -35,7 +35,6 @@ export class DataServiceStub {
   activeDataLevel = DataLevels[0];
   activeDataHighlight = DataAttributes[0];
   activeBubbleHighlight = BubbleAttributes[0];
-  autoSwitchLayers = true;
   mapView;
   mapConfig;
   locations$ = Observable.of([]);

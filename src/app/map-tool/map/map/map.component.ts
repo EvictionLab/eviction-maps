@@ -94,8 +94,9 @@ export class MapComponent implements OnInit, OnChanges {
         this.updateMapData();
       }
     } else {
-      // if there is no value yet, set it
+      // if there is no value yet, set it, and turn off auto-switch
       this._store.layer = newLayer;
+      this.autoSwitch = false;
     }
   }
   get selectedLayer(): MapLayerGroup {
