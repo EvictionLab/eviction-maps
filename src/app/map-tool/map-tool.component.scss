@@ -105,8 +105,8 @@
     }
     .btn-map {
       position:fixed;
-      top:0;
-      bottom:0;
+      top:grid(20);
+      bottom:auto;
     }
   }
 }

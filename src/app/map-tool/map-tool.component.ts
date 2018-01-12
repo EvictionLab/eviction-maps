@@ -11,9 +11,9 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { ToastsManager } from 'ng2-toastr';
-import { LoadingService } from '../loading.service';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { LoadingService } from '../loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
@@ -39,7 +39,7 @@ export function debounce(delay: number = 300): MethodDecorator {
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss']
+  styleUrls: ['./map-tool.component.scss'],
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab - Map';
@@ -55,7 +55,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
   urlParts;
-  private removeToastShown = false;
 
   constructor(
     public loader: LoadingService,
@@ -189,13 +188,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
-    const removedLocation = this.dataService.addLocation(feature);
-    if (removedLocation && !this.removeToastShown) {
+    const maxLocations = this.dataService.addLocation(feature);
+    if (maxLocations) {
       this.toast.error(
-        'The card for ' + removedLocation.properties.n + ' has been removed. ' +
-        'Only 3 locations can be active at once.'
+        'Maximum limit reached. Please remove a location to add another.'
       );
-      this.removeToastShown = true;
     }
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {

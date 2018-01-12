@@ -1,8 +1,4 @@
-<div id="top" 
-  class="app-wrapper" 
-  [class.map-active]="dataService.activeFeatures.length === 0" 
-  [class.data-active]="dataService.activeFeatures.length > 0"
->
+<div id="top" class="app-wrapper">
   <app-map
     [mapConfig]="dataService.mapConfig"
     [bubbleOptions]="dataService.bubbleAttributes"

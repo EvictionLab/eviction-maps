@@ -191,7 +191,7 @@ export class DataService {
    * @param feature the feature for the corresponding location to add
    * @returns feature if one is removed to make room for the new one, null if not
    */
-  addLocation(feature): MapFeature {
+  addLocation(feature): boolean {
     const exists = this.activeFeatures
       .find(f => f.properties.GEOID === feature.properties.GEOID);
     if (exists) { return null; }
@@ -199,11 +199,12 @@ export class DataService {
     if (!(feature.properties.bbox && feature.properties.bbox)) {
       feature = this.processMapFeature(feature);
     }
-    const removedLocation =
-      (this.activeFeatures.length < 3) ? null : this.activeFeatures.shift();
-    this.activeFeatures = [...this.activeFeatures, feature];
-    this._locations.next(this.activeFeatures);
-    return removedLocation;
+    const maxLocations = (this.activeFeatures.length >= 3);
+    if (!maxLocations) {
+      this.activeFeatures = [...this.activeFeatures, feature];
+      this._locations.next(this.activeFeatures);
+    }
+    return maxLocations;
   }
 
   /**
