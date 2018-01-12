@@ -6,6 +6,7 @@
     "FILINGS": "Eviction Filing Rate",
     "REMOVE_BUTTON": "Remove",
     "DOWNLOAD_BUTTON": "Download",
+    "CANCEL_BUTTON": "Cancel",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files.",
     "GET_DATA": "Get More Data",
     "GET_DATA_HINT": "Search for and access spreadsheets of full data sets from across the U.S.",
@@ -15,7 +16,14 @@
     "MAP_LINK": "Back To Map",
     "SHARE_LINK": "Share a Link",
     "SHARE_HINT": "Copy the link below:",
-    "COPY_SUCCESS": "Copied!"
+    "COPY_SUCCESS": "Copied!",
+    "DOWNLOAD_TITLE": "Download",
+    "EXPORT_ONE_FEATURE_DESCRIPTION": "Generate a file export for {{feature1}} between {{startYear}} and {{endYear}}",
+    "EXPORT_TWO_FEATURES_DESCRIPTION": "Generate a file export for {{feature1}} and {{feature2}} between {{startYear}} and {{endYear}}",
+    "EXPORT_THREE_FEATURES_DESCRIPTION": "Generate a file export for {{feature1}}, {{feature2}}, and {{feature3}} between {{startYear}} and {{endYear}}",
+    "EXCEL_DESCRIPTION": "Export a spreadsheet of locations including eviction, census, and ACS data.",
+    "POWERPOINT_DESCRIPTION": "Export a presentation with slides for locations including maps and graphs.",
+    "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions."
   },
   "HEADER": {
     "HOME": "Home",

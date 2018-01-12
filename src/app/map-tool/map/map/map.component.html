@@ -14,7 +14,7 @@
 <div class="map-ui-wrapper">
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
   <app-location-cards
-    *ngIf="activeFeatures.length > 0"
+    [collapsible]="gtTablet"
     [class.cards-2]="activeFeatures.length === 2"
     [class.cards-3]="activeFeatures.length === 3"
     [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"

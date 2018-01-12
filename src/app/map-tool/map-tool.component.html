@@ -1,8 +1,4 @@
-<div id="top" 
-  class="app-wrapper" 
-  [class.map-active]="dataService.activeFeatures.length === 0" 
-  [class.data-active]="dataService.activeFeatures.length > 0"
->
+<div id="top" class="app-wrapper">
   <app-map
     [mapConfig]="dataService.mapConfig"
     [bubbleOptions]="dataService.bubbleAttributes"
@@ -54,6 +50,7 @@
       [locations]="dataService.activeFeatures" 
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"
+      [class.map-inactive]="!enableZoom"
   >
     <button (click)="goToTop()" class="btn btn-large btn-primary btn-map">
       <svg class="up-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
