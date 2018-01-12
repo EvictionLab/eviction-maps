@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
@@ -8,14 +9,20 @@ import { FileExportService, ExportType } from './file-export.service';
   selector: 'app-download-form',
   templateUrl: './download-form.component.html',
   styleUrls: ['./download-form.component.scss'],
-  providers: [ FileExportService ]
+  providers: [ FileExportService, TranslatePipe ]
 })
 export class DownloadFormComponent implements OnInit {
   filetypes: ExportType[];
   loading = false;
   buttonClicked = new EventEmitter<DialogResponse>();
+  exportDescription = 'DATA.EXPORT_ONE_FEATURE_DESCRIPTION';
+  exportDescriptionParams = {};
 
-  constructor(public exportService: FileExportService, public bsModalRef: BsModalRef) { }
+  constructor(
+    public exportService: FileExportService,
+    public bsModalRef: BsModalRef,
+    private translatePipe: TranslatePipe
+  ) { }
 
   ngOnInit() {
     this.filetypes = this.exportService.getFileTypes();
@@ -23,6 +30,24 @@ export class DownloadFormComponent implements OnInit {
 
   setFormConfig(config: Object) {
     this.exportService.setExportValues(config);
+    const exportParams = {
+      startYear: this.exportService.startYear,
+      endYear: this.exportService.endYear,
+      feature1: this.exportService.features[0].properties.n
+    };
+    if (this.exportService.features.length === 1) {
+      this.exportDescription = 'DATA.EXPORT_ONE_FEATURE_DESCRIPTION';
+    }
+    if (this.exportService.features.length === 2) {
+      this.exportDescription = 'DATA.EXPORT_TWO_FEATURES_DESCRIPTION';
+      exportParams['feature2'] = this.exportService.features[1].properties.n;
+    }
+    if (this.exportService.features.length === 3) {
+      this.exportDescription = 'DATA.EXPORT_THREE_FEATURES_DESCRIPTION';
+      exportParams['feature2'] = this.exportService.features[1].properties.n;
+      exportParams['feature3'] = this.exportService.features[2].properties.n;
+    }
+    this.exportDescriptionParams = exportParams;
   }
 
   onDownloadClick(e) {
