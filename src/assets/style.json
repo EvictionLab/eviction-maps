@@ -259,322 +259,6 @@
       }
     },
     {
-      "id": "highway_major_subtle-copy-copy",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 9,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "class",
-          "primary",
-          "secondary",
-          "tertiary",
-          "trunk"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "rgba(255, 255, 255, 0.69)",
-        "line-width": 2,
-        "line-opacity": 0.5
-      }
-    },
-    {
-      "id": "highway_motorway_casing",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 6,
-      "maxzoom": 24,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "all",
-          [
-            "!in",
-            "brunnel",
-            "bridge",
-            "tunnel"
-          ],
-          [
-            "==",
-            "class",
-            "motorway"
-          ]
-        ]
-      ],
-      "layout": {
-        "line-cap": "butt",
-        "line-join": "miter",
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "rgb(213, 213, 213)",
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              5.8,
-              0
-            ],
-            [
-              6,
-              3
-            ],
-            [
-              20,
-              40
-            ]
-          ]
-        },
-        "line-dasharray": [
-          2,
-          0
-        ],
-        "line-opacity": 1
-      }
-    },
-    {
-      "id": "highway_path",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "==",
-          "class",
-          "path"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": "rgba(255, 2, 2, 1)",
-        "line-width": {
-          "base": 1.2,
-          "stops": [
-            [
-              13,
-              1
-            ],
-            [
-              20,
-              10
-            ]
-          ]
-        },
-        "line-opacity": 0.9
-      }
-    },
-    {
-      "id": "highway_minor",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 14,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "class",
-          "minor",
-          "service",
-          "track"
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-width": 1.3,
-        "line-opacity": {
-          "stops": [
-            [
-              13,
-              0.7
-            ],
-            [
-              14,
-              0.7
-            ],
-            [
-              15,
-              0.7
-            ],
-            [
-              16,
-              1
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "highway_major_casing",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 12,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "in",
-          "class",
-          "primary",
-          "secondary",
-          "tertiary",
-          "trunk"
-        ]
-      ],
-      "layout": {
-        "line-cap": "butt",
-        "line-join": "miter",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-dasharray": [
-          12,
-          0
-        ],
-        "line-width": 3,
-        "line-opacity": 0.7
-      }
-    },
-    {
-      "id": "highway_motorway_inner",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 9,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "all",
-          [
-            "!in",
-            "brunnel",
-            "bridge",
-            "tunnel"
-          ],
-          [
-            "==",
-            "class",
-            "motorway"
-          ]
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": {
-          "base": 1,
-          "stops": [
-            [
-              5.8,
-              "hsla(0, 0%, 85%, 0.53)"
-            ],
-            [
-              6,
-              "#fff"
-            ]
-          ]
-        },
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              4,
-              2
-            ],
-            [
-              6,
-              1.3
-            ],
-            [
-              7,
-              1.3
-            ],
-            [
-              8,
-              1.3
-            ],
-            [
-              9,
-              1.3
-            ],
-            [
-              10,
-              1.3
-            ],
-            [
-              11,
-              2
-            ]
-          ]
-        },
-        "line-opacity": {
-          "stops": [
-            [
-              6,
-              0.8
-            ],
-            [
-              9,
-              0.7
-            ]
-          ]
-        }
-      }
-    },
-    {
       "id": "railway_transit",
       "type": "line",
       "source": "openmaptiles",
@@ -817,149 +501,6 @@
           3,
           3
         ]
-      }
-    },
-    {
-      "id": "highway_motorway_bridge_casing",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 6,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "all",
-          [
-            "==",
-            "brunnel",
-            "bridge"
-          ],
-          [
-            "==",
-            "class",
-            "motorway"
-          ]
-        ]
-      ],
-      "layout": {
-        "line-cap": "butt",
-        "line-join": "miter",
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              5.8,
-              0
-            ],
-            [
-              6,
-              5
-            ],
-            [
-              7,
-              5
-            ],
-            [
-              8,
-              5
-            ],
-            [
-              9,
-              5
-            ],
-            [
-              10,
-              5
-            ],
-            [
-              11,
-              5
-            ],
-            [
-              12,
-              2
-            ]
-          ]
-        },
-        "line-dasharray": [
-          2,
-          0
-        ],
-        "line-opacity": 1
-      }
-    },
-    {
-      "id": "highway_motorway_bridge_inner",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 6,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "all",
-          [
-            "==",
-            "brunnel",
-            "bridge"
-          ],
-          [
-            "==",
-            "class",
-            "motorway"
-          ]
-        ]
-      ],
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round",
-        "visibility": "none"
-      },
-      "paint": {
-        "line-color": {
-          "base": 1,
-          "stops": [
-            [
-              5.8,
-              "rgba(48, 48, 48, 1)"
-            ],
-            [
-              6,
-              "#fff"
-            ]
-          ]
-        },
-        "line-width": {
-          "base": 1.4,
-          "stops": [
-            [
-              4,
-              2
-            ],
-            [
-              6,
-              1.3
-            ],
-            [
-              20,
-              30
-            ]
-          ]
-        }
       }
     },
     {
@@ -1753,50 +1294,7 @@
       }
     },
     {
-      "id": "highway_name_motorway",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "transportation_name",
-      "minzoom": 11,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "LineString"
-        ],
-        [
-          "==",
-          "class",
-          "motorway"
-        ]
-      ],
-      "layout": {
-        "text-size": 10,
-        "symbol-spacing": 350,
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "symbol-placement": "line",
-        "visibility": "visible",
-        "text-rotation-alignment": "viewport",
-        "text-pitch-alignment": "viewport",
-        "text-field": "{ref}",
-        "text-letter-spacing": 0.07
-      },
-      "paint": {
-        "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "hsl(0, 0%, 100%)",
-        "text-translate": [
-          0,
-          2
-        ],
-        "text-halo-width": 0,
-        "text-halo-blur": 0
-      }
-    },
-    {
-      "id": "major_streets",
+      "id": "highway_major_subtle",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
@@ -1811,35 +1309,84 @@
         [
           "in",
           "class",
-          "motorway",
+          "primary",
+          "secondary",
+          "tertiary",
           "trunk"
         ]
       ],
       "layout": {
         "line-cap": "round",
         "line-join": "round",
-        "visibility": "visible"
+        "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-opacity": 0.9,
-        "line-width": {
-          "base": 2,
-          "stops": [
-            [
-              10,
-              2
-            ],
-            [
-              20,
-              10
-            ]
-          ]
-        }
+        "line-color": "rgba(255, 255, 255, 0.69)",
+        "line-width": 1,
+        "line-opacity": 0.5
       }
     },
     {
-      "id": "streets",
+      "id": "highway_motorway_casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "all",
+          [
+            "!in",
+            "brunnel",
+            "bridge",
+            "tunnel"
+          ],
+          [
+            "==",
+            "class",
+            "motorway"
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": "rgb(213, 213, 213)",
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              5.8,
+              0
+            ],
+            [
+              6,
+              3
+            ],
+            [
+              20,
+              40
+            ]
+          ]
+        },
+        "line-dasharray": [
+          2,
+          0
+        ],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "highway_major_casing",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
@@ -1855,7 +1402,52 @@
           "in",
           "class",
           "primary",
-          "secondary"
+          "secondary",
+          "tertiary",
+          "trunk"
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-dasharray": [
+          12,
+          0
+        ],
+        "line-width": 2,
+        "line-opacity": 0.7
+      }
+    },
+    {
+      "id": "highway_motorway_inner",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "all",
+          [
+            "!in",
+            "brunnel",
+            "bridge",
+            "tunnel"
+          ],
+          [
+            "==",
+            "class",
+            "motorway"
+          ]
         ]
       ],
       "layout": {
@@ -1864,18 +1456,204 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
-        "line-opacity": 0.9,
-        "line-width": {
-          "base": 2,
+        "line-color": {
+          "base": 1,
           "stops": [
             [
-              10,
+              5.8,
+              "hsla(0, 0%, 85%, 0.53)"
+            ],
+            [
+              6,
+              "#fff"
+            ]
+          ]
+        },
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              4,
               2
             ],
             [
+              6,
+              1.3
+            ],
+            [
+              7,
+              1.3
+            ],
+            [
+              8,
+              1.3
+            ],
+            [
+              9,
+              1.3
+            ],
+            [
+              10,
+              1.3
+            ],
+            [
+              11,
+              2
+            ]
+          ]
+        },
+        "line-opacity": {
+          "stops": [
+            [
+              6,
+              0.8
+            ],
+            [
+              9,
+              0.7
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "id": "highway_motorway_bridge_casing",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "all",
+          [
+            "==",
+            "brunnel",
+            "bridge"
+          ],
+          [
+            "==",
+            "class",
+            "motorway"
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": "butt",
+        "line-join": "miter",
+        "visibility": "visible"
+      },
+      "paint": {
+        "line-color": "rgba(255, 255, 255, 1)",
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              5.8,
+              0
+            ],
+            [
+              6,
+              5
+            ],
+            [
+              7,
+              5
+            ],
+            [
+              8,
+              5
+            ],
+            [
+              9,
+              5
+            ],
+            [
+              10,
+              5
+            ],
+            [
+              11,
+              5
+            ],
+            [
+              12,
+              2
+            ]
+          ]
+        },
+        "line-dasharray": [
+          2,
+          0
+        ],
+        "line-opacity": 1
+      }
+    },
+    {
+      "id": "highway_motorway_bridge_inner",
+      "type": "line",
+      "source": "openmaptiles",
+      "source-layer": "transportation",
+      "minzoom": 11,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "LineString"
+        ],
+        [
+          "all",
+          [
+            "==",
+            "brunnel",
+            "bridge"
+          ],
+          [
+            "==",
+            "class",
+            "motorway"
+          ]
+        ]
+      ],
+      "layout": {
+        "line-cap": "round",
+        "line-join": "round",
+        "visibility": "none"
+      },
+      "paint": {
+        "line-color": {
+          "base": 1,
+          "stops": [
+            [
+              5.8,
+              "rgba(48, 48, 48, 1)"
+            ],
+            [
+              6,
+              "#fff"
+            ]
+          ]
+        },
+        "line-width": {
+          "base": 1.4,
+          "stops": [
+            [
+              4,
+              2
+            ],
+            [
+              6,
+              1.3
+            ],
+            [
               20,
-              6
+              30
             ]
           ]
         }
