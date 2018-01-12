@@ -1,5 +1,5 @@
 <div 
-  [@cards]="'card' + (expanded ? '-e-' : '-') + (i+1) + '-' + features.length" 
+  [@cards]="getCardState(i+1)" 
   *ngFor="let f of features; let i = index" 
   [class]="'location-card card card-' + i"
 >

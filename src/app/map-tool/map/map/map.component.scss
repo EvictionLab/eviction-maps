@@ -105,6 +105,9 @@ app-location-cards {
   align-items: flex-end;
   width:100%;
   overflow:auto;
+  &.no-cards {
+    height: 0;
+  }
 }
 // greater than tablet:
 //    Adjust cards container to account for the larger header height

@@ -140,7 +140,7 @@
 
 :host-context(.gt-tablet) {
   .map-overlay .btn-compare { display:block; }
-  .map-overlay {
+  .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});
   }
 }
