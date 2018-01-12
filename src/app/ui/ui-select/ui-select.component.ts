@@ -109,17 +109,16 @@ export class UiSelectComponent implements OnInit {
   }
 
   onSelectTouchStart(e) {
-    console.log('touchstart select');
-    this.touchStartY = e.pageY;
+    this.touchStartY = e.touches[0].pageY;
   }
 
   onSelectTouchMove(e) {
-    console.log('touchmove event');
-    this.onPageMove(e, e.pageY - this.touchStartY);
+    this.onPageMove(e, this.touchStartY - e.touches[0].pageY);
   }
 
   /** Close the dropdown when the page starts scrolling */
-  @HostListener('document:scroll', ['$event']) onDocumentScroll(e) {
+  @HostListener('document:scroll', ['$event'])
+  onDocumentScroll(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
   }
 
