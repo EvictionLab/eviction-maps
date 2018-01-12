@@ -10,13 +10,22 @@
   margin: 0 grid(2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  flex:1;
   &.left {
     @include defaultFontBold(14px);
     color: $onTextColor;
+    text-align: right;
   }
   &.right {
     @include defaultFont(14px);
     color: $offTextColor;
+    text-align:left;
+  }
+}
+
+:host-context(.gt-mobile) {
+  .switch-label {
+    flex:none;
   }
 }
 
