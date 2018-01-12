@@ -11,9 +11,9 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { ToastsManager } from 'ng2-toastr';
-import { LoadingService } from '../loading.service';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { LoadingService } from '../loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
@@ -188,15 +188,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
-    this.dataService.addLocation(feature);
+    const maxLocations = this.dataService.addLocation(feature);
+    if (maxLocations) {
+      this.toast.error(
+        'Maximum limit reached. Please remove a location to add another.'
+      );
+    }
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        const locationUpdated = this.dataService.addLocation(data);
-        if (!locationUpdated) {
-          this.toast.error(
-            'Maximum limit reached. Please remove a location to add another.'
-          );
-        }
+        this.dataService.updateLocation(data);
         this.updateRoute();
         this.loader.end('feature');
       });

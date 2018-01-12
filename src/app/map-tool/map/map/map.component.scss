@@ -105,6 +105,9 @@ app-location-cards {
   align-items: flex-end;
   width:100%;
   overflow:auto;
+  &.no-cards {
+    height: 0;
+  }
 }
 // greater than tablet:
 //    Adjust cards container to account for the larger header height
@@ -124,36 +127,14 @@ app-location-cards {
         // position:absolute;
         // margin:auto;
         // top:0;bottom:0;left:0;right:auto;
-        transform: translateX(0);
         transition: transform 0.2s ease;
         transform: translateX(0);
         position:relative;
       }
       .location-card:nth-child(1) { z-index: 17; }
       .location-card:nth-child(2) { z-index: 18; margin-left: -200px; }
-      .location-card:nth-child(3) { z-index: 19; margin-left: -200px; }      
-    }
-    &.cards-2 {
-      ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(7%); }
-        .location-card:nth-child(2) { transform: translateX(0); }
-      }
-      &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(0%); }
-        .location-card:nth-child(2) { transform: translateX(100%); }
-      }
-    }
-    &.cards-3 {
-      ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(15%);}
-        .location-card:nth-child(2) { transform: translateX(7%); }
-        .location-card:nth-child(3) { transform: translateX(0); }
-      }
-      &.expanded ::ng-deep {
-        .location-card:nth-child(1) { transform: translateX(0%); }
-        .location-card:nth-child(2) { transform: translateX(100%); }
-        .location-card:nth-child(3) { transform: translateX(200%); }
-      }
+      .location-card:nth-child(3) { z-index: 19; margin-left: -200px; }
+      .location-card:nth-child(4) { z-index: 20; margin-left: -200px; }
     }
   }
 }

@@ -14,6 +14,7 @@ import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../loading.service';
 import { DollarProps, PercentProps } from '../../../data/data-attributes';
+import { PlatformService } from '../../../platform.service';
 
 @Component({
   selector: 'app-map',
@@ -149,11 +150,12 @@ export class MapComponent implements OnInit, OnChanges {
   }
   @ViewChild('pop') mapTooltip;
   @ViewChild('mapEl') mapEl: ElementRef;
+  /** Tracks if the "start here" tooltip is enabled */
   tooltipEnabled = true;
-  @HostListener('document:click', ['$event']) dismissTooltip() {
-    this.mapTooltip.hide();
-    this.tooltipEnabled = false;
-  }
+  /** Tracks if the current resolution is greater than mobile */
+  gtMobile = false;
+  /** Tracks if the current resolution is greater than tablet */
+  gtTablet = false;
   /** Toggle for auto switch between layerOptions based on min / max zooms */
   set autoSwitch(on: boolean) {
     this._store.autoSwitch = on;
@@ -173,8 +175,6 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth &&
       !this.selectedChoropleth.id.includes('none');
   }
-  /** Gets if the legend is full width */
-  get fullWidth(): boolean { return window.innerWidth >= 767; }
   /** Sets if the map is loading and informs the service */
   set mapLoading(isLoading: boolean) {
     this._store.loading = isLoading;
@@ -185,12 +185,17 @@ export class MapComponent implements OnInit, OnChanges {
   /** Gets if the map is loading */
   get mapLoading(): boolean { return this._store.loading; }
 
-  constructor(private map: MapService, private loader: LoadingService) {
+  constructor(
+    private map: MapService,
+    private loader: LoadingService,
+    private platform: PlatformService
+  ) {
     loader.start('map');
   }
 
-
   ngOnInit() {
+    this.gtMobile = this.platform.isLargerThanMobile;
+    this.gtTablet = this.platform.isLargerThanTablet;
     this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
     this.updateCardProperties();
     // Show tooltip 1 second after init
@@ -209,6 +214,18 @@ export class MapComponent implements OnInit, OnChanges {
         changes.activeFeatures.currentValue : []);
       this.map.updateHighlightFeatures(this.selectedLayer.id, features);
     }
+  }
+
+  /** Update if the resolution is larger than tablet on resize */
+  @HostListener('window:resize', ['$event']) onWindowResize() {
+    this.gtMobile = this.platform.isLargerThanMobile;
+    this.gtTablet = this.platform.isLargerThanTablet;
+  }
+
+  /** Hide "start here" tooltip on first click */
+  @HostListener('document:click', ['$event']) dismissTooltip() {
+    this.mapTooltip.hide();
+    this.tooltipEnabled = false;
   }
 
   /**
@@ -266,7 +283,7 @@ export class MapComponent implements OnInit, OnChanges {
   onMapReady(map) {
     this._mapInstance = map;
     this.map.setMapInstance(map);
-    if (this.fullWidth) {
+    if (this.gtMobile) {
       this.map.setupHoverPopup(this.mapEventLayers);
     }
     this.setGroupVisibility(this.selectedLayer);

@@ -105,8 +105,8 @@
     }
     .btn-map {
       position:fixed;
-      top:0;
-      bottom:0;
+      top:grid(20);
+      bottom:auto;
     }
   }
 }
@@ -140,7 +140,7 @@
 
 :host-context(.gt-tablet) {
   .map-overlay .btn-compare { display:block; }
-  .map-overlay {
+  .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});
   }
 }
