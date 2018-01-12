@@ -52,6 +52,7 @@ export class LocationCardsComponent implements OnInit {
   @Input() dollarProps: Array<string>;
   @Input()
   set cardProperties(value) {
+    if (!value) { return; }
     this._cardProps = value;
     this.cardPropertyKeys = Object.keys(value);
   }
