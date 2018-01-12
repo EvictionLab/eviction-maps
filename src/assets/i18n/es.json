@@ -2,8 +2,8 @@
   "DATA": {
     "CARD_HEADING": "<span>{{year}}</span>",
     "DATE_RANGE": "Rango de fechas",
-    "JUDGMENTS": "Sentencias",
-    "FILINGS": "Presentaciones",
+    "EVICTION_RATE": "Tasa de Desalojo",
+    "EVICTION_FILING_RATE": "Tasa de Presentaciones",
     "REMOVE_BUTTON": "Eliminar",
     "DOWNLOAD_BUTTON": "Descargar",
     "CANCEL_BUTTON": "Cancel",
