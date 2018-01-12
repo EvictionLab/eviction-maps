@@ -33,7 +33,6 @@ export class DataService {
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
-  autoSwitchLayers = true;
   mapView;
   mapConfig;
 
