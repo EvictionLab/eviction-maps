@@ -189,7 +189,7 @@ export class DataService {
   /**
    * Adds or updates a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
-   * @returns feature if one is removed to make room for the new one, null if not
+   * @returns boolean based on if the max number of locations is reached or not
    */
   addLocation(feature): boolean {
     const exists = this.activeFeatures

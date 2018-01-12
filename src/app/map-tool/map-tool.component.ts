@@ -39,7 +39,7 @@ export function debounce(delay: number = 300): MethodDecorator {
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss'],
+  styleUrls: ['./map-tool.component.scss']
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab - Map';
