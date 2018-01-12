@@ -1171,9 +1171,6 @@
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
-      },
-      "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
@@ -1220,34 +1217,6 @@
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
-      },
-      "paint": {
-        "fill-color": {
-          "property": "pr-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(215, 227, 244, 0.7)"
-            ],
-            [
-              7,
-              "rgba(170, 191, 226, 0.75)"
-            ],
-            [
-              13,
-              "rgba(133, 157, 204, 0.8)"
-            ],
-            [
-              20,
-              "rgba(81, 101, 165, 0.85)"
-            ],
-            [
-              26,
-              "rgba(37, 51, 132, 0.9)"
-            ]
-          ]
-        }
       }
     },
     {
@@ -1294,9 +1263,6 @@
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
-      },
-      "paint": {
-        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -1741,236 +1707,12 @@
       }
     },
     {
-      "id": "place_state",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 3,
-      "maxzoom": 7,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "==",
-          "class",
-          "state"
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "text-field": "{name_en}",
-        "text-font": {
-          "stops": [
-            [
-              4,
-              [
-                "Metropolis+Medium"
-              ]
-            ],
-            [
-              5,
-              [
-                "Metropolis+Medium"
-              ]
-            ]
-          ]
-        },
-        "text-transform": {
-          "stops": [
-            [
-              4,
-              "uppercase"
-            ],
-            [
-              5,
-              "uppercase"
-            ]
-          ]
-        },
-        "text-size": {
-          "stops": [
-            [
-              4,
-              11
-            ],
-            [
-              5,
-              13
-            ]
-          ]
-        },
-        "text-letter-spacing": 0.1,
-        "text-justify": "center",
-        "text-anchor": "top",
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": false,
-        "text-padding": 2
-      },
-      "paint": {
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": {
-          "stops": [
-            [
-              5,
-              2
-            ],
-            [
-              6,
-              2.5
-            ]
-          ]
-        },
-        "text-halo-blur": 0,
-        "icon-color": "rgba(57, 57, 57, 1)",
-        "icon-halo-width": 0,
-        "icon-halo-color": "rgba(255, 255, 255, 0)",
-        "text-opacity": {
-          "stops": [
-            [
-              4,
-              1
-            ],
-            [
-              5,
-              0.7
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "place_country_other",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "maxzoom": 8,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "all",
-          [
-            "==",
-            "class",
-            "country"
-          ],
-          [
-            ">=",
-            "rank",
-            2
-          ]
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "text-field": "{name_en}",
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "text-transform": "uppercase",
-        "text-size": {
-          "base": 1,
-          "stops": [
-            [
-              0,
-              10
-            ],
-            [
-              6,
-              12
-            ]
-          ]
-        }
-      },
-      "paint": {
-        "text-halo-width": 1.4,
-        "text-halo-color": "rgba(236,236,234,0.7)",
-        "text-color": "rgba(49, 53, 62, 1)"
-      }
-    },
-    {
-      "id": "place_country_major",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 0,
-      "maxzoom": 4,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "all",
-          [
-            "<=",
-            "rank",
-            1
-          ],
-          [
-            "==",
-            "class",
-            "country"
-          ]
-        ]
-      ],
-      "layout": {
-        "visibility": "none",
-        "text-field": "{name_en}",
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "text-transform": "uppercase",
-        "text-size": {
-          "base": 1.4,
-          "stops": [
-            [
-              0,
-              10
-            ],
-            [
-              3,
-              15
-            ],
-            [
-              4,
-              14
-            ]
-          ]
-        },
-        "text-anchor": "center",
-        "text-letter-spacing": 0.1,
-        "text-allow-overlap": true,
-        "text-ignore-placement": false
-      },
-      "paint": {
-        "text-halo-width": 0,
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-color": "rgba(49, 54, 62, 1)",
-        "text-opacity": 1
-      }
-    },
-    {
       "id": "cities",
       "type": "fill",
       "source": "us-cities-10",
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
-      },
-      "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
       }
     },
     {
