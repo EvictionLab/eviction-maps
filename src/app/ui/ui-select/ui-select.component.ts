@@ -33,6 +33,7 @@ export class UiSelectComponent implements OnInit {
   @HostBinding('class.open') open = false;
   /** Tracks if the "none" option is selected */
   @HostBinding('class.none-selected') noneSelected = true;
+  private touchStartY: number;
   private _selectedValue;
   private scrollMax = 0;
 
@@ -103,27 +104,18 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
-  /** Do not propagate any menu wheel events to parent elements */
   onSelectScroll(e) {
-    if (!this.scrollMax) { this.setScrollMax(); }
-    if (e.deltaY > 0) {
-      if (this.dropdownList.nativeElement.scrollTop >= this.scrollMax) {
-        // scrolled to the bottom of the dropdown list, ignore wheel events
-        e.stopPropagation();
-        e.preventDefault();
-        e.returnValue = false;
-        return false;
-      }
-    } else if (e.deltaY < 0) {
-      if (this.dropdownList.nativeElement.scrollTop <= 0) {
-        // scrolled to the bottom of the dropdown list, ignore wheel events
-        e.stopPropagation();
-        e.preventDefault();
-        e.returnValue = false;
-        return false;
-      }
-    }
+    this.onPageMove(e, e.deltaY);
+  }
 
+  onSelectTouchStart(e) {
+    console.log('touchstart select');
+    this.touchStartY = e.pageY;
+  }
+
+  onSelectTouchMove(e) {
+    console.log('touchmove event');
+    this.onPageMove(e, e.pageY - this.touchStartY);
   }
 
   /** Close the dropdown when the page starts scrolling */
@@ -133,6 +125,28 @@ export class UiSelectComponent implements OnInit {
 
   @HostListener('blur', ['$event']) onBlur(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
+  }
+
+  /** Do not propagate any menu wheel events to parent elements */
+  private onPageMove(e: any, deltaY: number) {
+    if (!this.scrollMax) { this.setScrollMax(); }
+    if (deltaY > 0) {
+      if (this.dropdownList.nativeElement.scrollTop >= this.scrollMax) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    } else if (deltaY < 0) {
+      if (this.dropdownList.nativeElement.scrollTop <= 0) {
+        // scrolled to the bottom of the dropdown list, ignore wheel events
+        e.stopPropagation();
+        e.preventDefault();
+        e.returnValue = false;
+        return false;
+      }
+    }
   }
 
   private setScrollMax() {
