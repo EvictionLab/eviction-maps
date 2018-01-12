@@ -29,10 +29,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
         y: {
           label: this.translatePipe.transform(this.cardProps[this.graphProp]),
           tickSize: '-100%',
-          ticks: 5
+          ticks: 5,
+          tickPadding: 5
         }
       },
-      margin: { left: 60, right: 16, bottom: 32, top: 16 }
+      margin: { left: 65, right: 16, bottom: 32, top: 16 }
     };
   }
   get lineGraphSettings() {
@@ -41,15 +42,17 @@ export class DataPanelComponent implements OnInit, OnChanges {
         x: {
           label: null,
           tickFormat: '.0f',
-          ticks: Math.min(5, this.lineEndYear - this.lineStartYear)
+          ticks: Math.min(5, this.lineEndYear - this.lineStartYear),
+          tickPadding: 10
         },
         y: {
           label: this.translatePipe.transform(this.cardProps[this.graphProp]),
           tickSize: '-100%',
-          ticks: 5
+          ticks: 5,
+          tickPadding: 5
         }
       },
-      margin: { left: 60, right: 16, bottom: 48, top: 16 }
+      margin: { left: 65, right: 16, bottom: 48, top: 16 }
     };
   }
   graphData;
