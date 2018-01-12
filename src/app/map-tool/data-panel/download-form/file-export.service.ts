@@ -38,23 +38,21 @@ export class FileExportService {
       value: 'xlsx',
       path: '/format/xlsx',
       checked: false,
-      description: 'Export a spreadsheet of locations for the years 2000-2016 ' +
-        'including eviction, census, and ACS data.'
+      description: 'DATA.EXCEL_DESCRIPTION'
     },
     {
       name: 'PowerPoint',
       value: 'pptx',
       path: '/format/pptx',
       checked: false,
-      description: 'Export a presentation with slides for locations including maps and graphs.'
+      description: 'DATA.POWERPOINT_DESCRIPTION'
     },
     {
       name: 'PDF',
       value: 'pdf',
       path: '/pdf',
       checked: false,
-      description: 'Export a PDF document that includes and overview of evictions ' +
-        'in locations and issues related to evictions.'
+      description: 'DATA.PDF_DESCRIPTION'
     }
   ];
 
