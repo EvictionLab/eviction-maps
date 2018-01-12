@@ -192,6 +192,9 @@ export class DataService {
    * @returns feature if one is removed to make room for the new one, null if not
    */
   addLocation(feature): MapFeature {
+    const exists = this.activeFeatures
+      .find(f => f.properties.GEOID === feature.properties.GEOID);
+    if (exists) { return null; }
     // Process feature if bbox and layerId not included based on current data level
     if (!(feature.properties.bbox && feature.properties.bbox)) {
       feature = this.processMapFeature(feature);

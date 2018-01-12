@@ -191,7 +191,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.loader.start('feature');
     const removedLocation = this.dataService.addLocation(feature);
     if (removedLocation && !this.removeToastShown) {
-      this.toast.warning(
+      this.toast.error(
         'The card for ' + removedLocation.properties.n + ' has been removed. ' +
         'Only 3 locations can be active at once.'
       );
