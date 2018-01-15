@@ -1,10 +1,22 @@
-<app-progress-bar *ngIf="loader.isLoading"></app-progress-bar>
+<app-progress-bar [indeterminate]="loader.isLoading"></app-progress-bar>
 <app-header-bar
+  role="banner"
   [languageOptions]="dataService.languageOptions"
   [selectedLanguage]="dataService.selectedLanguage"
   (selectMenuItem)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
+<div class="site-navigation" role="navgation">
+  <ul>
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Methods</a></li>
+    <li><a href="#">Help &amp; FAQ</a></li>
+    <li><a href="#">City Rankings</a></li>
+    <li><a href="#">Updates</a></li>
+    <li><a href="#">Learn More</a></li>
+  </ul>
+</div>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
-<app-footer></app-footer>
+<app-footer role="contentinfo"></app-footer>

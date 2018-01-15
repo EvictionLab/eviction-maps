@@ -52,6 +52,7 @@
     </div>
     <div [class.active]="activeMenuItem === 'search'" class="header-search">
       <app-location-search 
+        role="search"
         class="search"
         [placeholder]="'HEADER.SEARCH_HINT' | translate"
         (locationSelected)="selectLocation.emit($event)"

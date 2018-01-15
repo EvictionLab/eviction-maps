@@ -28,5 +28,5 @@
     class="btn btn-default" 
     (click)="onCancelClick($event)"
   >{{ 'DATA.CANCEL_BUTTON' | translate }}</button>
-  <app-progress-bar *ngIf="loading"></app-progress-bar>
+  <app-progress-bar [indeterminate]="loading"></app-progress-bar>
 </div>
