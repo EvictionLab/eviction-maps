@@ -10,6 +10,8 @@
   margin: 0 grid(2);
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  text-align:center;
+  flex:1;
   &.left {
     @include defaultFontBold(14px);
     color: $onTextColor;
@@ -17,6 +19,12 @@
   &.right {
     @include defaultFont(14px);
     color: $offTextColor;
+  }
+}
+
+:host-context(.gt-mobile) {
+  .switch-label {
+    flex:none;
   }
 }
 
