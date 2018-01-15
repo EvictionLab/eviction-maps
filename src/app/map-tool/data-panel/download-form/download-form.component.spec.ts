@@ -73,8 +73,7 @@ describe('DownloadFormComponent', () => {
   });
 
   it('should display the loading indicator before response returned', () => {
-    component.filetypes[0].checked = true;
-    submitButtonEl.triggerEventHandler('click', null);
+    component.loading = true;
     fixture.detectChanges();
     const progressBar = fixture.debugElement.query(By.css('.progress-line'));
     expect(progressBar).toBeTruthy();
