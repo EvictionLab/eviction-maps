@@ -150,6 +150,12 @@ export class MapComponent implements OnInit, OnChanges {
       (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
       this.cardsActive;
   }
+   /** Gets if the legend should be shown or not */
+  @HostBinding('class.legend-active') get showLegend(): boolean {
+    return this.selectedLayer &&
+      this.selectedChoropleth &&
+      !this.selectedChoropleth.id.includes('none');
+  }
   @ViewChild('pop') mapTooltip;
   @ViewChild('mapEl') mapEl: ElementRef;
   /** Tracks if the "start here" tooltip is enabled */
@@ -170,12 +176,6 @@ export class MapComponent implements OnInit, OnChanges {
   get selectDataLevels(): Array<MapLayerGroup> {
     const selectOptions = (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
     return [ this.autoSelect, ...selectOptions ];
-  }
-  /** Gets if the legend should be shown or not */
-  get showLegend(): boolean {
-    return this.selectedLayer &&
-      this.selectedChoropleth &&
-      !this.selectedChoropleth.id.includes('none');
   }
   /** Sets if the map is loading and informs the service */
   set mapLoading(isLoading: boolean) {

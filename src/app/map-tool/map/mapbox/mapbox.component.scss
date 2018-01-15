@@ -47,3 +47,70 @@
     border-left: none;
   }
 }
+
+:host-context(.slider-active) {
+  ::ng-deep {
+    .mapboxgl-ctrl-bottom-right {
+      bottom: grid(5);
+    }
+    @media(min-width: $gtMobile) {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: grid(11);
+      }
+    }
+  }
+}
+
+:host-context(.slider-active.legend-active) {
+  ::ng-deep {
+    @media(max-width: $gtMobile) {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: grid(10);
+      }
+    }
+  }
+}
+
+:host-context(.slider-active.cards-active) {
+  ::ng-deep {
+    .mapboxgl-ctrl-bottom-right {
+      bottom: grid(25);
+    }
+    @media(min-width: $gtMobile) {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: grid(31);
+      }
+    }
+    @media(min-width: $gtTablet) {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: grid(11);
+      }
+    }
+  }
+}
+
+::ng-deep {
+  @media(max-width: $gtMobile) {
+    .software-button .slider-active.cards-active .mapboxgl-ctrl-bottom-right {
+      bottom: calc(50px + #{grid(25)});
+    }
+  }
+}
+
+:host-context(.slider-active.cards-active.legend-active) {
+  ::ng-deep {
+    @media(max-width: $gtMobile) {
+      .mapboxgl-ctrl-bottom-right {
+        bottom: grid(30);
+      }
+    }
+  }
+}
+
+::ng-deep {
+  @media(max-width: $gtMobile) {
+    .software-button .slider-active.cards-active.legend-active .mapboxgl-ctrl-bottom-right {
+      bottom: calc(50px + #{grid(30)});
+    }
+  }
+}
