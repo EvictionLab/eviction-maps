@@ -18,6 +18,13 @@ export class UiSwitchComponent {
   @Input() leftLabel: string;
   @Input() rightLabel: string;
   @Output() switched = new EventEmitter<boolean>();
+  @HostBinding('attr.role') ariaRole = 'switch';
+  @HostBinding('attr.aria-checked') get ariaChecked() {
+    return this.isOn;
+  }
+  @HostBinding('attr.aria-label') get ariaLabel() {
+    return this.rightLabel;
+  }
   private touch = {
     x: null,
     y: null,

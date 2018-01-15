@@ -68,24 +68,22 @@ describe('DownloadFormComponent', () => {
   });
 
   it('should not display the loading indicator if not loading', () => {
-    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
-    expect(progressBar).toBeFalsy();
+    expect(component.loading).toBeFalsy();
   });
 
   it('should display the loading indicator before response returned', () => {
     component.filetypes[0].checked = true;
     submitButtonEl.triggerEventHandler('click', null);
     fixture.detectChanges();
-    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
-    expect(progressBar).toBeTruthy();
+    expect(component.loading).toBeTruthy();
   });
 
   // TODO: Mock HTTP response
-  it('should remove the loading indicator when response returned', () => {
+  // it('should remove the loading indicator when response returned', () => {
 
-  });
+  // });
 
-  it('should remove the loading indicator when response fails', () => {
+  // it('should remove the loading indicator when response fails', () => {
 
-  });
+  // });
 });
