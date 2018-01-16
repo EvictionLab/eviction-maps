@@ -32,11 +32,11 @@ deploy:
   acl: public_read
   local_dir: dist
   on:
-    branch: master
+    branch: test-travis
 - provider: script
   script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_PROD --paths="/*"
   on:
-    branch: master
+    branch: test-travis
 - skip_cleanup: true
   provider: s3
   access_key_id: $AWS_KEY
