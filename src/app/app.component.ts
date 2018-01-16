@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
     const userAgent = navigator.userAgent.toLowerCase();
     this.softwareButton = userAgent.indexOf('android') > -1 ||
       ((userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) &&
-       userAgent.indexOf('crios') === -1);
+      (userAgent.indexOf('crios') === -1 && userAgent.indexOf('fxios') === -1));
   }
 
   /** Fired when a route is activated */
