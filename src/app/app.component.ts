@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
     this.onWindowResize();
     // Add user agent-specific classes
     const userAgent = navigator.userAgent.toLowerCase();
-    this.iosSafari = ((userAgent.includes('iphone') || userAgent.indexOf('ipad') > -1) &&
+    this.iosSafari = ((userAgent.includes('iphone') || userAgent.includes('ipad')) &&
       (!userAgent.includes('crios') && !userAgent.includes('fxios')));
     this.android = userAgent.includes('android') && !userAgent.includes('firefox');
   }

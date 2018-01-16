@@ -34,7 +34,7 @@
       height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight});
     }
     app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$cardMobileHeight});
+      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight} - #{$legendHeight});
     }
   }
 }
