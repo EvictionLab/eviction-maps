@@ -46,125 +46,35 @@
   .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
     border-left: none;
   }
-  .mapboxgl-ctrl-bottom-left {
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
+    margin: grid(1);
+  }
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+    top: 0;
     bottom: auto;
-    top: calc(100vh - #{grid(3)});
-    .mapboxgl-ctrl-attrib.mapboxgl-compact {
-      padding-left: 24px;
-      padding-right: 8px;
-      border-radius: 12px 3px 3px 12px;
+  }
+  .mapboxgl-ctrl-bottom-left {
+    display: none;
+  }
+  @media(min-width: $gtTablet) {
+    .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
+      display: none;
     }
-    .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+    .mapboxgl-ctrl-bottom-left {
+      display: inherit;
+      top: auto;
+      bottom: 0;
       left: 0;
+      right: auto;
     }
-  }
-  @media(max-width: $gtMobile) {
-    .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{grid(6)})
-    }
-  }
-}
-
-:host-context(.software-button) {
-  ::ng-deep {
-    .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{grid(12)});
-    }
+    
   }
 }
 
 :host-context(.slider-active) {
   ::ng-deep {
     .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(6)});
-    }
-    @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightLg} - #{grid(11)});
-      }
-    }
-    @media(min-width: $gtTablet) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightLg} - #{grid(3)});
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(11)});
-    }
-  }
-}
-
-:host-context(.slider-active.legend-active) {
-  ::ng-deep {
-    @media(max-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightSm} - #{grid(12)});
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active.legend-active .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(20)});
-    }
-  }
-}
-
-:host-context(.slider-active.cards-active) {
-  ::ng-deep {
-    .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(25)});
-    }
-    @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightLg} - #{grid(23)});
-      }
-    }
-    @media(min-width: $gtTablet) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightLg} - #{grid(3)});
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(31)});
-    }
-  }
-}
-
-:host-context(.slider-active.cards-active.legend-active) {
-  ::ng-deep {
-    .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(28)});
-    }
-    @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightSm} - #{grid(27)});
-      }
-    }
-    @media(min-width: $gtTablet) {
-      .mapboxgl-ctrl-bottom-left {
-        top: calc(100vh - #{$headerHeightSm} - #{grid(7)});
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active.legend-active .mapboxgl-ctrl-bottom-left {
-      top: calc(100vh - #{$headerHeightSm} - #{grid(34)});
+      bottom: grid(12);
     }
   }
 }

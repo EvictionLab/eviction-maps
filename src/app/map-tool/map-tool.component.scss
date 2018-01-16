@@ -15,14 +15,8 @@
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
-  app-map.slider-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(2)});
-  }
-  app-map.slider-active.legend-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(3)})
-  }
   app-map.cards-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(6)});
+    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
   }
   app-data-panel {
     display:block;
@@ -34,16 +28,16 @@
 }
 
 // Additional spacing for software button
-:host-context(.software-button) {
+:host-context(.software-button), :host-context(.gt-mobile.software-button) {
   .app-wrapper {
     app-map.legend-active, app-map.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{grid(9)});
+      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight});
     }
     app-map.legend-active.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{grid(10)});
+      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight});
     }
     app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{grid(12)});
+      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight} - #{$softButtonPadding});
     }
   }
 }
@@ -60,21 +54,6 @@
   .app-wrapper {
     app-map.cards-active {
       height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
-    }
-  }
-}
-
-// Additional spacing for software button
-:host-context(.gt-mobile.software-button) {
-  .app-wrapper {
-    app-map.legend-active, app-map.slider-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(9)});
-    }
-    app-map.legend-active.slider-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
-    }
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
     }
   }
 }

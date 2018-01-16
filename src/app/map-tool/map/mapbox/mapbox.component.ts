@@ -37,6 +37,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
     this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
     this.map.addControl(new mapboxgl.GeolocateControl({showUserLocation: false}), 'top-left');
+    this.map.addControl(new mapboxgl.AttributionControl({ compact: true }), 'top-left');
     this.map.on('load', () => {
       this.onMapInstance(this.map);
     });
