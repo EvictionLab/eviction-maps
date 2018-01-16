@@ -56,8 +56,12 @@ body {
     text-transform: uppercase;
     letter-spacing: 0.8px;
     font-weight: 500;
+    line-height: grid(5);
     padding: grid(1) grid(2);
     box-sizing: border-box;
+    display:flex;
+    align-items:center;
+    justify-content: center;
     svg path { fill: $grey1; }
     &:hover { background: $grey5; }
     // active style

@@ -437,7 +437,6 @@ app-location-cards {
     width:268px;
     text-align:center;
     .btn { 
-      display:block; 
       width: 100%; 
       margin:auto;
       margin-bottom:4px;
@@ -461,15 +460,13 @@ app-location-cards {
 
 .data-panel-footer .action-wrapper .social-icons {
   text-align: center;
-  a {
-    display:inline-block;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
   a:hover {
     text-decoration: none;
   }
-
   .btn {
-    display: inline-block;
     width: 56px;
     height:56px;
     padding: 3px 0 0 0;

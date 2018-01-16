@@ -29,7 +29,10 @@
   justify-content: flex-start;
   // TEMPORARY - should have a focus style for accessibility
   &:focus {
-    outline:none;
+    box-shadow:none;
+    .el-slider .scrubber-label {
+      opacity:1;
+    }
   }
 }
 .slider-label {

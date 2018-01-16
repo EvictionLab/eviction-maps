@@ -64,6 +64,7 @@ app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
   .mapboxgl-ctrl-group {
     border-radius:0;
     box-shadow: $z1shadow;
+    overflow:visible;
      & > button {
        border-bottom: none;
        border-radius:0;
@@ -263,6 +264,7 @@ app-ui-map-legend {
   left:0;
   box-shadow: $z1shadow;
   border-bottom: 1px solid $shadingColor;
+  z-index:10;
   ::ng-deep .hint-button svg {
     width: grid(3);
     height: grid(3);

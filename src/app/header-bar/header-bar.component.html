@@ -1,5 +1,25 @@
 <div class="header-wrapper">
   <div class="header-content">
+    <div class="header-logo">
+      <a href="/">
+        <img src="./assets/images/eviction-lab-logo.svg" class="header-logo" alt="Eviction Lab Home" />
+      </a>
+    </div>
+    <div [class.active]="activeMenuItem === 'search'" class="header-search">
+      <app-location-search
+        role="search"
+        class="search"
+        [placeholder]="'HEADER.SEARCH_HINT' | translate"
+        (locationSelected)="selectLocation.emit($event)"
+      ></app-location-search>
+    </div>
+    <app-ui-select 
+      class="language-select vertical-select z0"
+      [selectedValue]="selectedLanguage"
+      (change)="selectLanguage.emit($event)"
+      labelProperty="name"
+      [values]="languageOptions"
+    ></app-ui-select>
     <div class="header-icons">
       <button [class.active]="activeMenuItem === 'home'" class="el-svg-button el-button-home" (click)="onMenuSelect('home')">
         <svg viewBox="0 0 24 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
@@ -37,7 +57,7 @@
         </svg>
         <span>{{ 'HEADER.HELP' | translate }}</span>
       </button>
-      <button tabindex="4" [class.active]="activeMenuItem === 'menu'" class="el-svg-button el-button-menu" (click)="onMenuSelect('menu')">
+      <button [class.active]="activeMenuItem === 'menu'" class="el-svg-button el-button-menu" (click)="onMenuSelect('menu')">
         <svg viewBox="0 0 22 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true">
           <g transform="translate(-249.000000, -21.000000)" fill-rule="nonzero" fill="#666666">
             <path d="M268.716031,29.9586426 C269.874809,29.9586426 270.832061,30.8335101 270.832061,31.9027925 C270.832061,32.9720749 269.874809,33.8469424 268.716031,33.8469424 L251.116031,33.8469424 C249.957252,33.8469424 249,32.9720749 249,31.9027925 C249,30.8335101 249.957252,29.9586426 251.116031,29.9586426 L268.716031,29.9586426 Z M268.716031,38.9172853 C269.874809,38.9172853 270.832061,39.7921527 270.832061,40.8614351 C270.832061,41.9307176 269.874809,42.805585 268.716031,42.805585 L251.116031,42.805585 C249.957252,42.805585 249,41.9307176 249,40.8614351 C249,39.7921527 249.957252,38.9172853 251.116031,38.9172853 L268.716031,38.9172853 Z M268.716031,21 C269.874809,21 270.832061,21.8748674 270.832061,22.9441499 C270.832061,24.0134323 269.874809,24.8882998 268.716031,24.8882998 L251.116031,24.8882998 C249.957252,24.8882998 249,24.0134323 249,22.9441499 C249,21.8748674 249.957252,21 251.116031,21 L268.716031,21 Z"
@@ -47,27 +67,5 @@
         <span>{{ 'HEADER.MENU' | translate }}</span>
       </button>
     </div>
-    <div class="header-logo">
-      <a tabindex="1" href="/">
-        <img src="./assets/images/eviction-lab-logo.svg" class="header-logo" alt="Eviction Lab Home" />
-      </a>
-    </div>
-    <div [class.active]="activeMenuItem === 'search'" class="header-search">
-      <app-location-search
-        tabindex="2"
-        role="search"
-        class="search"
-        [placeholder]="'HEADER.SEARCH_HINT' | translate"
-        (locationSelected)="selectLocation.emit($event)"
-      ></app-location-search>
-    </div>
-    <app-ui-select 
-      tabindex="3"
-      class="language-select vertical-select z0"
-      [selectedValue]="selectedLanguage"
-      (change)="selectLanguage.emit($event)"
-      labelProperty="name"
-      [values]="languageOptions"
-    ></app-ui-select>
   </div>
 </div>

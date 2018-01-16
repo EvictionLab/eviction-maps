@@ -97,6 +97,12 @@ $z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
 
+@mixin focusState() {
+  outline: 0;
+  box-shadow: 0 0 5px 1px $color1;
+  border: none;
+}
+
 // Buttons
 // ----
 // layout

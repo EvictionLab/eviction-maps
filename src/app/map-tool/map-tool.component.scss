@@ -87,15 +87,10 @@
   &.active { 
     pointer-events:all; 
     background-color: rgba(0,0,0,0.1);
-    .btn-map { opacity: 1; }
+    .btn-map { display:block; }
   }
-  .btn-compare {
-    display:none;
-  }
-  .btn-map {
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
+  .btn-compare { display:none; }
+  .btn-map { display:none; }
   .show-map-overlay {
     @include fill-parent();
     pointer-events:all;
