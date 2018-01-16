@@ -43,7 +43,7 @@
       </div>
       <div class="graph-area" [class.line-graph]="graphType === 'line'" [class.bar-graph]="graphType === 'bar'">
         <app-ui-toggle class="graph-type-toggle" aria-label="Graph type" [values]="[ 'Bar', 'Line' ]" (selectedValueChanged)="changeGraphType($event)"></app-ui-toggle>
-        <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="onGraphHover($event)">
+        <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
           <div class="line-tooltips" *ngIf="graphType === 'line'">
             <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
                 [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
