@@ -2,6 +2,7 @@ import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
   HostListener, ElementRef
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -190,9 +191,11 @@ export class MapComponent implements OnInit, OnChanges {
   constructor(
     private map: MapService,
     private loader: LoadingService,
-    private platform: PlatformService
+    private platform: PlatformService,
+    private translate: TranslateService
   ) {
     loader.start('map');
+    translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
   }
 
   ngOnInit() {
@@ -411,10 +414,14 @@ export class MapComponent implements OnInit, OnChanges {
   private updateSelectedLayerName() {
     const autoLabel = '<span>(auto)</span>';
     if (this._store.layer) {
-      const strippedName = this._store.layer.name.replace(autoLabel, '');
+      const layerId = this._store.layer.id;
+      const layerOptions = this.layerOptions.filter(l => l.id === layerId);
+      // Use updated layer option if available since it will be translated
+      const layer = layerOptions.length > 0 ? layerOptions[0] : this._store.layer;
+      const strippedName = layer.name.replace(autoLabel, '');
       this._store.layer = this.autoSwitch ?
-        { ...this._store.layer, name: strippedName + autoLabel } :
-        { ...this._store.layer, name: strippedName };
+        { ...layer, name: strippedName + autoLabel } :
+        { ...layer, name: strippedName };
     }
   }
 
