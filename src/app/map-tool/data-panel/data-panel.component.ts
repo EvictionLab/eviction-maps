@@ -94,6 +94,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   lineEndYear: number = this.maxYear;
   dollarProps = DollarProps;
   percentProps = PercentProps;
+  graphHover = new EventEmitter();
   private graphTimeout; // tracks if a timeout is set to update graph settings
 
   constructor(
@@ -117,6 +118,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.setGraphData();
       this.updateTwitterText();
     });
+    this.graphHover.debounceTime(50)
+      .subscribe(e => this.onGraphHover(e));
   }
 
   /**
