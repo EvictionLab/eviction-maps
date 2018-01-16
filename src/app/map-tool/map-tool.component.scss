@@ -15,8 +15,14 @@
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
   }
+  app-map.slider-active {
+    height: calc(100vh - #{$headerHeightSm} - #{grid(2)});
+  }
+  app-map.slider-active.legend-active {
+    height: calc(100vh - #{$headerHeightSm} - #{grid(3)})
+  }
   app-map.cards-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
+    height: calc(100vh - #{$headerHeightSm} - #{grid(6)});
   }
   app-data-panel {
     display:block;
@@ -30,6 +36,12 @@
 // Additional spacing for software button
 :host-context(.software-button) {
   .app-wrapper {
+    app-map.legend-active, app-map.slider-active {
+      height: calc(100vh - #{$headerHeightSm} - #{grid(9)});
+    }
+    app-map.legend-active.slider-active {
+      height: calc(100vh - #{$headerHeightSm} - #{grid(10)});
+    }
     app-map.cards-active {
       height: calc(100vh - #{$headerHeightSm} - #{grid(12)});
     }
@@ -55,6 +67,12 @@
 // Additional spacing for software button
 :host-context(.gt-mobile.software-button) {
   .app-wrapper {
+    app-map.legend-active, app-map.slider-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(9)});
+    }
+    app-map.legend-active.slider-active {
+      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
+    }
     app-map.cards-active {
       height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
     }
@@ -65,7 +83,8 @@
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-tablet), :host-context(.gt-tablet.software-button) {
   .app-wrapper {
-    app-map, app-map.cards-active {
+    app-map, app-map.legend-active, app-map.slider-active,
+    app-map.legend-active.slider-active, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
     }

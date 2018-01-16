@@ -32,8 +32,9 @@ export class MapboxComponent implements AfterViewInit {
    */
   ngAfterViewInit() {
     this.map = this.mapService.createMap({
-      ...this.mapConfig, container: this.mapEl.nativeElement
+      ...this.mapConfig, container: this.mapEl.nativeElement, attributionControl: false
     });
+    this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
     this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
     this.map.addControl(new mapboxgl.GeolocateControl({showUserLocation: false}), 'top-left');
     this.map.on('load', () => {

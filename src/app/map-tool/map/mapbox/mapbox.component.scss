@@ -46,17 +46,55 @@
   .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
     border-left: none;
   }
+  .mapboxgl-ctrl-bottom-left {
+    bottom: auto;
+    top: calc(100vh - #{grid(3)});
+    .mapboxgl-ctrl-attrib.mapboxgl-compact {
+      padding-left: 24px;
+      padding-right: 8px;
+      border-radius: 12px 3px 3px 12px;
+    }
+    .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+      left: 0;
+    }
+  }
+  @media(max-width: $gtMobile) {
+    .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{grid(6)})
+    }
+  }
+}
+
+:host-context(.software-button) {
+  ::ng-deep {
+    .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{grid(12)});
+    }
+  }
 }
 
 :host-context(.slider-active) {
   ::ng-deep {
-    .mapboxgl-ctrl-bottom-right {
-      bottom: grid(5);
+    .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(6)});
     }
     @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(11);
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightLg} - #{grid(11)});
       }
+    }
+    @media(min-width: $gtTablet) {
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightLg} - #{grid(3)});
+      }
+    }
+  }
+}
+
+::ng-deep {
+  @media(max-width: $gtMobile) {
+    .software-button .slider-active .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(11)});
     }
   }
 }
@@ -64,26 +102,34 @@
 :host-context(.slider-active.legend-active) {
   ::ng-deep {
     @media(max-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(10);
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightSm} - #{grid(12)});
       }
+    }
+  }
+}
+
+::ng-deep {
+  @media(max-width: $gtMobile) {
+    .software-button .slider-active.legend-active .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(20)});
     }
   }
 }
 
 :host-context(.slider-active.cards-active) {
   ::ng-deep {
-    .mapboxgl-ctrl-bottom-right {
-      bottom: grid(25);
+    .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(25)});
     }
     @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(31);
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightLg} - #{grid(23)});
       }
     }
     @media(min-width: $gtTablet) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(11);
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightLg} - #{grid(3)});
       }
     }
   }
@@ -91,17 +137,25 @@
 
 ::ng-deep {
   @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active .mapboxgl-ctrl-bottom-right {
-      bottom: calc(50px + #{grid(25)});
+    .software-button .slider-active.cards-active .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(31)});
     }
   }
 }
 
 :host-context(.slider-active.cards-active.legend-active) {
   ::ng-deep {
-    @media(max-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(30);
+    .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(28)});
+    }
+    @media(min-width: $gtMobile) {
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightSm} - #{grid(27)});
+      }
+    }
+    @media(min-width: $gtTablet) {
+      .mapboxgl-ctrl-bottom-left {
+        top: calc(100vh - #{$headerHeightSm} - #{grid(7)});
       }
     }
   }
@@ -109,8 +163,8 @@
 
 ::ng-deep {
   @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active.legend-active .mapboxgl-ctrl-bottom-right {
-      bottom: calc(50px + #{grid(30)});
+    .software-button .slider-active.cards-active.legend-active .mapboxgl-ctrl-bottom-left {
+      top: calc(100vh - #{$headerHeightSm} - #{grid(34)});
     }
   }
 }

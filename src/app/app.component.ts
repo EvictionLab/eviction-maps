@@ -47,11 +47,9 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.onWindowResize();
-    // Add software-button class if browser is Android or iOS Safari
+    // Add software-button class if browser is Android
     const userAgent = navigator.userAgent.toLowerCase();
-    this.softwareButton = userAgent.indexOf('android') > -1 ||
-      ((userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) &&
-       userAgent.indexOf('crios') === -1);
+    this.softwareButton = userAgent.indexOf('android') > -1;
   }
 
   /** Fired when a route is activated */
