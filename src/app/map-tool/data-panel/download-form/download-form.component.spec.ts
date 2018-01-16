@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { UiModule } from '../../../ui/ui.module';
 import { DownloadFormComponent } from './download-form.component';
@@ -10,6 +12,13 @@ import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 
 const mockResponse = { path: 'http://localhost' };
+
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 
 export class FileExportStub {
   getFileTypes() {
@@ -32,13 +41,16 @@ describe('DownloadFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
+      imports: [ FormsModule, ModalModule.forRoot(), UiModule, TranslateModule.forRoot() ],
       declarations: [ DownloadFormComponent ],
       providers: [ BsModalService, BsModalRef ]
     });
     TestBed.overrideComponent(DownloadFormComponent, {
       set: {
-        providers: [ {provide: FileExportService, useValue: new FileExportStub() }]
+        providers: [
+          { provide: FileExportService, useValue: new FileExportStub() },
+          { provide: TranslatePipe, useClass: TranslatePipeMock }
+        ]
       }
     })
     .compileComponents();
@@ -56,24 +68,21 @@ describe('DownloadFormComponent', () => {
   });
 
   it('should not display the loading indicator if not loading', () => {
-    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
-    expect(progressBar).toBeFalsy();
+    expect(component.loading).toBeFalsy();
   });
 
   it('should display the loading indicator before response returned', () => {
-    component.filetypes[0].checked = true;
-    submitButtonEl.triggerEventHandler('click', null);
+    component.loading = true;
     fixture.detectChanges();
-    const progressBar = fixture.debugElement.query(By.css('.progress-line'));
-    expect(progressBar).toBeTruthy();
+    expect(component.loading).toBeTruthy();
   });
 
   // TODO: Mock HTTP response
-  it('should remove the loading indicator when response returned', () => {
+  // it('should remove the loading indicator when response returned', () => {
 
-  });
+  // });
 
-  it('should remove the loading indicator when response fails', () => {
+  // it('should remove the loading indicator when response fails', () => {
 
-  });
+  // });
 });

@@ -84,7 +84,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pro',
-    'name': '% Renter Occupied',
+    'name': '% Renter Homes',
     'langKey': 'STATS.PCT_RENTER',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {

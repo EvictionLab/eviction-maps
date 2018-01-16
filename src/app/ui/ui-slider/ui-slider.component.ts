@@ -27,6 +27,16 @@ export class UiSliderComponent implements AfterViewInit {
   @ViewChild('scrubber') scrubber: ElementRef;
   @ViewChild('container') el: ElementRef;
   @HostBinding('class.active') pressed = false;
+  @HostBinding('attr.role') ariaRole = 'slider';
+  @HostBinding('attr.aria-valuemin') get ariaValueMin() {
+    return this.min;
+  }
+  @HostBinding('attr.aria-valuemax') get ariaValueMax() {
+    return this.max;
+  }
+  @HostBinding('attr.aria-valuenow') get ariaValueNow() {
+    return this._currentValue;
+  }
   position = 0;
   get percent() { return (this.position * 100) + '%'; }
   get pxValue() { return this.elRect ? this.position * this.elRect.width : 0; }

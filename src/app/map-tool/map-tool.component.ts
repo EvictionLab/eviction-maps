@@ -11,9 +11,9 @@ import 'rxjs/add/operator/first';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { ToastsManager } from 'ng2-toastr';
-import { LoadingService } from '../loading.service';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { LoadingService } from '../loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
@@ -44,7 +44,6 @@ export function debounce(delay: number = 300): MethodDecorator {
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab - Map';
   id = 'map-tool';
-  // autoSwitchLayers = true;
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
   currentRoute = [];
@@ -131,7 +130,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const geo = params['geography'];
       if (geo !== 'auto') {
         this.dataService.setGeographyLevel(geo);
-        // this.autoSwitchLayers = false;
       }
     }
     if (params['bounds']) {
@@ -188,15 +186,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
-    this.dataService.addLocation(feature);
+    const maxLocations = this.dataService.addLocation(feature);
+    if (maxLocations) {
+      this.toast.error(
+        'Maximum limit reached. Please remove a location to add another.'
+      );
+    }
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        const locationUpdated = this.dataService.addLocation(data);
-        if (!locationUpdated) {
-          this.toast.error(
-            'Maximum limit reached. Please remove a location to add another.'
-          );
-        }
+        this.dataService.updateLocation(data);
         this.updateRoute();
         this.loader.end('feature');
       });
@@ -208,7 +206,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param updateMap moves the map to the selected location if true
    */
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
-    // this.autoSwitchLayers = false;
     if (feature) {
       this.loader.start('search');
       const layerId = feature.properties['layerId'];
