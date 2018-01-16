@@ -24,6 +24,9 @@
     "EXCEL_DESCRIPTION": "Export a spreadsheet of locations including eviction, census, and ACS data.",
     "POWERPOINT_DESCRIPTION": "Export a presentation with slides for locations including maps and graphs.",
     "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions."
+    "TWEET_ONE_FEATURE": "Estoy revisando los datos de desalojo de {{year}} para {{place1}}. Ver los resultados {{link}}.",
+    "TWEET_TWO_FEATURES": "Comparé las tasas de desalojo del {{year}} en {{place1}} y {{place2}}. Ver los resultados {{link}}.",
+    "TWEET_THREE_FEATURES": "Comparé las tasas de desalojo del {{year}} en {{place1}}, {{place2}} y {{place3}}. Ver los resultados {{link}}."
   },
   "HEADER": {
     "HOME": "Inicio",

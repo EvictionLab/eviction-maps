@@ -82,6 +82,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
   graphProp = 'er';
   graphSettings;
   startSelect: Array<number>;
+  tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+  tweetParams = {};
 
   endSelect: Array<number>;
   barYear: number;
@@ -109,9 +111,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.translate.onLangChange.subscribe(() => {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
+      this.updateTwitterText();
     });
-    this.dataService.locations$.subscribe(d => this.setGraphData());
-
+    this.dataService.locations$.subscribe(d => {
+      this.setGraphData();
+      this.updateTwitterText();
+    });
   }
 
   /**
@@ -120,6 +125,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.locations) {
       this.setGraphData();
+      this.updateTwitterText();
     }
   }
 
@@ -233,6 +239,33 @@ export class DataPanelComponent implements OnInit, OnChanges {
     for (let i = start; i <= end; i++) { arr.push(i); }
     if (arr.length === 0) { arr.push(end); }
     return arr;
+  }
+
+  /**
+   * Update Twitter share text
+   */
+  updateTwitterText() {
+    const features = this.dataService.activeFeatures;
+    const featLength = this.dataService.activeFeatures.length;
+    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+
+    if (featLength === 1) {
+      this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+      this.tweetParams = { ...this.tweetParams, place1: features[0].properties.n };
+    } else if (featLength === 2) {
+      this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
+      this.tweetParams = {
+        ...this.tweetParams, place1: features[0].properties.n, place2: features[1].properties.n
+      };
+    } else if (featLength === 3) {
+      this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
+      this.tweetParams = {
+        ...this.tweetParams,
+        place1: features[0].properties.n,
+        place2: features[1].properties.n,
+        place3: features[2].properties.n
+      };
+    }
   }
 
   /**
