@@ -23,7 +23,10 @@
     "EXPORT_THREE_FEATURES_DESCRIPTION": "Generate a file export for {{feature1}}, {{feature2}}, and {{feature3}} between {{startYear}} and {{endYear}}",
     "EXCEL_DESCRIPTION": "Export a spreadsheet of locations including eviction, census, and ACS data.",
     "POWERPOINT_DESCRIPTION": "Export a presentation with slides for locations including maps and graphs.",
-    "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions."
+    "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions.",
+    "TWEET_ONE_FEATURE": "I'm looking at {{year}} eviction data for {{place1}}. See the results at {{link}}.",
+    "TWEET_TWO_FEATURES": "I compared {{year}} eviction rates for {{place1}} and {{place2}}. See the results at {{link}}.",
+    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}."
   },
   "HEADER": {
     "HOME": "Home",

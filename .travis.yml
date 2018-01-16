@@ -27,15 +27,28 @@ deploy:
   provider: s3
   access_key_id: $AWS_KEY
   secret_access_key: $AWS_SECRET
+  bucket: eviction-maps-prod
+  acl: public_read
+  local_dir: dist
+  on:
+    branch: master
+- provider: script
+  script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_PROD --paths="/*"
+  on:
+    branch: master
+- skip_cleanup: true
+  provider: s3
+  access_key_id: $AWS_KEY
+  secret_access_key: $AWS_SECRET
   bucket: eviction-maps
   acl: public_read
   local_dir: dist
   on:
     branch: development
 - provider: script
-  script: scripts/invalidate-cache.sh
+  script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_DEV --paths="/*"
   on:
-    branch: master
+    branch: development
 - skip_cleanup: true
   provider: script
   script: bash -c "if [[ $TRAVIS_BRANCH == prototypes/* ]]; then aws s3 cp dist/ s3://eviction-lab-prototypes/${TRAVIS_BRANCH:11} --recursive --acl=public-read; fi"
