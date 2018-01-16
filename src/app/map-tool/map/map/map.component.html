@@ -1,5 +1,6 @@
 <div class="map-wrapper" #mapEl>
   <app-mapbox
+    tabindex="8"
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
     [selectedLayer]="selectedLayer"
@@ -7,8 +8,7 @@
     (zoom)="onMapZoom($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
-  >
-  </app-mapbox>
+  ></app-mapbox>
 </div>
 <ng-content></ng-content>
 <div class="map-ui-wrapper">
@@ -28,7 +28,7 @@
   ></app-location-cards>
   <div class="map-ui" [class.active]="activeMenuItem === 'map'">
     <app-ui-select
-      tabindex="4"
+      tabindex="5"
       class="eviction-select"
       [label]="'MAP.EVICTION_SELECT' | translate"
       labelProperty="name"
@@ -42,7 +42,7 @@
       [tooltip]="'HEADER.MAP_HINT' | translate"
     ></app-ui-select>
     <app-ui-select
-      tabindex="5"
+      tabindex="6"
       class="highlight-select"
       [label]="'MAP.CENSUS_SELECT' | translate"
       labelProperty="name"
@@ -51,7 +51,7 @@
       (change)="selectedChoropleth = $event">
     </app-ui-select>
     <app-ui-select
-      tabindex="6"
+      tabindex="7"
       class="layer-select"
       [label]="'MAP.LAYER_SELECT' | translate"
       labelProperty="name"
