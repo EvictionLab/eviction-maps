@@ -17,9 +17,16 @@ import { DollarProps, PercentProps } from '../../data/data-attributes';
   providers: [ TranslatePipe ]
 })
 export class DataPanelComponent implements OnInit, OnChanges {
-
+  private _year: number;
+  @Input() set year(newYear: number) {
+    if (newYear !== this._year) {
+      this.yearChange.emit(newYear);
+    }
+    this._year = newYear;
+  }
+  get year() { return this._year; }
+  @Output() yearChange = new EventEmitter();
   @Input() locations: MapFeature[] = [];
-  @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   get barGraphSettings() {
@@ -86,7 +93,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   tweetParams = {};
 
   endSelect: Array<number>;
-  barYear: number;
   barYearSelect: Array<number>;
   minYear = 2000;
   lineStartYear: number = this.minYear;
@@ -105,7 +111,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
@@ -134,7 +139,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * @param year
    */
   updateBarYear(year: number) {
-    this.barYear = year;
+    this.year = year;
     this.setGraphData();
   }
 
@@ -338,7 +343,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    */
   private createBarGraphData() {
     return this.locations.map((f, i) => {
-      const yVal = (f.properties[`${this.graphProp}-${('' + this.barYear).slice(2)}`]);
+      const yVal = (f.properties[`${this.graphProp}-${('' + this.year).slice(2)}`]);
       return {
         id: 'sample' + i,
         data: [{

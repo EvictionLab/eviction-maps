@@ -46,7 +46,8 @@
   <app-data-panel
       id="data-panel"
       [style.display]="dataService.activeFeatures.length > 0 ? 'inherit' : 'none'"
-      [year]="dataService.activeYear"
+      [(year)]="dataService.activeYear"
+      (yearChange)="updateRoute()"
       [locations]="dataService.activeFeatures" 
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"

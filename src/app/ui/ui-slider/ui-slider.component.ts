@@ -15,6 +15,7 @@ export class UiSliderComponent implements AfterViewInit {
     const boundsValue = (this.min && this.max) ?
       Math.min(this.max, Math.max(this.min, value)) : value;
     this._currentValue = this.getStepValue(boundsValue);
+    this.updatePosition();
   }
   get value(): number {
     return this._currentValue;

@@ -112,7 +112,9 @@ export class MapComponent implements OnInit, OnChanges {
       this.yearChange.emit(newYear);
       if (this._mapInstance) {
         this.updateCensusYear();
-        this.updateMapData();
+        // Don't update highlight features on year change
+        this.updateMapBubbles();
+        this.updateMapChoropleths();
       }
     }
   }
