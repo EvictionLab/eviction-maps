@@ -230,7 +230,8 @@ $tooltipFontColor: #fff;
 
 // Map tool component heights, software button
 $cardMobileHeight: grid(15);
-$softButtonPadding: grid(4);
+$iosSafariPadding: grid(4);
+$androidPadding: grid(2);
 
 // TODO: 
 // - standard values for shadow levels
