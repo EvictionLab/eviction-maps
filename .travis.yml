@@ -14,19 +14,19 @@ before_install:
 before_script:
 - npm install -g @angular/cli
 script:
-- ng test --watch=false --sourcemaps=false
-- ng lint
+# - ng test --watch=false --sourcemaps=false
+# - ng lint
 - ng build --prod
-after_script:
-- npm run e2e
+# after_script:
+# - npm run e2e
 before_deploy:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
 deploy:
 - skip_cleanup: true
   provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: eviction-maps-prod
   region: us-east-2
   acl: public_read
