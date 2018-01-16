@@ -31,13 +31,10 @@
 :host-context(.software-button), :host-context(.gt-mobile.software-button) {
   .app-wrapper {
     app-map.legend-active, app-map.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight});
-    }
-    app-map.legend-active.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight});
+      height: calc(100vh - #{$headerHeightSm} - #{$softButtonPadding} - #{$timeSliderHeight});
     }
     app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$timeSliderHeight} - #{$softButtonPadding});
+      height: calc(100vh - #{$headerHeightSm} - #{$softButtonPadding} - #{$cardMobileHeight});
     }
   }
 }
