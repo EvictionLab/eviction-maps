@@ -28,6 +28,7 @@ deploy:
   access_key_id: $AWS_KEY
   secret_access_key: $AWS_SECRET
   bucket: eviction-maps-prod
+  region: us-east-2
   acl: public_read
   local_dir: dist
   on:
@@ -40,6 +41,7 @@ deploy:
   provider: s3
   access_key_id: $AWS_KEY
   secret_access_key: $AWS_SECRET
+  region: us-east-2
   bucket: eviction-maps
   acl: public_read
   local_dir: dist
