@@ -26,8 +26,10 @@
 }
 
 input {
-  padding-left:32px;
+  padding: 0 32px;
   border-radius: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 :host {
