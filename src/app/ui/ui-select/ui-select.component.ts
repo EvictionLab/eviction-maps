@@ -78,7 +78,6 @@ export class UiSelectComponent implements OnInit {
     if (this.dropdownList) {
       this.listEls = this.dropdownList.nativeElement.getElementsByClassName('dropdown-item');
       this.listEls[this.focusIndex].focus();
-      console.log('list els', this.listEls);
     } else {
       setTimeout(() => { this.setListEls(); }, 100);
     }
@@ -91,22 +90,25 @@ export class UiSelectComponent implements OnInit {
         // go to next item
         this.switchFocus(e.keyCode === keys['UP']);
         e.preventDefault();
+        e.stopPropagation();
       }
       if (e.keyCode === keys['SPACE'] || e.keyCode === keys['ENTER']) {
         // select item and close
         this.selectedValue = this.values[this.focusIndex];
         this.dropdown.hide();
         e.preventDefault();
+        e.stopPropagation();
       }
       if (e.keyCode === keys['ESC'] || e.keyCode === keys['TAB']) {
         // close without selecting item
         this.dropdown.hide();
       }
     } else {
-      if (e.keyCode === keys['SPACE'] || e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
+      if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
         // open the menu
         this.dropdown.show();
         e.preventDefault();
+        e.stopPropagation();
       }
     }
   }
@@ -127,15 +129,6 @@ export class UiSelectComponent implements OnInit {
   @HostListener('document:scroll', ['$event'])
   onDocumentScroll(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
-  }
-
-  /**
-   * Close the dropdown when the button loses focus
-   * WARNING: Do not remove or decrease the timeout or else chrome will hide the
-   *  dropdown menu before the click event fires on the selection.
-   */
-  onButtonBlur(e) {
-    // setTimeout(() => { if (this.dropdown.isOpen) { this.dropdown.hide(); } }, 500);
   }
 
   /** Do not propagate any menu wheel events to parent elements */

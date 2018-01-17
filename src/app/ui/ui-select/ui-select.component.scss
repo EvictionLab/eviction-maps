@@ -7,7 +7,6 @@
           background: $background;
       }
       .el-select-label { color: $labelText; }
-      .highlighted { background: $highlightBackground; color: $highlightText; }
       .caret { color: $caretColor; }
   }
 }
@@ -60,6 +59,15 @@
     }
     & > li.bottom-label:hover, & > li.bottom-label > a:hover {
       background: inherit;
+    }
+    .dropdown-item {
+      &.highlighted {
+        background: $grey4;
+      }
+      &:focus {
+        outline: 0;
+        box-shadow: inset 0 0 3px $color1;
+      }
     }
   }
   .dropdown-toggle.btn {
