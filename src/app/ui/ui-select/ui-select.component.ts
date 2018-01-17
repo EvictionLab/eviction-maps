@@ -126,8 +126,13 @@ export class UiSelectComponent implements OnInit {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
   }
 
+  /**
+   * Close the dropdown when the button loses focus
+   * WARNING: Do not remove or decrease the timeout or else chrome will hide the
+   *  dropdown menu before the click event fires on the selection.
+   */
   onButtonBlur(e) {
-    if (this.dropdown.isOpen) { this.dropdown.hide(); }
+    setTimeout(() => { if (this.dropdown.isOpen) { this.dropdown.hide(); } }, 500);
   }
 
   /** Do not propagate any menu wheel events to parent elements */
