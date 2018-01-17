@@ -140,18 +140,33 @@
     button {
       width: grid(6);
       height: grid(4.5);
+      padding: 0 6px;
       box-sizing:border-box;
       background-repeat: no-repeat;
       background-position: center;
-      span { display:none;}
+      &:focus {
+        box-shadow:none;
+        span { background-color: $focusBgColor; }
+      }
+      span {
+        display:block;
+        width:100%;
+        height:100%;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        // hide text
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+      }
     }
     button:first-child {
-      background-image: bar-chart($grey3);
-      &.selected { background-image: bar-chart($color1); }
+      span { background-image: bar-chart($grey3); }
+      &.selected span { background-image: bar-chart($color1); }
     }
     button:last-child {
-      background-image: line-chart($grey3);
-      &.selected { background-image: line-chart($color1); }
+      span { background-image: line-chart($grey3); }
+      &.selected span { background-image: line-chart($color1); }
     }
   }
 }

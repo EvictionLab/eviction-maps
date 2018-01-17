@@ -46,6 +46,34 @@ body {
     }
   }
 
+  .btn.btn-close { 
+    font-size: 16px; 
+    width:grid(5);
+    height:grid(5);
+    background:none;
+    line-height:1;
+    color: $closeButtonColor;
+    &.alt { color: $altCloseButtonColor }
+    &:after {
+      border-radius: grid(3);
+      border: 1px solid $shadingColor;
+      @include fill-parent;
+      width: grid(3);
+      height: grid(3);
+      margin: auto;
+      background: $defaultBackground; 
+      content: "\00D7"; 
+      line-height: 22px;
+      text-align: center;
+    }
+    &:hover {
+      background: none;
+    }
+    &:focus {
+      background: $focusBgColor;
+    }
+  }
+
   // Square buttons with border
   .btn-border {
     background: $defaultBackground;
