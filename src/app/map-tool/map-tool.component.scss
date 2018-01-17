@@ -27,11 +27,26 @@
   }
 }
 
-// Additional spacing for software button
-:host-context(.software-button) {
+// Additional spacing for iOS Safari
+:host-context(.ios-safari), :host-context(.gt-mobile.ios-safari) {
   .app-wrapper {
+    app-map.legend-active, app-map.slider-active {
+      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight});
+    }
     app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{grid(12)});
+      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight} - #{$legendHeight});
+    }
+  }
+}
+
+// Additional spacing for Android 
+:host-context(.android), :host-context(.gt-mobile.android) {
+  .app-wrapper {
+    app-map.legend-active, app-map.slider-active {
+      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight});
+    }
+    app-map.cards-active {
+      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight} - #{$legendHeight});
     }
   }
 }
@@ -52,20 +67,14 @@
   }
 }
 
-// Additional spacing for software button
-:host-context(.gt-mobile.software-button) {
-  .app-wrapper {
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(10)});
-    }
-  }
-}
-
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet), :host-context(.gt-tablet.software-button) {
+:host-context(.gt-tablet),
+:host-context(.gt-tablet.ios-safari),
+:host-context(.gt-tablet.andrdoid) {
   .app-wrapper {
-    app-map, app-map.cards-active {
+    app-map, app-map.legend-active, app-map.slider-active,
+    app-map.legend-active.slider-active, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
     }

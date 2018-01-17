@@ -228,6 +228,10 @@ $legendTextColor: #7f7f7f;
 $tooltipBackground: #050403;
 $tooltipFontColor: #fff;
 
+// Map tool component heights, software button
+$iosSafariPadding: grid(4);
+$androidPadding: grid(2);
+
 // TODO: 
 // - standard values for shadow levels
 // - type definitions / sizes

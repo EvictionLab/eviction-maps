@@ -56,12 +56,13 @@ app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
 // center controls vertically on the right side of the map
 app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
   top: 0;
-  bottom:$timeSliderHeight;
+  bottom: calc(#{$timeSliderHeight} + #{grid(5)});
   margin:auto;
-  height:grid(18);
+  height:grid(22);
   right:$pageMargin;
   left: auto;
   .mapboxgl-ctrl-group {
+    float: right;
     border-radius:0;
     box-shadow: $z1shadow;
      & > button {
