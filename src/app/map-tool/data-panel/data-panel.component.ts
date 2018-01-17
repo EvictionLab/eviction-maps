@@ -57,7 +57,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
   graphData;
   tooltips = [];
-  graphType = 'bar';
+  graphType = 'line';
   cardProps = {
     'er': 'STATS.JUDGMENT_RATE',
     'e': 'STATS.JUDGMENTS',
