@@ -227,7 +227,7 @@ app-location-cards {
     &.open {
       left: inherit;
       right: inherit;
-      width: auto;
+      width: 32%;
     }
     &:nth-of-type(1), 
     &:nth-of-type(2), 
@@ -244,6 +244,10 @@ app-location-cards {
     width:auto;
     max-width:31%; // prevent selects from wrapping to new line
     margin: 0 grid(2) 0 0;
+
+    &.open {
+      width: auto;
+    }
   }
 }
 // - End Map Data Select Boxes
