@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges
+  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
 } from '@angular/core';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
@@ -102,7 +102,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
     public dataService: DataService,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
-    private platform: PlatformService
+    private platform: PlatformService,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit() {
@@ -120,6 +121,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
     });
     this.graphHover.debounceTime(50)
       .subscribe(e => this.onGraphHover(e));
+    // Needed to prevent ExpressionChangedAfterItHasBeenCheckedError
+    this.cd.detectChanges();
   }
 
   /**
