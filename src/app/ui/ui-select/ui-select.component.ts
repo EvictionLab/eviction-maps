@@ -79,27 +79,31 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
-  @HostListener('keydown', ['$event']) onFocus(e) {
+  @HostListener('keydown', ['$event']) onKeyDown(e) {
     const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27 };
     if (this.dropdown.isOpen) {
       if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
         // go to next item
         this.highlightedItem = this.getNextHighlightedItem((e.keyCode === keys['UP']));
+        e.preventDefault();
       }
       if (e.keyCode === keys['SPACE'] || e.keyCode === keys['ENTER']) {
         // select item and close
         this.selectedValue = this.highlightedItem;
-        this.dropdown.toggle();
+        this.dropdown.hide();
+        e.preventDefault();
       }
       if (e.keyCode === keys['ESC']) {
-        // close
-        this.dropdown.toggle();
+        // close without selecting item
+        this.dropdown.hide();
+        e.preventDefault();
       }
     } else {
       if (e.keyCode === keys['SPACE'] || e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
         // open the menu
-        this.dropdown.toggle();
+        this.dropdown.show();
         this.highlightedItem = this.selectedValue;
+        e.preventDefault();
       }
     }
   }
@@ -122,7 +126,7 @@ export class UiSelectComponent implements OnInit {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
   }
 
-  @HostListener('blur', ['$event']) onBlur(e) {
+  onButtonBlur(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
   }
 

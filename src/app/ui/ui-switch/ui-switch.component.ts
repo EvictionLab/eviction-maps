@@ -51,4 +51,13 @@ export class UiSwitchComponent {
     }
   }
 
+  @HostListener('keydown', ['$event']) onKeyDown(e) {
+    const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27 };
+    if (e.keyCode === keys['SPACE'] || e.keyCode === keys['ENTER']) {
+      this.on = !this.on;
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }
+
 }

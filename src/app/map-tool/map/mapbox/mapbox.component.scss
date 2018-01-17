@@ -8,6 +8,10 @@
 }
 
 ::ng-deep {
+  .mapboxgl-canvas:focus {
+    outline: 4px solid transparentize($color1, 0.5);
+    outline-offset: -4px;
+  }
   .mapboxgl-popup-content {
     background-color: $tooltipBackground;
     color: $tooltipFontColor;

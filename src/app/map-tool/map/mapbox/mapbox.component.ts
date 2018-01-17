@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, Input, Output, AfterViewInit, EventEmitter, ViewChild, ElementRef, NgZone
+  Component, OnInit, Input, Output, AfterViewInit,
+  EventEmitter, ViewChild, ElementRef, NgZone, HostListener
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
@@ -47,6 +48,11 @@ export class MapboxComponent implements AfterViewInit {
         console.error(e);
       }
     });
+  }
+
+  /** passes focus to the map canvas */
+  @HostListener('focus', ['$event']) onfocus(e) {
+    this.mapEl.nativeElement.getElementsByTagName('canvas')[0].focus();
   }
 
   /**

@@ -11,13 +11,16 @@
 }
 
 button {
-  padding: grid(0.5) grid(1);
+  position:relative;
   background: $toggleBackground;
   border: none;
   border-left: 1px solid $toggleBorderColor;
   margin: 6px 0;
   border-radius:0;
   color: $toggleForeground;
+  &:after {
+    content: "";
+  }
   &:hover { color: $toggleHoverForeground; }
   &:first-child { border-left: none; }
   &.selected { color: $toggleSelectedBackground; }
