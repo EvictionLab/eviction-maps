@@ -28,7 +28,7 @@ html, body {
 body {
   height:auto;
   overflow-x:hidden;
-  :focus, .form-control:focus {
+  :focus, .form-control:focus, a:focus {
     @include focusState();
   }
 }
