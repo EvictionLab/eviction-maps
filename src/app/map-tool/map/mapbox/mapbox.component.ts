@@ -19,12 +19,16 @@ export class MapboxComponent implements AfterViewInit {
   @Input() mapConfig: Object;
   @Input() eventLayers: Array<string> = [];
   @Input() selectedLayer: MapLayerGroup;
+  @Input() featureCount = 0;
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() zoom: EventEmitter<number> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
   featureMouseMove: EventEmitter<any> = new EventEmitter();
   featureMouseLeave: EventEmitter<any> = new EventEmitter();
+  hoverColors = [
+    'rgba(226,64,0,0.8)', 'rgba(67,72,120,0.8)', 'rgba(44,137,127,0.8)', 'rgba(255,255,255,0.8)'
+  ];
 
   constructor(private mapService: MapService, private zone: NgZone) { }
 
@@ -81,6 +85,7 @@ export class MapboxComponent implements AfterViewInit {
         if (feature && feature.layer.id === this.selectedLayer.id) {
           const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
           if (union !== null) {
+            union.properties['color'] = this.hoverColors[this.featureCount];
             this.mapService.setSourceData('hover', [union]);
           }
         } else {

@@ -1811,7 +1811,10 @@
       "source": "hover",
       "layout": {},
       "paint": {
-        "line-color": "rgba(255,255,255,0.8)",
+        "line-color": {
+          "property": "color",
+          "type": "identity"
+        },
         "line-width": 3,
         "line-opacity": 0.5
       }
