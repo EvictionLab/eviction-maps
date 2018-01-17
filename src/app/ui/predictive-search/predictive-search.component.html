@@ -1,5 +1,5 @@
 <div class="search-container">
-  <span class="glyphicon glyphicon-search"></span>
+  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
   <input [ngModel]="selected"
          (ngModelChange)="selectedTextChange($event)"
          [typeahead]="options || []" 

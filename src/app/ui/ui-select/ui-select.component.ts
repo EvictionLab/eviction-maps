@@ -27,8 +27,8 @@ export class UiSelectComponent implements OnInit {
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
   @ViewChild(BsDropdownDirective) dropdown;
   @ViewChild('dropdownList') dropdownList: ElementRef;
-  highlightedItem: any;
   get selectedLabel(): string { return this.getLabel(this.selectedValue); }
+  focusIndex = 0;
   private valuesArray = true; // true if `values` is an array of values instead of objects
   @HostBinding('class.open') open = false;
   /** Tracks if the "none" option is selected */
@@ -36,6 +36,8 @@ export class UiSelectComponent implements OnInit {
   private touchStartY: number;
   private _selectedValue;
   private scrollMax = 0;
+  private listEls = [];
+  private listTimeout = null;
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -62,12 +64,6 @@ export class UiSelectComponent implements OnInit {
     );
   }
 
-  getNextHighlightedItem(previousItem = false) {
-    const i = this.values.findIndex((v) => _isEqual(this.highlightedItem, v));
-    const offset = previousItem ? -1 : 1;
-    return this.values[(i + offset) % this.values.length];
-  }
-
   /**
    * Set open status, reset scrollTop in dropdown
    */
@@ -79,31 +75,47 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
+  /**
+   * Set the DOM elements in the list
+   * NOTE: There is a slight delay before the dropdown list element is in the DOM
+   *  so there is a timeout that gets called to try again in 200ms if it's not there yet
+   */
+  setListEls() {
+    if (this.dropdownList) {
+      this.listEls = this.dropdownList.nativeElement.getElementsByClassName('dropdown-item');
+      this.listEls[this.focusIndex].focus();
+    } else {
+      if (this.listTimeout) { clearTimeout(this.listTimeout); }
+      this.listTimeout = setTimeout(() => { this.setListEls(); }, 200);
+    }
+  }
+
   @HostListener('keydown', ['$event']) onKeyDown(e) {
-    const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27 };
+    const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27, 'TAB': 9 };
     if (this.dropdown.isOpen) {
       if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
         // go to next item
-        this.highlightedItem = this.getNextHighlightedItem((e.keyCode === keys['UP']));
+        this.switchFocus(e.keyCode === keys['UP']);
         e.preventDefault();
+        e.stopPropagation();
       }
       if (e.keyCode === keys['SPACE'] || e.keyCode === keys['ENTER']) {
         // select item and close
-        this.selectedValue = this.highlightedItem;
+        this.selectedValue = this.values[this.focusIndex];
         this.dropdown.hide();
         e.preventDefault();
+        e.stopPropagation();
       }
-      if (e.keyCode === keys['ESC']) {
+      if (e.keyCode === keys['ESC'] || e.keyCode === keys['TAB']) {
         // close without selecting item
         this.dropdown.hide();
-        e.preventDefault();
       }
     } else {
-      if (e.keyCode === keys['SPACE'] || e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
+      if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
         // open the menu
         this.dropdown.show();
-        this.highlightedItem = this.selectedValue;
         e.preventDefault();
+        e.stopPropagation();
       }
     }
   }
@@ -124,15 +136,6 @@ export class UiSelectComponent implements OnInit {
   @HostListener('document:scroll', ['$event'])
   onDocumentScroll(e) {
     if (this.dropdown.isOpen) { this.dropdown.hide(); }
-  }
-
-  /**
-   * Close the dropdown when the button loses focus
-   * WARNING: Do not remove or decrease the timeout or else chrome will hide the
-   *  dropdown menu before the click event fires on the selection.
-   */
-  onButtonBlur(e) {
-    setTimeout(() => { if (this.dropdown.isOpen) { this.dropdown.hide(); } }, 500);
   }
 
   /** Do not propagate any menu wheel events to parent elements */
@@ -157,6 +160,15 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
+  /** Switches focus to the previous or next list item */
+  private switchFocus(previous: boolean) {
+    const modulo = (n, m) => ((n % m) + m) % m;
+    const newIndex = (previous ? this.focusIndex - 1 : this.focusIndex + 1);
+    this.focusIndex = modulo(newIndex, this.listEls.length);
+    this.listEls[this.focusIndex].focus();
+  }
+
+  /** Sets the maximum amount the list is able to scroll */
   private setScrollMax() {
     this.scrollMax =
       this.dropdownList.nativeElement.scrollHeight - this.dropdownList.nativeElement.clientHeight;

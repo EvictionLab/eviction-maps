@@ -1,5 +1,5 @@
-<div class="el-select" dropdown (isOpenChange)="onIsOpenChange()">
-  <button dropdownToggle (blur)="onButtonBlur($event)" type="button" class="btn btn-small dropdown-toggle">
+<div class="el-select" dropdown (onShown)="setListEls()" (isOpenChange)="onIsOpenChange()">
+  <button dropdownToggle type="button" class="btn btn-small dropdown-toggle">
     <span *ngIf="label" class="el-select-label">{{label}} </span> 
     <span class="el-select-value" [innerHTML]="selectedLabel"></span>
     <svg class="svg-down-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -15,10 +15,13 @@
     (touchstart)="onSelectTouchStart($event)"
     (touchmove)="onSelectTouchMove($event)"
   >
-    <li *ngFor="let value of values" role="menuitem">
+    <li *ngFor="let value of values">
       <a 
+        tabindex="0"
+        role="menuitem"
+        aria-checked="selectedValue === value"
         class="dropdown-item" 
-        [class.highlighted]="highlightedItem === value" 
+        [class.highlighted]="selectedValue === value" 
         (click)="selectedValue = value">
         {{getLabel(value)}}
       </a>
