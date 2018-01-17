@@ -1806,17 +1806,28 @@
       }
     },
     {
+      "id": "hover-outline",
+      "type": "line",
+      "source": "hover",
+      "layout": {},
+      "paint": {
+        "line-width": 5,
+        "line-opacity": 0.75,
+        "line-color": "#ffffff"
+      }
+    },
+    {
       "id": "hover",
       "type": "line",
       "source": "hover",
       "layout": {},
       "paint": {
+        "line-width": 2,
+        "line-opacity": 0.9,
         "line-color": {
           "property": "color",
           "type": "identity"
-        },
-        "line-width": 3,
-        "line-opacity": 0.5
+        }
       }
     },
     {
