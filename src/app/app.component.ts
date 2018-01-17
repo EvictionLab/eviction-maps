@@ -26,7 +26,8 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
-  @HostBinding('class.software-button') softwareButton = false;
+  @HostBinding('class.ios-safari') iosSafari = false;
+  @HostBinding('class.android') android = false;
   private activeMenuItem;
 
   constructor(
@@ -47,11 +48,11 @@ export class AppComponent implements OnInit {
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.onWindowResize();
-    // Add software-button class if browser is Android or iOS Safari
+    // Add user agent-specific classes
     const userAgent = navigator.userAgent.toLowerCase();
-    this.softwareButton = userAgent.indexOf('android') > -1 ||
-      ((userAgent.indexOf('iphone') > -1 || userAgent.indexOf('ipad') > -1) &&
-       userAgent.indexOf('crios') === -1);
+    this.iosSafari = ((userAgent.includes('iphone') || userAgent.includes('ipad')) &&
+      (!userAgent.includes('crios') && !userAgent.includes('fxios')));
+    this.android = userAgent.includes('android') && !userAgent.includes('firefox');
   }
 
   /** Fired when a route is activated */

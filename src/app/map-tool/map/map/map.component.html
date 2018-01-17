@@ -1,17 +1,36 @@
-<div class="map-wrapper" #mapEl>
-  <app-mapbox
-    [mapConfig]="mapConfig" 
-    [eventLayers]="mapEventLayers"
-    [selectedLayer]="selectedLayer"
-    (ready)="onMapReady($event)"
-    (zoom)="onMapZoom($event)"
-    (featureClick)="onFeatureClick($event)"
-    (moveEnd)="onMapMoveEnd($event)"
-  >
-  </app-mapbox>
-</div>
-<ng-content></ng-content>
 <div class="map-ui-wrapper">
+  <div class="map-ui" [class.active]="activeMenuItem === 'map'">
+    <app-ui-select
+      class="eviction-select"
+      [label]="'MAP.EVICTION_SELECT' | translate"
+      labelProperty="name"
+      [selectedValue]="selectedBubble"
+      [values]="bubbleOptions"
+      (change)="selectedBubble = $event"
+      #pop="bs-tooltip"
+      containerClass="map-hint-desktop"
+      [isDisabled]="!tooltipEnabled"
+      placement="bottom"
+      [tooltip]="'HEADER.MAP_HINT' | translate"
+    ></app-ui-select>
+    <app-ui-select
+      class="highlight-select"
+      [label]="'MAP.CENSUS_SELECT' | translate"
+      labelProperty="name"
+      [selectedValue]="selectedChoropleth"
+      [values]="choroplethOptions"
+      (change)="selectedChoropleth = $event">
+    </app-ui-select>
+    <app-ui-select
+      class="layer-select"
+      [label]="'MAP.LAYER_SELECT' | translate"
+      labelProperty="name"
+      [selectedValue]="selectedLayer"
+      [values]="selectDataLevels" 
+      [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
+      (change)="setGroupVisibility($event)">
+    </app-ui-select>
+  </div>
   <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
   <app-location-cards
     [collapsible]="gtTablet"
@@ -26,44 +45,21 @@
     [dollarProps]="dollarProps"
     [percentProps]="percentProps"
   ></app-location-cards>
-  <div class="map-ui" [class.active]="activeMenuItem === 'map'">
-    <app-ui-select
-      tabindex="4"
-      class="eviction-select"
-      [label]="'MAP.EVICTION_SELECT' | translate"
-      labelProperty="name"
-      [selectedValue]="selectedBubble"
-      [values]="bubbleOptions"
-      (change)="selectedBubble = $event"
-      #pop="bs-tooltip"
-      containerClass="map-hint-desktop"
-      [isDisabled]="!tooltipEnabled"
-      placement="bottom"
-      [tooltip]="'HEADER.MAP_HINT' | translate"
-    ></app-ui-select>
-    <app-ui-select
-      tabindex="5"
-      class="highlight-select"
-      [label]="'MAP.CENSUS_SELECT' | translate"
-      labelProperty="name"
-      [selectedValue]="selectedChoropleth"
-      [values]="choroplethOptions"
-      (change)="selectedChoropleth = $event">
-    </app-ui-select>
-    <app-ui-select
-      tabindex="6"
-      class="layer-select"
-      [label]="'MAP.LAYER_SELECT' | translate"
-      labelProperty="name"
-      [selectedValue]="selectedLayer"
-      [values]="selectDataLevels" 
-      [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
-      (change)="setGroupVisibility($event)">
-    </app-ui-select>
-  </div>
+</div>
+<div class="map-wrapper" #mapEl>
+  <app-mapbox
+    [mapConfig]="mapConfig" 
+    [eventLayers]="mapEventLayers"
+    [selectedLayer]="selectedLayer"
+    (ready)="onMapReady($event)"
+    (zoom)="onMapZoom($event)"
+    (featureClick)="onFeatureClick($event)"
+    (moveEnd)="onMapMoveEnd($event)"
+  ></app-mapbox>
 </div>
 <div class="year-slider-container">
-  <app-ui-slider tabindex="9"
+  <app-ui-slider
+    tabindex="0"
     class="year-slider"
     [label]="year"
     [(value)]="year" 
@@ -71,3 +67,4 @@
     [max]="2016" 
   ></app-ui-slider>
 </div>
+<ng-content></ng-content>

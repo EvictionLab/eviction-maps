@@ -90,12 +90,19 @@ $altTextColor: $white; // text on dark backgrounds
 $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
+$focusBgColor: #FFE8DE;
 
 // Shadows
 // ----
 $z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+
+@mixin focusState() {
+  outline: 0;
+  box-shadow: 0 0 5px 1px $color1;
+  border: none;
+}
 
 // Buttons
 // ----
@@ -227,6 +234,10 @@ $legendTextColor: #7f7f7f;
 // Mapbox
 $tooltipBackground: #050403;
 $tooltipFontColor: #fff;
+
+// Map tool component heights, software button
+$iosSafariPadding: grid(4);
+$androidPadding: grid(2);
 
 // TODO: 
 // - standard values for shadow levels

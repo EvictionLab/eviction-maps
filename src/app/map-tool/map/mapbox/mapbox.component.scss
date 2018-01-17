@@ -8,6 +8,10 @@
 }
 
 ::ng-deep {
+  .mapboxgl-canvas:focus {
+    outline: 4px solid transparentize($color1, 0.5);
+    outline-offset: -4px;
+  }
   .mapboxgl-popup-content {
     background-color: $tooltipBackground;
     color: $tooltipFontColor;
@@ -46,71 +50,35 @@
   .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
     border-left: none;
   }
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
+    margin: grid(1);
+  }
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+    top: 0;
+    bottom: auto;
+  }
+  .mapboxgl-ctrl-bottom-left {
+    display: none;
+  }
+  @media(min-width: $gtTablet) {
+    .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
+      display: none;
+    }
+    .mapboxgl-ctrl-bottom-left {
+      display: inherit;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: auto;
+    }
+    
+  }
 }
 
 :host-context(.slider-active) {
   ::ng-deep {
-    .mapboxgl-ctrl-bottom-right {
-      bottom: grid(5);
-    }
-    @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(11);
-      }
-    }
-  }
-}
-
-:host-context(.slider-active.legend-active) {
-  ::ng-deep {
-    @media(max-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(10);
-      }
-    }
-  }
-}
-
-:host-context(.slider-active.cards-active) {
-  ::ng-deep {
-    .mapboxgl-ctrl-bottom-right {
-      bottom: grid(25);
-    }
-    @media(min-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(31);
-      }
-    }
-    @media(min-width: $gtTablet) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(11);
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active .mapboxgl-ctrl-bottom-right {
-      bottom: calc(50px + #{grid(25)});
-    }
-  }
-}
-
-:host-context(.slider-active.cards-active.legend-active) {
-  ::ng-deep {
-    @media(max-width: $gtMobile) {
-      .mapboxgl-ctrl-bottom-right {
-        bottom: grid(30);
-      }
-    }
-  }
-}
-
-::ng-deep {
-  @media(max-width: $gtMobile) {
-    .software-button .slider-active.cards-active.legend-active .mapboxgl-ctrl-bottom-right {
-      bottom: calc(50px + #{grid(30)});
+    .mapboxgl-ctrl-bottom-left {
+      bottom: grid(12);
     }
   }
 }
