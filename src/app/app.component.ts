@@ -1,6 +1,7 @@
 import {
   Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef
 } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
@@ -37,7 +38,8 @@ export class AppComponent implements OnInit {
     private translate: TranslateService,
     private router: Router,
     private toastr: ToastsManager,
-    private vRef: ViewContainerRef
+    private vRef: ViewContainerRef,
+    private titleService: Title
   ) {
       this.toastr.setRootViewContainerRef(vRef);
   }
@@ -57,8 +59,11 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
-    if (component.id && component.id === 'map-tool') {
+    if (component.constructor.name === 'MapToolComponent') {
       this.mapComponent = component;
+      this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
+    } else if (component.constructor.name === 'RankingToolComponent') {
+      this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
     }
   }
 

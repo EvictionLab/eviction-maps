@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -58,7 +58,8 @@ export class CustomOption extends ToastOptions {
     PlatformService,
     DataService,
     LoadingService,
-    {provide: ToastOptions, useClass: CustomOption}
+    {provide: ToastOptions, useClass: CustomOption},
+    Title
   ],
   bootstrap: [AppComponent],
   entryComponents: [ MapToolComponent, RankingToolComponent ]

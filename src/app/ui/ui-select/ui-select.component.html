@@ -1,4 +1,4 @@
-<div class="el-select" dropdown (isOpenChange)="onIsOpenChange()">
+<div class="el-select" dropdown (onShown)="setListEls()" (isOpenChange)="onIsOpenChange()">
   <button dropdownToggle (blur)="onButtonBlur($event)" type="button" class="btn btn-small dropdown-toggle">
     <span *ngIf="label" class="el-select-label">{{label}} </span> 
     <span class="el-select-value" [innerHTML]="selectedLabel"></span>
@@ -15,10 +15,13 @@
     (touchstart)="onSelectTouchStart($event)"
     (touchmove)="onSelectTouchMove($event)"
   >
-    <li *ngFor="let value of values" role="menuitem">
+    <li *ngFor="let value of values">
       <a 
+        tabindex="0"
+        role="menuitem"
+        aria-checked="selectedValue === value"
         class="dropdown-item" 
-        [class.highlighted]="highlightedItem === value" 
+        [class.highlighted]="values[focusIndex] === value" 
         (click)="selectedValue = value">
         {{getLabel(value)}}
       </a>
