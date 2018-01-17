@@ -1,4 +1,5 @@
 import { TestBed, async } from '@angular/core/testing';
+import { Title } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -38,7 +39,8 @@ describe('AppComponent', () => {
         PlatformService,
         LoadingService,
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: DataService, useValue: { languageOptions: [] } }
+        { provide: DataService, useValue: { languageOptions: [] } },
+        { provide: Title, useValue: { setTitle: (...args) => {} } }
       ]
     }).compileComponents();
   }));

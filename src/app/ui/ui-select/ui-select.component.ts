@@ -37,6 +37,7 @@ export class UiSelectComponent implements OnInit {
   private _selectedValue;
   private scrollMax = 0;
   private listEls = [];
+  private listTimeout = null;
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -74,12 +75,18 @@ export class UiSelectComponent implements OnInit {
     }
   }
 
+  /**
+   * Set the DOM elements in the list
+   * NOTE: There is a slight delay before the dropdown list element is in the DOM
+   *  so there is a timeout that gets called to try again in 200ms if it's not there yet
+   */
   setListEls() {
     if (this.dropdownList) {
       this.listEls = this.dropdownList.nativeElement.getElementsByClassName('dropdown-item');
       this.listEls[this.focusIndex].focus();
     } else {
-      setTimeout(() => { this.setListEls(); }, 100);
+      if (this.listTimeout) { clearTimeout(this.listTimeout); }
+      this.listTimeout = setTimeout(() => { this.setListEls(); }, 200);
     }
   }
 
