@@ -51,6 +51,7 @@
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
     [selectedLayer]="selectedLayer"
+    [featureCount]="activeFeatures.length"
     (ready)="onMapReady($event)"
     (zoom)="onMapZoom($event)"
     (featureClick)="onFeatureClick($event)"
