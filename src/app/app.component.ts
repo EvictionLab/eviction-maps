@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
-    if (component.constructor.name === 'MapToolComponent') {
+    if (component.id === 'map-tool') {
       this.mapComponent = component;
       this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
     } else if (component.constructor.name === 'RankingToolComponent') {
