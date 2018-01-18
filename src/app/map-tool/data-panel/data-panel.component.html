@@ -76,9 +76,9 @@
               <span aria-hidden="true">&times;</span>
             </button>
             <p class="legend-data">
-              <span *ngIf="graphType === 'bar' && location.properties[graphProp + '-' + abbrYear(barYear)] >= 0; else unavailableBar">{{ barYear }}: {{ location.properties[graphProp + "-" + abbrYear(barYear)] }}{{ suffix(graphProp) }}</span>
+              <span *ngIf="graphType === 'bar' && location.properties[graphProp + '-' + abbrYear(year)] >= 0; else unavailableBar">{{ year }}: {{ location.properties[graphProp + "-" + abbrYear(year)] }}{{ suffix(graphProp) }}</span>
               <span *ngIf="graphType === 'line' && tooltips[i] && tooltips[i].y !== undefined && location.properties[graphProp + '-' + abbrYear(tooltips[i].x)] >= 0; else unavailableLine">{{ tooltips[i].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[i].x)] }}{{ suffix(graphProp) }}</span>
-              <ng-template #unavailableBar><span *ngIf="graphType === 'bar'">{{ barYear }}: Unavailable</span></ng-template>
+              <ng-template #unavailableBar><span *ngIf="graphType === 'bar'">{{ year }}: Unavailable</span></ng-template>
               <ng-template #unavailableLine><span *ngIf="graphType === 'line' && tooltips[i] && getTooltipsYear(tooltips) !== null">{{ getTooltipsYear(tooltips) }}: Unavailable</span></ng-template>
             </p>
           </li>
