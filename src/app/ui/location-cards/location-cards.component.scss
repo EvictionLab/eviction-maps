@@ -387,7 +387,7 @@
   padding: 0 grid(4) grid(6);
   .location-card {
     margin-right: grid(4);
-    min-width: grid(45);
+    min-width: grid(39);
     flex:1;
     &:last-child { margin-right: 0; }
     .card-header svg {
