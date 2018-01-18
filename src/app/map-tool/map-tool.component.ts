@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/concat';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
@@ -18,23 +19,6 @@ import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
-
-// Pulled from https://stackoverflow.com/a/44635703
-// Temporarily adding debounce decorator here to avoid compilation errors
-// See the following issues for more:
-// https://github.com/angular/angular-cli/issues/8434
-// https://github.com/Microsoft/TypeScript/issues/17384
-export function debounce(delay: number = 300): MethodDecorator {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    let timeout = null;
-    const original = descriptor.value;
-    descriptor.value = function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => original.apply(this, args), delay);
-    };
-    return descriptor;
-  };
-}
 
 @Component({
   selector: 'app-map-tool',
@@ -65,6 +49,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private toast: ToastsManager,
     private platform: PlatformService,
+    private element: ElementRef,
     @Inject(DOCUMENT) private document: any
   ) {
     translate.onLangChange.subscribe((lang) => this.updateRoute());
@@ -80,6 +65,26 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     Observable.combineLatest(
       this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
     ).take(1).subscribe(this.setRouteParams.bind(this));
+
+    // Pull first ten events from wheel and scroll, then debounce
+    const debounceWheel = Observable.fromEvent(this.element.nativeElement, 'wheel')
+      .debounceTime(250);
+    const debounceDocWheel = Observable.fromEvent(this.document, 'wheel')
+      .debounceTime(250);
+    const debounceScroll = Observable.fromEvent(window, 'scroll')
+      .debounceTime(250);
+
+    Observable.fromEvent(this.element.nativeElement, 'wheel')
+      .take(10).concat(debounceWheel)
+      .subscribe(e => this.onBeginWheel());
+
+    Observable.fromEvent(this.document, 'wheel')
+      .take(10).concat(debounceDocWheel)
+      .subscribe(e => this.onWheel());
+
+    Observable.fromEvent(window, 'scroll')
+      .take(10).concat(debounceScroll)
+      .subscribe(e => this.onscroll(e));
   }
 
   /**
@@ -95,8 +100,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * if the document is scrolled to the top at the end of
    * the wheel events
    */
-  @HostListener('document:wheel', ['$event'])
-  @debounce(250)
   onWheel() {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = this.getVerticalOffset();
@@ -271,8 +274,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * If scrolled to the top, enable the zoom.  Unless
    * there is a wheel event currently happening.
    */
-  @HostListener('window:scroll', ['$event'])
-  @debounce(250)
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
@@ -285,8 +286,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /**
    * Set wheel flag while scrolling with the wheel
    */
-  @HostListener('wheel', ['$event'])
-  @debounce(250)
   onBeginWheel() { this.wheelEvent = true; }
 
   private getVerticalOffset() {
