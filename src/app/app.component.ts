@@ -29,6 +29,8 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
+  currentMenuItem: string;
+  menuActive = false;
   private activeMenuItem;
 
   constructor(
@@ -57,6 +59,11 @@ export class AppComponent implements OnInit {
     this.android = userAgent.includes('android') && !userAgent.includes('firefox');
   }
 
+  closeMenu() {
+    this.currentMenuItem = null;
+    this.menuActive = false;
+  }
+
   /** Fired when a route is activated */
   onActivate(component: any) {
     if (component.constructor.name === 'MapToolComponent') {
@@ -68,6 +75,10 @@ export class AppComponent implements OnInit {
   }
 
   onMenuSelect(itemId: string) {
+    this.currentMenuItem = itemId;
+    if (itemId === 'menu') {
+      this.menuActive = true;
+    }
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }

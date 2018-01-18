@@ -21,6 +21,7 @@ import { DataService } from './data/data.service';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoadingService } from './loading.service';
+import { MenuComponent } from './menu/menu.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,7 +34,7 @@ export class CustomOption extends ToastOptions {
 }
 
 @NgModule({
-  declarations: [ AppComponent, HeaderBarComponent, FooterComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent, MenuComponent ],
   imports: [
     UiModule,
     MapToolModule,

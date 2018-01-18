@@ -89,7 +89,14 @@
   .header-search {
     display:none;
     margin-top: grid(2);
-    &.active { display: block; }
+    &.active { 
+      display: block;
+      position: absolute;
+      top: 56px;
+      left: 0;
+      right: 0;
+      z-index: 10;
+    }
   }
   .language-select {
     display: none;
@@ -155,6 +162,7 @@
       flex: 1;
       max-width: grid(37.5);
       margin: 0 0 0 grid(3);
+      &.active { position:relative; top:auto; left:auto; right: auto; }
     }
     .language-select {
       display:block;

@@ -46,6 +46,22 @@ body {
     }
   }
 
+  // icon button with optional label
+  .btn.btn-icon {
+    background: none;
+    padding:0;
+    margin:0;
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: space-around;
+    line-height:1;
+    @include smallCapsText(9px);
+    &:active {
+      background: none;
+    }
+  }
+
   .btn.btn-close { 
     font-size: 16px; 
     width:grid(5);
