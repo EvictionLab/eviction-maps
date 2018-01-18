@@ -25,7 +25,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   get barGraphSettings() {
     return {
       axis: {
-        x: { label: null, tickFormat: null },
+        x: { label: null, tickFormat: '.0f' },
         y: {
           label: this.translatePipe.transform(this.cardProps[this.graphProp]),
           tickSize: '-100%',
