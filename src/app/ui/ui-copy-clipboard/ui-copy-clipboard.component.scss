@@ -11,10 +11,11 @@
 
 input {
   width:auto;
-  min-width: grid(30);
   height: grid(5);
   padding: 0 grid(1);
-
+  -webkit-user-select: all;
+  -moz-user-select: -moz-all;
+  user-select: all;
 }
 
 .btn {
@@ -22,4 +23,10 @@ input {
   top:0;right:0;
   width: grid(5);
   height: grid(5);
+}
+
+:host-context(.gt-mobile) {
+  input {
+    min-width: grid(30);
+  }
 }
