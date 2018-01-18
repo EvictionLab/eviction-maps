@@ -160,10 +160,11 @@
 }
 
 // display all three data attributes in card when space permits
-@media(min-width: 380px) {
+@media(min-width: 540px) {
   :host-context(.map-ui-wrapper) {
     .location-card {
       .card-content { 
+        li { max-width: 40%; }
         li:nth-child(2) { display: block; }
         li:nth-child(2):last-child, li:nth-child(3) { float: left; }
       }
@@ -176,11 +177,7 @@
     width: 100%; 
     min-width: grid(35); 
     .card-content li { 
-      max-width: none;
-      span {
-        overflow:auto;
-        white-space: normal;
-      }
+      max-width: 30%;
     }
   }
 }
@@ -207,7 +204,16 @@
     .card-content {
       position: static;
       padding: $defaultPadding;
-      li { float: none; margin-right: 0; }
+      li {
+        max-width: none;
+        float: none;
+        margin-right: 0;
+
+        span {
+          overflow: auto;
+          white-space: normal;
+        }
+      }
       .card-stat-label {
         font-size: $cardLabelTextSize;
       }
