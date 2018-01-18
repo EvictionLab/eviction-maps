@@ -272,6 +272,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * there is a wheel event currently happening.
    */
   @HostListener('window:scroll', ['$event'])
+  @debounce(250)
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
@@ -285,6 +286,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
+  @debounce(250)
   onBeginWheel() { this.wheelEvent = true; }
 
   private getVerticalOffset() {
