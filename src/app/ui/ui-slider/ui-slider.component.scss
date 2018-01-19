@@ -15,9 +15,6 @@
     .scrubber-label:after {
       border-top-color: $foregroundColor!important;
     }
-    .scrubber-marker {
-      background: $textColor;
-    }
   }
 }
 
@@ -36,12 +33,22 @@
   }
 }
 .slider-label {
-  margin-left: grid(2);
-  @include defaultFont(14px);
+  @include numberFont(11px);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: $sliderLabel;
 }
+
+.slider-label:first-child {
+  margin-left: grid(-1);
+  margin-right: grid(3);
+}
+
+.slider-label:last-child {
+  margin-right: grid(-3);
+  margin-left: grid(3);
+}
+
 .el-slider {
   width: 100%;
   height: 100%;
@@ -114,22 +121,37 @@
 
   // circle marker for scrubber
   .scrubber-marker {
-    width: grid(3);
-    height: grid(3);
+    width: grid(5);
+    height: grid(4);
+    line-height: grid(4);
     border-radius: 15px;
-    border: 5px solid $color1;
+    @include numberFont(11px);
+    text-align: center;
+    font-weight: 600;
     margin: auto;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    color: $white;
+    background: $gradient1;
+    border-radius: grid(0.5);
+    box-shadow: $z3shadow;
   }
 }
 
 :host-context(.gt-mobile) {
   .slider-label {
-    margin-left: grid(3);
+    @include numberFont(14px);
+  }
+  .slider-label:first-child {
+    margin-left: 0;
+    margin-right: grid(4);
+  }
+  .slider-label:last-child {
+    margin-right: 0;
+    margin-left: grid(4);
   }
   .el-slider {
     .scrubber-label {
@@ -145,9 +167,17 @@
       }  
     }
     .scrubber-marker {
-      width: grid(5);
-      height: grid(5);
-      border-radius: grid(2.5);
+      width: grid(7);
+      height: grid(6);
+      line-height: grid(6);
+      @include numberFont(14px);
     }
+  }
+}
+
+// Don't show scrubber hover label on desktop
+:host-context(.gt-tablet) {
+  .el-slider {
+    .scrubber-label { display: none }
   }
 }
