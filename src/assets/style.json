@@ -2,7 +2,7 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Eviction Lab",
-  "sprite": "https://tiles.evictionlab.org/sprites",
+  "sprite": "https://openmaptiles.github.io/osm-bright-gl-style/sprite",
   "sources": {
     "openmaptiles": {
       "type": "vector",
@@ -1107,147 +1107,6 @@
       }
     },
     {
-      "id": "place_city_large",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 5,
-      "maxzoom": 14,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "all",
-          [
-            "!=",
-            "capital",
-            2
-          ],
-          [
-            "<=",
-            "rank",
-            3
-          ],
-          [
-            "==",
-            "class",
-            "city"
-          ]
-        ]
-      ],
-      "layout": {
-        "text-size": {
-          "stops": [
-            [
-              4,
-              12
-            ],
-            [
-              10,
-              15
-            ]
-          ]
-        },
-        "icon-image": "circle-11",
-        "text-transform": "none",
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "text-justify": "left",
-        "visibility": "none",
-        "text-offset": [
-          0,
-          -0.3
-        ],
-        "icon-size": {
-          "stops": [
-            [
-              5,
-              0.5
-            ],
-            [
-              6,
-              0.7
-            ],
-            [
-              7,
-              0
-            ]
-          ]
-        },
-        "text-anchor": {
-          "base": 1,
-          "stops": [
-            [
-              0,
-              "left"
-            ],
-            [
-              5,
-              "center"
-            ],
-            [
-              9,
-              "center"
-            ]
-          ]
-        },
-        "text-field": "{name}",
-        "text-padding": 0,
-        "text-letter-spacing": 0.07,
-        "icon-allow-overlap": false,
-        "icon-ignore-placement": false,
-        "icon-offset": [
-          3,
-          10
-        ]
-      },
-      "paint": {
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
-        "text-halo-width": {
-          "stops": [
-            [
-              5,
-              2
-            ],
-            [
-              6,
-              2
-            ]
-          ]
-        },
-        "text-halo-blur": 0,
-        "icon-opacity": 1,
-        "text-opacity": {
-          "stops": [
-            [
-              5,
-              1
-            ],
-            [
-              6,
-              1
-            ],
-            [
-              7,
-              1
-            ],
-            [
-              8,
-              1
-            ]
-          ]
-        },
-        "icon-color": "rgba(0, 0, 0, 1)",
-        "icon-halo-width": 2
-      }
-    },
-    {
       "id": "cities",
       "type": "fill",
       "source": "us-cities-10",
@@ -1321,7 +1180,7 @@
         "visibility": "none"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 0.69)",
+        "line-color": "rgba(0, 0, 0, 0.29)",
         "line-width": 1,
         "line-opacity": 0.5
       }
@@ -1413,13 +1272,13 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
+        "line-color": "rgba(0, 0, 0, 1)",
         "line-dasharray": [
           12,
           0
         ],
-        "line-width": 2,
-        "line-opacity": 0.7
+        "line-width": 1,
+        "line-opacity": 0.3
       }
     },
     {
@@ -1461,11 +1320,11 @@
           "stops": [
             [
               5.8,
-              "hsla(0, 0%, 85%, 0.53)"
+              "#000"
             ],
             [
               6,
-              "#fff"
+              "#000"
             ]
           ]
         },
@@ -1506,11 +1365,11 @@
           "stops": [
             [
               6,
-              0.8
+              0.3
             ],
             [
               9,
-              0.7
+              0.3
             ]
           ]
         }
@@ -1549,7 +1408,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(255, 255, 255, 1)",
+        "line-color": "rgba(0, 0, 0, 1)",
         "line-width": {
           "base": 1.4,
           "stops": [
@@ -1591,7 +1450,7 @@
           2,
           0
         ],
-        "line-opacity": 1
+        "line-opacity": 0.3
       }
     },
     {
@@ -1669,7 +1528,7 @@
         "all"
       ],
       "layout": {
-        "text-size": 10,
+        "text-size": 11,
         "text-max-angle": 45,
         "text-transform": "none",
         "symbol-spacing": 350,
@@ -1686,13 +1545,13 @@
       },
       "paint": {
         "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "#fff",
+        "text-halo-color": "rgba(255,255,255,0.7)",
         "text-translate": [
           0,
           0
         ],
         "text-halo-width": 2,
-        "text-halo-blur": 0
+        "text-halo-blur": 1
       }
     },
     {
@@ -1931,7 +1790,7 @@
             ],
             [
               12,
-              1
+              0
             ]
           ]
         }
@@ -2165,6 +2024,121 @@
           ]
         },
         "circle-radius": 0
+      }
+    },
+    {
+      "id": "place_city_large",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "place",
+      "minzoom": 3.75,
+      "maxzoom": 14,
+      "filter": [
+        "all",
+        [
+          "==",
+          "$type",
+          "Point"
+        ],
+        [
+          "all",
+          [
+            "<=",
+            "rank",
+            3
+          ],
+          [
+            "==",
+            "class",
+            "city"
+          ]
+        ]
+      ],
+      "layout": {
+        "text-size": {
+          "stops": [
+            [
+              4,
+              14
+            ],
+            [
+              10,
+              16
+            ]
+          ]
+        },
+        "icon-image": "marker_11",
+        "text-transform": "uppercase",
+        "text-font": [
+          "Metropolis+Medium"
+        ],
+        "text-justify": "left",
+        "visibility": "visible",
+        "text-offset": [
+          1,
+          0.25
+        ],
+        "icon-size": {
+          "stops": [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              0
+            ]
+          ]
+        },
+        "text-anchor": "left",
+        "text-field": "{name}",
+        "text-padding": 0,
+        "text-letter-spacing": 0,
+        "icon-allow-overlap": true,
+        "icon-ignore-placement": true
+      },
+      "paint": {
+        "text-color": "rgba(0, 0, 0, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 0.9)",
+        "text-halo-width": {
+          "stops": [
+            [
+              5,
+              2
+            ],
+            [
+              6,
+              2
+            ]
+          ]
+        },
+        "text-halo-blur": 0,
+        "text-opacity": {
+          "stops": [
+            [
+              5,
+              1
+            ],
+            [
+              6,
+              1
+            ],
+            [
+              7,
+              1
+            ],
+            [
+              8,
+              1
+            ]
+          ]
+        },
+        "icon-opacity": 1,
+        "icon-color": "rgba(0, 0, 0, 1)"
       }
     },
     {
