@@ -1,8 +1,11 @@
 import {
   Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding,
-  ViewChild, Input, Output
+  ViewChild, Input, Output, Inject
 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/throttleTime';
 
 @Component({
   selector: 'app-ui-slider',
@@ -44,7 +47,11 @@ export class UiSliderComponent implements AfterViewInit {
   private elRect = null;
   private _currentValue = 0;
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private element: ElementRef,
+    @Inject(DOCUMENT) private document: any
+  ) {}
 
   ngAfterViewInit() {
     this.setSliderDimensions();
@@ -52,6 +59,13 @@ export class UiSliderComponent implements AfterViewInit {
     // need to notify of changes when modifying inside of AfterViewInit
     // https://github.com/angular/angular/issues/14748
     this.cdRef.detectChanges();
+
+    Observable.fromEvent(this.document, 'mousemove')
+      .throttleTime(50)
+      .subscribe(e => this.onMove(e));
+    Observable.fromEvent(this.element.nativeElement, 'touchmove')
+      .throttleTime(50)
+      .subscribe(e => this.onTouchMove(e));
   }
 
   /**
@@ -77,7 +91,7 @@ export class UiSliderComponent implements AfterViewInit {
    * mouse moves.
    * @param e mousemove event
    */
-  @HostListener('document:mousemove', ['$event']) onMove(e) {
+  onMove(e) {
     if (this.pressed) {
       this.setScrubberPosition(e);
     }
@@ -103,7 +117,7 @@ export class UiSliderComponent implements AfterViewInit {
     }
   }
 
-  @HostListener('touchmove', ['$event']) onTouchMove(e) {
+  onTouchMove(e) {
     if (this.pressed && e.touches && e.touches.length === 1) {
       this.setScrubberPosition(e.touches[0]);
     }
