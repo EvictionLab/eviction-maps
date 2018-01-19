@@ -645,16 +645,6 @@
       }
     },
     {
-      "id": "block-groups_text",
-      "type": "symbol",
-      "source": "us-block-groups-10",
-      "source-layer": "block-groups-centers",
-      "minzoom": 8,
-      "layout": {
-        "visibility": "none"
-      }
-    },
-    {
       "id": "boundary_state",
       "type": "line",
       "source": "us-states-10",
@@ -766,15 +756,6 @@
           ]
         },
         "circle-radius": 0
-      }
-    },
-    {
-      "id": "tracts_text",
-      "type": "symbol",
-      "source": "us-tracts-10",
-      "source-layer": "tracts-centers",
-      "layout": {
-        "visibility": "none"
       }
     },
     {
@@ -1353,16 +1334,6 @@
         },
         "icon-opacity": 1,
         "icon-color": "rgba(0, 0, 0, 1)"
-      }
-    },
-    {
-      "id": "cities_text",
-      "type": "symbol",
-      "source": "us-cities-10",
-      "source-layer": "cities-centers",
-      "minzoom": 9,
-      "layout": {
-        "visibility": "none"
       }
     }
   ]

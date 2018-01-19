@@ -37,7 +37,6 @@ export const DataLevels: Array<MapLayerGroup> = [
       'cities',
       'cities_stroke',
       'cities_bubbles',
-      'cities_text',
       'cities_null'
     ],
     'minzoom': 4,
@@ -51,7 +50,6 @@ export const DataLevels: Array<MapLayerGroup> = [
       'tracts',
       'tracts_stroke',
       'tracts_bubbles',
-      'tracts_text',
       'tracts_null'
     ],
     'minzoom': 8,
@@ -65,7 +63,6 @@ export const DataLevels: Array<MapLayerGroup> = [
       'block-groups',
       'block-groups_stroke',
       'block-groups_bubbles',
-      'block-groups_text',
       'block-groups_null'
     ],
     'minzoom': 8,
