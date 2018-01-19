@@ -110,7 +110,7 @@ export class AppComponent implements OnInit {
         center: [-98.5795, 39.8283],
         zoom: 3,
         minZoom: 2,
-        maxZoom: 14
+        maxZoom: 16
       },
       year: 2016
     };
