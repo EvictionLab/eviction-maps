@@ -84,7 +84,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     ).take(1).subscribe(this.setRouteParams.bind(this));
 
     Observable.fromEvent(this.element.nativeElement, 'wheel')
-      .throttleTime(200)
+      .throttleTime(50)
       .subscribe(e => this.onBeginWheel());
   }
 
@@ -102,7 +102,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * the wheel events
    */
   @HostListener('document:wheel', ['$event'])
-  @debounce(250)
+  @debounce(50)
   onWheel() {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = this.getVerticalOffset();
@@ -278,7 +278,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * there is a wheel event currently happening.
    */
   @HostListener('window:scroll', ['$event'])
-  @debounce(200)
+  @debounce(50)
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
