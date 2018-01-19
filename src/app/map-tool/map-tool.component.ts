@@ -184,7 +184,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param feature returned from featureClick event
    */
   onFeatureSelect(feature: MapFeature) {
-    console.log(feature);
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
     const maxLocations = this.dataService.addLocation(feature);
