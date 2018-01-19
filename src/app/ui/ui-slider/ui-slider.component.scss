@@ -137,6 +137,7 @@
     color: $white;
     background: $gradient1;
     border-radius: grid(0.5);
+    box-shadow: $z3shadow;
   }
 }
 
@@ -167,6 +168,8 @@
     }
     .scrubber-marker {
       width: grid(7);
+      height: grid(6);
+      line-height: grid(6);
       @include numberFont(14px);
     }
   }
