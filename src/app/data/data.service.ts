@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -44,7 +45,7 @@ export class DataService {
   locations$ = this._locations.asObservable();
 
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://tiles.evictionlab.org/';
+  private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
   private tilesetYears = ['00', '10'];
   private queryZoom = 10;

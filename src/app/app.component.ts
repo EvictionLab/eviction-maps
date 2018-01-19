@@ -4,6 +4,7 @@ import {
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { PlatformService } from './platform.service';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
@@ -112,10 +113,10 @@ export class AppComponent implements OnInit {
         minZoom: 2,
         maxZoom: 14
       },
-      year: 2016
+      year: environment.maxYear
     };
     const defaultViews = {
-      map: '/2016/auto/-136.80,20.68,-57.60,52.06',
+      map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
       rankings: '/evictions/United%20States/0/evictionRate',
       evictors: '/evictors'
     };

@@ -1,3 +1,4 @@
+import { environment } from '../../../../environments/environment';
 import { MapFeature } from '../../../map-tool/map/map-feature';
 
 export interface SearchSource {
@@ -38,11 +39,9 @@ export const MapzenSource: SearchSource = {
 };
 
 export const MapboxSource: SearchSource = {
-    key: 'pk.' +
-        'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
-        '4et5d5nstXWM5P0JG67XEQ',
+    key: environment.mapboxApiKey,
     baseUrl: 'https://api.mapbox.com/geocoding/v5/mapbox.places/',
-    csvUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
+    csvUrl: environment.mapboxCountyUrl,
     featureList: [],
     query: function (text: string) {
         const queryParams = [
