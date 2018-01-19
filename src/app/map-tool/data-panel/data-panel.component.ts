@@ -1,6 +1,7 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
 } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
@@ -94,9 +95,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   endSelect: Array<number>;
   barYearSelect: Array<number>;
-  minYear = 2000;
+  minYear = environment.minYear;
   lineStartYear: number = this.minYear;
-  maxYear = 2016;
+  maxYear = environment.maxYear;
   lineEndYear: number = this.maxYear;
   dollarProps = DollarProps;
   percentProps = PercentProps;
