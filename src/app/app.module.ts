@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
+import { environment } from '../environments/environment';
 
 // local imports
 import { AppComponent } from './app.component';
@@ -42,7 +43,7 @@ export class CustomOption extends ToastOptions {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
-      dataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv'
+      dataUrl: environment.cityRankingDataUrl
     }),
     TranslateModule.forRoot({
       loader: {

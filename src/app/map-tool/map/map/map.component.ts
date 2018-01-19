@@ -2,6 +2,7 @@ import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
   HostListener, ElementRef
 } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -25,6 +26,8 @@ import { PlatformService } from '../../../platform.service';
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
+  minYear = environment.minYear;
+  maxYear = environment.maxYear;
   mapEventLayers: Array<string>;
   cardProps;
   dollarProps = DollarProps;
