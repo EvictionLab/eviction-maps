@@ -1,10 +1,13 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectionStrategy
+} from '@angular/core';
 import * as Clipboard from 'clipboard';
 
 @Component({
   selector: 'app-ui-copy-clipboard',
   templateUrl: './ui-copy-clipboard.component.html',
-  styleUrls: ['./ui-copy-clipboard.component.scss']
+  styleUrls: ['./ui-copy-clipboard.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiCopyClipboardComponent implements AfterViewInit {
   @Input() hintText: string;

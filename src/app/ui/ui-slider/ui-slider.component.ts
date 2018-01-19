@@ -1,13 +1,14 @@
 import {
   Component, EventEmitter, ChangeDetectorRef, ElementRef, AfterViewInit, HostListener, HostBinding,
-  ViewChild, Input, Output
+  ViewChild, Input, Output, ChangeDetectionStrategy
 } from '@angular/core';
 import { AfterViewChecked } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
   selector: 'app-ui-slider',
   templateUrl: './ui-slider.component.html',
-  styleUrls: ['./ui-slider.component.scss']
+  styleUrls: ['./ui-slider.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiSliderComponent implements AfterViewInit {
   @Input()

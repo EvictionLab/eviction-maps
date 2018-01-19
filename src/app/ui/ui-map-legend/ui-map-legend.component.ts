@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-ui-map-legend',
   templateUrl: './ui-map-legend.component.html',
-  styleUrls: ['./ui-map-legend.component.scss']
+  styleUrls: ['./ui-map-legend.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiMapLegendComponent {
   /** Current `MapDataAttribute` being shown for choropleths */

@@ -1,4 +1,4 @@
-import { Component, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DialogConfig, DialogContentItem, DialogResponse } from './ui-dialog.types';
@@ -6,7 +6,8 @@ import { DialogConfig, DialogContentItem, DialogResponse } from './ui-dialog.typ
 @Component({
   selector: 'app-ui-dialog',
   templateUrl: './ui-dialog.component.html',
-  styleUrls: [ './ui-dialog.component.scss' ]
+  styleUrls: [ './ui-dialog.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiDialogComponent {
 

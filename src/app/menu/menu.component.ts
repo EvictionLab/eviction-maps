@@ -1,11 +1,12 @@
 import {
-  Component, OnInit, EventEmitter, Output, HostListener, Input, HostBinding
+  Component, OnInit, EventEmitter, Output, HostListener, Input, HostBinding, ChangeDetectionStrategy
 } from '@angular/core';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MenuComponent {
   @Input() expanded = false;

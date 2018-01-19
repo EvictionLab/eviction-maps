@@ -1,11 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
+} from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 @Component({
   selector: 'app-predictive-search',
   templateUrl: './predictive-search.component.html',
-  styleUrls: ['./predictive-search.component.scss']
+  styleUrls: ['./predictive-search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PredictiveSearchComponent implements OnInit {
   @Input() selected: any;

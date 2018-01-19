@@ -1,6 +1,7 @@
 import {
   Component, OnInit, Input, Output, AfterViewInit,
-  EventEmitter, ViewChild, ElementRef, NgZone, HostListener
+  EventEmitter, ViewChild, ElementRef, NgZone, HostListener,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
@@ -10,7 +11,8 @@ import 'rxjs/add/observable/fromEvent';
 @Component({
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
-  styleUrls: ['./mapbox.component.scss']
+  styleUrls: ['./mapbox.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapboxComponent implements AfterViewInit {
   private map: mapboxgl.Map;

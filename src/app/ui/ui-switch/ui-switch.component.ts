@@ -1,9 +1,12 @@
-import { Component, HostBinding, HostListener, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, HostBinding, HostListener, Input, Output, EventEmitter, ChangeDetectionStrategy
+} from '@angular/core';
 
 @Component({
   selector: 'app-ui-switch',
   templateUrl: './ui-switch.component.html',
-  styleUrls: ['./ui-switch.component.scss']
+  styleUrls: ['./ui-switch.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiSwitchComponent {
 

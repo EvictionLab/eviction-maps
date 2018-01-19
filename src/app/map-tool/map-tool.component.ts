@@ -1,5 +1,6 @@
 import {
-  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -39,7 +40,8 @@ export function debounce(delay: number = 300): MethodDecorator {
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss']
+  styleUrls: ['./map-tool.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
   title = 'Eviction Lab - Map';

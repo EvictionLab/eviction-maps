@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
+} from '@angular/core';
 import { SearchService } from './search/search.service';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 
@@ -6,7 +8,8 @@ import { PredictiveSearchComponent } from '../predictive-search/predictive-searc
   selector: 'app-location-search',
   templateUrl: './location-search.component.html',
   styleUrls: ['./location-search.component.scss'],
-  providers: [ SearchService ]
+  providers: [ SearchService ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LocationSearchComponent {
   @Input() placeholder;

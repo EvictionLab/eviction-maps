@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener
+  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DecimalPipe } from '@angular/common';
@@ -7,6 +8,7 @@ import { DecimalPipe } from '@angular/common';
   selector: 'app-location-cards',
   templateUrl: './location-cards.component.html',
   styleUrls: ['./location-cards.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [
     trigger('cards', [
       state('card-1-1', style({ transform: 'translate3d(0%,0,0)' })),

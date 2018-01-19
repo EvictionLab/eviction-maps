@@ -1,6 +1,6 @@
 import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
-  HostListener, ElementRef
+  HostListener, ElementRef, ChangeDetectionStrategy
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
@@ -21,7 +21,8 @@ import { PlatformService } from '../../../platform.service';
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
-  providers: [ MapService ]
+  providers: [ MapService ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
