@@ -2,7 +2,7 @@
   "version": 8,
   "id": "eviction-lab",
   "name": "Eviction Lab",
-  "sprite": "https://openmaptiles.github.io/osm-bright-gl-style/sprite",
+  "sprite": "https://tiles.evictionlab.org/sprites",
   "sources": {
     "openmaptiles": {
       "type": "vector",
