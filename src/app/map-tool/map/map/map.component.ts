@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
+import * as _debounce from 'lodash.debounce';
 
 import { MapDataAttribute } from '../map-data-attribute';
 import { MapLayerGroup } from '../map-layer-group';
@@ -113,13 +114,7 @@ export class MapComponent implements OnInit, OnChanges {
   set year(newYear: number) {
     this._store.year = newYear;
     if (newYear) {
-      this.yearChange.emit(newYear);
-      if (this._mapInstance) {
-        this.updateCensusYear();
-        // Don't update highlight features on year change
-        this.updateMapBubbles();
-        this.updateMapChoropleths();
-      }
+      _debounce(this.updateMapYear.bind(this), 400);
     }
   }
   get year() { return this._store.year; }
@@ -525,6 +520,16 @@ export class MapComponent implements OnInit, OnChanges {
           this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
         }
       });
+    }
+  }
+
+  private updateMapYear() {
+    this.yearChange.emit(this.year);
+    if (this._mapInstance) {
+      this.updateCensusYear();
+      // Don't update highlight features on year change
+      this.updateMapBubbles();
+      this.updateMapChoropleths();
     }
   }
 }

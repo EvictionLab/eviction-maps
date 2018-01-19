@@ -79,7 +79,6 @@
     bottom: 0;
     margin: auto;
     margin-left: -1 * grid(8) / 2;
-    transition: transform 0.1s cubic-bezier(0,.66,.66,1);
     cursor: move;
   }  
   .scrubber-label {
