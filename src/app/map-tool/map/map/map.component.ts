@@ -114,7 +114,7 @@ export class MapComponent implements OnInit, OnChanges {
   set year(newYear: number) {
     this._store.year = newYear;
     if (newYear) {
-      _debounce(this.updateMapYear.bind(this), 400);
+      this.updateMapYear();
     }
   }
   get year() { return this._store.year; }
@@ -187,6 +187,17 @@ export class MapComponent implements OnInit, OnChanges {
   }
   /** Gets if the map is loading */
   get mapLoading(): boolean { return this._store.loading; }
+  /** Debounced function for year change */
+  private updateMapYear = _debounce(() => {
+      this.yearChange.emit(this.year);
+      if (this._mapInstance) {
+        this.updateCensusYear();
+        // Don't update highlight features on year change
+        this.updateMapBubbles();
+        this.updateMapChoropleths();
+      }
+    }, 400
+  );
 
   constructor(
     private map: MapService,
@@ -523,13 +534,5 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  private updateMapYear() {
-    this.yearChange.emit(this.year);
-    if (this._mapInstance) {
-      this.updateCensusYear();
-      // Don't update highlight features on year change
-      this.updateMapBubbles();
-      this.updateMapChoropleths();
-    }
-  }
+
 }
