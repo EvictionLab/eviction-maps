@@ -83,9 +83,10 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
     ).take(1).subscribe(this.setRouteParams.bind(this));
 
-    Observable.fromEvent(this.element.nativeElement, 'wheel')
+    Observable.fromEvent(this.document, 'wheel')
       .throttleTime(50)
-      .subscribe(e => this.onBeginWheel());
+      .subscribe(e => this.onWheel());
+    this.subscribeBeginWheel();
   }
 
   /**
@@ -101,14 +102,13 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * if the document is scrolled to the top at the end of
    * the wheel events
    */
-  @HostListener('document:wheel', ['$event'])
-  @debounce(50)
   onWheel() {
     if (typeof this.verticalOffset === 'undefined') {
       this.verticalOffset = this.getVerticalOffset();
     }
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
+    this.subscribeBeginWheel();
   }
 
   /**
@@ -278,7 +278,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * there is a wheel event currently happening.
    */
   @HostListener('window:scroll', ['$event'])
-  @debounce(50)
+  @debounce(20)
   onscroll(e) {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
@@ -292,6 +292,11 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Set wheel flag while scrolling with the wheel
    */
   onBeginWheel() { this.wheelEvent = true; }
+
+  private subscribeBeginWheel() {
+    Observable.fromEvent(this.element.nativeElement, 'wheel')
+      .take(1).subscribe(e => this.onBeginWheel());
+  }
 
   private getVerticalOffset() {
     return window.pageYOffset ||
