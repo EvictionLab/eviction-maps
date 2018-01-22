@@ -223,7 +223,11 @@ export class MapService {
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );
-        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+        if (
+          geoidFeatures.length > 0 &&
+          feat !== null &&
+          !this.shouldUpdateFeature(geoidFeatures[0], feat)
+        ) {
           feat = geoidFeatures[0];
         }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
