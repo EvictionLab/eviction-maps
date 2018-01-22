@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef
+  Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
 import * as _isEqual from 'lodash.isequal';
@@ -8,7 +9,8 @@ import * as _isEqual from 'lodash.isequal';
 @Component({
   selector: 'app-ui-select',
   templateUrl: './ui-select.component.html',
-  styleUrls: ['./ui-select.component.scss']
+  styleUrls: ['./ui-select.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UiSelectComponent implements OnInit {
   @Input() label: string; // optional label for the select dropdown

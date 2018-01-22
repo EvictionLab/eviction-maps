@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
+  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { DownloadFormComponent } from './download-form/download-form.component';
@@ -15,7 +16,8 @@ import { DollarProps, PercentProps } from '../../data/data-attributes';
   selector: 'app-data-panel',
   templateUrl: './data-panel.component.html',
   styleUrls: ['./data-panel.component.scss'],
-  providers: [ TranslatePipe ]
+  providers: [ TranslatePipe ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DataPanelComponent implements OnInit, OnChanges {
   private _year: number;

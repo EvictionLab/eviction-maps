@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
@@ -9,7 +9,8 @@ import { FileExportService, ExportType } from './file-export.service';
   selector: 'app-download-form',
   templateUrl: './download-form.component.html',
   styleUrls: ['./download-form.component.scss'],
-  providers: [ FileExportService, TranslatePipe ]
+  providers: [ FileExportService, TranslatePipe ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DownloadFormComponent implements OnInit {
   filetypes: ExportType[];
