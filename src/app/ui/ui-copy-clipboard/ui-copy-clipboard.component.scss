@@ -1,0 +1,25 @@
+@import '../../../theme';
+
+:host {
+  display:block;
+}
+
+.input-wrapper {
+  position:relative;
+  display: block;
+}
+
+input {
+  width:auto;
+  min-width: grid(30);
+  height: grid(5);
+  padding: 0 grid(1);
+
+}
+
+.btn {
+  position:absolute;
+  top:0;right:0;
+  width: grid(5);
+  height: grid(5);
+}

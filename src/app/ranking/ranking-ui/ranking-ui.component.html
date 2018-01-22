@@ -1,0 +1,20 @@
+<app-ui-select class="region-select z0"
+  label="Region"
+  [values]="regions"
+  [selectedValue]="selectedRegion"
+  (change)="selectedRegionChange.emit($event)"
+></app-ui-select>
+<app-ui-select class="area-select z0"
+  label="Area"
+  labelProperty="name"
+  [values]="areaTypes"
+  [selectedValue]="selectedAreaType"
+  (change)="selectedAreaTypeChange.emit($event)"
+></app-ui-select>
+<app-ui-select class="prop-select z0"
+  label="Ranking By"
+  labelProperty="name"
+  [values]="dataProperties"
+  [selectedValue]="selectedDataProperty"
+  (change)="selectedDataPropertyChange.emit($event)"
+></app-ui-select>

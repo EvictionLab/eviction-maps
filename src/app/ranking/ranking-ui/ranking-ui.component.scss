@@ -1,0 +1,12 @@
+@import '../../../theme';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height:100%;
+}
+
+app-ui-select {
+  margin-left: grid(1);
+}

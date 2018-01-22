@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Http, Response, ResponseContentType } from '@angular/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -20,25 +22,70 @@ import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
-  get dataLevels() { return DataLevels; }
-  get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  dataLevels = DataLevels;
+  dataAttributes = DataAttributes;
+  bubbleAttributes = BubbleAttributes;
+  languageOptions = [
+    { id: 'en', name: '', langKey: 'HEADER.EN' },
+    { id: 'es', name: '', langKey: 'HEADER.ES' }
+  ];
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
-  autoSwitchLayers = true;
   mapView;
   mapConfig;
-  isLoading = false;
+
+  get selectedLanguage() {
+    return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
+  }
+  // For tracking "soft" location updates
+  private _locations = new BehaviorSubject<MapFeature[]>([]);
+  locations$ = this._locations.asObservable();
+
   private mercator = new SphericalMercator({ size: 256 });
-  private tileBase = 'https://tiles.evictionlab.org/fixtures/';
+  private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
-  private tilesetYears = ['90', '00', '10'];
+  private tilesetYears = ['00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient, private translate: TranslateService) {
+    translate.onLangChange.subscribe((lang) => {
+      this.updateLanguage(lang.translations);
+    });
+  }
+
+
+  updateLanguage(translations) {
+    if (translations.hasOwnProperty('HEADER')) {
+      const header = translations['HEADER'];
+      this.languageOptions = this.languageOptions.map(l => {
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+    }
+    // translate census attribute names
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.dataAttributes = DataAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+      this.bubbleAttributes = BubbleAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+    }
+    // translate geography layers
+    if (translations.hasOwnProperty('LAYERS')) {
+      const layers = translations['LAYERS'];
+      this.dataLevels = DataLevels.map((l) => {
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+    }
+  }
 
   /**
    * Sets the choropleth layer based on the provided `DataAttributes` ID
@@ -93,26 +140,36 @@ export class DataService {
    * Returns the URL parameters for the current view
    */
   getUrlParameters() {
-    const paramMap = [ 'locations', 'year', 'geography', 'type', 'choropleth', 'bounds' ];
+    const paramMap = [ 'year', 'geography', 'bounds' ];
     return this.getRouteArray().reduce((a, b, i) => {
       return a + ';' + paramMap[i] + '=' + b;
     }, '');
   }
 
   /**
-   * Gets an array of values that represent the current route
+   * Returns query parameters
    */
-  getRouteArray() {
+  getQueryParameters() {
     const locations = this.activeFeatures.map((f, i, arr) => {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
+
+    return {
+      lang: this.translate.currentLang,
+      type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
+      choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
+      locations: locations
+    };
+  }
+
+  /**
+   * Gets an array of values that represent the current route
+   */
+  getRouteArray() {
     return [
-      (locations === '' ? 'none' : locations),
       this.activeYear,
       this.activeDataLevel.id,
-      this.stripYearFromAttr(this.activeBubbleHighlight.id),
-      this.stripYearFromAttr(this.activeDataHighlight.id),
       this.mapView ? this.mapView.join() : null
     ];
   }
@@ -130,18 +187,43 @@ export class DataService {
   }
 
   /**
-   * Adds a location to the cards and data panel
+   * Adds or updates a location to the cards and data panel
    * @param feature the feature for the corresponding location to add
+   * @returns boolean based on if the max number of locations is reached or not
    */
-  addLocation(feature) {
-    if (this.activeFeatures.length < 3) {
-      const i = this.activeFeatures.findIndex((f) => {
-        return f.properties.n === feature.properties.n &&
-          f.properties.pl === feature.properties.pl;
-      });
-      if (!(i > -1)) {
-        this.activeFeatures = [ ...this.activeFeatures, feature ];
-      }
+  addLocation(feature): boolean {
+    const exists = this.activeFeatures
+      .find(f => f.properties.GEOID === feature.properties.GEOID);
+    if (exists) { return null; }
+    // Process feature if bbox and layerId not included based on current data level
+    if (!(feature.properties.bbox && feature.properties.bbox)) {
+      feature = this.processMapFeature(feature);
+    }
+    const maxLocations = (this.activeFeatures.length >= 3);
+    if (!maxLocations) {
+      this.activeFeatures = [...this.activeFeatures, feature];
+      this._locations.next(this.activeFeatures);
+    }
+    return maxLocations;
+  }
+
+  /**
+   * Updates an active feature with updated geometry and properties
+   * @param feature the active feature to update
+   */
+  updateLocation(feature: MapFeature) {
+    // Process feature if bbox and layerId not included based on current data level
+    if (!(feature.properties.bbox && feature.properties.bbox)) {
+      feature = this.processMapFeature(feature);
+    }
+    const geoids = this.activeFeatures.map(f => f.properties.GEOID);
+    const featIndex = geoids.indexOf(feature.properties.GEOID);
+    if (featIndex !== -1) {
+      // Assigning properties and geometry rather than the whole feature
+      // so that a state change isn't triggered
+      this.activeFeatures[featIndex].properties = feature.properties;
+      this.activeFeatures[featIndex].geometry = feature.geometry;
+      this._locations.next(this.activeFeatures);
     }
   }
 
@@ -151,7 +233,7 @@ export class DataService {
    */
   getFeatureLonLat(feature): Array<number> {
     const coords = feature.geometry['type'] === 'MultiPolygon' ?
-    feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
+      feature.geometry['coordinates'][0] : feature.geometry['coordinates'];
     return polylabel(coords, 1.0);
   }
 
@@ -199,6 +281,29 @@ export class DataService {
     return [ ((bbox[0] + bbox[2]) / 2), ((bbox[1] + bbox[3]) / 2) ];
   }
 
+
+  /**
+   * Processes the bounding box and properties of a feature returned
+   * from the
+   * @param layerId
+   * @param feature
+   */
+  processMapFeature(feature: MapFeature, layerId?: string): MapFeature {
+    // Add layer if specified or included on feature (usually on click)
+    if (layerId) {
+      feature.properties.layerId = layerId;
+    } else if (feature['layer']) {
+      feature.properties.layerId = feature['layer']['id'];
+    }
+    feature.bbox = [
+      +feature.properties['west'],
+      +feature.properties['south'],
+      +feature.properties['east'],
+      +feature.properties['north']
+    ];
+    return feature;
+  }
+
   private stripYearFromAttr(attr: string) {
     return attr.split('-')[0];
   }
@@ -211,8 +316,8 @@ export class DataService {
   private getParser(layerId, lonLat, featName) {
     const point = this.getPoint(lonLat);
     const coords = this.getXYFromLonLat(lonLat);
-    return (res: Response): MapFeature => {
-      const tile = new vt.VectorTile(new Protobuf(res.arrayBuffer()));
+    return (res: ArrayBuffer): MapFeature => {
+      const tile = new vt.VectorTile(new Protobuf(res));
       const layer = tile.layers[layerId];
       const features = [...Array(layer.length)].fill(null).map((d, i) => {
         return layer.feature(i).toGeoJSON(coords.x, coords.y, 10);
@@ -223,20 +328,14 @@ export class DataService {
       if (containsPoint.length) {
         matchFeat = containsPoint[0];
       } else {
-        const matchesName = features.filter(feat =>
-          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase()));
+        // Check if featName is non-null, filter featurues by it if exists
+        const matchesName = featName ? features.filter(feat =>
+          feat.properties.n.toLowerCase().startsWith(featName.toLowerCase())) : features;
         matchFeat = matchesName.length ? matchesName[0] : false;
       }
 
       if (matchFeat) {
-        matchFeat.properties.layerId = layerId;
-        matchFeat.bbox = [
-          matchFeat.properties['west'],
-          matchFeat.properties['south'],
-          matchFeat.properties['east'],
-          matchFeat.properties['north']
-        ];
-        return matchFeat;
+        return this.processMapFeature(matchFeat, layerId);
       }
 
       return {} as MapFeature;
@@ -279,7 +378,7 @@ export class DataService {
       this.tileBase + this.tilePrefix + layerId;
     return this.http.get(
       `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
-      { responseType: ResponseContentType.ArrayBuffer }
+      { responseType: 'arraybuffer' }
     );
   }
 

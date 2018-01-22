@@ -8,4 +8,12 @@ export class AppPage {
   getMapElement() {
     return element(by.css('app-root app-mapbox'));
   }
+
+  getSearchHeaderElement() {
+    return element(by.css('.header-search app-predictive-search'));
+  }
+
+  getFullPath() {
+    return browser.getCurrentUrl();
+  }
 }

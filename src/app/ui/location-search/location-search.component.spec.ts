@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
 import { LocationSearchComponent } from './location-search.component';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
@@ -12,15 +11,18 @@ describe('LocationSearchComponent', () => {
   let fixture: ComponentFixture<LocationSearchComponent>;
   const searchServiceStub = {
     queryGeocoder: () => {},
-    getLayerName: () => {},
     query: ''
   };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ LocationSearchComponent, PredictiveSearchComponent ],
-      providers: [ {provide: SearchService, useValue: searchServiceStub } ],
-      imports: [ FormsModule, TypeaheadModule.forRoot(), HttpModule ]
+      imports: [ FormsModule, TypeaheadModule.forRoot() ]
+    });
+    TestBed.overrideComponent(LocationSearchComponent, {
+      set: {
+        providers: [ {provide: SearchService, useValue: searchServiceStub } ],
+      }
     })
     .compileComponents();
   }));

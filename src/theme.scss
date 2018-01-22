@@ -1,9 +1,6 @@
 // Import theming mixins
 @import "theme/mixins/utils.scss";
-@import "theme/mixins/ui-slider.theme";
-@import "theme/mixins/ui-graph.theme";
 @import "theme/mixins/ui-toggle.theme";
-@import "theme/mixins/ui-select.theme";
 @import "theme/mixins/ui-dialog.theme";
 @import "theme/mixins/predictive-search.theme";
 @import "theme/mixins/progress-bar.theme";
@@ -17,6 +14,8 @@
 
 $gridSize: 8px; // base grid value used for margins and element sizing
 $defaultPadding: grid(2); // default padding for containers
+$pageMargin: grid(2); // page margin on mobile
+$pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
 $gtMobile: 767px; // greater than mobile device breakpoint
 $gtTablet: 1024px; // greater than tablet device breakpoint
@@ -67,25 +66,43 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 
 // Base Colors
 // ----
-$textColor: #000;
-$secondaryTextColor: rgba(0,0,0,0.5);
-$altTextColor: #fff; // text on dark backgrounds
-$linkColor: #22ABED;
-$defaultBackground: #fff;
-$secondaryBackground: #F4F7F9;
-$shadingColor: #efefef;
+$black: #050403;
+$grey0: #666;
+$grey1: #7F7F7F;
+$grey2: #A3A7A8;
+$grey3: #C6CCCF;
+$grey4: #efefef;
+$grey5: #F4F7F9;
+$white: #fff;
 $color1: #e24000;
 $color2: #434878;
 $color3: #2c897f;
 $color4: #4a4238;
 $color5: #b5c2b7;
-
+$gradient1: linear-gradient(180deg, #F27636, #E04119);
+$gradient2: linear-gradient(180deg, #787EB0, #434878);
+$gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
+$gradient4: linear-gradient(180deg, #C6D5E0, #94AABD);
+$shadingColor: $grey4;
+$textColor: $black;
+$secondaryTextColor: $grey2;
+$altTextColor: $white; // text on dark backgrounds
+$defaultBackground: $white;
+$linkColor: $color1;
+$secondaryBackground: $grey5;
+$focusBgColor: #FFE8DE;
 
 // Shadows
 // ----
-$z1shadow: 0 1px 3px rgba(0,0,0,0.3);
+$z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
 $z2shadow: 0 2px 5px rgba(0,0,0,0.5);
 $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+
+@mixin focusState() {
+  outline: 0;
+  box-shadow: 0 0 5px 1px $color1;
+  border: none;
+}
 
 // Buttons
 // ----
@@ -100,19 +117,22 @@ $primaryButtonHoverColor: darken($color1, 3%);
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 // fonts
-$buttonTextSize: 11px;
+$buttonTextSize: 14px;
 
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
 // Graph
+// ----
 $graphColor1: $color1;
 $graphColor2: $color2;
 $graphColor3: $color3;
 $graphColor4: $color4;
+$graphAxisLines: #fff;
+$graphAxisLabels: #919191;
 
-app-graph { @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4); }
 
-// Toggles
+// UI Toggle
+// ----
 $toggleBorderColor: $shadingColor;
 $toggleForeground: #C6CCCF;
 $toggleBackground: #fff;
@@ -120,11 +140,21 @@ $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
 $toggleHoverForeground: #000;
 
+// UI Switch
+// ----
+$onTextColor: #050403;
+$offTextColor: #919191;
+$switchBorder: 5px solid $color1;
+$switchTextSize: 14px;
+$switchTrackColor: #c6cccf;
+
 // Slider
 $sliderText: $altTextColor;
 $sliderBackground: #000;
-$sliderTrack: rgba(0,0,0,0.15);
-$timeSliderHeight: 40px;
+$sliderTrack: #C6CCCF;
+$sliderLabel: #A3A7A8;
+$timeSliderHeight: grid(5); // 40px
+$timeSliderLg: grid(11); // 88px
 $timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
@@ -143,6 +173,7 @@ $progressBarColor: $color1;
 // layout
 $cardWidth: grid(25);
 $cardHeaderHeight: grid(15);
+$cardBarHeight: 10px;
 // colors
 $cardBg: $defaultBackground;
 $cardHeaderBg1: $color1;
@@ -152,12 +183,13 @@ $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
 $cardLabelText: #919191;
 $cardValueText: #050403;
+
 // colors - cards in data panel
 $panelCardLabelText: #050403;
 $panelCardValueText: #434878;
 $panelCardBorder: $shadingColor;
 // font sizes
-$cardHeadingSize: 22px;
+$cardHeadingSize: 19px;
 $cardSubheadingSize: 13px;
 $cardLabelTextSize: 15px;
 $cardValueTextSize: 24px;
@@ -193,13 +225,19 @@ $searchHeight: grid(7);
 
 // Legend
 $legendHeight: grid(5);
-$legendBackground: #f8f8f9;
-$legendIconColor: $color1;
+$legendBackground: #fff;
+$legendIconColor: #666;
 $legendIconBackground: $defaultBackground;
-$legendFontSize: 11px;
-$legendTextColor: #fff;
+$legendFontSize: 10px;
+$legendTextColor: #7f7f7f;
 
+// Mapbox
+$tooltipBackground: #050403;
+$tooltipFontColor: #fff;
 
+// Map tool component heights, software button
+$iosSafariPadding: grid(4);
+$androidPadding: grid(2);
 
 // TODO: 
 // - standard values for shadow levels

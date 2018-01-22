@@ -1,50 +1,134 @@
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
+} from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { PlatformService } from '../../platform.service';
+import { PlatformLocation } from '@angular/common';
+import { DataService } from '../../data/data.service';
+import { DollarProps, PercentProps } from '../../data/data-attributes';
 
 @Component({
   selector: 'app-data-panel',
   templateUrl: './data-panel.component.html',
-  styleUrls: ['./data-panel.component.scss']
+  styleUrls: ['./data-panel.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class DataPanelComponent implements OnInit, OnChanges {
-
+  private _year: number;
+  @Input() set year(newYear: number) {
+    if (newYear !== this._year) {
+      this.yearChange.emit(newYear);
+    }
+    this._year = newYear;
+  }
+  get year() { return this._year; }
+  @Output() yearChange = new EventEmitter();
   @Input() locations: MapFeature[] = [];
-  @Input() year: number;
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  get barGraphSettings() {
+    return {
+      axis: {
+        x: { label: null, tickFormat: '.0f' },
+        y: {
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          tickSize: '-100%',
+          ticks: 5,
+          tickPadding: 5
+        }
+      },
+      margin: { left: 65, right: 16, bottom: 32, top: 16 }
+    };
+  }
+  get lineGraphSettings() {
+    return {
+      axis: {
+        x: {
+          label: null,
+          tickFormat: '.0f',
+          ticks: Math.min(5, this.lineEndYear - this.lineStartYear),
+          tickPadding: 10
+        },
+        y: {
+          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          tickSize: '-100%',
+          ticks: 5,
+          tickPadding: 5
+        }
+      },
+      margin: { left: 65, right: 16, bottom: 48, top: 16 }
+    };
+  }
   graphData;
   tooltips = [];
-  graphType = 'bar';
+  graphType = 'line';
   cardProps = {
-    'er': 'Judgment Rate',
-    'e': 'Judgments',
-    'efr': 'Filing Rate',
-    'ef': 'Filings',
-    'pr': 'Poverty Rate',
-    'p': 'Population',
-    'roh': 'Renter Occupied Houses',
-    'ahs': 'Average House Size'
+    'er': 'STATS.JUDGMENT_RATE',
+    'e': 'STATS.JUDGMENTS',
+    'efr': 'STATS.FILING_RATE',
+    'ef': 'STATS.FILINGS',
+    'pr': 'STATS.POVERTY_RATE',
+    'p': 'STATS.POPULATION',
+    'pro': 'STATS.PCT_RENTER',
+    'mgr': 'STATS.MED_RENT',
+    'mpv': 'STATS.MED_PROPERTY',
+    'mhi': 'STATS.MED_INCOME',
+    'divider': 'STATS.DEMOGRAPHICS',
+    'pw': 'STATS.PCT_WHITE',
+    'paa': 'STATS.PCT_AFR_AMER',
+    'ph': 'STATS.PCT_HISPANIC',
+    'pai': 'STATS.PCT_AMER_INDIAN',
+    'pa': 'STATS.PCT_ASIAN',
+    'pnp': 'STATS.PCT_HAW_ISL',
+    'pm': 'STATS.PCT_MULTIPLE',
+    'po': 'STATS.PCT_OTHER'
   };
   graphProp = 'er';
   graphSettings;
-  lineStartYear: number;
   startSelect: Array<number>;
-  lineEndYear: number;
-  endSelect: Array<number>;
-  barYear: number;
-  barYearSelect: Array<number>;
-  private minYear = 1990;
-  private maxYear = new Date().getFullYear();
+  tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+  tweetParams = {};
 
-  constructor(public dialogService: UiDialogService) {}
+  endSelect: Array<number>;
+  barYearSelect: Array<number>;
+  minYear = environment.minYear;
+  lineStartYear: number = this.minYear;
+  maxYear = environment.maxYear;
+  lineEndYear: number = this.maxYear;
+  dollarProps = DollarProps;
+  percentProps = PercentProps;
+  graphHover = new EventEmitter();
+  private graphTimeout; // tracks if a timeout is set to update graph settings
+
+  constructor(
+    public dialogService: UiDialogService,
+    public dataService: DataService,
+    private translatePipe: TranslatePipe,
+    private translate: TranslateService,
+    private platform: PlatformService,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
-    this.updateLineYears(this.year, this.maxYear);
-    this.barYear = this.year;
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
-    console.log('line end select', this.endSelect);
+    // Update graph axis settings on language change
+    this.translate.onLangChange.subscribe(() => {
+      this.graphSettings = this.graphType === 'bar' ?
+        this.barGraphSettings : this.lineGraphSettings;
+      this.updateTwitterText();
+    });
+    this.dataService.locations$.subscribe(d => {
+      this.setGraphData();
+      this.updateTwitterText();
+    });
+    this.graphHover.debounceTime(50)
+      .subscribe(e => this.onGraphHover(e));
+    // Needed to prevent ExpressionChangedAfterItHasBeenCheckedError
+    this.cd.detectChanges();
   }
 
   /**
@@ -53,9 +137,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.locations) {
       this.setGraphData();
-    }
-    if (changes.year && this.graphType === 'bar') {
-      this.setGraphData();
+      this.updateTwitterText();
     }
   }
 
@@ -64,7 +146,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * @param year
    */
   updateBarYear(year: number) {
-    this.barYear = year;
+    this.year = year;
     this.setGraphData();
   }
 
@@ -89,27 +171,32 @@ export class DataPanelComponent implements OnInit, OnChanges {
       [];
   }
 
-  trackTooltips(index, item) {
-    return item.id;
-  }
+  /** track tooltips by ID so they are animated properly */
+  trackTooltips(index, item) { return item.id; }
 
+  /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
     this.graphType = newType.toLowerCase();
     this.tooltips = [];
-    this.setGraphData();
   }
 
-  changeGraphProperty(selected: string) {
-    this.graphProp = selected === 'Judgments' ? 'er' : 'efr';
+  /**
+   * Toggles the graph between judgments / filings
+   */
+  changeGraphProperty(filings: boolean) {
+    this.graphProp = filings ? 'efr' : 'er';
     this.setGraphData();
   }
 
   showDownloadDialog(e) {
     const config = {
-      lang: 'en',
-      startYear: this.year,
+      lang: this.translate.currentLang,
+      year: this.year,
+      startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations
+      features: this.locations,
+      dataProp: this.dataService.activeDataHighlight.id,
+      bubbleProp: this.dataService.activeBubbleHighlight.id
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }
@@ -133,19 +220,27 @@ export class DataPanelComponent implements OnInit, OnChanges {
   setGraphData() {
     this.tooltips = [];
     if (this.graphType === 'line') {
-      this.graphSettings = {
-        axis: {
-          x: { label: 'Year', tickFormat: '.0f' },
-          y: { label: this.cardProps[this.graphProp] }
-        }
-      };
-      this.graphData = [ ...this.createLineGraphData() ];
+      this.graphSettings = this.lineGraphSettings;
+      this.graphData = [...this.createLineGraphData()];
     } else {
-      this.graphSettings = {
-        axis: { x: { label: null }, y: { label: this.cardProps[this.graphProp] } }
-      };
-      this.graphData = [ ...this.createBarGraphData() ];
+      this.graphSettings = this.barGraphSettings;
+      this.graphData = [...this.createBarGraphData()];
     }
+    this.setGraphSettings();
+  }
+
+  /**
+   * Sets the settings for the graph
+   * WARNING: something with the dimensions is not set correctly when updating settings
+   *  delaying the update in a timeout seems to fix the issue.
+   */
+  setGraphSettings() {
+    if (this.graphTimeout) { clearTimeout(this.graphTimeout); } // clear timeout if one is set
+    this.graphTimeout = setTimeout(() => {
+      const settings = this.graphType === 'line' ? this.lineGraphSettings : this.barGraphSettings;
+      this.graphSettings = { ...settings };
+      this.graphTimeout = null;
+    }, 1250);
   }
 
   /**
@@ -156,6 +251,33 @@ export class DataPanelComponent implements OnInit, OnChanges {
     for (let i = start; i <= end; i++) { arr.push(i); }
     if (arr.length === 0) { arr.push(end); }
     return arr;
+  }
+
+  /**
+   * Update Twitter share text
+   */
+  updateTwitterText() {
+    const features = this.dataService.activeFeatures;
+    const featLength = this.dataService.activeFeatures.length;
+    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+
+    if (featLength === 1) {
+      this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+      this.tweetParams = { ...this.tweetParams, place1: features[0].properties.n };
+    } else if (featLength === 2) {
+      this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
+      this.tweetParams = {
+        ...this.tweetParams, place1: features[0].properties.n, place2: features[1].properties.n
+      };
+    } else if (featLength === 3) {
+      this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
+      this.tweetParams = {
+        ...this.tweetParams,
+        place1: features[0].properties.n,
+        place2: features[1].properties.n,
+        place3: features[2].properties.n
+      };
+    }
   }
 
   /**
@@ -170,6 +292,10 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * @param e
    */
   checkMailto(e) {
+    // Cancel if on mobile, since behavior isn't the same
+    if (this.platform.isMobile) {
+      return;
+    }
     // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
     let timeout;
 
@@ -187,6 +313,29 @@ export class DataPanelComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
+  abbrYear(year) { return year.toString().slice(-2); }
+
+  /**
+   * Return % or other suffix if in property list
+   * TODO: Duplicated from location-cards, need to refactor
+   * @param prop
+   */
+  suffix(prop: string) {
+    if (this.percentProps.indexOf(prop) !== -1) {
+      return '%';
+    }
+    return null;
+  }
+
+  getTooltipsYear(tooltips: Object[]) {
+    for (let i = 0; i < tooltips.length; ++i) {
+      if (tooltips[i]['x'] !== null) {
+        return tooltips[i]['x'];
+      }
+    }
+    return null;
+  }
+
   /**
    * Genrates line graph data from the features in `locations`
    */
@@ -201,7 +350,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    */
   private createBarGraphData() {
     return this.locations.map((f, i) => {
-      const yVal = (f.properties[`${this.graphProp}-${('' + this.barYear).slice(2)}`]);
+      const yVal = (f.properties[`${this.graphProp}-${('' + this.year).slice(2)}`]);
       return {
         id: 'sample' + i,
         data: [{
@@ -215,10 +364,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
   private generateLineData(feature) {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
+        // create points
         const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
-        if (yVal) {
-          return { x: year, y: yVal };
-        }
+        return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
   }
 

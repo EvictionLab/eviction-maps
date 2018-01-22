@@ -1,19 +1,88 @@
+@import '../../../../theme';
+
 .mapboxgl-map {
   width:100%;
   height:100%;
   position:absolute;
   left:0;right:0;top:0;bottom:0;
 }
-// Hide rotate button because it's confusing
-:host ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
-  display: none;
+
+::ng-deep {
+  .mapboxgl-canvas:focus {
+    outline: 4px solid transparentize($color1, 0.5);
+    outline-offset: -4px;
+  }
+  .mapboxgl-popup, .mapboxgl-popup-content {
+    cursor: pointer;
+    pointer-events: none;
+  }
+  .mapboxgl-popup-content {
+    background-color: $tooltipBackground;
+    color: $tooltipFontColor;
+    font-family: $fontStack;
+  }
+  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip, {
+    border-bottom: none;
+    border-top-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+    border-right: none;
+  }
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
+    border-left: none;
+  }
+  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+    border-right: none;
+    border-left-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-left: none;
+    border-right-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-top: none;
+    border-bottom-color: $tooltipBackground;
+  }
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-right: none;
+  }
+  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+    border-left: none;
+  }
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
+    margin: grid(1);
+  }
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+    top: 0;
+    bottom: auto;
+  }
+  .mapboxgl-ctrl-bottom-left {
+    display: none;
+  }
+  @media(min-width: $gtTablet) {
+    .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
+      display: none;
+    }
+    .mapboxgl-ctrl-bottom-left {
+      display: inherit;
+      top: auto;
+      bottom: 0;
+      left: 0;
+      right: auto;
+    }
+    
+  }
 }
-// center controls vertically on the right side of the map
-:host ::ng-deep .mapboxgl-ctrl-top-left {
-  top: 0;
-  bottom:40px;
-  margin:auto;
-  height:110px;
-  right:16px;
-  left: auto;
+
+:host-context(.slider-active) {
+  ::ng-deep {
+    .mapboxgl-ctrl-bottom-left {
+      bottom: grid(12);
+    }
+  }
 }

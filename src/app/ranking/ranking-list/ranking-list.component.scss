@@ -1,0 +1,90 @@
+@import '../../../theme';
+
+$rankNumberSpace: grid(9);
+$rankBarHeight: grid(5);
+
+.ranking-list {
+  list-style:none;
+  margin:0;
+  padding:0;
+  li {
+    position:relative;
+    height: $rankBarHeight;
+    margin-left: $rankNumberSpace;
+    margin-bottom: grid(2);
+    display:block;
+    &:hover, &.active {
+      cursor:pointer;
+      .ranking-bar {
+        opacity:1;
+      }
+      .ranking-content {
+        color: $white;
+      }
+    }
+    .ranking-number {
+      position:absolute;
+      left: -1*$rankNumberSpace;
+      top:0;
+      line-height: $rankBarHeight;
+      @include numberFont(18px);
+    }
+    .ranking-bar {
+      position:absolute;
+      top:0;
+      left:0;
+      bottom:0;
+      height:100%;
+      opacity:0.25;
+    }
+    .ranking-content {
+      position: relative;
+      padding: 0 grid(2);
+      z-index:2;
+      @include altFont(16px);
+      text-transform:uppercase;
+      line-height: $rankBarHeight;
+      .ranking-parent {
+        font-size: 12px;
+      }
+      .ranking-value {
+        float:right;
+        @include numberFont(14px);
+        opacity:0.5;
+        display:none;
+      }
+    }
+
+  }
+}
+
+:host-context(.area-0) {
+  .ranking-list {
+    li {
+      .ranking-bar {
+        background: $gradient1;
+      }
+    }
+  }
+}
+
+:host-context(.area-1) {
+  .ranking-list {
+    li {
+      .ranking-bar {
+        background: $gradient2;
+      }
+    }
+  }
+}
+
+:host-context(.area-2) {
+  .ranking-list {
+    li {
+      .ranking-bar {
+        background: $gradient3;
+      }
+    }
+  }
+}
+

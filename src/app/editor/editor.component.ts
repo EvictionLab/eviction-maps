@@ -43,11 +43,13 @@ export class EditorComponent implements AfterViewInit {
     const reader = new FileReader();
     // Closure to capture the file information.
     const mapRef = this._mapRef;
+    const _this = this;
     reader.onload = (function(theFile) {
       return function(ev) {
         // Render thumbnail.
         const JsonObj = JSON.parse(ev.target.result);
         mapRef.setStyle(JsonObj, { diff: false });
+        _this.mapStyle = JSON.stringify(JsonObj, null, '\t');
       };
     })(e.file);
     // Read in the image file as a data URL.

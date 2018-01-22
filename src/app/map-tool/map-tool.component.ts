@@ -1,15 +1,40 @@
-import { Component, OnInit, AfterViewInit, ViewChild, Inject, HostListener, EventEmitter } from '@angular/core';
+import {
+  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
+} from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
-import Debounce from 'debounce-decorator';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/first';
+import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
+import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
+import { LoadingService } from '../loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
-import { UiToastComponent } from '../ui/ui-toast/ui-toast.component';
 import { DataService } from '../data/data.service';
+import { PlatformService } from '../platform.service';
+
+// Pulled from https://stackoverflow.com/a/44635703
+// Temporarily adding debounce decorator here to avoid compilation errors
+// See the following issues for more:
+// https://github.com/angular/angular-cli/issues/8434
+// https://github.com/Microsoft/TypeScript/issues/17384
+export function debounce(delay: number = 300): MethodDecorator {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    let timeout = null;
+    const original = descriptor.value;
+    descriptor.value = function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => original.apply(this, args), delay);
+    };
+    return descriptor;
+  };
+}
 
 @Component({
   selector: 'app-map-tool',
@@ -17,8 +42,8 @@ import { DataService } from '../data/data.service';
   styleUrls: ['./map-tool.component.scss']
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
-  title = 'Eviction Lab';
-  // autoSwitchLayers = true;
+  title = 'Eviction Lab - Map';
+  id = 'map-tool';
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
   currentRoute = [];
@@ -26,33 +51,36 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
-  mapReady: EventEmitter<any>;
-  /** gets if the page has scrolled enough to fix the "back to map" button */
-  get isDataButtonFixed() {
-    if (!this.panelOffset || !this.verticalOffset) { return false; }
-    return (this.verticalOffset - this.panelOffset) > 0;
-  }
-  get isLoading() {
-    return this.map.mapLoading || this.dataService.isLoading;
-  }
   @ViewChild(MapComponent) map;
-  @ViewChild(UiToastComponent) toast;
-  @ViewChild('divider') dividerEl;
-  private urlParts;
+  @ViewChild('divider') dividerEl: ElementRef;
+  urlParts;
+  mapReady = false;
 
   constructor(
+    public loader: LoadingService,
+    public dataService: DataService,
+    private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private router: Router,
     private pageScrollService: PageScrollService,
-    public dataService: DataService,
+    private translate: TranslateService,
+    private toast: ToastsManager,
+    private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
-  ) {}
+  ) {
+    translate.onLangChange.subscribe((lang) => this.updateRoute());
+    // Add click to dimiss to all toast messages
+    this.toast.onClickToast()
+      .subscribe(t => this.toast.dismissToast(t));
+  }
 
   ngOnInit() {
     this.configurePageScroll();
     this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
-    this.route.paramMap.take(1).subscribe(this.setRouteParams.bind(this));
+    Observable.combineLatest(
+      this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
+    ).take(1).subscribe(this.setRouteParams.bind(this));
   }
 
   /**
@@ -62,6 +90,21 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
     this.mapReady = this.map.mapReady;
     this.setOffsetToTranslate();
+  }
+
+  /**
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
+   */
+  @HostListener('document:wheel', ['$event'])
+  @debounce(250)
+  onWheel() {
+    if (typeof this.verticalOffset === 'undefined') {
+      this.verticalOffset = this.getVerticalOffset();
+    }
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
   }
 
   /**
@@ -75,43 +118,52 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.setOffsetToTranslate();
   }
 
-
   /**
    * Configures the data service based on any route parameters
    */
-  setRouteParams(params: ParamMap) {
-    if (params.has('year')) {
-      this.dataService.activeYear = params.get('year');
+  setRouteParams(paramObj: Object) {
+    const params = paramObj['params'];
+    const queryParams = paramObj['queryParams'];
+
+    if (params['year']) {
+      this.dataService.activeYear = params['year'];
     }
-    if (params.has('choropleth')) {
-      this.dataService.setChoroplethHighlight(params.get('choropleth'));
-    }
-    if (params.has('type')) {
-      this.dataService.setBubbleHighlight(params.get('type'));
-    }
-    if (params.has('geography')) {
-      const geo = params.get('geography');
+    if (params['geography']) {
+      const geo = params['geography'];
       if (geo !== 'auto') {
         this.dataService.setGeographyLevel(geo);
-        // this.autoSwitchLayers = false;
       }
     }
-    if (params.has('locations')) {
-      const locations = this.getLocationsFromString(params.get('locations'));
-      this.dataService.setLocations(locations);
-    }
-    if (params.has('bounds')) {
-      const b = params.get('bounds').split(',');
+    if (params['bounds']) {
+      const b = params['bounds'].split(',');
       if (b.length === 4) {
         this.dataService.setMapBounds(b);
       }
     }
+
+    this.translate.use(queryParams['lang'] || 'en');
+    if (queryParams['choropleth']) {
+      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
+    }
+    if (queryParams['type']) {
+      this.dataService.setBubbleHighlight(queryParams['type']);
+    }
+    if (queryParams['locations']) {
+      const locations = this.getLocationsFromString(queryParams['locations']);
+      this.dataService.setLocations(locations);
+    }
+
+    this.cdRef.detectChanges();
   }
 
   /**
    * Configures the data service with any static data passed through the route
    */
   setMapToolData(data) {
+    // Set default zoom to 2 on mobile
+    if (this.platform.isMobile) {
+      data.mapConfig.zoom = 2;
+    }
     this.dataService.mapConfig = data.mapConfig;
     if (data.hasOwnProperty('year')) {
       this.dataService.activeYear = data.year;
@@ -120,8 +172,12 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /** Update route if it has changed */
   updateRoute() {
-    if (this.urlParts && this.urlParts[0].path !== 'editor') {
-      this.router.navigate(this.dataService.getRouteArray(), { replaceUrl: true });
+    if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
+      setTimeout(() => {
+        this.router.navigate(this.dataService.getRouteArray(), {
+          replaceUrl: true, queryParams: this.dataService.getQueryParameters()
+        });
+      });
     }
   }
 
@@ -131,12 +187,18 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
-    this.dataService.isLoading = true;
+    this.loader.start('feature');
+    const maxLocations = this.dataService.addLocation(feature);
+    if (maxLocations) {
+      this.toast.error(
+        'Maximum limit reached. Please remove a location to add another.'
+      );
+    }
     this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        this.dataService.addLocation(data);
+        this.dataService.updateLocation(data);
         this.updateRoute();
-        this.dataService.isLoading = false;
+        this.loader.end('feature');
       });
   }
 
@@ -146,34 +208,34 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param updateMap moves the map to the selected location if true
    */
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
-    // this.autoSwitchLayers = false;
     if (feature) {
-      this.dataService.isLoading = true;
+      this.loader.start('search');
       const layerId = feature.properties['layerId'];
       this.dataService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'], true
       ).subscribe(data => {
           if (!data.properties.n) {
-            this.toast.display('Could not find data for location.');
+            this.toast.error('Could not find data for location.');
           } else {
             this.dataService.addLocation(data);
           }
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
-          this.map.setGroupVisibility(dataLevel);
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
               this.dataService.mapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }
+            // Wait for map to be done loading, then set data layer
+            this.map.map.isLoading$.distinctUntilChanged()
+              .debounceTime(500)
+              .filter(state => !state)
+              .first()
+              .subscribe((state) => this.map.setGroupVisibility(dataLevel));
           }
-          this.dataService.isLoading = false;
+          this.loader.end('search');
         });
     }
-  }
-
-  onMenuSelect(itemId: string) {
-    this.activeMenuItem = itemId;
   }
 
   /**
@@ -222,21 +284,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Debounced wheel event on the document, enable zoom
-   * if the document is scrolled to the top at the end of
-   * the wheel events
-   */
-  @HostListener('document:wheel', ['$event'])
-  @Debounce(250)
-  onWheel() {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
-    this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
-  }
-
-  /**
    * Set wheel flag while scrolling with the wheel
    */
   @HostListener('wheel', ['$event'])
@@ -273,7 +320,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
 
   /**
    * Gets an array of objects containing the layer type and
-   * longitude / latitude coordinates for the locations in the string. 
+   * longitude / latitude coordinates for the locations in the string.
    * @param locations string that represents locations
    */
   private getLocationsFromString(locations: string) {

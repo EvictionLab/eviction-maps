@@ -1,1 +1,13 @@
-<router-outlet></router-outlet>
+<app-progress-bar [indeterminate]="loader.isLoading"></app-progress-bar>
+<app-header-bar
+  role="banner"
+  [activeMenuItem]="currentMenuItem"
+  [languageOptions]="dataService.languageOptions"
+  [selectedLanguage]="dataService.selectedLanguage"
+  (activeMenuItemChange)="onMenuSelect($event)"
+  (selectLocation)="onSearchSelect($event)"
+  (selectLanguage)="onLanguageSelect($event)"
+></app-header-bar>
+<app-menu [expanded]="menuActive" (onClose)="closeMenu()"></app-menu>
+<router-outlet (activate)="onActivate($event)"></router-outlet>
+<app-footer role="contentinfo"></app-footer>

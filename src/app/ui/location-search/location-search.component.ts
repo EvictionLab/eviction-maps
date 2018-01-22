@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { SearchService } from './search/search.service';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 
@@ -9,6 +9,7 @@ import { PredictiveSearchComponent } from '../predictive-search/predictive-searc
   providers: [ SearchService ]
 })
 export class LocationSearchComponent {
+  @Input() placeholder;
   /** Emits a location whenever one is selected in the search */
   @Output() locationSelected = new EventEmitter();
 
@@ -20,8 +21,6 @@ export class LocationSearchComponent {
    */
   onSearchSelect(feature) {
     if (feature) {
-      feature.properties['layerId'] =
-        this.search.getLayerName(feature.properties['layer']);
       this.locationSelected.emit(feature);
     }
   }

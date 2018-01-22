@@ -1,0 +1,117 @@
+@import '../../theme';
+
+$menuBg: #982B00;
+$menuShadow: -2px 0px 5px rgba(0,0,0,0.4);
+$menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device 
+$menuWidthLg: grid(52); // 416px
+$menuGrey: $grey2;
+
+// container
+:host {
+  position:fixed;
+  width: $menuWidth;
+  height:100%;
+  top:0;
+  right: 0;
+  transform: translate3d(($menuWidth+5px),0,0); // translate a little extra so shadow doesn't show
+  z-index:999;
+  background: $menuBg;
+  padding: $pageMarginLg;
+  display:block;
+  transition: transform 0.4s ease;
+  box-shadow: $menuShadow;
+  overflow:auto;
+}
+:host-context(.expanded) {
+  transform: translate3d(0,0,0);
+}
+.menu-close {
+  position:absolute;
+  top: grid(1);
+  right: grid(1);
+  padding: $pageMargin;
+  width: grid(7);
+  height: grid(7);
+  color: $white;
+  svg { width: grid(3); height: grid(3); }
+  svg path { fill: $white; }
+}
+.site-navigation {
+  @include altFont(18px);
+  margin-top: grid(6);
+  margin-bottom: grid(6);
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+  }
+  li {
+    margin-bottom: grid(1.5);
+  }
+  a {
+    display: inline-block;
+    color: $white;
+    border-bottom: grid(0.5) solid transparent;
+    &:hover, &:focus {
+      border-bottom-color: $white;
+      text-decoration: none;
+    }
+  }
+}
+.social-media-links {
+  position:absolute;
+  bottom:0;
+  left:0;
+  padding: 0 0 $pageMarginLg $pageMarginLg;
+  list-style: none;
+  margin:0;
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  // border button overrides
+  .btn.btn-border {
+    padding: grid(1);
+    background: none;
+    margin-right: grid(1.5);
+    width: grid(5.5);
+    height: grid(5.5);
+    border-width: grid(0.5);
+    color: $grey4;
+    svg { 
+      margin: 0 auto; 
+      path { fill: $menuGrey; }
+    }
+    &:hover {
+      svg path { fill: $white; }
+    }
+  }
+}
+.menu-copyright {
+  position:absolute;
+  bottom: $pageMarginLg;
+  right: $pageMarginLg;
+  @include defaultFont(11px);
+  color: $menuGrey;
+}
+
+:host-context(.gt-mobile) {
+  width: $menuWidthLg;
+  transform: translate3d(($menuWidthLg+5px),0,0);
+  &.expanded {
+    transform:translate3d(0,0,0);
+  }
+  .menu-close {
+    width: grid(8);
+    height: grid(8);
+    top: grid(2);
+    right: grid(2);
+    font-size:13px;
+    letter-spacing: 1px;
+    svg { width: grid(4); height: grid(4); }
+  }
+  .site-navigation {
+    @include altFont(26px);
+    margin-top: grid(9);
+    li { margin-bottom: grid(2); }
+  }
+}

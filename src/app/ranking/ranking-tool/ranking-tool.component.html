@@ -1,0 +1,54 @@
+<div class="ranking-page" role="main">
+  <div class="hero">
+    <h1>Eviction Rankings</h1>
+  </div>
+  <div class="nav-bar nav-rankings">
+    <div class="content-inner">
+      <ul class="tabs">
+        <li [class.active]="activeTab === 'evictions'">
+          <a routerLink="/evictions">Top Evicting Areas</a>
+        </li>
+        <li [class.active]="activeTab === 'evictors'">
+          <a>Top Evictors</a>
+        </li>
+      </ul>
+      <app-ranking-ui
+        *ngIf="activeTab === 'evictions'"
+        [regions]="rankings.regions"
+        [areaTypes]="rankings.areaTypes"
+        [dataProperties]="rankings.sortProps"
+        [selectedRegion]="region"
+        (selectedRegionChange)="onRegionChange($event)"
+        [selectedAreaType]="areaType"
+        (selectedAreaTypeChange)="onAreaTypeChange($event)"
+        [selectedDataProperty]="dataProperty"
+        (selectedDataPropertyChange)="onDataPropertyChange($event)"
+      ></app-ranking-ui>
+    </div>
+  </div>
+  <div class="page-content">
+    <div class="content-inner">
+        <app-ranking-list *ngIf="areaType && dataProperty"
+          [class]="'area-'+areaType.value"
+          [list]="truncatedList"
+          [dataProperty]="dataProperty.value"
+          [maxValue]="dataMax"
+          [selectedIndex]="selectedIndex"
+          (locationSelected)="onSelectLocation($event)"
+      ></app-ranking-list>
+    </div>
+  </div>
+  <div class="page-fixed-bottom" *ngIf="canRetrieveData">
+    <app-ranking-scale [min]="0" [max]="dataMax"></app-ranking-scale>
+    <app-ranking-panel *ngIf="selectedIndex || selectedIndex === 0"
+      [rank]="selectedIndex+1"
+      [location]="truncatedList[selectedIndex]"
+      [dataProperty]="dataProperty"
+      (goToPrevious)="onGoToPrevious()"
+      (goToNext)="onGoToNext()"
+    ></app-ranking-panel>
+  </div>
+
+</div>
+
+

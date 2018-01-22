@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-ui-toggle',
@@ -6,7 +6,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./ui-toggle.component.scss']
 })
 export class UiToggleComponent implements OnInit {
-
+  @Input() groupLabel: string;
   @Input() values = [];
   @Input() labelProperty = 'name';
   @Input()
@@ -18,6 +18,7 @@ export class UiToggleComponent implements OnInit {
     }
   }
   @Output() selectedValueChanged = new EventEmitter();
+  @HostBinding('attr.role') ariaRole = 'radiogroup';
   private _selectedValue;
 
   /**

@@ -1,9 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
+import 'rxjs/add/observable/fromEvent';
 import * as bbox from '@turf/bbox';
 import * as union from '@turf/union';
+import * as polylabel from 'polylabel';
+import area from '@turf/area';
+import { coordAll } from '@turf/meta';
 
 import { MapLayerGroup } from './map-layer-group';
 import { MapFeature } from './map-feature';
@@ -14,8 +18,10 @@ export class MapService {
   private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
+  private colors = ['#e24000', '#434878', '#2c897f'];
+  get mapCreated() { return this.map !== undefined; }
 
-  constructor() { }
+  constructor(private zone: NgZone) { }
 
   /** Expose any MapboxGL API functions that are needed  */
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
@@ -54,32 +60,13 @@ export class MapService {
    */
   setupHoverPopup(layerIds: string[]) {
     this.popup = new mapboxgl.Popup({ closeButton: false });
-    this.map.on('mousemove', (e) => {
-      const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
-      if (features.length) {
-        const feat: MapFeature = features[0];
-        // Check if labels are visible, don't display tooltip if so
-        const labelLayer = this.map.getLayer(`${feat['layer']['id']}_text`);
-        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
-          layers: [`${feat['layer']['id']}_text`],
-          filter: [
-            'all',
-            ['==', 'n', feat.properties.n],
-          ]
-        });
-        if (labelFeatures.length && labelLayer.paint['text-opacity'] > 0) {
-          this.popup.remove();
-        } else {
-          this.popup.setLngLat(e.lngLat)
-            .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
-            .addTo(this.map);
-        }
-      } else {
-        this.popup.remove();
-      }
-    });
-    this.map.on('mouseout', (e) => {
-      this.popup.remove();
+    this.zone.runOutsideAngular(() => {
+      Observable.fromEvent(this.map, 'mousemove')
+        .debounceTime(100)
+        .subscribe(e => this.updateHoverTooltip(e, layerIds));
+      Observable.fromEvent(this.map, 'mouseout')
+        .debounceTime(100)
+        .subscribe(e => this.popup.remove());
     });
   }
 
@@ -142,14 +129,13 @@ export class MapService {
   }
 
   /**
-   * Queries a layer for all features matching the name and parent-location of
-   * a supplied feature, returns a GeoJSON feature combining the geographies of
-   * all matching features. Used to consolidate GeoJSON features split by tiling
+   * Returns a boolean indicating if a layer has any features matching
+   * the query
    *
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
-  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> {
+  hasRenderedFeatures(layerId: string, feature: MapFeature): boolean {
     return this.map.queryRenderedFeatures(undefined, {
       layers: [layerId],
       filter: [
@@ -157,12 +143,35 @@ export class MapService {
         ['==', 'n', feature.properties.n],
         ['==', 'pl', feature.properties.pl]
       ]
-    }).reduce((currFeat, nextFeat) => {
-      return union(
-        currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-        nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-      );
-    }, feature) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }).length > 0;
+  }
+
+  /**
+   * Queries a layer for all features matching the name and parent-location of
+   * a supplied feature, returns a GeoJSON feature combining the geographies of
+   * all matching features. Used to consolidate GeoJSON features split by tiling
+   *
+   * @param layerId ID of vector tile layer to query
+   * @param feature feature with attributes to query
+   */
+  getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
+      layers: [layerId],
+      filter: [
+        'all',
+        ['==', 'n', feature.properties.n],
+        ['==', 'pl', feature.properties.pl]
+      ]
+    });
+    if (queryFeatures.length > 0) {
+      return queryFeatures.reduce((currFeat, nextFeat) => {
+        return union(
+          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+        );
+      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+    }
+    return null;
   }
 
   /**
@@ -173,17 +182,66 @@ export class MapService {
   }
 
   /**
+   * Returns source data
+   * @param sourceId ID of source to return
+   */
+  getSourceData(sourceId) {
+    return (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource)['_data']['features'];
+  }
+
+  /**
    * Set the data of a GeoJSON layer source, or empty the data if no
    * feature supplied
    * @param sourceId ID of GeoJSON source to modify
-   * @param feature MapFeature object
+   * @param features Array of MapFeature objects
    */
-  setSourceData(sourceId: string, feature?: MapFeature) {
-    const features = feature ? [feature] : [];
+  setSourceData(sourceId: string, features?: MapFeature[]) {
     (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
       'type': 'FeatureCollection',
-      'features': features
+      'features': features ? features : []
     });
+  }
+
+  /**
+   * Sets or updates highlight features
+   * @param layerId String ID of current displayed map layer
+   * @param features Array of active features to highlight
+   */
+  updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+    const highlightSource = this.getSourceData('highlight');
+    const geoids = highlightSource.map(f => f['properties']['GEOID']);
+
+    const highlightFeatures = features.map((f, i) => {
+      let feat;
+      // If feature is in active layer, update bounds
+      // Otherwise, check if currently added or use bounding box
+      if (
+        f.properties['layerId'] === layerId &&
+        this.hasRenderedFeatures(f.properties['layerId'], f)
+      ) {
+        feat = this.getUnionFeature(f.properties['layerId'], f);
+        const geoidFeatures = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        );
+        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+          feat = geoidFeatures[0];
+        }
+      } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
+        feat = highlightSource.filter(
+          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
+        )[0];
+      } else {
+        f.geometry['type'] = 'Polygon';
+        f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
+        feat = f;
+      }
+      // Null check (later filtered out) null feature from getUnionFeature
+      if (feat !== null) {
+        feat['properties']['color'] = this.colors[i];
+      }
+      return feat;
+    }).filter(f => f !== null);
+    this.setSourceData('highlight', highlightFeatures);
   }
 
   /**
@@ -193,7 +251,7 @@ export class MapService {
    * Ordinarily would try to generalize this, but updating the map style for each layer
    * or even layer group seems unnecessary.
    * @param layerGroups
-   * @param sourceSuffix i.e. 90, 00, 10
+   * @param sourceSuffix i.e. 00, 10
    */
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();
@@ -250,9 +308,10 @@ export class MapService {
   /**
    * Zoom to supplied point feature
    * @param feature Point feature
+   * @param zoom Zoom level
    */
-  zoomToPoint(feature: MapFeature) {
-    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: 12 });
+  zoomToPoint(feature: MapFeature, zoom: number) {
+    this.map.flyTo({ center: feature.geometry['coordinates'], zoom: zoom });
   }
 
   /**
@@ -264,5 +323,96 @@ export class MapService {
       [box[0], box[1]],
       [box[2], box[3]]
     ], { padding: 50 });
+  }
+
+  /**
+   * Update hover tooltip content
+   */
+  private updateHoverTooltip(e: any, layerIds: string[]) {
+    const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
+    if (features.length) {
+      const feat: MapFeature = features[0];
+      const labelLayerId = `${feat['layer']['id']}_text`;
+      let updateTooltip;
+      // Check if label layer exists, otherwise check features
+      if (this.map.getLayer(labelLayerId) === undefined) {
+        updateTooltip = true;
+      } else {
+        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+          layers: [`${feat['layer']['id']}_text`],
+          filter: [
+            'all',
+            ['==', 'n', feat.properties.n],
+          ]
+        });
+        // Check if labels are visible, don't display tooltip if so
+        const labelLayerOpacity = this.map.getPaintProperty(
+          `${feat['layer']['id']}_text`, 'text-opacity'
+        );
+        let labelsVisible;
+        if (labelLayerOpacity) {
+          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+        } else {
+          labelsVisible = false;
+        }
+        updateTooltip = !(labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0);
+      }
+
+      if (updateTooltip) {
+        this.popup.setLngLat(e.lngLat)
+          .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
+          .addTo(this.map);
+      } else {
+        this.popup.remove();
+      }
+    } else {
+      this.popup.remove();
+    }
+  }
+
+  /**
+   * Based on @turf/bbox-polygon which isn't importing correctly
+   * @param bbox Bounding box
+   */
+  private bboxPolygon(bbox: Array<number>): Array<Array<Array<number>>> {
+    const west = bbox[0];
+    const south = bbox[1];
+    const east = bbox[2];
+    const north = bbox[3];
+
+    const lowLeft = [west, south];
+    const topLeft = [west, north];
+    const topRight = [east, north];
+    const lowRight = [east, south];
+
+    return [[
+      lowLeft,
+      lowRight,
+      topRight,
+      topLeft,
+      lowLeft
+    ]];
+  }
+
+  /**
+   * Determines whether selected feature boundaries should update
+   * @param currentFeat
+   * @param newFeat
+   */
+  private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    const bboxPoly = {
+      type: 'Polygon',
+      coordinates: currentFeat.hasOwnProperty('bbox') ?
+        this.bboxPolygon(currentFeat.bbox) : bbox(currentFeat)
+    };
+    // Update if current feature is a bounding box
+    if (area(currentFeat) === area(bboxPoly)) { return true; }
+    // Update if current feature has less than 95% of the new feature's area
+    // Accounts for the fact that more detailed boundaries have slightly less area
+    if (area(currentFeat) < (area(newFeat) * 0.95)) { return true; }
+    // Update if the current feature has fewer coordinates than the new feature,
+    // indicating that it's less detailed
+    if (coordAll(currentFeat).length < coordAll(newFeat).length) { return true; }
+    return false;
   }
 }
