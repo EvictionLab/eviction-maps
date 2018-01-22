@@ -13,7 +13,7 @@ import { EditorComponent } from './editor/editor.component';
 
 const defaultData = {
   mapConfig: {
-    style: './assets/style.json',
+    style: 'https://raw.githubusercontent.com/EvictionLab/eviction-maps/development/src/assets/style.json',
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 3,
