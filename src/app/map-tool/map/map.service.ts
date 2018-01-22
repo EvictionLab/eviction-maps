@@ -235,9 +235,12 @@ export class MapService {
         f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
         feat = f;
       }
-      feat['properties']['color'] = this.colors[i];
+      // Null check (later filtered out) null feature from getUnionFeature
+      if (feat !== null) {
+        feat['properties']['color'] = this.colors[i];
+      }
       return feat;
-    });
+    }).filter(f => f !== null);
     this.setSourceData('highlight', highlightFeatures);
   }
 
