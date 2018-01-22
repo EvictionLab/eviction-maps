@@ -978,64 +978,15 @@
       }
     },
     {
-      "id": "place_suburb",
+      "id": "cities_extra_small_labels",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 14,
+      "source": "us-cities-10",
+      "source-layer": "cities-centers",
+      "minzoom": 10,
       "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "==",
-          "class",
-          "suburb"
-        ]
-      ],
-      "layout": {
-        "text-size": 10,
-        "text-transform": "uppercase",
-        "text-font": [
-          "Metropolis+Medium"
-        ],
-        "text-justify": "center",
-        "visibility": "visible",
-        "text-offset": [
-          0.5,
-          0
-        ],
-        "text-anchor": "center",
-        "text-field": "{name_en}"
-      },
-      "paint": {
-        "text-color": "rgba(49, 53, 62, 1)",
-        "text-halo-color": "rgb(242,243,240)",
-        "text-halo-width": 1,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "place_village",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 12,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "==",
-          "class",
-          "village"
-        ]
+        ">=",
+        "p-10",
+        50000
       ],
       "layout": {
         "text-size": 10,
@@ -1050,7 +1001,7 @@
           0.2
         ],
         "text-anchor": "left",
-        "text-field": "{name_en}",
+        "text-field": "{n}",
         "text-padding": 0.5,
         "text-letter-spacing": 0.07
       },
@@ -1082,23 +1033,15 @@
       }
     },
     {
-      "id": "place_town",
+      "id": "cities_small_labels",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
-      "minzoom": 10,
+      "source": "us-cities-10",
+      "source-layer": "cities-centers",
+      "minzoom": 8,
       "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "==",
-          "class",
-          "town"
-        ]
+        ">=",
+        "p-10",
+        75000
       ],
       "layout": {
         "text-size": 10,
@@ -1108,7 +1051,7 @@
         ],
         "text-justify": "left",
         "visibility": "visible",
-        "text-field": "{name_en}",
+        "text-field": "{n}",
         "text-letter-spacing": {
           "stops": [
             [
@@ -1144,37 +1087,16 @@
       }
     },
     {
-      "id": "place_city",
+      "id": "cities_mid_labels",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
+      "source": "us-cities-10",
+      "source-layer": "cities-centers",
       "minzoom": 6,
       "maxzoom": 14,
       "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "all",
-          [
-            "!=",
-            "capital",
-            2
-          ],
-          [
-            "==",
-            "class",
-            "city"
-          ],
-          [
-            ">",
-            "rank",
-            3
-          ]
-        ]
+        ">=",
+        "p-10",
+        100000
       ],
       "layout": {
         "text-size": {
@@ -1196,7 +1118,7 @@
         "text-justify": "center",
         "visibility": "visible",
         "text-anchor": "center",
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-padding": 0,
         "text-letter-spacing": 0,
         "icon-allow-overlap": true,
@@ -1218,57 +1140,21 @@
           ]
         },
         "text-halo-blur": 0,
-        "text-opacity": {
-          "stops": [
-            [
-              5,
-              1
-            ],
-            [
-              6,
-              1
-            ],
-            [
-              7,
-              1
-            ],
-            [
-              8,
-              1
-            ]
-          ]
-        },
         "icon-opacity": 1,
         "icon-color": "rgba(0, 0, 0, 1)"
       }
     },
     {
-      "id": "place_city_large",
+      "id": "cities_large_labels",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "place",
+      "source": "us-cities-10",
+      "source-layer": "cities-centers",
       "minzoom": 6,
       "maxzoom": 14,
       "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Point"
-        ],
-        [
-          "all",
-          [
-            "<=",
-            "rank",
-            3
-          ],
-          [
-            "==",
-            "class",
-            "city"
-          ]
-        ]
+        ">=",
+        "p-10",
+        500000
       ],
       "layout": {
         "text-size": {
@@ -1290,7 +1176,7 @@
         "text-justify": "center",
         "visibility": "visible",
         "text-anchor": "center",
-        "text-field": "{name}",
+        "text-field": "{n}",
         "text-padding": 0,
         "text-letter-spacing": 0,
         "icon-allow-overlap": true,
@@ -1312,26 +1198,6 @@
           ]
         },
         "text-halo-blur": 0,
-        "text-opacity": {
-          "stops": [
-            [
-              5,
-              1
-            ],
-            [
-              6,
-              1
-            ],
-            [
-              7,
-              1
-            ],
-            [
-              8,
-              1
-            ]
-          ]
-        },
         "icon-opacity": 1,
         "icon-color": "rgba(0, 0, 0, 1)"
       }
