@@ -329,7 +329,7 @@ export class MapComponent implements OnInit, OnChanges {
    * Set the zoom value for the app, auto adjust layers if enabled
    * @param zoom the current zoom level of the map
    */
-  onMapZoom(zoom) {
+  onMapZoomEnd(zoom) {
     this.zoom = zoom;
     if (this.selectedLayer && this.selectedLayer.minzoom > zoom) {
       this.autoSwitch = true;
@@ -342,6 +342,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   enableZoom() { return this.map.enableZoom(); }
