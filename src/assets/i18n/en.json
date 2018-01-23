@@ -11,6 +11,7 @@
     "REMOVE_BUTTON": "Remove",
     "DOWNLOAD_BUTTON": "Download",
     "CANCEL_BUTTON": "Cancel",
+    "CLOSE_BUTTON": "Close",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files.",
     "GET_DATA": "Get More Data",
     "GET_DATA_HINT": "Search for and access spreadsheets of full data sets from across the U.S.",
@@ -30,7 +31,12 @@
     "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions.",
     "TWEET_ONE_FEATURE": "I'm looking at {{year}} eviction data for {{place1}}. See the results at {{link}}.",
     "TWEET_TWO_FEATURES": "I compared {{year}} eviction rates for {{place1}} and {{place2}}. See the results at {{link}}.",
-    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}."
+    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}.",
+    "GRAPH_TYPE_LABEL": "Graph type",
+    "GRAPH_BAR_LABEL": "Bar",
+    "GRAPH_LINE_LABEL": "Line",
+    "UNAVAILABLE": "Unavailable",
+    "REMOVE_LOCATION": "Remove {{name}}"
   },
   "HEADER": {
     "HOME": "Home",
@@ -86,5 +92,11 @@
     "PCT_HAW_ISL": "% Native Hawaiian or Pacific Islander",
     "PCT_MULTIPLE": "% Multiple Races",
     "PCT_OTHER": "% Other Race"
+  },
+  "FOOTER": {
+    "SHARE_TWITTER": "Share on Twitter",
+    "SHARE_FACEBOOK": "Share on Facebook",
+    "SHARE_EMAIL": "Share via E-mail",
+    "SHARE_LINK": "Share Link"
   }
 }

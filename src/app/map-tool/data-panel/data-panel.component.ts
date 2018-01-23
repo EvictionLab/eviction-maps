@@ -88,6 +88,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   graphData;
   tooltips = [];
   graphType = 'line';
+  graphTypeOptions = this.createGraphTypeOptions();
   cardProps = {
     'er': 'STATS.JUDGMENT_RATE',
     'e': 'STATS.JUDGMENTS',
@@ -142,6 +143,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
       this.updateTwitterText();
+      this.graphTypeOptions = this.createGraphTypeOptions();
     });
     this.dataService.locations$.subscribe(d => {
       this.setGraphData();
@@ -392,8 +394,15 @@ export class DataPanelComponent implements OnInit, OnChanges {
       });
   }
 
+  /** Get the current graph property with a year appended to it */
   private getGraphPropForYear(year) {
     return `${this.graphProp}-${('' + year).slice(2)}`;
   }
 
+  private createGraphTypeOptions() {
+    return [
+      { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
+      { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
+    ];
+  }
 }
