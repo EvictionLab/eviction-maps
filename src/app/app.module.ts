@@ -8,6 +8,7 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
+import { environment } from '../environments/environment';
 
 // local imports
 import { AppComponent } from './app.component';
@@ -21,6 +22,7 @@ import { DataService } from './data/data.service';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { LoadingService } from './loading.service';
+import { MenuComponent } from './menu/menu.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,7 +35,7 @@ export class CustomOption extends ToastOptions {
 }
 
 @NgModule({
-  declarations: [ AppComponent, HeaderBarComponent, FooterComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent, MenuComponent ],
   imports: [
     UiModule,
     MapToolModule,
@@ -41,7 +43,7 @@ export class CustomOption extends ToastOptions {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
-      dataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv'
+      dataUrl: environment.cityRankingDataUrl
     }),
     TranslateModule.forRoot({
       loader: {

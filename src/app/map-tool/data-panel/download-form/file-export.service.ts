@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 import { MapFeature } from '../../map/map-feature';
 import * as bbox from '@turf/bbox';
 
@@ -23,7 +24,7 @@ export interface ExportType {
 
 @Injectable()
 export class FileExportService {
-  downloadBase = 'https://exports.evictionlab.org';
+  downloadBase = environment.downloadBaseUrl;
   lang: string;
   features: MapFeature[];
   year: number;

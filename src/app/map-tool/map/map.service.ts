@@ -223,7 +223,11 @@ export class MapService {
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );
-        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+        if (
+          geoidFeatures.length > 0 &&
+          feat !== null &&
+          !this.shouldUpdateFeature(geoidFeatures[0], feat)
+        ) {
           feat = geoidFeatures[0];
         }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
@@ -235,9 +239,12 @@ export class MapService {
         f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
         feat = f;
       }
-      feat['properties']['color'] = this.colors[i];
+      // Null check (later filtered out) null feature from getUnionFeature
+      if (feat !== null) {
+        feat['properties']['color'] = this.colors[i];
+      }
       return feat;
-    });
+    }).filter(f => f !== null);
     this.setSourceData('highlight', highlightFeatures);
   }
 
@@ -329,29 +336,38 @@ export class MapService {
     const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
     if (features.length) {
       const feat: MapFeature = features[0];
-      const labelFeatures = this.map.queryRenderedFeatures(undefined, {
-        layers: [`${feat['layer']['id']}_text`],
-        filter: [
-          'all',
-          ['==', 'n', feat.properties.n],
-        ]
-      });
-      // Check if labels are visible, don't display tooltip if so
-      const labelLayerOpacity = this.map.getPaintProperty(
-        `${feat['layer']['id']}_text`, 'text-opacity'
-      );
-      let labelsVisible;
-      if (labelLayerOpacity) {
-        labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+      const labelLayerId = `${feat['layer']['id']}_text`;
+      let updateTooltip;
+      // Check if label layer exists, otherwise check features
+      if (this.map.getLayer(labelLayerId) === undefined) {
+        updateTooltip = true;
       } else {
-        labelsVisible = false;
+        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
+          layers: [`${feat['layer']['id']}_text`],
+          filter: [
+            'all',
+            ['==', 'n', feat.properties.n],
+          ]
+        });
+        // Check if labels are visible, don't display tooltip if so
+        const labelLayerOpacity = this.map.getPaintProperty(
+          `${feat['layer']['id']}_text`, 'text-opacity'
+        );
+        let labelsVisible;
+        if (labelLayerOpacity) {
+          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
+        } else {
+          labelsVisible = false;
+        }
+        updateTooltip = !(labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0);
       }
-      if (labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0) {
-        this.popup.remove();
-      } else {
+
+      if (updateTooltip) {
         this.popup.setLngLat(e.lngLat)
           .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
           .addTo(this.map);
+      } else {
+        this.popup.remove();
       }
     } else {
       this.popup.remove();

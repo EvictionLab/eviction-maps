@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">{{ 'DATA.DOWNLOAD_TITLE' | translate }}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="onCancelClick($event)">
+  <button type="button" class="close" [attr.aria-label]="'DATA.CLOSE_BUTTON' | translate" (click)="onCancelClick($event)">
     <span aria-hidden="true">&times;</span>
   </button>
 </div>

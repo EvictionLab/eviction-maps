@@ -12,6 +12,10 @@
     outline: 4px solid transparentize($color1, 0.5);
     outline-offset: -4px;
   }
+  .mapboxgl-popup, .mapboxgl-popup-content {
+    cursor: pointer;
+    pointer-events: none;
+  }
   .mapboxgl-popup-content {
     background-color: $tooltipBackground;
     color: $tooltipFontColor;

@@ -8,14 +8,24 @@ import {
   styleUrls: ['./header-bar.component.scss']
 })
 export class HeaderBarComponent implements AfterViewInit {
+  @Input()
+  set activeMenuItem(value: string) {
+    if (this.state.menuItem !== value) {
+      this.state.menuItem = value;
+      this.activeMenuItemChange.emit(value);
+    }
+  }
+  get activeMenuItem() { return this.state.menuItem; }
   @Input() languageOptions;
   @Input() selectedLanguage;
-  @Output() selectMenuItem = new EventEmitter();
+  @Output() activeMenuItemChange = new EventEmitter();
   @Output() selectLocation = new EventEmitter();
   @Output() selectLanguage = new EventEmitter();
   @ViewChild('pop') mapTooltip;
   tooltipEnabled = true;
-  activeMenuItem: string;
+  private state = {
+    menuItem: null
+  };
 
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
@@ -28,7 +38,6 @@ export class HeaderBarComponent implements AfterViewInit {
 
   onMenuSelect(itemId: string) {
     this.activeMenuItem = this.activeMenuItem === itemId ? null : itemId;
-    this.selectMenuItem.emit(this.activeMenuItem);
   }
 
 }

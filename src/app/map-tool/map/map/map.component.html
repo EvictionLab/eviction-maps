@@ -53,7 +53,7 @@
     [selectedLayer]="selectedLayer"
     [featureCount]="activeFeatures.length"
     (ready)="onMapReady($event)"
-    (zoom)="onMapZoom($event)"
+    (zoomEnd)="onMapZoomEnd($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
   ></app-mapbox>
@@ -64,8 +64,8 @@
     class="year-slider"
     [label]="year"
     [(value)]="year" 
-    [min]="2000" 
-    [max]="2016" 
+    [min]="minYear" 
+    [max]="maxYear" 
   ></app-ui-slider>
 </div>
 <ng-content></ng-content>

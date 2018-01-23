@@ -1,6 +1,7 @@
 import { TestBed, inject, async } from '@angular/core/testing';
 import { HttpClientModule, HttpRequest, HttpParams } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { environment } from '../../../../environments/environment';
 import { FileExportService } from './file-export.service';
 
 describe('FileExportService', () => {
@@ -65,7 +66,7 @@ describe('FileExportService', () => {
         service.sendFileRequest(['xlsx']).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
           const body = JSON.parse(req.body);
-          return req.url === 'https://exports.evictionlab.org/format/xlsx'
+          return req.url === `${environment.downloadBaseUrl}/format/xlsx`
             && req.method === 'POST'
             && req.headers.get('Content-Type') === 'application/json'
             && body.lang === 'en'

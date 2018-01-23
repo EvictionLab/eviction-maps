@@ -39,6 +39,7 @@
     "core-js": "^2.4.1",
     "d3-dsv": "^1.0.8",
     "intl": "^1.2.5",
+    "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "mapbox-gl": "^0.43.0",
     "ng2-page-scroll": "^4.0.0-beta.11",
@@ -51,6 +52,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
+    "@angular-devkit/core": "0.0.28",
     "@angular/cli": "1.5.0",
     "@angular/compiler-cli": "^5.0.3",
     "@angular/language-service": "^4.2.4",
