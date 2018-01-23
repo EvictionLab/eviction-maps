@@ -45,8 +45,9 @@
         <app-ui-toggle
           class="graph-type-toggle"
           [attr.aria-label]="'DATA.GRAPH_TYPE_LABEL' | translate"
-          [values]="[ 'Bar', 'Line' ]"
-          [selectedValue]="graphType.charAt(0).toUpperCase() + graphType.slice(1)"
+          labelProperty="label"
+          [values]="graphTypeOptions"
+          [selectedValue]="graphType"
           (selectedValueChanged)="changeGraphType($event)"
         ></app-ui-toggle>
         <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
