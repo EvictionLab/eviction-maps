@@ -32,6 +32,18 @@ export class DataPanelComponent implements OnInit, OnChanges {
   @Output() locationAdded = new EventEmitter();
   get barGraphSettings() {
     return {
+      title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations.map(l => l.properties.n).join(', '),
+        year: this.year
+      }),
+      description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations
+          .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
+          .join(', '),
+        year: this.year
+      }),
       axis: {
         x: { label: null, tickFormat: '.0f' },
         y: {
@@ -46,6 +58,15 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
   get lineGraphSettings() {
     return {
+      title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations.map(l => l.properties.n).join(', '),
+        year1: this.lineStartYear,
+        year2: this.lineEndYear
+      }),
+      description: this.translatePipe.transform('DATA.LINE_GRAPH_DESC', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp])
+      }),
       axis: {
         x: {
           label: null,
@@ -63,6 +84,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       margin: { left: 65, right: 16, bottom: 48, top: 16 }
     };
   }
+
   graphData;
   tooltips = [];
   graphType = 'line';
@@ -352,7 +374,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    */
   private createBarGraphData() {
     return this.locations.map((f, i) => {
-      const yVal = (f.properties[`${this.graphProp}-${('' + this.year).slice(2)}`]);
+      const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
       return {
         id: 'sample' + i,
         data: [{
@@ -367,9 +389,14 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
         // create points
-        const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
+        const yVal = feature.properties[this.getGraphPropForYear(year)];
         return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
+  }
+
+  /** Get the current graph property with a year appended to it */
+  private getGraphPropForYear(year) {
+    return `${this.graphProp}-${('' + year).slice(2)}`;
   }
 
   private createGraphTypeOptions() {
