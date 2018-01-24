@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
@@ -14,6 +14,16 @@ class MapServiceStub {
   createMap(settings) { return this; }
   addControl(...args) { return this; }
   on(...args) { return this; }
+  filterLayerGroupsByZoom(...args) {
+    return [{
+      'id': 'states',
+      'name': 'States',
+      'layerIds': ['states'],
+      'minzoom': 0,
+      'zoom': [0, 7]
+    }];
+  }
+  updateHighlightFeatures(...args) { return this; }
 }
 
 describe('MapComponent', () => {
@@ -64,6 +74,13 @@ describe('MapComponent', () => {
       'layerIds': ['counties'],
       'minzoom': 0,
       'zoom': [7, 9]
+    },
+    {
+      'id': 'cities',
+      'name': 'Cities',
+      'layerIds': ['cities'],
+      'minzoom': 6,
+      'zoom': [9, 10]
     }];
     component.bubbleOptions = [{
       'id': 'none',
@@ -75,4 +92,25 @@ describe('MapComponent', () => {
   it('should be created', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit a year change event on year input change', fakeAsync(() => {
+    component.yearChange.subscribe(y => { expect(y).toEqual(2011); });
+    component.year = 2011;
+    tick(500);
+    fixture.detectChanges();
+    tick(500);
+  }));
+
+  it('should move to auto-switching layers if zoom is less than layer minzoom', fakeAsync(() => {
+    component.onMapZoomEnd(10);
+    component.selectedLayer = component.layerOptions[2];
+    component.autoSwitch = false;
+    tick(200);
+    fixture.detectChanges();
+    expect(component.autoSwitch).toBe(false);
+    component.onMapZoomEnd(2);
+    tick(300);
+    fixture.detectChanges();
+    expect(component.autoSwitch).toBe(true);
+  }));
 });

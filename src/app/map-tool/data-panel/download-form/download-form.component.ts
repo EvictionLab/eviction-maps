@@ -60,12 +60,9 @@ export class DownloadFormComponent implements OnInit {
           console.log(`Error occured: ${res}`);
           this.loading = false;
         } else {
-          // Download after slight delay to make sure file is ready
-          setTimeout(() => {
-            window.location.href = res['path'];
-            this.dismiss({ accepted: true });
-            this.loading = false;
-          }, 500);
+          window.location.href = res['path'];
+          this.dismiss({ accepted: true });
+          this.loading = false;
         }
       });
   }

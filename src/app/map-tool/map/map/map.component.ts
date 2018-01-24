@@ -2,10 +2,12 @@ import {
   Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
   HostListener, ElementRef
 } from '@angular/core';
+import { environment } from '../../../../environments/environment';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
+import * as _debounce from 'lodash.debounce';
 
 import { MapDataAttribute } from '../map-data-attribute';
 import { MapLayerGroup } from '../map-layer-group';
@@ -25,6 +27,8 @@ import { PlatformService } from '../../../platform.service';
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
+  minYear = environment.minYear;
+  maxYear = environment.maxYear;
   mapEventLayers: Array<string>;
   cardProps;
   dollarProps = DollarProps;
@@ -110,13 +114,7 @@ export class MapComponent implements OnInit, OnChanges {
   set year(newYear: number) {
     this._store.year = newYear;
     if (newYear) {
-      this.yearChange.emit(newYear);
-      if (this._mapInstance) {
-        this.updateCensusYear();
-        // Don't update highlight features on year change
-        this.updateMapBubbles();
-        this.updateMapChoropleths();
-      }
+      this.updateMapYear();
     }
   }
   get year() { return this._store.year; }
@@ -189,6 +187,17 @@ export class MapComponent implements OnInit, OnChanges {
   }
   /** Gets if the map is loading */
   get mapLoading(): boolean { return this._store.loading; }
+  /** Debounced function for year change */
+  private updateMapYear = _debounce(() => {
+      this.yearChange.emit(this.year);
+      if (this._mapInstance) {
+        this.updateCensusYear();
+        // Don't update highlight features on year change
+        this.updateMapBubbles();
+        this.updateMapChoropleths();
+      }
+    }, 400
+  );
 
   constructor(
     private map: MapService,
@@ -320,7 +329,7 @@ export class MapComponent implements OnInit, OnChanges {
    * Set the zoom value for the app, auto adjust layers if enabled
    * @param zoom the current zoom level of the map
    */
-  onMapZoom(zoom) {
+  onMapZoomEnd(zoom) {
     this.zoom = zoom;
     if (this.selectedLayer && this.selectedLayer.minzoom > zoom) {
       this.autoSwitch = true;
@@ -333,6 +342,7 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
+    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   enableZoom() { return this.map.enableZoom(); }
@@ -524,4 +534,6 @@ export class MapComponent implements OnInit, OnChanges {
       });
     }
   }
+
+
 }

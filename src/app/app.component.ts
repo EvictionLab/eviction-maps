@@ -1,9 +1,11 @@
 import {
-  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef
+  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
+  ElementRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { PlatformService } from './platform.service';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
@@ -29,6 +31,8 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
+  currentMenuItem: string;
+  menuActive = false;
   private activeMenuItem;
 
   constructor(
@@ -39,7 +43,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
-    private titleService: Title
+    private titleService: Title,
+    private el: ElementRef
   ) {
       this.toastr.setRootViewContainerRef(vRef);
   }
@@ -49,6 +54,7 @@ export class AppComponent implements OnInit {
     this.setupRoutes();
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    this.translate.onLangChange.subscribe((e) => this.updateHtmlLanguage());
     this.onWindowResize();
     // Add user agent-specific classes
     const userAgent = navigator.userAgent.toLowerCase();
@@ -57,9 +63,14 @@ export class AppComponent implements OnInit {
     this.android = userAgent.includes('android') && !userAgent.includes('firefox');
   }
 
+  closeMenu() {
+    this.currentMenuItem = null;
+    this.menuActive = false;
+  }
+
   /** Fired when a route is activated */
   onActivate(component: any) {
-    if (component.constructor.name === 'MapToolComponent') {
+    if (component.id === 'map-tool') {
       this.mapComponent = component;
       this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
     } else if (component.constructor.name === 'RankingToolComponent') {
@@ -68,6 +79,10 @@ export class AppComponent implements OnInit {
   }
 
   onMenuSelect(itemId: string) {
+    this.currentMenuItem = itemId;
+    if (itemId === 'menu') {
+      this.menuActive = true;
+    }
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }
@@ -99,12 +114,12 @@ export class AppComponent implements OnInit {
         center: [-98.5795, 39.8283],
         zoom: 3,
         minZoom: 2,
-        maxZoom: 14
+        maxZoom: 15
       },
-      year: 2016
+      year: environment.maxYear
     };
     const defaultViews = {
-      map: '/2016/auto/-136.80,20.68,-57.60,52.06',
+      map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
       rankings: '/evictions/United%20States/0/evictionRate',
       evictors: '/evictors'
     };
@@ -148,5 +163,15 @@ export class AppComponent implements OnInit {
     this.largerThanTablet = this.platform.isLargerThanTablet;
     this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
     this.largerThanLargeDesktop = this.platform.isLargerThanLargeDesktop;
+  }
+
+  /**
+   * Update the lang attribute on the html element
+   * Based on https://github.com/ngx-translate/core/issues/565
+   */
+  private updateHtmlLanguage() {
+    const lang = document.createAttribute('lang');
+    lang.value = this.translate.currentLang;
+    this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }
 }

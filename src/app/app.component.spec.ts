@@ -14,6 +14,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { DataService } from './data/data.service';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
+import { MenuComponent } from './menu/menu.component';
 
 export class TranslateServiceStub {
   public get(key: any): any {
@@ -33,7 +34,7 @@ describe('AppComponent', () => {
         ToastModule.forRoot()
       ],
       declarations: [
-        AppComponent, HeaderBarComponent, FooterComponent
+        AppComponent, HeaderBarComponent, FooterComponent, MenuComponent
       ],
       providers: [
         PlatformService,

@@ -14,6 +14,7 @@ body {
     }
     &:active, &:focus, &:active:focus {
       background: darken($buttonHoverColor, 5%);
+      outline: 0;
     }
     // icon above button label
     svg{ display:block; margin: 0 auto 6px;}
@@ -43,6 +44,25 @@ body {
     }
     &:active, &:focus, &:active:focus {
       background: darken($primaryButtonHoverColor, 5%);
+    }
+  }
+
+  // icon button with optional label
+  .btn.btn-icon {
+    background: none;
+    border:none; 
+    padding:0;
+    margin:0;
+    width: grid(5);
+    height: grid(5);
+    display:flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: space-between;
+    line-height:1;
+    @include smallCapsText(9px);
+    &:active {
+      background: none;
     }
   }
 

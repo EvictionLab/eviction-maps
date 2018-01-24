@@ -9,6 +9,7 @@ export class UiToggleComponent implements OnInit {
   @Input() groupLabel: string;
   @Input() values = [];
   @Input() labelProperty = 'name';
+  @Input() valueProperty = 'value';
   @Input()
   get selectedValue() { return this._selectedValue; }
   set selectedValue(val) {

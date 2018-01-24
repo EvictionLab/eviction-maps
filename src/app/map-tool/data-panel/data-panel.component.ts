@@ -1,6 +1,7 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
 } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
@@ -31,6 +32,18 @@ export class DataPanelComponent implements OnInit, OnChanges {
   @Output() locationAdded = new EventEmitter();
   get barGraphSettings() {
     return {
+      title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations.map(l => l.properties.n).join(', '),
+        year: this.year
+      }),
+      description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations
+          .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
+          .join(', '),
+        year: this.year
+      }),
       axis: {
         x: { label: null, tickFormat: '.0f' },
         y: {
@@ -45,6 +58,15 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
   get lineGraphSettings() {
     return {
+      title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
+        locations: this.locations.map(l => l.properties.n).join(', '),
+        year1: this.lineStartYear,
+        year2: this.lineEndYear
+      }),
+      description: this.translatePipe.transform('DATA.LINE_GRAPH_DESC', {
+        type: this.translatePipe.transform(this.cardProps[this.graphProp])
+      }),
       axis: {
         x: {
           label: null,
@@ -62,9 +84,11 @@ export class DataPanelComponent implements OnInit, OnChanges {
       margin: { left: 65, right: 16, bottom: 48, top: 16 }
     };
   }
+
   graphData;
   tooltips = [];
   graphType = 'line';
+  graphTypeOptions = this.createGraphTypeOptions();
   cardProps = {
     'er': 'STATS.JUDGMENT_RATE',
     'e': 'STATS.JUDGMENTS',
@@ -94,9 +118,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   endSelect: Array<number>;
   barYearSelect: Array<number>;
-  minYear = 2000;
+  minYear = environment.minYear;
   lineStartYear: number = this.minYear;
-  maxYear = 2016;
+  maxYear = environment.maxYear;
   lineEndYear: number = this.maxYear;
   dollarProps = DollarProps;
   percentProps = PercentProps;
@@ -119,6 +143,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       this.graphSettings = this.graphType === 'bar' ?
         this.barGraphSettings : this.lineGraphSettings;
       this.updateTwitterText();
+      this.graphTypeOptions = this.createGraphTypeOptions();
     });
     this.dataService.locations$.subscribe(d => {
       this.setGraphData();
@@ -349,7 +374,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    */
   private createBarGraphData() {
     return this.locations.map((f, i) => {
-      const yVal = (f.properties[`${this.graphProp}-${('' + this.year).slice(2)}`]);
+      const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
       return {
         id: 'sample' + i,
         data: [{
@@ -364,9 +389,20 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
         // create points
-        const yVal = feature.properties[`${this.graphProp}-${('' + year).slice(2)}`];
+        const yVal = feature.properties[this.getGraphPropForYear(year)];
         return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
   }
 
+  /** Get the current graph property with a year appended to it */
+  private getGraphPropForYear(year) {
+    return `${this.graphProp}-${('' + year).slice(2)}`;
+  }
+
+  private createGraphTypeOptions() {
+    return [
+      { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
+      { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
+    ];
+  }
 }
