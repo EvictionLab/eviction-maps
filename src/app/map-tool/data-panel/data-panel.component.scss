@@ -257,6 +257,22 @@
     &:nth-child(3) .legend-marker path { fill: $graphColor3; }
     &:nth-child(4) .legend-marker path { fill: $graphColor4; }
   }
+  li.us-average {
+    opacity: 0.5;
+
+    .btn.btn-close::after {
+      transform: rotate(45deg);
+      transition: all 0.2s ease;
+    }
+
+    &.active {
+      opacity: 1;
+
+      .btn.btn-close::after {
+        transform: rotate(0deg);
+      }
+    }
+  }
 }
 
 :host-context(.gt-mobile) {

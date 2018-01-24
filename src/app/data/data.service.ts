@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
@@ -36,6 +36,7 @@ export class DataService {
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
   mapView;
   mapConfig;
+  usAverage;
 
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
@@ -213,7 +214,7 @@ export class DataService {
    */
   updateLocation(feature: MapFeature) {
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.bbox)) {
+    if (!(feature.properties.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
     const geoids = this.activeFeatures.map(f => f.properties.GEOID);
@@ -301,7 +302,23 @@ export class DataService {
       +feature.properties['east'],
       +feature.properties['north']
     ];
+    // Add evictions-per-day property
+    Object.keys(feature.properties)
+      .filter(p => p.startsWith('e-'))
+      .forEach(p => {
+        const evictions = +feature.properties[p];
+        const yearSuffix = p.split('-').slice(1)[0];
+        const daysInYear = +yearSuffix % 4 === 0 ? 366 : 365;
+        const evictionsPerDay = evictions > 0 ? +(evictions / daysInYear).toFixed(2) : -1;
+        feature.properties[`epd-${yearSuffix}`] = evictionsPerDay;
+      });
     return feature;
+  }
+
+  loadUSAverage() {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http.get(environment.usAverageDataUrl, { headers: headers })
+      .subscribe(data => this.usAverage = data);
   }
 
   private stripYearFromAttr(attr: string) {
