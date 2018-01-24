@@ -27,8 +27,8 @@
   // TEMPORARY - should have a focus style for accessibility
   &:focus {
     box-shadow:none;
-    .el-slider .scrubber-label {
-      opacity:1;
+    .el-slider .scrubber-marker {
+      box-shadow: 0 0 4px 2px $color1, 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
     }
   }
 }
@@ -146,11 +146,11 @@
   }
   .slider-label:first-child {
     margin-left: 0;
-    margin-right: grid(4);
+    margin-right: grid(5);
   }
   .slider-label:last-child {
     margin-right: 0;
-    margin-left: grid(4);
+    margin-left: grid(5);
   }
   .el-slider {
     .scrubber-label {
