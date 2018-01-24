@@ -27,19 +27,28 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
   get year() { return this._year; }
   @Output() yearChange = new EventEmitter();
-  @Input() locations: MapFeature[] = [];
+  // Locations to use for location cards, download
+  displayLocations: MapFeature[] = [];
+  // Locations including US average if toggled
+  allLocations: MapFeature[] = [];
+  @Input() set locations(locations: MapFeature[]) {
+    this.displayLocations = locations;
+    this.allLocations = locations.concat([this.createUsAverageFeature()]);
+  }
+  get locations() { return this.displayLocations; }
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   get barGraphSettings() {
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations.map(l => l.properties.n).join(', '),
+        locations: this.getLocations()
+          .map(l => l.properties.n).join(', '),
         year: this.year
       }),
       description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations
+        locations: this.getLocations()
           .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
           .join(', '),
         year: this.year
@@ -60,7 +69,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations.map(l => l.properties.n).join(', '),
+        locations: this.getLocations().map(l => l.properties.n).join(', '),
         year1: this.lineStartYear,
         year2: this.lineEndYear
       }),
@@ -85,6 +94,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     };
   }
 
+  showUS = true;
   graphData;
   tooltips = [];
   graphType = 'line';
@@ -218,7 +228,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       year: this.year,
       startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations,
+      features: this.displayLocations,
       dataProp: this.dataService.activeDataHighlight.id,
       bubbleProp: this.dataService.activeBubbleHighlight.id
     };
@@ -360,11 +370,16 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return null;
   }
 
+  toggleUS() {
+    this.showUS = !this.showUS;
+    this.setGraphData();
+  }
+
   /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
-    return this.locations.map((f, i) => {
+    return this.getLocations().map((f, i) => {
       return { id: 'sample' + i, data: this.generateLineData(f) };
     });
   }
@@ -373,7 +388,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * Generate bar graph data from the features in `locations
    */
   private createBarGraphData() {
-    return this.locations.map((f, i) => {
+    return this.getLocations().map((f, i) => {
       const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
       return {
         id: 'sample' + i,
@@ -404,5 +419,17 @@ export class DataPanelComponent implements OnInit, OnChanges {
       { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
       { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
     ];
+  }
+
+  private getLocations(): MapFeature[] {
+    return this.showUS ? this.allLocations : this.displayLocations;
+  }
+
+  private createUsAverageFeature(): MapFeature {
+    return {
+      type: 'Feature',
+      properties: { n: 'United States', ...this.dataService.usAverage },
+      geometry: { type: 'Point', coordinates: [] }
+    };
   }
 }

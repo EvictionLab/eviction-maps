@@ -71,6 +71,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     // Add click to dimiss to all toast messages
     this.toast.onClickToast()
       .subscribe(t => this.toast.dismissToast(t));
+    this.dataService.loadUSAverage();
   }
 
   ngOnInit() {
