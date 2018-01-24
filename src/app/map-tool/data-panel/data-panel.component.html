@@ -10,6 +10,7 @@
     class="card-table"
     [allowAddLocation]="displayLocations.length < 3"
     [features]="displayLocations"
+    [usAverage]="dataService.usAverage"
     [year]="year"
     [cardProperties]="cardProps"
     (dismissedCard)="locationRemoved.emit($event)"

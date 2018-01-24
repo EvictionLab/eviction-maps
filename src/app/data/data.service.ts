@@ -302,6 +302,16 @@ export class DataService {
       +feature.properties['east'],
       +feature.properties['north']
     ];
+    // Add evictions-per-day property
+    Object.keys(feature.properties)
+      .filter(p => p.startsWith('e-'))
+      .forEach(p => {
+        const evictions = +feature.properties[p];
+        const yearSuffix = p.split('-').slice(1)[0];
+        const daysInYear = +yearSuffix % 4 === 0 ? 366 : 365;
+        const evictionsPerDay = evictions > 0 ? +(evictions / daysInYear).toFixed(2) : -1;
+        feature.properties[`epd-${yearSuffix}`] = evictionsPerDay;
+      });
     return feature;
   }
 

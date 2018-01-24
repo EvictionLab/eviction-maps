@@ -100,6 +100,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   graphType = 'line';
   graphTypeOptions = this.createGraphTypeOptions();
   cardProps = {
+    'epd': 'STATS.JUDGMENTS_PER_DAY',
     'er': 'STATS.JUDGMENT_RATE',
     'e': 'STATS.JUDGMENTS',
     'efr': 'STATS.FILING_RATE',

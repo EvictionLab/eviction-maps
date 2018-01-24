@@ -36,7 +36,8 @@
     "GRAPH_BAR_LABEL": "Bar",
     "GRAPH_LINE_LABEL": "Line",
     "UNAVAILABLE": "Unavailable",
-    "REMOVE_LOCATION": "Remove {{name}}"
+    "REMOVE_LOCATION": "Remove {{name}}",
+    "US_AVERAGE": "U.S. average"
   },
   "HEADER": {
     "HOME": "Home",

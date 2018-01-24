@@ -217,9 +217,9 @@ export class MapService {
       // Otherwise, check if currently added or use bounding box
       if (
         f.properties['layerId'] === layerId &&
-        this.hasRenderedFeatures(f.properties['layerId'], f)
+        this.hasRenderedFeatures(f.properties['layerId'] as string, f)
       ) {
-        feat = this.getUnionFeature(f.properties['layerId'], f);
+        feat = this.getUnionFeature(f.properties['layerId'] as string, f);
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );

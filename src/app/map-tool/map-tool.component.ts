@@ -209,9 +209,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     if (feature) {
       this.loader.start('search');
-      const layerId = feature.properties['layerId'];
+      const layerId = feature.properties['layerId'] as string;
       this.dataService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'], true
+        layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
       ).subscribe(data => {
           if (!data.properties.n) {
             this.toast.error('Could not find data for location.');
