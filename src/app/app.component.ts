@@ -25,6 +25,7 @@ import { LoadingService } from './loading.service';
 })
 export class AppComponent implements OnInit {
   mapComponent: MapToolComponent;
+  @HostBinding('class.embed') embed: boolean;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
@@ -61,6 +62,10 @@ export class AppComponent implements OnInit {
     this.iosSafari = ((userAgent.includes('iphone') || userAgent.includes('ipad')) &&
       (!userAgent.includes('crios') && !userAgent.includes('fxios')));
     this.android = userAgent.includes('android') && !userAgent.includes('firefox');
+    this.dataService.embedChange
+      .debounceTime(100)
+      .take(1)
+      .subscribe(embed => { this.embed = embed; });
   }
 
   closeMenu() {

@@ -36,6 +36,16 @@ export class DataService {
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
   mapView;
   mapConfig;
+  private _embed = false;
+  get embed() { return this._embed; }
+  set embed(embed) {
+    if (embed !== this._embed) {
+      this._embed = embed;
+      this._embedChange.next(embed);
+    }
+  }
+  private _embedChange = new BehaviorSubject<boolean>(false);
+  embedChange = this._embedChange.asObservable();
 
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
@@ -154,12 +164,14 @@ export class DataService {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
+    const embedParam = this.embed ? { embed: this.embed } : {};
 
     return {
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
-      locations: locations
+      locations: locations,
+      ...embedParam
     };
   }
 

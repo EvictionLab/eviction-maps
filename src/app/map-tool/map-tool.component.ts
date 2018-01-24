@@ -150,6 +150,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const locations = this.getLocationsFromString(queryParams['locations']);
       this.dataService.setLocations(locations);
     }
+    this.dataService.embed = queryParams['embed'] === 'true';
 
     this.cdRef.detectChanges();
   }
@@ -184,6 +185,8 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param feature returned from featureClick event
    */
   onFeatureSelect(feature: MapFeature) {
+    // Exit function if currently embedded
+    if (this.dataService.embed) { return; }
     const featureLonLat = this.dataService.getFeatureLonLat(feature);
     this.loader.start('feature');
     const maxLocations = this.dataService.addLocation(feature);
