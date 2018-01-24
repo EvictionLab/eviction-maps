@@ -50,6 +50,9 @@ export class UiSliderComponent implements AfterViewInit {
   ngAfterViewInit() {
     this.setSliderDimensions();
     this.updatePosition(this.value);
+    // need to notify of changes when modifying inside of AfterViewInit
+    // https://github.com/angular/angular/issues/14748
+    this.cdRef.detectChanges();
   }
 
   /**
