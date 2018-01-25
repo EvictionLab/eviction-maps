@@ -228,7 +228,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
   trackTooltips(index, item) { return item.id; }
 
   /** changes graph to either line or bar and resets tooltips */
-  changeGraphType(newType: string) { 
+  changeGraphType(newType: string) {
     if (typeof newType === 'string') {
       this.graphTypeChange.emit(newType.toLowerCase());
     }
