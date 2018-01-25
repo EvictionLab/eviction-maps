@@ -437,6 +437,9 @@
   &:nth-child(3):before {
     background:$color3;
   }
+  &:nth-child(4):before {
+    background:$color4;
+  }
   .line-tooltip-year {
     display:block;
     font-weight: 400;
