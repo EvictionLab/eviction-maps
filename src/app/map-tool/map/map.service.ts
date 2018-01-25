@@ -259,14 +259,11 @@ export class MapService {
    */
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();
-    const layerObj = {};
-    layerGroups.forEach(l => {
-      layerObj[l.id] = l.layerIds;
-    });
+    const layerPrefixes = layerGroups.map(l => l.id);
 
     mapStyle.layers.map(l => {
       const layerPrefix = l.id.split('_')[0];
-      if (layerObj.hasOwnProperty(layerPrefix)) {
+      if (layerPrefixes.indexOf(layerPrefix) > -1) {
         l.source = `us-${layerPrefix}-${sourceSuffix}`;
       }
       return l;
@@ -404,6 +401,11 @@ export class MapService {
    * @param newFeat
    */
   private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    // Check if the current feature has geometry
+    if (!currentFeat.geometry && newFeat.geometry) { return true; }
+    // Return false and exit early if the new feature has no geometry
+    if (!newFeat.geometry) { return false; }
+
     const bboxPoly = {
       type: 'Polygon',
       coordinates: currentFeat.hasOwnProperty('bbox') ?
