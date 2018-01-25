@@ -34,6 +34,7 @@ export class DataService {
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
+  activeGraphType = 'line';
   mapView;
   mapConfig;
   usAverage;
@@ -121,6 +122,11 @@ export class DataService {
     }
   }
 
+  /** Sets the type of graph to show in the data panel */
+  setGraphType(type: string) {
+    this.activeGraphType = type;
+  }
+
   /** */
   setLocations(locations) {
     locations.forEach(l => {
@@ -160,7 +166,8 @@ export class DataService {
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
-      locations: locations
+      locations: locations,
+      graph: this.activeGraphType
     };
   }
 

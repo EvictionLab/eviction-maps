@@ -151,6 +151,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const locations = this.getLocationsFromString(queryParams['locations']);
       this.dataService.setLocations(locations);
     }
+    if (queryParams['graph']) {
+      this.dataService.setGraphType(queryParams['graph']);
+    }
 
     this.cdRef.detectChanges();
   }

@@ -80,6 +80,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     }
     this._graphType = type;
   }
+  get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
   get barGraphSettings() {
     return {
@@ -228,7 +229,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
-    console.log('change graph type', newType);
     this.graphTypeChange.emit(newType.toLowerCase());
     this.tooltips = [];
   }
