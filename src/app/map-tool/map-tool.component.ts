@@ -151,6 +151,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const locations = this.getLocationsFromString(queryParams['locations']);
       this.dataService.setLocations(locations);
     }
+    if (queryParams['graph']) {
+      this.dataService.setGraphType(queryParams['graph']);
+    }
 
     this.cdRef.detectChanges();
   }
@@ -160,7 +163,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   setMapToolData(data) {
     // Set default zoom to 2 on mobile
-    if (this.platform.isMobile) {
+    if (this.platform.isMobile && data.mapConfig) {
       data.mapConfig.zoom = 2;
     }
     this.dataService.mapConfig = data.mapConfig;
