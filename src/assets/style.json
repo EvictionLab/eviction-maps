@@ -978,7 +978,7 @@
       }
     },
     {
-      "id": "cities_extra_small_labels",
+      "id": "city_extra_small_labels",
       "type": "symbol",
       "source": "us-cities-10",
       "source-layer": "cities-centers",
@@ -1033,7 +1033,7 @@
       }
     },
     {
-      "id": "cities_small_labels",
+      "id": "city_small_labels",
       "type": "symbol",
       "source": "us-cities-10",
       "source-layer": "cities-centers",
@@ -1087,7 +1087,7 @@
       }
     },
     {
-      "id": "cities_mid_labels",
+      "id": "city_mid_labels",
       "type": "symbol",
       "source": "us-cities-10",
       "source-layer": "cities-centers",
@@ -1145,7 +1145,7 @@
       }
     },
     {
-      "id": "cities_large_labels",
+      "id": "city_large_labels",
       "type": "symbol",
       "source": "us-cities-10",
       "source-layer": "cities-centers",
