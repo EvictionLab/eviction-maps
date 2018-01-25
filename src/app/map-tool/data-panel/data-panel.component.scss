@@ -31,7 +31,13 @@
 .data-header {
   @include dataPanelHeader(14px);
   text-align: center;  
-  margin: grid(5) grid(4);
+  margin: grid(3) grid(4) 0;
+  p { margin:0; }
+  // margin: grid(5) grid(4);
+}
+// increase header spacing for devices larger than mobile
+:host-context(.gt-mobile) {
+  .data-header { margin: grid(4) 0 grid(2); }
 }
 // increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
