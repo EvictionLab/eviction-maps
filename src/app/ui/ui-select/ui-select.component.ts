@@ -72,9 +72,6 @@ export class UiSelectComponent implements OnInit {
     if (this.dropdownList) {
       this.dropdownList.nativeElement.scrollTop = 0;
       this.setScrollMax();
-      if (this.open) {
-
-      }
     }
   }
 
