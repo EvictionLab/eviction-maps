@@ -76,6 +76,7 @@
       left: 0;
       right: 0;
       z-index: 10;
+      padding-bottom: grid(1); // pad a bit so glow doesn't get cutoff
     }
   }
   .language-select {
@@ -152,6 +153,7 @@
         top:auto; 
         left:auto; 
         right: auto; 
+        padding-bottom:0;
       }
     }
     // show language toggle

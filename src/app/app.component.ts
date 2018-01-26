@@ -83,6 +83,11 @@ export class AppComponent implements OnInit {
     if (itemId === 'menu') {
       this.menuActive = true;
     }
+    // scroll to top when map is selected
+    if (itemId === 'map') {
+      if (this.mapComponent) { this.mapComponent.goToTop(); }
+    }
+    // set the active menu item in the component so it knows
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }

@@ -37,7 +37,13 @@ input {
     border-radius: 0;
   }
   /deep/ {
-    @include predictive-search-colors($searchTextColor, $searchPlaceholderColor, $searchHighlightTextColor, $searchHighlightBackgroundColor);
+    .search-container .glyphicon,
+    .search-container .clear {
+      color: $searchPlaceholderColor;
+    }
+    .dropdown-menu a {
+        color: $searchTextColor;
+    }
     input::placeholder { color: $searchPlaceholderColor;  }
   }
   /deep/ typeahead-container {
