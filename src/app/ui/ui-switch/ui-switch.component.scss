@@ -3,7 +3,7 @@
 :host {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .switch-label {
@@ -11,7 +11,6 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align:center;
-  flex:1;
   &.left {
     @include defaultFontBold(14px);
     color: $onTextColor;
@@ -22,18 +21,13 @@
   }
 }
 
-:host-context(.gt-mobile) {
-  .switch-label {
-    flex:none;
-  }
-}
-
 .switch-container {
   position: relative;
   width: grid(7);
   height: grid(4);
   border-radius: grid(2);
   background: $switchTrackColor;
+  flex-shrink:0;
 }
 
 .switch-toggle {

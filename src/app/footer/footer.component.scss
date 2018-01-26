@@ -2,12 +2,12 @@
 
 footer {
   width:100%;
-  background: linear-gradient(180deg, #393939 0%, #2F2D2B 100%);
+  background: linear-gradient(180deg, $footerGradientFrom 0%, $footerGradientTo 100%);
   padding: grid(6) $pageMargin grid(8);
-  color: #fff;
+  color: $white;
   @include defaultFont(14px);
   a {
-    color: #fff;
+    color: $white;
     &:hover { color: $linkColor; }
   }
 }
@@ -30,8 +30,8 @@ footer {
     width: 100px;
     height: 96px;
     // logo colours
-    .cls-1 { fill: #fff; }
-    .cls-2 { fill: #e24000; }
+    .cls-1 { fill: $white; }
+    .cls-2 { fill: $color1; }
   }
 }
 
@@ -67,10 +67,12 @@ footer {
   }
   a {
     position:relative;
-    width: grid(7);
-    height: grid(7);
-    border: 5px solid #333;
+    border-color: $footerIconBorder;
+    color: $white;
     display:block;
+    &:hover {
+      border-color: $footerHoverIconBorder;
+    }
   }
   svg {
     @include fill-parent();
@@ -82,7 +84,7 @@ footer {
 }
 
 .footer-copyright {
-  color: #7f7f7f;
+  color: $grey1;
   text-align:center;
   @include defaultFont(12px);
 }

@@ -70,7 +70,7 @@ $grey0: #666;
 $grey1: #7F7F7F;
 $grey2: #A3A7A8;
 $grey3: #C6CCCF;
-$grey4: #efefef;
+$grey4: #efefef; 
 $grey5: #F4F7F9;
 $white: #fff;
 $color1: #e24000;
@@ -238,6 +238,13 @@ $tooltipFontColor: #fff;
 $iosSafariPadding: grid(4);
 $androidPadding: grid(2);
 
+
+// Footer
+
+$footerGradientFrom: #393939;
+$footerGradientTo: #2F2D2B;
+$footerIconBorder: #333;
+$footerHoverIconBorder: $white;
+
 // TODO: 
-// - standard values for shadow levels
 // - type definitions / sizes
