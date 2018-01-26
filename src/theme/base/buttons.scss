@@ -105,12 +105,17 @@ body {
     align-items:center;
     justify-content: center;
     svg path { fill: $grey1; }
-    &:hover { background: $grey5; }
-    &:focus {
-      border: 5px solid $grey5;
-      background: $white;
+    &.icon {
+      width: grid(7);
+      height: grid(7);
+      padding: 3px 0 0 0;
+      margin: 0 grid(0.5) 0 0;
+      &:last-child {
+        margin-right: 0;
+      }
     }
-
+    &.dark {
+      background: none;
+    }
   }
-
 }

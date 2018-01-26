@@ -92,7 +92,7 @@
         <div class="action-wrapper">
           <div class="social-icons">
             <a 
-              class="btn btn-border btn-social-icon btn-twitter" 
+              class="btn btn-border icon btn-twitter" 
               appSocialSharePopup 
               href="http://twitter.com/intent/tweet?status={{ tweetTranslation | translate:tweetParams }}" 
               aria-label="Share on Twitter"
@@ -103,7 +103,7 @@
               </svg>
             </a>
             <a
-              class="btn btn-border btn-social-icon btn-facebook"
+              class="btn btn-border icon btn-facebook"
               appSocialSharePopup 
               [href]="'https://www.facebook.com/sharer.php?u=' + getCurrentUrl()"  
               aria-label="Share on Facebook"
@@ -113,7 +113,7 @@
               </svg>
             </a>
             <a
-              class="btn btn-border btn-social-icon btn-email" 
+              class="btn btn-border icon btn-email" 
               [href]="'mailto:?subject=Eviction Lab&body=' + getCurrentUrl()" 
               (click)="checkMailto($event)" 
               aria-label="Share via E-mail"
@@ -125,7 +125,7 @@
             <ng-template #popTemplate>
               <app-ui-copy-clipboard [copyText]="getCurrentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
             </ng-template>
-            <button class="btn btn-border btn-social-icon btn-link" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" aria-label="Share link">
+            <button class="btn btn-border icon btn-link" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" aria-label="Share link">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
                 <path d="M16,6H13V7.9H16C18.26,7.9 20.1,9.73 20.1,12A4.1,4.1 0 0,1 16,16.1H13V18H16A6,6 0 0,0 22,12C22,8.68 19.31,6 16,6M3.9,12C3.9,9.73 5.74,7.9 8,7.9H11V6H8A6,6 0 0,0 2,12A6,6 0 0,0 8,18H11V16.1H8C5.74,16.1 3.9,14.26 3.9,12M8,13H16V11H8V13Z"
                 />
