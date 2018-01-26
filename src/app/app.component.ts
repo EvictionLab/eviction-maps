@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef
+  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
+  ElementRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
@@ -42,7 +43,8 @@ export class AppComponent implements OnInit {
     private router: Router,
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
-    private titleService: Title
+    private titleService: Title,
+    private el: ElementRef
   ) {
       this.toastr.setRootViewContainerRef(vRef);
   }
@@ -52,6 +54,7 @@ export class AppComponent implements OnInit {
     this.setupRoutes();
     this.translate.setDefaultLang('en');
     this.translate.use('en');
+    this.translate.onLangChange.subscribe((e) => this.updateHtmlLanguage());
     this.onWindowResize();
     // Add user agent-specific classes
     const userAgent = navigator.userAgent.toLowerCase();
@@ -80,6 +83,11 @@ export class AppComponent implements OnInit {
     if (itemId === 'menu') {
       this.menuActive = true;
     }
+    // scroll to top when map is selected
+    if (itemId === 'map') {
+      if (this.mapComponent) { this.mapComponent.goToTop(); }
+    }
+    // set the active menu item in the component so it knows
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;
     }
@@ -160,5 +168,15 @@ export class AppComponent implements OnInit {
     this.largerThanTablet = this.platform.isLargerThanTablet;
     this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
     this.largerThanLargeDesktop = this.platform.isLargerThanLargeDesktop;
+  }
+
+  /**
+   * Update the lang attribute on the html element
+   * Based on https://github.com/ngx-translate/core/issues/565
+   */
+  private updateHtmlLanguage() {
+    const lang = document.createAttribute('lang');
+    lang.value = this.translate.currentLang;
+    this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }
 }

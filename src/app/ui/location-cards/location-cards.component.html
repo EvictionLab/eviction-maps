@@ -9,17 +9,18 @@
     </svg>
     <h1 class="card-heading">{{f.properties.n}}</h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
-    <button [attr.aria-label]="'Remove ' + f.properties.n" class="btn btn-close" (click)="dismissedCard.emit(f)">
+    <button [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" class="btn btn-close" (click)="dismissedCard.emit(f)">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="card-content">
     <ul class="card-stats">
       <li *ngFor="let propName of cardPropertyKeys; let i = index;" [class]="propName">
+        <span *ngIf="i === 1 && usAverage && f.properties[propName + '-' + abbrYear] > 0" class="card-stat-comparison">{{ f.properties[propName + '-' + abbrYear] > usAverage[propName + '-' + abbrYear] ? '+' : '' }}{{ f.properties[propName + '-' + abbrYear] - usAverage[propName + '-' + abbrYear] | number : '1.1-1' }} {{ 'DATA.US_AVERAGE' | translate }}</span>
         <span class="card-stat-label">{{ cardProperties[propName] | translate }}</span>
         <span *ngIf="propName !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[propName + '-' + abbrYear] >= 0)">
           <span *ngIf="f.properties[propName + '-' + abbrYear] >= 0">{{ prefix(propName) }}{{ (f.properties[propName + '-' + abbrYear] | number) }}{{ suffix(propName) }}</span>
-          <span *ngIf="!(f.properties[propName + '-' + abbrYear] >= 0)">Unavailable</span>
+          <span *ngIf="!(f.properties[propName + '-' + abbrYear] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
         </span>
       </li>
     </ul>

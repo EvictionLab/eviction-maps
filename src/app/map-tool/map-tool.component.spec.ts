@@ -30,6 +30,7 @@ export class DataServiceStub {
   mapView;
   mapConfig;
   getRouteArray() { return []; }
+  loadUSAverage() {}
 }
 
 describe('MapToolComponent', () => {

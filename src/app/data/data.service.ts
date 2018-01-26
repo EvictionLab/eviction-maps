@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
@@ -34,8 +34,10 @@ export class DataService {
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = DataAttributes[0];
   activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
+  activeGraphType = 'line';
   mapView;
   mapConfig;
+  usAverage;
 
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
@@ -120,6 +122,11 @@ export class DataService {
     }
   }
 
+  /** Sets the type of graph to show in the data panel */
+  setGraphType(type: string) {
+    this.activeGraphType = type;
+  }
+
   /** */
   setLocations(locations) {
     locations.forEach(l => {
@@ -159,7 +166,8 @@ export class DataService {
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
-      locations: locations
+      locations: locations,
+      graph: this.activeGraphType
     };
   }
 
@@ -213,7 +221,7 @@ export class DataService {
    */
   updateLocation(feature: MapFeature) {
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.bbox)) {
+    if (!(feature.properties.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
     const geoids = this.activeFeatures.map(f => f.properties.GEOID);
@@ -301,7 +309,23 @@ export class DataService {
       +feature.properties['east'],
       +feature.properties['north']
     ];
+    // Add evictions-per-day property
+    Object.keys(feature.properties)
+      .filter(p => p.startsWith('e-'))
+      .forEach(p => {
+        const evictions = +feature.properties[p];
+        const yearSuffix = p.split('-').slice(1)[0];
+        const daysInYear = +yearSuffix % 4 === 0 ? 366 : 365;
+        const evictionsPerDay = evictions > 0 ? +(evictions / daysInYear).toFixed(2) : -1;
+        feature.properties[`epd-${yearSuffix}`] = evictionsPerDay;
+      });
     return feature;
+  }
+
+  loadUSAverage() {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http.get(environment.usAverageDataUrl, { headers: headers })
+      .subscribe(data => this.usAverage = data);
   }
 
   private stripYearFromAttr(attr: string) {

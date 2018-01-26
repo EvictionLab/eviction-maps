@@ -217,13 +217,17 @@ export class MapService {
       // Otherwise, check if currently added or use bounding box
       if (
         f.properties['layerId'] === layerId &&
-        this.hasRenderedFeatures(f.properties['layerId'], f)
+        this.hasRenderedFeatures(f.properties['layerId'] as string, f)
       ) {
-        feat = this.getUnionFeature(f.properties['layerId'], f);
+        feat = this.getUnionFeature(f.properties['layerId'] as string, f);
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );
-        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+        if (
+          geoidFeatures.length > 0 &&
+          feat !== null &&
+          !this.shouldUpdateFeature(geoidFeatures[0], feat)
+        ) {
           feat = geoidFeatures[0];
         }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
@@ -255,14 +259,11 @@ export class MapService {
    */
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();
-    const layerObj = {};
-    layerGroups.forEach(l => {
-      layerObj[l.id] = l.layerIds;
-    });
+    const layerPrefixes = layerGroups.map(l => l.id);
 
     mapStyle.layers.map(l => {
       const layerPrefix = l.id.split('_')[0];
-      if (layerObj.hasOwnProperty(layerPrefix)) {
+      if (layerPrefixes.indexOf(layerPrefix) > -1) {
         l.source = `us-${layerPrefix}-${sourceSuffix}`;
       }
       return l;
@@ -400,6 +401,11 @@ export class MapService {
    * @param newFeat
    */
   private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    // Check if the current feature has geometry
+    if (!currentFeat.geometry && newFeat.geometry) { return true; }
+    // Return false and exit early if the new feature has no geometry
+    if (!newFeat.geometry) { return false; }
+
     const bboxPoly = {
       type: 'Polygon',
       coordinates: currentFeat.hasOwnProperty('bbox') ?
