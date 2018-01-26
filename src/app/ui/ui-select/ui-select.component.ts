@@ -72,6 +72,9 @@ export class UiSelectComponent implements OnInit {
     if (this.dropdownList) {
       this.dropdownList.nativeElement.scrollTop = 0;
       this.setScrollMax();
+      if (this.open) {
+
+      }
     }
   }
 
@@ -82,8 +85,12 @@ export class UiSelectComponent implements OnInit {
    */
   setListEls() {
     if (this.dropdownList) {
+      const currentIndex = this.values.findIndex((v) => this.selectedValue === v);
+      this.focusIndex = currentIndex > -1 ? currentIndex : 0;
       this.listEls = this.dropdownList.nativeElement.getElementsByClassName('dropdown-item');
-      this.listEls[this.focusIndex].focus();
+      // sometimes the menu toggle button steals focus when opening the menu
+      // this timeout ensures the currently selected item gets focus when the menu opens
+      setTimeout(() => { this.listEls[this.focusIndex].focus(); }, 10);
     } else {
       if (this.listTimeout) { clearTimeout(this.listTimeout); }
       this.listTimeout = setTimeout(() => { this.setListEls(); }, 200);
