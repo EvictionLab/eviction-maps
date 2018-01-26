@@ -135,7 +135,6 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() clickedCardHeader: EventEmitter<any> = new EventEmitter();
   @Output() dismissedCard: EventEmitter<any> = new EventEmitter();
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
-  @Output() featureHover: EventEmitter<any> = new EventEmitter();
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
   @Output() selectedLayerChange: EventEmitter<MapLayerGroup> = new EventEmitter();
@@ -299,9 +298,6 @@ export class MapComponent implements OnInit, OnChanges {
   onMapReady(map) {
     this._mapInstance = map;
     this.map.setMapInstance(map);
-    if (this.gtMobile) {
-      this.map.setupHoverPopup(this.mapEventLayers);
-    }
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();

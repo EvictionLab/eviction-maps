@@ -15,9 +15,13 @@ describe('MapService', () => {
 
     featureStub = {
       type: 'Feature',
-      bbox: [-1, -1, 1, 1],
-      properties: { n: 'name', layerId: 'layer', GEOID: '1' },
-      geometry: { type: 'Polygon', coordinates: [] }
+      bbox: [1, 1, 2, 2],
+      properties: {
+        n: 'name', layerId: 'layer', GEOID: '1',
+        north: 1, south: 2, west: 1, east: 2.01
+      },
+      geometry: { type: 'Polygon', coordinates: [[[1, 2], [2, 2], [2, 1], [1, 1], [1, 2]]]
+      }
     } as GeoJSON.Feature<GeoJSON.Polygon>;
     mapFeatureStub = featureStub as MapFeature;
     mapboxStub = {
@@ -32,13 +36,31 @@ describe('MapService', () => {
   it('should return null from getUnionFeature with an empty array',
     inject([MapService], (service: MapService) => {
       mapboxStub.queryRenderedFeatures = (a, b) => [];
+      const fakeFeature = featureStub;
+      fakeFeature.properties['east'] = 2;
       service.setMapInstance(mapboxStub);
       expect(service.getUnionFeature('layer', featureStub)).toEqual(null);
     }
   ));
 
-  it('should return a Feature if features returned from getUnionFeature',
+  it('should call queryRenderedFeatures in getUnionFeature if area is bbox',
     inject([MapService], (service: MapService) => {
+      const fakeFeature = featureStub;
+      fakeFeature.properties['east'] = 2;
+      fakeFeature.properties['test'] = true;
+      mapboxStub.queryRenderedFeatures = (a, b) => [fakeFeature];
+      spyOn(service, 'getUnionFeature').and.callFake(function () {
+        const feat = arguments[1];
+        expect(feat.properties.test).toBeTruthy();
+      });
+      service.setMapInstance(mapboxStub);
+      service.getUnionFeature('layer', featureStub);
+    }
+  ));
+
+  it('should not call queryRenderedFeatures in getUnionFeature if not bbox, but close to area',
+    inject([MapService], (service: MapService) => {
+      mapboxStub.queryRenderedFeatures = (a, b) => [];
       service.setMapInstance(mapboxStub);
       expect(service.getUnionFeature('layer', featureStub)).toBeTruthy();
     }

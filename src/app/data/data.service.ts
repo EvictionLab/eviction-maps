@@ -204,7 +204,7 @@ export class DataService {
       .find(f => f.properties.GEOID === feature.properties.GEOID);
     if (exists) { return null; }
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.bbox)) {
+    if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
     const maxLocations = (this.activeFeatures.length >= 3);
@@ -221,7 +221,7 @@ export class DataService {
    */
   updateLocation(feature: MapFeature) {
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.layerId)) {
+    if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
     const geoids = this.activeFeatures.map(f => f.properties.GEOID);
