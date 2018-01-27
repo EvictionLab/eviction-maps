@@ -676,6 +676,10 @@
       "id": "hover-outline",
       "type": "line",
       "source": "hover",
+      "filter": [
+        "has",
+        "hover"
+      ],
       "layout": {},
       "paint": {
         "line-width": 5,
