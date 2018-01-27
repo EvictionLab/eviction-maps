@@ -119,30 +119,28 @@ export class MapboxComponent implements AfterViewInit {
     this.map = map;
     this.mapStyle = map.getStyle();
     this.setupEmitters();
-    this.zone.runOutsideAngular(() => {
-      // Function to process observable
-      const distinctFeature = (obs) => {
-        return obs
-          .map(e => e.features.length > 0 ? e.features[0] : null)
-          .filter(e => e !== null)
-          .distinctUntilChanged((prev, next) => {
-            if (prev === next) { return false; }
-            if (prev === null || next === null) { return true; }
-            return prev['properties']['GEOID'] === next['properties']['GEOID'];
-          });
-      };
+    if (this.platform.isLargerThanMobile) {
+      this.zone.runOutsideAngular(() => {
+        // Function to process observable
+        const distinctFeature = (obs) => {
+          return obs
+            .map(e => e.features.length > 0 ? e.features[0] : null)
+            .filter(e => e !== null)
+            .distinctUntilChanged((prev, next) => {
+              if (prev === next) { return false; }
+              if (prev === null || next === null) { return true; }
+              return prev['properties']['GEOID'] === next['properties']['GEOID'];
+            });
+        };
 
-      distinctFeature(this.featureMouseMove.debounceTime(150))
-        .subscribe(feat => this.updateActiveFeature(feat));
-
-      if (this.platform.isLargerThanMobile) {
         this.featureMouseMove
           .subscribe(e => this.updatePopupLocation(e));
-
+        distinctFeature(this.featureMouseMove.debounceTime(150))
+          .subscribe(feat => this.updateActiveFeature(feat));
         distinctFeature(this.featureMouseMove.debounceTime(50))
           .subscribe(feat => this.updatePopupContent(feat));
-      }
-    });
+      });
+    }
     this.ready.emit(this.map);
   }
 
@@ -156,9 +154,11 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
-      this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
-      this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
-      this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
+      if (this.platform.isLargerThanMobile) {
+        this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
+        this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
+        this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
+      }
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
           this.featureClick.emit(e.features[0]);
