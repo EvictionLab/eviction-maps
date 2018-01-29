@@ -17,14 +17,15 @@ import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
 import { MapFeature } from '../map-tool/map/map-feature';
-import { DataAttributes, BubbleAttributes } from './data-attributes';
+import { DataAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
   dataLevels = DataLevels;
-  dataAttributes = DataAttributes;
-  bubbleAttributes = BubbleAttributes;
+  choroplethAttributes = DataAttributes.filter(d => d.type === 'choropleth');
+  bubbleAttributes = DataAttributes.filter(d => d.type === 'bubble');
+  cardAttributes = DataAttributes.filter(d => d.id !== 'none');
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
@@ -32,8 +33,8 @@ export class DataService {
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
-  activeDataHighlight: MapDataAttribute = DataAttributes[0];
-  activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
+  activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
+  activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
   activeGraphType = 'line';
   mapView;
   mapConfig;
@@ -58,7 +59,6 @@ export class DataService {
     });
   }
 
-
   updateLanguage(translations) {
     if (translations.hasOwnProperty('HEADER')) {
       const header = translations['HEADER'];
@@ -70,14 +70,17 @@ export class DataService {
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
-      this.dataAttributes = DataAttributes.map((a) => {
+      this.choroplethAttributes = this.choroplethAttributes.map((a) => {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
-      this.bubbleAttributes = BubbleAttributes.map((a) => {
+      this.bubbleAttributes = this.bubbleAttributes.map((a) => {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
+      this.cardAttributes = this.choroplethAttributes
+        .concat(this.bubbleAttributes)
+        .filter(d => d.id !== 'none');
     }
     // translate geography layers
     if (translations.hasOwnProperty('LAYERS')) {
@@ -94,7 +97,7 @@ export class DataService {
    * @param id string corresponding to the `MapDataAttribute` in `DataAttributes`
    */
   setChoroplethHighlight(id: string) {
-    const dataAttr = this.dataAttributes.find((attr) => attr.id === id);
+    const dataAttr = this.choroplethAttributes.find((attr) => attr.id === id);
     if (dataAttr) {
       this.activeDataHighlight = dataAttr;
     }

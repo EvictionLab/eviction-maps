@@ -49,13 +49,12 @@ export class LocationCardsComponent implements OnInit {
   @Input() features: Array<any> = [];
   @Input() usAverage: Object;
   @Input() year = 2010;
-  @Input() percentProps: Array<string>;
-  @Input() dollarProps: Array<string>;
   @Input()
   set cardProperties(value) {
     if (!value) { return; }
     this._cardProps = value;
-    this.cardPropertyKeys = Object.keys(value);
+    this.percentProps = value.filter(p => p.format === 'percent').map(p => p.id);
+    this.dollarProps = value.filter(p => p.format === 'dollar').map(p => p.id);
   }
   get cardProperties() {
     return this._cardProps;
@@ -72,6 +71,8 @@ export class LocationCardsComponent implements OnInit {
   cardPropertyKeys: Array<string>;
   get abbrYear() { return this.year.toString().slice(-2); }
   private _cardProps;
+  private percentProps;
+  private dollarProps;
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }

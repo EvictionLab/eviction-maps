@@ -15,18 +15,17 @@
   </div>
   <div class="card-content">
     <ul class="card-stats">
-      <li *ngFor="let propName of cardPropertyKeys; let i = index;" [class]="propName">
-        <span *ngIf="i === 1 && usAverage && f.properties[propName + '-' + abbrYear] > 0" class="card-stat-comparison">{{
-          f.properties[propName + '-' + abbrYear] > usAverage[propName + '-' + abbrYear] ? '+' : ''
-        }}{{
-          (f.properties[propName + '-' + abbrYear] - usAverage[propName + '-' + abbrYear]).toFixed(1) !== '0.0' ?
-            (f.properties[propName + '-' + abbrYear] - usAverage[propName + '-' + abbrYear] | number : '1.1-1') : '='
-        }} {{ 'DATA.US_AVERAGE' | translate }}
+      <li *ngFor="let prop of cardProperties; let i = index; let propYear = prop.id + '-' + abbrYear;" [class]="prop.id">
+        <span *ngIf="i === 1 && usAverage && f.properties[propYear] > 0" class="card-stat-comparison">
+          {{ f.properties[propYear] > usAverage[propYear] ? '+' : '' }}{{
+          (f.properties[propYear] - usAverage[propYear]).toFixed(1) !== '0.0' ?
+            (f.properties[propYear] - usAverage[propYear] | number : '1.1-1') : '='
+          }} {{ 'DATA.US_AVERAGE' | translate }}
         </span>
-        <span class="card-stat-label">{{ cardProperties[propName] | translate }}</span>
-        <span *ngIf="propName !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[propName + '-' + abbrYear] >= 0)">
-          <span *ngIf="f.properties[propName + '-' + abbrYear] >= 0">{{ prefix(propName) }}{{ (f.properties[propName + '-' + abbrYear] | number) }}{{ suffix(propName) }}</span>
-          <span *ngIf="!(f.properties[propName + '-' + abbrYear] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+        <span class="card-stat-label">{{ prop.name }}</span>
+        <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[propYear] >= 0)">
+          <span *ngIf="f.properties[propYear] >= 0">{{ prefix(prop.id) }}{{ (f.properties[propYear] | number) }}{{ suffix(prop.id) }}</span>
+          <span *ngIf="!(f.properties[propYear] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
         </span>
       </li>
     </ul>

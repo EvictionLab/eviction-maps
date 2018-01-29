@@ -10,6 +10,7 @@ import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { SocialSharePopupDirective } from './social-share-popup.directive';
 import { PlatformService } from '../../platform.service';
+import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
 
 @NgModule({
   exports: [ DataPanelComponent ],
@@ -21,7 +22,12 @@ import { PlatformService } from '../../platform.service';
     TranslateModule,
     PopoverModule.forRoot()
   ],
-  declarations: [ DataPanelComponent, DownloadFormComponent, SocialSharePopupDirective ],
+  declarations: [
+    DataPanelComponent,
+    DownloadFormComponent,
+    SocialSharePopupDirective,
+    EvictionGraphsComponent
+  ],
   providers: [ PlatformService ],
   entryComponents: [ DataPanelComponent, DownloadFormComponent ]
 })

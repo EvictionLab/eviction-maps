@@ -50,6 +50,7 @@
       (yearChange)="updateRoute()"
       [(graphType)]="dataService.activeGraphType"
       (graphTypeChange)="updateRoute()"
+      [cardProperties]="dataService.cardAttributes"
       [locations]="dataService.activeFeatures" 
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"

@@ -12,82 +12,11 @@
     [features]="displayLocations"
     [usAverage]="dataService.usAverage"
     [year]="year"
-    [cardProperties]="cardProps"
+    [cardProperties]="cardProperties"
     (dismissedCard)="locationRemoved.emit($event)"
     (locationAdded)="locationAdded.emit($event)"
-    [dollarProps]="dollarProps"
-    [percentProps]="percentProps"
   ></app-location-cards>
-  <div class="graph-container">
-    <div class="data-content-inner">
-      <div class="graph-header">
-        <div class="graph-header-inner">
-          <app-ui-switch 
-            tabindex="0"
-            [leftLabel]="'DATA.JUDGMENTS'| translate" 
-            [rightLabel]="'DATA.FILINGS' | translate" 
-            (switched)="changeGraphProperty($event)"
-          ></app-ui-switch>
-          <div class="graph-year-select">
-            <span class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
-            <div class="graph-select" *ngIf="graphType === 'line'">
-              <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="updateLineYears($event, lineEndYear)"></app-ui-select>
-              <span>to</span>
-              <app-ui-select class="z0" [values]="endSelect" [selectedValue]="maxYear" (change)="updateLineYears(lineStartYear, $event)"></app-ui-select>
-            </div>
-            <div class="graph-select" *ngIf="graphType === 'bar'">
-              <app-ui-select class="z0" [selectedValue]="year" [values]="barYearSelect"
-                (change)="updateBarYear($event)"></app-ui-select>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="graph-area" [class.line-graph]="graphType === 'line'" [class.bar-graph]="graphType === 'bar'">
-        <app-ui-toggle
-          class="graph-type-toggle"
-          [attr.aria-label]="'DATA.GRAPH_TYPE_LABEL' | translate"
-          labelProperty="label"
-          [values]="graphTypeOptions"
-          [selectedValue]="graphType"
-          (selectedValueChanged)="changeGraphType($event)"
-        ></app-ui-toggle>
-        <app-graph [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
-          <div class="line-tooltips" *ngIf="graphType === 'line'">
-            <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-                [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-                [style.display]="tooltip.y === undefined ? 'none' : 'inherit'">
-              <span class="line-tooltip-value">{{tooltip.y}}</span>
-            </div>
-            <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>            
-          </div>
-          <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-            <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
-              <span *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : ('DATA.UNAVAILABLE' | translate) }}</span>
-            </div>
-          </div>
-        </app-graph>
-      </div>
-      <div class="graph-legend">
-        <ul>
-          <li *ngFor="let location of allLocations; let i = index; let last = last" [class.us-average]="last" [class.active]="showUS && last">
-            <svg class="legend-marker marker" viewBox="0 0 40 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <path d="M20,0 C29.8203125,0 40,6.75551115 40,19.0800608 C40,27.2964272 33.3333333,40.2697402 20,58 C6.66666667,40.3015304 3.48313052e-16,27.3282173 0,19.0800608 C0,6.70782593 10.1796875,0 20,0 Z M19.5,29.7038377 C24.4705627,29.7038377 28.5,25.6678161 28.5,20.6891311 C28.5,15.7104461 24.4705627,11.6744245 19.5,11.6744245 C14.5294373,11.6744245 10.5,15.7104461 10.5,20.6891311 C10.5,25.6678161 14.5294373,29.7038377 19.5,29.7038377 Z" id="Combined-Shape"></path>
-            </svg>
-            <span class="legend-label">{{ location.properties["n"] }}</span>
-            <button [attr.aria-label]="(!showUS && last ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':location.properties.n}" class="btn btn-close" (click)="last ? toggleUS() : locationRemoved.emit(location)">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <p class="legend-data">
-              <span *ngIf="graphType === 'bar' && location.properties[graphProp + '-' + abbrYear(year)] >= 0; else unavailableBar">{{ year }}: {{ location.properties[graphProp + "-" + abbrYear(year)] }}{{ suffix(graphProp) }}</span>
-              <span *ngIf="graphType === 'line' && tooltips[i] && tooltips[i].y !== undefined && location.properties[graphProp + '-' + abbrYear(tooltips[i].x)] >= 0; else unavailableLine">{{ tooltips[i].x }}: {{ location.properties[graphProp + "-" + abbrYear(tooltips[i].x)] }}{{ suffix(graphProp) }}</span>
-              <ng-template #unavailableBar><span *ngIf="graphType === 'bar'">{{ year }}: {{ 'DATA.UNAVAILABLE' | translate }}</span></ng-template>
-              <ng-template #unavailableLine><span *ngIf="graphType === 'line' && tooltips[i] && getTooltipsYear(tooltips) !== null">{{ getTooltipsYear(tooltips) }}: {{ 'DATA.UNAVAILABLE' | translate }}</span></ng-template>
-            </p>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <app-eviction-graphs></app-eviction-graphs>
   <div class="data-content">
     <div class="data-content-inner">
       <div class="data-panel-footer">

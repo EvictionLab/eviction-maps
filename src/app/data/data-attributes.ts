@@ -3,7 +3,7 @@ import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 export const DataAttributes: Array<MapDataAttribute> = [
   {
     'id': 'none',
-    'name': 'None',
+    'type': 'choropleth',
     'langKey': 'STATS.NONE',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
@@ -14,7 +14,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'p',
-    'name': 'Population',
+    'type': 'choropleth',
     'langKey': 'STATS.POPULATION',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
@@ -68,8 +68,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pr',
-    'name': 'Poverty Rate',
+    'type': 'choropleth',
     'langKey': 'STATS.POVERTY_RATE',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -84,8 +85,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pro',
-    'name': '% Renter Homes',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_RENTER',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -100,8 +102,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'mgr',
-    'name': 'Median Gross Rent',
+    'type': 'choropleth',
     'langKey': 'STATS.MED_RENT',
+    'format': 'dollar',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -116,8 +119,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'mpv',
-    'name': 'Median Property Value',
+    'type': 'choropleth',
     'langKey': 'STATS.MED_PROPERTY',
+    'format': 'dollar',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -132,8 +136,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'mhi',
-    'name': 'Median Household Income',
+    'type': 'choropleth',
     'langKey': 'STATS.MED_INCOME',
+    'format': 'dollar',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -148,8 +153,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pw',
-    'name': '% White',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_WHITE',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -164,8 +170,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'paa',
-    'name': '% African American',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_AFR_AMER',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -180,9 +187,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'ph',
-    'name': '% Hispanic/Latinx',
     'langKey': 'STATS.PCT_HISPANIC',
     'default': 'rgba(0, 0, 0, 0)',
+    'format': 'percent',
     'stops': {
       'default': [
         [-1.0, 'rgba(198, 204, 207, 0.6)'],
@@ -196,8 +203,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pai',
-    'name': '% American Indian/Alaskan Native',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_AMER_INDIAN',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -212,8 +220,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pa',
-    'name': '% Asian',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_ASIAN',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -228,8 +237,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pnp',
-    'name': '% Native Hawaiian or Pacific Islander',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_HAW_ISL',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -244,8 +254,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'pm',
-    'name': '% Multiple Races',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_MULTIPLE',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -260,8 +271,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'po',
-    'name': '% Other Race',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_OTHER',
+    'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -273,13 +285,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [100, 'rgba(37, 51, 132, 0.9)']
       ]
     }
-  }
-];
-
-export const BubbleAttributes: Array<MapDataAttribute> = [
+  },
   {
     'id': 'none',
-    'name': 'None',
+    'type': 'bubble',
     'langKey': 'STATS.NONE',
     'default': 0,
     'expressions': {
@@ -295,8 +304,9 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'er',
-    'name': 'Judgment Rate',
+    'type': 'bubble',
     'langKey': 'STATS.JUDGMENT_RATE',
+    'format': 'percent',
     'default': 0,
     'expressions': {
       'default': [
@@ -362,8 +372,9 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'efr',
-    'name': 'Filing Rate',
+    'type': 'bubble',
     'langKey': 'STATS.FILING_RATE',
+    'format': 'percent',
     'default': 0,
     'expressions': {
       'default': [
@@ -427,12 +438,4 @@ export const BubbleAttributes: Array<MapDataAttribute> = [
       ]
     }
   }
-];
-
-export const PercentProps: Array<string> = [
-  'pr', 'pro', 'pw', 'paa', 'ph', 'pai', 'pa', 'pnp', 'pm', 'po', 'er', 'efr'
-];
-
-export const DollarProps: Array<string> = [
-  'mgr', 'mpv', 'mhi'
 ];
