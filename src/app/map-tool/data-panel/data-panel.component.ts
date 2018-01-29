@@ -251,7 +251,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
       endYear: this.lineEndYear,
       features: this.displayLocations,
       dataProp: this.dataService.activeDataHighlight.id,
-      bubbleProp: this.dataService.activeBubbleHighlight.id
+      bubbleProp: this.dataService.activeBubbleHighlight.id,
+      showUsAverage: this.showUS,
+      usAverage: this.dataService.usAverage
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }
