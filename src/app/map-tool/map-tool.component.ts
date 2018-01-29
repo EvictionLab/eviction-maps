@@ -8,7 +8,6 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
-import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
@@ -67,16 +66,19 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
     ).take(1).subscribe(this.setRouteParams.bind(this));
 
+    // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')
       .debounceTime(250)
       .subscribe(e => this.onWheel());
     Observable.fromEvent(this.document, 'wheel')
       .throttleTime(50)
-      .filter(() => !this.wheelEvent) // only fire when wheel events are not active
+      // only fire when wheel event hasn't been triggered yet
+      .filter(() => !this.wheelEvent)
       .subscribe(e => this.onBeginWheel());
     Observable.fromEvent(window, 'scroll')
-      .throttleTime(10)
-      .subscribe(e => this.onScroll(e));
+      // trailing scroll event is needed so verticalOffset = 0 event is fired
+      .throttleTime(10, undefined, { trailing: true, leading: true })
+      .subscribe(e => this.onScroll());
   }
 
   /**
@@ -101,13 +103,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   /**
    * Set wheel flag while scrolling with the wheel
    */
-  onBeginWheel() { this.wheelEvent = true; }
+  onBeginWheel() {
+    this.wheelEvent = true;
+  }
 
   /**
    * If scrolled to the top, enable the zoom.  Unless
    * there is a wheel event currently happening.
    */
-  onScroll(e) {
+  onScroll() {
     this.verticalOffset = this.getVerticalOffset();
     if (!this.wheelEvent) {
       this.enableZoom = (this.verticalOffset === 0);
