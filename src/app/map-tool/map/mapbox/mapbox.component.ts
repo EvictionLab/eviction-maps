@@ -5,6 +5,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
 import { PlatformService } from '../../../platform.service';
+import { ToggleScrollService } from '../../../toggle-scroll.service';
 import { MapLayerGroup } from '../../map/map-layer-group';
 import { MapFeature } from '../../map/map-feature';
 import 'rxjs/add/observable/fromEvent';
@@ -38,7 +39,8 @@ export class MapboxComponent implements AfterViewInit {
   constructor(
     private mapService: MapService,
     private platform: PlatformService,
-    private zone: NgZone
+    private zone: NgZone,
+    private scroll: ToggleScrollService
   ) { }
 
   /**
@@ -151,8 +153,12 @@ export class MapboxComponent implements AfterViewInit {
    */
   private setupEmitters() {
     this.map.on('moveend', (e) => this.moveEnd.emit(e));
+    this.map.on('zoomstart', (e) => this.scroll.allowScroll = false);
     // Emit feature on zoom end to account for geography details changing across zooms
-    this.map.on('zoomend', () => this.zoomEnd.emit(this.map.getZoom()));
+    this.map.on('zoomend', () => {
+      this.scroll.allowScroll = true;
+      this.zoomEnd.emit(this.map.getZoom());
+    });
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {

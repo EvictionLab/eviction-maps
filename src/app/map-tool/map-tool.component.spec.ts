@@ -10,6 +10,7 @@ import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from '../loading.service';
+import { ToggleScrollService } from '../toggle-scroll.service';
 
 export class TranslateServiceStub {
   public get(key: any): any {
@@ -51,7 +52,8 @@ describe('MapToolComponent', () => {
         providers: [
           {provide: DataService, useClass: DataServiceStub },
           TranslateService,
-          LoadingService
+          LoadingService,
+          ToggleScrollService
         ]
       }
     })
