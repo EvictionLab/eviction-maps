@@ -15,7 +15,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
-  styleUrls: ['./mapbox.component.scss']
+  styleUrls: ['./mapbox.component.scss'],
+  providers: [ ToggleScrollService ]
 })
 export class MapboxComponent implements AfterViewInit {
   private map: mapboxgl.Map;
