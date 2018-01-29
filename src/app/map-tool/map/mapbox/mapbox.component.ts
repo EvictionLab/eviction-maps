@@ -138,10 +138,10 @@ export class MapboxComponent implements AfterViewInit {
 
         this.featureMouseMove
           .subscribe(e => this.updatePopupLocation(e));
+        distinctFeature(this.featureMouseMove)
+          .subscribe(feat => this.updatePopupContent(feat));
         distinctFeature(this.featureMouseMove.debounceTime(150))
           .subscribe(feat => this.updateActiveFeature(feat));
-        distinctFeature(this.featureMouseMove.debounceTime(50))
-          .subscribe(feat => this.updatePopupContent(feat));
       });
     }
     this.ready.emit(this.map);
