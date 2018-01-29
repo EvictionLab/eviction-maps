@@ -47,6 +47,7 @@ import { DecimalPipe } from '@angular/common';
 export class LocationCardsComponent implements OnInit {
   @Input() allowAddLocation = false;
   @Input() features: Array<any> = [];
+  @Input() usAverage: Object;
   @Input() year = 2010;
   @Input() percentProps: Array<string>;
   @Input() dollarProps: Array<string>;

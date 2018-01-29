@@ -18,6 +18,8 @@ import { DollarProps, PercentProps } from '../../data/data-attributes';
   providers: [ TranslatePipe ]
 })
 export class DataPanelComponent implements OnInit, OnChanges {
+
+  /** Year input and output (allows double binding) */
   private _year: number;
   @Input() set year(newYear: number) {
     if (newYear !== this._year) {
@@ -27,19 +29,70 @@ export class DataPanelComponent implements OnInit, OnChanges {
   }
   get year() { return this._year; }
   @Output() yearChange = new EventEmitter();
-  @Input() locations: MapFeature[] = [];
+
+  /** Location Attributes */
+  displayLocations: MapFeature[] = []; // Locations to use for location cards, download
+  allLocations: MapFeature[] = []; // Locations including US average if toggled
+  @Input() set locations(locations: MapFeature[]) {
+    this.displayLocations = locations;
+    this.allLocations = locations.concat([this.createUsAverageFeature()]);
+  }
+  get locations() { return this.displayLocations; }
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+
+  /** Map of locations attributes to their translation key */
+  cardProps = {
+    'epd': 'STATS.JUDGMENTS_PER_DAY',
+    'er': 'STATS.JUDGMENT_RATE',
+    'e': 'STATS.JUDGMENTS',
+    'efr': 'STATS.FILING_RATE',
+    'ef': 'STATS.FILINGS',
+    'pr': 'STATS.POVERTY_RATE',
+    'p': 'STATS.POPULATION',
+    'pro': 'STATS.PCT_RENTER',
+    'mgr': 'STATS.MED_RENT',
+    'mpv': 'STATS.MED_PROPERTY',
+    'mhi': 'STATS.MED_INCOME',
+    'divider': 'STATS.DEMOGRAPHICS',
+    'pw': 'STATS.PCT_WHITE',
+    'paa': 'STATS.PCT_AFR_AMER',
+    'ph': 'STATS.PCT_HISPANIC',
+    'pai': 'STATS.PCT_AMER_INDIAN',
+    'pa': 'STATS.PCT_ASIAN',
+    'pnp': 'STATS.PCT_HAW_ISL',
+    'pm': 'STATS.PCT_MULTIPLE',
+    'po': 'STATS.PCT_OTHER'
+  };
+  dollarProps = DollarProps; // property map for props that should be formatted as dollars
+  percentProps = PercentProps; // property map for props that should be formatted as percent
+
+  /**
+   * Graph attributes
+   * TODO: refactor into separate component as part of the data-panel module
+   */
+
+  /** Graph type input and output (allows double binding) */
+  private _graphType = 'line';
+  @Input() set graphType(type: string) {
+    if (this._graphType !== type) {
+      this.graphTypeChange.emit(type);
+    }
+    this._graphType = type;
+  }
+  get graphType() { return this._graphType; }
+  @Output() graphTypeChange = new EventEmitter();
   get barGraphSettings() {
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations.map(l => l.properties.n).join(', '),
+        locations: this.getLocations()
+          .map(l => l.properties.n).join(', '),
         year: this.year
       }),
       description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations
+        locations: this.getLocations()
           .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
           .join(', '),
         year: this.year
@@ -60,7 +113,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return {
       title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
         type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.locations.map(l => l.properties.n).join(', '),
+        locations: this.getLocations().map(l => l.properties.n).join(', '),
         year1: this.lineStartYear,
         year2: this.lineEndYear
       }),
@@ -84,48 +137,24 @@ export class DataPanelComponent implements OnInit, OnChanges {
       margin: { left: 65, right: 16, bottom: 48, top: 16 }
     };
   }
+  showUS = true; // visibility state of the US Avg on graph
+  tooltips = []; // attribute for holding tooltip data
+  graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
+  graphProp = 'er'; // current graph property (sync with map?)
+  graphData; // graph data that is passed to the graph component
+  graphSettings; // attribute for passing graph settings to graph component
+  startSelect: Array<number>; // array of years for the "start year" select for line graph
+  endSelect: Array<number>; // array of years for the "end year" select for line graph
+  minYear = environment.minYear; // minimum allowed year for year selects
+  maxYear = environment.maxYear; // maximum allowed year for year selects
+  lineStartYear: number = this.minYear; // value of the start year on the line graph
+  lineEndYear: number = this.maxYear; // value of the end year on the line graph
+  barYearSelect: Array<number>; // array of years for bar graph select
+  graphHover = new EventEmitter(); // event emitter for when user hovers the graph
+  private graphTimeout; // tracks if a timeout is set to update graph settings
 
-  graphData;
-  tooltips = [];
-  graphType = 'line';
-  graphTypeOptions = this.createGraphTypeOptions();
-  cardProps = {
-    'er': 'STATS.JUDGMENT_RATE',
-    'e': 'STATS.JUDGMENTS',
-    'efr': 'STATS.FILING_RATE',
-    'ef': 'STATS.FILINGS',
-    'pr': 'STATS.POVERTY_RATE',
-    'p': 'STATS.POPULATION',
-    'pro': 'STATS.PCT_RENTER',
-    'mgr': 'STATS.MED_RENT',
-    'mpv': 'STATS.MED_PROPERTY',
-    'mhi': 'STATS.MED_INCOME',
-    'divider': 'STATS.DEMOGRAPHICS',
-    'pw': 'STATS.PCT_WHITE',
-    'paa': 'STATS.PCT_AFR_AMER',
-    'ph': 'STATS.PCT_HISPANIC',
-    'pai': 'STATS.PCT_AMER_INDIAN',
-    'pa': 'STATS.PCT_ASIAN',
-    'pnp': 'STATS.PCT_HAW_ISL',
-    'pm': 'STATS.PCT_MULTIPLE',
-    'po': 'STATS.PCT_OTHER'
-  };
-  graphProp = 'er';
-  graphSettings;
-  startSelect: Array<number>;
   tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
   tweetParams = {};
-
-  endSelect: Array<number>;
-  barYearSelect: Array<number>;
-  minYear = environment.minYear;
-  lineStartYear: number = this.minYear;
-  maxYear = environment.maxYear;
-  lineEndYear: number = this.maxYear;
-  dollarProps = DollarProps;
-  percentProps = PercentProps;
-  graphHover = new EventEmitter();
-  private graphTimeout; // tracks if a timeout is set to update graph settings
 
   constructor(
     public dialogService: UiDialogService,
@@ -200,7 +229,9 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   /** changes graph to either line or bar and resets tooltips */
   changeGraphType(newType: string) {
-    this.graphType = newType.toLowerCase();
+    if (typeof newType === 'string') {
+      this.graphTypeChange.emit(newType.toLowerCase());
+    }
     this.tooltips = [];
   }
 
@@ -218,7 +249,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
       year: this.year,
       startYear: this.lineStartYear,
       endYear: this.lineEndYear,
-      features: this.locations,
+      features: this.displayLocations,
       dataProp: this.dataService.activeDataHighlight.id,
       bubbleProp: this.dataService.activeBubbleHighlight.id
     };
@@ -360,11 +391,16 @@ export class DataPanelComponent implements OnInit, OnChanges {
     return null;
   }
 
+  toggleUS() {
+    this.showUS = !this.showUS;
+    this.setGraphData();
+  }
+
   /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
-    return this.locations.map((f, i) => {
+    return this.getLocations().map((f, i) => {
       return { id: 'sample' + i, data: this.generateLineData(f) };
     });
   }
@@ -373,7 +409,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * Generate bar graph data from the features in `locations
    */
   private createBarGraphData() {
-    return this.locations.map((f, i) => {
+    return this.getLocations().map((f, i) => {
       const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
       return {
         id: 'sample' + i,
@@ -404,5 +440,17 @@ export class DataPanelComponent implements OnInit, OnChanges {
       { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
       { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
     ];
+  }
+
+  private getLocations(): MapFeature[] {
+    return this.showUS ? this.allLocations : this.displayLocations;
+  }
+
+  private createUsAverageFeature(): MapFeature {
+    return {
+      type: 'Feature',
+      properties: { n: 'United States', ...this.dataService.usAverage },
+      geometry: { type: 'Point', coordinates: [] }
+    };
   }
 }

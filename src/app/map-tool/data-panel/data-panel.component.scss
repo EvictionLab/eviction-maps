@@ -31,7 +31,13 @@
 .data-header {
   @include dataPanelHeader(14px);
   text-align: center;  
-  margin: grid(5) grid(4);
+  margin: grid(3) grid(4) 0;
+  p { margin:0; }
+  // margin: grid(5) grid(4);
+}
+// increase header spacing for devices larger than mobile
+:host-context(.gt-mobile) {
+  .data-header { margin: grid(4) 0 grid(2); }
 }
 // increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
@@ -109,7 +115,7 @@
     margin:auto;
     padding: grid(2) 0;
     > * {
-      margin: grid(1);
+      margin: grid(1) 0;
     }
   }
 
@@ -170,6 +176,10 @@
     }
   }
 }
+// increase page margin for toggle on tablet+
+:host-context(.gt-mobile) .graph-type-toggle {
+  right: $pageMarginLg;
+}
 // graph style
 .graph-area { 
   position:relative;
@@ -213,6 +223,8 @@
   }
 }
 .graph-legend {
+  max-width: grid(40); // 320px
+  margin:auto;
   padding: grid(3) grid(2) 0;
   ul {
     list-style: none;
@@ -257,6 +269,22 @@
     &:nth-child(3) .legend-marker path { fill: $graphColor3; }
     &:nth-child(4) .legend-marker path { fill: $graphColor4; }
   }
+  li.us-average {
+    opacity: 0.5;
+
+    .btn.btn-close::after {
+      transform: rotate(45deg);
+      transition: all 0.2s ease;
+    }
+
+    &.active {
+      opacity: 1;
+
+      .btn.btn-close::after {
+        transform: rotate(0deg);
+      }
+    }
+  }
 }
 
 :host-context(.gt-mobile) {
@@ -266,24 +294,33 @@
       flex-direction: row;
       padding: 0 $pageMarginLg;
     }
-    .graph-year-label { 
-      display: block; 
-      @include yearSelectLabel(14px);
-      margin-right: grid(2);
-      color: $graphAxisLabels;
-      line-height: grid(6);
-    }
     .graph-eviction-toggle {
       order: 1;
+    }
+    app-ui-switch {
+      flex:1;
     }
     .graph-year-select {
       order: 2;
       display:flex;
+      align-items:center;
+      justify-content: flex-end;
+      flex:1;
+      .graph-year-label { 
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        text-align:right; 
+        @include yearSelectLabel(14px);
+        margin-right: grid(2);
+        color: $graphAxisLabels;
+      }
     }
   }
   .graph-legend {
-    padding-left: grid(3);
-    padding-right: grid(3);
+    max-width: none;
+    padding-left: $pageMarginLg;
+    padding-right: $pageMarginLg;
     ul {
       flex-direction:row;
     }
@@ -421,6 +458,9 @@
   &:nth-child(3):before {
     background:$color3;
   }
+  &:nth-child(4):before {
+    background:$color4;
+  }
   .line-tooltip-year {
     display:block;
     font-weight: 400;
@@ -449,20 +489,37 @@ app-location-cards {
   align-items:center;
   justify-content: space-around;
   .action-wrapper {
-    width:268px;
+    width: grid(33);
     text-align:center;
+    margin: 0 grid(1);
     .btn { 
-      width: 100%; 
-      margin:auto;
-      margin-bottom:4px;
+      &:hover, &:focus, &:active {
+        color: $grey1;
+        background: $white;
+        border: 5px solid $grey2;
+      }
+      // non-icon buttons fill container
+      &:not(.icon) {
+        width:100%;
+      }
     }
+    // text under buttons
     span { 
-      max-width: 264px;
-      color: #919191; 
+      max-width: grid(33);
+      color: $grey1; 
       @include defaultFont(14px);
       display: block;
-      margin: 10px auto grid(4);
-      line-height: 22px;
+      margin: grid(2) auto grid(4);
+      line-height: 21px;
+    }
+    .social-icons {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      a:hover {
+        text-decoration: none;
+      }
     }
   }
 }
@@ -470,21 +527,5 @@ app-location-cards {
   .data-panel-footer {
     flex-direction: row;
     align-items: flex-start;
-  }
-}
-
-.data-panel-footer .action-wrapper .social-icons {
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  a:hover {
-    text-decoration: none;
-  }
-  .btn {
-    width: 56px;
-    height:56px;
-    padding: 3px 0 0 0;
-    margin: 0;
   }
 }

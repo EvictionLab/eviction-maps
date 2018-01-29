@@ -2,7 +2,6 @@
 @import "theme/mixins/utils.scss";
 @import "theme/mixins/ui-toggle.theme";
 @import "theme/mixins/ui-dialog.theme";
-@import "theme/mixins/predictive-search.theme";
 @import "theme/mixins/progress-bar.theme";
 
 
@@ -71,13 +70,13 @@ $grey0: #666;
 $grey1: #7F7F7F;
 $grey2: #A3A7A8;
 $grey3: #C6CCCF;
-$grey4: #efefef;
+$grey4: #efefef; 
 $grey5: #F4F7F9;
 $white: #fff;
 $color1: #e24000;
 $color2: #434878;
 $color3: #2c897f;
-$color4: #4a4238;
+$color4: #94AABD;
 $color5: #b5c2b7;
 $gradient1: linear-gradient(180deg, #F27636, #E04119);
 $gradient2: linear-gradient(180deg, #787EB0, #434878);
@@ -94,9 +93,9 @@ $focusBgColor: #FFE8DE;
 
 // Shadows
 // ----
-$z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
-$z2shadow: 0 2px 5px rgba(0,0,0,0.5);
-$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+$z1shadow: 0 1px 3px 0 rgba(0,0,0,0.30);
+$z2shadow: 0 2px 4px rgba(0,0,0,0.5);
+$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
 
 @mixin focusState() {
   outline: 0;
@@ -239,6 +238,13 @@ $tooltipFontColor: #fff;
 $iosSafariPadding: grid(4);
 $androidPadding: grid(2);
 
+
+// Footer
+
+$footerGradientFrom: #393939;
+$footerGradientTo: #2F2D2B;
+$footerIconBorder: #333;
+$footerHoverIconBorder: $white;
+
 // TODO: 
-// - standard values for shadow levels
 // - type definitions / sizes

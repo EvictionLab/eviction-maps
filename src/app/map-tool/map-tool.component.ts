@@ -71,6 +71,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     // Add click to dimiss to all toast messages
     this.toast.onClickToast()
       .subscribe(t => this.toast.dismissToast(t));
+    this.dataService.loadUSAverage();
   }
 
   ngOnInit() {
@@ -150,6 +151,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       const locations = this.getLocationsFromString(queryParams['locations']);
       this.dataService.setLocations(locations);
     }
+    if (queryParams['graph']) {
+      this.dataService.setGraphType(queryParams['graph']);
+    }
     this.dataService.embed = queryParams['embed'] === 'true';
 
     this.cdRef.detectChanges();
@@ -160,7 +164,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   setMapToolData(data) {
     // Set default zoom to 2 on mobile
-    if (this.platform.isMobile) {
+    if (this.platform.isMobile && data.mapConfig) {
       data.mapConfig.zoom = 2;
     }
     this.dataService.mapConfig = data.mapConfig;
@@ -211,9 +215,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   onSearchSelect(feature: MapFeature | null, updateMap = true) {
     if (feature) {
       this.loader.start('search');
-      const layerId = feature.properties['layerId'];
+      const layerId = feature.properties['layerId'] as string;
       this.dataService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'], true
+        layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
       ).subscribe(data => {
           if (!data.properties.n) {
             this.toast.error('Could not find data for location.');
