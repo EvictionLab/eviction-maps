@@ -8,6 +8,7 @@ import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../loading.service';
 import { PlatformService } from '../../../platform.service';
+import { ToggleScrollService } from '../../../toggle-scroll.service';
 
 class MapServiceStub {
   updateCensusSource() {}
@@ -40,7 +41,8 @@ describe('MapComponent', () => {
         providers: [
           PlatformService,
           { provide: MapService, useValue: new MapServiceStub() },
-          LoadingService
+          LoadingService,
+          ToggleScrollService
         ],
       }
     })
