@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
@@ -19,23 +20,6 @@ import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
-
-// Pulled from https://stackoverflow.com/a/44635703
-// Temporarily adding debounce decorator here to avoid compilation errors
-// See the following issues for more:
-// https://github.com/angular/angular-cli/issues/8434
-// https://github.com/Microsoft/TypeScript/issues/17384
-export function debounce(delay: number = 300): MethodDecorator {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    let timeout = null;
-    const original = descriptor.value;
-    descriptor.value = function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => original.apply(this, args), delay);
-    };
-    return descriptor;
-  };
-}
 
 @Component({
   selector: 'app-map-tool',
@@ -84,9 +68,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     ).take(1).subscribe(this.setRouteParams.bind(this));
 
     Observable.fromEvent(this.document, 'wheel')
-      .throttleTime(50)
+      .debounceTime(250)
       .subscribe(e => this.onWheel());
-    this.subscribeBeginWheel();
+    Observable.fromEvent(this.document, 'wheel')
+      .throttleTime(50)
+      .filter(() => !this.wheelEvent) // only fire when wheel events are not active
+      .subscribe(e => this.onBeginWheel());
+    Observable.fromEvent(window, 'scroll')
+      .throttleTime(10)
+      .subscribe(e => this.onScroll(e));
   }
 
   /**
@@ -103,12 +93,27 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * the wheel events
    */
   onWheel() {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
+    this.verticalOffset = this.getVerticalOffset();
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
-    this.subscribeBeginWheel();
+  }
+
+  /**
+   * Set wheel flag while scrolling with the wheel
+   */
+  onBeginWheel() { this.wheelEvent = true; }
+
+  /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
+   */
+  onScroll(e) {
+    this.verticalOffset = this.getVerticalOffset();
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
+    }
   }
 
   /**
@@ -271,31 +276,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   goToDataPanel(feature) {
     const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-panel');
     this.pageScrollService.start(pageScrollInstance);
-  }
-
-    /**
-   * If scrolled to the top, enable the zoom.  Unless
-   * there is a wheel event currently happening.
-   */
-  @HostListener('window:scroll', ['$event'])
-  @debounce(20)
-  onscroll(e) {
-    this.verticalOffset = this.getVerticalOffset();
-    if (!this.wheelEvent) {
-      this.enableZoom = (this.verticalOffset === 0);
-    } else {
-      this.enableZoom = false;
-    }
-  }
-
-  /**
-   * Set wheel flag while scrolling with the wheel
-   */
-  onBeginWheel() { this.wheelEvent = true; }
-
-  private subscribeBeginWheel() {
-    Observable.fromEvent(this.element.nativeElement, 'wheel')
-      .take(1).subscribe(e => this.onBeginWheel());
   }
 
   private getVerticalOffset() {
