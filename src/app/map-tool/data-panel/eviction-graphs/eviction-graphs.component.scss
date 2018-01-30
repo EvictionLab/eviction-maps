@@ -3,6 +3,15 @@
 // Graphs
 // ----
 // mixins
+
+
+@mixin yearSelectLabel($size) {
+  @include defaultFont($size);
+  letter-spacing: 0.7px;
+  color: $graphAxisLabels;
+  text-transform: uppercase;
+}
+
 @mixin graph-colors($c1, $c2, $c3, $c4) {
   $strokeWidth: 5;
   .g0-start { stop-color: #F27636; }

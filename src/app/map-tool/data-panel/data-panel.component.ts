@@ -9,6 +9,7 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../platform.service';
 import { PlatformLocation } from '@angular/common';
 import { DataService } from '../../data/data.service';
+import { MapDataAttribute } from '../map/map-data-attribute';
 
 @Component({
   selector: 'app-data-panel',
@@ -17,6 +18,17 @@ import { DataService } from '../../data/data.service';
   providers: [ TranslatePipe ]
 })
 export class DataPanelComponent implements OnInit, OnChanges {
+
+  /** Graph type input and output (allows double binding) */
+  private _graphType = 'line';
+  @Input() set graphType(type: string) {
+    if (this._graphType !== type) {
+      this._graphType = type;
+      this.graphTypeChange.emit(type);
+    }
+  }
+  get graphType() { return this._graphType; }
+  @Output() graphTypeChange = new EventEmitter();
 
   /** Year input and output (allows double binding) */
   private _year: number;
@@ -31,18 +43,36 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   /** Location Attributes */
   displayLocations: MapFeature[] = []; // Locations to use for location cards, download
-  allLocations: MapFeature[] = []; // Locations including US average if toggled
   @Input() set locations(locations: MapFeature[]) {
     this.displayLocations = locations;
-    this.allLocations = locations.concat([this.createUsAverageFeature()]);
   }
   get locations() { return this.displayLocations; }
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
+  usAverage = this.createUsAverageFeature();
 
   /** Card properties */
-  @Input() cardProperties;
+  private _dataAttributes = [];
+  @Input() set dataAttributes(attr: MapDataAttribute[]) {
+    this._dataAttributes = attr;
+    const cardProps = this._dataAttributes
+      .filter(d => typeof d.order === 'number')
+      .sort((a, b) => a.order > b.order ? 1 : -1);
+    this.cardProperties = [
+      ...cardProps.slice(0, 11),
+      this._divider,
+      ...cardProps.slice(11)
+    ];
+  }
+  get dataAttributes() { return this._dataAttributes; }
 
+  private _divider = {
+    id: 'divider',
+    name: 'divider',
+    langKey: 'STATS.DEMOGRAPHICS'
+  };
+
+  cardProperties: MapDataAttribute[] = [];
   tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
   tweetParams = {};
 
@@ -57,7 +87,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.dataService.locations$.subscribe(d => {
-      this.setGraphData();
       this.updateTwitterText();
     });
     this.translate.onLangChange.subscribe(() => {
@@ -80,12 +109,12 @@ export class DataPanelComponent implements OnInit, OnChanges {
     const config = {
       lang: this.translate.currentLang,
       year: this.year,
-      startYear: this.lineStartYear,
-      endYear: this.lineEndYear,
+      // startYear: this.lineStartYear,
+      // endYear: this.lineEndYear,
       features: this.displayLocations,
       dataProp: this.dataService.activeDataHighlight.id,
       bubbleProp: this.dataService.activeBubbleHighlight.id,
-      showUsAverage: this.showUS,
+      // showUsAverage: this.showUS,
       usAverage: this.dataService.usAverage
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
@@ -164,23 +193,7 @@ export class DataPanelComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
-  abbrYear(year) { return year.toString().slice(-2); }
 
-  /**
-   * Return % or other suffix if in property list
-   * TODO: Duplicated from location-cards, need to refactor
-   * @param prop
-   */
-  suffix(prop: string) {
-    if (this.percentProps.indexOf(prop) !== -1) {
-      return '%';
-    }
-    return null;
-  }
-
-  private getLocations(): MapFeature[] {
-    return this.showUS ? this.allLocations : this.displayLocations;
-  }
 
   private createUsAverageFeature(): MapFeature {
     return {

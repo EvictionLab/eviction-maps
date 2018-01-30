@@ -48,13 +48,26 @@ export class LocationCardsComponent implements OnInit {
   @Input() allowAddLocation = false;
   @Input() features: Array<any> = [];
   @Input() usAverage: Object;
-  @Input() year = 2010;
+
+  /** Year for card */
+  private _year;
+  @Input() set year(value: number) {
+    if (value && value !== this._year) {
+      this._year = value;
+      this.addYearAttrToProps();
+    }
+  }
+  get year(): number { return this._year; }
+
+  /** Card properties */
+  private _cardProps = [];
   @Input()
   set cardProperties(value) {
     if (!value) { return; }
     this._cardProps = value;
     this.percentProps = value.filter(p => p.format === 'percent').map(p => p.id);
     this.dollarProps = value.filter(p => p.format === 'dollar').map(p => p.id);
+    this.addYearAttrToProps();
   }
   get cardProperties() {
     return this._cardProps;
@@ -70,7 +83,6 @@ export class LocationCardsComponent implements OnInit {
   clickHeader = false;
   cardPropertyKeys: Array<string>;
   get abbrYear() { return this.year.toString().slice(-2); }
-  private _cardProps;
   private percentProps;
   private dollarProps;
 
@@ -107,6 +119,13 @@ export class LocationCardsComponent implements OnInit {
    */
   suffix(prop: string) {
     return (this.percentProps.indexOf(prop) !== -1) ? '%' : null;
+  }
+
+  private addYearAttrToProps() {
+    this._cardProps = this._cardProps.map(p => {
+      p.yearAttr = p.id + '-' + this.abbrYear;
+      return p;
+    });
   }
 
 }

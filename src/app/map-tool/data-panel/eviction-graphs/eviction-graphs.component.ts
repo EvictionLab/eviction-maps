@@ -10,32 +10,50 @@ import { environment } from '../../../../environments/environment';
 })
 export class EvictionGraphsComponent implements OnInit {
 
-/** Graph type input and output (allows double binding) */
-private _graphType = 'line';
-@Input() set graphType(type: string) {
-  if (this._graphType !== type) {
-    this.graphTypeChange.emit(type);
-  }
-  this._graphType = type;
-}
-get graphType() { return this._graphType; }
-@Output() graphTypeChange = new EventEmitter();
+  @Input() dataLabel: string;
 
-showUS = true; // visibility state of the US Avg on graph
-tooltips = []; // attribute for holding tooltip data
-graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
-graphProp = 'er'; // current graph property (sync with map?)
-graphData; // graph data that is passed to the graph component
-graphSettings; // attribute for passing graph settings to graph component
-startSelect: Array<number>; // array of years for the "start year" select for line graph
-endSelect: Array<number>; // array of years for the "end year" select for line graph
-minYear = environment.minYear; // minimum allowed year for year selects
-maxYear = environment.maxYear; // maximum allowed year for year selects
-lineStartYear: number = this.minYear; // value of the start year on the line graph
-lineEndYear: number = this.maxYear; // value of the end year on the line graph
-barYearSelect: Array<number>; // array of years for bar graph select
-graphHover = new EventEmitter(); // event emitter for when user hovers the graph
-private graphTimeout; // tracks if a timeout is set to update graph settings
+  private _year = 2000;
+  @Input() set year(value: number) {
+    if (value !== this._year) {
+      this._year = value;
+      this.yearChange.emit(this._year);
+    }
+  }
+  get year() { return this._year; }
+  @Output() yearChange = new EventEmitter();
+
+  /** Locations */
+  @Input() locations = [];
+  @Output() locationRemoved = new EventEmitter();
+
+  /** Graph type input and output (allows double binding) */
+  private _graphType = 'line';
+  @Input() set graphType(type: string) {
+    if (this._graphType !== type) {
+      this.graphTypeChange.emit(type);
+    }
+    this._graphType = type;
+  }
+  get graphType() { return this._graphType; }
+  @Output() graphTypeChange = new EventEmitter();
+
+  @Input() average;
+
+  showAverage = true; // visibility state of the US Avg on graph
+  tooltips = []; // attribute for holding tooltip data
+  graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
+  graphProp = 'er'; // current graph property (sync with map?)
+  graphData; // graph data that is passed to the graph component
+  graphSettings; // attribute for passing graph settings to graph component
+  startSelect: Array<number>; // array of years for the "start year" select for line graph
+  endSelect: Array<number>; // array of years for the "end year" select for line graph
+  minYear = environment.minYear; // minimum allowed year for year selects
+  maxYear = environment.maxYear; // maximum allowed year for year selects
+  lineStartYear: number = this.minYear; // value of the start year on the line graph
+  lineEndYear: number = this.maxYear; // value of the end year on the line graph
+  barYearSelect: Array<number>; // array of years for bar graph select
+  graphHover = new EventEmitter(); // event emitter for when user hovers the graph
+  private graphTimeout; // tracks if a timeout is set to update graph settings
 
   constructor(
     private translatePipe: TranslatePipe,
@@ -47,7 +65,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
       this.graphSettings = this.graphType === 'bar' ?
-        this.barGraphSettings : this.lineGraphSettings;
+        this.getBarGraphConfig() : this.getLineGraphConfig();
       this.graphTypeOptions = this.createGraphTypeOptions();
     });
     this.graphHover.debounceTime(50)
@@ -110,14 +128,14 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
   getBarGraphConfig() {
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
-        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.getLocations()
+        type: this.dataLabel,
+        locations: this.locations
           .map(l => l.properties.n).join(', '),
         year: this.year
       }),
       description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
-        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.getLocations()
+        type: this.dataLabel,
+        locations: this.locations
           .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
           .join(', '),
         year: this.year
@@ -125,7 +143,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
       axis: {
         x: { label: null, tickFormat: '.0f' },
         y: {
-          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          label: this.dataLabel,
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -138,13 +156,13 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
   getLineGraphConfig() {
     return {
       title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
-        type: this.translatePipe.transform(this.cardProps[this.graphProp]),
-        locations: this.getLocations().map(l => l.properties.n).join(', '),
+        type: this.dataLabel,
+        locations: this.locations.map(l => l.properties.n).join(', '),
         year1: this.lineStartYear,
         year2: this.lineEndYear
       }),
       description: this.translatePipe.transform('DATA.LINE_GRAPH_DESC', {
-        type: this.translatePipe.transform(this.cardProps[this.graphProp])
+        type: this.dataLabel
       }),
       axis: {
         x: {
@@ -154,7 +172,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
           tickPadding: 10
         },
         y: {
-          label: this.translatePipe.transform(this.cardProps[this.graphProp]),
+          label: this.dataLabel,
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -171,10 +189,10 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
   setGraphData() {
     this.tooltips = [];
     if (this.graphType === 'line') {
-      this.graphSettings = this.lineGraphSettings;
+      this.graphSettings = this.getLineGraphConfig();
       this.graphData = [...this.createLineGraphData()];
     } else {
-      this.graphSettings = this.barGraphSettings;
+      this.graphSettings = this.getBarGraphConfig();
       this.graphData = [...this.createBarGraphData()];
     }
     this.setGraphSettings();
@@ -215,7 +233,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
   }
 
   toggleUS() {
-    this.showUS = !this.showUS;
+    this.showAverage = !this.showAverage;
     this.setGraphData();
   }
 
@@ -224,7 +242,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
-    return this.getLocations().map((f, i) => {
+    return this.locations.map((f, i) => {
       return { id: 'sample' + i, data: this.generateLineData(f) };
     });
   }
@@ -233,7 +251,7 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
    * Generate bar graph data from the features in `locations
    */
   private createBarGraphData() {
-    return this.getLocations().map((f, i) => {
+    return this.locations.map((f, i) => {
       const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
       return {
         id: 'sample' + i,
@@ -265,5 +283,10 @@ private graphTimeout; // tracks if a timeout is set to update graph settings
       { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
     ];
   }
+
+  // private getLocations(): MapFeature[] {
+  //   return this.showAverage ? this.allLocations : this.displayLocations;
+  // }
+
 
 }

@@ -16,7 +16,12 @@
     (dismissedCard)="locationRemoved.emit($event)"
     (locationAdded)="locationAdded.emit($event)"
   ></app-location-cards>
-  <app-eviction-graphs></app-eviction-graphs>
+  <app-eviction-graphs
+    [average]="usAverage"
+    [locations]="displayLocations"
+    [(year)]="year"
+    [(graphyType)]="graphType"
+  ></app-eviction-graphs>
   <div class="data-content">
     <div class="data-content-inner">
       <div class="data-panel-footer">

@@ -17,6 +17,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.POPULATION',
     'default': 'rgba(0, 0, 0, 0)',
+    'order': 6,
     'stops': {
       'default': [
         [-1.0, 'rgba(198, 204, 207, 0.6)'],
@@ -71,6 +72,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.POVERTY_RATE',
     'format': 'percent',
+    'order': 5,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -89,6 +91,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'langKey': 'STATS.PCT_RENTER',
     'format': 'percent',
     'default': 'rgba(0, 0, 0, 0)',
+    'order': 7,
     'stops': {
       'default': [
         [-1.0, 'rgba(198, 204, 207, 0.6)'],
@@ -105,6 +108,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.MED_RENT',
     'format': 'dollar',
+    'order': 8,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -122,6 +126,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.MED_PROPERTY',
     'format': 'dollar',
+    'order': 9,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -139,6 +144,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.MED_INCOME',
     'format': 'dollar',
+    'order': 10,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -156,6 +162,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_WHITE',
     'format': 'percent',
+    'order': 11,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -173,6 +180,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AFR_AMER',
     'format': 'percent',
+    'order': 12,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -187,7 +195,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
   },
   {
     'id': 'ph',
+    'type': 'choropleth',
     'langKey': 'STATS.PCT_HISPANIC',
+    'order': 13,
     'default': 'rgba(0, 0, 0, 0)',
     'format': 'percent',
     'stops': {
@@ -206,6 +216,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AMER_INDIAN',
     'format': 'percent',
+    'order': 14,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -223,6 +234,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_ASIAN',
     'format': 'percent',
+    'order': 15,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -240,6 +252,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HAW_ISL',
     'format': 'percent',
+    'order': 16,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -257,6 +270,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_MULTIPLE',
     'format': 'percent',
+    'order': 17,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -274,6 +288,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_OTHER',
     'format': 'percent',
+    'order': 18,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -303,10 +318,25 @@ export const DataAttributes: Array<MapDataAttribute> = [
     }
   },
   {
+    'id': 'epd',
+    'type': 'card',
+    'langKey': 'STATS.JUDGMENTS_PER_DAY',
+    'order': 0,
+    'default': 0
+  },
+  {
+    'id': 'e',
+    'type': 'card',
+    'langKey': 'STATS.JUDGMENTS',
+    'order': 2,
+    'default': 0
+  },
+  {
     'id': 'er',
     'type': 'bubble',
     'langKey': 'STATS.JUDGMENT_RATE',
     'format': 'percent',
+    'order': 1,
     'default': 0,
     'expressions': {
       'default': [
@@ -371,8 +401,16 @@ export const DataAttributes: Array<MapDataAttribute> = [
     }
   },
   {
+    'id': 'ef',
+    'order': 4,
+    'type': 'card',
+    'langKey': 'STATS.FILINGS',
+    'default': 0
+  },
+  {
     'id': 'efr',
     'type': 'bubble',
+    'order': 3,
     'langKey': 'STATS.FILING_RATE',
     'format': 'percent',
     'default': 0,

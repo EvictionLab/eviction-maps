@@ -2,8 +2,9 @@ import { MapDataObject } from './map-data-object';
 
 export interface MapDataAttribute extends MapDataObject {
     id: string;
-    type: string;
+    type?: string;
     langKey: string;
+    order?: number;
     name?: string;
     format?: string;
     default?: string | number;

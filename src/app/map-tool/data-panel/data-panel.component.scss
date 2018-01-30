@@ -65,12 +65,6 @@
   clear: both;
 }
 
-@mixin yearSelectLabel($size) {
-  @include defaultFont($size);
-  letter-spacing: 0.7px;
-  color: $graphAxisLabels;
-  text-transform: uppercase;
-}
 
 app-location-cards {
   clear:both;
