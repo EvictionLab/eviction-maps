@@ -3,7 +3,7 @@
     <p *ngIf="displayLocations.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
     <p *ngIf="displayLocations.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
   </div>
-  <div class="panel-cards" [style.display]="displayLocations.length > 0 ? null : 'none'">
+  <div class="panel-cards" [style.display]="displayLocations.length > 0 ? '' : 'none'">
     <div class="data-header">
       <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
     </div>
@@ -19,7 +19,7 @@
     ></app-location-cards>
   </div>
   <app-eviction-graphs
-    [style.display]="displayLocations.length > 0 ? null : 'none'"
+    [style.display]="displayLocations.length > 0 ? '' : 'none'"
     [dataAttributes]="graphAttributes"
     [average]="dataService.usAverage"
     [locations]="displayLocations"
