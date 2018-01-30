@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -13,6 +12,7 @@ import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 
+import { environment } from '../../environments/environment';
 import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
@@ -28,13 +28,17 @@ export class DataService {
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
   ];
+  /** Attributes to track the current state */
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
   activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
   activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
   activeGraphType = 'line';
-  mapView;
+  activeLineYearStart = environment.minYear;
+  activeLineYearEnd = environment.maxYear;
+  activeShowGraphAvg = true;
+  activeMapView;
   mapConfig;
   usAverage;
   get choroplethAttributes() {
@@ -49,9 +53,6 @@ export class DataService {
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
   }
-  // For tracking "soft" location updates
-  private _locations = new BehaviorSubject<MapFeature[]>([]);
-  locations$ = this._locations.asObservable();
 
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
@@ -63,6 +64,7 @@ export class DataService {
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
+    this.loadUSAverage();
   }
 
   updateLanguage(translations) {
@@ -142,7 +144,7 @@ export class DataService {
    * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
-    this.mapView = mapBounds;
+    this.activeMapView = mapBounds;
   }
 
   /**
@@ -180,7 +182,7 @@ export class DataService {
     return [
       this.activeYear,
       this.activeDataLevel.id,
-      this.mapView ? this.mapView.join() : null
+      this.activeMapView ? this.activeMapView.join() : null
     ];
   }
 
@@ -212,7 +214,6 @@ export class DataService {
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       this.activeFeatures = [...this.activeFeatures, feature];
-      this._locations.next(this.activeFeatures);
     }
     return maxLocations;
   }
@@ -226,15 +227,13 @@ export class DataService {
     if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
-    const geoids = this.activeFeatures.map(f => f.properties.GEOID);
-    const featIndex = geoids.indexOf(feature.properties.GEOID);
-    if (featIndex !== -1) {
-      // Assigning properties and geometry rather than the whole feature
-      // so that a state change isn't triggered
-      this.activeFeatures[featIndex].properties = feature.properties;
-      this.activeFeatures[featIndex].geometry = feature.geometry;
-      this._locations.next(this.activeFeatures);
-    }
+    this.activeFeatures = this.activeFeatures.map(f => {
+      if (feature.properties.GEOID === f.properties.GEOID) {
+        f.properties = feature.properties;
+        f.geometry = feature.geometry;
+      }
+      return f;
+    });
   }
 
   /**

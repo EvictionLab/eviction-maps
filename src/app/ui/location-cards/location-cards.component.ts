@@ -46,8 +46,24 @@ import { DecimalPipe } from '@angular/common';
 })
 export class LocationCardsComponent implements OnInit {
   @Input() allowAddLocation = false;
-  @Input() features: Array<any> = [];
   @Input() usAverage: Object;
+
+  /**  */
+  private _features = [];
+  @Input() set features(value: Array<any>) {
+    const sameAmount = this._features.length === value.length;
+    if (sameAmount) {
+      const sameFeatures = this._features.reduce((acc, cur, i) => {
+        return acc ? cur.properties.GEOID === value[i].properties.GEOID : false;
+      }, true);
+      if (sameFeatures) {
+        // update props if they're the same
+      }
+    } else {
+      this._features = value;
+    }
+  }
+  get features() { return this._features; }
 
   /** Year for card */
   private _year;
@@ -103,6 +119,10 @@ export class LocationCardsComponent implements OnInit {
   getCardState(cardNum: number) {
     return this.collapsible ?
       'card' + (this.expanded ? '-e-' : '-') + cardNum + '-' + this.features.length : 'card';
+  }
+
+  trackCards(index, feature) {
+    return feature.properties.GEOID;
   }
 
   /**

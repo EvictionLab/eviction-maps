@@ -1,6 +1,6 @@
 <div 
   [@cards]="getCardState(i+1)" 
-  *ngFor="let f of features; let i = index" 
+  *ngFor="let f of features; let i = index; trackBy: trackCards" 
   [class]="'location-card card card-' + i"
 >
   <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">

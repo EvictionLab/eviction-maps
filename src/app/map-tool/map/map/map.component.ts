@@ -389,17 +389,19 @@ export class MapComponent implements OnInit, OnChanges {
 
   /**
    * Add year to data attribute or level from selector
+   * returns a new object so the original is not mutated
    * @param dataObject
    * @param year
    */
   private addYearToObject(dataObject: MapDataObject, year: number): MapDataObject {
     if (!dataObject) { return null; }
-    if (/.*\d{2}.*/g.test(dataObject.id)) {
-      dataObject.id = dataObject.id.replace(/\d{2}/g, ('' + year).slice(2));
+    const newObj = { ...dataObject };
+    if (/.*\d{2}.*/g.test(newObj.id)) {
+      newObj.id = newObj.id.replace(/\d{2}/g, ('' + year).slice(2));
     } else {
-      dataObject.id += '-' + ('' + year).slice(2);
+      newObj.id += '-' + ('' + year).slice(2);
     }
-    return dataObject;
+    return newObj;
   }
 
   /**

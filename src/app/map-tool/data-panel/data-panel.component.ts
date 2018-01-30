@@ -17,18 +17,7 @@ import { MapDataAttribute } from '../map/map-data-attribute';
   styleUrls: ['./data-panel.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class DataPanelComponent implements OnInit, OnChanges {
-
-  /** Graph type input and output (allows double binding) */
-  private _graphType = 'line';
-  @Input() set graphType(type: string) {
-    if (this._graphType !== type) {
-      this._graphType = type;
-      this.graphTypeChange.emit(type);
-    }
-  }
-  get graphType() { return this._graphType; }
-  @Output() graphTypeChange = new EventEmitter();
+export class DataPanelComponent implements OnInit {
 
   /** Year input and output (allows double binding) */
   private _year: number;
@@ -45,34 +34,27 @@ export class DataPanelComponent implements OnInit, OnChanges {
   displayLocations: MapFeature[] = []; // Locations to use for location cards, download
   @Input() set locations(locations: MapFeature[]) {
     this.displayLocations = locations;
+    this.updateTwitterText();
   }
   get locations() { return this.displayLocations; }
   @Output() locationRemoved = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
-  usAverage = this.createUsAverageFeature();
 
-  /** Card properties */
+  /** Data attributes for location cards and graph */
   private _dataAttributes = [];
   @Input() set dataAttributes(attr: MapDataAttribute[]) {
     this._dataAttributes = attr;
-    const cardProps = this._dataAttributes
-      .filter(d => typeof d.order === 'number')
-      .sort((a, b) => a.order > b.order ? 1 : -1);
-    this.cardProperties = [
-      ...cardProps.slice(0, 11),
-      this._divider,
-      ...cardProps.slice(11)
-    ];
+    this.updateCardAttributes();
+    this.updateGraphAttributes();
   }
   get dataAttributes() { return this._dataAttributes; }
+  graphAttributes: MapDataAttribute[] = [];
+  cardAttributes: MapDataAttribute[] = [];
 
-  private _divider = {
-    id: 'divider',
-    name: 'divider',
-    langKey: 'STATS.DEMOGRAPHICS'
-  };
+  // Used to inform map tool when graph type changes
+  @Output() graphTypeChange = new EventEmitter();
 
-  cardProperties: MapDataAttribute[] = [];
+
   tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
   tweetParams = {};
 
@@ -86,9 +68,6 @@ export class DataPanelComponent implements OnInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    this.dataService.locations$.subscribe(d => {
-      this.updateTwitterText();
-    });
     this.translate.onLangChange.subscribe(() => {
       this.updateTwitterText();
     });
@@ -96,25 +75,37 @@ export class DataPanelComponent implements OnInit, OnChanges {
     this.cd.detectChanges();
   }
 
-  /**
-   * Update the graph data when locations or year changes.
-   */
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.locations) {
-      this.updateTwitterText();
-    }
+  /** Builds the array of card attributes from the array of data attributes */
+  updateCardAttributes() {
+    const dividerIndex = 11; // index where the divider is inserted
+    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
+    // put the props in the correct order
+    const cardProps = this._dataAttributes
+      .filter(d => typeof d.order === 'number')
+      .sort((a, b) => a.order > b.order ? 1 : -1);
+    // add the divider
+    this.cardAttributes = [
+      ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
+    ];
+  }
+
+  /** Builds the array of attributes available for the graph */
+  updateGraphAttributes() {
+    // only graphing the bubble attributes
+    this.graphAttributes = this.dataAttributes
+      .filter(d => d.type === 'bubble' && d.id !== 'none');
   }
 
   showDownloadDialog(e) {
     const config = {
       lang: this.translate.currentLang,
       year: this.year,
-      // startYear: this.lineStartYear,
-      // endYear: this.lineEndYear,
+      startYear: this.dataService.activeLineYearStart,
+      endYear: this.dataService.activeLineYearEnd,
       features: this.displayLocations,
       dataProp: this.dataService.activeDataHighlight.id,
       bubbleProp: this.dataService.activeBubbleHighlight.id,
-      // showUsAverage: this.showUS,
+      showUsAverage: this.dataService.activeShowGraphAvg,
       usAverage: this.dataService.usAverage
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
@@ -137,8 +128,8 @@ export class DataPanelComponent implements OnInit, OnChanges {
    * Update Twitter share text
    */
   updateTwitterText() {
-    const features = this.dataService.activeFeatures;
-    const featLength = this.dataService.activeFeatures.length;
+    const features = this.locations;
+    const featLength = this.locations.length;
     this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
 
     if (featLength === 1) {
@@ -191,15 +182,5 @@ export class DataPanelComponent implements OnInit, OnChanges {
         ]
       });
     }, 1000);
-  }
-
-
-
-  private createUsAverageFeature(): MapFeature {
-    return {
-      type: 'Feature',
-      properties: { n: 'United States', ...this.dataService.usAverage },
-      geometry: { type: 'Point', coordinates: [] }
-    };
   }
 }

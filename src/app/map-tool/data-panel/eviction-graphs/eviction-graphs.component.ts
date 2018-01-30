@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
+import { MapDataAttribute } from '../../map/map-data-attribute';
 
 @Component({
   selector: 'app-eviction-graphs',
@@ -10,47 +11,109 @@ import { environment } from '../../../../environments/environment';
 })
 export class EvictionGraphsComponent implements OnInit {
 
-  @Input() dataLabel: string;
+  @Input() dataAttributes: MapDataAttribute[];
 
-  private _year = 2000;
-  @Input() set year(value: number) {
-    if (value !== this._year) {
-      this._year = value;
-      this.yearChange.emit(this._year);
+  /** Bar graph year input / output (allows double binding) */
+  private _barYear;
+  @Input() set barYear(value: number) {
+    if (value !== this._barYear) {
+      this._barYear = value;
+      this.barYearChange.emit(this._barYear);
+      if (this.graphType === 'bar') {
+        this.setGraphData();
+      }
     }
   }
-  get year() { return this._year; }
-  @Output() yearChange = new EventEmitter();
+  get barYear() { return this._barYear; }
+  @Output() barYearChange = new EventEmitter();
+
+  /** Line graph year start input / output (allows double binding) */
+  private _lineStartYear;
+  @Input() set lineStartYear(value: number) {
+    if (value !== this._lineStartYear) {
+      this._lineStartYear = value;
+      this.lineStartYearChange.emit(this._lineStartYear);
+      this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
+      this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
+      if (this.graphType === 'line') {
+        this.setGraphData();
+      }
+    }
+  }
+  get lineStartYear() { return this._lineStartYear; }
+  @Output() lineStartYearChange = new EventEmitter();
+
+  /** Line graph year end input / output (allows double binding) */
+  private _lineEndYear;
+  @Input() set lineEndYear(value: number) {
+    if (value !== this._lineEndYear) {
+      this._lineEndYear = value;
+      this.lineEndYearChange.emit(this._lineEndYear);
+      this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
+      this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
+      if (this.graphType === 'line') {
+        this.setGraphData();
+      }
+    }
+  }
+  get lineEndYear() { return this._lineEndYear; }
+  @Output() lineEndYearChange = new EventEmitter();
 
   /** Locations */
-  @Input() locations = [];
+  private _locations = [];
+  @Input() set locations(value) {
+    this._locations = value;
+    this.setGraphData();
+  }
+  get locations() { return this._locations; }
   @Output() locationRemoved = new EventEmitter();
 
   /** Graph type input and output (allows double binding) */
   private _graphType = 'line';
   @Input() set graphType(type: string) {
     if (this._graphType !== type) {
+      this._graphType = type;
+      this.tooltips = [];
       this.graphTypeChange.emit(type);
+      this.setGraphData();
     }
-    this._graphType = type;
   }
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
-  @Input() average;
+  /** Data for averages on graph */
+  private _average;
+  @Input() set average(value) {
+    this._average = {
+      type: 'Feature',
+      properties: { n: 'United States', ...value },
+      geometry: { type: 'Point', coordinates: [] }
+    };
+    this.setGraphData();
+  }
+  get average() { return this._average; }
 
-  showAverage = true; // visibility state of the US Avg on graph
+  /** Tracks if average is shown */
+  private _showAverage = true;
+  @Input() set showAverage(value: boolean) {
+    if (value !== this.showAverage) {
+      this._showAverage = value;
+      this.showAverageChange.emit(value);
+      this.setGraphData();
+    }
+  }
+  get showAverage() { return this._showAverage; }
+  @Output() showAverageChange = new EventEmitter();
+
   tooltips = []; // attribute for holding tooltip data
   graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
-  graphProp = 'er'; // current graph property (sync with map?)
+  graphAttribute: MapDataAttribute; // current graph property (sync with map?)
   graphData; // graph data that is passed to the graph component
   graphSettings; // attribute for passing graph settings to graph component
   startSelect: Array<number>; // array of years for the "start year" select for line graph
   endSelect: Array<number>; // array of years for the "end year" select for line graph
   minYear = environment.minYear; // minimum allowed year for year selects
   maxYear = environment.maxYear; // maximum allowed year for year selects
-  lineStartYear: number = this.minYear; // value of the start year on the line graph
-  lineEndYear: number = this.maxYear; // value of the end year on the line graph
   barYearSelect: Array<number>; // array of years for bar graph select
   graphHover = new EventEmitter(); // event emitter for when user hovers the graph
   private graphTimeout; // tracks if a timeout is set to update graph settings
@@ -61,6 +124,7 @@ export class EvictionGraphsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.graphAttribute = this.dataAttributes[0];
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
@@ -68,23 +132,13 @@ export class EvictionGraphsComponent implements OnInit {
         this.getBarGraphConfig() : this.getLineGraphConfig();
       this.graphTypeOptions = this.createGraphTypeOptions();
     });
-    this.graphHover.debounceTime(50)
+    this.graphHover.debounceTime(10)
       .subscribe(e => this.onGraphHover(e));
   }
 
-  updateGraphSettings() {
-
-  }
-
-  /**
-   * Updates the graph to the `start` and `end` X values
-   */
-  updateLineYears(start: any, end: any) {
-    this.lineStartYear = Number(start);
-    this.lineEndYear = Math.max(Number(end), this.lineStartYear + 1);
-    this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
-    this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
-    this.setGraphData();
+  /** Get the current graph attribute with year */
+  attrYear(year: number) {
+    return this.graphAttribute.id + '-' + year.toString().slice(-2);
   }
 
   /**
@@ -97,53 +151,57 @@ export class EvictionGraphsComponent implements OnInit {
       [];
   }
 
+  /** Generates text for the value label under the location in the legend */
+  getLegendValue(location, locationIndex: number): string {
+    if (!location) { return ''; }
+    const l = location;
+    if (this.graphType === 'bar') {
+      const value = l.properties[this.attrYear(this.barYear)];
+      return value >= 0 ?
+        this.barYear + ': ' + value + '%' :
+        this.translatePipe.transform('DATA.UNAVAILABLE');
+    } else if (this.graphType === 'line') {
+      const tooltip = this.tooltips[locationIndex];
+      if (!tooltip) { return ''; }
+      const value = l.properties[this.attrYear(tooltip.x)];
+      return value >= 0 ?
+        tooltip.x + ': ' + value + '%' :
+        this.translatePipe.transform('DATA.UNAVAILABLE');
+    }
+    return '';
+  }
+
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
-
-  /** changes graph to either line or bar and resets tooltips */
-  changeGraphType(newType: string) {
-    if (typeof newType === 'string') {
-      this.graphTypeChange.emit(newType.toLowerCase());
-    }
-    this.tooltips = [];
-  }
 
   /**
    * Toggles the graph between judgments / filings
    */
   changeGraphProperty(filings: boolean) {
-    this.graphProp = filings ? 'efr' : 'er';
+    this.graphAttribute = filings ? this.dataAttributes[1] : this.dataAttributes[0];
     this.setGraphData();
   }
 
-  /**
-   * Updates the bar to the provided year
-   * @param year
-   */
-  updateBarYear(year: number) {
-    this.year = year;
-    this.setGraphData();
-  }
-
+  /** Gets config for bar graph */
   getBarGraphConfig() {
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
-        type: this.dataLabel,
+        type: this.graphAttribute.name,
         locations: this.locations
           .map(l => l.properties.n).join(', '),
-        year: this.year
+        year: this.barYear
       }),
       description: this.translatePipe.transform('DATA.BAR_GRAPH_DESC', {
-        type: this.dataLabel,
+        type: this.graphAttribute.name,
         locations: this.locations
-          .map(l => `${l.properties.n} (${l.properties[this.getGraphPropForYear(this.year)]})`)
+          .map(l => `${l.properties.n} (${l.properties[this.attrYear(this.barYear)]})`)
           .join(', '),
-        year: this.year
+        year: this.barYear
       }),
       axis: {
         x: { label: null, tickFormat: '.0f' },
         y: {
-          label: this.dataLabel,
+          label: this.graphAttribute.name,
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -153,16 +211,17 @@ export class EvictionGraphsComponent implements OnInit {
     };
   }
 
+  /** Gets config for line graph */
   getLineGraphConfig() {
     return {
       title: this.translatePipe.transform('DATA.LINE_GRAPH_TITLE', {
-        type: this.dataLabel,
+        type: this.graphAttribute.name,
         locations: this.locations.map(l => l.properties.n).join(', '),
         year1: this.lineStartYear,
         year2: this.lineEndYear
       }),
       description: this.translatePipe.transform('DATA.LINE_GRAPH_DESC', {
-        type: this.dataLabel
+        type: this.graphAttribute.name
       }),
       axis: {
         x: {
@@ -172,7 +231,7 @@ export class EvictionGraphsComponent implements OnInit {
           tickPadding: 10
         },
         y: {
-          label: this.dataLabel,
+          label: this.graphAttribute.name,
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -187,6 +246,7 @@ export class EvictionGraphsComponent implements OnInit {
    * Sets the data for the graph, and any settings specific to the type
    */
   setGraphData() {
+    if (!this.locations || this.locations.length === 0) { return; }
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.getLineGraphConfig();
@@ -232,17 +292,14 @@ export class EvictionGraphsComponent implements OnInit {
     return null;
   }
 
-  toggleUS() {
-    this.showAverage = !this.showAverage;
-    this.setGraphData();
-  }
-
 
   /**
    * Genrates line graph data from the features in `locations`
    */
   private createLineGraphData() {
-    return this.locations.map((f, i) => {
+    const locations = this.showAverage && this.average ?
+      [...this.locations, this.average] : this.locations;
+    return locations.map((f, i) => {
       return { id: 'sample' + i, data: this.generateLineData(f) };
     });
   }
@@ -251,8 +308,10 @@ export class EvictionGraphsComponent implements OnInit {
    * Generate bar graph data from the features in `locations
    */
   private createBarGraphData() {
-    return this.locations.map((f, i) => {
-      const yVal = (f.properties[this.getGraphPropForYear(this.year)]);
+    const locations = this.showAverage && this.average ?
+      [...this.locations, this.average] : this.locations;
+    return locations.map((f, i) => {
+      const yVal = (f.properties[this.attrYear(this.barYear)]);
       return {
         id: 'sample' + i,
         data: [{
@@ -267,14 +326,9 @@ export class EvictionGraphsComponent implements OnInit {
     return this.generateYearArray(this.lineStartYear, this.lineEndYear)
       .map((year) => {
         // create points
-        const yVal = feature.properties[this.getGraphPropForYear(year)];
+        const yVal = feature.properties[this.attrYear(year)];
         return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
       });
-  }
-
-  /** Get the current graph property with a year appended to it */
-  private getGraphPropForYear(year) {
-    return `${this.graphProp}-${('' + year).slice(2)}`;
   }
 
   private createGraphTypeOptions() {
@@ -283,10 +337,4 @@ export class EvictionGraphsComponent implements OnInit {
       { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
     ];
   }
-
-  // private getLocations(): MapFeature[] {
-  //   return this.showAverage ? this.allLocations : this.displayLocations;
-  // }
-
-
 }

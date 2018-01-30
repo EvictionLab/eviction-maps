@@ -6,7 +6,7 @@
     [scrollZoom]="enableZoom"
     [activeFeatures]="dataService.activeFeatures"
     [activeMenuItem]="activeMenuItem"
-    [(boundingBox)]="dataService.mapView"
+    [(boundingBox)]="dataService.activeMapView"
     [(year)]="dataService.activeYear"
     [(selectedBubble)]="dataService.activeBubbleHighlight"
     [(selectedChoropleth)]="dataService.activeDataHighlight"
@@ -44,10 +44,8 @@
   <div #divider></div>
   <app-data-panel
       id="data-panel"
-      [style.display]="dataService.activeFeatures.length > 0 ? 'inherit' : 'none'"
       [(year)]="dataService.activeYear"
       (yearChange)="updateRoute()"
-      [(graphType)]="dataService.activeGraphType"
       (graphTypeChange)="updateRoute()"
       [dataAttributes]="dataService.dataAttributes"
       [locations]="dataService.activeFeatures" 

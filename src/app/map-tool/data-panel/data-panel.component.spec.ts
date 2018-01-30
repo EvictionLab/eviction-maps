@@ -37,7 +37,6 @@ export class DataServiceStub {
   activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
-  locations$ = Observable.of([]);
   getRouteArray() { return []; }
 }
 

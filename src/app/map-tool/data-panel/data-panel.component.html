@@ -3,24 +3,33 @@
     <p *ngIf="displayLocations.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
     <p *ngIf="displayLocations.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
   </div>
-  <div class="data-header">
+  <div class="panel-cards" [style.display]="displayLocations.length > 0 ? null : 'none'">
+    <div class="data-header">
       <p [innerHTML]="'DATA.CARD_HEADING' | translate:{'year':year}"></p>
+    </div>
+    <app-location-cards
+      class="card-table"
+      [allowAddLocation]="displayLocations.length < 3"
+      [features]="displayLocations"
+      [usAverage]="dataService.usAverage"
+      [year]="year"
+      [cardProperties]="cardAttributes"
+      (dismissedCard)="locationRemoved.emit($event)"
+      (locationAdded)="locationAdded.emit($event)"
+    ></app-location-cards>
   </div>
-  <app-location-cards
-    class="card-table"
-    [allowAddLocation]="displayLocations.length < 3"
-    [features]="displayLocations"
-    [usAverage]="dataService.usAverage"
-    [year]="year"
-    [cardProperties]="cardProperties"
-    (dismissedCard)="locationRemoved.emit($event)"
-    (locationAdded)="locationAdded.emit($event)"
-  ></app-location-cards>
   <app-eviction-graphs
-    [average]="usAverage"
+    [style.display]="displayLocations.length > 0 ? null : 'none'"
+    [dataAttributes]="graphAttributes"
+    [average]="dataService.usAverage"
     [locations]="displayLocations"
-    [(year)]="year"
-    [(graphyType)]="graphType"
+    (locationRemoved)="locationRemoved.emit($event)"
+    [(barYear)]="dataService.activeYear"
+    [(lineStartYear)]="dataService.activeLineYearStart"
+    [(lineEndYear)]="dataService.activeLineYearEnd"
+    [(showAverage)]="dataService.activeShowGraphAvg"
+    [(graphType)]="dataService.activeGraphType"
+    (graphTypeChange)="graphTypeChange.emit($event)"
   ></app-eviction-graphs>
   <div class="data-content">
     <div class="data-content-inner">
