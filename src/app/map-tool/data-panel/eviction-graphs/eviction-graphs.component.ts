@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
@@ -11,7 +11,7 @@ import { MapDataAttribute } from '../../map/map-data-attribute';
 })
 export class EvictionGraphsComponent implements OnInit {
 
-  @Input() dataAttributes: MapDataAttribute[];
+  @Input() dataAttributes: MapDataAttribute[] = [];
 
   /** Bar graph year input / output (allows double binding) */
   private _barYear;
@@ -120,7 +120,8 @@ export class EvictionGraphsComponent implements OnInit {
 
   constructor(
     private translatePipe: TranslatePipe,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -132,8 +133,8 @@ export class EvictionGraphsComponent implements OnInit {
         this.getBarGraphConfig() : this.getLineGraphConfig();
       this.graphTypeOptions = this.createGraphTypeOptions();
     });
-    this.graphHover.debounceTime(10)
-      .subscribe(e => this.onGraphHover(e));
+    this.graphHover.debounceTime(10).subscribe(e => this.onGraphHover(e));
+    this.cd.detectChanges();
   }
 
   /** Get the current graph attribute with year */

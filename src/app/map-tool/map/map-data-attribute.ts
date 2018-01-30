@@ -4,6 +4,7 @@ export interface MapDataAttribute extends MapDataObject {
     id: string;
     type?: string;
     langKey: string;
+    yearAttr?: string;
     order?: number;
     name?: string;
     format?: string;

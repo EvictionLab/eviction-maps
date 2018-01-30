@@ -55,7 +55,8 @@ describe('MapComponent', () => {
     component.year = 2010;
     component.choroplethOptions = [{
       'id': 'none',
-      'name': 'None',
+      'type': 'choropleth',
+      'langKey': 'STATS.NONE',
       'default': 'rgba(0, 0, 0, 0)',
       'stops': {
         'default': [
@@ -86,6 +87,7 @@ describe('MapComponent', () => {
     }];
     component.bubbleOptions = [{
       'id': 'none',
+      'langKey': '',
       'name': 'None'
     }];
     fixture.detectChanges();

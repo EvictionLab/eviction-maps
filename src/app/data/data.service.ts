@@ -64,7 +64,6 @@ export class DataService {
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
-    this.loadUSAverage();
   }
 
   updateLanguage(translations) {
