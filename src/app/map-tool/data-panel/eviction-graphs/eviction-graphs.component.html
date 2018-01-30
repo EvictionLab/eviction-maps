@@ -33,12 +33,14 @@
       ></app-ui-toggle>
       <app-graph *ngIf="graphData" [class.average-shown]="showAverage" [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
         <div class="line-tooltips" *ngIf="graphType === 'line'">
-          <div class="line-tooltip" *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-              [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-              [style.display]="tooltip.y === undefined ? 'none' : 'inherit'">
+          <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
+          <div class="line-tooltip" 
+            *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+            [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+            [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+          >
             <span class="line-tooltip-value">{{tooltip.y}}</span>
           </div>
-          <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>            
         </div>
         <div class="bar-tooltips" *ngIf="graphType === 'bar'">
           <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
