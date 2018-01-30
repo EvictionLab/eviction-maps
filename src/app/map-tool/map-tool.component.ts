@@ -239,7 +239,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
-              this.dataService.mapView = feature['bbox'];
+              this.dataService.activeMapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }

@@ -1,0 +1,417 @@
+@import '../../../../theme';
+
+// Graphs
+// ----
+// mixins
+
+
+@mixin yearSelectLabel($size) {
+  @include defaultFont($size);
+  letter-spacing: 0.7px;
+  color: $graphAxisLabels;
+  text-transform: uppercase;
+}
+
+@mixin graph-colors($c1, $c2, $c3, $c4) {
+  $strokeWidth: 5;
+  .g0-start { stop-color: #F27636; }
+  .g0-end { stop-color: #E04119; }
+  .g1-start { stop-color: #787EB0; }
+  .g1-end { stop-color: #434878; }
+  .g2-start { stop-color: #57BEB6; }
+  .g2-end { stop-color: #2C897F; }
+  .g3-start { stop-color: #C6D5E0; }
+  .g3-end { stop-color: #94AABD; }
+  .app-graph {
+    .line-0 { stroke: $c1; stroke-width: $strokeWidth; }
+    .line-1 { stroke: $c2; stroke-width: $strokeWidth; }
+    .line-2 { stroke: $c3; stroke-width: $strokeWidth; }
+    .line-3 { stroke: $c4; stroke-width: $strokeWidth; }
+  }
+
+}
+// container
+.graph-container {
+  background: $secondaryBackground;
+  .data-content-inner {
+    margin: 0 auto grid(4);
+    padding: 0 0 grid(3) 0;
+    max-width: $maxContentWidth;
+  }
+}
+// header with graph controls
+.graph-header {
+  background: $defaultBackground;
+  box-shadow: $z1shadow;
+  .graph-header-inner {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    max-width: $maxContentWidth;
+    height:100%;
+    margin:auto;
+    padding: grid(2) 0;
+    > * {
+      margin: grid(1) 0;
+    }
+  }
+
+  .graph-eviction-toggle {
+    order: 1;
+  }
+  .graph-year-select {
+    order: 2;
+    .graph-year-label { display: none; }
+    .graph-select { 
+      display:flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      span { 
+        line-height: grid(6); 
+        margin: 0 grid(1.5); 
+        @include yearSelectLabel(10px);
+      }
+    }
+  }
+}
+.graph-type-toggle {
+  position:absolute;
+  right: $pageMargin;
+  top: $pageMargin;
+  ::ng-deep {
+    height: grid(6);
+    button {
+      width: grid(6);
+      height: grid(4.5);
+      padding: 0 6px;
+      box-sizing:border-box;
+      background-repeat: no-repeat;
+      background-position: center;
+      &:focus {
+        box-shadow:none;
+        span { background-color: $focusBgColor; }
+      }
+      span {
+        display:block;
+        width:100%;
+        height:100%;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        // hide text
+        text-indent: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+    }
+    button:first-child {
+      span { background-image: bar-chart($grey3); }
+      &.selected span { background-image: bar-chart($color1); }
+    }
+    button:last-child {
+      span { background-image: line-chart($grey3); }
+      &.selected span { background-image: line-chart($color1); }
+    }
+  }
+}
+// increase page margin for toggle on tablet+
+:host-context(.gt-mobile) .graph-type-toggle {
+  right: $pageMarginLg;
+}
+// graph style
+.graph-area { 
+  position:relative;
+  display: block; 
+  width:100%;
+  text-align:right;
+  padding-top: grid(8);
+  app-graph {
+    display:block;
+    width:100%;
+    padding-top:56.25%;
+    position:relative;
+    ::ng-deep {
+      @include graph-colors($graphColor1, $graphColor2, $graphColor3, $graphColor4);
+      .axis path, .graph-rect { 
+        stroke: $graphAxisLines;
+        stroke-width: 2px;
+      }
+      .app-graph .line { stroke-width: 5px; }
+      // tick labels
+      .axis .tick text {
+        fill: $graphAxisLabels;
+        @include numberFont(11px);
+      }
+      .axis line { stroke: #fff; }
+      // hide tick lines
+      .axis-x .tick {
+        line { display:none; }
+      }
+      .label-y {
+        @include smallCapsText(12px);
+        fill: $graphAxisLabels;
+      }
+    }
+    &.average-shown ::ng-deep .app-graph g.line:last-child path.line {
+      stroke: $graphColor4;
+    }
+    &.average-shown ::ng-deep .app-graph rect.bar:last-child {
+      fill: url(#g3);
+    }
+  }
+  // no tick labels on bar graphs
+  &.bar-graph app-graph ::ng-deep {
+    .axis-x .tick {
+      display:none;
+    }
+  }
+}
+.graph-legend {
+  max-width: grid(40); // 320px
+  margin:auto;
+  padding: grid(3) grid(2) 0;
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+    display:flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-around;
+  }
+  li {
+    position:relative;
+    width:100%;
+    margin: grid(1.5) 0;
+    height: grid(5);
+    .legend-marker {
+      height: grid(4);
+      width: grid(3);
+      position:absolute;
+      top:0; left:0;
+      margin: auto;
+    }
+    .legend-label {
+      margin-left: grid(5);
+      margin-right: grid(6);
+      display:block;
+      line-height: 24px;
+      @include defaultFontBold(18px);
+    }
+    .legend-data {
+      margin-left: grid(5);
+      margin-top: grid(1);
+    }
+    .btn-close { 
+      position:absolute;
+      right:0;
+      top:-1*grid(1);
+    }
+    &:last-child { border-bottom: none; }
+    &:nth-child(1) .legend-marker path { fill: $graphColor1; }
+    &:nth-child(2) .legend-marker path { fill: $graphColor2; }
+    &:nth-child(3) .legend-marker path { fill: $graphColor3; }
+    &.us-average .legend-marker path { fill: $graphColor4; }
+  }
+  li.us-average {
+    opacity: 0.5;
+
+    .btn.btn-close::after {
+      transform: rotate(45deg);
+      transition: all 0.2s ease;
+    }
+
+    &.active {
+      opacity: 1;
+
+      .btn.btn-close::after {
+        transform: rotate(0deg);
+      }
+    }
+  }
+}
+
+:host-context(.gt-mobile) {
+  .graph-header {
+    height: grid(11);
+    .graph-header-inner {
+      flex-direction: row;
+      padding: 0 $pageMarginLg;
+    }
+    .graph-eviction-toggle {
+      order: 1;
+    }
+    app-ui-switch {
+      flex:1;
+    }
+    .graph-year-select {
+      order: 2;
+      display:flex;
+      align-items:center;
+      justify-content: flex-end;
+      flex:1;
+      .graph-year-label { 
+        display: flex;
+        align-items: center;
+        justify-content:center;
+        text-align:right; 
+        @include yearSelectLabel(14px);
+        margin-right: grid(2);
+        color: $graphAxisLabels;
+      }
+    }
+  }
+  .graph-legend {
+    max-width: none;
+    padding-left: $pageMarginLg;
+    padding-right: $pageMarginLg;
+    ul {
+      flex-direction:row;
+    }
+    li {
+      width:auto;
+      .legend-label {
+        margin-right:0;
+      }
+      .btn-close { 
+        position:absolute;
+        right:-1*grid(5);
+        top: -1*grid(1);
+      }
+    }
+  }
+}
+:host-context(.gt-tablet) {
+  .graph-container {
+    position:relative;
+    padding-top: grid(11);
+  }
+  .graph-header {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
+    .graph-selects span { @include yearSelectLabel(14px); }
+  }
+  .graph-type-toggle {
+    position: absolute;
+    right: grid(2);
+    top: grid(2);
+  }
+  .graph-area { 
+    width:66.666666%; 
+    display:inline-block;
+  }
+  .graph-legend {
+    width: 33.33333%;
+    float:right;
+    padding-top: grid(9);
+    ul {
+      flex-direction:column;
+    }
+    li { 
+      width:100%; 
+      margin: grid(1.5) 0 grid(3);
+      .btn-close { position: absolute; right:0; }
+      .legend-label { font-size: 21px; }
+    }
+  }
+}
+
+:host-context(.gt-small-desktop) {
+  .graph-legend {
+    padding-left: grid(5);
+    padding-right: grid(5);
+  }
+  .graph-header .graph-year-select {
+    margin-left: grid(5);
+  }
+}
+
+// Tooltips
+// ----
+.year-marker {
+  position:absolute;
+  left:0;
+  top:20px;
+  height: calc(100% - #{grid(5)});
+  width:1px;
+  border-left: 1px dashed rgba(0,0,0,0.35);
+  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);
+  span {
+    position:absolute;
+    bottom: -1*grid(3);
+    left:0;
+    width: grid(4);
+    margin-left: -1*grid(2);
+    @include numberFont(14px);
+    text-align: center;
+  }
+}
+.line-tooltips, .bar-tooltips {
+  @include fill-parent();
+  pointer-events: none;
+}
+.line-tooltip, .bar-tooltip {
+  position:absolute;
+  top:0;
+  left:0;
+  color: #fff;
+  padding:4px;
+  font-size: 11px;
+  background: rgba(0,0,0,0.8);
+  border-radius: 3px;
+}
+.bar-tooltip {
+  min-width: 40px;
+  text-align:center;
+  margin-left: -20px;
+  margin-top: -26px;
+  @include down-arrow(6px, rgba(0,0,0,0.8));
+}
+.line-tooltip {
+  width: 48px;
+  height: 24px;
+  margin-top:-12px;
+  margin-left: 12px;
+  text-align:center;
+  line-height: 15px;
+  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);  
+  @include left-arrow(6px, rgba(0,0,0,0.8));
+  &:after { z-index:5; }
+  &:before {
+    content: "";
+    display:block;
+    width:10px;
+    height:10px;
+    border-radius:6px;
+    position:absolute;
+    top: 7px;
+    left:0px;
+    margin-left: -17px;
+    z-index:1;
+  }
+  &:nth-child(2):before {
+    background:$color1;
+  }
+  &:nth-child(3):before {
+    background:$color2;
+  }
+  &:nth-child(4):before {
+    background:$color3;
+  }
+  &:nth-child(5):before {
+    background:$color4;
+  }
+  .line-tooltip-year {
+    display:block;
+    font-weight: 400;
+  }
+  .line-tooltip-value {
+    font-weight: 600;
+  }
+}
+.average-shown .line-tooltip:last-child:before {
+  background:$color4;
+}

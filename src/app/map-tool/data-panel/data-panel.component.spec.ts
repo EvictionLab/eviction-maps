@@ -10,7 +10,7 @@ import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { PlatformService } from '../../platform.service';
 import { DataService } from '../../data/data.service';
-import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
+import { DataAttributes } from '../../data/data-attributes';
 import { DataLevels } from '../../data/data-levels';
 import { Pipe, PipeTransform } from '@angular/core';
 
@@ -29,15 +29,14 @@ export class FileExportStub {
 export class DataServiceStub {
   get dataLevels() { return DataLevels; }
   get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  get bubbleAttributes() { return DataAttributes; }
   activeYear = 2010;
   activeFeatures = [];
   activeDataLevel = DataLevels[0];
   activeDataHighlight = DataAttributes[0];
-  activeBubbleHighlight = BubbleAttributes[0];
+  activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
-  locations$ = Observable.of([]);
   getRouteArray() { return []; }
 }
 

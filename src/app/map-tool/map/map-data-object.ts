@@ -1,4 +1,4 @@
 export interface MapDataObject {
     id: string;
-    name: string;
+    name?: string;
 }
