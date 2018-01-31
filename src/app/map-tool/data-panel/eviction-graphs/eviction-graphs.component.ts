@@ -100,13 +100,7 @@ export class EvictionGraphsComponent implements OnInit {
       this._showAverage = value;
       this.showAverageChange.emit(value);
       this.setGraphData();
-      // toggle `averageActive` after a timeout if false so line/bar doesn't
-      // immediately change color
-      if (this.showAverage) {
-        this.averageActive = true;
-      } else {
-        setTimeout(() => { this.averageActive = false; }, 1000);
-      }
+      this.toggleAverageClass();
     }
   }
   get showAverage() { return this._showAverage; }
@@ -125,6 +119,7 @@ export class EvictionGraphsComponent implements OnInit {
   barYearSelect: Array<number>; // array of years for bar graph select
   graphHover = new EventEmitter(); // event emitter for when user hovers the graph
   private graphTimeout; // tracks if a timeout is set to update graph settings
+  private averageTimeout; // tracks timeout when setting average so it can be cancelled
 
   constructor(
     private translatePipe: TranslatePipe,
@@ -301,6 +296,22 @@ export class EvictionGraphsComponent implements OnInit {
     return null;
   }
 
+  /**
+   * toggle `averageActive` after a timeout if false so line/bar doesn't
+   * immediately change color
+   */
+  private toggleAverageClass() {
+
+    if (this.showAverage) {
+      if (this.averageTimeout) { clearTimeout(this.averageTimeout); }
+      this.averageActive = true;
+    } else {
+      this.averageTimeout = setTimeout(() => {
+        this.averageActive = false;
+        this.averageTimeout = null;
+      }, 1000);
+    }
+  }
 
   /**
    * Genrates line graph data from the features in `locations`

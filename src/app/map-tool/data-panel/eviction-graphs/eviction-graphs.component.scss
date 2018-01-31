@@ -152,10 +152,10 @@
         fill: $graphAxisLabels;
       }
     }
-    &.average-shown ::ng-deep .app-graph g.line:last-child path.line {
+    &.average-shown ::ng-deep .app-graph g.line:last-of-type path.line {
       stroke: $graphColor4;
     }
-    &.average-shown ::ng-deep .app-graph rect.bar:last-child {
+    &.average-shown ::ng-deep .app-graph rect.bar:last-of-type {
       fill: url(#g3);
     }
   }
@@ -412,6 +412,6 @@
     font-weight: 600;
   }
 }
-.average-shown .line-tooltip:last-child:before {
+.average-shown .line-tooltip:last-of-type:before {
   background:$color4;
 }
