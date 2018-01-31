@@ -9,8 +9,9 @@ export class ToggleScrollService {
    * IE 11 requires an empty string rather than null to unset styles.
    */
   set allowScroll(val: boolean) {
-    this.document.body.style.position = val ? '' : 'fixed';
-    this.document.body.style.overflowY = val ? '' : 'scroll';
+    const changeScroll = !val && this.document.documentElement.scrollTop === 0;
+    this.document.body.style.position = changeScroll ? 'fixed' : '';
+    this.document.body.style.overflowY = changeScroll ? 'scroll' : '';
   }
 
   constructor(@Inject(DOCUMENT) private document: any) { }
