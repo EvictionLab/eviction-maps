@@ -31,7 +31,7 @@
         [selectedValue]="graphType"
         (selectedValueChanged)="graphType = $event"
       ></app-ui-toggle>
-      <app-graph *ngIf="graphData" [class.average-shown]="showAverage" [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
+      <app-graph *ngIf="graphData" [class.average-shown]="averageActive" [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
         <div class="line-tooltips" *ngIf="graphType === 'line'">
           <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
           <div class="line-tooltip" 
