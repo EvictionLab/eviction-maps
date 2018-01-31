@@ -32,8 +32,13 @@
     }
   }
   // show toolip when dragging
-  &.active .el-slider .scrubber-label {
-    opacity:1;
+  &.active { 
+    .el-slider .scrubber-label {
+      opacity:1;
+    }
+    .el-slider .scrubber {
+      transition: none;
+    }
   }
 }
 .slider-label {
@@ -84,6 +89,7 @@
     margin: auto;
     margin-left: -1 * grid(8) / 2;
     cursor: move;
+    transition: transform 0.4s ease;
   }  
   .scrubber-label {
     opacity:0;
