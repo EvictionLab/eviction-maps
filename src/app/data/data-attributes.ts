@@ -335,6 +335,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'er',
     'type': 'bubble',
     'langKey': 'STATS.JUDGMENT_RATE',
+    'hintKey': 'HINTS.EVICTION_RATE',
     'format': 'percent',
     'order': 1,
     'default': 0,

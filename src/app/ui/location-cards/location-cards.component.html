@@ -15,14 +15,17 @@
   </div>
   <div class="card-content">
     <ul class="card-stats">
-      <li *ngFor="let prop of cardProperties; let i = index;" [class]="prop.id">
+      <li *ngFor="let prop of cardProperties; let i = index;" [class]="prop.id" [class.has-hint]="prop.hintKey">
         <span *ngIf="i === 1 && usAverage && f.properties[prop.yearAttr] > 0" class="card-stat-comparison">
           {{ f.properties[prop.yearAttr] > usAverage[prop.yearAttr] ? '+' : '' }}{{
           (f.properties[prop.yearAttr] - usAverage[prop.yearAttr]).toFixed(1) !== '0.0' ?
             (f.properties[prop.yearAttr] - usAverage[prop.yearAttr] | number : '1.1-1') : '='
           }} {{ 'DATA.US_AVERAGE' | translate }}
         </span>
-        <span *ngIf="prop.id !== 'divider'" class="card-stat-label">{{ prop.name }}</span>
+        <span *ngIf="prop.id !== 'divider'" class="card-stat-label">
+          {{ prop.name }}
+          <app-ui-hint *ngIf="prop.hintKey" class="attribute-hint" [hint]="prop.hintKey | translate" placement="right" triggers="hover touchend"></app-ui-hint>
+        </span>
         <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ (f.properties[prop.yearAttr] | number) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>

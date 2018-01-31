@@ -52,6 +52,9 @@
     "MAP_HINT": "Empiece aquí"
   },
   "HELP": "Lorem Ipsum",
+  "HINTS": {
+    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
+  },
   "LAYERS": {
     "STATES": "Estados",
     "COUNTIES": "Condados",
