@@ -100,11 +100,19 @@ export class EvictionGraphsComponent implements OnInit {
       this._showAverage = value;
       this.showAverageChange.emit(value);
       this.setGraphData();
+      // toggle `averageActive` after a timeout if false so line/bar doesn't
+      // immediately change color
+      if (this.showAverage) {
+        this.averageActive = true;
+      } else {
+        setTimeout(() => { this.averageActive = false; }, 1000);
+      }
     }
   }
   get showAverage() { return this._showAverage; }
   @Output() showAverageChange = new EventEmitter();
 
+  averageActive = true; // tracks if the average is active on the graph
   tooltips = []; // attribute for holding tooltip data
   graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
   graphAttribute: MapDataAttribute; // current graph property (sync with map?)
