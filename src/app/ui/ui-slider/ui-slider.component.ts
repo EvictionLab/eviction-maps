@@ -82,6 +82,8 @@ export class UiSliderComponent implements AfterViewInit {
     if (this.pressed) {
       this.setScrubberPosition(e);
     }
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   /**
@@ -107,6 +109,8 @@ export class UiSliderComponent implements AfterViewInit {
     if (this.pressed && e.touches && e.touches.length === 1) {
       this.setScrubberPosition(e.touches[0]);
     }
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
