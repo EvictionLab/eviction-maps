@@ -1,13 +1,12 @@
 <div id="top" role="main" class="app-wrapper">
   <app-map
     [mapConfig]="dataService.mapConfig"
-    [bubbleOptions]="dataService.bubbleAttributes"
+    [dataAttributes]="dataService.dataAttributes"
     [layerOptions]="dataService.dataLevels"
-    [choroplethOptions]="dataService.dataAttributes"
     [scrollZoom]="enableZoom"
     [activeFeatures]="dataService.activeFeatures"
     [activeMenuItem]="activeMenuItem"
-    [(boundingBox)]="dataService.mapView"
+    [(boundingBox)]="dataService.activeMapView"
     [(year)]="dataService.activeYear"
     [(selectedBubble)]="dataService.activeBubbleHighlight"
     [(selectedChoropleth)]="dataService.activeDataHighlight"
@@ -45,11 +44,10 @@
   <div #divider></div>
   <app-data-panel
       id="data-panel"
-      [style.display]="dataService.activeFeatures.length > 0 ? 'inherit' : 'none'"
       [(year)]="dataService.activeYear"
       (yearChange)="updateRoute()"
-      [(graphType)]="dataService.activeGraphType"
       (graphTypeChange)="updateRoute()"
+      [dataAttributes]="dataService.dataAttributes"
       [locations]="dataService.activeFeatures" 
       (locationRemoved)="dataService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"

@@ -8,6 +8,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
@@ -18,23 +19,7 @@ import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { DataService } from '../data/data.service';
 import { PlatformService } from '../platform.service';
-
-// Pulled from https://stackoverflow.com/a/44635703
-// Temporarily adding debounce decorator here to avoid compilation errors
-// See the following issues for more:
-// https://github.com/angular/angular-cli/issues/8434
-// https://github.com/Microsoft/TypeScript/issues/17384
-export function debounce(delay: number = 300): MethodDecorator {
-  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    let timeout = null;
-    const original = descriptor.value;
-    descriptor.value = function (...args) {
-      clearTimeout(timeout);
-      timeout = setTimeout(() => original.apply(this, args), delay);
-    };
-    return descriptor;
-  };
-}
+import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
 
 @Component({
   selector: 'app-map-tool',
@@ -51,6 +36,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   panelOffset: number; // tracks the vertical offset to the data panel
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
+  helpData: string; // translated title / content for help dialog.
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
   urlParts;
@@ -65,6 +51,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private toast: ToastsManager,
     private platform: PlatformService,
+    private dialogService: UiDialogService,
     @Inject(DOCUMENT) private document: any
   ) {
     translate.onLangChange.subscribe((lang) => this.updateRoute());
@@ -75,12 +62,19 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.configurePageScroll();
+    this.setupPageScroll();
     this.route.url.subscribe((url) => { this.urlParts = url; });
     this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
     Observable.combineLatest(
       this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
     ).take(1).subscribe(this.setRouteParams.bind(this));
+
+    // Subscribe to language changes and store translated help content
+    this.translate.onLangChange.subscribe(() => {
+      this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
+        .subscribe((res: string) => this.helpData = res);
+    });
+
   }
 
   /**
@@ -88,22 +82,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
-    this.setOffsetToTranslate();
-  }
-
-  /**
-   * Debounced wheel event on the document, enable zoom
-   * if the document is scrolled to the top at the end of
-   * the wheel events
-   */
-  @HostListener('document:wheel', ['$event'])
-  @debounce(250)
-  onWheel() {
-    if (typeof this.verticalOffset === 'undefined') {
-      this.verticalOffset = this.getVerticalOffset();
-    }
-    this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
   }
 
   /**
@@ -111,66 +89,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * @param e resize event
    */
   @HostListener('window:resize', [ '$event' ])
-  onresize(e) {
+  onResize(e) {
     this.panelOffset =
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
-    this.setOffsetToTranslate();
-  }
-
-  /**
-   * Configures the data service based on any route parameters
-   */
-  setRouteParams(paramObj: Object) {
-    const params = paramObj['params'];
-    const queryParams = paramObj['queryParams'];
-
-    if (params['year']) {
-      this.dataService.activeYear = params['year'];
-    }
-    if (params['geography']) {
-      const geo = params['geography'];
-      if (geo !== 'auto') {
-        this.dataService.setGeographyLevel(geo);
-      }
-    }
-    if (params['bounds']) {
-      const b = params['bounds'].split(',');
-      if (b.length === 4) {
-        this.dataService.setMapBounds(b);
-      }
-    }
-
-    this.translate.use(queryParams['lang'] || 'en');
-    if (queryParams['choropleth']) {
-      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
-    }
-    if (queryParams['type']) {
-      this.dataService.setBubbleHighlight(queryParams['type']);
-    }
-    if (queryParams['locations']) {
-      const locations = this.getLocationsFromString(queryParams['locations']);
-      this.dataService.setLocations(locations);
-    }
-    if (queryParams['graph']) {
-      this.dataService.setGraphType(queryParams['graph']);
-    }
-    this.dataService.embed = queryParams['embed'] === 'true';
-
-    this.cdRef.detectChanges();
-  }
-
-  /**
-   * Configures the data service with any static data passed through the route
-   */
-  setMapToolData(data) {
-    // Set default zoom to 2 on mobile
-    if (this.platform.isMobile && data.mapConfig) {
-      data.mapConfig.zoom = 2;
-    }
-    this.dataService.mapConfig = data.mapConfig;
-    if (data.hasOwnProperty('year')) {
-      this.dataService.activeYear = data.year;
-    }
   }
 
   /** Update route if it has changed */
@@ -208,6 +129,16 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
+   * Shows the help dialog with data loaded from i18n
+   */
+  showHelpDialog() {
+    return this.dialogService.showDialog({
+      title: this.helpData['HELP.TITLE'],
+      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }]
+    });
+  }
+
+  /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    * @param updateMap moves the map to the selected location if true
@@ -227,7 +158,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
           const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
-              this.dataService.mapView = feature['bbox'];
+              this.dataService.activeMapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }
@@ -274,25 +205,58 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.pageScrollService.start(pageScrollInstance);
   }
 
-    /**
-   * If scrolled to the top, enable the zoom.  Unless
-   * there is a wheel event currently happening.
+  /**
+   * Configures the data service based on any route parameters
    */
-  @HostListener('window:scroll', ['$event'])
-  onscroll(e) {
-    this.verticalOffset = this.getVerticalOffset();
-    if (!this.wheelEvent) {
-      this.enableZoom = (this.verticalOffset === 0);
-    } else {
-      this.enableZoom = false;
+  private setRouteParams(paramObj: Object) {
+    const params = paramObj['params'];
+    const queryParams = paramObj['queryParams'];
+    this.translate.use(queryParams['lang'] || 'en');
+    if (params['year']) {
+      this.dataService.activeYear = params['year'];
     }
+    if (params['geography']) {
+      const geo = params['geography'];
+      if (geo !== 'auto') {
+        this.dataService.setGeographyLevel(geo);
+      }
+    }
+    if (params['bounds']) {
+      const b = params['bounds'].split(',');
+      if (b.length === 4) {
+        this.dataService.setMapBounds(b);
+      }
+    }
+    if (queryParams['choropleth']) {
+      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
+    }
+    if (queryParams['type']) {
+      this.dataService.setBubbleHighlight(queryParams['type']);
+    }
+    if (queryParams['locations']) {
+      const locations = this.getLocationsFromString(queryParams['locations']);
+      this.dataService.setLocations(locations);
+    }
+    if (queryParams['graph']) {
+      this.dataService.setGraphType(queryParams['graph']);
+    }
+    this.dataService.embed = queryParams['embed'] === 'true';
+    this.cdRef.detectChanges();
   }
 
   /**
-   * Set wheel flag while scrolling with the wheel
+   * Configures the data service with any static data passed through the route
    */
-  @HostListener('wheel', ['$event'])
-  onBeginWheel() { this.wheelEvent = true; }
+  private setMapToolData(data) {
+    // Set default zoom to 2 on mobile
+    if (this.platform.isMobile && data.mapConfig) {
+      data.mapConfig.zoom = 2;
+    }
+    this.dataService.mapConfig = data.mapConfig;
+    if (data.hasOwnProperty('year')) {
+      this.dataService.activeYear = data.year;
+    }
+  }
 
   private getVerticalOffset() {
     return window.pageYOffset ||
@@ -301,9 +265,10 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Configures options for the `ng2-page-scroll` module
+   * Configures options for the `ng2-page-scroll` module, and setup scroll observables
+   * to enable / disable map zoom
    */
-  private configurePageScroll() {
+  private setupPageScroll() {
     PageScrollConfig.defaultScrollOffset = 120;
     PageScrollConfig.defaultDuration = 1000;
     // easing function pulled from:
@@ -311,16 +276,44 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     PageScrollConfig.defaultEasingLogic = {
         ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
     };
+
+    // Setup scroll events to handle enable / disable map zoom
+    Observable.fromEvent(this.document, 'wheel')
+      .debounceTime(250)
+      .subscribe(e => this.onWheel());
+    Observable.fromEvent(this.document, 'wheel')
+      .throttleTime(50)
+      // only fire when wheel event hasn't been triggered yet
+      .filter(() => !this.wheelEvent)
+      .subscribe(e => this.wheelEvent = true);
+    Observable.fromEvent(window, 'scroll')
+      // trailing scroll event is needed so verticalOffset = 0 event is fired
+      .throttleTime(10, undefined, { trailing: true, leading: true })
+      .subscribe(e => this.onScroll());
   }
 
   /**
-   * Sets the function that maps page vertical offset to the
-   * amount to translate the "back to map" button
+   * Debounced wheel event on the document, enable zoom
+   * if the document is scrolled to the top at the end of
+   * the wheel events
    */
-  private setOffsetToTranslate() {
-    this.offsetToTranslate = scaleLinear()
-      .domain([0, this.panelOffset - 130])
-      .range([-this.panelOffset / 2 + 90, 0]);
+  private onWheel() {
+    this.verticalOffset = this.getVerticalOffset();
+    this.wheelEvent = false;
+    this.enableZoom = (this.verticalOffset === 0);
+  }
+
+  /**
+   * If scrolled to the top, enable the zoom.  Unless
+   * there is a wheel event currently happening.
+   */
+  private onScroll() {
+    this.verticalOffset = this.getVerticalOffset();
+    if (!this.wheelEvent) {
+      this.enableZoom = (this.verticalOffset === 0);
+    } else {
+      this.enableZoom = false;
+    }
   }
 
   /**

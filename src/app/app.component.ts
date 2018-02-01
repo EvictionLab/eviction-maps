@@ -92,6 +92,13 @@ export class AppComponent implements OnInit {
     if (itemId === 'map') {
       if (this.mapComponent) { this.mapComponent.goToTop(); }
     }
+    // show help dialog when help is pressed
+    if (itemId === 'help') {
+      if (this.mapComponent) {
+        this.mapComponent.showHelpDialog()
+          .subscribe((res) => { this.onMenuSelect(null); });
+      }
+    }
     // set the active menu item in the component so it knows
     if (this.mapComponent) {
       this.mapComponent.activeMenuItem = itemId;

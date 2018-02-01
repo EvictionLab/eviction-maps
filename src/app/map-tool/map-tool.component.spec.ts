@@ -6,10 +6,11 @@ import 'rxjs/add/observable/of';
 import { DataService } from '../data/data.service';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MapToolModule } from './map-tool.module';
-import { DataAttributes, BubbleAttributes } from '../data/data-attributes';
+import { DataAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from '../loading.service';
+import { ToggleScrollService } from '../toggle-scroll.service';
 
 export class TranslateServiceStub {
   public get(key: any): any {
@@ -20,13 +21,13 @@ export class TranslateServiceStub {
 export class DataServiceStub {
   get dataLevels() { return DataLevels; }
   get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  get bubbleAttributes() { return DataAttributes; }
   activeYear = 2010;
   activeFeatures = [];
   locations$ = Observable.of([]);
   activeDataLevel = DataLevels[0];
   activeDataHighlight = DataAttributes[0];
-  activeBubbleHighlight = BubbleAttributes[0];
+  activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
   getRouteArray() { return []; }
@@ -51,7 +52,8 @@ describe('MapToolComponent', () => {
         providers: [
           {provide: DataService, useClass: DataServiceStub },
           TranslateService,
-          LoadingService
+          LoadingService,
+          ToggleScrollService
         ]
       }
     })

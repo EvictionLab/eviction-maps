@@ -144,3 +144,18 @@ body {
   transform: rotate(180deg);
   polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
+
+
+// copy link tooltip override
+@media(max-width: $gtMobile) {
+  .popover.in.bs-popover-top {
+    left:0!important;
+    right:0!important;
+    margin:auto;
+    width: grid(35);
+    .popover-arrow.arrow {
+      left:auto!important;
+      right: grid(3);
+    }
+  }
+}

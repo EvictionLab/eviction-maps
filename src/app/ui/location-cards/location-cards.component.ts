@@ -3,6 +3,9 @@ import {
 } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DecimalPipe } from '@angular/common';
+import { MapDataAttribute } from '../../map-tool/map/map-data-attribute';
+import { MapFeature } from '../../map-tool/map/map-feature';
+
 @Component({
   selector: 'app-location-cards',
   templateUrl: './location-cards.component.html',
@@ -45,22 +48,64 @@ import { DecimalPipe } from '@angular/common';
   ],
 })
 export class LocationCardsComponent implements OnInit {
-  @Input() allowAddLocation = false;
-  @Input() features: Array<any> = [];
-  @Input() usAverage: Object;
-  @Input() year = 2010;
-  @Input() percentProps: Array<string>;
-  @Input() dollarProps: Array<string>;
-  @Input()
-  set cardProperties(value) {
+
+  /**
+   * Input for which cards to show, one card for each feature.  If the update
+   * contains the same features, the features are updated instead of a new
+   * value being assigned. This prevents the animation from being re-triggered.
+   */
+  private _features: MapFeature[] = [];
+  @Input() set features(value: MapFeature[]) {
+    const sameAmount = this._features.length === value.length;
+    if (sameAmount) {
+      const sameFeatures = this._features.reduce((acc, cur, i) => {
+        return acc ? cur.properties.GEOID === value[i].properties.GEOID : false;
+      }, true);
+      if (sameFeatures) {
+        // features are the same, update their properties in place
+        for (let i = 0; i < value.length; i++) {
+          this._features[i].properties = value[i].properties;
+        }
+      }
+    } else {
+      this._features = value;
+    }
+  }
+  get features(): MapFeature[] { return this._features; }
+
+  /**
+   * Input for which year's data to display in the card. Adds a reference
+   * to the data property with year (e.g. 'e-12') to each card property when set.
+   */
+  private _year: number;
+  @Input() set year(value: number) {
+    if (value && value !== this._year) {
+      this._year = value;
+      this.addYearAttrToProps();
+    }
+  }
+  get year(): number { return this._year; }
+
+  /**
+   * Input for which data attributes to show in the card.  Assigns a lookup array
+   * for any properties that need special formatting when set.
+   */
+  private _cardProps: MapDataAttribute[] = [];
+  @Input() set cardProperties(value) {
     if (!value) { return; }
     this._cardProps = value;
-    this.cardPropertyKeys = Object.keys(value);
+    this.percentProps = value.filter(p => p.format === 'percent').map(p => p.id);
+    this.dollarProps = value.filter(p => p.format === 'dollar').map(p => p.id);
+    this.addYearAttrToProps();
   }
-  get cardProperties() {
-    return this._cardProps;
-  }
+  get cardProperties(): MapDataAttribute[] { return this._cardProps; }
+
+  /** Determines if the cards collapse when not being interacted with */
   @Input() collapsible = false;
+  /** Determines if placeholder cards are added that allow adding a location */
+  @Input() allowAddLocation = false;
+  /** US Average data used to show how a location compares (eviction rate only) */
+  @Input() usAverage: Object;
   @Output() dismissedCard = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   @Output() clickedHeader = new EventEmitter();
@@ -69,9 +114,9 @@ export class LocationCardsComponent implements OnInit {
   }
   expanded = true;
   clickHeader = false;
-  cardPropertyKeys: Array<string>;
   get abbrYear() { return this.year.toString().slice(-2); }
-  private _cardProps;
+  private percentProps;
+  private dollarProps;
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
@@ -87,9 +132,15 @@ export class LocationCardsComponent implements OnInit {
     this.expanded = this.collapsible ? false : true;
   }
 
+  /** gets an animation state for the card number */
   getCardState(cardNum: number) {
     return this.collapsible ?
       'card' + (this.expanded ? '-e-' : '-') + cardNum + '-' + this.features.length : 'card';
+  }
+
+  /** tracks card in the ngFor by the feature's GEOID */
+  trackCards(index, feature) {
+    return feature.properties.GEOID;
   }
 
   /**
@@ -106,6 +157,14 @@ export class LocationCardsComponent implements OnInit {
    */
   suffix(prop: string) {
     return (this.percentProps.indexOf(prop) !== -1) ? '%' : null;
+  }
+
+  /** Add a reference to the current year property name for each data attribute */
+  private addYearAttrToProps() {
+    this._cardProps = this._cardProps.map(p => {
+      p.yearAttr = p.id + '-' + this.abbrYear;
+      return p;
+    });
   }
 
 }

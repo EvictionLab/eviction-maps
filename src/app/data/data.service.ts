@@ -3,7 +3,6 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -13,31 +12,36 @@ import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 
+import { environment } from '../../environments/environment';
 import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
 import { MapLayerGroup } from '../map-tool/map/map-layer-group';
 import { MapDataObject } from '../map-tool/map/map-data-object';
 import { MapFeature } from '../map-tool/map/map-feature';
-import { DataAttributes, BubbleAttributes } from './data-attributes';
+import { DataAttributes } from './data-attributes';
 import { DataLevels } from './data-levels';
 
 @Injectable()
 export class DataService {
   dataLevels = DataLevels;
   dataAttributes = DataAttributes;
-  bubbleAttributes = BubbleAttributes;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
   ];
+  /** Attributes to track the current state */
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
-  activeDataHighlight: MapDataAttribute = DataAttributes[0];
-  activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
+  activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
+  activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
   activeGraphType = 'line';
-  mapView;
+  activeLineYearStart = environment.minYear;
+  activeLineYearEnd = environment.maxYear;
+  activeShowGraphAvg = true;
+  activeMapView;
   mapConfig;
   usAverage;
+<<<<<<< HEAD
   private _embed = false;
   get embed() { return this._embed; }
   set embed(embed) {
@@ -49,12 +53,20 @@ export class DataService {
   private _embedChange = new BehaviorSubject<boolean>(false);
   embedChange = this._embedChange.asObservable();
 
+=======
+  get choroplethAttributes() {
+    return this.dataAttributes.filter(d => d.type === 'choropleth');
+  }
+  get bubbleAttributes() {
+    return this.dataAttributes.filter(d => d.type === 'bubble');
+  }
+  get cardAttributes() {
+    return this.dataAttributes.filter(d => d.id !== 'none');
+  }
+>>>>>>> development
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
   }
-  // For tracking "soft" location updates
-  private _locations = new BehaviorSubject<MapFeature[]>([]);
-  locations$ = this._locations.asObservable();
 
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
@@ -68,7 +80,6 @@ export class DataService {
     });
   }
 
-
   updateLanguage(translations) {
     if (translations.hasOwnProperty('HEADER')) {
       const header = translations['HEADER'];
@@ -80,11 +91,7 @@ export class DataService {
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
-      this.dataAttributes = DataAttributes.map((a) => {
-        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
-        return a;
-      });
-      this.bubbleAttributes = BubbleAttributes.map((a) => {
+      this.dataAttributes = this.dataAttributes.map((a) => {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
@@ -104,7 +111,7 @@ export class DataService {
    * @param id string corresponding to the `MapDataAttribute` in `DataAttributes`
    */
   setChoroplethHighlight(id: string) {
-    const dataAttr = this.dataAttributes.find((attr) => attr.id === id);
+    const dataAttr = this.choroplethAttributes.find((attr) => attr.id === id);
     if (dataAttr) {
       this.activeDataHighlight = dataAttr;
     }
@@ -150,7 +157,7 @@ export class DataService {
    * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
-    this.mapView = mapBounds;
+    this.activeMapView = mapBounds;
   }
 
   /**
@@ -190,7 +197,7 @@ export class DataService {
     return [
       this.activeYear,
       this.activeDataLevel.id,
-      this.mapView ? this.mapView.join() : null
+      this.activeMapView ? this.activeMapView.join() : null
     ];
   }
 
@@ -222,7 +229,6 @@ export class DataService {
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       this.activeFeatures = [...this.activeFeatures, feature];
-      this._locations.next(this.activeFeatures);
     }
     return maxLocations;
   }
@@ -236,15 +242,13 @@ export class DataService {
     if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
-    const geoids = this.activeFeatures.map(f => f.properties.GEOID);
-    const featIndex = geoids.indexOf(feature.properties.GEOID);
-    if (featIndex !== -1) {
-      // Assigning properties and geometry rather than the whole feature
-      // so that a state change isn't triggered
-      this.activeFeatures[featIndex].properties = feature.properties;
-      this.activeFeatures[featIndex].geometry = feature.geometry;
-      this._locations.next(this.activeFeatures);
-    }
+    this.activeFeatures = this.activeFeatures.map(f => {
+      if (feature.properties.GEOID === f.properties.GEOID) {
+        f.properties = feature.properties;
+        f.geometry = feature.geometry;
+      }
+      return f;
+    });
   }
 
   /**
