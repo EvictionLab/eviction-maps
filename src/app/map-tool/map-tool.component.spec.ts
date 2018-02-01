@@ -30,6 +30,7 @@ export class DataServiceStub {
   activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
+  getQueryParameters() { return []; }
   getRouteArray() { return []; }
   loadUSAverage() {}
 }

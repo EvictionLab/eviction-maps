@@ -15,6 +15,7 @@ import { DataService } from './data/data.service';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
 import { MenuComponent } from './menu/menu.component';
+import { AnalyticsService } from './analytics.service';
 
 export class TranslateServiceStub {
   public get(key: any): any {
@@ -39,6 +40,7 @@ describe('AppComponent', () => {
       providers: [
         PlatformService,
         LoadingService,
+        AnalyticsService,
         { provide: TranslateService, useClass: TranslateServiceStub },
         { provide: DataService, useValue: { languageOptions: [] } },
         { provide: Title, useValue: { setTitle: (...args) => {} } }

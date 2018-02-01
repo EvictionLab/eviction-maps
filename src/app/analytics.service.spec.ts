@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { AnalyticsService } from './analytics.service';
+import { PlatformService } from './platform.service';
 
 describe('AnalyticsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [AnalyticsService]
+      providers: [AnalyticsService, PlatformService ]
     });
   });
 
