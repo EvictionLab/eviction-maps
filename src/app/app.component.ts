@@ -17,6 +17,7 @@ import { DataService } from './data/data.service';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
+import { AnalyticsService } from './analytics.service';
 
 @Component({
   selector: 'app-root',
@@ -45,7 +46,9 @@ export class AppComponent implements OnInit {
     private toastr: ToastsManager,
     private vRef: ViewContainerRef,
     private titleService: Title,
-    private el: ElementRef
+    private el: ElementRef,
+    private analytics: AnalyticsService,
+    @Inject(DOCUMENT) private document: any
   ) {
       this.toastr.setRootViewContainerRef(vRef);
   }
@@ -81,6 +84,14 @@ export class AppComponent implements OnInit {
     } else if (component.constructor.name === 'RankingToolComponent') {
       this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
     }
+    // TODO: get actual data
+    // const loadedData = {
+    //   'siteVersion': '<site version>',
+    //   'timeStamp': '<timestamp>',
+    //   'pageCategory': '<page category>',
+    //   'Language': '<language>',
+    // };
+    // this.analytics.trackEvent('dataLayer-loaded', loadedData);
   }
 
   onMenuSelect(itemId: string) {
@@ -140,7 +151,7 @@ export class AppComponent implements OnInit {
       rankings: '/evictions/United%20States/0/evictionRate',
       evictors: '/evictors'
     };
-    const defaultRoute = window.location.pathname.includes('rankings') ?
+    const defaultRoute = this.platform.nativeWindow.location.pathname.includes('rankings') ?
       defaultViews.rankings : defaultViews.map;
     const appRoutes: Routes = [
       {
@@ -187,7 +198,7 @@ export class AppComponent implements OnInit {
    * Based on https://github.com/ngx-translate/core/issues/565
    */
   private updateHtmlLanguage() {
-    const lang = document.createAttribute('lang');
+    const lang = this.document.createAttribute('lang');
     lang.value = this.translate.currentLang;
     this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
   }

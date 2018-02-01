@@ -155,7 +155,7 @@ export class DataPanelComponent implements OnInit {
    * Adding method because calling window directly in the template doesn't work
    */
   getCurrentUrl() {
-    return window.location.href;
+    return this.platform.nativeWindow.location.href;
   }
 
   /**
@@ -170,7 +170,7 @@ export class DataPanelComponent implements OnInit {
     // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
     let timeout;
 
-    window.addEventListener('blur', () => clearTimeout(timeout));
+    this.platform.nativeWindow.addEventListener('blur', () => clearTimeout(timeout));
     timeout = setTimeout(() => {
       this.dialogService.showDialog({
         title: 'Email Link Error',
