@@ -519,19 +519,4 @@ export class MapComponent implements OnInit, OnChanges {
     this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
-  /** Animate the map based on scroll position */
-  private parallaxMap() {
-    if (window.scrollY < window.innerHeight) {
-      window.requestAnimationFrame(() => {
-        if (window.scrollY > 0) {
-          this.mapEl.nativeElement.style.transform =
-            'translate3d(0,' + (-(window.scrollY) / 2).toFixed(2) + 'px,0)';
-        } else {
-          this.mapEl.nativeElement.style.transform = 'translate3d(0,0,0)';
-        }
-      });
-    }
-  }
-
-
 }

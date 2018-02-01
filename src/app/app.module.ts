@@ -24,6 +24,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoadingService } from './loading.service';
 import { MenuComponent } from './menu/menu.component';
 import { ToggleScrollService } from './toggle-scroll.service';
+import { AnalyticsService } from './analytics.service';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -62,6 +63,7 @@ export class CustomOption extends ToastOptions {
     PlatformService,
     DataService,
     LoadingService,
+    AnalyticsService,
     {provide: ToastOptions, useClass: CustomOption},
     Title
   ],

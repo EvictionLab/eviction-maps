@@ -259,9 +259,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   private getVerticalOffset() {
-    return window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop || 0;
+    return this.platform.nativeWindow.pageYOffset ||
+      this.document.documentElement.scrollTop ||
+      this.document.body.scrollTop || 0;
   }
 
   /**
@@ -286,7 +286,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
       .subscribe(e => this.wheelEvent = true);
-    Observable.fromEvent(window, 'scroll')
+    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
       // trailing scroll event is needed so verticalOffset = 0 event is fired
       .throttleTime(10, undefined, { trailing: true, leading: true })
       .subscribe(e => this.onScroll());
