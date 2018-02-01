@@ -41,6 +41,17 @@ export class DataService {
   activeMapView;
   mapConfig;
   usAverage;
+  private _embed = false;
+  get embed() { return this._embed; }
+  set embed(embed) {
+    if (embed !== this._embed) {
+      this._embed = embed;
+      this._embedChange.next(embed);
+    }
+  }
+  private _embedChange = new BehaviorSubject<boolean>(false);
+  embedChange = this._embedChange.asObservable();
+
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
   }
@@ -164,13 +175,15 @@ export class DataService {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
+    const embedParam = this.embed ? { embed: this.embed } : {};
 
     return {
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
       locations: locations,
-      graph: this.activeGraphType
+      graph: this.activeGraphType,
+      ...embedParam
     };
   }
 
