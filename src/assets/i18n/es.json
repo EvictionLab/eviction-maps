@@ -51,7 +51,10 @@
     "SEARCH_HINT": "Buscar lugares",
     "MAP_HINT": "Empiece aquí"
   },
-  "HELP": "Lorem Ipsum",
+  "HELP": {
+    "TITLE": "Ayuda",
+    "CONTENT": "<strong><em>Placeholder content</em></strong>"
+  },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
   },

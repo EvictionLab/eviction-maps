@@ -54,7 +54,10 @@
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
   },
-  "HELP": "Lorem Ipsum",
+  "HELP": {
+    "TITLE": "Help",
+    "CONTENT": "<strong><em>Placeholder content</em></strong>"
+  },
   "LAYERS": {
     "STATES": "States",
     "COUNTIES": "Counties",
