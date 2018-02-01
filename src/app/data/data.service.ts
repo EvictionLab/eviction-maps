@@ -41,7 +41,6 @@ export class DataService {
   activeMapView;
   mapConfig;
   usAverage;
-<<<<<<< HEAD
   private _embed = false;
   get embed() { return this._embed; }
   set embed(embed) {
@@ -53,7 +52,6 @@ export class DataService {
   private _embedChange = new BehaviorSubject<boolean>(false);
   embedChange = this._embedChange.asObservable();
 
-=======
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
   }
@@ -63,7 +61,6 @@ export class DataService {
   get cardAttributes() {
     return this.dataAttributes.filter(d => d.id !== 'none');
   }
->>>>>>> development
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
   }
