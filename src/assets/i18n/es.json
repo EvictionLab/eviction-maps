@@ -51,7 +51,10 @@
     "SEARCH_HINT": "Buscar lugares",
     "MAP_HINT": "Empiece aquí"
   },
-  "HELP": "Lorem Ipsum",
+  "HELP": {
+    "TITLE": "Ayuda",
+    "CONTENT": "¿Necesita ayuda? Pulse \"BUSCAR\" para encontrar un lugar. Pulse \"MAPA\" para ver los datos de desalojo. Pulse \"MENU\" para más ayuda."
+  },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
   },

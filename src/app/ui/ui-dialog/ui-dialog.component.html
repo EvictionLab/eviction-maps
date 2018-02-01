@@ -6,6 +6,7 @@
 </div>
 <div class="modal-body">
   <div *ngFor="let c of content; let i = index">
+    <div *ngIf="c.type === 'html'" [innerHTML]="c.data"></div>
     <p *ngIf="c.type === 'text'">{{c.data}}</p>
     <div *ngIf="c.type === 'checkbox'">
       <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="c.data.value">
