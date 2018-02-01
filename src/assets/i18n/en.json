@@ -56,7 +56,7 @@
   },
   "HELP": {
     "TITLE": "Help",
-    "CONTENT": "<strong><em>Placeholder content</em></strong>"
+    "CONTENT": "Need help? Tap \"SEARCH\" to find a location. Tap \"MAP\" to look at eviction and census data. Tap on \"MENU\" for more help."
   },
   "LAYERS": {
     "STATES": "States",

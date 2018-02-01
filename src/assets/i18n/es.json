@@ -53,7 +53,7 @@
   },
   "HELP": {
     "TITLE": "Ayuda",
-    "CONTENT": "<strong><em>Placeholder content</em></strong>"
+    "CONTENT": "¿Necesita ayuda? Pulse \"BUSCAR\" para encontrar un lugar. Pulse \"MAPA\" para ver los datos de desalojo. Pulse \"MENU\" para más ayuda."
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
