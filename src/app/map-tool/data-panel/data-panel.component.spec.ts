@@ -9,7 +9,7 @@ import { DataPanelModule } from './data-panel.module';
 import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { PlatformService } from '../../platform.service';
-import { DataService } from '../../data/data.service';
+import { MapToolService } from '../map-tool.service';
 import { DataAttributes } from '../../data/data-attributes';
 import { DataLevels } from '../../data/data-levels';
 import { Pipe, PipeTransform } from '@angular/core';
@@ -26,7 +26,7 @@ export class FileExportStub {
   sendFileRequest(...args) {}
 }
 
-export class DataServiceStub {
+export class MapToolServiceStub {
   get dataLevels() { return DataLevels; }
   get dataAttributes() { return DataAttributes; }
   get bubbleAttributes() { return DataAttributes; }
@@ -64,7 +64,7 @@ describe('DataPanelComponent', () => {
     TestBed.overrideComponent(DataPanelComponent, {
       set: {
         providers: [
-          { provide: DataService, useClass: DataServiceStub },
+          { provide: MapToolService, useClass: MapToolServiceStub },
           { provide: TranslatePipe, useClass: TranslatePipeMock },
           TranslateService
         ]

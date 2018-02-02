@@ -2,12 +2,12 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { DataService } from './data.service';
+import { MapToolService } from './map-tool.service';
 
-describe('DataService', () => {
+describe('MapToolService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [DataService, TranslateService ],
+      providers: [MapToolService, TranslateService ],
       imports: [
         HttpClientModule,
         HttpClientTestingModule,
@@ -20,15 +20,15 @@ describe('DataService', () => {
     backend.verify();
   }));
 
-  it('should be created', inject([DataService], (service: DataService) => {
+  it('should be created', inject([MapToolService], (service: MapToolService) => {
     expect(service).toBeTruthy();
   }));
 
   it(
     'should make a single http request for data for a single year',
     inject(
-      [DataService, HttpTestingController],
-      (service: DataService, backend: HttpTestingController) => {
+      [MapToolService, HttpTestingController],
+      (service: MapToolService, backend: HttpTestingController) => {
         service.getTileData('states', [50, 50], 'featureName', false).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
           return req.url.includes('states')

@@ -6,11 +6,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 
 import { UiModule } from '../../ui/ui.module';
+import { LocationCardsModule } from '../location-cards/location-cards.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { SocialSharePopupDirective } from './social-share-popup.directive';
 import { PlatformService } from '../../platform.service';
 import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
+
 
 @NgModule({
   exports: [ DataPanelComponent ],
@@ -18,6 +20,7 @@ import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.compo
     CommonModule,
     FormsModule,
     UiModule,
+    LocationCardsModule,
     GraphModule.forRoot(),
     TranslateModule,
     PopoverModule.forRoot()

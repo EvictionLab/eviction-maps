@@ -2,7 +2,7 @@ import {
   Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
@@ -17,9 +17,11 @@ import { ToastsManager, ToastOptions } from 'ng2-toastr';
 import { LoadingService } from '../loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
-import { DataService } from '../data/data.service';
+import { MapToolService } from './map-tool.service';
 import { PlatformService } from '../platform.service';
 import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
+import { RoutingService } from '../routing.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-map-tool',
@@ -27,6 +29,8 @@ import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
   styleUrls: ['./map-tool.component.scss']
 })
 export class MapToolComponent implements OnInit, AfterViewInit {
+  @ViewChild(MapComponent) map;
+  @ViewChild('divider') dividerEl: ElementRef;
   title = 'Eviction Lab - Map';
   id = 'map-tool';
   enableZoom = true; // controls if map scroll zoom is enabled
@@ -37,16 +41,20 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
   helpData: string; // translated title / content for help dialog.
-  @ViewChild(MapComponent) map;
-  @ViewChild('divider') dividerEl: ElementRef;
-  urlParts;
+  private defaultMapConfig = {
+    style: './assets/style.json',
+    center: [-98.5795, 39.8283],
+    zoom: 3,
+    minZoom: 2,
+    maxZoom: 15
+  };
 
   constructor(
     public loader: LoadingService,
-    public dataService: DataService,
+    public mapToolService: MapToolService,
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
-    private router: Router,
+    private routing: RoutingService,
     private pageScrollService: PageScrollService,
     private translate: TranslateService,
     private toast: ToastsManager,
@@ -54,27 +62,25 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private dialogService: UiDialogService,
     @Inject(DOCUMENT) private document: any
   ) {
-    translate.onLangChange.subscribe((lang) => this.updateRoute());
+    this.initMapToolData();
+    this.routing.setActivatedRoute(route);
     // Add click to dimiss to all toast messages
-    this.toast.onClickToast()
-      .subscribe(t => this.toast.dismissToast(t));
-    this.dataService.loadUSAverage();
+    this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
+    this.mapToolService.loadUSAverage();
   }
 
   ngOnInit() {
     this.setupPageScroll();
-    this.route.url.subscribe((url) => { this.urlParts = url; });
-    this.route.data.take(1).subscribe(this.setMapToolData.bind(this));
-    Observable.combineLatest(
-      this.route.params, this.route.queryParams, (params, queryParams) => ({ params, queryParams })
-    ).take(1).subscribe(this.setRouteParams.bind(this));
-
+    // Set data from the route on init
+    this.routing.getMapRouteData().take(1)
+      .subscribe((data) => this.mapToolService.setCurrentData(data));
     // Subscribe to language changes and store translated help content
     this.translate.onLangChange.subscribe(() => {
+      this.updateRoute();
       this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
         .subscribe((res: string) => this.helpData = res);
     });
-
+    this.cdRef.detectChanges();
   }
 
   /**
@@ -94,38 +100,32 @@ export class MapToolComponent implements OnInit, AfterViewInit {
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
   }
 
-  /** Update route if it has changed */
-  updateRoute() {
-    if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
-      setTimeout(() => {
-        this.router.navigate(this.dataService.getRouteArray(), {
-          replaceUrl: true, queryParams: this.dataService.getQueryParameters()
-        });
-      });
-    }
-  }
-
   /**
    * Accepts a clicked feature, queries tile data to get data across all years
    * @param feature returned from featureClick event
    */
   onFeatureSelect(feature: MapFeature) {
     // Exit function if currently embedded
-    if (this.dataService.embed) { return; }
-    const featureLonLat = this.dataService.getFeatureLonLat(feature);
+    if (this.mapToolService.embed) { return; }
+    const featureLonLat = this.mapToolService.getFeatureLonLat(feature);
     this.loader.start('feature');
-    const maxLocations = this.dataService.addLocation(feature);
+    const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
       this.toast.error(
         'Maximum limit reached. Please remove a location to add another.'
       );
     }
-    this.dataService.getTileData(feature['layer']['id'], featureLonLat, null, true)
+    this.mapToolService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
-        this.dataService.updateLocation(data);
+        this.mapToolService.updateLocation(data);
         this.updateRoute();
         this.loader.end('feature');
       });
+  }
+
+  /** Updates the map tool route */
+  updateRoute() {
+    this.routing.updateRouteData(this.mapToolService.getCurrentData());
   }
 
   /**
@@ -147,18 +147,18 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     if (feature) {
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
-      this.dataService.getTileData(
+      this.mapToolService.getTileData(
         layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
       ).subscribe(data => {
           if (!data.properties.n) {
             this.toast.error('Could not find data for location.');
           } else {
-            this.dataService.addLocation(data);
+            this.mapToolService.addLocation(data);
           }
-          const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
+          const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
           if (updateMap) {
             if (feature.hasOwnProperty('bbox')) {
-              this.dataService.activeMapView = feature['bbox'];
+              this.mapToolService.activeMapView = feature['bbox'];
             } else {
               this.map.zoomToPointFeature(feature);
             }
@@ -180,7 +180,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    */
   onCardHeaderClick(feature: MapFeature) {
     const layerId = feature.properties['layerId'];
-    const dataLevel = this.dataService.dataLevels.filter(l => l.id === layerId)[0];
+    const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
     if (feature.hasOwnProperty('bbox')) {
       this.map.zoomToBoundingBox(feature.bbox);
@@ -206,55 +206,16 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Configures the data service based on any route parameters
-   */
-  private setRouteParams(paramObj: Object) {
-    const params = paramObj['params'];
-    const queryParams = paramObj['queryParams'];
-    this.translate.use(queryParams['lang'] || 'en');
-    if (params['year']) {
-      this.dataService.activeYear = params['year'];
-    }
-    if (params['geography']) {
-      const geo = params['geography'];
-      if (geo !== 'auto') {
-        this.dataService.setGeographyLevel(geo);
-      }
-    }
-    if (params['bounds']) {
-      const b = params['bounds'].split(',');
-      if (b.length === 4) {
-        this.dataService.setMapBounds(b);
-      }
-    }
-    if (queryParams['choropleth']) {
-      this.dataService.setChoroplethHighlight(queryParams['choropleth']);
-    }
-    if (queryParams['type']) {
-      this.dataService.setBubbleHighlight(queryParams['type']);
-    }
-    if (queryParams['locations']) {
-      const locations = this.getLocationsFromString(queryParams['locations']);
-      this.dataService.setLocations(locations);
-    }
-    if (queryParams['graph']) {
-      this.dataService.setGraphType(queryParams['graph']);
-    }
-    this.dataService.embed = queryParams['embed'] === 'true';
-    this.cdRef.detectChanges();
-  }
-
-  /**
    * Configures the data service with any static data passed through the route
    */
-  private setMapToolData(data) {
+  private initMapToolData() {
     // Set default zoom to 2 on mobile
-    if (this.platform.isMobile && data.mapConfig) {
-      data.mapConfig.zoom = 2;
+    if (this.platform.isMobile && this.defaultMapConfig) {
+      this.defaultMapConfig.zoom = 2;
     }
-    this.dataService.mapConfig = data.mapConfig;
-    if (data.hasOwnProperty('year')) {
-      this.dataService.activeYear = data.year;
+    this.mapToolService.mapConfig = this.defaultMapConfig;
+    if (environment.hasOwnProperty('maxYear')) {
+      this.mapToolService.activeYear = environment.maxYear;
     }
   }
 
@@ -316,19 +277,4 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     }
   }
 
-  /**
-   * Gets an array of objects containing the layer type and
-   * longitude / latitude coordinates for the locations in the string.
-   * @param locations string that represents locations
-   */
-  private getLocationsFromString(locations: string) {
-    return locations.split('+').map(loc => {
-      const locArray = loc.split(',');
-      if (locArray.length !== 3) { return null; } // invalid location
-      return {
-        layer: locArray[0],
-        lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
-      };
-    }).filter(loc => loc); // filter null values
-  }
 }

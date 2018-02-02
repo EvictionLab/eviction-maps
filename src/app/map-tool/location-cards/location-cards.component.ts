@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DecimalPipe } from '@angular/common';
-import { MapDataAttribute } from '../../map-tool/map/map-data-attribute';
+import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
 
 @Component({

@@ -7,8 +7,6 @@
 <app-header-bar
   role="banner"
   [activeMenuItem]="currentMenuItem"
-  [languageOptions]="dataService.languageOptions"
-  [selectedLanguage]="dataService.selectedLanguage"
   (activeMenuItemChange)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"

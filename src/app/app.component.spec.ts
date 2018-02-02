@@ -11,7 +11,6 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { DataService } from './data/data.service';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from './loading.service';
 import { MenuComponent } from './menu/menu.component';
@@ -42,7 +41,6 @@ describe('AppComponent', () => {
         LoadingService,
         AnalyticsService,
         { provide: TranslateService, useClass: TranslateServiceStub },
-        { provide: DataService, useValue: { languageOptions: [] } },
         { provide: Title, useValue: { setTitle: (...args) => {} } }
       ]
     }).compileComponents();
