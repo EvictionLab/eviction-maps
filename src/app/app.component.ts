@@ -7,7 +7,6 @@ import { DOCUMENT } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
-import { PlatformService } from './platform.service';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { Routes, Router } from '@angular/router';
 import { MapToolComponent } from './map-tool/map-tool.component';
@@ -15,9 +14,10 @@ import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.compon
 import { RankingConfig } from './ranking/ranking.module';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
-import { LoadingService } from './loading.service';
-import { AnalyticsService } from './analytics.service';
-import { RoutingService } from './routing.service';
+import { PlatformService } from './services/platform.service';
+import { LoadingService } from './services/loading.service';
+import { AnalyticsService } from './services/analytics.service';
+import { RoutingService } from './services/routing.service';
 
 @Component({
   selector: 'app-root',

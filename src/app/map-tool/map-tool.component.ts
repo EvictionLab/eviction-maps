@@ -14,13 +14,13 @@ import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
-import { LoadingService } from '../loading.service';
+import { LoadingService } from '../services/loading.service';
 import { MapFeature } from './map/map-feature';
 import { MapComponent } from './map/map/map.component';
 import { MapToolService } from './map-tool.service';
-import { PlatformService } from '../platform.service';
+import { PlatformService } from '../services/platform.service';
 import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
-import { RoutingService } from '../routing.service';
+import { RoutingService } from '../services/routing.service';
 import { environment } from '../../environments/environment';
 
 @Component({

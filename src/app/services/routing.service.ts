@@ -6,7 +6,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 import { PlatformService } from './platform.service';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 

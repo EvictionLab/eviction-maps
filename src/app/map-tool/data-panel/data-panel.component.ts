@@ -6,7 +6,7 @@ import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { PlatformService } from '../../platform.service';
+import { PlatformService } from '../../services/platform.service';
 import { PlatformLocation } from '@angular/common';
 import { MapToolService } from '../map-tool.service';
 import { MapDataAttribute } from '../data/map-data-attribute';

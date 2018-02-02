@@ -10,8 +10,8 @@ import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { PlatformService } from '../../platform.service';
 import { MapToolService } from '../map-tool.service';
-import { DataAttributes } from '../../data/data-attributes';
-import { DataLevels } from '../../data/data-levels';
+import { DataAttributes } from '../data/data-attributes';
+import { DataLevels } from '../data/data-levels';
 import { Pipe, PipeTransform } from '@angular/core';
 
 export class FileExportStub {
