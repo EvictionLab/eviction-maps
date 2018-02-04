@@ -9,8 +9,8 @@ import { MapToolModule } from './map-tool.module';
 import { DataAttributes } from './data/data-attributes';
 import { DataLevels } from './data/data-levels';
 import { ToastModule } from 'ng2-toastr';
-import { LoadingService } from '../loading.service';
-import { ToggleScrollService } from '../toggle-scroll.service';
+import { LoadingService } from '../services/loading.service';
+import { ServicesModule } from '../services/services.module';
 
 export class TranslateServiceStub {
   public get(key: any): any {
@@ -32,7 +32,8 @@ export class MapToolServiceStub {
   mapConfig;
   getQueryParameters() { return []; }
   getRouteArray() { return []; }
-  loadUSAverage() {}
+  loadUSAverage() { }
+  setCurrentData(...args) { return; }
 }
 
 describe('MapToolComponent', () => {
@@ -45,16 +46,15 @@ describe('MapToolComponent', () => {
         MapToolModule,
         TranslateModule.forRoot(),
         RouterTestingModule,
-        ToastModule.forRoot()
+        ToastModule.forRoot(),
+        ServicesModule.forRoot()
       ]
     });
     TestBed.overrideComponent(MapToolComponent, {
       set: {
         providers: [
           {provide: MapToolService, useClass: MapToolServiceStub },
-          TranslateService,
-          LoadingService,
-          ToggleScrollService
+          TranslateService
         ]
       }
     })

@@ -8,7 +8,7 @@ import { DataPanelComponent } from './data-panel.component';
 import { DataPanelModule } from './data-panel.module';
 import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
-import { PlatformService } from '../../platform.service';
+import { ServicesModule } from '../../services/services.module';
 import { MapToolService } from '../map-tool.service';
 import { DataAttributes } from '../data/data-attributes';
 import { DataLevels } from '../data/data-levels';
@@ -58,7 +58,8 @@ describe('DataPanelComponent', () => {
         DataPanelModule,
         HttpModule,
         HttpClientModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        ServicesModule.forRoot()
       ]
     });
     TestBed.overrideComponent(DataPanelComponent, {

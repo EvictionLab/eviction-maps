@@ -114,7 +114,6 @@ export class LocationCardsComponent implements OnInit {
   }
   expanded = true;
   clickHeader = false;
-  get abbrYear() { return this.year.toString().slice(-2); }
   private percentProps;
   private dollarProps;
 
@@ -131,6 +130,12 @@ export class LocationCardsComponent implements OnInit {
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
     this.expanded = this.collapsible ? false : true;
   }
+
+  getAbbrYear() {
+    if (!this.year) { return; }
+    return this.year.toString().slice(-2);
+  }
+
 
   /** gets an animation state for the card number */
   getCardState(cardNum: number) {
@@ -162,7 +167,7 @@ export class LocationCardsComponent implements OnInit {
   /** Add a reference to the current year property name for each data attribute */
   private addYearAttrToProps() {
     this._cardProps = this._cardProps.map(p => {
-      p.yearAttr = p.id + '-' + this.abbrYear;
+      p.yearAttr = p.id + '-' + this.getAbbrYear();
       return p;
     });
   }

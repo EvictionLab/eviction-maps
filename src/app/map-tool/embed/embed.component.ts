@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { MapToolService } from '../map-tool.service';
+
 @Component({
   selector: 'app-embed',
   templateUrl: './embed.component.html',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmbedComponent implements OnInit {
 
-  constructor() { }
+  constructor(public mapToolService: MapToolService) { }
 
   ngOnInit() {
   }
