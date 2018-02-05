@@ -1,16 +1,16 @@
 <div id="top" role="main" class="app-wrapper">
   <app-map
-    [mapConfig]="dataService.mapConfig"
-    [dataAttributes]="dataService.dataAttributes"
-    [layerOptions]="dataService.dataLevels"
+    [mapConfig]="mapToolService.mapConfig"
+    [dataAttributes]="mapToolService.dataAttributes"
+    [layerOptions]="mapToolService.dataLevels"
     [scrollZoom]="enableZoom"
-    [activeFeatures]="dataService.activeFeatures"
+    [activeFeatures]="mapToolService.activeFeatures"
     [activeMenuItem]="activeMenuItem"
-    [(boundingBox)]="dataService.activeMapView"
-    [(year)]="dataService.activeYear"
-    [(selectedBubble)]="dataService.activeBubbleHighlight"
-    [(selectedChoropleth)]="dataService.activeDataHighlight"
-    [(selectedLayer)]="dataService.activeDataLevel"
+    [(boundingBox)]="mapToolService.activeMapView"
+    [(year)]="mapToolService.activeYear"
+    [(selectedBubble)]="mapToolService.activeBubbleHighlight"
+    [(selectedChoropleth)]="mapToolService.activeDataHighlight"
+    [(selectedLayer)]="mapToolService.activeDataLevel"
     (featureClick)="onFeatureSelect($event)"
     (boundingBoxChange)="updateRoute()"
     (yearChange)="updateRoute()"
@@ -18,16 +18,16 @@
     (selectedChoroplethChange)="updateRoute()"
     (selectedLayerChange)="updateRoute()"
     (clickedCardHeader)="onCardHeaderClick($event)"
-    (dismissedCard)="dataService.removeLocation($event); updateRoute()"
+    (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button
         class="btn btn-primary btn-large btn-compare z1" 
-        [class.visible]="(dataService.activeFeatures.length > 0) && enableZoom"
+        [class.visible]="(mapToolService.activeFeatures.length > 0) && enableZoom"
         (click)="goToDataPanel($event)"
       >
-        <span *ngIf="dataService.activeFeatures.length === 1">{{ 'MAP.DATA_LINK_SINGLE' | translate}}</span>
-        <span *ngIf="dataService.activeFeatures.length > 1">{{ 'MAP.DATA_LINK_MULTIPLE' | translate}}</span>        
+        <span *ngIf="mapToolService.activeFeatures.length === 1">{{ 'MAP.DATA_LINK_SINGLE' | translate}}</span>
+        <span *ngIf="mapToolService.activeFeatures.length > 1">{{ 'MAP.DATA_LINK_MULTIPLE' | translate}}</span>        
         <svg class="down-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><polyline points="1 1 6.81226514 6 8.34418334 4.76222126 13 1.00035534"></polyline></svg>
       </button>
       <div class="show-map-overlay" (click)="goToTop()" [class.inactive]="enableZoom">
@@ -44,12 +44,12 @@
   <div #divider></div>
   <app-data-panel
       id="data-panel"
-      [(year)]="dataService.activeYear"
+      [(year)]="mapToolService.activeYear"
       (yearChange)="updateRoute()"
       (graphTypeChange)="updateRoute()"
-      [dataAttributes]="dataService.dataAttributes"
-      [locations]="dataService.activeFeatures" 
-      (locationRemoved)="dataService.removeLocation($event); updateRoute()"
+      [dataAttributes]="mapToolService.dataAttributes"
+      [locations]="mapToolService.activeFeatures" 
+      (locationRemoved)="mapToolService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"
       [class.map-inactive]="!enableZoom"
   >

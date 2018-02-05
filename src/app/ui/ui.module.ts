@@ -16,22 +16,18 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { UiDialogComponent } from './ui-dialog/ui-dialog.component';
 import { UiDialogService } from './ui-dialog/ui-dialog.service';
 import { UiHintComponent } from './ui-hint/ui-hint.component';
-import { LocationCardsComponent } from './location-cards/location-cards.component';
-import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
 
 @NgModule({
   exports: [
     UiSelectComponent,
-    LocationCardsComponent,
     PredictiveSearchComponent,
     LocationSearchComponent,
     UiSliderComponent,
     UiToggleComponent,
     ProgressBarComponent,
     UiHintComponent,
-    UiMapLegendComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent
   ],
@@ -46,7 +42,6 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
   ],
   declarations: [
     UiSelectComponent,
-    LocationCardsComponent,
     PredictiveSearchComponent,
     LocationSearchComponent,
     UiSliderComponent,
@@ -54,11 +49,10 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     ProgressBarComponent,
     UiDialogComponent,
     UiHintComponent,
-    UiMapLegendComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent
   ],
   providers: [ UiDialogService ],
-  entryComponents: [ UiDialogComponent, LocationCardsComponent ]
+  entryComponents: [ UiDialogComponent ]
 })
 export class UiModule { }

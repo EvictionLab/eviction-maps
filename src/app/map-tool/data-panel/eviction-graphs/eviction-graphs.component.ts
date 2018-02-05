@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } fro
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../../../environments/environment';
-import { MapDataAttribute } from '../../map/map-data-attribute';
+import { MapDataAttribute } from '../../data/map-data-attribute';
 
 @Component({
   selector: 'app-eviction-graphs',

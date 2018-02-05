@@ -6,9 +6,11 @@ import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
-import { LoadingService } from '../../../loading.service';
-import { PlatformService } from '../../../platform.service';
-import { ToggleScrollService } from '../../../toggle-scroll.service';
+import { LoadingService } from '../../../services/loading.service';
+import { PlatformService } from '../../../services/platform.service';
+import { ToggleScrollService } from '../../../services/toggle-scroll.service';
+import { UiMapLegendComponent } from '../map-legend/ui-map-legend.component';
+import { LocationCardsModule } from '../../location-cards/location-cards.module';
 
 class MapServiceStub {
   updateCensusSource() {}
@@ -33,8 +35,8 @@ describe('MapComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MapComponent, MapboxComponent ],
-      imports: [ UiModule, TranslateModule.forRoot(), TooltipModule.forRoot() ]
+      declarations: [ MapComponent, MapboxComponent, UiMapLegendComponent ],
+      imports: [ UiModule, TranslateModule.forRoot(), TooltipModule.forRoot(), LocationCardsModule ]
     });
     TestBed.overrideComponent(MapComponent, {
       set: {

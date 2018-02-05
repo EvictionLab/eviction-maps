@@ -6,10 +6,10 @@ import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import { PlatformService } from '../../platform.service';
+import { PlatformService } from '../../services/platform.service';
 import { PlatformLocation } from '@angular/common';
-import { DataService } from '../../data/data.service';
-import { MapDataAttribute } from '../map/map-data-attribute';
+import { MapToolService } from '../map-tool.service';
+import { MapDataAttribute } from '../data/map-data-attribute';
 
 @Component({
   selector: 'app-data-panel',
@@ -60,7 +60,7 @@ export class DataPanelComponent implements OnInit {
 
   constructor(
     public dialogService: UiDialogService,
-    public dataService: DataService,
+    public mapToolService: MapToolService,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private platform: PlatformService,
@@ -100,13 +100,13 @@ export class DataPanelComponent implements OnInit {
     const config = {
       lang: this.translate.currentLang,
       year: this.year,
-      startYear: this.dataService.activeLineYearStart,
-      endYear: this.dataService.activeLineYearEnd,
+      startYear: this.mapToolService.activeLineYearStart,
+      endYear: this.mapToolService.activeLineYearEnd,
       features: this.displayLocations,
-      dataProp: this.dataService.activeDataHighlight.id,
-      bubbleProp: this.dataService.activeBubbleHighlight.id,
-      showUsAverage: this.dataService.activeShowGraphAvg,
-      usAverage: this.dataService.usAverage
+      dataProp: this.mapToolService.activeDataHighlight.id,
+      bubbleProp: this.mapToolService.activeBubbleHighlight.id,
+      showUsAverage: this.mapToolService.activeShowGraphAvg,
+      usAverage: this.mapToolService.usAverage
     };
     this.dialogService.showDownloadDialog(DownloadFormComponent, config);
   }

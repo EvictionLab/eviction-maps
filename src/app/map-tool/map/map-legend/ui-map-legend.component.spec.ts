@@ -3,7 +3,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { UiMapLegendComponent } from './ui-map-legend.component';
-import { UiHintComponent } from '../ui-hint/ui-hint.component';
+import { UiHintComponent } from '../../../ui/ui-hint/ui-hint.component';
 
 describe('UiMapLegendComponent', () => {
   let component: UiMapLegendComponent;

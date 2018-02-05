@@ -9,7 +9,7 @@ import * as polylabel from 'polylabel';
 import area from '@turf/area';
 import { coordAll } from '@turf/meta';
 
-import { MapLayerGroup } from './map-layer-group';
+import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
 
 @Injectable()

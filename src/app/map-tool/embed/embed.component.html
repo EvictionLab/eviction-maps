@@ -1,0 +1,12 @@
+<app-map
+  [mapConfig]="mapToolService.mapConfig"
+  [dataAttributes]="mapToolService.dataAttributes"
+  [layerOptions]="mapToolService.dataLevels"
+  [scrollZoom]="false"
+  [activeFeatures]="mapToolService.activeFeatures"
+  [boundingBox]="mapToolService.activeMapView"
+  [year]="mapToolService.activeYear"
+  [selectedBubble]="mapToolService.activeBubbleHighlight"
+  [selectedChoropleth]="mapToolService.activeDataHighlight"
+  [selectedLayer]="mapToolService.activeDataLevel"
+></app-map>

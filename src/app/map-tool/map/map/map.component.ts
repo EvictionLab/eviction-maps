@@ -9,14 +9,14 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
 import * as _debounce from 'lodash.debounce';
 
-import { MapDataAttribute } from '../map-data-attribute';
-import { MapLayerGroup } from '../map-layer-group';
-import { MapDataObject } from '../map-data-object';
+import { MapDataAttribute } from '../../data/map-data-attribute';
+import { MapLayerGroup } from '../../data/map-layer-group';
+import { MapDataObject } from '../../data/map-data-object';
 import { MapFeature } from '../map-feature';
 import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
-import { LoadingService } from '../../../loading.service';
-import { PlatformService } from '../../../platform.service';
+import { LoadingService } from '../../../services/loading.service';
+import { PlatformService } from '../../../services/platform.service';
 
 @Component({
   selector: 'app-map',

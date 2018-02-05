@@ -13,21 +13,16 @@ import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 
 import { environment } from '../../environments/environment';
-import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
-import { MapLayerGroup } from '../map-tool/map/map-layer-group';
-import { MapDataObject } from '../map-tool/map/map-data-object';
-import { MapFeature } from '../map-tool/map/map-feature';
-import { DataAttributes } from './data-attributes';
-import { DataLevels } from './data-levels';
+import { MapDataAttribute } from './data/map-data-attribute';
+import { MapLayerGroup } from './data/map-layer-group';
+import { MapFeature } from './map/map-feature';
+import { DataAttributes } from './data/data-attributes';
+import { DataLevels } from './data/data-levels';
 
 @Injectable()
-export class DataService {
+export class MapToolService {
   dataLevels = DataLevels;
   dataAttributes = DataAttributes;
-  languageOptions = [
-    { id: 'en', name: '', langKey: 'HEADER.EN' },
-    { id: 'es', name: '', langKey: 'HEADER.ES' }
-  ];
   /** Attributes to track the current state */
   activeYear;
   activeFeatures: MapFeature[] = [];
@@ -61,10 +56,6 @@ export class DataService {
   get cardAttributes() {
     return this.dataAttributes.filter(d => d.id !== 'none');
   }
-  get selectedLanguage() {
-    return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
-  }
-
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
@@ -78,13 +69,6 @@ export class DataService {
   }
 
   updateLanguage(translations) {
-    if (translations.hasOwnProperty('HEADER')) {
-      const header = translations['HEADER'];
-      this.languageOptions = this.languageOptions.map(l => {
-        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
-        return l;
-      });
-    }
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
@@ -96,7 +80,7 @@ export class DataService {
     // translate geography layers
     if (translations.hasOwnProperty('LAYERS')) {
       const layers = translations['LAYERS'];
-      this.dataLevels = DataLevels.map((l) => {
+      this.dataLevels = this.dataLevels.map((l) => {
         if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
         return l;
       });
@@ -158,44 +142,44 @@ export class DataService {
   }
 
   /**
-   * Returns the URL parameters for the current view
+   * Configures the data service based on any route parameters
    */
-  getUrlParameters() {
-    const paramMap = [ 'year', 'geography', 'bounds' ];
-    return this.getRouteArray().reduce((a, b, i) => {
-      return a + ';' + paramMap[i] + '=' + b;
-    }, '');
+  setCurrentData(data: Object) {
+    this.translate.use(data['lang'] || 'en');
+    if (data['year']) { this.activeYear = data['year']; }
+    if (data['geography']) {
+      const geo = data['geography'];
+      if (geo !== 'auto') { this.setGeographyLevel(geo); }
+    }
+    if (data['bounds']) {
+      const b = data['bounds'].split(',');
+      if (b.length === 4) { this.setMapBounds(b); }
+    }
+    if (data['choropleth']) { this.setChoroplethHighlight(data['choropleth']); }
+    if (data['type']) { this.setBubbleHighlight(data['type']); }
+    if (data['locations']) {
+      const locations = this.getLocationsFromString(data['locations']);
+      this.setLocations(locations);
+    }
+    if (data['graph']) { this.setGraphType(data['graph']); }
+    this.embed = data['embed'] === 'true';
   }
 
-  /**
-   * Returns query parameters
-   */
-  getQueryParameters() {
+  getCurrentData() {
     const locations = this.activeFeatures.map((f, i, arr) => {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
-    const embedParam = this.embed ? { embed: this.embed } : {};
-
     return {
+      year: this.activeYear,
+      geography: this.activeDataLevel.id,
+      bounds: this.activeMapView ? this.activeMapView.join() : null,
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
       locations: locations,
-      graph: this.activeGraphType,
-      ...embedParam
+      graph: this.activeGraphType
     };
-  }
-
-  /**
-   * Gets an array of values that represent the current route
-   */
-  getRouteArray() {
-    return [
-      this.activeYear,
-      this.activeDataLevel.id,
-      this.activeMapView ? this.activeMapView.join() : null
-    ];
   }
 
   /**
@@ -417,6 +401,22 @@ export class DataService {
       `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
       { responseType: 'arraybuffer' }
     );
+  }
+
+  /**
+   * Gets an array of objects containing the layer type and
+   * longitude / latitude coordinates for the locations in the string.
+   * @param locations string that represents locations
+   */
+  private getLocationsFromString(locations: string) {
+    return locations.split('+').map(loc => {
+      const locArray = loc.split(',');
+      if (locArray.length !== 3) { return null; } // invalid location
+      return {
+        layer: locArray[0],
+        lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
+      };
+    }).filter(loc => loc); // filter null values
   }
 
 }

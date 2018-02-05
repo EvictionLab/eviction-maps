@@ -15,16 +15,13 @@ import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
-import { PlatformService } from './platform.service';
 import { RankingModule } from './ranking/ranking.module';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
-import { DataService } from './data/data.service';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
-import { LoadingService } from './loading.service';
 import { MenuComponent } from './menu/menu.component';
-import { ToggleScrollService } from './toggle-scroll.service';
-import { AnalyticsService } from './analytics.service';
+import { ServicesModule } from './services/services.module';
+import { EmbedComponent } from './map-tool/embed/embed.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -54,20 +51,16 @@ export class CustomOption extends ToastOptions {
         deps: [HttpClient]
       }
     }),
+    ServicesModule.forRoot(),
     RouterModule.forRoot([], { useHash: true }),
     TooltipModule.forRoot(),
     ToastModule.forRoot()
   ],
   providers: [
-    ToggleScrollService,
-    PlatformService,
-    DataService,
-    LoadingService,
-    AnalyticsService,
     {provide: ToastOptions, useClass: CustomOption},
     Title
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ MapToolComponent, RankingToolComponent ]
+  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent ]
 })
 export class AppModule { }

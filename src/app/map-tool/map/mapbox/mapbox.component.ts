@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
-import { PlatformService } from '../../../platform.service';
-import { ToggleScrollService } from '../../../toggle-scroll.service';
-import { MapLayerGroup } from '../../map/map-layer-group';
+import { PlatformService } from '../../../services/platform.service';
+import { ToggleScrollService } from '../../../services/toggle-scroll.service';
+import { MapLayerGroup } from '../../data/map-layer-group';
 import { MapFeature } from '../../map/map-feature';
 import 'rxjs/add/observable/fromEvent';
 import 'rxjs/add/operator/throttleTime';

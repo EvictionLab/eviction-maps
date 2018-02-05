@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+
 import { MapboxComponent } from './mapbox/mapbox.component';
 import { MapComponent } from './map/map.component';
 import { UiModule } from '../../ui/ui.module';
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { LocationCardsModule } from '../location-cards/location-cards.module';
+import { UiMapLegendComponent } from './map-legend/ui-map-legend.component';
 
-import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   exports: [
@@ -15,9 +18,10 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
   imports: [
     CommonModule,
     UiModule,
+    LocationCardsModule,
     TranslateModule,
     TooltipModule.forRoot()
   ],
-  declarations: [MapboxComponent, MapComponent]
+  declarations: [MapboxComponent, MapComponent, UiMapLegendComponent ]
 })
 export class MapModule { }
