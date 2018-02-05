@@ -21,6 +21,7 @@ import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ServicesModule } from './services/services.module';
+import { EmbedComponent } from './map-tool/embed/embed.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -60,6 +61,6 @@ export class CustomOption extends ToastOptions {
     Title
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ MapToolComponent, RankingToolComponent ]
+  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent ]
 })
 export class AppModule { }

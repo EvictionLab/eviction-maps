@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
       this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
     } else if (component.id === 'rankings') {
       this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
-    } else if (component.id === 'embed') {
+    } else if (component.id === 'embed-map') {
       this.embed = true;
     }
     // TODO: get actual data
