@@ -92,6 +92,7 @@ export class RoutingService {
         this.defaultViews.rankings : this.defaultViews.map;
     // all routes for the app
     const appRoutes: Routes = [
+      { path: 'embed/:year/:geography/:bounds', component: components.embed },
       { path: ':year/:geography/:bounds', component: components.map },
       { path: 'evictors', component: components.rankings },
       { path: 'evictions/:region/:areaType/:sortProp', component: components.rankings },

@@ -11,6 +11,7 @@ import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-transl
 import { Routes, Router } from '@angular/router';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
+import { EmbedComponent } from './map-tool/embed/embed.component';
 import { RankingConfig } from './ranking/ranking.module';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
@@ -57,7 +58,8 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const components = {
       map: MapToolComponent,
-      rankings: RankingToolComponent
+      rankings: RankingToolComponent,
+      embed: EmbedComponent
     };
     this.routing.setupRoutes(components);
     this.translate.setDefaultLang('en');
@@ -129,8 +131,6 @@ export class AppComponent implements OnInit {
   onSearchSelect(...args: any[]) {
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
   }
-
-  
 
   /** Sets the booleans that determine the classes on the app component */
   @HostListener('window:resize') onWindowResize() {
