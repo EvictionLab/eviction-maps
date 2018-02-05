@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { EmbedComponent } from './embed.component';
 import { MapModule } from '../map/map.module';
@@ -16,6 +17,7 @@ describe('EmbedComponent', () => {
       declarations: [EmbedComponent ],
       imports: [
         MapModule,
+        RouterTestingModule,
         ServicesModule.forRoot(),
         TranslateModule.forRoot(),
       ],

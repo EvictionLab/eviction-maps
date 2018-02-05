@@ -34,6 +34,7 @@ export class MapToolServiceStub {
   getRouteArray() { return []; }
   loadUSAverage() { }
   setCurrentData(...args) { return; }
+  getCurrentData() { return {}; }
 }
 
 describe('MapToolComponent', () => {

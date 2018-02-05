@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 
 import { MapToolService } from '../map-tool.service';
 import { RoutingService } from '../../services/routing.service';
@@ -18,7 +18,8 @@ export class EmbedComponent implements OnInit {
     public mapToolService: MapToolService,
     private routing: RoutingService,
     private translate: TranslateService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cdRef: ChangeDetectorRef
   ) {
     this.routing.setActivatedRoute(route);
   }
@@ -26,6 +27,7 @@ export class EmbedComponent implements OnInit {
   ngOnInit() {
     this.routing.getMapRouteData().take(1)
       .subscribe((data) => this.mapToolService.setCurrentData(data));
+    this.cdRef.detectChanges();
   }
 
 }
