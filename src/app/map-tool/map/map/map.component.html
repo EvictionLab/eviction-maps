@@ -31,7 +31,12 @@
       (change)="setGroupVisibility($event)">
     </app-ui-select>
   </div>
-  <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
+  <app-ui-map-legend 
+    *ngIf="showLegend" 
+    [choropleth]="selectedChoropleth" 
+    [bubbles]="selectedBubble" 
+    [layer]="selectedLayer">
+  </app-ui-map-legend>   
   <app-location-cards
     [collapsible]="gtTablet"
     [class.cards-2]="activeFeatures.length === 2"
@@ -42,8 +47,6 @@
     [year]="year"
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
-    [dollarProps]="dollarProps"
-    [percentProps]="percentProps"
   ></app-location-cards>
 </div>
 <div class="map-wrapper" #mapEl>

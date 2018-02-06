@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { environment } from '../../environments/environment';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -13,37 +12,50 @@ import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 
-import { MapDataAttribute } from '../map-tool/map/map-data-attribute';
-import { MapLayerGroup } from '../map-tool/map/map-layer-group';
-import { MapDataObject } from '../map-tool/map/map-data-object';
-import { MapFeature } from '../map-tool/map/map-feature';
-import { DataAttributes, BubbleAttributes } from './data-attributes';
-import { DataLevels } from './data-levels';
+import { environment } from '../../environments/environment';
+import { MapDataAttribute } from './data/map-data-attribute';
+import { MapLayerGroup } from './data/map-layer-group';
+import { MapFeature } from './map/map-feature';
+import { DataAttributes } from './data/data-attributes';
+import { DataLevels } from './data/data-levels';
 
 @Injectable()
-export class DataService {
+export class MapToolService {
   dataLevels = DataLevels;
   dataAttributes = DataAttributes;
-  bubbleAttributes = BubbleAttributes;
-  languageOptions = [
-    { id: 'en', name: '', langKey: 'HEADER.EN' },
-    { id: 'es', name: '', langKey: 'HEADER.ES' }
-  ];
+  /** Attributes to track the current state */
   activeYear;
   activeFeatures: MapFeature[] = [];
   activeDataLevel: MapLayerGroup = DataLevels[0];
-  activeDataHighlight: MapDataAttribute = DataAttributes[0];
-  activeBubbleHighlight: MapDataAttribute = BubbleAttributes[0];
-  mapView;
+  activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
+  activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
+  activeGraphType = 'line';
+  activeLineYearStart = environment.minYear;
+  activeLineYearEnd = environment.maxYear;
+  activeShowGraphAvg = true;
+  activeMapView;
   mapConfig;
-
-  get selectedLanguage() {
-    return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
+  usAverage;
+  private _embed = false;
+  get embed() { return this._embed; }
+  set embed(embed) {
+    if (embed !== this._embed) {
+      this._embed = embed;
+      this._embedChange.next(embed);
+    }
   }
-  // For tracking "soft" location updates
-  private _locations = new BehaviorSubject<MapFeature[]>([]);
-  locations$ = this._locations.asObservable();
+  private _embedChange = new BehaviorSubject<boolean>(false);
+  embedChange = this._embedChange.asObservable();
 
+  get choroplethAttributes() {
+    return this.dataAttributes.filter(d => d.type === 'choropleth');
+  }
+  get bubbleAttributes() {
+    return this.dataAttributes.filter(d => d.type === 'bubble');
+  }
+  get cardAttributes() {
+    return this.dataAttributes.filter(d => d.id !== 'none');
+  }
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
@@ -56,23 +68,11 @@ export class DataService {
     });
   }
 
-
   updateLanguage(translations) {
-    if (translations.hasOwnProperty('HEADER')) {
-      const header = translations['HEADER'];
-      this.languageOptions = this.languageOptions.map(l => {
-        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
-        return l;
-      });
-    }
     // translate census attribute names
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
-      this.dataAttributes = DataAttributes.map((a) => {
-        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
-        return a;
-      });
-      this.bubbleAttributes = BubbleAttributes.map((a) => {
+      this.dataAttributes = this.dataAttributes.map((a) => {
         if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
         return a;
       });
@@ -80,7 +80,7 @@ export class DataService {
     // translate geography layers
     if (translations.hasOwnProperty('LAYERS')) {
       const layers = translations['LAYERS'];
-      this.dataLevels = DataLevels.map((l) => {
+      this.dataLevels = this.dataLevels.map((l) => {
         if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
         return l;
       });
@@ -92,7 +92,7 @@ export class DataService {
    * @param id string corresponding to the `MapDataAttribute` in `DataAttributes`
    */
   setChoroplethHighlight(id: string) {
-    const dataAttr = this.dataAttributes.find((attr) => attr.id === id);
+    const dataAttr = this.choroplethAttributes.find((attr) => attr.id === id);
     if (dataAttr) {
       this.activeDataHighlight = dataAttr;
     }
@@ -120,6 +120,11 @@ export class DataService {
     }
   }
 
+  /** Sets the type of graph to show in the data panel */
+  setGraphType(type: string) {
+    this.activeGraphType = type;
+  }
+
   /** */
   setLocations(locations) {
     locations.forEach(l => {
@@ -133,45 +138,48 @@ export class DataService {
    * @param mapBounds an array with four coordinates representing west, south, east, north
    */
   setMapBounds(mapBounds) {
-    this.mapView = mapBounds;
+    this.activeMapView = mapBounds;
   }
 
   /**
-   * Returns the URL parameters for the current view
+   * Configures the data service based on any route parameters
    */
-  getUrlParameters() {
-    const paramMap = [ 'year', 'geography', 'bounds' ];
-    return this.getRouteArray().reduce((a, b, i) => {
-      return a + ';' + paramMap[i] + '=' + b;
-    }, '');
+  setCurrentData(data: Object) {
+    this.translate.use(data['lang'] || 'en');
+    if (data['year']) { this.activeYear = data['year']; }
+    if (data['geography']) {
+      const geo = data['geography'];
+      if (geo !== 'auto') { this.setGeographyLevel(geo); }
+    }
+    if (data['bounds']) {
+      const b = data['bounds'].split(',');
+      if (b.length === 4) { this.setMapBounds(b); }
+    }
+    if (data['choropleth']) { this.setChoroplethHighlight(data['choropleth']); }
+    if (data['type']) { this.setBubbleHighlight(data['type']); }
+    if (data['locations']) {
+      const locations = this.getLocationsFromString(data['locations']);
+      this.setLocations(locations);
+    }
+    if (data['graph']) { this.setGraphType(data['graph']); }
+    this.embed = data['embed'] === 'true';
   }
 
-  /**
-   * Returns query parameters
-   */
-  getQueryParameters() {
+  getCurrentData() {
     const locations = this.activeFeatures.map((f, i, arr) => {
       const lonLat = this.getFeatureLonLat(f).map(v => Math.round(v * 1000) / 1000);
       return f.properties['layerId'] + ',' + lonLat[0] + ',' + lonLat[1];
     }).join('+');
-
     return {
+      year: this.activeYear,
+      geography: this.activeDataLevel.id,
+      bounds: this.activeMapView ? this.activeMapView.join() : null,
       lang: this.translate.currentLang,
       type: this.stripYearFromAttr(this.activeBubbleHighlight.id),
       choropleth: this.stripYearFromAttr(this.activeDataHighlight.id),
-      locations: locations
+      locations: locations,
+      graph: this.activeGraphType
     };
-  }
-
-  /**
-   * Gets an array of values that represent the current route
-   */
-  getRouteArray() {
-    return [
-      this.activeYear,
-      this.activeDataLevel.id,
-      this.mapView ? this.mapView.join() : null
-    ];
   }
 
   /**
@@ -196,13 +204,12 @@ export class DataService {
       .find(f => f.properties.GEOID === feature.properties.GEOID);
     if (exists) { return null; }
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.bbox)) {
+    if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       this.activeFeatures = [...this.activeFeatures, feature];
-      this._locations.next(this.activeFeatures);
     }
     return maxLocations;
   }
@@ -213,18 +220,16 @@ export class DataService {
    */
   updateLocation(feature: MapFeature) {
     // Process feature if bbox and layerId not included based on current data level
-    if (!(feature.properties.bbox && feature.properties.bbox)) {
+    if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.processMapFeature(feature);
     }
-    const geoids = this.activeFeatures.map(f => f.properties.GEOID);
-    const featIndex = geoids.indexOf(feature.properties.GEOID);
-    if (featIndex !== -1) {
-      // Assigning properties and geometry rather than the whole feature
-      // so that a state change isn't triggered
-      this.activeFeatures[featIndex].properties = feature.properties;
-      this.activeFeatures[featIndex].geometry = feature.geometry;
-      this._locations.next(this.activeFeatures);
-    }
+    this.activeFeatures = this.activeFeatures.map(f => {
+      if (feature.properties.GEOID === f.properties.GEOID) {
+        f.properties = feature.properties;
+        f.geometry = feature.geometry;
+      }
+      return f;
+    });
   }
 
   /**
@@ -301,7 +306,23 @@ export class DataService {
       +feature.properties['east'],
       +feature.properties['north']
     ];
+    // Add evictions-per-day property
+    Object.keys(feature.properties)
+      .filter(p => p.startsWith('e-'))
+      .forEach(p => {
+        const evictions = +feature.properties[p];
+        const yearSuffix = p.split('-').slice(1)[0];
+        const daysInYear = +yearSuffix % 4 === 0 ? 366 : 365;
+        const evictionsPerDay = evictions > 0 ? +(evictions / daysInYear).toFixed(2) : -1;
+        feature.properties[`epd-${yearSuffix}`] = evictionsPerDay;
+      });
     return feature;
+  }
+
+  loadUSAverage() {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http.get(environment.usAverageDataUrl, { headers: headers })
+      .subscribe(data => this.usAverage = data);
   }
 
   private stripYearFromAttr(attr: string) {
@@ -380,6 +401,22 @@ export class DataService {
       `${tilesetUrl}/${this.queryZoom}/${coords.x}/${coords.y}.pbf`,
       { responseType: 'arraybuffer' }
     );
+  }
+
+  /**
+   * Gets an array of objects containing the layer type and
+   * longitude / latitude coordinates for the locations in the string.
+   * @param locations string that represents locations
+   */
+  private getLocationsFromString(locations: string) {
+    return locations.split('+').map(loc => {
+      const locArray = loc.split(',');
+      if (locArray.length !== 3) { return null; } // invalid location
+      return {
+        layer: locArray[0],
+        lonLat: [ parseFloat(locArray[1]), parseFloat(locArray[2]) ]
+      };
+    }).filter(loc => loc); // filter null values
   }
 
 }

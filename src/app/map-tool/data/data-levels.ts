@@ -1,4 +1,4 @@
-import { MapLayerGroup } from '../map-tool/map/map-layer-group';
+import { MapLayerGroup } from './map-layer-group';
 
 export const DataLevels: Array<MapLayerGroup> = [
   {
@@ -9,7 +9,6 @@ export const DataLevels: Array<MapLayerGroup> = [
       'states',
       'states_stroke',
       'states_bubbles',
-      'states_text',
       'states_null'
     ],
     'minzoom': 0,

@@ -1,3 +1,9 @@
-<button role="radio" aria-checked="selectedValue === value" [attr.aria-label]="value[labelProperty] || value" *ngFor="let value of values" (click)="selectedValue = value" [class.selected]="selectedValue === value">
+<button
+  role="radio"
+  aria-checked="selectedValue === (value[valueProperty] || value)"
+  [attr.aria-label]="value[labelProperty] || value"
+  *ngFor="let value of values"
+  (click)="selectedValue = (value[valueProperty] || value)"
+  [class.selected]="selectedValue === (value[valueProperty] || value)">
   <span>{{ value[labelProperty] || value }}</span>
 </button>

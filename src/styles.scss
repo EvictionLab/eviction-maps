@@ -7,6 +7,7 @@
 @import './theme/base/typography';
 @import './theme/base/buttons';
 @import './theme/base/toast';
+@import './theme/base/dropdown';
 
 
 // Header Bar
@@ -185,3 +186,18 @@ body {
 
 // EDITOR OVERRIDES
 app-header-bar, app-footer { display: none!important; }
+
+
+// copy link tooltip override
+@media(max-width: $gtMobile) {
+  .popover.in.bs-popover-top {
+    left:0!important;
+    right:0!important;
+    margin:auto;
+    width: grid(35);
+    .popover-arrow.arrow {
+      left:auto!important;
+      right: grid(3);
+    }
+  }
+}

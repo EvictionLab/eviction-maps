@@ -4,9 +4,14 @@
     "DATE_RANGE": "Displaying year",
     "JUDGMENTS": "Eviction Rate",
     "FILINGS": "Eviction Filing Rate",
+    "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",
+    "BAR_GRAPH_DESC": "A bar graph showing {{type}} values for {{year}}: {{locations}}",
+    "LINE_GRAPH_TITLE": "{{type}} for {{locations}} from {{year1}} to {{year2}}",
+    "LINE_GRAPH_DESC": "A line graph showing {{type}} values for over time.",
     "REMOVE_BUTTON": "Remove",
     "DOWNLOAD_BUTTON": "Download",
     "CANCEL_BUTTON": "Cancel",
+    "CLOSE_BUTTON": "Close",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files.",
     "GET_DATA": "Get More Data",
     "GET_DATA_HINT": "Search for and access spreadsheets of full data sets from across the U.S.",
@@ -26,7 +31,14 @@
     "PDF_DESCRIPTION": "Export a PDF document that includes and overview of evictions in locations and issues related to evictions.",
     "TWEET_ONE_FEATURE": "I'm looking at {{year}} eviction data for {{place1}}. See the results at {{link}}.",
     "TWEET_TWO_FEATURES": "I compared {{year}} eviction rates for {{place1}} and {{place2}}. See the results at {{link}}.",
-    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}."
+    "TWEET_THREE_FEATURES": "I compared {{year}} eviction rates for {{place1}}, {{place2}}, and {{place3}}. See the results at {{link}}.",
+    "GRAPH_TYPE_LABEL": "Graph type",
+    "GRAPH_BAR_LABEL": "Bar",
+    "GRAPH_LINE_LABEL": "Line",
+    "UNAVAILABLE": "Unavailable",
+    "ADD_LOCATION": "Add {{name}}",
+    "REMOVE_LOCATION": "Remove {{name}}",
+    "US_AVERAGE": "U.S. average"
   },
   "HEADER": {
     "HOME": "Home",
@@ -39,7 +51,13 @@
     "SEARCH_HINT": "Search for places",
     "MAP_HINT": "Start Here"
   },
-  "HELP": "Lorem Ipsum",
+  "HINTS": {
+    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
+  },
+  "HELP": {
+    "TITLE": "Help",
+    "CONTENT": "Need help? Tap \"SEARCH\" to find a location. Tap \"MAP\" to look at eviction and census data. Tap on \"MENU\" for more help."
+  },
   "LAYERS": {
     "STATES": "States",
     "COUNTIES": "Counties",
@@ -82,5 +100,11 @@
     "PCT_HAW_ISL": "% Native Hawaiian or Pacific Islander",
     "PCT_MULTIPLE": "% Multiple Races",
     "PCT_OTHER": "% Other Race"
+  },
+  "FOOTER": {
+    "SHARE_TWITTER": "Share on Twitter",
+    "SHARE_FACEBOOK": "Share on Facebook",
+    "SHARE_EMAIL": "Share via E-mail",
+    "SHARE_LINK": "Share Link"
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/distinct';
@@ -9,19 +9,18 @@ import * as polylabel from 'polylabel';
 import area from '@turf/area';
 import { coordAll } from '@turf/meta';
 
-import { MapLayerGroup } from './map-layer-group';
+import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
   private map: mapboxgl.Map;
-  private popup: mapboxgl.Popup;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
 
-  constructor(private zone: NgZone) { }
+  constructor() { }
 
   /** Expose any MapboxGL API functions that are needed  */
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
@@ -38,6 +37,9 @@ export class MapService {
    * @param options
    */
   createMap(options: Object) {
+    mapboxgl.accessToken = 'pk.' +
+      'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
+      '4et5d5nstXWM5P0JG67XEQ';
     const map = new mapboxgl.Map(options);
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
@@ -53,22 +55,6 @@ export class MapService {
    * @param map mapbox instance
    */
   setMapInstance(map) { this.map = map; }
-
-  /**
-   * Setup hover popup to display when labels are not visible
-   * @param layerIds layer IDs to query for tooltip label
-   */
-  setupHoverPopup(layerIds: string[]) {
-    this.popup = new mapboxgl.Popup({ closeButton: false });
-    this.zone.runOutsideAngular(() => {
-      Observable.fromEvent(this.map, 'mousemove')
-        .debounceTime(100)
-        .subscribe(e => this.updateHoverTooltip(e, layerIds));
-      Observable.fromEvent(this.map, 'mouseout')
-        .debounceTime(100)
-        .subscribe(e => this.popup.remove());
-    });
-  }
 
   /**
    * Set the visibility for a mapbox layer
@@ -155,13 +141,19 @@ export class MapService {
    * @param feature feature with attributes to query
    */
   getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    // Check if feature already has needed data first
+    const geomBbox = bbox(feature);
+    const featBbox = this.featureBbox(feature);
+    const addReduce = (a, b) => a + b;
+    if (
+      this.bboxArea(geomBbox) >= (this.bboxArea(featBbox) * 0.98) &&
+      geomBbox.reduce(addReduce, 0) !== featBbox.reduce(addReduce, 0)
+    ) {
+      return feature as GeoJSON.Feature<GeoJSON.Polygon>;
+    }
     const queryFeatures = this.map.queryRenderedFeatures(undefined, {
       layers: [layerId],
-      filter: [
-        'all',
-        ['==', 'n', feature.properties.n],
-        ['==', 'pl', feature.properties.pl]
-      ]
+      filter: ['==', 'GEOID', feature.properties['GEOID']]
     });
     if (queryFeatures.length > 0) {
       return queryFeatures.reduce((currFeat, nextFeat) => {
@@ -217,13 +209,17 @@ export class MapService {
       // Otherwise, check if currently added or use bounding box
       if (
         f.properties['layerId'] === layerId &&
-        this.hasRenderedFeatures(f.properties['layerId'], f)
+        this.hasRenderedFeatures(f.properties['layerId'] as string, f)
       ) {
-        feat = this.getUnionFeature(f.properties['layerId'], f);
+        feat = this.getUnionFeature(f.properties['layerId'] as string, f);
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );
-        if (geoidFeatures.length > 0 && !this.shouldUpdateFeature(geoidFeatures[0], feat)) {
+        if (
+          geoidFeatures.length > 0 &&
+          feat !== null &&
+          !this.shouldUpdateFeature(geoidFeatures[0], feat)
+        ) {
           feat = geoidFeatures[0];
         }
       } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
@@ -255,14 +251,11 @@ export class MapService {
    */
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();
-    const layerObj = {};
-    layerGroups.forEach(l => {
-      layerObj[l.id] = l.layerIds;
-    });
+    const layerPrefixes = layerGroups.map(l => l.id);
 
     mapStyle.layers.map(l => {
       const layerPrefix = l.id.split('_')[0];
-      if (layerObj.hasOwnProperty(layerPrefix)) {
+      if (layerPrefixes.indexOf(layerPrefix) > -1) {
         l.source = `us-${layerPrefix}-${sourceSuffix}`;
       }
       return l;
@@ -325,49 +318,17 @@ export class MapService {
     ], { padding: 50 });
   }
 
-  /**
-   * Update hover tooltip content
-   */
-  private updateHoverTooltip(e: any, layerIds: string[]) {
-    const features = this.map.queryRenderedFeatures(e.point, { layers: layerIds });
-    if (features.length) {
-      const feat: MapFeature = features[0];
-      const labelLayerId = `${feat['layer']['id']}_text`;
-      let updateTooltip;
-      // Check if label layer exists, otherwise check features
-      if (this.map.getLayer(labelLayerId) === undefined) {
-        updateTooltip = true;
-      } else {
-        const labelFeatures = this.map.queryRenderedFeatures(undefined, {
-          layers: [`${feat['layer']['id']}_text`],
-          filter: [
-            'all',
-            ['==', 'n', feat.properties.n],
-          ]
-        });
-        // Check if labels are visible, don't display tooltip if so
-        const labelLayerOpacity = this.map.getPaintProperty(
-          `${feat['layer']['id']}_text`, 'text-opacity'
-        );
-        let labelsVisible;
-        if (labelLayerOpacity) {
-          labelsVisible = labelLayerOpacity['stops'][0][0] >= this.map.getZoom();
-        } else {
-          labelsVisible = false;
-        }
-        updateTooltip = !(labelFeatures.length && !labelsVisible && labelLayerOpacity !== 0);
-      }
+  private bboxArea(bbox: Array<number>): number {
+    return Math.abs(bbox[0] - bbox[2]) * Math.abs(bbox[1] - bbox[3]);
+  }
 
-      if (updateTooltip) {
-        this.popup.setLngLat(e.lngLat)
-          .setHTML(`${feat.properties.n}, ${feat.properties.pl}`)
-          .addTo(this.map);
-      } else {
-        this.popup.remove();
-      }
-    } else {
-      this.popup.remove();
-    }
+  private featureBbox(feature: MapFeature): Array<number> {
+    return [
+      +feature.properties['west'],
+      +feature.properties['south'],
+      +feature.properties['east'],
+      +feature.properties['north']
+    ];
   }
 
   /**
@@ -400,6 +361,11 @@ export class MapService {
    * @param newFeat
    */
   private shouldUpdateFeature(currentFeat, newFeat): boolean {
+    // Check if the current feature has geometry
+    if (!currentFeat.geometry && newFeat.geometry) { return true; }
+    // Return false and exit early if the new feature has no geometry
+    if (!newFeat.geometry) { return false; }
+
     const bboxPoly = {
       type: 'Polygon',
       coordinates: currentFeat.hasOwnProperty('bbox') ?

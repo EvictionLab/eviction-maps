@@ -102,12 +102,37 @@
     }
     .card-stats li { margin-bottom: grid(1); }
     .card-stats li:last-child { margin-bottom: 0;}
-
+    // attribute labels
     .card-stat-label {
       display:block;       
       color: $cardLabelText;
       font-size: 12px;
+      position:relative;
+      .attribute-hint {
+        display:block;
+        position:absolute;
+        width:100%;
+        height:100%;
+        left:0;top:0;
+        ::ng-deep {
+          .hint-button {
+            width:100%;
+            text-align:right;
+            min-width: grid(2);
+            min-height:grid(2);
+            svg {
+              width:grid(2);
+              height:grid(2);
+              display:inline-block;
+              circle { fill: $grey2; }
+            }
+          }
+        }
+      }
     }
+    // add space for hint icon on labels with hints
+    .card-stats li.has-hint .card-stat-label { padding-right: grid(3);}
+    // attribute values
     .card-stat-value {
       @include numberFont(14px);
       color: $cardValueText;
@@ -210,18 +235,27 @@
         margin-right: 0;
 
         span {
-          overflow: auto;
+          overflow: visible;
           white-space: normal;
         }
       }
       .card-stat-label {
         font-size: $cardLabelTextSize;
+        // align hint button with text
+        .attribute-hint ::ng-deep .hint-button svg {
+          margin-top:2px;
+        }
       }
       .card-stat-value {
         @include numberFont($cardValueTextSize);
         &.unavailable {
           @include defaultFont($cardValueTextSize);
         }
+      }
+      // override for eviction rate to place the hint button after text
+      li.er .card-stat-label .attribute-hint {
+        width: auto;
+        right: grid(4);
       }
     }
   }
@@ -245,6 +279,9 @@
     box-shadow:none;
     margin-right: grid(2);
     &:last-child { margin-right: 0; }
+    &:nth-child(1) .card-stat-comparison { color: $cardHeaderBg1 }
+    &:nth-child(2) .card-stat-comparison { color: $cardHeaderBg2 }
+    &:nth-child(3) .card-stat-comparison { color: $cardHeaderBg3 }
     // marker icon
     .card-header svg { 
         display:block; 
@@ -274,7 +311,7 @@
       top: auto;
       bottom: grid(5);
     }
-    .card-stats { padding-top: grid(12); }
+    .card-stats { padding-top: grid(14); }
     .card-stats li {
       .card-stat-value { 
         color: $panelCardValueText;
@@ -283,13 +320,13 @@
         }
       }
       .card-stat-label { color: $panelCardLabelText; }
-      // first two stats
+      // first two stats have a more prominent layout
       &:nth-child(1), &:nth-child(2) {
         position:absolute;
         width:50%;
         top:0;
         left:0;
-        height: grid(12);
+        height: grid(14);
         border-bottom:1px solid $panelCardBorder;
         text-align:center;
         display:flex;
@@ -301,11 +338,24 @@
           text-transform: uppercase;
           letter-spacing:0.5px;
         }
+        // drop the hint icon to save space, but still show a hint if they hover
+        &.has-hint .card-stat-label { 
+          padding-right: 0;
+          .attribute-hint ::ng-deep .hint-button svg { display: none; }
+        }
         .card-stat-value {
           @include numberFont($panelCardLabelValueLg);
           &.unavailable {
             @include defaultFont($panelCardLabelValueLg);
           }
+        }
+        .card-stat-comparison {
+          font-size: 13px;
+          display: block;
+          position: absolute;
+          bottom: grid(1.5);
+          right: 0;
+          left: 0;
         }
       }
       &:nth-child(2) {
@@ -340,7 +390,7 @@
         @include smallCapsText(12px);
         .card-stat-label { 
           width:100%; 
-          color: #A3A7A8; 
+          color: $grey2; 
           text-align:center; 
         }
       }
@@ -361,7 +411,7 @@
         display:flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-start;
         p {
           @include defaultFontBold($cardAddLocationTextSize);
           margin: $defaultPadding 0;
@@ -384,7 +434,7 @@
   overflow:none;
   max-width: $maxContentWidth;
   margin: auto;
-  padding: 0 grid(4) grid(6);
+  padding: 0 $pageMarginLg grid(6);
   .location-card {
     margin-right: grid(4);
     min-width: grid(39);
@@ -406,10 +456,10 @@
       bottom: grid(4.5);
     }
     .card-stats { 
-      padding-top: grid(13); 
+      padding-top: grid(15); 
       li:nth-child(1),
       li:nth-child(2) {
-        height: grid(13);
+        height: grid(15);
         .card-stat-label { font-size: $panelCardLabelTextLg_t; }
         .card-stat-value { font-size: $panelCardLabelValueLg_t; }
       }

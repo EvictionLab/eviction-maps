@@ -8,11 +8,12 @@ import { MapToolComponent } from './map-tool.component';
 import { MapModule } from './map/map.module';
 import { UiModule } from '../ui/ui.module';
 import { DataPanelModule } from './data-panel/data-panel.module';
-import { DataService } from '../data/data.service';
+import { MapToolService } from './map-tool.service';
+import { EmbedComponent } from './embed/embed.component';
 
 
 @NgModule({
-  declarations: [ MapToolComponent ],
+  declarations: [ MapToolComponent, EmbedComponent ],
   exports: [ MapToolComponent ],
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { DataService } from '../data/data.service';
     MapModule,
     Ng2PageScrollModule,
     TranslateModule
-  ]
+  ],
+  providers: [MapToolService]
 })
 export class MapToolModule { }

@@ -1,13 +1,16 @@
 <app-progress-bar [indeterminate]="loader.isLoading"></app-progress-bar>
+<div id="embed-branding">
+  <a href="/" target="_blank">
+    <img src="./assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
+  </a>
+</div>
 <app-header-bar
   role="banner"
   [activeMenuItem]="currentMenuItem"
-  [languageOptions]="dataService.languageOptions"
-  [selectedLanguage]="dataService.selectedLanguage"
   (activeMenuItemChange)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
-<app-menu [expanded]="menuActive" (onClose)="closeMenu()"></app-menu>
+<app-menu tabindex="-1" [expanded]="menuActive" (onClose)="closeMenu()"></app-menu>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
 <app-footer role="contentinfo"></app-footer>

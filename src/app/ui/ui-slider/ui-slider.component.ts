@@ -15,7 +15,7 @@ export class UiSliderComponent implements AfterViewInit {
     const boundsValue = (this.min && this.max) ?
       Math.min(this.max, Math.max(this.min, value)) : value;
     this._currentValue = this.getStepValue(boundsValue);
-    this.updatePosition();
+    this.updatePosition(this._currentValue);
   }
   get value(): number {
     return this._currentValue;
@@ -46,9 +46,10 @@ export class UiSliderComponent implements AfterViewInit {
 
   constructor(private cdRef: ChangeDetectorRef) {}
 
+  /** Set the dimensions of the component and set the position to the current value */
   ngAfterViewInit() {
     this.setSliderDimensions();
-    this.updatePosition();
+    this.updatePosition(this.value);
     // need to notify of changes when modifying inside of AfterViewInit
     // https://github.com/angular/angular/issues/14748
     this.cdRef.detectChanges();
@@ -81,6 +82,8 @@ export class UiSliderComponent implements AfterViewInit {
     if (this.pressed) {
       this.setScrubberPosition(e);
     }
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   /**
@@ -90,7 +93,6 @@ export class UiSliderComponent implements AfterViewInit {
    */
   @HostListener('document:mouseup', ['$event']) onRelease(e) {
     if (this.pressed) {
-      this.updatePosition();
       this.pressed = false;
     }
   }
@@ -107,35 +109,38 @@ export class UiSliderComponent implements AfterViewInit {
     if (this.pressed && e.touches && e.touches.length === 1) {
       this.setScrubberPosition(e.touches[0]);
     }
+    e.stopPropagation();
+    e.preventDefault();
   }
 
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
     if (this.pressed) {
-      this.updatePosition();
       this.pressed = false;
     }
   }
 
-  // TODO: change so keydown only triggers on element focus
+  /** Move the scrubber left and right with arrow keys */
   @HostListener('keydown', ['$event']) onKeypress(e) {
     if ((e.keyCode === 37 || e.keyCode === 39)) {
       // left or right
-      this.value = (e.keyCode === 37) ?
+      const newValue = (e.keyCode === 37) ?
         this.value - this.step : this.value + this.step;
-      this.updatePosition();
+      this.valueChange.emit(newValue);
     }
   }
 
-  // TODO: use this.step return values that fall within the step amount
+  /** Gets the nearest step increment value to the provided value */
   getStepValue(val?: number): number {
     const step = 1 / this.step;
     if (!val) { val = ((this.max - this.min) * this.position + this.min); }
     return (Math.round((val * step)) / step);
   }
 
-  updatePosition() {
-    this.position = (this.value - this.min) / (this.max - this.min);
-    this.valueChange.emit(this.value);
+  /** Updates the position of the scrubber to the provided value if the scrubber is not pressed */
+  updatePosition(val: number) {
+    if (!this.pressed) {
+      this.position = (val - this.min) / (this.max - this.min);
+    }
   }
 
   /**
@@ -173,7 +178,7 @@ export class UiSliderComponent implements AfterViewInit {
       this.position = Math.min(1, maxVal);
       const newValue = this.getStepValue();
       if (newValue !== this.value) {
-        this.value = newValue;
+        this.valueChange.emit(newValue);
       }
     }
   }

@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MapboxComponent } from './mapbox.component';
 import { MapService } from '../map.service';
+import { PlatformService } from '../../../services/platform.service';
+import { ToggleScrollService } from '../../../services/toggle-scroll.service';
 
 describe('MapboxComponent', () => {
   let component: MapboxComponent;
@@ -22,7 +24,7 @@ describe('MapboxComponent', () => {
         MapboxComponent
       ],
       providers: [
-        MapService
+        MapService, PlatformService, ToggleScrollService
       ]
     }).compileComponents();
   }));

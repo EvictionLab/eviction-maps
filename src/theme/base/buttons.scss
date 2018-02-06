@@ -6,14 +6,14 @@ body {
     border-radius: 2px;
     border:none;
     @include smallCapsText($buttonTextSize);
-    background:$buttonColor;
     height: $buttonHeight;
     padding: 0 $defaultPadding;
-    &:hover {
-      background: $buttonHoverColor;
+    &.active, &:active {
+      background: $focusBgColor;
+      box-shadow: none;
     }
-    &:active, &:focus, &:active:focus {
-      background: darken($buttonHoverColor, 5%);
+    &:focus, &:active:focus {
+      outline: 0;
     }
     // icon above button label
     svg{ display:block; margin: 0 auto 6px;}
@@ -21,6 +21,7 @@ body {
     // icon below button label
     span + svg { margin: 4px auto; }
     &.z1 { box-shadow: $z1shadow; }
+
   }
 
   // Buttons with smaller height
@@ -49,12 +50,15 @@ body {
   // icon button with optional label
   .btn.btn-icon {
     background: none;
-    padding:0;
+    border:none; 
+    padding: 2px 2px 1px 2px; // low padding to prevent icon + content from touching edges
     margin:0;
+    width: grid(5);
+    height: grid(5);
     display:flex;
-    flex-direction: column;
+    flex-direction: column; 
     align-items:center;
-    justify-content: space-around;
+    justify-content: space-between;
     line-height:1;
     @include smallCapsText(9px);
     &:active {
@@ -105,12 +109,17 @@ body {
     align-items:center;
     justify-content: center;
     svg path { fill: $grey1; }
-    &:hover { background: $grey5; }
-    &:focus {
-      border: 5px solid $grey5;
-      background: $white;
+    &.icon {
+      width: grid(7);
+      height: grid(7);
+      padding: 3px 0 0 0;
+      margin: 0 grid(0.5) 0 0;
+      &:last-child {
+        margin-right: 0;
+      }
     }
-
+    &.dark {
+      background: none;
+    }
   }
-
 }
