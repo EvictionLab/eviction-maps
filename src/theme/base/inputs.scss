@@ -4,6 +4,7 @@ body {
   // ---
   input[type=checkbox] {
     -webkit-appearance: none;
+    -moz-appearance: none;
     width: grid(5);
     height: grid(5);
     margin:0;
