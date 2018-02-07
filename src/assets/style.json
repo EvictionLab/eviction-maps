@@ -572,24 +572,23 @@
         "all"
       ],
       "layout": {
-        "text-size": 11,
+        "text-size": 13,
         "text-max-angle": 45,
         "text-transform": "none",
         "symbol-spacing": 250,
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
         "symbol-placement": "line",
-        "visibility": "visible",
         "text-rotation-alignment": "map",
         "text-pitch-alignment": "viewport",
         "text-field": "{name}",
-        "text-letter-spacing": 0.07,
+        "text-letter-spacing": 0.05,
         "text-keep-upright": true
       },
       "paint": {
-        "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "rgba(255,255,255,0.7)",
+        "text-color": "rgba(5, 4, 3, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
         "text-translate": [
           0,
           0
@@ -813,29 +812,41 @@
       "source": "us-counties-10",
       "source-layer": "counties-centers",
       "layout": {
+        "text-size": {
+          "stops": [
+            [
+              4,
+              12
+            ],
+            [
+              10,
+              16
+            ]
+          ]
+        },
         "text-field": "{n}",
         "text-allow-overlap": false,
         "text-ignore-placement": false,
         "text-anchor": "center",
-        "text-optional": false,
         "symbol-spacing": 2500,
         "icon-allow-overlap": false,
         "symbol-placement": "point",
         "text-padding": 6,
         "text-justify": "center",
         "text-keep-upright": true,
-        "text-line-height": 1.2,
+        "text-line-height": 1.3,
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
-        "text-size": 11,
-        "text-letter-spacing": 0.07,
+        "text-transform": "uppercase",
+        "text-letter-spacing": 0.12,
         "text-max-width": 3,
         "visibility": "none"
       },
       "paint": {
         "icon-translate-anchor": "map",
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
+        "text-color": "rgba(5, 4, 3, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": 2,
         "text-opacity": {
           "stops": [
@@ -938,13 +949,23 @@
         50000
       ],
       "layout": {
-        "text-size": 10,
-        "text-transform": "none",
+        "text-size": {
+          "stops": [
+            [
+              10,
+              10
+            ],
+            [
+              12,
+              14
+            ]
+          ]
+        },
+        "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
         "text-justify": "left",
-        "visibility": "visible",
         "text-offset": [
           0.5,
           0.2
@@ -952,11 +973,11 @@
         "text-anchor": "left",
         "text-field": "{n}",
         "text-padding": 0.5,
-        "text-letter-spacing": 0.07
+        "text-letter-spacing": 0.13
       },
       "paint": {
-        "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
+        "text-color": "rgba(102, 102, 102, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": {
           "stops": [
             [
@@ -964,20 +985,12 @@
               2
             ],
             [
-              1,
-              2
-            ],
-            [
-              1,
-              2
-            ],
-            [
               11,
-              2
+              3
             ]
           ]
         },
-        "text-halo-blur": 0,
+        "text-halo-blur": 1,
         "text-opacity": 1
       }
     },
@@ -993,31 +1006,41 @@
         75000
       ],
       "layout": {
-        "text-size": 10,
-        "text-transform": "none",
+        "text-size": {
+          "stops": [
+            [
+              6,
+              12
+            ],
+            [
+              10,
+              16
+            ]
+          ]
+        },
+        "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
         "text-justify": "left",
-        "visibility": "visible",
         "text-field": "{n}",
         "text-letter-spacing": {
           "stops": [
             [
               6,
-              0.07
+              0.12
             ],
             [
               10,
-              0.07
+              0.12
             ]
           ]
         },
         "text-padding": 2
       },
       "paint": {
-        "text-color": "rgba(48, 48, 48, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.7)",
+        "text-color": "rgba(102, 102, 102, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": {
           "stops": [
             [
@@ -1030,7 +1053,7 @@
             ]
           ]
         },
-        "text-halo-blur": 0,
+        "text-halo-blur": 1,
         "icon-opacity": 0,
         "text-opacity": 1
       }
@@ -1051,31 +1074,41 @@
         "text-size": {
           "stops": [
             [
-              4,
+              5,
               12
             ],
             [
               10,
-              14
+              15
             ]
           ]
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
         "text-justify": "center",
-        "visibility": "visible",
         "text-anchor": "center",
         "text-field": "{n}",
         "text-padding": 0,
-        "text-letter-spacing": 0,
+        "text-letter-spacing": 0.12,
         "icon-allow-overlap": true,
         "icon-ignore-placement": true
       },
       "paint": {
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.9)",
+        "text-color": {
+          "stops": [
+            [
+              5,
+              "rgba(5, 4, 3, 1)"
+            ],
+            [
+              10,
+              "rgba(102, 102, 102, 1)"
+            ]
+          ]
+        },
+        "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": {
           "stops": [
             [
@@ -1088,7 +1121,7 @@
             ]
           ]
         },
-        "text-halo-blur": 0,
+        "text-halo-blur": 1,
         "icon-opacity": 1,
         "icon-color": "rgba(0, 0, 0, 1)"
       }
@@ -1109,31 +1142,30 @@
         "text-size": {
           "stops": [
             [
-              4,
+              6,
               14
             ],
             [
               10,
-              16
+              20
             ]
           ]
         },
         "text-transform": "uppercase",
         "text-font": [
-          "Metropolis+Medium"
+          "Lato+Bold"
         ],
         "text-justify": "center",
-        "visibility": "visible",
         "text-anchor": "center",
         "text-field": "{n}",
         "text-padding": 0,
-        "text-letter-spacing": 0,
+        "text-letter-spacing": 0.12,
         "icon-allow-overlap": true,
         "icon-ignore-placement": true
       },
       "paint": {
-        "text-color": "rgba(0, 0, 0, 1)",
-        "text-halo-color": "rgba(255, 255, 255, 0.9)",
+        "text-color": "rgba(5, 4, 3, 1)",
+        "text-halo-color": "rgba(255, 255, 255, 1)",
         "text-halo-width": {
           "stops": [
             [
@@ -1146,7 +1178,7 @@
             ]
           ]
         },
-        "text-halo-blur": 0,
+        "text-halo-blur": 1,
         "icon-opacity": 1,
         "icon-color": "rgba(0, 0, 0, 1)"
       }
