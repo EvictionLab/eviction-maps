@@ -84,19 +84,19 @@ export class AppComponent implements OnInit {
     if (component.id === 'map-tool') {
       this.mapComponent = component;
       this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
-    } else if (component.id === 'rankings') {
+    } else if (component.id === 'ranking-tool') {
       this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
     } else if (component.id === 'embed-map') {
       this.embed = true;
     }
-    // TODO: get actual data
-    // const loadedData = {
-    //   'siteVersion': '<site version>',
-    //   'timeStamp': '<timestamp>',
-    //   'pageCategory': '<page category>',
-    //   'Language': '<language>',
-    // };
-    // this.analytics.trackEvent('dataLayer-loaded', loadedData);
+    const loadedData = {
+      'siteVersion': this.platform.deviceType,
+      'appVersion': environment.appVersion,
+      'timeStamp': Date.now(),
+      'pageCategory': component.id,
+      'language': this.translate.currentLang,
+    };
+    this.analytics.trackEvent('dataLayer-loaded', loadedData);
   }
 
   onMenuSelect(itemId: string) {
@@ -123,12 +123,26 @@ export class AppComponent implements OnInit {
 
   onLanguageSelect(lang) {
     this.translate.use(lang.id);
+    this.analytics.trackEvent('languageSelection', { language: lang.id });
   }
 
  /**
    * Forward search select to the component
    */
-  onSearchSelect(...args: any[]) {
+  onSearchSelect(searchData: any) {
+    // track search selection
+    if (searchData && searchData.feature && searchData.queryTerm) {
+      const selectedEvent = {
+        locationSelected: searchData.feature.properties.label,
+        locatonSelectedLevel: searchData.feature.properties.layerId,
+        locationFindingMethod: 'search',
+        combinedSelections: this.mapComponent.mapToolService.getCurrentDataString()
+      };
+      this.analytics.trackEvent('locationSelection', selectedEvent);
+      const searchEvent = { locationSearchTerm: searchData.queryTerm, ...selectedEvent };
+      this.analytics.trackEvent('searchSelection', searchEvent);
+    }
+    // forward to map component
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
   }
 

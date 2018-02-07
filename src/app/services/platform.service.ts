@@ -23,6 +23,16 @@ export class PlatformService {
     return this.nativeWindow.innerWidth;
   }
 
+  get deviceType(): string {
+    const w = this.deviceWidth;
+    if (w > breakpoints['tablet']) {
+      return 'desktop';
+    } else if (w > breakpoints['mobile']) {
+      return 'tablet';
+    }
+    return 'mobile';
+  }
+
   get isMobile(): boolean {
     return this.deviceWidth < breakpoints['mobile'];
   }

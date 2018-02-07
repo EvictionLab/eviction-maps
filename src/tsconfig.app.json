@@ -6,7 +6,8 @@
     "module": "es2015",
     "types": [
       "mapbox-gl",
-      "geojson"
+      "geojson",
+      "node"
     ]
   },
   "include": [

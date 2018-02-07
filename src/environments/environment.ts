@@ -3,6 +3,8 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
+import { version } from './version';
+
 export const environment = {
   production: false,
   tileBaseUrl: 'https://tiles.evictionlab.org/',
@@ -14,5 +16,6 @@ export const environment = {
   mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
   downloadBaseUrl: 'https://exports-dev.evictionlab.org',
   minYear: 2000,
-  maxYear: 2016
+  maxYear: 2016,
+  appVersion: version + '-dev'
 };

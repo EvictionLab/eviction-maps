@@ -22,6 +22,7 @@ import { PlatformService } from '../services/platform.service';
 import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
 import { RoutingService } from '../services/routing.service';
 import { environment } from '../../environments/environment';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Component({
   selector: 'app-map-tool',
@@ -60,6 +61,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private toast: ToastsManager,
     private platform: PlatformService,
     private dialogService: UiDialogService,
+    private analytics: AnalyticsService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.initMapToolData();
@@ -115,6 +117,15 @@ export class MapToolComponent implements OnInit, AfterViewInit {
         'Maximum limit reached. Please remove a location to add another.'
       );
     }
+    // track event
+    const selectEvent = {
+      locationSelected: this.mapToolService.getFullLocationName(feature),
+      locatonSelectedLevel: feature.properties.layerId,
+      locationFindingMethod: 'map',
+      combinedSelections: this.mapToolService.getCurrentDataString()
+    };
+    this.analytics.trackEvent('locationSelection', selectEvent);
+    // pull full data for the location
     this.mapToolService.getTileData(feature['layer']['id'], featureLonLat, null, true)
       .subscribe(data => {
         this.mapToolService.updateLocation(data);
@@ -138,12 +149,47 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     });
   }
 
+  onBubbleChange(bubble: any) {
+    // if bubble has no name, tool hasn't initialized yet
+    if (bubble.name) {
+      this.analytics.trackEvent('evictionDataSelection', {
+        evictionDataType: bubble.langKey,
+        combinedSelections: this.mapToolService.getCurrentDataString()
+      });
+      this.updateRoute();
+    }
+  }
+
+  onChoroplethChange(choropleth: any) {
+    // if choropleth has no name, tool hasn't initialized yet
+    if (choropleth.name) {
+      this.analytics.trackEvent('censusDataSelection', {
+        evictionDataType: choropleth.langKey,
+        combinedSelections: this.mapToolService.getCurrentDataString()
+      });
+      this.updateRoute();
+    }
+  }
+
+  onGeographyChange(geography: any) {
+    // if geography has no name, tool hasn't initialized yet
+    if (geography.name) { this.updateRoute(); }
+  }
+
+  trackLevelSelection(geography: any) {
+    this.analytics.trackEvent('mapLevelSelection', {
+      mapLevel: geography.langKey,
+      combinedSelections: this.mapToolService.getCurrentDataString()
+    });
+  }
+
   /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    * @param updateMap moves the map to the selected location if true
    */
-  onSearchSelect(feature: MapFeature | null, updateMap = true) {
+  onSearchSelect(searchData: any, updateMap = true) {
+    const feature: MapFeature = searchData.feature;
     if (feature) {
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
@@ -201,6 +247,9 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Triggers a scroll to the data panel
    */
   goToDataPanel(feature) {
+    // track event
+    this.analytics.trackEvent('viewMoreData');
+    // animate scroll to data panel
     const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-panel');
     this.pageScrollService.start(pageScrollInstance);
   }

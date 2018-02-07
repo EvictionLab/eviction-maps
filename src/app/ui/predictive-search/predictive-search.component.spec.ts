@@ -78,7 +78,7 @@ describe('PredictiveSearchComponent', () => {
     component.updateSelection(newMatch);
     tick();
     fixture.detectChanges();
-    expect(selection).toEqual(newMatch.value);
+    expect(selection.selection).toEqual(newMatch.value);
     discardPeriodicTasks();
   }));
 

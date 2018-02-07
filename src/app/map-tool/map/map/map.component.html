@@ -28,7 +28,7 @@
       [selectedValue]="selectedLayer"
       [values]="selectDataLevels" 
       [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
-      (change)="setGroupVisibility($event)">
+      (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
   </div>
   <app-ui-map-legend 

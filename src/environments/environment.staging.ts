@@ -1,4 +1,5 @@
 // Staging should use prod mode, but different specifics
+import { version } from './version';
 
 export const environment = {
     production: true,
@@ -11,5 +12,6 @@ export const environment = {
     mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
     downloadBaseUrl: 'https://exports-dev.evictionlab.org',
     minYear: 2000,
-    maxYear: 2016
+    maxYear: 2016,
+    appVersion: version + '-staging'
 };
