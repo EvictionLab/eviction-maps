@@ -1,13 +1,32 @@
 @import '../../../../theme';
 
-.modal-title {
-    display: inline-block;
+.filetype {
+  position:relative;
+  padding-left: grid(8);
+  margin-top: grid(3);
+  input { position:absolute; top:0; left:0; }
+  label {
+    @include smallCapsText(12px);
+    color: $grey1a;
+  }
 }
 
-.description, .filetype {
-    margin-bottom: grid(2);
+.modal-footer .btn.btn-primary {
+  width:100%;
 }
 
 app-progress-bar {
-    bottom: 0;
+  bottom: 0;
+}
+
+@media(min-width: $gtMobile) {
+  .filetype {
+    margin-top: grid(5);
+    label {
+      @include smallCapsText(15px);
+    }
+  }
+  .modal-footer .btn.btn-primary {
+    width: auto;
+  }
 }

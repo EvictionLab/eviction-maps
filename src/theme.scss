@@ -54,9 +54,17 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 }
 
 @mixin smallCapsText($size) {
+  $letterSpacingRatio: 0.066666666666667;
   @include defaultFontBold($size);
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: $size*$letterSpacingRatio;
+}
+
+@mixin altSmallCapsTest($size) {
+  $letterSpacingRatio: 0.057894736842105;
+  @include altFont($size);
+  text-transform: uppercase;
+  letter-spacing: $size*$letterSpacingRatio;
 }
 
 @mixin inputText() {
@@ -68,6 +76,7 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 $black: #050403;
 $grey0: #666;
 $grey1: #7F7F7F;
+$grey1a: #919191;
 $grey2: #A3A7A8;
 $grey3: #C6CCCF;
 $grey4: #efefef; 
@@ -127,13 +136,13 @@ $graphColor2: $color2;
 $graphColor3: $color3;
 $graphColor4: $color4;
 $graphAxisLines: #fff;
-$graphAxisLabels: #919191;
+$graphAxisLabels: $grey1a;
 
 
 // UI Toggle
 // ----
 $toggleBorderColor: $shadingColor;
-$toggleForeground: #C6CCCF;
+$toggleForeground: $grey3;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
@@ -141,17 +150,17 @@ $toggleHoverForeground: #000;
 
 // UI Switch
 // ----
-$onTextColor: #050403;
-$offTextColor: #919191;
+$onTextColor: $black;
+$offTextColor: $grey1a;
 $switchBorder: 5px solid $color1;
 $switchTextSize: 14px;
-$switchTrackColor: #c6cccf;
+$switchTrackColor: $grey3;
 
 // Slider
 $sliderText: $altTextColor;
 $sliderBackground: #000;
-$sliderTrack: #C6CCCF;
-$sliderLabel: #A3A7A8;
+$sliderTrack: $grey3;
+$sliderLabel: $grey2;
 $timeSliderHeight: grid(5); // 40px
 $timeSliderLg: grid(11); // 88px
 $timeSliderBackground: $defaultBackground;
@@ -180,11 +189,11 @@ $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
-$cardLabelText: #919191;
-$cardValueText: #050403;
+$cardLabelText: $grey1a;
+$cardValueText: $black;;
 
 // colors - cards in data panel
-$panelCardLabelText: #050403;
+$panelCardLabelText: $black;;
 $panelCardValueText: #434878;
 $panelCardBorder: $shadingColor;
 // font sizes
@@ -228,10 +237,10 @@ $legendBackground: #fff;
 $legendIconColor: #666;
 $legendIconBackground: $defaultBackground;
 $legendFontSize: 10px;
-$legendTextColor: #7f7f7f;
+$legendTextColor: $grey1;
 
 // Mapbox
-$tooltipBackground: #050403;
+$tooltipBackground: $black;;
 $tooltipFontColor: #fff;
 
 // Map tool component heights, software button
