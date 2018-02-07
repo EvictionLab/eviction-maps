@@ -14,7 +14,7 @@
     </div>
   </div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="buttons.ok || buttons.cancel">
   <button
     *ngIf="buttons.ok"
     i18n="dialog|The OK button to accept and dismiss a dialog@@dialogOK" 

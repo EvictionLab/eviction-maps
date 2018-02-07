@@ -39,6 +39,7 @@ body {
     border: none;
     background: $primaryButtonColor;
     height: grid(7);
+    padding: 0 grid(7);
     &:hover {
       background: $primaryButtonHoverColor;
     }

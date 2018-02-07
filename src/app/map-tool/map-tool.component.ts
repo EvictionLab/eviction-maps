@@ -145,7 +145,8 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   showHelpDialog() {
     return this.dialogService.showDialog({
       title: this.helpData['HELP.TITLE'],
-      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }]
+      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }],
+      buttons: { ok: false, cancel: false }
     });
   }
 
