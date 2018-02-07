@@ -19,9 +19,9 @@ export class LocationSearchComponent {
    * Adds the corresponding layerId to the feature
    * @param feature
    */
-  onSearchSelect(feature) {
-    if (feature) {
-      this.locationSelected.emit(feature);
+  onSearchSelect(data) {
+    if (data.selection) {
+      this.locationSelected.emit({ feature: data.selection, queryTerm: data.queryTerm });
     }
   }
 }

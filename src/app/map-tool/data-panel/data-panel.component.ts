@@ -10,6 +10,7 @@ import { PlatformService } from '../../services/platform.service';
 import { PlatformLocation } from '@angular/common';
 import { MapToolService } from '../map-tool.service';
 import { MapDataAttribute } from '../data/map-data-attribute';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-data-panel',
@@ -64,6 +65,7 @@ export class DataPanelComponent implements OnInit {
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private platform: PlatformService,
+    private analytics: AnalyticsService,
     private cd: ChangeDetectorRef
   ) {}
 
@@ -108,20 +110,29 @@ export class DataPanelComponent implements OnInit {
       showUsAverage: this.mapToolService.activeShowGraphAvg,
       usAverage: this.mapToolService.usAverage
     };
-    this.dialogService.showDownloadDialog(DownloadFormComponent, config);
+    this.dialogService.showDownloadDialog(DownloadFormComponent, config)
+      .subscribe((d) => this.trackDownload(d));
   }
 
-  showFileDialog(e) {
-    this.dialogService.showDialog({
-      title: 'Select a file type',
-      content: [
-        { type: 'text', data: 'Check one or more of the file types:' },
-        { type: 'checkbox', data: { value: false, label: 'PDF' } },
-        { type: 'checkbox', data: { value: false, label: 'Excel' } }
-      ]
-    }).subscribe((response) => {
-      console.log(response);
-    });
+  /**
+   * Tracks the download event with locations, year ranges, and file types
+   * @param fileTypes a string of filetypes selected in the export dialog
+   */
+  trackDownload(fileTypes: string) {
+    const yearString = this.year + ',' +
+      this.mapToolService.activeLineYearStart + '-' +
+      this.mapToolService.activeLineYearEnd;
+    const comparisonDownloadType = [
+      this.mapToolService.getActiveLocationNames(), yearString, fileTypes
+    ].join('|');
+    this.analytics.trackEvent('comparisonDataDownload', { comparisonDownloadType });
+  }
+
+  /**
+   * Tracks when the map is shared from the data panel footer
+   */
+  trackShare(mapShareType: string) {
+    this.analytics.trackEvent('mapShare', { mapShareType });
   }
 
   /**

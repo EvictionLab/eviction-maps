@@ -18,6 +18,7 @@ import { MapLayerGroup } from './data/map-layer-group';
 import { MapFeature } from './map/map-feature';
 import { DataAttributes } from './data/data-attributes';
 import { DataLevels } from './data/data-levels';
+import { AnalyticsService } from '../services/analytics.service';
 
 @Injectable()
 export class MapToolService {
@@ -62,7 +63,11 @@ export class MapToolService {
   private tilesetYears = ['00', '10'];
   private queryZoom = 10;
 
-  constructor(private http: HttpClient, private translate: TranslateService) {
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService,
+    private analytics: AnalyticsService
+  ) {
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
@@ -183,6 +188,27 @@ export class MapToolService {
   }
 
   /**
+   * Gets a string representing the current state for analytics tracking. String
+   * is formatted as:
+   *    <Map OR Rankings>|<evictionDataType>|<censusDataSelected>|<locationSelectedLevel>|
+   *    <First Location Selected>|<number of locations selected>
+   */
+  getCurrentDataString() {
+    const numSelected = this.activeFeatures.length;
+    const firstSelected = numSelected > 0 ?
+      this.getFullLocationName(this.activeFeatures[0]) : 'none';
+    const data = [
+      'map-tool',
+      this.activeBubbleHighlight.langKey,
+      this.activeDataHighlight.langKey,
+      this.activeDataLevel.langKey,
+      firstSelected,
+      numSelected
+    ];
+    return data.join('|');
+  }
+
+  /**
    * Removes a location from the cards and data panel
    */
   removeLocation(feature) {
@@ -210,6 +236,21 @@ export class MapToolService {
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       this.activeFeatures = [...this.activeFeatures, feature];
+      // track comparissons added
+      if (this.activeFeatures.length === 2) {
+        this.analytics.trackEvent('secondaryLocationSelection', {
+          secondaryLocation: this.getFullLocationName(this.activeFeatures[1]),
+          locationSelectedLevel: this.activeFeatures[1].properties.layerId,
+          combinedSelections: this.getCurrentDataString()
+        });
+      }
+      if (this.activeFeatures.length === 3) {
+        this.analytics.trackEvent('tertiaryLocationSelection', {
+          tertiaryLocationSelection: this.getFullLocationName(this.activeFeatures[2]),
+          locationSelectedLevel: this.activeFeatures[2].properties.layerId,
+          combinedSelections: this.getCurrentDataString()
+        });
+      }
     }
     return maxLocations;
   }
@@ -323,6 +364,16 @@ export class MapToolService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.http.get(environment.usAverageDataUrl, { headers: headers })
       .subscribe(data => this.usAverage = data);
+  }
+
+  /** Gets a location string for a feature, including its parent location */
+  getFullLocationName(feature: MapFeature) {
+    return feature.properties.n + ', ' + feature.properties.pl;
+  }
+
+  /** Gets a string with all of the active locations, separated by a semicolon */
+  getActiveLocationNames() {
+    return this.activeFeatures.map(f => this.getFullLocationName(f)).join(';');
   }
 
   private stripYearFromAttr(attr: string) {

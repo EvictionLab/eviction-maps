@@ -49,9 +49,10 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the bounds for the map */
   @Input()
   set boundingBox(val) {
-    if (val && !_isEqual(val, this._store.bounds) && val.length === 4) {
-      this._store.bounds =
-        val.map(v => Math.round(v * 1000) / 1000); // round bounds to 3 decimals
+    if (!val) { return; }
+    const roundedVal = val.map(v => Math.round(v * 1000) / 1000); // round bounds to 3 decimals
+    if (!_isEqual(roundedVal, this._store.bounds) && val.length === 4) {
+      this._store.bounds = roundedVal;
       if (this._mapInstance) {
         this.map.zoomToBoundingBox(this._store.bounds);
       }
@@ -66,10 +67,12 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the bubble attribute to display on the map */
   @Input()
   set selectedBubble(newBubble: MapDataAttribute) {
-    this._store.bubble = newBubble;
-    this.selectedBubbleChange.emit(newBubble);
-    this.updateMapBubbles();
-    this.updateCardProperties();
+    if (!_isEqual(newBubble, this._store.bubble)) {
+      this._store.bubble = newBubble;
+      this.selectedBubbleChange.emit(newBubble);
+      this.updateMapBubbles();
+      this.updateCardProperties();
+    }
   }
   get selectedBubble(): MapDataAttribute { return this._store.bubble; }
   @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
@@ -78,10 +81,12 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the choropleth attribute to display on the map */
   @Input()
   set selectedChoropleth(newChoropleth: MapDataAttribute) {
-    this._store.choropleth = newChoropleth;
-    this.selectedChoroplethChange.emit(newChoropleth);
-    this.updateMapChoropleths();
-    this.updateCardProperties();
+    if (!_isEqual(newChoropleth, this._store.choropleth)) {
+      this._store.choropleth = newChoropleth;
+      this.selectedChoroplethChange.emit(newChoropleth);
+      this.updateMapChoropleths();
+      this.updateCardProperties();
+    }
   }
   get selectedChoropleth(): MapDataAttribute { return this._store.choropleth; }
   @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
@@ -116,9 +121,9 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the year to display data on the map */
   @Input()
   set year(newYear: number) {
-    this._store.year = newYear;
-    if (newYear) {
-      this.updateMapYear();
+    if (newYear !== this._store.year) {
+      this._store.year = newYear;
+      if (newYear) { this.updateMapYear(); }
     }
   }
   get year() { return this._store.year; }
@@ -147,6 +152,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() featureClick: EventEmitter<any> = new EventEmitter();
   @Output() showDataClick = new EventEmitter();
   @Output() showMapClick = new EventEmitter();
+  // emits event when layer changed from dropdown (for analytics)
+  @Output() layerChangedFromDropdown = new EventEmitter();
   @HostBinding('class.cards-active') get cardsActive() {
     return this.activeFeatures.length;
   }
@@ -255,8 +262,9 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    * Sets the visibility on a layer group
    * @param mapLayer the layer group that was selected
+   * @param sourceId where the layer group is being set from
    */
-  setGroupVisibility(layerGroup: MapLayerGroup) {
+  setGroupVisibility(layerGroup: MapLayerGroup, sourceId?: string) {
     if (layerGroup && layerGroup.id === 'auto') { this.autoSwitch = true; return; }
     if (this._mapInstance) {
       // Only change data level and turn off auto switch if wasn't already
@@ -265,6 +273,9 @@ export class MapComponent implements OnInit, OnChanges {
         this.selectedLayer = layerGroup;
         this.autoSwitch = false;
         this.restoreAutoSwitch = false;
+        if (sourceId && sourceId === 'dropdown') {
+          this.layerChangedFromDropdown.emit(this.selectedLayer);
+        }
       }
       this.layerOptions.forEach((group: MapLayerGroup) => {
         this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));

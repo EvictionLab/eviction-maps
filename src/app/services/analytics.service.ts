@@ -19,8 +19,9 @@ export class AnalyticsService {
    * @param id string of the event name
    * @param data object of event data
    */
-  trackEvent(id: string, data: any) {
+  trackEvent(id: string, data: any = {}) {
     if (!this.dataLayer) { throw Error('dataLayer does not exist'); }
+    console.log(`tracking ${id}:`, data);
     const event = { event: id, ...data };
     this.dataLayer.push(event);
   }

@@ -14,11 +14,12 @@
     (featureClick)="onFeatureSelect($event)"
     (boundingBoxChange)="updateRoute()"
     (yearChange)="updateRoute()"
-    (selectedBubbleChange)="updateRoute()"
-    (selectedChoroplethChange)="updateRoute()"
-    (selectedLayerChange)="updateRoute()"
+    (selectedBubbleChange)="onBubbleChange($event)"
+    (selectedChoroplethChange)="onChoroplethChange($event)"
+    (selectedLayerChange)="onGeographyChange($event)"
     (clickedCardHeader)="onCardHeaderClick($event)"
     (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
+    (layerChangedFromDropdown)="trackLevelSelection($event)"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button

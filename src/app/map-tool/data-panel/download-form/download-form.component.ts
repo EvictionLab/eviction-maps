@@ -14,7 +14,7 @@ import { FileExportService, ExportType } from './file-export.service';
 export class DownloadFormComponent implements OnInit {
   filetypes: ExportType[];
   loading = false;
-  buttonClicked = new EventEmitter<DialogResponse>();
+  buttonClicked = new EventEmitter<string>();
   exportDescription = 'DATA.EXPORT_ONE_FEATURE_DESCRIPTION';
   exportDescriptionParams = {};
 
@@ -54,6 +54,7 @@ export class DownloadFormComponent implements OnInit {
     this.loading = true;
     const filetypes = this.filetypes
       .filter(f => f.checked).map(f => f.value);
+    this.buttonClicked.emit(filetypes.join(','));
     this.exportService.sendFileRequest(filetypes)
       .subscribe(res => {
         if (!res.hasOwnProperty('path')) {
@@ -72,7 +73,6 @@ export class DownloadFormComponent implements OnInit {
   }
 
   private dismiss(data) {
-    this.buttonClicked.emit(data);
     this.bsModalRef.hide();
   }
 
