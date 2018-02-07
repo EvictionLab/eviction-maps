@@ -18,8 +18,8 @@
       <li *ngFor="let prop of cardProperties; let i = index;" [class]="prop.id" [class.has-hint]="prop.hintKey">
         <span *ngIf="i === 1 && usAverage && f.properties[prop.yearAttr] > 0" class="card-stat-comparison">
           {{ f.properties[prop.yearAttr] > usAverage[prop.yearAttr] ? '+' : '' }}{{
-          (f.properties[prop.yearAttr] - usAverage[prop.yearAttr]).toFixed(1) !== '0.0' ?
-            (f.properties[prop.yearAttr] - usAverage[prop.yearAttr] | number : '1.1-1') : '='
+          f.properties[prop.yearAttr] - usAverage[prop.yearAttr] !== 0 ?
+            (f.properties[prop.yearAttr] - usAverage[prop.yearAttr] | number : '1.1-2') : '='
           }} {{ 'DATA.US_AVERAGE' | translate }}
         </span>
         <span *ngIf="prop.id !== 'divider'" class="card-stat-label">
