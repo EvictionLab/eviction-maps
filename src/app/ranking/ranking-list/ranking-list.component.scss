@@ -48,10 +48,8 @@ $rankBarHeight: grid(5);
         font-size: 12px;
       }
       .ranking-value {
-        float:right;
+        margin-left: grid(1);
         @include numberFont(14px);
-        opacity:0.5;
-        display:none;
       }
     }
 

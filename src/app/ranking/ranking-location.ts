@@ -6,6 +6,7 @@ export interface RankingLocation {
   filingRate: number;
   name: string;
   parentLocation: string;
+  parentLocationDisplay: string;
   latLon: Array<number>;
   areaType: number;
 }
