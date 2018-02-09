@@ -8,7 +8,8 @@ import { RankingLocation } from './ranking-location';
 
 @Injectable()
 export class RankingService {
-  regions: Array<string> = REGIONS;
+  regions: Object = REGIONS;
+  regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
     { value: 'evictionRate', name: 'Eviction Rate' },
     { value: 'evictions', name: 'Evictions' }
@@ -93,6 +94,7 @@ export class RankingService {
         filingRate: parseFloat(d['eviction-filing-rate']),
         name: d['name'],
         parentLocation: d['parent-location'],
+        parentLocationDisplay: this.regions[d['parent-location']],
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
         areaType: parseInt(d['area-type'], 10)
       } as RankingLocation;

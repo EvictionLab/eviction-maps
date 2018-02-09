@@ -6,7 +6,6 @@ import { RankingUiComponent } from './ranking-ui/ranking-ui.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { RankingPanelComponent } from './ranking-panel/ranking-panel.component';
 import { RankingService } from './ranking.service';
-import { RankingScaleComponent } from './ranking-scale/ranking-scale.component';
 import { UiModule } from '../ui/ui.module';
 
 export class RankingConfig {
@@ -21,7 +20,7 @@ export class RankingConfig {
   ],
   declarations: [
     RankingToolComponent, RankingUiComponent, RankingListComponent,
-    RankingPanelComponent, RankingScaleComponent
+    RankingPanelComponent
   ]
 })
 export class RankingModule {
