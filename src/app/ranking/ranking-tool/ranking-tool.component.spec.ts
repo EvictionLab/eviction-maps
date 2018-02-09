@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { UiModule } from '../../ui/ui.module';
 import { RankingService } from '../ranking.service';
+import { PlatformService } from '../../services/platform.service';
 import { RankingToolComponent } from './ranking-tool.component';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../ranking-list/ranking-list.component';
@@ -34,7 +35,7 @@ describe('RankingToolComponent', () => {
               loadCsvData: () => { },
               isReady: { subscribe: () => { } }
             }
-          }
+          }, PlatformService
         ]
       }
     })
