@@ -82,6 +82,8 @@
   }
 }
 
+.page-fixed-bottom.unfix { position: inherit; }
+
 :host-context(.gt-mobile) {
 
 }

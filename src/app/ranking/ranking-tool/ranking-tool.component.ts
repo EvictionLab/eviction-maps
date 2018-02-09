@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
 
+import { PlatformService } from '../../services/platform.service';
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
 
@@ -28,6 +30,8 @@ export class RankingToolComponent implements OnInit {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
+  /** Determines whether data panel is fixed to the bottom of the page */
+  fixedPanel = true;
   /** full list of data for the current UI selections */
   private listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
@@ -45,7 +49,9 @@ export class RankingToolComponent implements OnInit {
   constructor(
     public rankings: RankingService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private platform: PlatformService,
+    private el: ElementRef
   ) { }
 
   /** Listen for when the data is ready and for route changes */
@@ -55,6 +61,9 @@ export class RankingToolComponent implements OnInit {
       if (ready) { this.updateEvictionList(); }
     });
     this.route.url.subscribe(this.onRouteChange.bind(this));
+    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
+      .debounceTime(20)
+      .subscribe(e => this.onScroll());
   }
 
   /**
@@ -114,6 +123,15 @@ export class RankingToolComponent implements OnInit {
     if (this.selectedIndex > 0) {
       this.selectedIndex--;
     }
+  }
+
+  /**
+   * Update fixedPanel based on whether the scroll position is at the end of the element
+   */
+  private onScroll() {
+    const content = this.el.nativeElement.querySelector('.page-content');
+    this.fixedPanel = content.getBoundingClientRect().bottom >
+      this.platform.nativeWindow.innerHeight;
   }
 
   /**
