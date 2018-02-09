@@ -14,7 +14,7 @@
       </ul>
       <app-ranking-ui
         *ngIf="activeTab === 'evictions'"
-        [regions]="rankings.regions"
+        [regions]="rankings.regionList"
         [areaTypes]="rankings.areaTypes"
         [dataProperties]="rankings.sortProps"
         [selectedRegion]="region"
@@ -39,7 +39,6 @@
     </div>
   </div>
   <div class="page-fixed-bottom" [class.unfix]="!fixedPanel" *ngIf="canRetrieveData">
-    <app-ranking-scale [min]="0" [max]="dataMax"></app-ranking-scale>
     <app-ranking-panel *ngIf="selectedIndex || selectedIndex === 0"
       [rank]="selectedIndex+1"
       [location]="truncatedList[selectedIndex]"

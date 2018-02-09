@@ -7,7 +7,6 @@ import { PlatformService } from '../../services/platform.service';
 import { RankingToolComponent } from './ranking-tool.component';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../ranking-list/ranking-list.component';
-import { RankingScaleComponent } from '../ranking-scale/ranking-scale.component';
 import { RankingPanelComponent } from '../ranking-panel/ranking-panel.component';
 
 describe('RankingToolComponent', () => {
@@ -20,7 +19,6 @@ describe('RankingToolComponent', () => {
         RankingToolComponent,
         RankingUiComponent,
         RankingListComponent,
-        RankingScaleComponent,
         RankingPanelComponent
       ],
       imports: [
