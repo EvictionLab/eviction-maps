@@ -1,5 +1,6 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 import { Observable } from 'rxjs/Observable';
 
 import { PlatformService } from '../../services/platform.service';
@@ -30,6 +31,7 @@ export class RankingToolComponent implements OnInit {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
+  fixedPanelCutoff: number;
   /** Determines whether data panel is fixed to the bottom of the page */
   fixedPanel = true;
   /** full list of data for the current UI selections */
@@ -51,19 +53,20 @@ export class RankingToolComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private platform: PlatformService,
-    private el: ElementRef
+    private el: ElementRef,
+    @Inject(DOCUMENT) private document: any
   ) { }
 
   /** Listen for when the data is ready and for route changes */
   ngOnInit() {
     this.rankings.isReady.subscribe((ready) => {
       this.isDataReady = ready;
-      if (ready) { this.updateEvictionList(); }
+      if (ready) {
+        this.updateEvictionList();
+        setTimeout(() => this.setupScroll(), 250);
+      }
     });
     this.route.url.subscribe(this.onRouteChange.bind(this));
-    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
-      .debounceTime(20)
-      .subscribe(e => this.onScroll());
   }
 
   /**
@@ -109,6 +112,11 @@ export class RankingToolComponent implements OnInit {
 
   onSelectLocation(index: number) {
     this.selectedIndex = index;
+    // Update panel position after timeout to make sure it appears
+    setTimeout(() => {
+      this.updateFixedPanelCutoff();
+      this.onScroll();
+    }, 250);
   }
 
   /** Switch the selected location to the next one in the list */
@@ -125,13 +133,27 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
+  private updateFixedPanelCutoff() {
+    const panel = this.document.querySelector('app-ranking-panel');
+    const panelHeight = panel ? panel.getBoundingClientRect().height : 0;
+
+    this.fixedPanelCutoff = this.platform.nativeWindow.scrollMaxY -
+      this.document.querySelector('app-footer').getBoundingClientRect().height +
+      panelHeight;
+  }
+
+  private setupScroll() {
+    this.updateFixedPanelCutoff();
+    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
+      .debounceTime(20)
+      .subscribe(e => this.onScroll());
+  }
+
   /**
    * Update fixedPanel based on whether the scroll position is at the end of the element
    */
   private onScroll() {
-    const content = this.el.nativeElement.querySelector('.page-content');
-    this.fixedPanel = content.getBoundingClientRect().bottom >
-      this.platform.nativeWindow.innerHeight;
+    this.fixedPanel = this.platform.nativeWindow.scrollY < this.fixedPanelCutoff;
   }
 
   /**
