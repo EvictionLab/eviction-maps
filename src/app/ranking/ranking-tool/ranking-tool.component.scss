@@ -66,14 +66,17 @@
   left:0;
   right:0;
   background: $white;
-  padding: $pageMarginLg;
   z-index:1000;
   box-shadow: $z1shadow;
   app-ranking-panel {
     display:block;
-    margin-top: grid(6);
+    // margin-top: grid(6);
+    padding: $pageMarginLg;
+    // padding-top: 0;
   }
 }
+
+.page-fixed-bottom.unfix { position: inherit; }
 
 :host-context(.gt-mobile) {
 
