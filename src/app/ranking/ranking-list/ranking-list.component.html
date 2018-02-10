@@ -9,7 +9,7 @@
     <div class="ranking-bar" [style.width]="''+(100*(location[dataProperty]/maxValue))+'%'"></div>
     <div class="ranking-content">
       <span class="ranking-name">{{ location.name }}</span>
-      <span class="ranking-parent">{{location.parentLocationDisplay}}</span>
+      <span class="ranking-parent">{{location.displayParentLocation}}</span>
       <span class="ranking-value">{{location[dataProperty]}}</span>
     </div>
   </li>

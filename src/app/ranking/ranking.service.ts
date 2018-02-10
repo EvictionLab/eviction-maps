@@ -52,12 +52,21 @@ export class RankingService {
   }
 
   /**
-   * Sorts and returns an array of locations based on the provided params
+   * Sorts and returns the full dataset by sortProperty
+   * @param sortProperty
+   * @param invert
+   */
+  getSortedData(sortProperty: string, invert?: boolean): Array<RankingLocation> {
+    return this.data.sort(this.getComparator(sortProperty, invert));
+  }
+
+  /**
+   * Filters, sorts and returns an array of locations based on the provided params
    * @param region the state name to get data for, or 'United States' for all states
    * @param areaType the area type to get data for (rural, mid-sized, cities)
    * @param sortProperty the property to sort the data by
    */
-  getSortedData(
+  getFilteredData(
     region: string, areaType: number, sortProperty: string, invert?: boolean
   ): Array<RankingLocation> {
     console.time('sort rankings');
@@ -93,8 +102,9 @@ export class RankingService {
         evictionRate: parseFloat(d['eviction-rate']),
         filingRate: parseFloat(d['eviction-filing-rate']),
         name: d['name'],
+        displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],
-        parentLocationDisplay: this.regions[d['parent-location']],
+        displayParentLocation: this.regions[d['parent-location']],
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
         areaType: parseInt(d['area-type'], 10)
       } as RankingLocation;

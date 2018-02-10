@@ -22,7 +22,9 @@ export class RankingToolComponent implements OnInit {
   areaType = null;
   /** object key representing the data property to sort by */
   dataProperty = null;
-  /** the index of the selected location for the data panel */
+  /** selected location for data panel */
+  selectedLocation: RankingLocation;
+  /** the rank of the selected location for the data panel */
   selectedIndex: number;
   /** tracks if the data has been loaded and parsed */
   isDataReady = false;
@@ -30,7 +32,9 @@ export class RankingToolComponent implements OnInit {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
-  /** full list of data for the current UI selections */
+  /** full list of sorted data from rankings */
+  fullData: Array<RankingLocation>;
+  /** list of data for the current UI selections */
   private listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
   private topCount = 100;
@@ -101,8 +105,25 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
-  onSelectLocation(index: number) {
+  onSearchSelectLocation(location: RankingLocation | null) {
+    if (location === null) {
+      this.selectedLocation = undefined;
+      this.selectedIndex = undefined;
+      return;
+    }
+    this.selectedLocation = location;
+    const truncListIndex = this.truncatedList.map(d => d.geoId).indexOf(location.geoId);
+    if (truncListIndex > -1) {
+      this.selectedIndex = truncListIndex;
+    } else {
+      this.selectedIndex = undefined;
+      this.selectedLocation.rank = this.fullData.map(d => d.geoId).indexOf(location.geoId) + 1;
+    }
+  }
+
+  onClickLocation(index: number) {
     this.selectedIndex = index;
+    this.selectedLocation = this.truncatedList[index];
   }
 
   /** Switch the selected location to the next one in the list */
@@ -124,9 +145,11 @@ export class RankingToolComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
+      this.fullData = this.rankings.getSortedData(this.dataProperty.value);
       this.listData =
-        this.rankings.getSortedData(this.region, this.areaType.value, this.dataProperty.value);
+        this.rankings.getFilteredData(this.region, this.areaType.value, this.dataProperty.value);
       this.truncatedList = this.listData.slice(0, this.topCount);
+      console.log(this.listData.length);
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;

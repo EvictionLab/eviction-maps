@@ -9,6 +9,7 @@ import { RankingLocation } from '../ranking-location';
   providers: [DecimalPipe]
 })
 export class RankingPanelComponent implements OnInit {
+  @Input() inList: boolean;
   @Input() rank: number;
   @Input() location: RankingLocation;
   @Input() dataProperty: { name: string, value: string };
