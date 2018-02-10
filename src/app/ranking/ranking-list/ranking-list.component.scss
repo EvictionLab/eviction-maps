@@ -3,6 +3,10 @@
 $rankNumberSpace: grid(9);
 $rankBarHeight: grid(5);
 
+p {
+  margin: 0 0 grid(3) 0;
+}
+
 .ranking-list {
   list-style:none;
   margin:0;

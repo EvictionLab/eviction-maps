@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/operator/throttleTime';
 
 function _window(): any {
   // return the global native browser window object
@@ -15,16 +18,16 @@ const breakpoints = {
 @Injectable()
 export class PlatformService {
 
+  viewportWidth: number;
+  viewportHeight: number;
+  dimensions$: Observable<{ width: number, height: number }>;
+
   get nativeWindow(): any {
     return _window();
   }
 
-  get deviceWidth(): any {
-    return this.nativeWindow.innerWidth;
-  }
-
   get deviceType(): string {
-    const w = this.deviceWidth;
+    const w = this.viewportWidth;
     if (w > breakpoints['tablet']) {
       return 'desktop';
     } else if (w > breakpoints['mobile']) {
@@ -34,42 +37,66 @@ export class PlatformService {
   }
 
   get isMobile(): boolean {
-    return this.deviceWidth < breakpoints['mobile'];
+    return this.viewportWidth < breakpoints['mobile'];
   }
 
   get isTablet(): boolean {
-    return this.deviceWidth > breakpoints['mobile'] &&
-      this.deviceWidth <= breakpoints['tablet'];
+    return this.viewportWidth > breakpoints['mobile'] &&
+      this.viewportWidth <= breakpoints['tablet'];
   }
 
   get isSmallDesktop(): boolean {
-    return this.deviceWidth > breakpoints['tablet'] &&
-      this.deviceWidth <= breakpoints['smallDesktop'];
+    return this.viewportWidth > breakpoints['tablet'] &&
+      this.viewportWidth <= breakpoints['smallDesktop'];
   }
 
   get isLargeDesktop(): boolean {
-    return this.deviceWidth > breakpoints['smallDesktop'] &&
-      this.deviceWidth <= breakpoints['largeDesktop'];
+    return this.viewportWidth > breakpoints['smallDesktop'] &&
+      this.viewportWidth <= breakpoints['largeDesktop'];
   }
 
   get isExtraLargeDesktop(): boolean {
-    return this.deviceWidth > breakpoints['largeDesktop'];
+    return this.viewportWidth > breakpoints['largeDesktop'];
   }
 
   get isLargerThanMobile(): boolean {
-    return this.deviceWidth > breakpoints['mobile'];
+    return this.viewportWidth > breakpoints['mobile'];
   }
 
   get isLargerThanTablet(): boolean {
-    return this.deviceWidth > breakpoints['tablet'];
+    return this.viewportWidth > breakpoints['tablet'];
   }
 
   get isLargerThanSmallDesktop(): boolean {
-    return this.deviceWidth > breakpoints['smallDesktop'];
+    return this.viewportWidth > breakpoints['smallDesktop'];
   }
 
   get isLargerThanLargeDesktop(): boolean {
-    return this.deviceWidth > breakpoints['largeDesktop'];
+    return this.viewportWidth > breakpoints['largeDesktop'];
+  }
+
+  constructor() {
+    // store viewport width / height
+    this.updateDimensions({
+      width: this.nativeWindow.innerWidth,
+      height: this.nativeWindow.innerHeight
+    });
+    // provide observable for viewport dimensions
+    this.dimensions$ = Observable.fromEvent(this.nativeWindow, 'resize')
+      .throttleTime(100, undefined, { trailing: true, leading: true })
+      .map(e => {
+        return {
+          width: this.nativeWindow.innerWidth,
+          height: this.nativeWindow.innerHeight
+        };
+      });
+    // update viewport width / height on resize
+    this.dimensions$.subscribe(this.updateDimensions.bind(this));
+  }
+
+  private updateDimensions(dim: { width: number, height: number }) {
+    this.viewportHeight = dim.height;
+    this.viewportWidth = dim.width;
   }
 
 }

@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 // local imports
 import { PlatformService } from './platform.service';
 import { LoadingService } from './loading.service';
-import { ToggleScrollService } from './toggle-scroll.service';
+import { ScrollService } from './scroll.service';
 import { AnalyticsService } from './analytics.service';
 import { RoutingService } from './routing.service';
 
@@ -19,7 +19,7 @@ export class ServicesModule {
     return {
       ngModule: ServicesModule,
       providers: [
-        ToggleScrollService,
+        ScrollService,
         PlatformService,
         LoadingService,
         AnalyticsService,

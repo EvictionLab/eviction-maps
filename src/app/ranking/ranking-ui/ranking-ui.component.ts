@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-ranking-ui',
@@ -16,7 +16,7 @@ export class RankingUiComponent implements OnInit {
   @Input() selectedRegion;
   @Output() selectedRegionChange = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(public el: ElementRef) { }
 
   ngOnInit() {}
 

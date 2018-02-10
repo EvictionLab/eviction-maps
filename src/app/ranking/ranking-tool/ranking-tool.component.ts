@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
+import { ScrollService } from '../../services/scroll.service';
+import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 
 @Component({
   selector: 'app-ranking-tool',
@@ -28,6 +30,9 @@ export class RankingToolComponent implements OnInit {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
+  sidebarRange;
+  sidebarFixed = false;
+  pageOffset = { top: 0, bottom: 1 };
   /** full list of data for the current UI selections */
   private listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
@@ -45,7 +50,8 @@ export class RankingToolComponent implements OnInit {
   constructor(
     public rankings: RankingService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private scroll: ScrollService
   ) { }
 
   /** Listen for when the data is ready and for route changes */

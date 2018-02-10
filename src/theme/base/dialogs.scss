@@ -35,7 +35,7 @@ body {
   .modal-header {
     margin-bottom: grid(1);
     .modal-title { 
-      @include altSmallCapsTest(13px);
+      @include altSmallCapsText(13px);
       color: $grey1a;
       line-height:1;
     }
@@ -76,7 +76,7 @@ body {
     }
     .modal-header {
       margin-bottom: grid(3);
-      .modal-title { @include altSmallCapsTest(19px); }
+      .modal-title { @include altSmallCapsText(19px); }
     }
     .modal-footer {
       margin-top: grid(5);

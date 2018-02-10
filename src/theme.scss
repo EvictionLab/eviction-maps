@@ -60,7 +60,7 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
   letter-spacing: $size*$letterSpacingRatio;
 }
 
-@mixin altSmallCapsTest($size) {
+@mixin altSmallCapsText($size) {
   $letterSpacingRatio: 0.057894736842105;
   @include altFont($size);
   text-transform: uppercase;
