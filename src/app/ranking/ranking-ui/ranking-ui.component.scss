@@ -5,8 +5,37 @@
   align-items: center;
   justify-content: flex-end;
   height:100%;
+  width: grid(40);
+}
+
+.ranking-ui-container {
+  h2 {
+    @include altSmallCapsText(12px);
+    line-height:1;
+    margin:grid(2) 0 grid(2) 0;
+    color: $grey1a;
+  }
+}
+
+.ranking-ui-search {
+  padding: grid(2);
+}
+
+.ranking-ui-filter {
+  padding: grid(2);
 }
 
 app-ui-select {
-  margin-left: grid(1);
+  display:block;
+  margin: grid(1) 0;
+}
+
+@media(min-width: $gtTablet) {
+  .ranking-ui-search {
+    background: #EEF2F5;
+    margin-bottom: grid(2);
+  }
+  .ranking-ui-filter {
+    background: linear-gradient(180deg, #FAFCFD 0%, #F4F7F9 100%);
+  }
 }

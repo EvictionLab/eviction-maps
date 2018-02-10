@@ -5,7 +5,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
 import { PlatformService } from '../../../services/platform.service';
-import { ToggleScrollService } from '../../../services/toggle-scroll.service';
+import { ScrollService } from '../../../services/scroll.service';
 import { MapLayerGroup } from '../../data/map-layer-group';
 import { MapFeature } from '../../map/map-feature';
 import 'rxjs/add/observable/fromEvent';
@@ -40,7 +40,7 @@ export class MapboxComponent implements AfterViewInit {
     private mapService: MapService,
     private platform: PlatformService,
     private zone: NgZone,
-    private scroll: ToggleScrollService
+    private scroll: ScrollService
   ) { }
 
   /**

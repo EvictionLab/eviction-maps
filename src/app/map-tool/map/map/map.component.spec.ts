@@ -8,7 +8,7 @@ import { UiModule } from '../../../ui/ui.module';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../services/loading.service';
 import { PlatformService } from '../../../services/platform.service';
-import { ToggleScrollService } from '../../../services/toggle-scroll.service';
+import { ScrollService } from '../../../services/scroll.service';
 import { UiMapLegendComponent } from '../map-legend/ui-map-legend.component';
 import { LocationCardsModule } from '../../location-cards/location-cards.module';
 
@@ -44,7 +44,7 @@ describe('MapComponent', () => {
           PlatformService,
           { provide: MapService, useValue: new MapServiceStub() },
           LoadingService,
-          ToggleScrollService
+          ScrollService
         ],
       }
     })

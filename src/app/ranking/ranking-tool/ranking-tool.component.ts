@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
+import { ScrollService } from '../../services/scroll.service';
+import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 
 @Component({
   selector: 'app-ranking-tool',
@@ -45,7 +47,8 @@ export class RankingToolComponent implements OnInit {
   constructor(
     public rankings: RankingService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private scroll: ScrollService
   ) { }
 
   /** Listen for when the data is ready and for route changes */

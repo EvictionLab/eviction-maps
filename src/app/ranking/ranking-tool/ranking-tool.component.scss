@@ -14,6 +14,24 @@
   }
 }
 
+// add some space for the sidebar
+.page-content .content-inner {
+  // position: relative;
+  // padding-left: grid(43);
+  display: flex;
+}
+
+app-ranking-ui {
+  position:sticky;
+  top:112px;
+  z-index:10;
+  display:block;
+  margin-right: grid(3);
+}
+app-ranking-list {
+  padding: grid(2);
+}
+
 .nav-bar {
   height: grid(8);
   box-shadow: $z1shadow;
@@ -61,17 +79,17 @@
 
 
 .page-fixed-bottom {
-  position:fixed;
+  position: fixed; // fallback for IE11
+  position: sticky;
   bottom:0;
   left:0;
   right:0;
   background: $white;
   padding: $pageMarginLg;
-  z-index:1000;
+  z-index:11;
   box-shadow: $z1shadow;
   app-ranking-panel {
     display:block;
-    margin-top: grid(6);
   }
 }
 

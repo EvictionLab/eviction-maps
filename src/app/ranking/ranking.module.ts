@@ -19,7 +19,9 @@ export class RankingConfig {
     UiModule
   ],
   declarations: [
-    RankingToolComponent, RankingUiComponent, RankingListComponent,
+    RankingToolComponent,
+    RankingUiComponent,
+    RankingListComponent,
     RankingPanelComponent
   ]
 })
