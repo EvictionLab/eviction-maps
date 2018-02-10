@@ -10,5 +10,4 @@ export interface RankingLocation {
   displayParentLocation: string;
   latLon: Array<number>;
   areaType: number;
-  rank?: number;
 }

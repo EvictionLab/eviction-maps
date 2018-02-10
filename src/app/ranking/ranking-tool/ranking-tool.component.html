@@ -40,11 +40,10 @@
       ></app-ranking-list>
     </div>
   </div>
-  <div class="page-fixed-bottom" *ngIf="canRetrieveData && selectedLocation">
+  <div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
     <app-ranking-panel
-      [inList]="selectedIndex >= 0"
-      [rank]="selectedIndex >= 0 ? selectedIndex + 1 : selectedLocation.rank"
-      [location]="selectedLocation"
+      [rank]="selectedIndex+1"
+      [location]="listData[selectedIndex]"
       [dataProperty]="dataProperty"
       (goToPrevious)="onGoToPrevious()"
       (goToNext)="onGoToNext()"

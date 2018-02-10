@@ -22,9 +22,7 @@ export class RankingToolComponent implements OnInit {
   areaType = null;
   /** object key representing the data property to sort by */
   dataProperty = null;
-  /** selected location for data panel */
-  selectedLocation: RankingLocation;
-  /** the rank of the selected location for the data panel */
+  /** the index of the selected location for the data panel */
   selectedIndex: number;
   /** tracks if the data has been loaded and parsed */
   isDataReady = false;
@@ -35,7 +33,7 @@ export class RankingToolComponent implements OnInit {
   /** full list of sorted data from rankings */
   fullData: Array<RankingLocation>;
   /** list of data for the current UI selections */
-  private listData: Array<RankingLocation>; // Array of locations to show the rank list for
+  listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
   private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
@@ -107,28 +105,27 @@ export class RankingToolComponent implements OnInit {
 
   onSearchSelectLocation(location: RankingLocation | null) {
     if (location === null) {
-      this.selectedLocation = undefined;
       this.selectedIndex = undefined;
       return;
     }
-    this.selectedLocation = location;
-    const truncListIndex = this.truncatedList.map(d => d.geoId).indexOf(location.geoId);
-    if (truncListIndex > -1) {
-      this.selectedIndex = truncListIndex;
+    const listIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
+    if (listIndex > -1) {
+      this.selectedIndex = listIndex;
     } else {
-      this.selectedIndex = undefined;
-      this.selectedLocation.rank = this.fullData.map(d => d.geoId).indexOf(location.geoId) + 1;
+      this.region = 'United States';
+      this.areaType = this.rankings.areaTypes.filter(t => t.value === location.areaType)[0];
+      this.updateEvictionList();
+      this.selectedIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
     }
   }
 
   onClickLocation(index: number) {
     this.selectedIndex = index;
-    this.selectedLocation = this.truncatedList[index];
   }
 
   /** Switch the selected location to the next one in the list */
   onGoToNext() {
-    if (this.selectedIndex < this.topCount - 1) {
+    if (this.selectedIndex < this.listData.length - 1) {
       this.selectedIndex++;
     }
   }
@@ -145,11 +142,12 @@ export class RankingToolComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
-      this.fullData = this.rankings.getSortedData(this.dataProperty.value);
+      if (!this.fullData) {
+        this.fullData = this.rankings.getSortedData(this.dataProperty.value);
+      }
       this.listData =
         this.rankings.getFilteredData(this.region, this.areaType.value, this.dataProperty.value);
       this.truncatedList = this.listData.slice(0, this.topCount);
-      console.log(this.listData.length);
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
