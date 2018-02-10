@@ -1,11 +1,12 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { ScrollService } from './scroll.service';
+import { PlatformService } from './platform.service';
 
 describe('ScrollService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ScrollService]
+      providers: [ScrollService, PlatformService]
     });
   });
 
