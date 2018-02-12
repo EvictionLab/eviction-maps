@@ -80,3 +80,31 @@ svg {
   height: 48px;
   path { fill: $grey3; }
 }
+
+.close-button {
+  cursor: pointer;
+  text-align: center;
+  padding: grid(1.25);
+  width: grid(5);
+  height: grid(5);
+  box-shadow: $z1shadow;
+  background-color: #EEF2F5;
+  position: absolute;
+  right: 0;
+  top: grid(-10);
+
+  svg {
+    height: grid(2.5);
+    width: grid(2.5);
+
+    path { stroke: $color1; }
+  }
+
+  &:hover, &:active {
+    background-color: $color1;
+
+    svg {
+      path { stroke: $white; }
+    }
+  }
+}

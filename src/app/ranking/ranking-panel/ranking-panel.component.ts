@@ -14,6 +14,7 @@ export class RankingPanelComponent implements OnInit {
   @Input() dataProperty: { name: string, value: string };
   @Output() goToPrevious = new EventEmitter();
   @Output() goToNext = new EventEmitter();
+  @Output() close = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
