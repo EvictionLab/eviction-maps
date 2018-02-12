@@ -116,6 +116,7 @@ export class RankingToolComponent implements OnInit {
       this.selectedIndex = undefined;
       return;
     }
+    this.showUiPanel = false;
     const listIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
     if (listIndex > -1) {
       this.selectedIndex = listIndex;
