@@ -36,6 +36,8 @@ export class RankingToolComponent implements OnInit {
   fullData: Array<RankingLocation>;
   /** list of data for the current UI selections */
   listData: Array<RankingLocation>; // Array of locations to show the rank list for
+  /** state for UI panel on mobile / tablet */
+  showUiPanel = false;
   /** Boolean of whether to show scroll to top button */
   showScrollButton = false;
   /** number of items to show in the list */

@@ -16,8 +16,14 @@
   </div>
   <div class="page-content">
     <div class="content-inner">
+      <div class="ranking-ui-container">
+        <button class="search-filter" (click)="showUiPanel = true">
+          <span _ngcontent-c7="" aria-hidden="true" class="glyphicon glyphicon-search"></span>
+          <span> {{ 'RANKINGS.SEARCH_FILTER' | translate }}</span>
+        </button>
         <app-ranking-ui
           *ngIf="activeTab === 'evictions'"
+          [class.show]="showUiPanel"
           [locationList]="fullData"
           [regions]="rankings.regionList"
           [areaTypes]="rankings.areaTypes"
@@ -29,15 +35,19 @@
           (selectedAreaTypeChange)="onAreaTypeChange($event)"
           [selectedDataProperty]="dataProperty"
           (selectedDataPropertyChange)="onDataPropertyChange($event)"
-      ></app-ranking-ui>
-        <app-ranking-list *ngIf="areaType && dataProperty"
-          [year]="rankings.year"
-          [class]="'area-'+areaType.value"
-          [list]="truncatedList"
-          [dataProperty]="dataProperty.value"
-          [maxValue]="dataMax"
-          [selectedIndex]="selectedIndex"
-          (locationSelected)="onClickLocation($event)"
+          (applyFilters)="showUiPanel = false"
+          (clearFilters)="showUiPanel = false"
+          (closePanel)="showUiPanel = false"
+        ></app-ranking-ui>
+      </div>
+      <app-ranking-list *ngIf="areaType && dataProperty"
+        [year]="rankings.year"
+        [class]="'area-'+areaType.value"
+        [list]="truncatedList"
+        [dataProperty]="dataProperty.value"
+        [maxValue]="dataMax"
+        [selectedIndex]="selectedIndex"
+        (locationSelected)="onClickLocation($event)"
       ></app-ranking-list>
     </div>
   </div>

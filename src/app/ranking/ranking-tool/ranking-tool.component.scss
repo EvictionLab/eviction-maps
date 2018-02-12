@@ -1,48 +1,172 @@
 @import '../../../theme';
 
+$navBarHeight: grid(8);
+$sidePanelHeight: grid(55);
+
+// add margin so header doesn't overlap page content
 .ranking-page {
   margin-top: $headerHeightSm;
   margin-bottom: grid(2);
 }
+:host-context(.gt-mobile) {
+  .ranking-page {
+    margin-top: $headerHeightLg;
+  }
+}
 
+// default content margins
 .page-content {
   padding: $pageMargin;
 }
-
 :host-context(.gt-mobile) {
   .page-content {
     padding: $pageMarginLg;
   }
 }
 
-// add some space for the sidebar
+// vertical stacked layout on mobile
 .page-content .content-inner {
-  // position: relative;
-  // padding-left: grid(43);
   display: flex;
+  flex-direction: column;
+}
+// side by side layout on tablet+
+@media(min-width: $gtMobile) {
+  .page-content .content-inner {
+    flex-direction: row;
+  }
 }
 
+// panel toggle button
+.search-filter {
+  @include altSmallCapsText(12px);
+  height: grid(5);
+  width:100%;
+  margin: 0 -1*$pageMargin grid(2);
+  border:none;
+  background: $grey5a;
+  padding:0 $pageMargin;
+  line-height: grid(5);
+  box-sizing: content-box;
+  text-align:left;
+  .glyphicon { 
+    color: $color1; 
+    font-size: 14px;
+    display:inline-block;
+    margin-right: grid(2);
+  }
+}
+@media(min-width: $gtMobile) {
+  .search-filter {
+    width: grid(10);
+    height: grid(10);
+    text-align:center;
+    padding: grid(1);
+    line-height: 1.42;
+    margin:0;
+    box-sizing: border-box;
+    color: $color1;
+    box-shadow: $z2shadow;
+    .glyphicon { 
+      font-size: 24px;
+      display: block;
+      margin: 0 0 grid(1) 0;
+    }
+  }
+  
+}
+@media(min-width: $gtTablet) {
+  .search-filter { display: none; }
+}
+
+// panel off-screen by default
 app-ranking-ui {
-  position:sticky;
-  top: grid(21);
-  z-index:10;
+  position:fixed;
+  top: $headerHeightSm;
+  bottom:0;
+  left:0;
+  right:0;
+  width:100%;
+  height: calc(100% - #{$headerHeightSm});
+  z-index:998;
   display:block;
-  margin-right: grid(3);
+  transition: transform 0.2s ease;
+  transform: translate3d(-100%, 0, 0);
+  background: $grey4a;
+  margin:0;
+  overflow:auto;
+  &.show {
+    transform: translate3d(0,0,0);
+  }
 }
-app-ranking-list {
-  padding: grid(2);
+// panel is sticky, but still off-screen on tablet
+@media(min-width: $gtMobile) {
+  .ranking-ui-container {
+    position:sticky;
+    top: $headerHeightLg + $navBarHeight + $pageMarginLg;
+    margin-left: -1*$pageMarginLg;
+    width: grid(10);
+    height: grid(10);
+    overflow:visible;
+    z-index: 20;
+  }
+  app-ranking-ui {
+    position:absolute; 
+    top:0;left:0;
+    width:grid(40);
+    transform: translate3d(-150%, 0, 0);
+    z-index:20;
+    height: grid(55);
+    box-shadow: $z2shadow;
+    overflow:visible;
+    // no "apply" button, filters are applied immediately
+    ::ng-deep .ranking-ui-actions .btn.btn-primary {
+      display: none;
+    }
+  }
+}
+// Sticky sidebar always visible on desktop+
+@media(min-width: $gtTablet) {
+  .ranking-ui-container {
+    width: grid(40);
+    height: $sidePanelHeight;
+    margin-left:0;
+  }
+  app-ranking-ui {
+    position:relative;
+    display:block;
+    z-index:10;
+    margin-right: grid(3);
+    transform: translate3d(0,0,0);
+    background: none;
+    height:auto;
+    overflow:visible;
+    box-shadow:none;
+    // hide close button
+    ::ng-deep .btn-close { display: none; }
+  }
 }
 
+// adjust margins so list is centered on page
+@media(min-width: $gtMobile) {
+  app-ranking-list {
+    margin-left: $pageMarginLg;
+    margin-right: grid(10);
+  }
+}
+@media(min-width: $gtTablet) {
+  app-ranking-list {
+    margin-right:0;
+  }
+}
+
+// subpage navigation (tabs)
 .nav-bar {
+  position:relative;
   height: grid(8);
   box-shadow: $z1shadow;
   padding: 0 $pageMargin;
-  position: -webkit-sticky;
-  position: sticky;
-  top: grid(11);
   background-color: $rankingsBg1;
   z-index: 11;
-
   .content-inner {
     height: 100%;
     display: flex;
@@ -87,14 +211,15 @@ app-ranking-list {
     }
   }
 }
-
-:host-context(.gt-mobile) {
-  .ranking-page {
-    margin-top: $headerHeightLg;
+// nav bar is sticky on tablet+
+@media(min-width: $gtMobile) {
+  .nav-bar {
+    position: sticky;
+    top: grid(11);
   }
 }
 
-
+// bottom data panel
 .page-fixed-bottom {
   position: fixed; // fallback for IE11
   position: sticky;
@@ -103,7 +228,7 @@ app-ranking-list {
   right:0;
   background: $white;
   padding: $pageMarginLg;
-  z-index:11;
+  z-index:21;
   box-shadow: $z1shadow;
   app-ranking-panel {
     display:block;

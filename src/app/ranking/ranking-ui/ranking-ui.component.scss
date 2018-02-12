@@ -5,8 +5,16 @@
   align-items: center;
   justify-content: flex-end;
   height:100%;
-  width: grid(40);
 }
+
+.btn.btn-close {
+  position:absolute;
+  top:0;
+  right:0;
+  width: grid(5);
+  height: grid(5);
+}
+
 
 .ranking-ui-container {
   h2 {
@@ -20,15 +28,23 @@
 .ranking-ui-search {
   padding: grid(2);
 }
-
 .ranking-ui-filter {
   padding: grid(2);
+  background: linear-gradient(180deg, #FAFCFD 0%, #F4F7F9 100%);
 }
-
 app-ui-select {
   display:block;
   margin: grid(1) 0;
 }
+
+.ranking-ui-actions {
+  padding: 0 grid(2);
+  .btn {
+    display:block; 
+    width: 100%;
+  }
+}
+
 
 @media(min-width: $gtTablet) {
   .ranking-ui-search {
