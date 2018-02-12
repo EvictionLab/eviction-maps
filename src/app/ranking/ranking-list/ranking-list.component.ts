@@ -7,7 +7,7 @@ import { RankingLocation } from '../ranking-location';
   styleUrls: ['./ranking-list.component.scss']
 })
 export class RankingListComponent implements OnInit {
-
+  @Input() year: number;
   @Input() list: Array<RankingLocation>;
   @Input() dataProperty: string;
   @Input() maxValue: number;

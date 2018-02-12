@@ -20,7 +20,7 @@
   </div>
   <div class="panel-rank">
     <span class="rank-number">{{ rank }}</span>
-    <span class="rank-label">Highest {{dataProperty.name}}</span>
+    <span class="rank-label">{{ 'RANKINGS.HIGHEST' | translate }} {{dataProperty.name}}</span>
   </div>
   <div class="panel-summary">
     <div class="panel-summary-heading">
@@ -29,7 +29,7 @@
       <span>{{location[dataProperty.value]}}</span>
     </div>
     <p class="panel-summary-content">
-      There were {{location.evictions}} in the {{location.name}} area last year.  That amounts to {{ (location.evictions/365) | number: '1.2-2'}} people evicted every day.  {{ location.evictionRate }} in 100 renter homes are evicted each year.
+      {{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}
     </p>
   </div>
   <div class="panel-next" (click)="goToNext.emit(true)">
