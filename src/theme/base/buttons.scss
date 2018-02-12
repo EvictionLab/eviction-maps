@@ -48,6 +48,13 @@ body {
     }
   }
 
+  .btn.btn-secondary {
+    background: none;
+    height: grid(7);
+    padding: 0 grid(7);
+    color: $grey1a;
+  }
+
   // icon button with optional label
   .btn.btn-icon {
     background: none;
