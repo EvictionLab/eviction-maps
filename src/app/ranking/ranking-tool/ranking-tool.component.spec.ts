@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PageScrollService } from 'ng2-page-scroll';
 
 import { UiModule } from '../../ui/ui.module';
 import { ServicesModule } from '../../services/services.module';
@@ -33,7 +34,8 @@ describe('RankingToolComponent', () => {
               loadCsvData: () => { },
               isReady: { subscribe: () => { } }
             }
-          }
+          },
+          PageScrollService
         ]
       }
     })

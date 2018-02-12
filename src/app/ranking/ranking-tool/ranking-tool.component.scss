@@ -2,6 +2,7 @@
 
 .ranking-page {
   margin-top: $headerHeightSm;
+  margin-bottom: grid(2);
 }
 
 .page-content {
@@ -109,6 +110,33 @@ app-ranking-list {
   }
 }
 
-:host-context(.gt-mobile) {
+.scroll-to-top-button {
+  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
+  cursor: pointer;
+  text-align: center;
+  padding: grid(1.25);
+  width: grid(5);
+  height: grid(5);
+  box-shadow: $z1shadow;
+  background-color: $rankingsBg1;
+  right: grid(3);
+  bottom: grid(3);
+  margin-left: auto;
+  z-index: 2;
 
+  polyline { stroke: $color1; }
+
+  &:hover, &:active {
+    background-color: $color1;
+
+    polyline { stroke: $white; }
+  }
+}
+
+:host-context(.gt-mobile) {
+  .scroll-to-top-button {
+    display: none;
+  }
 }
