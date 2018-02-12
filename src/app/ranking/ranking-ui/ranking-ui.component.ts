@@ -18,7 +18,9 @@ export class RankingUiComponent implements OnInit {
   @Output() selectedDataPropertyChange = new EventEmitter<any>();
   @Input() selectedRegion;
   @Output() selectedRegionChange = new EventEmitter<string>();
-
+  @Output() applyFilters = new EventEmitter<any>();
+  @Output() clearFilters = new EventEmitter<any>();
+  @Output() closePanel = new EventEmitter<any>();
   constructor(public el: ElementRef) { }
 
   ngOnInit() {}

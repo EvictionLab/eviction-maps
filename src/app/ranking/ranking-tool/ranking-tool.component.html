@@ -16,8 +16,10 @@
   </div>
   <div class="page-content">
     <div class="content-inner">
+        <button class="search-filter" (click)="showUiPanel = true">Search &amp; Filter</button>
         <app-ranking-ui
           *ngIf="activeTab === 'evictions'"
+          [class.show]="showUiPanel"
           [locationList]="fullData"
           [regions]="rankings.regionList"
           [areaTypes]="rankings.areaTypes"
@@ -29,6 +31,9 @@
           (selectedAreaTypeChange)="onAreaTypeChange($event)"
           [selectedDataProperty]="dataProperty"
           (selectedDataPropertyChange)="onDataPropertyChange($event)"
+          (applyFilters)="showUiPanel = false"
+          (clearFilters)="showUiPanel = false"
+          (closePanel)="showUiPanel = false"
       ></app-ranking-ui>
         <app-ranking-list *ngIf="areaType && dataProperty"
           [class]="'area-'+areaType.value"
