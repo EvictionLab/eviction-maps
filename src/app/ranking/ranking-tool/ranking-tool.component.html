@@ -41,17 +41,24 @@
       ></app-ranking-list>
     </div>
   </div>
-  <div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
-    <app-ranking-panel
-      [rank]="selectedIndex+1"
-      [location]="listData[selectedIndex]"
-      [dataProperty]="dataProperty"
-      (goToPrevious)="onGoToPrevious()"
-      (goToNext)="onGoToNext()"
-      (close)="onClose()"
-    ></app-ranking-panel>
+  <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
+    <svg width="17px" height="11px" viewBox="0 0 17 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-12, -15)" stroke="#E24000" stroke-width="3">
+          <polyline transform="translate(20.482980, 20.5) scale(1, -1) translate(-20.482980, -20.5) " points="13 17 20.2488435 24 22.1593956 22.2671098 27.9659591 17.0004975"></polyline>
+        </g>
+      </g>
+    </svg>
   </div>
-
 </div>
-
+<div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
+  <app-ranking-panel
+    [rank]="selectedIndex+1"
+    [location]="listData[selectedIndex]"
+    [dataProperty]="dataProperty"
+    (goToPrevious)="onGoToPrevious()"
+    (goToNext)="onGoToNext()"
+    (close)="onClose()"
+  ></app-ranking-panel>
+</div>
 
