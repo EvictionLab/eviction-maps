@@ -5,8 +5,9 @@ export interface RankingLocation {
   evictionRate: number;
   filingRate: number;
   name: string;
+  displayName: string;
   parentLocation: string;
-  parentLocationDisplay: string;
+  displayParentLocation: string;
   latLon: Array<number>;
   areaType: number;
 }

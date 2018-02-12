@@ -18,9 +18,11 @@
     <div class="content-inner">
         <app-ranking-ui
           *ngIf="activeTab === 'evictions'"
+          [locationList]="fullData"
           [regions]="rankings.regionList"
           [areaTypes]="rankings.areaTypes"
           [dataProperties]="rankings.sortProps"
+          (selectedLocationChange)="onSearchSelectLocation($event.hasOwnProperty('selection') ? $event.selection : null)"
           [selectedRegion]="region"
           (selectedRegionChange)="onRegionChange($event)"
           [selectedAreaType]="areaType"
@@ -34,14 +36,14 @@
           [dataProperty]="dataProperty.value"
           [maxValue]="dataMax"
           [selectedIndex]="selectedIndex"
-          (locationSelected)="onSelectLocation($event)"
+          (locationSelected)="onClickLocation($event)"
       ></app-ranking-list>
     </div>
   </div>
   <div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
     <app-ranking-panel
       [rank]="selectedIndex+1"
-      [location]="truncatedList[selectedIndex]"
+      [location]="listData[selectedIndex]"
       [dataProperty]="dataProperty"
       (goToPrevious)="onGoToPrevious()"
       (goToNext)="onGoToNext()"

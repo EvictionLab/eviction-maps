@@ -30,8 +30,10 @@ export class RankingToolComponent implements OnInit {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
-  /** full list of data for the current UI selections */
-  private listData: Array<RankingLocation>; // Array of locations to show the rank list for
+  /** full list of sorted data from rankings */
+  fullData: Array<RankingLocation>;
+  /** list of data for the current UI selections */
+  listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** number of items to show in the list */
   private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
@@ -101,13 +103,29 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
-  onSelectLocation(index: number) {
+  onSearchSelectLocation(location: RankingLocation | null) {
+    if (location === null) {
+      this.selectedIndex = undefined;
+      return;
+    }
+    const listIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
+    if (listIndex > -1) {
+      this.selectedIndex = listIndex;
+    } else {
+      this.region = 'United States';
+      this.areaType = this.rankings.areaTypes.filter(t => t.value === location.areaType)[0];
+      this.updateEvictionList();
+      this.selectedIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
+    }
+  }
+
+  onClickLocation(index: number) {
     this.selectedIndex = index;
   }
 
   /** Switch the selected location to the next one in the list */
   onGoToNext() {
-    if (this.selectedIndex < this.topCount - 1) {
+    if (this.selectedIndex < this.listData.length - 1) {
       this.selectedIndex++;
     }
   }
@@ -129,8 +147,11 @@ export class RankingToolComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
+      if (!this.fullData) {
+        this.fullData = this.rankings.getSortedData(this.dataProperty.value);
+      }
       this.listData =
-        this.rankings.getSortedData(this.region, this.areaType.value, this.dataProperty.value);
+        this.rankings.getFilteredData(this.region, this.areaType.value, this.dataProperty.value);
       this.truncatedList = this.listData.slice(0, this.topCount);
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {

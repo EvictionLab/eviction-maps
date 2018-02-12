@@ -1,7 +1,12 @@
 <div class="ranking-ui-container">
   <div class="ranking-ui-search">
     <h2>Search</h2>
-    <app-predictive-search placeholder="search for places"></app-predictive-search>
+    <app-predictive-search
+      placeholder="Search for places"
+      [options]="locationList"
+      optionField="displayName"
+      (selectionChange)="selectedLocationChange.emit($event)"
+    ></app-predictive-search>
   </div>
   <div class="ranking-ui-filter">
     <h2>Filter</h2> 
