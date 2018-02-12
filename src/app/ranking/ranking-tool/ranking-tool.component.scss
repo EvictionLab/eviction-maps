@@ -117,6 +117,7 @@ app-ranking-ui {
     z-index:20;
     height: grid(55);
     box-shadow: $z2shadow;
+    overflow:visible;
     // no "apply" button, filters are applied immediately
     ::ng-deep .ranking-ui-actions .btn.btn-primary {
       display: none;
