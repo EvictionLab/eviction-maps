@@ -2,32 +2,37 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { csvParse } from 'd3-dsv';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { TranslateService } from '@ngx-translate/core';
 
 import { REGIONS } from './ranking-regions';
 import { RankingLocation } from './ranking-location';
 
 @Injectable()
 export class RankingService {
+  year = 2016;
   regions: Object = REGIONS;
   regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
-    { value: 'evictionRate', name: 'Eviction Rate' },
-    { value: 'evictions', name: 'Evictions' }
+    { value: 'evictionRate', langKey: 'STATS.JUDGMENT_RATE' },
+    { value: 'evictions', langKey: 'STATS.JUDGMENTS' }
   ];
   areaTypes = [
-    { value: 0, name: 'Cities' },
-    { value: 1, name: 'Mid-sized Areas' },
-    { value: 2, name: 'Rural Areas' }
+    { value: 0, langKey: 'RANKINGS.CITIES' },
+    { value: 1, langKey: 'RANKINGS.MID_SIZED_AREAS' },
+    { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
   private data: Array<RankingLocation>;
 
-
   constructor(
     private http: HttpClient,
+    private translate: TranslateService,
     @Inject('config') private config: any
   ) {
+    this.translate.onLangChange.subscribe(lang => {
+      this.updateLanguage(lang.translations);
+    });
     this.loadCsvData();
   }
 
@@ -109,6 +114,23 @@ export class RankingService {
         areaType: parseInt(d['area-type'], 10)
       } as RankingLocation;
     });
+  }
+
+  private updateLanguage(translations) {
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.sortProps = this.sortProps.map(p => {
+        if (p.langKey) { p['name'] = stats[p.langKey.split('.')[1]]; }
+        return p;
+      });
+    }
+    if (translations.hasOwnProperty('RANKINGS')) {
+      const rankings = translations['RANKINGS'];
+      this.areaTypes = this.areaTypes.map(t => {
+        if (t.langKey) { t['name'] = rankings[t.langKey.split('.')[1]]; }
+        return t;
+      });
+    }
   }
 
 }
