@@ -123,6 +123,12 @@ export class RankingToolComponent implements OnInit {
       this.updateEvictionList();
       this.selectedIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
     }
+    if (this.selectedIndex < this.topCount) {
+      const scrollInstance = PageScrollInstance.simpleInstance(
+        this.document, `.ranking-list > li:nth-child(${this.selectedIndex + 1})`
+      );
+      this.pageScrollService.start(scrollInstance);
+    }
   }
 
   onClickLocation(index: number) {
@@ -158,9 +164,6 @@ export class RankingToolComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
-      if (!this.fullData) {
-        this.fullData = this.rankings.getSortedData(this.dataProperty.value);
-      }
       this.listData =
         this.rankings.getFilteredData(this.region, this.areaType.value, this.dataProperty.value);
       this.truncatedList = this.listData.slice(0, this.topCount);
@@ -170,14 +173,18 @@ export class RankingToolComponent implements OnInit {
         })
       );
       console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
-      this.setupPageScroll();
+      // Setup full data and scroll if initial data load
+      if (!this.fullData) {
+        this.fullData = this.rankings.getSortedData(this.dataProperty.value);
+        this.setupPageScroll();
+      }
     } else {
       console.warn('data is not ready yet');
     }
   }
 
   private setupPageScroll() {
-    PageScrollConfig.defaultScrollOffset = 120;
+    PageScrollConfig.defaultScrollOffset = 175;
     PageScrollConfig.defaultDuration = 1000;
     // easing function pulled from:
     // https://joshondesign.com/2013/03/01/improvedEasingEquations
