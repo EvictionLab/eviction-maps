@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { TranslateModule } from '@ngx-translate/core';
 import { RankingListComponent } from './ranking-list.component';
 
 describe('RankingListComponent', () => {
@@ -8,6 +8,7 @@ describe('RankingListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ TranslateModule.forRoot() ],
       declarations: [ RankingListComponent ]
     })
     .compileComponents();

@@ -1,30 +1,30 @@
 <div class="ranking-ui-container">
   <div class="ranking-ui-search">
-    <h2>Search</h2>
+    <h2>{{ 'RANKINGS.SEARCH' | translate }}</h2>
     <app-predictive-search
-      placeholder="Search for places"
+      placeholder="{{ 'RANKINGS.SEARCH_HINT' | translate }}"
       [options]="locationList"
       optionField="displayName"
       (selectionChange)="selectedLocationChange.emit($event)"
     ></app-predictive-search>
   </div>
   <div class="ranking-ui-filter">
-    <h2>Filter</h2> 
+    <h2>{{ 'RANKINGS.FILTER' | translate }}</h2> 
     <app-ui-select class="region-select z0"
-      label="Region"
+      label="{{ 'RANKINGS.REGION' | translate }}"
       [values]="regions"
       [selectedValue]="selectedRegion"
       (change)="selectedRegionChange.emit($event)"
     ></app-ui-select>
     <app-ui-select class="area-select z0"
-      label="Area"
+      label="{{ 'RANKINGS.AREA' | translate }}"
       labelProperty="name"
       [values]="areaTypes"
       [selectedValue]="selectedAreaType"
       (change)="selectedAreaTypeChange.emit($event)"
     ></app-ui-select>
     <app-ui-select class="prop-select z0"
-      label="Ranking By"
+      label="{{ 'RANKINGS.RANKING_BY' | translate }}"
       labelProperty="name"
       [values]="dataProperties"
       [selectedValue]="selectedDataProperty"
