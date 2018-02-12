@@ -87,6 +87,7 @@ $color2: #434878;
 $color3: #2c897f;
 $color4: #94AABD;
 $color5: #b5c2b7;
+$color6: #EEF2F5;
 $gradient1: linear-gradient(180deg, #F27636, #E04119);
 $gradient2: linear-gradient(180deg, #787EB0, #434878);
 $gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
@@ -254,6 +255,9 @@ $footerGradientFrom: #393939;
 $footerGradientTo: #2F2D2B;
 $footerIconBorder: #333;
 $footerHoverIconBorder: $white;
+
+// Rankings
+$rankingsBg1: $color6;
 
 // TODO: 
 // - type definitions / sizes

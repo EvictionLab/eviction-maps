@@ -23,7 +23,7 @@
 
 app-ranking-ui {
   position:sticky;
-  top:112px;
+  top: grid(21);
   z-index:10;
   display:block;
   margin-right: grid(3);
@@ -36,11 +36,18 @@ app-ranking-list {
   height: grid(8);
   box-shadow: $z1shadow;
   padding: 0 $pageMargin;
+  position: -webkit-sticky;
+  position: sticky;
+  top: grid(11);
+  background-color: $rankingsBg1;
+  z-index: 11;
+
   .content-inner {
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
   }
   ul {
     list-style: none;
@@ -51,21 +58,30 @@ app-ranking-list {
     
     li {
       display:inline-block;
-      @include defaultFontBold(16px);
+      @include altFont(16px);
       height:100%;
-      &.active {
-        border-bottom: grid(0.5) solid $color1;
-      }
+      margin: 0 grid(1);
       a {
-        color: $black;
+        color: $grey1a;
         display:block;
         height:100%;
         line-height: grid(4);
         padding: grid(2);
+        padding-left: 0;
         &:hover {
+          color: $color1;
           text-decoration: none;
-          background: $grey4;
         }
+      }
+      &.active {
+        &::after {
+          content: '';
+          width: grid(6);
+          position: absolute;
+          bottom: 0;
+          border-bottom: grid(0.5) solid $color1;
+        }
+        a { color: $color1; }
       }
     }
   }
