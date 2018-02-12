@@ -119,6 +119,11 @@ export class RankingToolComponent implements OnInit {
     }
   }
 
+  /** Removes currently selected index on closing the panel */
+  onClose() {
+    this.selectedIndex = undefined;
+  }
+
   /**
    * Update the list data based on the selected UI properties
    */

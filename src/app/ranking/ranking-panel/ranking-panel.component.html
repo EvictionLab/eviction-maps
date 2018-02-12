@@ -1,4 +1,18 @@
 <div *ngIf="location" class="content-inner">
+  <div class="close-button" (click)="close.emit(true)">
+    <svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g transform="translate(-11.000000, -10.000000)" stroke="#E24000" stroke-width="4.2">
+          <g>
+            <g transform="translate(21.064250, 20.256128) rotate(45.000000) translate(-21.064250, -20.256128) translate(10.564250, 9.756128)">
+              <path d="M10.2734591,0.36432179 L10.2734591,20.3643218"></path>
+              <path d="M20.2734591,10.3643218 L0.27345908,10.3643218"></path>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
   <div class="panel-prev" (click)="goToPrevious.emit(true)">
       <svg viewBox="0 0 24 24">
           <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
