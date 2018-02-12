@@ -161,10 +161,10 @@ app-ranking-ui {
 
 // subpage navigation (tabs)
 .nav-bar {
+  position:relative;
   height: grid(8);
   box-shadow: $z1shadow;
   padding: 0 $pageMargin;
-  top: grid(11);
   background-color: $rankingsBg1;
   z-index: 11;
   .content-inner {
@@ -213,7 +213,10 @@ app-ranking-ui {
 }
 // nav bar is sticky on tablet+
 @media(min-width: $gtMobile) {
-  .nav-bar { position: sticky; }
+  .nav-bar {
+    position: sticky;
+    top: grid(11);
+  }
 }
 
 // bottom data panel
