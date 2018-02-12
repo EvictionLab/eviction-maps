@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
+import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
@@ -36,6 +38,8 @@ export class RankingToolComponent implements OnInit {
   listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** state for UI panel on mobile / tablet */
   showUiPanel = false;
+  /** Boolean of whether to show scroll to top button */
+  showScrollButton = false;
   /** number of items to show in the list */
   private topCount = 100;
   /** returns if all of the required params are set to be able to fetch data */
@@ -52,7 +56,9 @@ export class RankingToolComponent implements OnInit {
     public rankings: RankingService,
     private route: ActivatedRoute,
     private router: Router,
-    private scroll: ScrollService
+    private pageScrollService: PageScrollService,
+    private scroll: ScrollService,
+    @Inject(DOCUMENT) private document: any
   ) { }
 
   /** Listen for when the data is ready and for route changes */
@@ -144,6 +150,11 @@ export class RankingToolComponent implements OnInit {
     this.selectedIndex = undefined;
   }
 
+  scrollToTop() {
+    const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, 'app-ranking-list');
+    this.pageScrollService.start(pageScrollInstance);
+  }
+
   /**
    * Update the list data based on the selected UI properties
    */
@@ -161,9 +172,26 @@ export class RankingToolComponent implements OnInit {
         })
       );
       console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
+      this.setupPageScroll();
     } else {
       console.warn('data is not ready yet');
     }
+  }
+
+  private setupPageScroll() {
+    PageScrollConfig.defaultScrollOffset = 120;
+    PageScrollConfig.defaultDuration = 1000;
+    // easing function pulled from:
+    // https://joshondesign.com/2013/03/01/improvedEasingEquations
+    PageScrollConfig.defaultEasingLogic = {
+      ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
+    };
+
+    const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
+    this.scroll.verticalOffset$.debounceTime(100)
+      .subscribe(offset => {
+        this.showScrollButton = offset > listYOffset;
+      });
   }
 
 }
