@@ -27,6 +27,8 @@ import { RoutingService } from './services/routing.service';
 })
 export class AppComponent implements OnInit {
   mapComponent: MapToolComponent;
+  @HostBinding('class.ranking-tool') isRankingTool: boolean;
+  @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
@@ -86,9 +88,8 @@ export class AppComponent implements OnInit {
       this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
     } else if (component.id === 'ranking-tool') {
       this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
-    } else if (component.id === 'embed-map') {
-      this.embed = true;
     }
+    this.updateClassAttributes(component.id);
     const loadedData = {
       'siteVersion': this.platform.deviceType,
       'appVersion': environment.appVersion,
@@ -97,6 +98,13 @@ export class AppComponent implements OnInit {
       'language': this.translate.currentLang,
     };
     this.analytics.trackEvent('dataLayer-loaded', loadedData);
+  }
+
+  /** Sets the attribute properties that determine the root class for the active component */
+  updateClassAttributes(id: string) {
+    this.isRankingTool = (id === 'ranking-tool');
+    this.isMapTool = (id === 'map-tool');
+    this.embed = (id === 'embed-map');
   }
 
   onMenuSelect(itemId: string) {

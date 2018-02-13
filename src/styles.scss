@@ -161,3 +161,6 @@ body {
     }
   }
 }
+
+// force hide tooltip in header on ranking tool
+.ranking-tool .header-icons .tooltip { display: none; }
