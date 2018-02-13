@@ -155,6 +155,7 @@ app-ranking-ui {
 }
 @media(min-width: $gtTablet) {
   app-ranking-list {
+    margin-left: grid(7);
     margin-right:0;
   }
 }

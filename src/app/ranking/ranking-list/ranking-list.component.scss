@@ -1,10 +1,31 @@
 @import '../../../theme';
 
-$rankNumberSpace: grid(9);
-$rankBarHeight: grid(5);
+$rankNumberSpace: grid(3);
+$rankBarHeight: grid(4);
+$rankNumberSpace_gtm: grid(6);
+$rankBarHeight_gtm: grid(5);
 
 p {
   margin: 0 0 grid(3) 0;
+}
+
+.ranking-bar {
+  position:absolute;
+  top:0;
+  left:0;
+  bottom:0;
+  height:100%;
+  opacity:0.25;
+}
+
+.ranking-content {
+  position: relative;
+  padding: 0 grid(2);
+  z-index:2;
+  white-space: nowrap;
+  .ranking-value {
+    margin-left: grid(1);
+  }
 }
 
 .ranking-list {
@@ -15,56 +36,66 @@ p {
     position:relative;
     height: $rankBarHeight;
     margin-left: $rankNumberSpace;
-    margin-bottom: grid(2);
+    margin-bottom: grid(1);
     display:block;
     &:hover, &.active {
       cursor:pointer;
-      .ranking-bar {
-        opacity:1;
-      }
-      .ranking-content {
-        color: $white;
-      }
     }
-    .ranking-number {
-      position:absolute;
-      left: -1*$rankNumberSpace;
-      top:0;
-      line-height: $rankBarHeight;
-      @include numberFont(18px);
-    }
-    .ranking-bar {
-      position:absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      height:100%;
-      opacity:0.25;
-    }
-    .ranking-content {
-      position: relative;
-      padding: 0 grid(2);
-      z-index:2;
-      @include altFont(16px);
-      text-transform:uppercase;
-      line-height: $rankBarHeight;
-      .ranking-parent {
-        font-size: 12px;
-      }
-      .ranking-value {
-        margin-left: grid(1);
-        @include numberFont(14px);
-      }
-    }
-
+  }
+}
+@media(min-width: $gtMobile) {
+  .ranking-list li {
+    height: $rankBarHeight_gtm;
+    margin-left: $rankNumberSpace_gtm;
   }
 }
 
+.ranking-number {
+  position:absolute;
+  left: -1*$rankNumberSpace;
+  top:0;
+  line-height: $rankBarHeight;
+  width: $rankNumberSpace;
+  @include numberFont(13px);
+}
+@media(min-width: $gtMobile) {
+  .ranking-number {
+    left: -1*$rankNumberSpace_gtm;
+    line-height: $rankBarHeight_gtm;
+    width: $rankNumberSpace_gtm;
+    @include numberFont(18px);
+  }
+}
+
+.ranking-content {
+  line-height: $rankBarHeight;
+  @include altSmallCapsText(12px);
+  .ranking-value {
+    @include smallCapsText(10px);
+  }
+}
+@media(min-width: $gtMobile) {
+  .ranking-content {
+    line-height: $rankBarHeight_gtm;
+    @include altSmallCapsText(18px);
+    .ranking-parent {
+      @include smallCapsText(14px);
+    }
+    .ranking-value {
+      @include smallCapsText(14px);
+    }
+  }
+}
+
+// BAR COLORS 
 :host-context(.area-0) {
   .ranking-list {
     li {
       .ranking-bar {
         background: $gradient1;
+      }
+      &:hover, &.active {
+        .ranking-content { color: $color1; }
       }
     }
   }
@@ -76,6 +107,9 @@ p {
       .ranking-bar {
         background: $gradient2;
       }
+      &:hover, &.active {
+        .ranking-content { color: $color2; }
+      }
     }
   }
 }
@@ -85,6 +119,9 @@ p {
     li {
       .ranking-bar {
         background: $gradient3;
+      }
+      &:hover, &.active {
+        .ranking-content { color: $color3; }
       }
     }
   }
