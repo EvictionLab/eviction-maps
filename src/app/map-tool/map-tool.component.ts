@@ -3,7 +3,6 @@ import {
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
@@ -23,6 +22,7 @@ import { UiDialogService } from '../ui/ui-dialog/ui-dialog.service';
 import { RoutingService } from '../services/routing.service';
 import { environment } from '../../environments/environment';
 import { AnalyticsService } from '../services/analytics.service';
+import { ScrollService } from '../services/scroll.service';
 
 @Component({
   selector: 'app-map-tool',
@@ -56,7 +56,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private routing: RoutingService,
-    private pageScrollService: PageScrollService,
+    private scroll: ScrollService,
     private translate: TranslateService,
     private toast: ToastsManager,
     private platform: PlatformService,
@@ -240,8 +240,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * Triggers a scroll to the top of the page
    */
   goToTop() {
-    const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#top');
-    this.pageScrollService.start(pageScrollInstance);
+    this.scroll.scrollTo('#top');
   }
 
   /**
@@ -251,8 +250,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     // track event
     this.analytics.trackEvent('viewMoreData');
     // animate scroll to data panel
-    const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, '#data-panel');
-    this.pageScrollService.start(pageScrollInstance);
+    this.scroll.scrollTo('#data-panel');
   }
 
   /**
@@ -280,13 +278,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * to enable / disable map zoom
    */
   private setupPageScroll() {
-    PageScrollConfig.defaultScrollOffset = 120;
-    PageScrollConfig.defaultDuration = 1000;
-    // easing function pulled from:
-    // https://joshondesign.com/2013/03/01/improvedEasingEquations
-    PageScrollConfig.defaultEasingLogic = {
-        ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
-    };
+    this.scroll.setupScroll();
 
     // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')

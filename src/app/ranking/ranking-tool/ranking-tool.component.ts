@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
-import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
@@ -56,7 +55,6 @@ export class RankingToolComponent implements OnInit {
     public rankings: RankingService,
     private route: ActivatedRoute,
     private router: Router,
-    private pageScrollService: PageScrollService,
     private scroll: ScrollService,
     @Inject(DOCUMENT) private document: any
   ) { }
@@ -127,10 +125,7 @@ export class RankingToolComponent implements OnInit {
       this.selectedIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
     }
     if (this.selectedIndex < this.topCount) {
-      const scrollInstance = PageScrollInstance.simpleInstance(
-        this.document, `.ranking-list > li:nth-child(${this.selectedIndex + 1})`
-      );
-      this.pageScrollService.start(scrollInstance);
+      this.scroll.scrollTo(`.ranking-list > li:nth-child(${this.selectedIndex + 1})`);
     }
   }
 
@@ -158,8 +153,7 @@ export class RankingToolComponent implements OnInit {
   }
 
   scrollToTop() {
-    const pageScrollInstance = PageScrollInstance.simpleInstance(this.document, 'app-ranking-list');
-    this.pageScrollService.start(pageScrollInstance);
+    this.scroll.scrollTo('app-ranking-list');
   }
 
   /**
@@ -187,13 +181,8 @@ export class RankingToolComponent implements OnInit {
   }
 
   private setupPageScroll() {
-    PageScrollConfig.defaultScrollOffset = 175;
-    PageScrollConfig.defaultDuration = 1000;
-    // easing function pulled from:
-    // https://joshondesign.com/2013/03/01/improvedEasingEquations
-    PageScrollConfig.defaultEasingLogic = {
-      ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
-    };
+    this.scroll.defaultScrollOffset = 175;
+    this.scroll.setupScroll();
 
     const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
     this.scroll.verticalOffset$.debounceTime(100)

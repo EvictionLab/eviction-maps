@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { PageScrollService } from 'ng2-page-scroll';
 
 import { MapboxComponent } from './mapbox.component';
 import { MapService } from '../map.service';
@@ -24,7 +25,7 @@ describe('MapboxComponent', () => {
         MapboxComponent
       ],
       providers: [
-        MapService, PlatformService, ScrollService
+        MapService, PlatformService, PageScrollService, ScrollService
       ]
     }).compileComponents();
   }));
