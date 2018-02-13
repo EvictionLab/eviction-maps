@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PageScrollService } from 'ng2-page-scroll';
 import { TranslateModule } from '@ngx-translate/core';
+import { PageScrollService } from 'ng2-page-scroll';
 
 import { UiModule } from '../../ui/ui.module';
 import { ServicesModule } from '../../services/services.module';
 import { RankingService } from '../ranking.service';
+import { ScrollService } from '../../services/scroll.service';
 import { RankingToolComponent } from './ranking-tool.component';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../ranking-list/ranking-list.component';
@@ -36,7 +37,8 @@ describe('RankingToolComponent', () => {
               isReady: { subscribe: () => { } }
             }
           },
-          PageScrollService
+          PageScrollService,
+          ScrollService
         ]
       }
     })

@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PageScrollService } from 'ng2-page-scroll';
 
 import { EmbedComponent } from './embed.component';
 import { MapModule } from '../map/map.module';
 import { ServicesModule } from '../../services/services.module';
+import { ScrollService } from '../../services/scroll.service';
 import { MapToolService } from '../map-tool.service';
 import { LocationCardsComponent } from '../location-cards/location-cards.component';
 
@@ -22,6 +24,8 @@ describe('EmbedComponent', () => {
         TranslateModule.forRoot(),
       ],
       providers: [
+        PageScrollService,
+        ScrollService,
         MapToolService
       ]
     })

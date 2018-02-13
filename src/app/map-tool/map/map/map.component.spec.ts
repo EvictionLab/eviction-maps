@@ -1,6 +1,7 @@
 import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PageScrollService } from 'ng2-page-scroll';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
@@ -44,6 +45,7 @@ describe('MapComponent', () => {
           PlatformService,
           { provide: MapService, useValue: new MapServiceStub() },
           LoadingService,
+          PageScrollService,
           ScrollService
         ],
       }

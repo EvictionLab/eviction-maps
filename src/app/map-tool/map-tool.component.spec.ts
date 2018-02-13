@@ -1,9 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PageScrollService } from 'ng2-page-scroll';
 import { MapToolComponent } from './map-tool.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { MapToolService } from './map-tool.service';
+import { ScrollService } from '../services/scroll.service';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MapToolModule } from './map-tool.module';
 import { DataAttributes } from './data/data-attributes';
@@ -55,7 +57,9 @@ describe('MapToolComponent', () => {
       set: {
         providers: [
           {provide: MapToolService, useClass: MapToolServiceStub },
-          TranslateService
+          TranslateService,
+          PageScrollService,
+          ScrollService
         ]
       }
     })
