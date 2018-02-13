@@ -116,7 +116,8 @@
     "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
-    "SEARCH_FILTER": "Search & Filter"
+    "SEARCH_FILTER": "Search & Filter",
+    "TOP_EVICTORS_LINK": "View Top Evictors"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
