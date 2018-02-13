@@ -21,6 +21,10 @@
     padding:0;
     margin:0 auto;
     box-sizing:border-box;
+    display:flex;
+    justify-content: flex-end;
+    align-content: center;
+    align-items: center;
   }
   // toolbar icon row
   .header-icons {
@@ -64,6 +68,7 @@
   // no logo on mobile
   .header-logo { 
     display: none;
+    img { width: 152px; }
   }
   // place search below toolbar
   .header-search {
@@ -81,10 +86,27 @@
   }
   .language-select {
     display: none;
+    
     ::ng-deep .btn.dropdown-toggle {
       @include defaultFont(13px);
       text-transform: none;
     }
+
+  }
+}
+// Override language select font/icon on mobile only
+@media(max-width: $gtMobile) {
+  .header-wrapper .language-select {
+    margin-right: grid(1);
+    width: grid(9);
+    ::ng-deep .el-select {
+      .btn { 
+        padding: 8px; 
+        height: 40px; 
+      }
+      .btn .el-select-value { font-size:10px; }
+      .btn .svg-down-arrow { width: 8px; right: 8px; }
+    } 
   }
 }
 
@@ -94,12 +116,6 @@
   .header-wrapper {
     height: $headerHeightLg;
     padding: 0 $pageMarginLg;    
-    .header-content {
-      display:flex;
-      justify-content: flex-end;
-      align-content: center;
-      align-items: center;
-    }
     .header-icons {
       flex:none;
       width:grid(5);
@@ -161,6 +177,26 @@
       display:block;
       margin: 0 grid(3) 0 grid(2);
       order: 3;
+      // Vertical treatment with arrow on bottom
+      ::ng-deep {
+        .el-select .dropdown-toggle.btn {
+          height:grid(7);
+          padding: 6px 12px;
+          text-align: center;
+          padding-right: grid(1.5)!important; // never want to add padding for down arrow
+          span {
+            position: relative;
+            top: -7px;
+          }
+          .svg-down-arrow {
+            top:auto;
+            left: 0;
+            bottom: 11px;
+            right: 0!important; // need to force override for vertical select
+            margin: 0 auto;
+          }
+        }
+      }
     }
   }
 }
@@ -185,4 +221,26 @@
       margin-right: grid(1);
     }
   }
+}
+
+// Ranking tool overrides
+:host-context(.ranking-tool) {
+  .btn.btn-icon {
+    display: none;
+  }
+  .btn.btn-icon.el-button-menu {
+    display: block;
+  }
+  .header-wrapper .header-logo {
+    display: block;
+    flex:1;
+  }
+  .header-wrapper .header-icons {
+    width: grid(5);
+    margin-right: -6px; // nudge a bit so menu icon aligns properly
+  }
+  .header-wrapper .language-select {
+    display: block;
+  }
+  .header-wrapper .header-search { display: none; }
 }

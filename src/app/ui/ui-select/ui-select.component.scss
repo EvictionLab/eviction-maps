@@ -40,36 +40,6 @@
 
 // OVERRIDES
 
-// Vertical treatment with arrow on bottom
-:host-context(.vertical-select) {
-  .el-select .dropdown-toggle.btn {
-    height:grid(7);
-    padding: 6px 12px;
-    text-align: center;
-    span {
-      position: relative;
-      top: -7px;
-    }
-    .svg-down-arrow {
-      top:auto;
-      left: 0;
-      bottom: 11px;
-      right: 0;
-      margin: 0 auto;
-    }
-  }
-}
-
-// 1px border and no drop shadow when in header
-:host-context(.header-content) {
-  .el-select .dropdown-toggle.btn {
-    padding-right: grid(1.5)!important; // never want to add padding for down arrow
-    .svg-down-arrow {
-      right: 0!important; // never want to reposition down arrow
-    }
-  }
-}
-
 :host-context(.z0) {
   border: 1px solid $shadingColor;
   box-shadow: none;
