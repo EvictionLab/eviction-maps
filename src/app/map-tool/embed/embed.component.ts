@@ -25,7 +25,7 @@ export class EmbedComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.routing.getMapRouteData().take(1)
+    this.routing.getCombinedRouteData().take(1)
       .subscribe((data) => this.mapToolService.setCurrentData(data));
     this.cdRef.detectChanges();
   }

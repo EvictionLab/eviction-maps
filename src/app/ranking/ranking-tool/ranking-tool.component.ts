@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
+import { RoutingService } from '../../services/routing.service';
 import { ScrollService } from '../../services/scroll.service';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 
@@ -53,60 +55,41 @@ export class RankingToolComponent implements OnInit {
 
   constructor(
     public rankings: RankingService,
+    private translate: TranslateService,
     private route: ActivatedRoute,
-    private router: Router,
+    private routing: RoutingService,
     private scroll: ScrollService,
     @Inject(DOCUMENT) private document: any
-  ) { }
+  ) {
+    this.routing.setActivatedRoute(this.route);
+  }
 
   /** Listen for when the data is ready and for route changes */
   ngOnInit() {
+    this.routing.getCombinedRouteData().take(1)
+      .subscribe(data => this.setRouteData(data));
     this.rankings.isReady.subscribe((ready) => {
       this.isDataReady = ready;
       if (ready) { this.updateEvictionList(); }
     });
-    this.route.url.subscribe(this.onRouteChange.bind(this));
-  }
-
-  /**
-   * When the route changes, update the selected properties with the values
-   * in the route, and then update the list data
-   */
-  onRouteChange(url) {
-    this.activeTab = url[0].path;
-    if (this.activeTab === 'evictions') {
-      this.region = url[1].path;
-      this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
-      this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
-      this.updateEvictionList();
-    }
   }
 
   /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
-    if (this.canNavigate) {
-      this.router.navigate(
-        ['/', this.activeTab, newRegion, this.areaType.value, this.dataProperty.value]
-      );
-    }
+    this.region = newRegion;
+    this.updateProp();
   }
 
   /** Update the route when the area type changes */
-  onAreaTypeChange(areaType: { name: string, value: number }) {
-    if (this.canNavigate) {
-      this.router.navigate(
-        ['/', this.activeTab, this.region, areaType.value, this.dataProperty.value]
-      );
-    }
+  onAreaTypeChange(areaType: { name: string, value: number, langKey: string }) {
+    this.areaType = areaType;
+    this.updateProp();
   }
 
   /** Update the sort property when the area type changes */
-  onDataPropertyChange(dataProp: { name: string, value: string }) {
-    if (this.canNavigate) {
-      this.router.navigate(
-        ['/', this.activeTab, this.region, this.areaType.value, dataProp.value]
-      );
-    }
+  onDataPropertyChange(dataProp: { name: string, value: string, langKey: string }) {
+    this.dataProperty = dataProp;
+    this.updateProp();
   }
 
   onSearchSelectLocation(location: RankingLocation | null) {
@@ -127,16 +110,19 @@ export class RankingToolComponent implements OnInit {
     if (this.selectedIndex < this.topCount) {
       this.scroll.scrollTo(`.ranking-list > li:nth-child(${this.selectedIndex + 1})`);
     }
+    this.updateRoute();
   }
 
   onClickLocation(index: number) {
     this.selectedIndex = index;
+    this.updateRoute();
   }
 
   /** Switch the selected location to the next one in the list */
   onGoToNext() {
     if (this.selectedIndex < this.listData.length - 1) {
       this.selectedIndex++;
+      this.updateRoute();
     }
   }
 
@@ -144,16 +130,62 @@ export class RankingToolComponent implements OnInit {
   onGoToPrevious() {
     if (this.selectedIndex > 0) {
       this.selectedIndex--;
+      this.updateRoute();
     }
   }
 
   /** Removes currently selected index on closing the panel */
   onClose() {
     this.selectedIndex = undefined;
+    this.updateRoute();
   }
 
   scrollToTop() {
     this.scroll.scrollTo('app-ranking-list');
+  }
+
+  private updateProp() {
+    if (this.isDataReady) { this.selectedIndex = undefined; }
+    this.updateEvictionList();
+    this.updateRoute();
+  }
+
+  private updateRoute() {
+    if (this.canNavigate) {
+      this.routing.updateRouteData(this.getRouteData());
+    }
+  }
+
+  private setRouteData(data: Object) {
+    this.translate.use(data['lang'] || 'en');
+    if (data['tab']) { this.activeTab = data['tab']; }
+    if (data['region']) { this.region = data['region']; }
+    if (data['areaType']) {
+      this.areaType = this.rankings.areaTypes.filter(t => t.value === +data['areaType'])[0];
+    }
+    if (data['sortProp']) {
+      this.dataProperty = this.rankings.sortProps.filter(p => p.value === data['sortProp'])[0];
+    }
+    if (this.activeTab === 'evictions') {
+      this.updateEvictionList();
+    }
+    if (data['index']) { this.selectedIndex = +data['index']; }
+  }
+
+  private getRouteData() {
+    if (this.activeTab === 'evictions') {
+      const indexObj = this.selectedIndex >= 0 ? { index: this.selectedIndex } : {};
+      return {
+        tab: this.activeTab,
+        region: this.region,
+        areaType: this.areaType.value,
+        sortProp: this.dataProperty.value,
+        lang: this.translate.currentLang,
+        ...indexObj
+      };
+    } else {
+      return { tab: this.activeTab };
+    }
   }
 
   /**

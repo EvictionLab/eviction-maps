@@ -21,16 +21,26 @@ export interface MapRouteData {
   graph?: string;
 }
 
+export interface RankingsRouteData {
+  tab: string;
+  region?: string;
+  areaType?: number;
+  sortProp?: string;
+  index?: number;
+  lang?: string;
+}
+
 @Injectable()
 export class RoutingService {
   urlParts;
   route: ActivatedRoute;
-  routeData = new BehaviorSubject<MapRouteData>({
+  routeData = new BehaviorSubject<MapRouteData | RankingsRouteData>({
     year: environment.maxYear,
     geography: 'auto',
     bounds: '-136.80,20.68,-57.60,52.06'
   });
   private mapRouteKeys = ['year', 'geography', 'bounds']; // keys mandatory for map route
+  private rankingsRouteKeys = ['tab', 'region', 'areaType', 'sortProp']; // mandatory rankings keys
 
   private defaultViews = {
     map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
@@ -44,7 +54,7 @@ export class RoutingService {
   ) {}
 
   /** Gets route data for the map component */
-  getMapRouteData() {
+  getCombinedRouteData() {
     return Observable.combineLatest(
       this.route.params,
       this.route.queryParams,
@@ -60,9 +70,10 @@ export class RoutingService {
 
   /** Checks if the provided key / value is a valid query parameter */
   isValidQueryParam(key, value) {
+    const keys = this.mapRouteKeys.concat(this.rankingsRouteKeys);
     return (
       (
-        this.mapRouteKeys.indexOf(key) === -1 &&
+        keys.indexOf(key) === -1 &&
         value !== '' &&
         value !== 'none' &&
         value !== 'line'
@@ -71,8 +82,9 @@ export class RoutingService {
   }
 
   /** Update the route based on current data */
-  updateRouteData(currentData: MapRouteData) {
-    const routeArray = this.mapRouteKeys.map(k => currentData[k]); // array of route data
+  updateRouteData(currentData: MapRouteData | RankingsRouteData) {
+    const routeKeys = 'bounds' in currentData ? this.mapRouteKeys : this.rankingsRouteKeys;
+    const routeArray = routeKeys.map(k => currentData[k]); // array of route data
     // grab non-route keys as query params
     const queryParams = Object.keys(currentData)
       .filter(k => this.isValidQueryParam(k, currentData[k]))
@@ -94,10 +106,9 @@ export class RoutingService {
     const appRoutes: Routes = [
       { path: 'embed/:year/:geography/:bounds', component: components.embed },
       { path: ':year/:geography/:bounds', component: components.map },
-      { path: 'evictors', component: components.rankings },
-      { path: 'evictions/:region/:areaType/:sortProp', component: components.rankings },
-      { path: 'evictions/:region/:areaType/:sortProp/:location', component: components.rankings },
-      { path: 'evictions', redirectTo: this.defaultViews.rankings },
+      // { path: 'evictors', component: components.rankings },
+      { path: ':tab', redirectTo: this.defaultViews.rankings },
+      { path: ':tab/:region/:areaType/:sortProp', component: components.rankings },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' } // default route based on URL path
     ];
     // reset router with dynamic routes
