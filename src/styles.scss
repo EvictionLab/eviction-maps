@@ -10,6 +10,8 @@
 @import './theme/base/dropdown';
 @import './theme/base/dialogs';
 @import './theme/base/inputs';
+@import './theme/base/hero';
+
 
 
 // Header Bar
@@ -54,44 +56,6 @@ body {
     max-width: 840px;
     margin:auto;
     img { width:100%; }
-  }
-}
-
-// HERO
-
-.hero {
-  position:relative;
-  padding-top: 28.13%; // 32:9 ratio
-  background: $grey0;
-  h1 {
-    @include fill-parent();
-    @include altFont(32px);
-    text-transform: uppercase;
-    height: grid(7);
-    text-align:center;
-    color: #fff;
-    margin:auto;
-    text-shadow: 0 1px 3px #000;
-    letter-spacing: 0.125em;
-    &:after {
-      content:"";
-      width: grid(24);
-      height: grid(1);
-      background: $color1;
-      box-shadow: $z1shadow;
-      position:absolute;
-      bottom:0;
-      left:0;
-      right:0;
-      margin:auto;
-    }
-  }
-}
-
-@media(min-width: $gtSmallDesktop) {
-  .hero {
-    padding-top:0;
-    height: grid(44);
   }
 }
 

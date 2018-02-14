@@ -1,20 +1,19 @@
 @import '../../../theme';
 
-:host {
-  padding: $pageMargin;
-}
-// increase page margins
+:host { padding: $pageMargin; }
+
 @media(min-width: $gtMobile) {
   :host { padding: $pageMarginLg; }
 }
 
+// WRAPPER FOR ALL PANEL CONTENT
+// ---
 .content-inner {
   position:relative;
   display:flex;
   align-items: center;
   justify-content:flex-start;
 }
-
 @media(min-width: $gtMobile) {
   .content-inner {
     position:relative;
@@ -24,10 +23,11 @@
   }
 }
 
+// CONTAINER FOR ALL PANEL CONTENT EXCEPT ARROWS
+// ---
 .panel-summary {
   width: 100%;
 }
-
 @media(min-width: $gtSmallDesktop) {
   .panel-summary {
     max-width: grid(120);
@@ -35,22 +35,24 @@
   }
 }
 
+// CONTAINER FOR LOCATION / VALUE / LINK
+// ---
 .panel-summary-heading {
   text-align:center;
 }
-
 @media(min-width: $gtMobile) {
   .panel-summary-heading {
     text-align: left;
   }
 }
-
 @media(min-width: $gtSmallDesktop) {
   .panel-summary-heading {
     margin-top: grid(1);
   }
 }
 
+// CONTAINER FOR RANKING NUMBER / LOCATION / VALUE / LINK
+// ---
 @media(min-width: $gtMobile) {
   .panel-top {
     margin: auto;
@@ -59,14 +61,14 @@
     justify-content: center;
   }
 }
-
 @media(min-width: $gtSmallDesktop) {
   .panel-top {
     display:inline;
   }
 }
 
-
+// RANKING NUMBER
+// ---
 .rank-number {
   display:block;
   margin:0 auto grid(1.5);
@@ -78,7 +80,6 @@
   text-align:center;
   line-height: grid(3);
 }
-
 @media(min-width: $gtMobile) {
   .rank-number {
     width: grid(6);
@@ -88,7 +89,6 @@
     line-height: grid(6);
   }
 }
-
 @media(min-width: $gtSmallDesktop) {
   .rank-number {
     float:left;
@@ -99,6 +99,8 @@
   }
 }
 
+// CITY / PLACE NAME
+// ---
 .rank-location {
   display: block;
   margin: 0 0 grid(0.5) 0;
@@ -107,14 +109,12 @@
   color: $color1;
   line-height:1;
 }
-
 @media(min-width: $gtMobile) {
   .rank-location {
     @include altSmallCapsText(26px);
     text-align: left;
   }
 }
-
 @media(min-width: $gtSmallDesktop) {
   .rank-location {
     display: inline-block;
@@ -123,6 +123,8 @@
   }
 }
 
+// EVICTIONS / EVICTION RATE VALUE
+// ---
 .rank-value {
   margin-right: grid(1);
   @include smallCapsText(10px);
@@ -142,6 +144,8 @@
   }
 }
 
+// TOP EVICTORS LINK
+// ---
 .rank-link {
   @include smallCapsText(10px);
   color: $color1;
@@ -160,6 +164,8 @@
   }
 }
 
+// ROBOTEXT CONTAINER
+// ---
 .panel-summary-content {
   width: 100%;
   padding: $pageMargin;
@@ -173,7 +179,7 @@
     max-width: grid(50);
   }
 }
-
+// boost size on tablet
 @media(min-width: $gtMobile) {
   .panel-summary-content {
     @include defaultFont(18px);
@@ -182,7 +188,7 @@
     p { max-width: grid(90); }
   }
 }
-
+// bring content inline with ranking number, remove bg color on desktop+
 @media(min-width: $gtSmallDesktop) {
   .panel-summary-content {
     display:inline;
@@ -198,8 +204,11 @@
   }
 }
 
+// PREVIOUS / NEXT ARROWS
+// ---
 .panel-arrow {
   appearance: none; // remove button defaults
+  background: none;
   border: none;
   position: absolute;
   top: grid(2);
@@ -232,39 +241,26 @@
     }
   }
 }
-
+// move to vertical center of panel on desktop+
 @media(min-width: $gtSmallDesktop) {
-  .panel-arrow {
-    top: grid(5);
-  }
+  .panel-arrow { top: grid(5); }
 }
 
 
-// .panel-summary-heading {
-//   margin-bottom: grid(1);
-//   h2 {
-//     @include altFont(24px);
-//     text-transform: uppercase;
-//     line-height:1;
-//     margin:0;
-//     letter-spacing: 0.05em;
-//     color: $color1;
-//     margin-right: grid(1);
-//   }
-//   .rank-property {
-//     @include smallCapsText(14px);
-//     margin-right: grid(0.5);
-//     display:block;
-//     margin-bottom:-2px;
-//   }
-// }
-
-// .panel-summary {
-//   flex:1;
-// }
+// PANEL COLORS
+// --- 
+// colors based on selected area type
+:host-context(.area-1) {
+  .rank-number { background: $gradient2; }
+  .rank-location { color: $color2; }
+}
+:host-context(.area-2) {
+  .rank-number { background: $gradient3; }
+  .rank-location { color: $color3; }
+}
 
 
-
+// TODO: refactor so close button styles live in one place
 .close-button {
   cursor: pointer;
   text-align: center;

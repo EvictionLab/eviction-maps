@@ -72,7 +72,6 @@ $sidePanelHeight: grid(55);
       margin: 0 0 grid(1) 0;
     }
   }
-  
 }
 @media(min-width: $gtTablet) {
   .search-filter { display: none; }
@@ -163,36 +162,30 @@ app-ranking-ui {
 // subpage navigation (tabs)
 .nav-bar {
   position:relative;
-  height: grid(8);
   box-shadow: $z1shadow;
   padding: 0 $pageMargin;
   background-color: $rankingsBg1;
   z-index: 11;
   .content-inner {
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
   }
   ul {
     list-style: none;
-    padding:0;
     margin:0;
+    padding: grid(1) 0;
     height:100%;
-    overflow:hidden;
-    
+    display: flex;
+    flex-direction: column;    
     li {
-      display:inline-block;
-      @include altFont(16px);
-      height:100%;
-      margin: 0 grid(1);
+      @include altSmallCapsText(12px);
+      height:grid(5);
       a {
+        text-align: center;
         color: $grey1a;
         display:block;
+        width:100%;
         height:100%;
-        line-height: grid(4);
-        padding: grid(2);
+        line-height: grid(5);
         padding-left: 0;
         &:hover {
           color: $color1;
@@ -200,15 +193,9 @@ app-ranking-ui {
         }
       }
       &.active {
-        &::after {
-          content: '';
-          width: grid(6);
-          position: absolute;
-          bottom: 0;
-          border-bottom: grid(0.5) solid $color1;
-        }
         a { color: $color1; }
       }
+
     }
   }
 }
@@ -217,6 +204,28 @@ app-ranking-ui {
   .nav-bar {
     position: sticky;
     top: grid(11);
+    height: grid(8);
+    ul {
+      flex-direction: row;
+      align-items: center;
+      justify-content:center;
+    }
+    ul li { 
+      @include altFont(16px);
+      text-transform: none;
+      height: 100%;
+      a { line-height: grid(6); }
+      &:first-child { margin-right: grid(4); }
+      &.active {
+        &::after {
+          content: '';
+          width: grid(6);
+          position: absolute;
+          bottom: 0;
+          border-bottom: grid(0.5) solid $color1;
+        }
+      }
+    }
   }
 }
 
