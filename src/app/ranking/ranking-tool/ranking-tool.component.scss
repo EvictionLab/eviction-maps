@@ -126,6 +126,7 @@ app-ranking-ui {
 // Sticky sidebar always visible on desktop+
 @media(min-width: $gtTablet) {
   .ranking-ui-container {
+    position:static;
     width: grid(40);
     height: $sidePanelHeight;
     margin-left:0;
@@ -142,6 +143,12 @@ app-ranking-ui {
     box-shadow:none;
     // hide close button
     ::ng-deep .btn-close { display: none; }
+  }
+}
+// make sidebar sticky when there is enough vertical space
+@media(min-width: $gtTablet) and (min-height: 850px) {
+  .ranking-ui-container {
+    position:sticky;
   }
 }
 
@@ -203,6 +210,7 @@ app-ranking-ui {
 @media(min-width: $gtMobile) {
   .nav-bar {
     position: sticky;
+    z-index:30;
     top: grid(11);
     height: grid(8);
     ul {
