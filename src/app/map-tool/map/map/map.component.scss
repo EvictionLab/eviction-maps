@@ -47,6 +47,29 @@
 }
 // - End Map UI Layout
 
+.mobile-scroll-indicator {
+  position: absolute;
+  height: grid(5);
+  bottom: 0;
+  width: 100vw;
+  z-index: 1;
+  background-color: $white;
+}
+
+.mobile-scroll-indicator p {
+  @include defaultFont(14px);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align: center;
+  margin: grid(1) grid(4);
+  opacity: 1;
+  transition: opacity 0.6s;
+}
+
+:host-context(.map-inactive) {
+  .mobile-scroll-indicator p { opacity: 0; }
+}
+
 // Map Zoom Controls
 // ----
 // Hide rotate button because it's confusing
@@ -97,7 +120,8 @@ app-location-cards {
   background: $defaultBackground;
   pointer-events:all;
   position: absolute;
-  bottom:0;
+  // bottom:0;
+  bottom: grid(5);
   left:0;
   height: $cardHeaderHeight;
   z-index: 20;
@@ -115,6 +139,7 @@ app-location-cards {
 //    Adjust cards container to account for the larger header height
 //    center cards vertically over the map
 :host-context(.gt-tablet) {
+  .mobile-scroll-indicator { display: none; }
   app-location-cards {
     background: none;
     pointer-events: none;

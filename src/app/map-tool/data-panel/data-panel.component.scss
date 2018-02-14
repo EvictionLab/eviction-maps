@@ -14,18 +14,6 @@
 
 }
 
-.mobile-scroll-indicator p {
-  @include dataPanelHeader(14px);
-  text-align: center;
-  margin: grid(1) grid(4);
-  opacity: 1;
-  transition: opacity 0.6s;
-}
-
-:host-context(.map-inactive) {
-  .mobile-scroll-indicator p { opacity: 0; }
-}
-
 // Data panel header text
 // ----
 .data-header {
@@ -42,7 +30,6 @@
 // increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
   .data-header { margin: grid(8) 0 grid(4); }
-  .mobile-scroll-indicator { display: none; }
 }
 
 .data-content {

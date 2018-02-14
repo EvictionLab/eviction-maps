@@ -6,6 +6,7 @@
   &.map-active {
     height: 100vh;
     overflow: hidden;
+    // transition: $mobileVhTransition;
   }
   app-map {
     position:relative;
@@ -14,10 +15,11 @@
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
+    transition: $mobileVhTransition;
   }
-  app-map.cards-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
-  }
+  // app-map.cards-active {
+  //   height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
+  // }
   app-data-panel {
     display:block;
     position:relative;
@@ -60,11 +62,11 @@
       height: calc(100vh - #{$headerHeightLg});
     }
   }
-  .app-wrapper {
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
-    }
-  }
+  // .app-wrapper {
+  //   app-map.cards-active {
+  //     height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
+  //   }
+  // }
 }
 
 // Larger than tablet:
@@ -73,10 +75,13 @@
 :host-context(.gt-tablet.ios-safari),
 :host-context(.gt-tablet.andrdoid) {
   .app-wrapper {
+    &.map-active { transition: none; }
+
     app-map, app-map.legend-active, app-map.slider-active,
     app-map.legend-active.slider-active, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
+      transition: none;
     }
   }
 }
