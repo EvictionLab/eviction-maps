@@ -74,7 +74,7 @@ export class MapToolComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.setupPageScroll();
     // Set data from the route on init
-    this.routing.getMapRouteData().take(1)
+    this.routing.getCombinedRouteData().take(1)
       .subscribe((data) => this.mapToolService.setCurrentData(data));
     // Subscribe to language changes and store translated help content
     this.translate.onLangChange.subscribe(() => {
