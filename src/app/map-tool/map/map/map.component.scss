@@ -47,12 +47,16 @@
 }
 // - End Map UI Layout
 
+// Mobile scroll indicator
+// ---
 .mobile-scroll-indicator {
+  pointer-events: all;
+  display: none;
   position: absolute;
   height: grid(5);
   bottom: 0;
   width: 100vw;
-  z-index: 1;
+  z-index: 51;
   background-color: $white;
 }
 
@@ -66,9 +70,14 @@
   transition: opacity 0.6s;
 }
 
+:host-context(.cards-active) .mobile-scroll-indicator {
+  display: inherit;
+}
+
 :host-context(.map-inactive) {
   .mobile-scroll-indicator p { opacity: 0; }
 }
+// - End mobile scroll indicator
 
 // Map Zoom Controls
 // ----
@@ -79,7 +88,7 @@ app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
 // center controls vertically on the right side of the map
 app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
   top: 0;
-  bottom: calc(#{$timeSliderHeight} + #{grid(5)});
+  bottom: calc(#{$timeSliderHeight} + #{grid(10)});
   margin:auto;
   height:grid(22);
   right:$pageMargin;
@@ -120,7 +129,6 @@ app-location-cards {
   background: $defaultBackground;
   pointer-events:all;
   position: absolute;
-  // bottom:0;
   bottom: grid(5);
   left:0;
   height: $cardHeaderHeight;
@@ -139,7 +147,6 @@ app-location-cards {
 //    Adjust cards container to account for the larger header height
 //    center cards vertically over the map
 :host-context(.gt-tablet) {
-  .mobile-scroll-indicator { display: none; }
   app-location-cards {
     background: none;
     pointer-events: none;
@@ -303,7 +310,7 @@ app-ui-map-legend {
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
 :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $timeSliderHeight + $cardHeaderHeight;
+  bottom: $timeSliderHeight + $cardHeaderHeight + grid(5);
 }
 // larger than tablet: 
 //    move legend to bottom right of the map
@@ -338,6 +345,9 @@ app-ui-map-legend {
 .gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
   bottom: $timeSliderLg + $pageMarginLg;
 }
+.gt-tablet :host-context(.cards-active) .mobile-scroll-indicator {
+  display: none;
+}
 // - End Map Legend
 
 
@@ -371,7 +381,7 @@ app-ui-map-legend {
 }
 // increase offset from the bottom if cards are shown
 :host-context(.cards-active) {
-  .year-slider-container { bottom: $cardHeaderHeight; }
+  .year-slider-container { bottom: $cardHeaderHeight + grid(5); }
 }
 .gt-mobile :host-context {
   .year-slider-container {

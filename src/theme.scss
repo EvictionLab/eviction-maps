@@ -264,8 +264,7 @@ $rankingsBg1: $color6;
 // Utility
 // Delay vh height transition on mobile to prevent jump on scroll
 // Idea from: https://abdus.co/blog/preventing-vh-jump-on-mobile-browsers
-// $mobileVhTransition: height 3600s steps(1);
-$mobileVhTransition: height 3s steps(1);
+$mobileVhTransition: height 3600s steps(1);
 
 // TODO: 
 // - type definitions / sizes

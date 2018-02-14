@@ -6,7 +6,6 @@
   &.map-active {
     height: 100vh;
     overflow: hidden;
-    // transition: $mobileVhTransition;
   }
   app-map {
     position:relative;
@@ -17,9 +16,6 @@
     z-index:10;
     transition: $mobileVhTransition;
   }
-  // app-map.cards-active {
-  //   height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
-  // }
   app-data-panel {
     display:block;
     position:relative;
@@ -62,18 +58,13 @@
       height: calc(100vh - #{$headerHeightLg});
     }
   }
-  // .app-wrapper {
-  //   app-map.cards-active {
-  //     height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
-  //   }
-  // }
 }
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
 :host-context(.gt-tablet),
 :host-context(.gt-tablet.ios-safari),
-:host-context(.gt-tablet.andrdoid) {
+:host-context(.gt-tablet.android) {
   .app-wrapper {
     &.map-active { transition: none; }
 

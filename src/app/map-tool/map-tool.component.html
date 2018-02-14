@@ -1,5 +1,6 @@
 <div id="top" role="main" class="app-wrapper">
   <app-map
+    [class.map-inactive]="!enableZoom"
     [mapConfig]="mapToolService.mapConfig"
     [dataAttributes]="mapToolService.dataAttributes"
     [layerOptions]="mapToolService.dataLevels"
@@ -52,7 +53,6 @@
       [locations]="mapToolService.activeFeatures" 
       (locationRemoved)="mapToolService.removeLocation($event); updateRoute()"
       (locationAdded)="onSearchSelect($event, false)"
-      [class.map-inactive]="!enableZoom"
   >
     <button (click)="goToTop()" class="btn btn-large btn-primary btn-map">
       <svg class="up-arrow" viewBox="0 0 14 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
