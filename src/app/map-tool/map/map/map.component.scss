@@ -400,3 +400,40 @@ app-ui-map-legend {
   }
 }
 // - End Year Slider
+
+// Device-specific adjustments
+
+// Additional spacing for iOS Safari
+.ios-safari:not(.gt-tablet) :host-context(.slider-active) {
+  .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
+}
+.ios-safari:not(.gt-tablet) :host-context(.legend-active) {
+  app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
+}
+.ios-safari:not(.gt-tablet) :host-context(.cards-active) {
+  .mobile-scroll-indicator { height: grid(5) + $iosSafariPadding; }
+  app-location-cards { bottom: grid(5) + $iosSafariPadding; }
+  .year-slider-container {
+    height: $timeSliderHeight;
+    bottom: $cardHeaderHeight + grid(5) + $iosSafariPadding;
+  }
+  app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + grid(5) + $iosSafariPadding; }
+}
+
+// Additional spacing for Android
+.android:not(.gt-tablet) :host-context(.slider-active) {
+  .year-slider-container { height: $timeSliderHeight + $androidPadding; }
+}
+.android:not(.gt-tablet) :host-context(.legend-active) {
+  app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
+}
+.android:not(.gt-tablet) :host-context(.cards-active) {
+  .mobile-scroll-indicator { height: grid(5) + $androidPadding; }
+  app-location-cards { bottom: grid(5) + $androidPadding; }
+  .year-slider-container {
+    height: $timeSliderHeight;
+    bottom: $cardHeaderHeight + grid(5) + $androidPadding;
+  }
+  app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + grid(5) + $androidPadding; }
+}
+// - End of device adjustments

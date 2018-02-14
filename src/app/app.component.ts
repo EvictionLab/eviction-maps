@@ -36,7 +36,6 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
-  @HostBinding('class.ready') ready = false;
   currentMenuItem: string;
   menuActive = false;
   private activeMenuItem;
@@ -75,8 +74,6 @@ export class AppComponent implements OnInit {
     this.iosSafari = ((userAgent.includes('iphone') || userAgent.includes('ipad')) &&
       (!userAgent.includes('crios') && !userAgent.includes('fxios')));
     this.android = userAgent.includes('android') && !userAgent.includes('firefox');
-    // Triggers vh transition delay after init
-    setTimeout(() => this.ready = true, 250);
   }
 
   closeMenu() {

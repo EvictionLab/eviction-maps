@@ -14,6 +14,7 @@
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
+    transition: $mobileVhTransition;
   }
   app-data-panel {
     display:block;
@@ -22,28 +23,6 @@
     background:#fff;
     z-index:200;
   }
-}
-
-// Additional spacing for iOS Safari
-:host-context(.ios-safari), :host-context(.gt-mobile.ios-safari) {
-  .app-wrapper {
-    app-map.legend-active, app-map.slider-active, app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight});
-    }
-  }
-}
-
-// Additional spacing for Android 
-:host-context(.android), :host-context(.gt-mobile.android) {
-  .app-wrapper {
-    app-map.legend-active, app-map.slider-active, app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight});
-    }
-  }
-}
-
-:host-context(.ready) {
-  .app-wrapper app-map { transition: $mobileVhTransition; }
 }
 
 // Larger than mobile:
@@ -59,9 +38,7 @@
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet),
-:host-context(.gt-tablet.ios-safari),
-:host-context(.gt-tablet.android) {
+:host-context(.gt-tablet) {
   .app-wrapper {
     &.map-active { transition: none; }
 
