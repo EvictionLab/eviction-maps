@@ -14,7 +14,6 @@
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
-    transition: $mobileVhTransition;
   }
   app-data-panel {
     display:block;
@@ -28,11 +27,8 @@
 // Additional spacing for iOS Safari
 :host-context(.ios-safari), :host-context(.gt-mobile.ios-safari) {
   .app-wrapper {
-    app-map.legend-active, app-map.slider-active {
+    app-map.legend-active, app-map.slider-active, app-map.cards-active {
       height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight});
-    }
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight} - #{$legendHeight});
     }
   }
 }
@@ -40,13 +36,14 @@
 // Additional spacing for Android 
 :host-context(.android), :host-context(.gt-mobile.android) {
   .app-wrapper {
-    app-map.legend-active, app-map.slider-active {
+    app-map.legend-active, app-map.slider-active, app-map.cards-active {
       height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight});
     }
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight} - #{$legendHeight});
-    }
   }
+}
+
+:host-context(.ready) {
+  .app-wrapper app-map { transition: $mobileVhTransition; }
 }
 
 // Larger than mobile:
