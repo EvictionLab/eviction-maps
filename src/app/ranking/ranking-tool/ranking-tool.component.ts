@@ -2,8 +2,6 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/combineLatest';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
@@ -97,11 +95,8 @@ export class RankingToolComponent implements OnInit {
         this.router.navigate(this.getCurrentNavArray(), { queryParams: this.getQueryParams() });
       }
     });
-    Observable.combineLatest(
-      this.route.url,
-      this.route.queryParams,
-      (url, queryParams) => ({ ...url, queryParams: queryParams })
-    ).subscribe(this.onRouteChange.bind(this));
+    this.route.url.subscribe(this.onRouteChange.bind(this));
+    this.route.queryParams.subscribe(this.onQueryParamChange.bind(this));
   }
 
   /**
@@ -117,12 +112,20 @@ export class RankingToolComponent implements OnInit {
       this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
       this.selectedIndex = url[4] ? parseInt(url[4].path, 10) : null;
     }
-    this.translate.use(url.queryParams['lang'] || 'en');
+  }
+
+  /**
+   * Update data from query params
+   * @param params
+   */
+  onQueryParamChange(params) {
+    this.translate.use(params['lang'] || 'en');
   }
 
   /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
     if (this.canNavigate) {
+      if (newRegion !== this.region) { this.selectedIndex = null; }
       const newLocation = this.getCurrentNavArray();
       newLocation[2] = newRegion;
       this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
@@ -132,6 +135,9 @@ export class RankingToolComponent implements OnInit {
   /** Update the route when the area type changes */
   onAreaTypeChange(areaType: { name: string, value: number }) {
     if (this.canNavigate) {
+      if (this.areaType !== null && areaType.value !== this.areaType.value) {
+        this.selectedIndex = null;
+      }
       const newLocation = this.getCurrentNavArray();
       newLocation[3] = areaType.value;
       this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
@@ -141,6 +147,9 @@ export class RankingToolComponent implements OnInit {
   /** Update the sort property when the area type changes */
   onDataPropertyChange(dataProp: { name: string, value: string }) {
     if (this.canNavigate) {
+      if (this.dataProperty !== null && dataProp.value !== this.dataProperty.value) {
+        this.selectedIndex = null;
+      }
       const newLocation = this.getCurrentNavArray();
       newLocation[4] = dataProp.value;
       this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
