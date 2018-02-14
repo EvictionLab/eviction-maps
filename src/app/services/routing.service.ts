@@ -106,8 +106,8 @@ export class RoutingService {
     const appRoutes: Routes = [
       { path: 'embed/:year/:geography/:bounds', component: components.embed },
       { path: ':year/:geography/:bounds', component: components.map },
-      // { path: 'evictors', component: components.rankings },
-      { path: ':tab', redirectTo: this.defaultViews.rankings },
+      { path: 'evictions', redirectTo: this.defaultViews.rankings, pathMatch: 'full' },
+      { path: ':tab', component: components.rankings },
       { path: ':tab/:region/:areaType/:sortProp', component: components.rankings },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' } // default route based on URL path
     ];
