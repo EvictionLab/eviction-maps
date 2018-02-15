@@ -2,6 +2,8 @@ import {
   Component, OnInit, Input, Output, AfterViewInit,
   EventEmitter, ViewChild, ElementRef, NgZone, HostListener
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { MapService } from '../map.service';
 import { PlatformService } from '../../../services/platform.service';
@@ -15,7 +17,8 @@ import 'rxjs/add/operator/distinctUntilChanged';
 @Component({
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
-  styleUrls: ['./mapbox.component.scss']
+  styleUrls: ['./mapbox.component.scss'],
+  providers: [ TranslatePipe, DecimalPipe ]
 })
 export class MapboxComponent implements AfterViewInit {
   private map: mapboxgl.Map;
@@ -40,7 +43,9 @@ export class MapboxComponent implements AfterViewInit {
     private mapService: MapService,
     private platform: PlatformService,
     private zone: NgZone,
-    private scroll: ScrollService
+    private scroll: ScrollService,
+    private translate: TranslatePipe,
+    private decimal: DecimalPipe
   ) { }
 
   /**
@@ -214,8 +219,13 @@ export class MapboxComponent implements AfterViewInit {
     if (updatePopup) {
       let popupData = `${feature.properties.n}, ${feature.properties.pl}`;
       if (this.mapConfig['popupProps']) {
+        const yearSuffix = this.mapConfig['year'].toString().slice(2);
         this.mapConfig['popupProps'].forEach(p => {
-          popupData += `<br>${p['label']}: ${feature.properties[p['prop']]}`;
+          const label = this.translate.transform(p['langKey']);
+          const value = `${p['format'] === 'dollar' ? '$' : ''}${
+            this.decimal.transform(feature.properties[`${p.id}-${yearSuffix}`])
+          }${p['format'] === 'percent' ? '%' : ''}`;
+          popupData += `<br>${label}: ${value}`;
         });
       }
       this.popup.setHTML(popupData);

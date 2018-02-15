@@ -21,7 +21,8 @@ export class EmbedComponent implements OnInit {
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 2,
-    maxZoom: 15
+    maxZoom: 15,
+    popupProps: []
   };
   mapConfig: Object;
 
@@ -35,11 +36,7 @@ export class EmbedComponent implements OnInit {
   ) {
     this.routing.setActivatedRoute(route);
     this.mapToolService.embed = true;
-    this.mapToolService.mapConfig = this.defaultMapConfig;
-    this.mapConfig = {
-      ...this.mapToolService.mapConfig,
-      popupProps: [{ label: 'Population', prop: 'p-16' }]
-    };
+    this.mapConfig = this.defaultMapConfig;
   }
 
   ngOnInit() {
@@ -47,10 +44,13 @@ export class EmbedComponent implements OnInit {
     this.routing.getMapRouteData().take(1)
       .subscribe((data) => {
         const geo = this.mapToolService.dataLevels.find((level) => level.id === data['geo']);
+        const choro = this.mapToolService.dataAttributes.find(a => a.id === data['choropleth']);
+        const bubble = this.mapToolService.dataAttributes.find(a => a.id === data['type']);
         const mapData = data;
-        if (geo && geo['minzoom']) {
-          mapData['minzoom'] = geo['minzoom'];
-        }
+        if (geo && geo['minzoom']) { mapData['minzoom'] = geo['minzoom']; }
+        if (choro) { this.mapConfig['popupProps'].push(choro); }
+        if (bubble) { this.mapConfig['popupProps'].push(bubble); }
+        this.mapConfig['year'] = data['year'];
         this.mapToolService.setCurrentData(mapData);
       });
     this.cdRef.detectChanges();
