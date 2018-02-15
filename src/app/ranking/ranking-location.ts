@@ -1,5 +1,5 @@
 export interface RankingLocation {
-  geoId: number;
+  geoId: string;
   evictions: number;
   filings: number;
   evictionRate: number;

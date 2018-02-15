@@ -105,7 +105,6 @@ export class RankingToolComponent implements OnInit {
    */
   onRouteChange(url) {
     this.activeTab = url[0].path;
-    console.log('url changed', url);
     if (this.activeTab === 'evictions') {
       this.region = url[1].path;
       this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
