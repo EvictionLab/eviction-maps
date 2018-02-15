@@ -10,7 +10,7 @@
     <div class="ranking-content">
       <span class="ranking-name">{{ location.name }},</span>
       <span class="ranking-parent">{{location.displayParentLocation}}</span>
-      <span class="ranking-value">{{location[dataProperty]}}{{ dataProperty === 'evictionRate' ? '%' : '' }}</span>
+      <span class="ranking-value">{{location[dataProperty]}}{{ dataProperty.includes('Rate') ? '%' : '' }}</span>
     </div>
   </li>
 </ul>

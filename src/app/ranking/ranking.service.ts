@@ -14,16 +14,18 @@ export class RankingService {
   regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
     { value: 'evictionRate', langKey: 'STATS.JUDGMENT_RATE' },
-    { value: 'evictions', langKey: 'STATS.JUDGMENTS' }
+    { value: 'evictions', langKey: 'STATS.JUDGMENTS' },
+    { value: 'filingRate', langKey: 'STATS.FILING_RATE' },
+    { value: 'filings', langKey: 'STATS.FILINGS'}
   ];
   areaTypes = [
     { value: 0, langKey: 'RANKINGS.CITIES' },
     { value: 1, langKey: 'RANKINGS.MID_SIZED_AREAS' },
     { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
+  data: Array<RankingLocation>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
-  private data: Array<RankingLocation>;
 
   constructor(
     private http: HttpClient,
@@ -83,25 +85,14 @@ export class RankingService {
     return data;
   }
 
-  /** Creates a function to use for sorting the data */
-  private getComparator(prop, invert?: boolean) {
-    return (a, b) => {
-      const item1 = invert ? a : b;
-      const item2 = invert ? b : a;
-      if (!item1[prop] || isNaN(item1[prop])) { return -1; }
-      if (!item2[prop] || isNaN(item2[prop])) { return 1; }
-      return item1[prop] - item2[prop];
-    };
-  }
-
   /**
    * Parses CSV data and maps it to an array of RankingLocation objects
    * @param csv csv data as a string
    */
-  private parseCsvData(csv: string): Array<RankingLocation> {
+  parseCsvData(csv: string): Array<RankingLocation> {
     return csvParse(csv, (d) => {
       return {
-        geoId: parseInt(d.GEOID, 10),
+        geoId: d.GEOID,
         evictions: parseFloat(d.evictions),
         filings: parseFloat(d['eviction-filings']),
         evictionRate: parseFloat(d['eviction-rate']),
@@ -114,6 +105,17 @@ export class RankingService {
         areaType: parseInt(d['area-type'], 10)
       } as RankingLocation;
     });
+  }
+
+  /** Creates a function to use for sorting the data */
+  private getComparator(prop, invert?: boolean) {
+    return (a, b) => {
+      const item1 = invert ? a : b;
+      const item2 = invert ? b : a;
+      if (!item1[prop] || isNaN(item1[prop])) { return -1; }
+      if (!item2[prop] || isNaN(item2[prop])) { return 1; }
+      return item1[prop] - item2[prop];
+    };
   }
 
   private updateLanguage(translations) {
