@@ -18,6 +18,7 @@ import { UiDialogService } from './ui-dialog/ui-dialog.service';
 import { UiHintComponent } from './ui-hint/ui-hint.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
+import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.directive';
 
 @NgModule({
   exports: [
@@ -29,7 +30,8 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     ProgressBarComponent,
     UiHintComponent,
     UiSwitchComponent,
-    UiCopyClipboardComponent
+    UiCopyClipboardComponent,
+    SocialSharePopupDirective
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,8 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     UiDialogComponent,
     UiHintComponent,
     UiSwitchComponent,
-    UiCopyClipboardComponent
+    UiCopyClipboardComponent,
+    SocialSharePopupDirective
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]
