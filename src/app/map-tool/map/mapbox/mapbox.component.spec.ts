@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { PageScrollService } from 'ng2-page-scroll';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapboxComponent } from './mapbox.component';
 import { MapService } from '../map.service';
@@ -20,7 +21,7 @@ describe('MapboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [ TranslateModule.forRoot() ],
       declarations: [
         MapboxComponent
       ],

@@ -5,6 +5,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { MapboxComponent } from './mapbox/mapbox.component';
 import { MapComponent } from './map/map.component';
+import { MapService } from './map.service';
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsModule } from '../location-cards/location-cards.module';
 import { UiMapLegendComponent } from './map-legend/ui-map-legend.component';
@@ -22,6 +23,7 @@ import { UiMapLegendComponent } from './map-legend/ui-map-legend.component';
     TranslateModule,
     TooltipModule.forRoot()
   ],
-  declarations: [MapboxComponent, MapComponent, UiMapLegendComponent ]
+  declarations: [MapboxComponent, MapComponent, UiMapLegendComponent ],
+  providers: [MapService]
 })
 export class MapModule { }

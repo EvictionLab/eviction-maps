@@ -89,7 +89,7 @@ body {
 }
 
 // override mapbox popup styles
-.app-wrapper {
+.app-wrapper, app-embed {
   .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
   .mapboxgl-popup-close-button { display: none; }
 }
