@@ -14,9 +14,7 @@
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
-  }
-  app-map.cards-active {
-    height: calc(100vh - #{$headerHeightSm} - #{grid(5)});
+    transition: $mobileVhTransition;
   }
   app-data-panel {
     display:block;
@@ -24,30 +22,6 @@
     width:100%;
     background:#fff;
     z-index:200;
-  }
-}
-
-// Additional spacing for iOS Safari
-:host-context(.ios-safari), :host-context(.gt-mobile.ios-safari) {
-  .app-wrapper {
-    app-map.legend-active, app-map.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight});
-    }
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$iosSafariPadding} - #{$timeSliderHeight} - #{$legendHeight});
-    }
-  }
-}
-
-// Additional spacing for Android 
-:host-context(.android), :host-context(.gt-mobile.android) {
-  .app-wrapper {
-    app-map.legend-active, app-map.slider-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight});
-    }
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightSm} - #{$androidPadding} - #{$timeSliderHeight} - #{$legendHeight});
-    }
   }
 }
 
@@ -60,23 +34,19 @@
       height: calc(100vh - #{$headerHeightLg});
     }
   }
-  .app-wrapper {
-    app-map.cards-active {
-      height: calc(100vh - #{$headerHeightLg} - #{grid(5)});
-    }
-  }
 }
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet),
-:host-context(.gt-tablet.ios-safari),
-:host-context(.gt-tablet.andrdoid) {
+:host-context(.gt-tablet) {
   .app-wrapper {
+    &.map-active { transition: none; }
+
     app-map, app-map.legend-active, app-map.slider-active,
     app-map.legend-active.slider-active, app-map.cards-active {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
+      transition: none;
     }
   }
 }

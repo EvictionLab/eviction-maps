@@ -179,6 +179,9 @@ $selectCaret: $color1;
 // Progress Bars
 $progressBarColor: $color1;
 
+// Mobile Scroll Indicator
+$mobileScrollIndicatorHeight: grid(5);
+
 // Cards
 // ----
 // layout
@@ -247,8 +250,8 @@ $tooltipBackground: $black;;
 $tooltipFontColor: #fff;
 
 // Map tool component heights, software button
-$iosSafariPadding: grid(4);
-$androidPadding: grid(2);
+$iosSafariPadding: grid(9);
+$androidPadding: grid(7);
 
 
 // Footer
@@ -260,6 +263,11 @@ $footerHoverIconBorder: $white;
 
 // Rankings
 $rankingsBg1: $color6;
+
+// Utility
+// Delay vh height transition on mobile to prevent jump on scroll
+// Idea from: https://abdus.co/blog/preventing-vh-jump-on-mobile-browsers
+$mobileVhTransition: height 3600s steps(1);
 
 // TODO: 
 // - type definitions / sizes
