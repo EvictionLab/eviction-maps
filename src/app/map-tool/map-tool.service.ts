@@ -34,19 +34,10 @@ export class MapToolService {
   activeLineYearStart = environment.minYear;
   activeLineYearEnd = environment.maxYear;
   activeShowGraphAvg = true;
+  embed = false;
   activeMapView;
   mapConfig;
   usAverage;
-  private _embed = false;
-  get embed() { return this._embed; }
-  set embed(embed) {
-    if (embed !== this._embed) {
-      this._embed = embed;
-      this._embedChange.next(embed);
-    }
-  }
-  private _embedChange = new BehaviorSubject<boolean>(false);
-  embedChange = this._embedChange.asObservable();
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -167,7 +158,6 @@ export class MapToolService {
       this.setLocations(locations);
     }
     if (data['graph']) { this.setGraphType(data['graph']); }
-    this.embed = data['embed'] === 'true';
   }
 
   getCurrentData() {

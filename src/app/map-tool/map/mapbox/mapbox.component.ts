@@ -212,7 +212,13 @@ export class MapboxComponent implements AfterViewInit {
     }
 
     if (updatePopup) {
-      this.popup.setHTML(`${feature.properties.n}, ${feature.properties.pl}`);
+      let popupData = `${feature.properties.n}, ${feature.properties.pl}`;
+      if (this.mapConfig['popupProps']) {
+        this.mapConfig['popupProps'].forEach(p => {
+          popupData += `<br>${p['label']}: ${feature.properties[p['prop']]}`;
+        });
+      }
+      this.popup.setHTML(popupData);
       if (!this.popup.isOpen()) {
         this.popup.addTo(this.map);
       }

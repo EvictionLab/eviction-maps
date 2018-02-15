@@ -1,0 +1,11 @@
+::ng-deep {
+    app-map .map-ui-wrapper .map-ui,
+    app-map .map-ui-wrapper app-location-cards,
+    app-map .year-slider-container {
+        display: none !important;
+    }
+    app-map .map-ui-wrapper app-ui-map-legend {
+        bottom: 24px !important;
+    }
+    .mapboxgl-ctrl-bottom-left { bottom: 0 !important; }
+}
