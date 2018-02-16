@@ -348,6 +348,28 @@ app-ui-map-legend {
 .gt-tablet :host-context(.cards-active) .mobile-scroll-indicator {
   display: none;
 }
+
+// Embed view overrides
+//    Ignores time slider, cards
+:host-context(.embed) app-ui-map-legend {
+  bottom: 0;
+}
+.embed.gt-mobile :host-context(.cards-active) .mobile-scroll-indicator,
+.embed.gt-mobile :host-context(.slider-active) .mobile-scroll-indicator,
+.embed.gt-mobile :host-context(.cards-active.slider-active) .mobile-scroll-indicator,
+.embed.gt-tablet :host-context(.cards-active) .mobile-scroll-indicator,
+.embed.gt-tablet :host-context(.slider-active) .mobile-scroll-indicator,
+.embed.gt-tablet :host-context(.cards-active.slider-active) .mobile-scroll-indicator {
+  display: none;
+}
+.embed.gt-mobile :host-context(.slider-active) app-ui-map-legend,
+.embed.gt-mobile :host-context(.cards-active.slider-active) app-ui-map-legend {
+  bottom: $pageMarginLg;
+}
+.embed.gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
+  bottom: $pageMarginLg;
+}
+
 // - End Map Legend
 
 
@@ -404,13 +426,13 @@ app-ui-map-legend {
 // Device-specific adjustments
 
 // Additional spacing for iOS Safari
-.ios-safari:not(.gt-tablet) :host-context(.slider-active) {
+.ios-safari:not(.gt-tablet):not(.embed) :host-context(.slider-active) {
   .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
 }
-.ios-safari:not(.gt-tablet) :host-context(.legend-active) {
+.ios-safari:not(.gt-tablet):not(.embed) :host-context(.legend-active) {
   app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
 }
-.ios-safari:not(.gt-tablet) :host-context(.cards-active) {
+.ios-safari:not(.gt-tablet):not(.embed) :host-context(.cards-active) {
   .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
   app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
   .year-slider-container {
@@ -421,13 +443,13 @@ app-ui-map-legend {
 }
 
 // Additional spacing for Android
-.android:not(.gt-tablet) :host-context(.slider-active) {
+.android:not(.gt-tablet):not(.embed) :host-context(.slider-active) {
   .year-slider-container { height: $timeSliderHeight + $androidPadding; }
 }
-.android:not(.gt-tablet) :host-context(.legend-active) {
+.android:not(.gt-tablet):not(.embed) :host-context(.legend-active) {
   app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
 }
-.android:not(.gt-tablet) :host-context(.cards-active) {
+.android:not(.gt-tablet):not(.embed) :host-context(.cards-active) {
   .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
   app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
   .year-slider-container {

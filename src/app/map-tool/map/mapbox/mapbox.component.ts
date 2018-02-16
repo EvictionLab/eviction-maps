@@ -25,6 +25,7 @@ export class MapboxComponent implements AfterViewInit {
   private popup: mapboxgl.Popup;
   private mapStyle: Object;
   private activeFeature: any;
+  private embedded: boolean;
   @ViewChild('map') mapEl: ElementRef;
   @Input() mapConfig: Object;
   @Input() eventLayers: Array<string> = [];
@@ -52,6 +53,7 @@ export class MapboxComponent implements AfterViewInit {
    * Create map object from mapEl ViewChild
    */
   ngAfterViewInit() {
+    this.embedded = this.platform.nativeWindow.document.querySelector('app-embed');
     this.map = this.mapService.createMap({
       ...this.mapConfig, container: this.mapEl.nativeElement, attributionControl: false
     });
@@ -129,7 +131,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map = map;
     this.mapStyle = map.getStyle();
     this.setupEmitters();
-    if (this.platform.isLargerThanMobile) {
+    if (this.platform.isLargerThanMobile || this.embedded) {
       this.zone.runOutsideAngular(() => {
         // Function to process observable
         const distinctFeature = (obs) => {
@@ -168,7 +170,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
-      if (this.platform.isLargerThanMobile) {
+      if (this.platform.isLargerThanMobile || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
         this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
         this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
@@ -217,15 +219,20 @@ export class MapboxComponent implements AfterViewInit {
     }
 
     if (updatePopup) {
-      let popupData = `${feature.properties.n}, ${feature.properties.pl}`;
+      let popupData = `<p>${feature.properties.n}, ${feature.properties.pl}</p>`;
       if (this.mapConfig['popupProps']) {
         const yearSuffix = this.mapConfig['year'].toString().slice(2);
         this.mapConfig['popupProps'].forEach(p => {
           const label = this.translate.transform(p['langKey']);
-          const value = `${p['format'] === 'dollar' ? '$' : ''}${
-            this.decimal.transform(feature.properties[`${p.id}-${yearSuffix}`])
-          }${p['format'] === 'percent' ? '%' : ''}`;
-          popupData += `<br>${label}: ${value}`;
+          let value;
+          if (feature.properties[`${p.id}-${yearSuffix}`] >= 0) {
+            value = `${p['format'] === 'dollar' ? '$' : ''}${
+              this.decimal.transform(feature.properties[`${p.id}-${yearSuffix}`])
+              }${p['format'] === 'percent' ? '%' : ''}`;
+          } else {
+            value = this.translate.transform('DATA.UNAVAILABLE');
+          }
+          popupData += `<p><span>${label}:</span> <span>${value}</span></p>`;
         });
       }
       this.popup.setHTML(popupData);
