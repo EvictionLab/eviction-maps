@@ -8,7 +8,7 @@
     <span class="ranking-number">{{ i + 1 }}</span>
     <div class="ranking-bar" [style.width]="''+(100*(location[dataProperty]/maxValue))+'%'"></div>
     <div class="ranking-content">
-      <span class="ranking-name">{{ location.name }},</span>
+      <span class="ranking-name">{{ location.name }}</span><span class="place-separator">,</span>
       <span class="ranking-parent">{{location.displayParentLocation}}</span>
       <span class="ranking-value">{{location[dataProperty]}}{{ dataProperty.includes('Rate') ? '%' : '' }}</span>
     </div>

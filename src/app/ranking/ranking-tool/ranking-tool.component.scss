@@ -211,7 +211,7 @@ app-ranking-ui {
   .nav-bar {
     position: sticky;
     z-index:30;
-    top: grid(11);
+    top: $headerHeightLg - 1px; // fix 1px showing through
     height: grid(8);
     ul {
       flex-direction: row;

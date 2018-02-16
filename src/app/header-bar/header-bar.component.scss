@@ -58,11 +58,11 @@
     // icon colors
     .btn-icon {
       color: $headerButtonColor;
-      path { fill: $headerButtonColor; }
+      path, rect { fill: $headerButtonColor; }
     }
     .btn-icon.active {
       color: $headerActiveButtonColor;     
-      path { fill: $headerActiveButtonColor; }
+      path, rect { fill: $headerActiveButtonColor; }
     }
   }
   // no logo on mobile
@@ -135,10 +135,12 @@
       svg {
         width: 40px;
         height: 35px;
-        path { fill: $color1;}
+        rect { fill: $color1;}
       }
       span {
-        font-size: 11px;
+        position:relative;
+        top:1px;
+        @include altSmallCapsText(12px);
         line-height: 1;
       }
     }
