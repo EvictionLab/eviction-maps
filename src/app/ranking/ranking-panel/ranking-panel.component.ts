@@ -10,11 +10,13 @@ import { RankingLocation } from '../ranking-location';
 })
 export class RankingPanelComponent implements OnInit {
   @Input() rank: number;
+  @Input() topCount: number;
   @Input() location: RankingLocation;
   @Input() dataProperty: { name: string, value: string };
   @Output() goToPrevious = new EventEmitter();
   @Output() goToNext = new EventEmitter();
   @Output() close = new EventEmitter();
+  @Output() locationClick = new EventEmitter<number>();
   constructor() { }
 
   ngOnInit() {

@@ -108,6 +108,11 @@
   text-align: center;
   color: $color1;
   line-height:1;
+
+  &.in-list:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
 @media(min-width: $gtMobile) {
   .rank-location {

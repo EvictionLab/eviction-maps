@@ -59,7 +59,7 @@ export class RankingToolComponent implements OnInit {
   /** Boolean of whether to show scroll to top button */
   showScrollButton = false;
   /** number of items to show in the list */
-  private topCount = 100;
+  topCount = 100;
   private store = {
     region: 'United States',
     areaType: null,
@@ -211,6 +211,17 @@ export class RankingToolComponent implements OnInit {
   /** Removes currently selected index on closing the panel */
   onClose() {
     this.setCurrentLocation(null);
+  }
+
+  /**
+   * Checks if location is in view, scrolls to it if so
+   * @param rank Rank of location
+   */
+  onPanelLocationClick(rank: number) {
+    const query = `.ranking-list > li:nth-child(${rank})`;
+    if (rank <= this.topCount && this.document.querySelector(query)) {
+      this.scroll.scrollTo(query);
+    }
   }
 
   scrollToTop() {

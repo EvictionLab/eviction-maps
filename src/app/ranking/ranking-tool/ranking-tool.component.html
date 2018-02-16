@@ -64,12 +64,14 @@
 <div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
   <app-ranking-panel
     [class]="'area-'+areaType.value"
+    [topCount]="topCount"
     [rank]="selectedIndex+1"
     [location]="listData[selectedIndex]"
     [dataProperty]="dataProperty"
     (goToPrevious)="onGoToPrevious()"
     (goToNext)="onGoToNext()"
     (close)="onClose()"
+    (locationClick)="onPanelLocationClick($event)"
   ></app-ranking-panel>
 </div>
 
