@@ -15,6 +15,7 @@ export class ScrollService {
   defaultEasingLogic = {
     ease: (t, b, c, d) => -c * (t /= d) * (t - 2) + b
   };
+  pageScroll: PageScrollService;
   /**
    * Setting position fixed on body will prevent scroll, and setting overflow
    * to scroll ensures the scrollbar is always visible.
@@ -29,8 +30,7 @@ export class ScrollService {
 
   constructor(
     @Inject(DOCUMENT) private document: any,
-    private platform: PlatformService,
-    private pageScroll: PageScrollService
+    private platform: PlatformService
   ) {
     // provide observable with top / bottom vertical offset
     this.verticalOffset$ = Observable
@@ -41,7 +41,8 @@ export class ScrollService {
   /**
    * Sets up PageScrollConfig with defaults
    */
-  setupScroll() {
+  setupScroll(serviceInstance: PageScrollService) {
+    this.pageScroll = serviceInstance;
     PageScrollConfig.defaultScrollOffset = this.defaultScrollOffset;
     PageScrollConfig.defaultDuration = this.defaultDuration;
     PageScrollConfig.defaultEasingLogic = this.defaultEasingLogic;

@@ -261,7 +261,6 @@ export class RankingToolComponent implements OnInit {
 
   private setupPageScroll() {
     this.scroll.defaultScrollOffset = 175;
-    this.scroll.setupScroll();
 
     const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
     this.scroll.verticalOffset$.debounceTime(100)

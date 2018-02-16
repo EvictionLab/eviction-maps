@@ -1,7 +1,7 @@
 import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
-import { PageScrollService } from 'ng2-page-scroll';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
@@ -12,6 +12,7 @@ import { PlatformService } from '../../../services/platform.service';
 import { ScrollService } from '../../../services/scroll.service';
 import { UiMapLegendComponent } from '../map-legend/ui-map-legend.component';
 import { LocationCardsModule } from '../../location-cards/location-cards.module';
+import { ServicesModule } from '../../../services/services.module';
 
 class MapServiceStub {
   updateCensusSource() {}
@@ -37,16 +38,18 @@ describe('MapComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MapComponent, MapboxComponent, UiMapLegendComponent ],
-      imports: [ UiModule, TranslateModule.forRoot(), TooltipModule.forRoot(), LocationCardsModule ]
+      imports: [
+        UiModule,
+        TranslateModule.forRoot(),
+        TooltipModule.forRoot(),
+        LocationCardsModule,
+        ServicesModule.forRoot()
+      ]
     });
     TestBed.overrideComponent(MapComponent, {
       set: {
         providers: [
-          PlatformService,
           { provide: MapService, useValue: new MapServiceStub() },
-          LoadingService,
-          PageScrollService,
-          ScrollService
         ],
       }
     })

@@ -9,6 +9,8 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { Routes, Router } from '@angular/router';
+import { PageScrollService } from 'ng2-page-scroll';
+
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 import { EmbedComponent } from './map-tool/embed/embed.component';
@@ -19,6 +21,7 @@ import { PlatformService } from './services/platform.service';
 import { LoadingService } from './services/loading.service';
 import { AnalyticsService } from './services/analytics.service';
 import { RoutingService } from './services/routing.service';
+import { ScrollService } from './services/scroll.service';
 
 @Component({
   selector: 'app-root',
@@ -51,6 +54,8 @@ export class AppComponent implements OnInit {
     private titleService: Title,
     private el: ElementRef,
     private analytics: AnalyticsService,
+    private pageScroll: PageScrollService,
+    private scroll: ScrollService,
     @Inject(DOCUMENT) private document: any
   ) {
       this.toastr.setRootViewContainerRef(vRef);
@@ -64,6 +69,7 @@ export class AppComponent implements OnInit {
       embed: EmbedComponent
     };
     this.routing.setupRoutes(components);
+    this.scroll.setupScroll(this.pageScroll);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.translate.onLangChange.subscribe((e) => this.updateHtmlLanguage());

@@ -1,13 +1,14 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { PageScrollService } from 'ng2-page-scroll';
 
 import { ScrollService } from './scroll.service';
 import { PlatformService } from './platform.service';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 describe('ScrollService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [ScrollService, PlatformService, PageScrollService]
+      imports: [ Ng2PageScrollModule ],
+      providers: [ ScrollService, PlatformService ]
     });
   });
 

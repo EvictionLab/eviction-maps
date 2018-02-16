@@ -278,7 +278,6 @@ export class MapToolComponent implements OnInit, AfterViewInit {
    * to enable / disable map zoom
    */
   private setupPageScroll() {
-    this.scroll.setupScroll();
 
     // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')
