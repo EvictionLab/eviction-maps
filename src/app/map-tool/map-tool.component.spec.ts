@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PageScrollService } from 'ng2-page-scroll';
 import { MapToolComponent } from './map-tool.component';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -57,9 +56,7 @@ describe('MapToolComponent', () => {
       set: {
         providers: [
           {provide: MapToolService, useClass: MapToolServiceStub },
-          TranslateService,
-          PageScrollService,
-          ScrollService
+          TranslateService
         ]
       }
     })

@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { PageScrollService } from 'ng2-page-scroll';
 
 import { UiModule } from '../../ui/ui.module';
 import { ServicesModule } from '../../services/services.module';
@@ -11,6 +10,7 @@ import { RankingToolComponent } from './ranking-tool.component';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../ranking-list/ranking-list.component';
 import { RankingPanelComponent } from '../ranking-panel/ranking-panel.component';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 describe('RankingToolComponent', () => {
   let component: RankingToolComponent;
@@ -36,9 +36,7 @@ describe('RankingToolComponent', () => {
               loadCsvData: () => { },
               isReady: { subscribe: () => { } }
             }
-          },
-          PageScrollService,
-          ScrollService
+          }
         ]
       }
     })

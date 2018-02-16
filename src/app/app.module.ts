@@ -54,7 +54,8 @@ export class CustomOption extends ToastOptions {
     ServicesModule.forRoot(),
     RouterModule.forRoot([], { useHash: true }),
     TooltipModule.forRoot(),
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    Ng2PageScrollModule.forRoot()
   ],
   providers: [
     {provide: ToastOptions, useClass: CustomOption},

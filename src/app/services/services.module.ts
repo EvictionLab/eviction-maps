@@ -8,6 +8,7 @@ import { LoadingService } from './loading.service';
 import { ScrollService } from './scroll.service';
 import { AnalyticsService } from './analytics.service';
 import { RoutingService } from './routing.service';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 @NgModule({
   imports: [
