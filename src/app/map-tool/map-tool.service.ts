@@ -11,8 +11,10 @@ import * as bbox from '@turf/bbox';
 import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
+import * as geoViewport from '@mapbox/geo-viewport';
 
 import { environment } from '../../environments/environment';
+import { PlatformService } from '../services/platform.service';
 import { MapDataAttribute } from './data/map-data-attribute';
 import { MapLayerGroup } from './data/map-layer-group';
 import { MapFeature } from './map/map-feature';
@@ -57,7 +59,8 @@ export class MapToolService {
   constructor(
     private http: HttpClient,
     private translate: TranslateService,
-    private analytics: AnalyticsService
+    private analytics: AnalyticsService,
+    private platform: PlatformService
   ) {
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
@@ -133,8 +136,13 @@ export class MapToolService {
    * Sets the bounding box for the map to focus to
    * @param mapBounds an array with four coordinates representing west, south, east, north
    */
-  setMapBounds(mapBounds) {
-    this.activeMapView = mapBounds;
+  setMapBounds(mapBounds: Array<any>) {
+    this.activeMapView = mapBounds.map(b => +b);
+    this.mapConfig = {
+      ...this.mapConfig,
+      ...geoViewport.viewport(this.activeMapView,
+        [this.platform.viewportWidth, this.platform.viewportHeight])
+    };
   }
 
   /**

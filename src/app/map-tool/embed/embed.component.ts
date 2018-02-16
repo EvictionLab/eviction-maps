@@ -52,6 +52,7 @@ export class EmbedComponent implements OnInit {
         if (bubble) { this.mapConfig['popupProps'].push(bubble); }
         this.mapConfig['year'] = data['year'];
         this.mapToolService.setCurrentData(mapData);
+        this.mapConfig = { ...this.mapConfig, ...this.mapToolService.mapConfig };
       });
     this.cdRef.detectChanges();
     // Turn off auto-switching so locked into initial layer
