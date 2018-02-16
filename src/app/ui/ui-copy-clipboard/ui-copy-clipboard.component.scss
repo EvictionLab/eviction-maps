@@ -14,12 +14,14 @@ input {
   min-width: grid(30);
   height: grid(5);
   padding: 0 grid(1);
-
 }
 
 .btn {
   position:absolute;
   top:0;right:0;
+  border-radius: 0;
   width: grid(5);
   height: grid(5);
+
+  svg { margin: inherit; }
 }

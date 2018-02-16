@@ -67,6 +67,9 @@ body {
 
 // STYLE OVERRIDES
 
+// Bootstrap tooltips should use default font stack
+bs-tooltip-container.tooltip .tooltip-inner { font-family: $fontStack; }
+
 // no mobile "map button" hint on tablet+
 @media(min-width: $gtMobile) {
   .tooltip.map-hint-mobile { display:none!important;}

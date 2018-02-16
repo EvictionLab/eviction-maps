@@ -62,6 +62,29 @@ body {
     margin-top: grid(3);
   }
 
+  // Eviction Lab popover styles
+  .popover {
+    border: none;
+    border-radius: 0;
+    box-shadow: $z3shadow;
+    background-clip: border-box;
+    padding: grid(2);
+
+    .popover-header {
+      padding: 0;
+      background-color: inherit;
+      border-bottom: none;
+      margin-bottom: grid(2);
+      @include altSmallCapsText(16px);
+      color: $grey1a;
+      line-height: 1;
+    }
+    .popover-content {
+      padding: 0;
+      @include defaultFont(14px);
+    }
+  }
+
 }
 
 
