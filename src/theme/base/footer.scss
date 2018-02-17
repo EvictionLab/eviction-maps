@@ -1,0 +1,251 @@
+
+
+footer {
+  width:100%;
+  background: linear-gradient(180deg, $footerGradientFrom 0%, $footerGradientTo 100%);
+  padding: grid(5) $pageMargin;
+  color: $white;
+  a {
+    color: $white;
+    &:hover { color: $linkColor; }
+  }
+}
+@media(min-width: $gtMobile) {
+  footer {
+    height: grid(43);
+    padding: grid(5) $pageMarginLg;
+  }
+}
+@media(min-width: $gtTablet) {
+  footer {
+    height: grid(62);
+  }
+}
+
+// FOOTER LAYOUT
+// ---
+.footer-content {
+  margin:auto;
+  max-width: $maxContentWidth;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  // padding on immediate children
+  > * {
+    padding: grid(2) 0;
+  }
+}
+@media(min-width: $gtMobile) {
+  .footer-content {
+    @include fill-parent();
+    margin:auto;
+    height: grid(30); // 240px;
+    width: grid(86); // 688px
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .footer-logo {
+      order: 1;
+      margin-right: grid(8); // push links to the right
+    }
+    .footer-copyright {
+      order: 2;
+    }
+    .footer-navigation {
+      order: 3;
+    }
+    .footer-social {
+      order: 4;
+    }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-content {
+    width: grid(112); // 896px
+    .footer-logo {
+      margin-right: grid(25); // push links even more to the right
+    }
+  }
+}
+@media(min-width: $gtSmallDesktop) {
+  .footer-content {
+    width: $maxContentWidth;
+    .footer-logo {
+      margin-right: grid(25); // push links even more to the right
+    }
+  }
+}
+
+
+// EVICTION LAB LOGO
+// ---
+.footer-logo {
+  .horizontal-logo {
+    display: none;
+  }
+  svg {
+    width: grid(10);
+    // logo colours
+    .logo-letters { fill: $white; }
+    .logo-shapes { fill: $color1; }
+  }
+}
+@media(min-width: $gtMobile) {
+  .footer-logo {
+    .horizontal-logo {
+      display: block;
+      width: grid(31);
+    }
+    .vertical-logo {
+      display: none;
+    }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-logo {
+    .horizontal-logo {
+      width: grid(38);
+    }
+  }
+}
+
+// SITE LINKS
+// --- 
+.footer-navigation {
+  ul {
+    width:100%;
+    padding:0;
+    margin:0; 
+    list-style: none;
+    text-align:center;
+    @include defaultFont(12px);
+    line-height: 1;
+  }
+  li { height: grid(3.5); }
+}
+@media(min-width: $gtMobile) {
+  .footer-navigation {
+    ul {
+      font-size: 13px;
+      width: grid(40);
+      display:flex;
+      flex-direction: column;
+      flex-wrap:wrap;
+      height: grid(17.5);
+      text-align:left;
+      li { 
+        width: grid(20);
+        height: grid(4);
+      }
+    }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-navigation {
+    ul {
+      font-size: 14px;
+      li {
+        width: grid(30); // 240px columns for links
+      }
+    }
+  }
+}
+
+// SOCIAL ICONS
+// ---
+.footer-social {
+  p { 
+    @include defaultFont(10px);
+    text-align:center;
+    line-height: 28px;
+  }
+  ul {
+    width:100%;
+    padding:0;
+    margin:0; 
+    list-style: none;
+    text-align:center;
+  }
+  li {
+    display:inline-block;
+    margin-right: grid(1);
+    &:last-child { margin-right: 0; }
+  }
+  a.btn.btn-border {
+    position:relative;
+    border-color: $footerIconBorder;
+    color: $white;
+    display:block;
+    width: grid(4.5);
+    height: grid(4.5);
+    box-sizing: content-box;
+    &:hover {
+      border-color: $footerHoverIconBorder;
+    }
+    svg {
+      @include fill-parent();
+      margin:auto;
+      width: grid(2.5);
+      height: grid(2.5);
+      path, polyline { fill: #fff; }
+    }
+  }
+}
+// horizontal layout
+@media(min-width: $gtMobile) {
+  .footer-social {
+    margin:0;
+    padding:0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    p, ul { width: auto; margin:0; }
+    p {
+      font-size: 11px;
+      margin-right: grid(4); 
+    }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-social {
+    p {
+      font-size: 13px;
+    }
+  }
+}
+
+// COPYRIGHT MESSAGE / PRINCETON LOGO
+// ---
+.footer-copyright {
+  margin-top: grid(1);
+  color: $footerCopyrightColor;
+  text-align:center;
+  @include defaultFont(10px);
+  .copyright-text p { margin: 0 0 grid(0.5) 0; }
+  img { 
+    width: grid(10); // 80px
+    margin-top: grid(2); 
+  }
+}
+@media(min-width: $gtMobile) {
+  .footer-copyright {
+    text-align: left;
+    font-size: 11px;
+    img { 
+      width: grid(14); // 112px
+      margin-top: grid(8); 
+    }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-copyright {
+    font-size: 13px;
+    padding-top: 0;
+    .copyright-text p { margin: 0 0 grid(1) 0; }
+    img { 
+      width: grid(15.5); // 124px
+      margin-top: grid(7); 
+    }
+  }
+}

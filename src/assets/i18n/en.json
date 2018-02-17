@@ -76,6 +76,16 @@
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
   },
+  "NAV": {
+    "HOME": "Home",
+    "MAP": "Map & Data",
+    "RANKINGS": "Eviction Rankings",
+    "ABOUT": "About Eviction Lab",
+    "PROBLEM": "The Problem",
+    "METHODS": "Our Methodology",
+    "HELP": "Help & FAQ",
+    "UPDATES": "Updates"
+  },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
     "NONE": "None",
@@ -124,6 +134,8 @@
     "SHARE_TWITTER": "Share on Twitter",
     "SHARE_FACEBOOK": "Share on Facebook",
     "SHARE_EMAIL": "Share via E-mail",
-    "SHARE_LINK": "Share Link"
+    "SHARE_LINK": "Share Link",
+    "CONNECT": "Connect With Us",
+    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>"
   }
 }
