@@ -3,7 +3,7 @@ import { HttpClientModule, HttpRequest, HttpParams } from '@angular/common/http'
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import { SearchService } from './search.service';
-import { ServicesModule } from '../../../services/services.module';
+import { ServicesModule } from './services.module';
 
 describe('SearchService', () => {
   beforeEach(() => {
