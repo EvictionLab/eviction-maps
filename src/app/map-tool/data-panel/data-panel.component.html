@@ -48,7 +48,7 @@
               class="btn btn-border icon btn-facebook"
               (click)="trackShare('facebook')" 
               appSocialSharePopup 
-              [href]="'https://www.facebook.com/sharer.php?u=' + getCurrentUrl()"  
+              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + getEncodedUrl()"  
               [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate"
             >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">

@@ -163,6 +163,13 @@ export class DataPanelComponent implements OnInit {
   }
 
   /**
+   * Encoding URL for Facebook share
+   */
+  getEncodedUrl() {
+    return this.platform.nativeWindow.encodeURIComponent(this.getCurrentUrl());
+  }
+
+  /**
    * Adding method because calling window directly in the template doesn't work
    */
   getCurrentUrl() {
