@@ -1,14 +1,9 @@
 <div class="navigation-wrapper">
   <nav class="site-navigation">
     <ul>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Home</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Map &amp; Data</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Eviction Rankings</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">About Us</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Learn More</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Methods</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Help &amp; FAQ</a></li>
-      <li><a [attr.tabindex]="expanded ? null : -1" href="#">Updates</a></li>
+      <li *ngFor="let link of navigation">
+        <a [attr.tabindex]="expanded ? null : -1" [href]="link.url">{{ link.name }}</a>
+      </li>
     </ul>
   </nav>
   <ul class="social-media-links">
@@ -28,18 +23,10 @@
       </a>
     </li>
   </ul>
+  <ng-content></ng-content>
   <span class="menu-copyright">&copy; 2018 Eviction Lab</span>
-  <button [attr.tabindex]="expanded ? null : -1" class="btn btn-icon menu-close" (click)="onClose.emit()">
-    <svg viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g transform="translate(-377.000000, -14.000000)">
-        <g transform="translate(369.000000, 13.000000)">
-          <g transform="translate(7.000000, 0.000000)">
-            <path d="M18.7160305,8 L1.11603053,8 C-0.0427480916,8 -1,8.87486744 -1,9.94414988 C-1,11.0134323 -0.0427480916,11.8882998 1.11603053,11.8882998 L18.7160305,11.8882998 C19.8748092,11.8882998 20.8320611,11.0134323 20.8320611,9.94414988 C20.8320611,8.87486744 19.8748092,8 18.7160305,8 Z" transform="translate(9.916031, 9.944150) rotate(45.000000) translate(-9.916031, -9.944150) "></path>
-            <path d="M18.7160305,8 L1.11603053,8 C-0.0427480916,8 -1,8.87486744 -1,9.94414988 C-1,11.0134323 -0.0427480916,11.8882998 1.11603053,11.8882998 L18.7160305,11.8882998 C19.8748092,11.8882998 20.8320611,11.0134323 20.8320611,9.94414988 C20.8320611,8.87486744 19.8748092,8 18.7160305,8 Z" transform="translate(9.916031, 9.944150) rotate(-45.000000) translate(-9.916031, -9.944150) "></path>
-          </g>
-        </g>
-      </g>
-    </svg>
-    <span>Close</span>
-  </button>
+  <app-ui-close-button class="menu-close light"
+    [label]="'NAV.CLOSE_MENU' | translate"
+    (onPress)="onClose.emit()"
+  ></app-ui-close-button>
 </div>

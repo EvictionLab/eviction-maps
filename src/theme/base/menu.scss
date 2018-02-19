@@ -1,0 +1,153 @@
+$menuMargin: grid(5);
+
+// Container layout
+// ---
+.app-menu {
+  position:fixed;
+  width: $menuWidth;
+  height:100%;
+  top:0;
+  right: 0;
+  transform: translate3d(($menuWidth+5px),0,0); // translate a little extra so shadow doesn't show
+  z-index:999;
+  background: $menuBg;
+  padding: 0 $menuMargin; // 40px margin on menu
+  display:block;
+  transition: transform 0.4s ease;
+  box-shadow: $menuShadow;
+  overflow:auto;
+  &.expanded {
+    transform: translate3d(0,0,0);
+  }
+}
+// boost size on tablet+
+@media(min-width: $gtMobile) {
+  .app-menu {
+    width: $menuWidthLg;
+    transform: translate3d(($menuWidthLg+5px),0,0);
+    &.expanded {
+      transform:translate3d(0,0,0);
+    }
+  }
+}
+
+// Close button
+// ---
+.app-menu .menu-close {
+  position:absolute;
+  top: grid(1);
+  right: grid(1);
+  width: grid(6);
+  height: grid(6);
+}
+@media(min-width: $gtMobile) {
+  .app-menu .menu-close {
+    width: grid(7);
+    height: grid(7);
+    svg { width: grid(4); height: grid(4); }
+    span { 
+      @include altSmallCapsText(14px);
+    }
+  }
+}
+
+// Navigation Links
+// ---
+.site-navigation {
+  @include altFont(18px);
+  letter-spacing: 0.6px;
+  margin-top: $menuMargin;
+  ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+  }
+  li {
+    margin-bottom: grid(1.5);
+  }
+  a {
+    display: inline-block;
+    color: $white;
+    border-bottom: grid(0.5) solid transparent;
+    &:hover, &:focus {
+      color: $white;
+      border-bottom-color: $white;
+      text-decoration: none;
+    }
+  }
+}
+// boost size on tablet+
+@media(min-width: $gtMobile) {
+  .app-menu .site-navigation {
+    @include altFont(28px);
+    letter-spacing: 0.7px;
+    li { margin-bottom: grid(2); }
+  }
+}
+
+
+// Language Toggle - Only visible on "maps" mobile view
+// ---
+.app-menu .language-select { display: none; }
+.map-tool .app-menu .language-select {
+  display: block;
+  position:absolute;
+  width: grid(27);
+  left: $menuMargin;
+  bottom: grid(15);
+  .el-select .dropdown-toggle.btn {
+    background: none!important;
+    color: $white!important;
+    border: 4px solid $white;
+    border-radius: 2px;
+  }
+}
+@media(min-width: $gtMobile) {
+  .map-tool .app-menu .language-select {
+    display: none;
+  }
+}
+
+
+// Social media links
+// ---
+.social-media-links {
+  position:absolute;
+  bottom:0;
+  left:0;
+  padding: 0 0 $menuMargin $menuMargin;
+  list-style: none;
+  margin:0;
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  // border button overrides
+  .btn.btn-border {
+    padding: grid(1);
+    background: none;
+    margin-right: grid(1.5);
+    width: grid(5.5);
+    height: grid(5.5);
+    border-width: grid(0.5);
+    color: $grey4;
+    svg { 
+      margin: 0 auto; 
+      path { fill: $menuGrey; }
+    }
+    &:hover {
+      svg path { fill: $white; }
+    }
+  }
+}
+
+// Copyright Message
+// ---
+.menu-copyright {
+  position:absolute;
+  bottom: $menuMargin;
+  right: $menuMargin;
+  @include defaultFont(11px);
+  color: $menuGrey;
+}
+
+

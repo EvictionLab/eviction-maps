@@ -17,7 +17,7 @@ const breakpoints = {
 
 @Injectable()
 export class PlatformService {
-
+  userAgent = '';
   viewportWidth: number;
   viewportHeight: number;
   dimensions$: Observable<{ width: number, height: number }>;
@@ -75,7 +75,20 @@ export class PlatformService {
     return this.viewportWidth > breakpoints['largeDesktop'];
   }
 
+  /** Returns true if the device is iOS, running safari */
+  get isIosSafari(): boolean {
+    return ((this.userAgent.includes('iphone') || this.userAgent.includes('ipad')) &&
+      (!this.userAgent.includes('crios') && !this.userAgent.includes('fxios')));
+  }
+
+  /** Returns if the device is android (but not firefox) */
+  get isAndroid(): boolean {
+    return this.userAgent.includes('android') &&
+      !this.userAgent.includes('firefox');
+  }
+
   constructor() {
+    this.userAgent = this.nativeWindow.navigator.userAgent.toLowerCase();
     // store viewport width / height
     this.updateDimensions({
       width: this.nativeWindow.innerWidth,

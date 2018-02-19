@@ -7,10 +7,23 @@
 <app-header-bar
   role="banner"
   [activeMenuItem]="currentMenuItem"
+  [languageOptions]="languageOptions"
   (activeMenuItemChange)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
-<app-menu tabindex="-1" [expanded]="menuActive" (onClose)="closeMenu()"></app-menu>
+<app-menu class="app-menu" tabindex="-1" 
+  [navigation]="siteNav"
+  [expanded]="menuActive" 
+  (onClose)="closeMenu()"
+>
+  <app-ui-select 
+    class="language-select dropup"
+    labelProperty="name"
+    [values]="languageOptions"
+    [selectedValue]="selectedLanguage"
+    (change)="onLanguageSelect($event)"
+  ></app-ui-select>
+</app-menu>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
-<app-footer role="contentinfo"></app-footer>
+<app-footer [navigation]="siteNav" role="contentinfo"></app-footer>

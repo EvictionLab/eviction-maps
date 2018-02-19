@@ -1,0 +1,37 @@
+@import '../../../theme';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.btn.btn-icon {
+  width:100%;
+  height:100%;
+  color: $closeButton;
+  background: $closeButtonBg;
+  svg {
+    path {
+      stroke: $closeButton;
+      stroke-width: 4;
+    }
+  }
+  &:hover {
+    color: $closeButtonHover;
+    background: $closeButtonHoverBg;
+    svg path { stroke: $closeButtonHover; }
+  }
+}
+:host-context(.light) {
+  button {
+    color: $lightCloseButton;
+    background: $lightCloseButtonBg;
+    svg path { stroke: $lightCloseButton; }
+    &:hover {
+      background: $lightCloseButtonHoverBg;
+      color: $lightCloseButtonHover;
+      svg path { stroke: $lightCloseButtonHover; }
+    }
+  }
+}

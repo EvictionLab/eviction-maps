@@ -41,6 +41,21 @@ export class AppComponent implements OnInit {
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
   menuActive = false;
+  siteNav = [
+    { url: 'https://evictionlab.org/', langKey: 'NAV.HOME' },
+    { url: 'https://evictionlab.org/map', langKey: 'NAV.MAP' },
+    { url: 'https://evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
+    { url: 'https://evictionlab.org/about-eviction-lab', langKey: 'NAV.ABOUT' },
+    { url: 'https://evictionlab.org/the-problem', langKey: 'NAV.PROBLEM' },
+    { url: 'https://evictionlab.org/our-methodology', langKey: 'NAV.METHODS' },
+    { url: 'https://evictionlab.org/help-faq', langKey: 'NAV.HELP' },
+    { url: 'https://evictionlab.org/updates', langKey: 'NAV.UPDATES' }
+  ];
+  languageOptions = [
+    { id: 'en', name: '', langKey: 'HEADER.EN' },
+    { id: 'es', name: '', langKey: 'HEADER.ES' }
+  ];
+  selectedLanguage;
   private activeMenuItem;
 
   constructor(
@@ -72,14 +87,13 @@ export class AppComponent implements OnInit {
     this.scroll.setupScroll(this.pageScroll);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-    this.translate.onLangChange.subscribe((e) => this.updateHtmlLanguage());
+    this.translate.onLangChange.subscribe((lang) => {
+      this.updateLanguage(lang.translations);
+    });
     this.onWindowResize();
-    // TODO: move to platform service
     // Add user agent-specific classes
-    const userAgent = navigator.userAgent.toLowerCase();
-    this.iosSafari = ((userAgent.includes('iphone') || userAgent.includes('ipad')) &&
-      (!userAgent.includes('crios') && !userAgent.includes('fxios')));
-    this.android = userAgent.includes('android') && !userAgent.includes('firefox');
+    this.iosSafari = this.platform.isIosSafari;
+    this.android = this.platform.isAndroid;
   }
 
   closeMenu() {
@@ -172,9 +186,29 @@ export class AppComponent implements OnInit {
    * Update the lang attribute on the html element
    * Based on https://github.com/ngx-translate/core/issues/565
    */
-  private updateHtmlLanguage() {
+  private updateLanguage(translations) {
+    // update html lang attribute
     const lang = this.document.createAttribute('lang');
     lang.value = this.translate.currentLang;
     this.el.nativeElement.parentElement.parentElement.attributes.setNamedItem(lang);
+    // update item in dropdown
+    this.selectedLanguage =
+      this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
+    // update language options to new language
+    if (translations.hasOwnProperty('HEADER')) {
+      const header = translations['HEADER'];
+      this.languageOptions = this.languageOptions.map(l => {
+        if (l.langKey) { l.name = header[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+    }
+    // update site navigation language
+    if (translations.hasOwnProperty('NAV')) {
+      const nav = translations['NAV'];
+      this.siteNav = this.siteNav.map(l => {
+        if (l.langKey) { l['name'] = nav[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+    }
   }
 }
