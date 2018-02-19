@@ -1,5 +1,5 @@
-import { environment } from '../../../../environments/environment';
-import { MapFeature } from '../../../map-tool/map/map-feature';
+import { environment } from '../../environments/environment';
+import { MapFeature } from '../map-tool/map/map-feature';
 
 export interface SearchSource {
     key: string;
