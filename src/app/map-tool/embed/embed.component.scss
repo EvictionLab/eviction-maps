@@ -1,4 +1,23 @@
+
+
 ::ng-deep {
+    html.embedded {
+        body {
+            min-height: 500px;
+            position: relative;
+
+            app-root, app-embed, app-map {
+                display: block;
+                height: 100%;
+
+                .map-ui-wrapper, .map-wrapper {
+                    position: absolute;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
     app-map .map-ui-wrapper .map-ui,
     app-map .map-ui-wrapper app-location-cards,
     app-map .year-slider-container {
