@@ -54,6 +54,7 @@ export class MapboxComponent implements AfterViewInit {
    */
   ngAfterViewInit() {
     this.embedded = this.platform.nativeWindow.document.querySelector('app-embed');
+    this.mapService.embedded = this.embedded;
     this.map = this.mapService.createMap({
       ...this.mapConfig, container: this.mapEl.nativeElement, attributionControl: false
     });

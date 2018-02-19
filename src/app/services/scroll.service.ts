@@ -22,7 +22,10 @@ export class ScrollService {
    * IE 11 requires an empty string rather than null to unset styles.
    */
   set allowScroll(val: boolean) {
-    const changeScroll = !val && this.document.documentElement.scrollTop === 0;
+    const changeScroll = (
+      !val && this.document.documentElement.scrollTop === 0 &&
+      !this.document.documentElement.classList.contains('embedded')
+    );
     this.document.body.style.position = changeScroll ? 'fixed' : '';
     this.document.body.style.overflowY = changeScroll ? 'scroll' : '';
   }

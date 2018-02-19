@@ -30,6 +30,23 @@ html, body {
   font-family: $fontStack!important;
 }
 
+html.embedded, html.not-embedded {
+  body {
+    height: 500px;
+    position: relative;
+
+    app-root, app-embed, app-map {
+      display: block;
+      height: 100%;
+
+      .map-ui-wrapper, .map-wrapper {
+        position: absolute;
+        height: 100%;
+      }
+    }
+  }
+}
+
 body {
   height:auto;
   overflow-x:hidden;
