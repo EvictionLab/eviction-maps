@@ -34,6 +34,10 @@
     justify-content: space-between;
     align-content: center;
     align-items: center;
+    .btn.btn-icon {
+      width: grid(5);
+      height: grid(5);
+    }
     // icon sizes
     .el-button-home svg {
       width: 24px;
@@ -127,20 +131,21 @@
       display: none;
     }
     // increase menu button size and show
-    .header-icons .el-button-menu {
+    .header-icons .btn.btn-icon.el-button-menu {
       display:flex;
       width: grid(5);
+      height: grid(7);
       color: $color1;
       height: $headerContentHeight;
       svg {
-        width: 40px;
-        height: 35px;
+        width:40px;
+        height:35px;
         rect { fill: $color1;}
       }
       span {
         position:relative;
         top:1px;
-        @include altSmallCapsText(12px);
+        @include altSmallCapsText(14px);
         line-height: 1;
       }
     }

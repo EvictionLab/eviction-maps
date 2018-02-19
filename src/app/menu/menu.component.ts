@@ -4,10 +4,10 @@ import {
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  templateUrl: './menu.component.html'
 })
 export class MenuComponent {
+  @Input() navigation = [];
   @Input() expanded = false;
   @Output() onClose = new EventEmitter();
   @HostBinding('class.expanded') get isOpen() { return this.expanded; }

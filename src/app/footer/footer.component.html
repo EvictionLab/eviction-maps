@@ -48,28 +48,8 @@
     </div>
     <div class="footer-navigation">
       <ul>
-        <li><a href="https://evictionlab.org/">{{ 'NAV.HOME' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/map">{{ 'NAV.MAP' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/eviction-rankings">{{ 'NAV.RANKINGS' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/about-eviction-lab">{{ 'NAV.ABOUT' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/the-problem">{{ 'NAV.PROBLEM' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/our-methodology">{{ 'NAV.METHODS' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/help-faq">{{ 'NAV.HELP' | translate }}</a>
-        </li>
-        <li>
-          <a href="https://evictionlab.org/updates">{{ 'NAV.UPDATES' | translate }}</a>
+        <li *ngFor="let link of navigation">
+          <a [href]="link.url">{{ link.name }}</a>
         </li>
       </ul>
     </div>
