@@ -32,7 +32,7 @@ html, body {
 
 html.embedded, html.not-embedded {
   body {
-    height: 500px;
+    min-height: 500px;
     position: relative;
 
     app-root, app-embed, app-map {
