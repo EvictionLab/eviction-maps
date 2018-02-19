@@ -36,7 +36,7 @@
               class="btn btn-border icon btn-twitter"
               (click)="trackShare('twitter')" 
               appSocialSharePopup 
-              href="http://twitter.com/intent/tweet?status={{ tweetTranslation | translate:tweetParams }}" 
+              href="http://twitter.com/intent/tweet?status={{ socialTranslation | translate:socialParams }}" 
               [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate"
             >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
@@ -48,7 +48,7 @@
               class="btn btn-border icon btn-facebook"
               (click)="trackShare('facebook')" 
               appSocialSharePopup 
-              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + getEncodedUrl()"  
+              href="https://www.facebook.com/sharer/sharer.php?u={{ getEncodedUrl() }}&text={{ socialTranslation | translate:socialParams }}"  
               [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate"
             >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">

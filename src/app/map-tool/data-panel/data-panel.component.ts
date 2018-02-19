@@ -35,7 +35,7 @@ export class DataPanelComponent implements OnInit {
   displayLocations: MapFeature[] = []; // Locations to use for location cards, download
   @Input() set locations(locations: MapFeature[]) {
     this.displayLocations = locations;
-    this.updateTwitterText();
+    this.updateSocialShareText();
   }
   get locations() { return this.displayLocations; }
   @Output() locationRemoved = new EventEmitter();
@@ -56,8 +56,8 @@ export class DataPanelComponent implements OnInit {
   @Output() graphTypeChange = new EventEmitter();
 
 
-  tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
-  tweetParams = {};
+  socialTranslation = 'DATA.SHARE_ONE_FEATURE';
+  socialParams = {};
 
   constructor(
     public dialogService: UiDialogService,
@@ -71,7 +71,7 @@ export class DataPanelComponent implements OnInit {
 
   ngOnInit() {
     this.translate.onLangChange.subscribe(() => {
-      this.updateTwitterText();
+      this.updateSocialShareText();
     });
     // Needed to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
@@ -136,25 +136,25 @@ export class DataPanelComponent implements OnInit {
   }
 
   /**
-   * Update Twitter share text
+   * Update social media share text
    */
-  updateTwitterText() {
+  updateSocialShareText() {
     const features = this.locations;
     const featLength = this.locations.length;
-    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+    this.socialParams = { year: this.year, link: this.getCurrentUrl() };
 
     if (featLength === 1) {
-      this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
-      this.tweetParams = { ...this.tweetParams, place1: features[0].properties.n };
+      this.socialTranslation = 'DATA.SHARE_ONE_FEATURE';
+      this.socialParams = { ...this.socialParams, place1: features[0].properties.n };
     } else if (featLength === 2) {
-      this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
-      this.tweetParams = {
-        ...this.tweetParams, place1: features[0].properties.n, place2: features[1].properties.n
+      this.socialTranslation = 'DATA.SHARE_TWO_FEATURES';
+      this.socialParams = {
+        ...this.socialParams, place1: features[0].properties.n, place2: features[1].properties.n
       };
     } else if (featLength === 3) {
-      this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
-      this.tweetParams = {
-        ...this.tweetParams,
+      this.socialTranslation = 'DATA.SHARE_THREE_FEATURES';
+      this.socialParams = {
+        ...this.socialParams,
         place1: features[0].properties.n,
         place2: features[1].properties.n,
         place3: features[2].properties.n
