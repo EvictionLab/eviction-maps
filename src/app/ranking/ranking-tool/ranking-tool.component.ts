@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+import { Subject} from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
@@ -13,7 +15,8 @@ import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
   templateUrl: './ranking-tool.component.html',
   styleUrls: ['./ranking-tool.component.scss']
 })
-export class RankingToolComponent implements OnInit {
+export class RankingToolComponent implements OnInit, OnDestroy {
+  private ngUnsubscribe: Subject<any> = new Subject();
   /** identifier for the component so AppComponent can detect type */
   id = 'ranking-tool';
   /** tab ID for the active tab */
@@ -90,13 +93,21 @@ export class RankingToolComponent implements OnInit {
       this.isDataReady = ready;
       if (ready) { this.updateEvictionList(); }
     });
-    this.translate.onLangChange.subscribe(lang => {
+    this.translate.onLangChange.takeUntil(this.ngUnsubscribe)
+      .subscribe(lang => {
       if (this.canNavigate) {
         this.router.navigate(this.getCurrentNavArray(), { queryParams: this.getQueryParams() });
       }
     });
-    this.route.url.subscribe(this.onRouteChange.bind(this));
-    this.route.queryParams.subscribe(this.onQueryParamChange.bind(this));
+    this.route.url.takeUntil(this.ngUnsubscribe)
+      .subscribe(this.onRouteChange.bind(this));
+    this.route.queryParams.takeUntil(this.ngUnsubscribe)
+      .subscribe(this.onQueryParamChange.bind(this));
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
