@@ -351,15 +351,14 @@ app-ui-map-legend {
 
 // Embed view overrides
 //    Ignores time slider, cards
-:host-context(.embed) app-ui-map-legend {
+.embed :host-context(.slider-active) app-ui-map-legend,
+.embed :host-context(.cards-active.slider-active) app-ui-map-legend {
   bottom: 0;
 }
-.embed.gt-mobile :host-context(.cards-active) .mobile-scroll-indicator,
-.embed.gt-mobile :host-context(.slider-active) .mobile-scroll-indicator,
-.embed.gt-mobile :host-context(.cards-active.slider-active) .mobile-scroll-indicator,
-.embed.gt-tablet :host-context(.cards-active) .mobile-scroll-indicator,
-.embed.gt-tablet :host-context(.slider-active) .mobile-scroll-indicator,
-.embed.gt-tablet :host-context(.cards-active.slider-active) .mobile-scroll-indicator {
+
+.embed :host-context(.cards-active) .mobile-scroll-indicator,
+.embed :host-context(.slider-active) .mobile-scroll-indicator,
+.embed :host-context(.cards-active.slider-active) .mobile-scroll-indicator {
   display: none;
 }
 .embed.gt-mobile :host-context(.slider-active) app-ui-map-legend,

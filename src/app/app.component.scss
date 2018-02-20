@@ -10,34 +10,3 @@ app-footer {
 #embed-branding {
   display: none;
 }
-
-// Hide most of UI when embedded
-:host-context(.embed) {
-  #embed-branding {
-    display: block;
-    position: fixed;
-    top: 24px;
-    left: 24px;
-    z-index: 11;
-
-    a { padding: 16px; }
-    a:hover { background-color: rgba(255,255,255,0.4); }
-  }
-  ::ng-deep {
-    app-header-bar, app-footer {
-      display: none !important;
-    }
-    app-map-tool {
-      app-map .map-ui-wrapper .map-ui,
-      app-map .map-ui-wrapper app-location-cards,
-      app-map .year-slider-container,
-      app-data-panel
-      {
-        display: none !important;
-      }
-      app-map .map-ui-wrapper app-ui-map-legend {
-        bottom: 24px !important;
-      }
-    }
-  }
-}

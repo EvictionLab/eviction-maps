@@ -1,10 +1,59 @@
 ::ng-deep {
+    .embed {
+        app-header-bar, app-footer {
+            display: none !important;
+        }
+        app-map-tool {
+            app-map .map-ui-wrapper .map-ui,
+            app-map .map-ui-wrapper app-location-cards,
+            app-map .year-slider-container,
+            app-data-panel
+            {
+                display: none !important;
+            }
+            app-map .map-ui-wrapper app-ui-map-legend {
+                bottom: 24px !important;
+            }
+        }
+        #embed-branding {
+            display: block;
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 11;
+
+            a {
+                padding: 16px;
+
+                img { height: 16px; }
+
+                &:hover { background-color: rgba(255,255,255,0.4); }
+            }
+        }
+    }
+
+    html.embedded {
+        body {
+            min-height: 500px;
+            position: relative;
+
+            app-root, app-embed, app-map {
+                display: block;
+                height: 100%;
+
+                .map-ui-wrapper, .map-wrapper {
+                    position: absolute;
+                    height: 100%;
+                }
+            }
+        }
+    }
+
     app-map .map-ui-wrapper .map-ui,
     app-map .map-ui-wrapper app-location-cards,
     app-map .year-slider-container {
         display: none !important;
     }
-    app-map .map-ui-wrapper { height: 100vh !important; }
     .mapboxgl-ctrl-bottom-left { bottom: 0 !important; }
     .mapboxgl-popup-content { line-height: 16px !important; }
 }
