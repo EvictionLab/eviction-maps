@@ -44,7 +44,7 @@ export class RankingService {
    */
   loadCsvData() {
     console.time('load rankings');
-    return this.http.get(this.config.dataUrl, { responseType: 'text' })
+    return this.http.get(this.config.cityUrl, { responseType: 'text' })
       .map((csvString) => {
         console.timeEnd('load rankings');
         console.time('parse csv');

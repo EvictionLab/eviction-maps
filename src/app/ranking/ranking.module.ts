@@ -10,7 +10,8 @@ import { RankingService } from './ranking.service';
 import { UiModule } from '../ui/ui.module';
 
 export class RankingConfig {
-  dataUrl: string;
+  cityUrl: string;
+  stateUrl: string;
 }
 
 @NgModule({
