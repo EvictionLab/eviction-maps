@@ -1,5 +1,25 @@
 body {
 
+  .form-control {
+    border: 1px solid $shadingColor;
+    border-radius: 0px;
+    box-shadow: none;
+    height: grid(7);
+    padding: grid(1) grid(2);
+    &.light {
+      background: none;
+      color: $white;
+      border: 2px solid $white;
+      &:focus {
+        border: 2px solid $white;
+      }
+    }
+  }
+
+
+
+
+
   // Checkboxes
   // ---
   input[type=checkbox] {

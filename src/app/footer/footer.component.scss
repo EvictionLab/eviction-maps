@@ -1,5 +1,63 @@
 @import '../../theme';
 
+$newsletterMargin: grid(3);
+$newsletterBg: #333;
+
+// Newsletter Signup
+// ---
+.newsletter-signup {
+  position:relative;
+  z-index:10;
+  width:100%;
+  padding: $newsletterMargin;
+  background: $newsletterBg;
+  color: $grey2;
+  p {
+    @include defaultFont(10px);
+    color: $grey3;
+    margin-bottom: grid(2);
+  }
+  .signup-form {
+    display: flex;
+  }
+  .form-control {
+    margin-right: grid(2);
+    font-size:10px;
+    height: grid(5);
+  }
+  .btn.btn-primary {
+    padding: 0 grid(2);
+    font-size:10px;
+    height: grid(5);
+  }
+}
+@media(min-width: $gtMobile) {
+  .newsletter-signup {
+    .content-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    p {
+      width: grid(22);
+      font-size: 13px;
+      margin-right: grid(3);
+      margin-bottom: 0;
+    }
+    .form-control {
+      font-size: 13px;
+      width: grid(34);
+      height: grid(7);
+      margin-right: grid(3);
+    }
+    .btn.btn-primary {
+      font-size: 15px;
+      height: grid(7);
+      padding: 0 grid(7);
+    }
+  }
+}
+
 footer {
   width:100%;
   background: linear-gradient(180deg, $footerGradientFrom 0%, $footerGradientTo 100%);
