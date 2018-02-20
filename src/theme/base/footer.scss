@@ -12,6 +12,9 @@ $newsletterBg: #333;
   padding: $newsletterMargin;
   background: $newsletterBg;
   color: $grey2a;
+  .content-inner {
+    max-width: grid(34);
+  }
   p {
     @include defaultFont(10px);
     line-height: 15px;
@@ -36,6 +39,7 @@ $newsletterBg: #333;
 @media(min-width: $gtMobile) {
   .newsletter-signup {
     .content-inner {
+      max-width: $maxContentWidth;
       display: flex;
       align-items: center;
       justify-content: center;
