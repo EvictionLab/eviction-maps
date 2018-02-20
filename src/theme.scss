@@ -78,6 +78,7 @@ $grey0: #666;
 $grey1: #7F7F7F;
 $grey1a: #919191;
 $grey2: #A3A7A8;
+$grey2a: #B2B5B7;
 $grey3: #C6CCCF;
 $grey4: #efefef; 
 $grey4a: #EEF2F5;
@@ -115,6 +116,14 @@ $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
   border: none;
 }
 
+// MENU
+// ----
+$menuBg: $color2;
+$menuShadow: -2px 0px 5px rgba(0,0,0,0.4);
+$menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device 
+$menuWidthLg: grid(52); // 416px
+$menuGrey: $grey2;
+
 // Buttons
 // ----
 // layout
@@ -131,6 +140,17 @@ $altCloseButtonColor: #fff;
 $buttonTextSize: 14px;
 
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
+
+// Close button (default and light colors for dark bgs)
+$closeButton: $color1;
+$closeButtonBg: transparent;
+$closeButtonHover: $color1;
+$closeButtonHoverBg: transparent;
+$lightCloseButton: $white;
+$lightCloseButtonBg: transparent;
+$lightCloseButtonHover: $grey2;
+$lightCloseButtonHoverBg: transparent;
+
 
 // Graph
 // ----
@@ -253,13 +273,12 @@ $tooltipFontColor: #fff;
 $iosSafariPadding: grid(9);
 $androidPadding: grid(7);
 
-
 // Footer
-
-$footerGradientFrom: #393939;
+$footerGradientFrom: #282828;
 $footerGradientTo: #2F2D2B;
 $footerIconBorder: #333;
 $footerHoverIconBorder: $white;
+$footerCopyrightColor: $grey2a;
 
 // Rankings
 $rankingsBg1: $color6;

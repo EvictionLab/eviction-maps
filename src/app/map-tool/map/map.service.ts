@@ -14,6 +14,7 @@ import { MapFeature } from './map-feature';
 
 @Injectable()
 export class MapService {
+  embedded = false;
   private map: mapboxgl.Map;
   private _isLoading = new BehaviorSubject<boolean>(true);
   isLoading$ = this._isLoading.asObservable();
@@ -197,6 +198,7 @@ export class MapService {
    * @param features Array of active features to highlight
    */
   updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+    if (this.embedded) { return; }
     const highlightSource = this.getSourceData('highlight');
     const geoids = highlightSource.map(f => f['properties']['GEOID']);
 

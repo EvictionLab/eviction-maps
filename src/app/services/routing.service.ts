@@ -30,6 +30,7 @@ export class RoutingService {
     geography: 'auto',
     bounds: '-136.80,20.68,-57.60,52.06'
   });
+  private pymSearchStr: string;
   private mapRouteKeys = ['year', 'geography', 'bounds']; // keys mandatory for map route
 
   private defaultViews = {
@@ -41,7 +42,9 @@ export class RoutingService {
   constructor(
     private router: Router,
     private platform: PlatformService
-  ) {}
+  ) {
+    this.pymSearchStr = this.platform.nativeWindow.location.search;
+  }
 
   /** Gets route data for the map component */
   getMapRouteData() {
@@ -102,6 +105,19 @@ export class RoutingService {
     ];
     // reset router with dynamic routes
     this.router.resetConfig(appRoutes);
+  }
+
+  /**
+   * Pym.js uses window.location.search which is overriden by the current hash routing.
+   * We need to place it back without triggering a page refresh in order for elements to
+   * resize correctly
+   */
+  updatePymSearch() {
+    const location = this.platform.nativeWindow.location;
+    const newUrl = location.origin + this.pymSearchStr + location.hash;
+    this.platform.nativeWindow.history.replaceState(
+      {}, this.platform.nativeWindow.document.title, newUrl
+    );
   }
 
 }

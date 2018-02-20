@@ -19,6 +19,7 @@ import { UiHintComponent } from './ui-hint/ui-hint.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
 import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.directive';
+import { UiCloseButtonComponent } from './ui-close-button/ui-close-button.component';
 
 @NgModule({
   exports: [
@@ -31,7 +32,8 @@ import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.
     UiHintComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent,
-    SocialSharePopupDirective
+    SocialSharePopupDirective,
+    UiCloseButtonComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +55,8 @@ import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.
     UiHintComponent,
     UiSwitchComponent,
     UiCopyClipboardComponent,
-    SocialSharePopupDirective
+    SocialSharePopupDirective,
+    UiCloseButtonComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]

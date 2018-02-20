@@ -1,5 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import {
+  Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef
+} from '@angular/core';
 import { MapComponent } from '../map/map/map.component';
+import * as pym from 'pym.js';
 
 import { MapToolService } from '../map-tool.service';
 import { MapService } from '../map/map.service';
@@ -12,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './embed.component.html',
   styleUrls: ['./embed.component.scss']
 })
-export class EmbedComponent implements OnInit {
+export class EmbedComponent implements OnInit, AfterViewInit {
   id = 'embed-map';
   @ViewChild(MapComponent) map;
 
@@ -32,7 +35,8 @@ export class EmbedComponent implements OnInit {
     private routing: RoutingService,
     private translate: TranslateService,
     private route: ActivatedRoute,
-    private cdRef: ChangeDetectorRef
+    private cdRef: ChangeDetectorRef,
+    private el: ElementRef
   ) {
     this.routing.setActivatedRoute(route);
     this.mapToolService.embed = true;
@@ -53,10 +57,16 @@ export class EmbedComponent implements OnInit {
         this.mapConfig['year'] = data['year'];
         this.mapToolService.setCurrentData(mapData);
         this.mapConfig = { ...this.mapConfig, ...this.mapToolService.mapConfig };
+        this.routing.updatePymSearch();
       });
     this.cdRef.detectChanges();
     // Turn off auto-switching so locked into initial layer
     this.map.autoSwitch = false;
+  }
+
+  ngAfterViewInit() {
+    const pymChild = new pym.Child();
+    pymChild.sendHeight();
   }
 
 }

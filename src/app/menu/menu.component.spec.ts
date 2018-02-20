@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MenuComponent } from './menu.component';
+import { UiModule } from '../ui/ui.module';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -8,6 +10,7 @@ describe('MenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [ UiModule, TranslateModule.forRoot() ],
       declarations: [ MenuComponent ]
     })
     .compileComponents();

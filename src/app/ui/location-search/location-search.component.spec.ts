@@ -4,7 +4,7 @@ import { LocationSearchComponent } from './location-search.component';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
-import { SearchService } from './search/search.service';
+import { SearchService } from '../../services/search.service';
 
 describe('LocationSearchComponent', () => {
   let component: LocationSearchComponent;

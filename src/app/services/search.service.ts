@@ -5,14 +5,12 @@ import { csvParse } from 'd3-dsv';
 import 'rxjs/add/operator/do';
 
 import { SearchSource, MapboxSource } from './search-sources';
-import { MapFeature } from '../../../map-tool/map/map-feature';
-import { AnalyticsService } from '../../../services/analytics.service';
+import { MapFeature } from '../map-tool/map/map-feature';
+import { AnalyticsService } from './analytics.service';
 
 @Injectable()
 export class SearchService {
   source: SearchSource = MapboxSource;
-  query: string;
-  results: Observable<Object[]>;
 
   constructor(private http: HttpClient, private analytics: AnalyticsService) {
     if (this.source.hasOwnProperty('csvUrl')) {
@@ -20,12 +18,6 @@ export class SearchService {
         .map(csvStr => this.parseCsv(csvStr))
         .subscribe(features => { this.source.featureList = features; });
     }
-    this.results = Observable.create((observer: any) => {
-      this.queryGeocoder(this.query)
-        .subscribe((results: Object[]) => {
-          observer.next(results);
-        });
-    });
   }
 
   /**

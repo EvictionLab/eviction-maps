@@ -1,9 +1,12 @@
 import {
-  Component, ChangeDetectorRef, OnInit, AfterViewInit, ViewChild, Inject, HostListener, ElementRef
+  Component, ChangeDetectorRef, OnInit, OnDestroy, AfterViewInit, ViewChild, Inject,
+  HostListener, ElementRef
 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
@@ -29,7 +32,8 @@ import { ScrollService } from '../services/scroll.service';
   templateUrl: './map-tool.component.html',
   styleUrls: ['./map-tool.component.scss']
 })
-export class MapToolComponent implements OnInit, AfterViewInit {
+export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
+  private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
   title = 'Eviction Lab - Map';
@@ -77,12 +81,17 @@ export class MapToolComponent implements OnInit, AfterViewInit {
     this.routing.getMapRouteData().take(1)
       .subscribe((data) => this.mapToolService.setCurrentData(data));
     // Subscribe to language changes and store translated help content
-    this.translate.onLangChange.subscribe(() => {
+    this.translate.onLangChange.takeUntil(this.ngUnsubscribe).subscribe(() => {
       this.updateRoute();
       this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
         .subscribe((res: string) => this.helpData = res);
     });
     this.cdRef.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
   /**
