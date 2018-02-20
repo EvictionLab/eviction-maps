@@ -6,6 +6,7 @@ body {
     box-shadow: none;
     height: grid(7);
     padding: grid(1) grid(2);
+    font-size: 15px;
     &.light {
       background: none;
       color: $white;
@@ -15,10 +16,6 @@ body {
       }
     }
   }
-
-
-
-
 
   // Checkboxes
   // ---
@@ -53,5 +50,11 @@ body {
       @include focusState();
     }
   }
+}
 
+// boost font size on desktop+
+@media(min-width: $gtLaptop) {
+  body .form-control {
+    font-size: 17px;
+  }
 }

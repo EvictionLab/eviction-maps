@@ -35,8 +35,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.embed') embed: boolean;
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
-  @HostBinding('class.gt-small-desktop') largerThanSmallDesktop: boolean;
-  @HostBinding('class.gt-large-desktop') largerThanLargeDesktop: boolean;
+  @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
@@ -179,7 +178,6 @@ export class AppComponent implements OnInit {
     this.largerThanMobile = this.platform.isLargerThanMobile;
     this.largerThanTablet = this.platform.isLargerThanTablet;
     this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
-    this.largerThanLargeDesktop = this.platform.isLargerThanLargeDesktop;
   }
 
   /**
