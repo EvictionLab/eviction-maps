@@ -94,6 +94,7 @@ export class UiSliderComponent implements AfterViewInit {
   @HostListener('document:mouseup', ['$event']) onRelease(e) {
     if (this.pressed) {
       this.pressed = false;
+      this.updatePosition(this.value);
     }
   }
 
@@ -116,6 +117,7 @@ export class UiSliderComponent implements AfterViewInit {
   @HostListener('touchend', ['$event']) onTouchEnd(e) {
     if (this.pressed) {
       this.pressed = false;
+      this.updatePosition(this.value);
     }
   }
 
