@@ -249,7 +249,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * Triggers a scroll to the top of the page
    */
   goToTop() {
-    this.scroll.scrollTo('#top');
+    if (this.getVerticalOffset() > 0) {
+      this.scroll.scrollTo('#top');
+    }
   }
 
   /**

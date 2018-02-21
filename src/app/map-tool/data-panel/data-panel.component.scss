@@ -5,17 +5,16 @@
 .data-header {
   @include dataPanelHeader(14px);
   text-align: center;  
-  margin: grid(3) grid(4) 0;
+  padding: grid(3) grid(4) 0;
   p { margin:0; }
-  // margin: grid(5) grid(4);
 }
 // increase header spacing for devices larger than mobile
 :host-context(.gt-mobile) {
-  .data-header { margin: grid(4) 0 grid(2); }
+  .data-header { padding: grid(4) 0 grid(2); }
 }
 // increase spacing for devices larger than tablet
 :host-context(.gt-tablet) {
-  .data-header { margin: grid(8) 0 grid(4); }
+  .data-header { padding: grid(8) 0 grid(4); }
 }
 
 .data-content {

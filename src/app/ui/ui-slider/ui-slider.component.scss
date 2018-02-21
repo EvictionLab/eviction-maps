@@ -124,7 +124,7 @@
 
   // circle marker for scrubber
   .scrubber-marker {
-    width: grid(7);
+    width: grid(5.5);
     height: grid(4);
     line-height: grid(4);
     @include numberFont(13px);
