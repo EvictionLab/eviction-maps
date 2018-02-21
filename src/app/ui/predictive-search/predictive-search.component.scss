@@ -7,76 +7,38 @@
 
 .search-container .glyphicon {
   position: absolute;
-  top:10px;
-  left:8px;
+  top: 0;
+  bottom: 0;
+  left: grid(2);
+  color: $color1;
+  width: 15px;
+  height: 15px;
+  margin: auto;
 }
 
 .search-container .clear {
   position: absolute;
-  right: 8px;
-  font-size: 24px;
-  line-height: 1;
-  cursor: pointer;
-  height: 24px;
-  width: 24px;
-  text-align: center;
+  right: grid(1);
   top: 0;
   bottom: 0;
   margin: auto;
+  height: grid(3);
+  width: grid(3);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  text-align: center;
+  color: $searchPlaceholderColor;
 }
 
-input {
-  padding: 0 32px;
-  border-radius: 0;
+.form-control {
+  padding: 0 grid(4) 0 grid(5.5);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
 :host {
-  /deep/ .dropdown-menu {
-    border-radius: 0;
-  }
-  /deep/ {
-    .search-container .glyphicon,
-    .search-container .clear {
-      color: $searchPlaceholderColor;
-    }
-    .dropdown-menu a {
-        color: $searchTextColor;
-    }
-    input::placeholder { color: $searchPlaceholderColor;  }
-  }
   /deep/ typeahead-container {
     right: 0;
-
-    ul.dropdown-menu {
-      width: 100%;
-      overflow-x: hidden;
-
-      li.active a {
-        overflow-x: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-  }
-  .search {
-    flex:1;
-    width:auto;
-    margin-right: 12px;
-  }
-  .form-control {
-    height: $searchHeight;
-    padding-left: 36px;
-    @include inputText();
-  }
-  .search-container .glyphicon.glyphicon-search {
-    color: $color1;
-    width: 15px;
-    height: 15px;
-    top: 0;
-    bottom: 0;
-    left: 12px;
-    margin: auto;
   }
 }

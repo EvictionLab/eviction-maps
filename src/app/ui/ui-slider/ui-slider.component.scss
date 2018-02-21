@@ -28,7 +28,7 @@
   &:focus {
     box-shadow:none;
     .el-slider .scrubber-marker {
-      box-shadow: 0 0 4px 2px $color1, 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+      // TODO: marker needs focus state
     }
   }
   // show toolip when dragging
@@ -42,19 +42,19 @@
   }
 }
 .slider-label {
-  @include numberFont(11px);
+  @include numberFont(12px);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: $sliderLabel;
 }
 
 .slider-label:first-child {
-  margin-left: grid(-1);
+  margin-left: 0;
   margin-right: grid(3);
 }
 
 .slider-label:last-child {
-  margin-right: grid(-3);
+  margin-right: 0;
   margin-left: grid(3);
 }
 
@@ -81,13 +81,13 @@
   }  
   .scrubber {
     position: absolute;
-    width: grid(8);
-    height: grid(5);
+    width: grid(7);
+    height: grid(4);
     top: 0;
     left: 0;
     bottom: 0;
     margin: auto;
-    margin-left: -1 * grid(8) / 2;
+    margin-left: -1 * grid(7) / 2;
     cursor: move;
     transition: transform 0.4s ease;
   }  
@@ -98,16 +98,15 @@
     text-align: center;
     padding: 0;  
     @include numberFont(13px);  
-    top: -1 * grid(4.5);
+    top: -1 * grid(5);
     left: 0;
     right: 0;
     margin: auto;
-    font-weight: 500;
     letter-spacing: 0.4px;
     line-height: grid(4);
-    width: grid(7.5);
+    width: grid(7);
     height: grid(4);
-    border-radius: 2px;  
+    border-radius: 0;  
     &:after {
       // label arrow
       content: '';
@@ -125,13 +124,11 @@
 
   // circle marker for scrubber
   .scrubber-marker {
-    width: grid(5);
+    width: grid(7);
     height: grid(4);
     line-height: grid(4);
-    border-radius: 15px;
-    @include numberFont(11px);
+    @include numberFont(13px);
     text-align: center;
-    font-weight: 600;
     margin: auto;
     position: absolute;
     top: 0;
@@ -139,15 +136,15 @@
     right: 0;
     bottom: 0;
     color: $white;
-    background: $gradient1;
-    border-radius: grid(0.5);
-    box-shadow: $z3shadow;
+    background: $color1;
+    border-radius: 0;
+    box-shadow: $z1shadow; // z1 shadow (elevation = 3, but stacked on elevation 2 element)
   }
 }
 
 :host-context(.gt-mobile) {
   .slider-label {
-    @include numberFont(14px);
+    @include numberFont(15px);
   }
   .slider-label:first-child {
     margin-left: 0;
@@ -159,9 +156,8 @@
   }
   .el-slider {
     .scrubber-label {
-      top: -1 * grid(4.25);
-      font-size: 15px;
-      font-weight: 600;
+      top: -1 * grid(6.5);
+      @include numberFont(15px);
       width:grid(8);
       height: grid(5);
       line-height: grid(5);
@@ -171,10 +167,10 @@
       }  
     }
     .scrubber-marker {
-      width: grid(7);
-      height: grid(6);
-      line-height: grid(6);
-      @include numberFont(14px);
+      width: grid(8);
+      height: grid(5);
+      line-height: grid(5);
+      @include numberFont(15px);
     }
   }
 }

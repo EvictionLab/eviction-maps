@@ -41,8 +41,7 @@
 }
 // header with graph controls
 .graph-header {
-  background: $defaultBackground;
-  box-shadow: $z1shadow;
+  background: $grey4a;
   .graph-header-inner {
     display:flex;
     flex-direction: column;
@@ -319,7 +318,7 @@
   }
 }
 
-:host-context(.gt-small-desktop) {
+:host-context(.gt-laptop) {
   .graph-legend {
     padding-left: grid(5);
     padding-right: grid(5);

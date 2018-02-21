@@ -74,7 +74,7 @@ $newsletterBg: #333;
   }
 }
 // Boost font sizes at large desktop
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .newsletter-signup {
     p { line-height: 22px; }
     p, .form-control { font-size: 14px; }
@@ -155,7 +155,7 @@ footer {
     }
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .footer-content {
     width: grid(115); // 920px
     .footer-logo {

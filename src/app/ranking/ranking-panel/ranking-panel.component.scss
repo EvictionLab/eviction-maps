@@ -28,7 +28,7 @@
 .panel-summary {
   width: 100%;
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .panel-summary {
     max-width: grid(120);
     margin: auto;
@@ -45,7 +45,7 @@
     text-align: left;
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .panel-summary-heading {
     margin-top: grid(1);
   }
@@ -64,7 +64,7 @@
     justify-content: center;
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .panel-top {
     display:inline;
   }
@@ -95,7 +95,7 @@
     line-height: grid(6);
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .rank-number {
     float:left;
     min-width: grid(15);
@@ -132,7 +132,7 @@
     }
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .rank-location {
     display: inline-block;
     @include altSmallCapsText(30px);
@@ -155,7 +155,7 @@
   }  
 }
 
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .rank-value {
     @include smallCapsText(15px);
   }
@@ -175,7 +175,7 @@
   }  
 }
 
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .rank-link {
     @include smallCapsText(15px);
   }
@@ -206,7 +206,7 @@
   }
 }
 // bring content inline with ranking number, remove bg color on desktop+
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .panel-summary-content {
     display:inline;
     @include defaultFont(20px);
@@ -260,7 +260,7 @@
   }
 }
 // move to vertical center of panel on desktop+
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .panel-arrow { top: grid(5); }
 }
 
