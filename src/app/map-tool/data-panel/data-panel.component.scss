@@ -93,18 +93,14 @@ app-location-cards {
       path { fill: $black; }
     }
     // non-icon buttons fill container
-    &:not(.icon) {
-      width:100%;
-    }
+    &:not(.icon) { width:100%; }
   }
   // text under buttons
   span { 
-    max-width: grid(33);
-    color: $grey1; 
-    @include defaultFont(14px);
     display: block;
     margin: grid(2) auto grid(2);
-    line-height: 21px;
+    @include defaultFont(14px);
+    color: $grey1; 
   }
 }
 // move icon to the left on tablet
@@ -140,9 +136,6 @@ app-location-cards {
       margin-bottom: grid(15); // space for icon
     }
   }
-}
-@media(min-width: $gtLaptop) {
-
 }
 
 // Social icons
