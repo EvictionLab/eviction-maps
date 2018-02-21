@@ -379,11 +379,10 @@ app-ui-map-legend {
 .year-slider-container {
   @include fill-parent();
   top: auto;
-  box-shadow: $z1shadow;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
-  padding: 0 grid(4) 0 $pageMargin;
+  padding: 0 $pageMargin;
   border-bottom: 1px solid $shadingColor;
   transition: transform 0.2s ease;
   transform: translateY(120%);
