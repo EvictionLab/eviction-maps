@@ -41,9 +41,11 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 }
 
 @mixin altFont($size) {
+  $letterSpacingRatio: (0.4 / 16);
   font-family: $altFontStack;
   font-size: $size;
   font-weight: normal;
+  letter-spacing: $letterSpacingRatio * $size;
 }
 
 @mixin numberFont($size) {
@@ -64,6 +66,15 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
   @include altFont($size);
   text-transform: uppercase;
   letter-spacing: $size*$letterSpacingRatio;
+}
+
+@mixin dataPanelHeader($size) {
+  @include defaultFont($size);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  span {
+    @include defaultFontBold($size);
+  }
 }
 
 @mixin inputText() {
