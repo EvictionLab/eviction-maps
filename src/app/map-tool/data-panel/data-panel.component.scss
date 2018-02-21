@@ -1,18 +1,5 @@
 @import '../../../theme';
 
-@mixin dataPanelHeader($size) {
-  @include defaultFont($size);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  span {
-    @include defaultFontBold($size);
-  }
-}
-
-.data-wrapper {
-  border-top: 1px solid $white;
-}
-
 // Data panel header text
 // ----
 .data-header {
@@ -46,12 +33,8 @@
   }
 }
 
-.share-container {
-  display:block;
-  clear: both;
-}
-
-
+// Data Panel Cards
+// ---
 app-location-cards {
   clear:both;
   display:block;
@@ -59,10 +42,12 @@ app-location-cards {
   align-content: space-between;
   align-items:stretch;
   justify-content: space-between;
-  margin-top:24px;
-  margin-bottom: 48px;
+  margin-top: grid(3);
+  margin-bottom: grid(6);
 }
 
+// Data Panel Footer Container
+// ---
 .data-panel-footer {
   clear:both;
   display:flex;
@@ -70,44 +55,100 @@ app-location-cards {
   align-content: space-between;
   align-items:center;
   justify-content: space-around;
-  .action-wrapper {
-    width: grid(33);
-    text-align:center;
-    margin: 0 grid(1);
-    .btn { 
-      &:hover, &:focus, &:active {
-        color: $grey1;
-        background: $white;
-        border: 5px solid $grey2;
-      }
-      // non-icon buttons fill container
-      &:not(.icon) {
-        width:100%;
-      }
-    }
-    // text under buttons
-    span { 
-      max-width: grid(33);
-      color: $grey1; 
-      @include defaultFont(14px);
-      display: block;
-      margin: grid(2) auto grid(4);
-      line-height: 21px;
-    }
-    .social-icons {
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      a:hover {
-        text-decoration: none;
-      }
-    }
-  }
+  margin-bottom: grid(5);
 }
-:host-context(.gt-mobile) {
+:host-context(.gt-tablet) {
   .data-panel-footer {
     flex-direction: row;
     align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+
+// Data Panel Footer Actions (Share, Download, Data)
+// ---
+.action-wrapper {
+  position: relative;
+  width: grid(33);
+  text-align:center;
+  margin: grid(3) 0 grid(1);
+  & > svg {
+    display: block;
+    height: grid(5);
+    margin:auto;
+  }
+  h2 {
+    @include altFont(16px);
+    line-height:1;
+    margin: grid(2) 0;
+  }
+  .btn { 
+    @include altSmallCapsText(13px);
+    border: 5px solid $grey5;
+    color: $grey1a;
+    &:hover, &:focus, &:active {
+      background: $white;
+      border: 5px solid $grey5;
+      color: $black;
+      path { fill: $black; }
+    }
+    // non-icon buttons fill container
+    &:not(.icon) { width:100%; }
+  }
+  // text under buttons
+  span { 
+    display: block;
+    margin: grid(2) auto grid(2);
+    @include defaultFont(14px);
+    color: $grey1; 
+  }
+}
+// move icon to the left on tablet
+@media(min-width: $gtMobile) {
+  .action-wrapper {
+    text-align:left;
+    & > svg {
+      position:absolute;
+      height: grid(7);
+      top:0;
+      bottom:0;
+      left: -1 * grid(13);
+    }
+    h2 {
+      @include altFont(21px);
+    }
+    .btn {
+      @include altSmallCapsText(16px);
+    }
+  }
+}
+// move icon below heading on laptop
+@media(min-width: $gtTablet) {
+  .action-wrapper {
+    text-align:center;
+    & > svg {
+      position:absolute;
+      height: grid(9);
+      top:grid(8);
+      right:0;
+      left: 0;
+      bottom: auto;
+    }
+    h2 {
+      @include altFont(26px);
+      margin-bottom: grid(15); // space for icon
+    }
+  }
+}
+
+// Social icons
+// ---
+.social-icons {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  a:hover {
+    text-decoration: none;
   }
 }
