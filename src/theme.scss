@@ -115,6 +115,21 @@ $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
   border: none;
 }
 
+// Header Bar
+// ----
+$headerHeightSm: grid(7);
+$headerHeightLg: grid(10);
+$headerContentHeight: grid(7); // height form field / buttons on large displays
+$headerButtonColor: $grey0; // color for mobile icon buttons
+$headerActiveButtonColor: $color1; // color for active mobile icon button
+
+// Search
+$searchTextColor: $textColor;
+$searchHighlightTextColor: $defaultBackground;
+$searchHighlightBackgroundColor: $color1;
+$searchPlaceholderColor: $secondaryTextColor;
+$searchHeight: grid(7);
+
 // MENU
 // ----
 $menuBg: $color2;
@@ -150,15 +165,12 @@ $lightCloseButtonBg: transparent;
 $lightCloseButtonHover: $grey2;
 $lightCloseButtonHoverBg: transparent;
 
-
-// Graph
+// Toast messages
 // ----
-$graphColor1: $color1;
-$graphColor2: $color2;
-$graphColor3: $color3;
-$graphColor4: $color4;
-$graphAxisLines: #fff;
-$graphAxisLabels: $grey1a;
+$toastBackground: $black;
+$toastColor: $white;
+$toastText: 12px;
+$toastText_lptp: 14px;
 
 
 // UI Toggle
@@ -240,22 +252,6 @@ $panelCardStatTextSize_t: 18px;
 $cardAddLocationTextSize: 16px; 
 $cardAddLocationTextSize_t: 21px; 
 
-
-// Header Bar
-// ----
-$headerHeightSm: grid(7);
-$headerHeightLg: grid(10);
-$headerContentHeight: grid(7); // height form field / buttons on large displays
-$headerButtonColor: #666; // color for mobile icon buttons
-$headerActiveButtonColor: $color1; // color for active mobile icon button
-
-// Search
-$searchTextColor: $textColor;
-$searchHighlightTextColor: $defaultBackground;
-$searchHighlightBackgroundColor: $color1;
-$searchPlaceholderColor: $secondaryTextColor;
-$searchHeight: grid(7);
-
 // Legend
 $legendHeight: grid(5);
 $legendBackground: #fff;
@@ -272,12 +268,23 @@ $tooltipFontColor: #fff;
 $iosSafariPadding: grid(9);
 $androidPadding: grid(7);
 
+// Graph
+// ----
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
+$graphAxisLines: #fff;
+$graphAxisLabels: $grey1a;
+
 // Footer
+// ----
 $footerGradientFrom: #282828;
 $footerGradientTo: #2F2D2B;
 $footerIconBorder: #333;
 $footerHoverIconBorder: $white;
 $footerCopyrightColor: $grey2a;
+
 
 // Rankings
 $rankingsBg1: $color6;

@@ -85,7 +85,7 @@
 :host-context(.slider-active) {
   ::ng-deep {
     .mapboxgl-ctrl-bottom-left {
-      bottom: grid(12);
+      bottom: $timeSliderLg;
     }
   }
 }
