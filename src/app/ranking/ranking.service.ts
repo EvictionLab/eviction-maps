@@ -33,6 +33,7 @@ export class RankingService {
     @Inject('config') private config: any
   ) {
     this.translate.onLangChange.subscribe(lang => {
+      console.log('lang change', lang);
       this.updateLanguage(lang.translations);
     });
     this.loadCsvData();

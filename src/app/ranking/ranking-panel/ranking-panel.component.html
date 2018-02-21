@@ -14,8 +14,8 @@
     <div class="panel-top">
       <span class="rank-number">{{ rank }}</span>
       <div class="panel-summary-heading">
-        <h2 class="rank-location" [class.in-list]="rank <= topCount" (click)="locationClick.emit(rank)">{{ location.name }}</h2>
-        <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}</span>
+        <h2 class="rank-location" [class.in-list]="rank <= topCount" (click)="locationClick.emit(rank)">{{ location.name }} <span>{{ location.displayParentLocation }}</span></h2>
+        <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
         <a href="" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
       </div>
     </div>
