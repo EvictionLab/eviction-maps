@@ -98,6 +98,8 @@
 @media(min-width: $gtLaptop) {
   .rank-number {
     float:left;
+    margin-top: grid(1);
+    padding: 0 grid(2);
     min-width: grid(15);
     height: grid(15);
     line-height: grid(15);
@@ -134,9 +136,13 @@
 }
 @media(min-width: $gtLaptop) {
   .rank-location {
-    display: inline-block;
+    display: block;
     @include altSmallCapsText(30px);
     margin-right: grid(3);
+    margin-bottom: grid(2);
+    span {
+      @include smallCapsText(15px);
+    }
   }
 }
 
@@ -216,7 +222,7 @@
     p {
       max-width: none;
       text-align: left;
-      margin-top: grid(1);
+      margin-top: grid(2);
     }
   }
 }
