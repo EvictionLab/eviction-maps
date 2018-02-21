@@ -83,7 +83,7 @@ app-location-cards {
     margin: grid(2) 0;
   }
   .btn { 
-    @include altSmallCapsText(16px);
+    @include altSmallCapsText(13px);
     border: 5px solid $grey5;
     color: $grey1a;
     &:hover, &:focus, &:active {
@@ -116,6 +116,9 @@ app-location-cards {
     }
     h2 {
       @include altFont(21px);
+    }
+    .btn {
+      @include altSmallCapsText(16px);
     }
   }
 }
