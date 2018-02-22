@@ -8,6 +8,7 @@ import 'rxjs/add/operator/takeUntil';
 import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
 import { ScrollService } from '../../services/scroll.service';
+import { LoadingService } from '../../services/loading.service';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 
 @Component({
@@ -80,6 +81,7 @@ export class RankingToolComponent implements OnInit, OnDestroy {
 
   constructor(
     public rankings: RankingService,
+    public loader: LoadingService,
     private route: ActivatedRoute,
     private router: Router,
     private scroll: ScrollService,
@@ -89,9 +91,13 @@ export class RankingToolComponent implements OnInit, OnDestroy {
 
   /** Listen for when the data is ready and for route changes */
   ngOnInit() {
+    this.loader.start('rankings');
     this.rankings.isReady.subscribe((ready) => {
       this.isDataReady = ready;
-      if (ready) { this.updateEvictionList(); }
+      if (ready) {
+        this.updateEvictionList();
+        this.loader.end('rankings');
+      }
     });
     this.translate.onLangChange.takeUntil(this.ngUnsubscribe)
       .subscribe(lang => {
