@@ -40,15 +40,20 @@
           (closePanel)="showUiPanel = false"
         ></app-ranking-ui>
       </div>
-      <app-ranking-list *ngIf="areaType && dataProperty"
-        [year]="rankings.year"
-        [class]="'area-'+areaType.value"
-        [list]="truncatedList"
-        [dataProperty]="dataProperty.value"
-        [maxValue]="dataMax"
-        [selectedIndex]="selectedIndex"
-        (locationSelected)="onClickLocation($event)"
-      ></app-ranking-list>
+      <div class="ranking-body">
+        <h2>{{ 'RANKINGS.LIST_HEADING' | translate:{'area': areaType.name, 'region': region } }}</h2>
+        <h3>{{ 'RANKINGS.LIST_SUBHEADING' | translate:{'dataProperty': dataProperty.name } }}</h3>
+        <p>{{ 'RANKINGS.LIST_INTRO' | translate:{'year': rankings.year} }}</p>
+        <app-ranking-list *ngIf="areaType && dataProperty"
+          [class]="'area-'+areaType.value"
+          [list]="truncatedList"
+          [dataProperty]="dataProperty.value"
+          [maxValue]="dataMax"
+          [selectedIndex]="selectedIndex"
+          (locationSelected)="onClickLocation($event)"
+        ></app-ranking-list>
+      </div>
+      
     </div>
   </div>
   <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
