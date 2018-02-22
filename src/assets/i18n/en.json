@@ -132,6 +132,8 @@
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
     "SEARCH_FILTER": "Search & Filter",
     "TOP_EVICTORS_LINK": "View Top Evictors",
+    "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
+    "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
     "DATA_HINT": "Lorem ipsum",
     "AREA_HINT": "Lorem ipsum"
   },

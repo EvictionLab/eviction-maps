@@ -9,10 +9,6 @@ $barGradient1: linear-gradient(180deg, #F8E7E3, #F9D4CC);
 $barGradient2: linear-gradient(180deg, #DEE1F5, #CFD1EB);
 $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
 
-p {
-  margin: 0 0 grid(3) 0;
-}
-
 .ranking-bar {
   position:absolute;
   top:0;
