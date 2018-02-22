@@ -141,7 +141,7 @@ export class DataPanelComponent implements OnInit {
   updateTwitterText() {
     const features = this.locations;
     const featLength = this.locations.length;
-    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+    this.tweetParams = { year: this.year, link: this.getEncodedUrl() };
 
     if (featLength === 1) {
       this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
