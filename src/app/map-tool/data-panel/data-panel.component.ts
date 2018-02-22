@@ -177,6 +177,16 @@ export class DataPanelComponent implements OnInit {
   }
 
   /**
+   * Get pym.js HTML for embedding map
+   */
+  getEmbedCode() {
+    const splitUrl = this.platform.nativeWindow.location.href.split('#');
+    const embedUrl = [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
+    return `<div data-pym-src="${embedUrl}">Loading...</div>` +
+      '<script type="text/javascript" src="https://pym.nprapps.org/pym-loader.v1.min.js"></script>';
+  }
+
+  /**
    * Display dialog with error message if mailto link doesn't open after 1 second
    * @param e
    */

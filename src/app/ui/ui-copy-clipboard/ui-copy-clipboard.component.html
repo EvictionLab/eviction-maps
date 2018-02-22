@@ -1,4 +1,4 @@
-<p *ngIf="hintText">{{ hintText }}</p>
+<p *ngIf="hintText" [innerHTML]="hintText"></p>
 <div class="input-wrapper">
   <input #textInput [value]="copyText">
   <button #btn #pop="bs-tooltip" placement="bottom" [tooltip]="'DATA.COPY_SUCCESS' | translate" triggers="" class="btn">

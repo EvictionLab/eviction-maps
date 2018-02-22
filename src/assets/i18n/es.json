@@ -24,6 +24,7 @@
     "MAP_LINK": "Mapa",
     "SHARE_LINK": "Compartir enlace",
     "SHARE_HINT": "Copiar el enlace abajo:",
+    "EMBED_SHARE_HINT": "Copy the embed code into your website. <a href='#' target='_blank'>More information here.</a>",
     "COPY_SUCCESS": "Copied!",
     "DOWNLOAD_TITLE": "Descargar",
     "EXPORT_ONE_FEATURE_DESCRIPTION": "Generate a file export for {{feature1}} between {{startYear}} and {{endYear}}",

@@ -81,6 +81,7 @@
             </a>
             <ng-template #popTemplate>
               <app-ui-copy-clipboard [copyText]="getCurrentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
+              <app-ui-copy-clipboard [copyText]="getEmbedCode()" [hintText]="'DATA.EMBED_SHARE_HINT' | translate"></app-ui-copy-clipboard>
             </ng-template>
             <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
