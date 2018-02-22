@@ -119,9 +119,8 @@
     "CITIES": "Cities",
     "MID_SIZED_AREAS": "Mid-sized Areas",
     "RURAL_AREAS": "Rural Areas",
-    "SEARCH": "Search",
     "SEARCH_HINT": "Search for places",
-    "FILTER": "Filter",
+    "FILTER": "Show rankings for",
     "REGION": "Region",
     "AREA": "Area",
     "RANKING_BY": "Rank By",
@@ -132,7 +131,9 @@
     "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
     "SEARCH_FILTER": "Search & Filter",
-    "TOP_EVICTORS_LINK": "View Top Evictors"
+    "TOP_EVICTORS_LINK": "View Top Evictors",
+    "DATA_HINT": "Lorem ipsum",
+    "AREA_HINT": "Lorem ipsum"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
