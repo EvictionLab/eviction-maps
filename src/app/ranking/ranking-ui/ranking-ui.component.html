@@ -1,6 +1,5 @@
 <div class="ranking-ui-container">
   <div class="ranking-ui-search">
-    <h2>{{ 'RANKINGS.SEARCH' | translate }}</h2>
     <app-predictive-search
       placeholder="{{ 'RANKINGS.SEARCH_HINT' | translate }}"
       [options]="locationList"
@@ -16,14 +15,16 @@
       [selectedValue]="selectedRegion"
       (change)="selectedRegionChange.emit($event)"
     ></app-ui-select>
-    <app-ui-select class="area-select z0"
+    <app-ui-hint [hint]="'RANKINGS.AREA_HINT' | translate"></app-ui-hint>
+    <app-ui-select class="area-select hint-select z0"
       label="{{ 'RANKINGS.AREA' | translate }}"
       labelProperty="name"
       [values]="areaTypes"
       [selectedValue]="selectedAreaType"
       (change)="selectedAreaTypeChange.emit($event)"
     ></app-ui-select>
-    <app-ui-select class="prop-select z0"
+    <app-ui-hint [hint]="'RANKINGS.DATA_HINT' | translate"></app-ui-hint>
+    <app-ui-select class="prop-select hint-select z0"
       label="{{ 'RANKINGS.RANKING_BY' | translate }}"
       labelProperty="name"
       [values]="dataProperties"
@@ -33,7 +34,6 @@
   </div>
   <div class="ranking-ui-actions">
     <button class="btn btn-primary" (click)="applyFilters.emit()">Apply</button>
-    <button class="btn btn-secondary" (click)="clearFilters.emit()">Clear</button>
   </div>
   <button class="btn btn-close" (click)="closePanel.emit()"></button>
 </div>

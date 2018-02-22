@@ -119,9 +119,8 @@
     "CITIES": "Cities",
     "MID_SIZED_AREAS": "Mid-sized Areas",
     "RURAL_AREAS": "Rural Areas",
-    "SEARCH": "Search",
     "SEARCH_HINT": "Search for places",
-    "FILTER": "Filter",
+    "FILTER": "Show rankings for",
     "REGION": "Region",
     "AREA": "Area",
     "RANKING_BY": "Rank By",
@@ -134,7 +133,9 @@
     "SEARCH_FILTER": "Search & Filter",
     "TOP_EVICTORS_LINK": "View Top Evictors",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
-    "LIST_SUBHEADING": "Ranked by {{dataProperty}}"
+    "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
+    "DATA_HINT": "Lorem ipsum",
+    "AREA_HINT": "Lorem ipsum"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
