@@ -50,12 +50,12 @@
 
 .slider-label:first-child {
   margin-left: 0;
-  margin-right: grid(3);
+  margin-right: grid(4);
 }
 
 .slider-label:last-child {
   margin-right: 0;
-  margin-left: grid(3);
+  margin-left: grid(4);
 }
 
 .el-slider {
@@ -81,13 +81,13 @@
   }  
   .scrubber {
     position: absolute;
-    width: grid(7);
+    width: grid(6);
     height: grid(4);
     top: 0;
     left: 0;
     bottom: 0;
     margin: auto;
-    margin-left: -1 * grid(7) / 2;
+    margin-left: -1 * grid(6) / 2;
     cursor: move;
     transition: transform 0.4s ease;
   }  
@@ -104,7 +104,7 @@
     margin: auto;
     letter-spacing: 0.4px;
     line-height: grid(4);
-    width: grid(7);
+    width: grid(6);
     height: grid(4);
     border-radius: 0;  
     &:after {
@@ -124,7 +124,7 @@
 
   // circle marker for scrubber
   .scrubber-marker {
-    width: grid(7);
+    width: grid(6);
     height: grid(4);
     line-height: grid(4);
     @include numberFont(13px);
@@ -155,10 +155,15 @@
     margin-left: grid(5);
   }
   .el-slider {
+    .scrubber {
+      width: grid(8);
+      margin-left: -1 * grid(8) / 2;
+    }
     .scrubber-label {
       top: -1 * grid(6.5);
       @include numberFont(15px);
       width:grid(8);
+      
       height: grid(5);
       line-height: grid(5);
       &:after {
