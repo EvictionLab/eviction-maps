@@ -151,3 +151,10 @@ app-location-cards {
     text-decoration: none;
   }
 }
+
+// Margin in link/embed share popover
+::ng-deep {
+  .popover .popover-content app-ui-copy-clipboard:not(:last-child) {
+    margin-bottom: grid(2);
+  }
+}
