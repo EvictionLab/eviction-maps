@@ -51,7 +51,7 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 @mixin numberFont($size) {
   font-family: $numberFontStack;
   font-size: $size;
-  font-weight: normal;
+  font-weight: 500; // Gotham Medium @ 500
 }
 
 @mixin smallCapsText($size) {

@@ -32,6 +32,8 @@ html, body {
 body {
   height:auto;
   overflow-x:hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   :focus, .form-control:focus, a:focus {
     @include focusState();
   }
