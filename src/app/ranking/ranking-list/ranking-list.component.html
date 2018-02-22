@@ -1,3 +1,6 @@
+<h4 *ngIf="!list">
+  Loading...
+</h4>
 <ul *ngIf="dataProperty && list && maxValue" class="ranking-list">
   <li 
     *ngFor="let location of list; let i = index" 
