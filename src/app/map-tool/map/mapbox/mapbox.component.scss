@@ -16,17 +16,24 @@
     cursor: pointer;
     pointer-events: none;
   }
+  .mapboxgl-popup-tip {
+    border: $tooltipArrowSize solid transparent;
+    transform: scale(0.75, 1); 
+  }
+  
   .mapboxgl-popup-content {
-    background-color: $tooltipBackground;
-    color: $tooltipFontColor;
-    font-family: $fontStack;
+    @include tooltip();
   }
   .mapboxgl-popup-content p {
     margin: 0;
   }
+  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    transform: scale(1, 0.75); 
+  }
   .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
   .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip, {
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
     border-bottom: none;
     border-top-color: $tooltipBackground;
   }

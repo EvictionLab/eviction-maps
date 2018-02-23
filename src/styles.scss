@@ -9,6 +9,7 @@
 @import './theme/base/toast';
 @import './theme/base/dropdown';
 @import './theme/base/dialogs';
+@import './theme/base/tooltips';
 @import './theme/base/inputs';
 @import './theme/base/hero';
 @import './theme/base/menu';
@@ -61,9 +62,6 @@ body {
 
 // STYLE OVERRIDES
 
-// Bootstrap tooltips should use default font stack
-bs-tooltip-container.tooltip .tooltip-inner { font-family: $fontStack; }
-
 // no mobile "map button" hint on tablet+
 @media(min-width: $gtMobile) {
   .tooltip.map-hint-mobile { display:none!important;}
@@ -87,7 +85,6 @@ bs-tooltip-container.tooltip .tooltip-inner { font-family: $fontStack; }
 
 // override mapbox popup styles
 .app-wrapper, app-embed {
-  .mapboxgl-popup-content { border-radius:0; font-size: 12px; line-height: 12px; padding:6px 8px;}
   .mapboxgl-popup-close-button { display: none; }
 }
 

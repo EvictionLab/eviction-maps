@@ -34,17 +34,23 @@
       <app-graph *ngIf="graphData" [class.average-shown]="averageActive" [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
         <div class="line-tooltips" *ngIf="graphType === 'line'">
           <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
-          <div class="line-tooltip" 
+          <div class="tooltip tooltip-number" role="tooltip" 
             *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+            [class.right]="tooltip.x < (lineStartYear + (lineEndYear - lineStartYear)/2)"
+            [class.left]="tooltip.x >= (lineStartYear + (lineEndYear - lineStartYear)/2)"
             [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
             [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
           >
-            <span class="line-tooltip-value">{{tooltip.y}}</span>
+            <div class="tooltip-wrapper">
+              <div class="tooltip-arrow"></div>
+              <div class="tooltip-inner line-tooltip-value">{{tooltip.y}}{{graphAttribute.format === 'percent' ? '%' : ''}}</div>
+            </div>
           </div>
         </div>
         <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-          <div class="bar-tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
-            <span *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : ('DATA.UNAVAILABLE' | translate) }}</span>
+          <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
+            <div class="tooltip-arrow"></div>
+            <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : ('DATA.UNAVAILABLE' | translate) }}{{graphAttribute.format === 'percent' && tooltip.data[0].y >= 0 ? '%' : ''}}</div>
           </div>
         </div>
       </app-graph>
