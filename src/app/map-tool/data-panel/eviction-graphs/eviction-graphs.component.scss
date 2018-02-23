@@ -389,7 +389,7 @@ $graphTooltipCircleSize: 10px;
   // shift the tooltip to the left and nudge the arrow out of the wrapper
   &.left {
     .tooltip-wrapper {
-      margin-left: calc(-100% - #{grid(3)});
+      transform: translateX(calc(-100% - #{grid(3)}));
       .tooltip-arrow {
         right: -1*$tooltipArrowSize;
       }
