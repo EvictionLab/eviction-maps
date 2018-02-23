@@ -1,6 +1,91 @@
+@import '../../theme';
 
+$newsletterMargin: grid(3);
+$newsletterBg: #333;
 
+// Newsletter Signup
+// ---
+.newsletter-signup {
+  position:relative;
+  z-index:10;
+  width:100%;
+  padding: $newsletterMargin;
+  background: $newsletterBg;
+  color: $grey2a;
+  .content-inner {
+    max-width: grid(34);
+  }
+  p {
+    @include defaultFont(10px);
+    line-height: 15px;
+    color: $grey3;
+    margin-bottom: grid(2);
+  }
+  .signup-form {
+    display: flex;
+  }
+  .form-control {
+    margin-right: grid(2);
+    font-size:10px;
+    height: grid(5);
+  }
+  .btn.btn-primary {
+    padding: 0 grid(2);
+    font-size:10px;
+    height: grid(5);
+  }
+}
+// display signup form in one line on tablet+
+@media(min-width: $gtMobile) {
+  .newsletter-signup {
+    .content-inner {
+      max-width: $maxContentWidth;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    p {
+      margin: 0 grid(2) 0 0;
+      width: grid(26);
+      font-size: 13px;
+      line-height: 19px;
+      color: $white;
+    }
+    .form-control {
+      font-size: 13px;
+      width: grid(34);
+      height: grid(7);
+      margin-right: grid(2);
+    }
+    .btn.btn-primary {
+      font-size: 15px;
+      height: grid(7);
+      padding: 0 grid(7);
+    }
+  }
+}
+// Boost widths and margins at small desktop+
+@media(min-width: $gtTablet) {
+  .newsletter-signup {
+    p, .form-control { margin-right: grid(7); }
+    p { width: grid(33); }
+    .form-control { width: grid(38); }
+    .btn.btn-primary { width: grid(30); }
+  }
+}
+// Boost font sizes at large desktop
+@media(min-width: $gtLaptop) {
+  .newsletter-signup {
+    p { line-height: 22px; }
+    p, .form-control { font-size: 14px; }
+  }
+}
+
+// Footer wrapper
+// ---
 footer {
+  position: relative;
+  z-index:10;
   width:100%;
   background: linear-gradient(180deg, $footerGradientFrom 0%, $footerGradientTo 100%);
   padding: grid(5) $pageMargin;
@@ -10,12 +95,14 @@ footer {
     &:hover { color: $linkColor; }
   }
 }
+// boost height / margin on tablet+
 @media(min-width: $gtMobile) {
   footer {
     height: grid(43);
     padding: grid(5) $pageMarginLg;
   }
 }
+// boost height for small desktop+
 @media(min-width: $gtTablet) {
   footer {
     height: grid(62);
@@ -62,15 +149,15 @@ footer {
 }
 @media(min-width: $gtTablet) {
   .footer-content {
-    width: grid(112); // 896px
+    width: grid(115); // 920px
     .footer-logo {
       margin-right: grid(25); // push links even more to the right
     }
   }
 }
-@media(min-width: $gtSmallDesktop) {
+@media(min-width: $gtLaptop) {
   .footer-content {
-    width: $maxContentWidth;
+    width: grid(115); // 920px
     .footer-logo {
       margin-right: grid(25); // push links even more to the right
     }

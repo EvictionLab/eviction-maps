@@ -205,7 +205,7 @@ export class EvictionGraphsComponent implements OnInit {
       axis: {
         x: { label: null, tickFormat: '.0f' },
         y: {
-          label: this.graphAttribute.name,
+          label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -235,7 +235,7 @@ export class EvictionGraphsComponent implements OnInit {
           tickPadding: 10
         },
         y: {
-          label: this.graphAttribute.name,
+          label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5
@@ -294,6 +294,12 @@ export class EvictionGraphsComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  /** Returns the Y axis label name with % added if they are percent values */
+  private getAxisLabel() {
+    return this.graphAttribute.name +
+      (this.graphAttribute.format === 'percent' ? ' (%)' : '');
   }
 
   /**

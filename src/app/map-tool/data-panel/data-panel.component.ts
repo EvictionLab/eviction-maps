@@ -141,7 +141,7 @@ export class DataPanelComponent implements OnInit {
   updateTwitterText() {
     const features = this.locations;
     const featLength = this.locations.length;
-    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+    this.tweetParams = { year: this.year, link: this.getEncodedUrl() };
 
     if (featLength === 1) {
       this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
@@ -174,6 +174,16 @@ export class DataPanelComponent implements OnInit {
    */
   getCurrentUrl() {
     return this.platform.nativeWindow.location.href;
+  }
+
+  /**
+   * Get pym.js HTML for embedding map
+   */
+  getEmbedCode() {
+    const splitUrl = this.platform.nativeWindow.location.href.split('#');
+    const embedUrl = [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
+    return `<div data-pym-src="${embedUrl}">Loading...</div>` +
+      '<script type="text/javascript" src="https://pym.nprapps.org/pym-loader.v1.min.js"></script>';
   }
 
   /**

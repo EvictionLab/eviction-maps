@@ -1,5 +1,22 @@
 body {
 
+  .form-control {
+    border: 1px solid $shadingColor;
+    border-radius: 0px;
+    box-shadow: none;
+    height: grid(7);
+    padding: grid(1) grid(2);
+    font-size: 15px;
+    &.light {
+      background: none;
+      color: $white;
+      border: 2px solid $white;
+      &:focus {
+        border: 2px solid $white;
+      }
+    }
+  }
+
   // Checkboxes
   // ---
   input[type=checkbox] {
@@ -33,5 +50,11 @@ body {
       @include focusState();
     }
   }
+}
 
+// boost font size on desktop+
+@media(min-width: $gtLaptop) {
+  body .form-control {
+    font-size: 17px;
+  }
 }

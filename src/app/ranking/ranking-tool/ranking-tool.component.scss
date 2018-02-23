@@ -18,9 +18,14 @@ $sidePanelHeight: grid(55);
 .page-content {
   padding: $pageMargin;
 }
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .page-content {
     padding: $pageMarginLg;
+  }
+}
+@media(min-width: $gtTablet) {
+  .page-content {
+    padding: grid(6) $pageMarginLg;
   }
 }
 
@@ -33,6 +38,77 @@ $sidePanelHeight: grid(55);
 @media(min-width: $gtMobile) {
   .page-content .content-inner {
     flex-direction: row;
+  }
+}
+
+// subpage navigation (tabs)
+.nav-bar {
+  position:relative;
+  box-shadow: $z1shadow;
+  padding: 0 $pageMargin;
+  background-color: $rankingsBg1;
+  z-index: 11;
+  .content-inner {
+    height: 100%;
+  }
+  ul {
+    list-style: none;
+    margin:0;
+    padding: grid(1) 0;
+    height:100%;
+    display: flex;
+    flex-direction: column;    
+    li {
+      @include altSmallCapsText(12px);
+      height:grid(5);
+      a {
+        text-align: center;
+        color: $grey1a;
+        display:block;
+        width:100%;
+        height:100%;
+        line-height: grid(5);
+        padding-left: 0;
+        &:hover {
+          color: $color1;
+          text-decoration: none;
+        }
+      }
+      &.active {
+        a { color: $color1; }
+      }
+
+    }
+  }
+}
+// nav bar is sticky on tablet+
+@media(min-width: $gtMobile) {
+  .nav-bar {
+    position: sticky;
+    z-index:30;
+    top: $headerHeightLg - 1px; // fix 1px showing through
+    height: grid(8);
+    ul {
+      flex-direction: row;
+      align-items: center;
+      justify-content:center;
+    }
+    ul li { 
+      @include altFont(16px);
+      text-transform: none;
+      height: 100%;
+      a { line-height: grid(6); }
+      &:first-child { margin-right: grid(4); }
+      &.active {
+        &::after {
+          content: '';
+          width: grid(6);
+          position: absolute;
+          bottom: 0;
+          border-bottom: grid(0.5) solid $color1;
+        }
+      }
+    }
   }
 }
 
@@ -152,90 +228,70 @@ app-ranking-ui {
   }
 }
 
+// Rankings Page Body
+// ---
+.ranking-body {
+  & > h2 {
+    margin: grid(2) 0 grid(1);
+    @include altFont(16px);
+    color: $grey1a;
+  }
+  & > h3 {
+    margin: grid(1) 0 grid(2);
+    @include defaultFontBold(10px);
+  }
+  & > p {
+    font-size: 12px;
+    margin: grid(2) 0;
+  }
+}
 // adjust margins so list is centered on page
 @media(min-width: $gtMobile) {
-  app-ranking-list {
+  .ranking-body {
     margin-left: $pageMarginLg;
     margin-right: grid(10);
+    & > h2 {
+      margin-top: 0;
+      @include altFont(21px);
+    }
+    & > h3 {
+      margin: grid(2) 0 grid(2);
+      @include defaultFontBold(14px);
+    }
+    & > p {
+      font-size: 14px;
+    }
   }
 }
 @media(min-width: $gtTablet) {
-  app-ranking-list {
+  .ranking-body {
     margin-left: grid(7);
     margin-right:0;
+    & > h2 {
+      @include altFont(28px);
+    }
+    & > p {
+      margin-bottom: grid(3);
+    }
+  }
+}
+@media(min-width: $gtLaptop) {
+  .ranking-body {
+    & > h2 {
+      @include altFont(30px);
+    }
+    & > h3 {
+      @include defaultFontBold(15px);
+    }
+    & > p {
+      margin-bottom: grid(4);
+      font-size: 15px;
+      line-height: 21px;
+    }
   }
 }
 
-// subpage navigation (tabs)
-.nav-bar {
-  position:relative;
-  box-shadow: $z1shadow;
-  padding: 0 $pageMargin;
-  background-color: $rankingsBg1;
-  z-index: 11;
-  .content-inner {
-    height: 100%;
-  }
-  ul {
-    list-style: none;
-    margin:0;
-    padding: grid(1) 0;
-    height:100%;
-    display: flex;
-    flex-direction: column;    
-    li {
-      @include altSmallCapsText(12px);
-      height:grid(5);
-      a {
-        text-align: center;
-        color: $grey1a;
-        display:block;
-        width:100%;
-        height:100%;
-        line-height: grid(5);
-        padding-left: 0;
-        &:hover {
-          color: $color1;
-          text-decoration: none;
-        }
-      }
-      &.active {
-        a { color: $color1; }
-      }
 
-    }
-  }
-}
-// nav bar is sticky on tablet+
-@media(min-width: $gtMobile) {
-  .nav-bar {
-    position: sticky;
-    z-index:30;
-    top: $headerHeightLg - 1px; // fix 1px showing through
-    height: grid(8);
-    ul {
-      flex-direction: row;
-      align-items: center;
-      justify-content:center;
-    }
-    ul li { 
-      @include altFont(16px);
-      text-transform: none;
-      height: 100%;
-      a { line-height: grid(6); }
-      &:first-child { margin-right: grid(4); }
-      &.active {
-        &::after {
-          content: '';
-          width: grid(6);
-          position: absolute;
-          bottom: 0;
-          border-bottom: grid(0.5) solid $color1;
-        }
-      }
-    }
-  }
-}
 
 // bottom data panel
 .page-fixed-bottom {
