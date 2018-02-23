@@ -271,9 +271,19 @@ $legendIconBackground: $defaultBackground;
 $legendFontSize: 10px;
 $legendTextColor: $grey1;
 
-// Mapbox
+// Tooltips
 $tooltipBackground: $black;;
-$tooltipFontColor: #fff;
+$tooltipFontColor: $white;
+$tooltipArrowSize: grid(1);
+
+@mixin tooltip() {
+  @include defaultFont(12px);
+  border-radius:0;
+  padding: grid(1);
+  background: $tooltipBackground;
+  color: $tooltipFontColor;
+}
+
 
 // Map tool component heights, software button
 $iosSafariPadding: grid(9);
