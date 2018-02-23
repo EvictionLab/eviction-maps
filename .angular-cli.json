@@ -20,7 +20,7 @@
       "prefix": "app",
       "styles": [
         "styles.scss",
-        "assets/bootstrap.min.css",
+        "assets/bootstrap.css",
         "../node_modules/mapbox-gl/dist/mapbox-gl.css"
       ],
       "scripts": [
