@@ -34,7 +34,9 @@ describe('RankingService', () => {
     TestBed.configureTestingModule({
       providers: [RankingService, TranslateService],
       imports: [
-        RankingModule.forRoot({ dataUrl: 'https://fakeurl.com/' }),
+        RankingModule.forRoot({
+          cityUrl: 'https://fakeurl.com/', stateUrl: 'https://fakeurl.com/'
+        }),
         HttpClientModule,
         HttpClientTestingModule,
         TranslateModule.forRoot()

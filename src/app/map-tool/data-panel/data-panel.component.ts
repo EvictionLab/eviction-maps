@@ -7,7 +7,7 @@ import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
 import { MapFeature } from '../map/map-feature';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { PlatformService } from '../../services/platform.service';
-import { PlatformLocation } from '@angular/common';
+import { PlatformLocation, DecimalPipe } from '@angular/common';
 import { MapToolService } from '../map-tool.service';
 import { MapDataAttribute } from '../data/map-data-attribute';
 import { AnalyticsService } from '../../services/analytics.service';
@@ -16,7 +16,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   selector: 'app-data-panel',
   templateUrl: './data-panel.component.html',
   styleUrls: ['./data-panel.component.scss'],
-  providers: [ TranslatePipe ]
+  providers: [ TranslatePipe, DecimalPipe ]
 })
 export class DataPanelComponent implements OnInit {
 
@@ -55,13 +55,14 @@ export class DataPanelComponent implements OnInit {
   // Used to inform map tool when graph type changes
   @Output() graphTypeChange = new EventEmitter();
 
-
+  encodedTweet: string;
   tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
   tweetParams = {};
 
   constructor(
     public dialogService: UiDialogService,
     public mapToolService: MapToolService,
+    private decimal: DecimalPipe,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private platform: PlatformService,
@@ -73,6 +74,7 @@ export class DataPanelComponent implements OnInit {
     this.translate.onLangChange.subscribe(() => {
       this.updateTwitterText();
     });
+    this.mapToolService.usAverageLoaded.take(1).subscribe(() => this.updateTwitterText());
     // Needed to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
   }
@@ -139,27 +141,67 @@ export class DataPanelComponent implements OnInit {
    * Update Twitter share text
    */
   updateTwitterText() {
-    const features = this.locations;
     const featLength = this.locations.length;
-    this.tweetParams = { year: this.year, link: this.getEncodedUrl() };
+    const yearSuffix = this.year.toString().slice(2);
+    // Default to eviction rate if no highlight is set, sort by that property for share text
+    const action = this.mapToolService.activeBubbleHighlight.id.startsWith('ef') ? 'efr' : 'er';
+    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+    let feat, features, actionTrans;
 
-    if (featLength === 1) {
-      this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
-      this.tweetParams = { ...this.tweetParams, place1: features[0].properties.n };
-    } else if (featLength === 2) {
-      this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
-      this.tweetParams = {
-        ...this.tweetParams, place1: features[0].properties.n, place2: features[1].properties.n
-      };
-    } else if (featLength === 3) {
-      this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
-      this.tweetParams = {
-        ...this.tweetParams,
-        place1: features[0].properties.n,
-        place2: features[1].properties.n,
-        place3: features[2].properties.n
-      };
+    if (featLength === 0) {
+      this.tweetTranslation = 'DATA.TWEET_NO_FEATURES';
+      actionTrans = action === 'efr' ? 'DATA.TWEET_FILING' : 'DATA.TWEET_EVICTED';
+      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+      if (this.mapToolService.usAverage) {
+        this.tweetParams['rate'] = this.decimal.transform(
+          this.mapToolService.usAverage[`${action}-${yearSuffix}`]
+        );
+      }
+    } else {
+      const sortProp = `${action}-${yearSuffix}`;
+      features = this.locations.sort((a, b) =>
+        a.properties[sortProp] > b.properties[sortProp] ? -1 : 1);
+
+      // TODO: Potentially pull state abbreviation into place name
+      feat = features[0].properties;
+      this.tweetParams['place1'] = feat.n;
+      this.tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
+      this.tweetParams['total'] = this.decimal.transform(
+        feat[`${action.slice(0, -1)}-${yearSuffix}`]
+      );
+      this.tweetParams['rate'] = this.decimal.transform(feat[`${action}-${yearSuffix}`]);
+
+      if (featLength === 1) {
+        actionTrans = action === 'efr' ? 'DATA.TWEET_EVICTION_FILINGS' : 'DATA.TWEET_EVICTIONS';
+        this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+
+        if (feat[`epd-${yearSuffix}`] >= 50) {
+          this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE_PER_DAY';
+          this.tweetParams = { ...this.tweetParams, units: this.tweetParams['perDay'] };
+        } else {
+          this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+        }
+      } else if (featLength > 1) {
+        actionTrans = action === 'efr' ? 'DATA.TWEET_FILING' : 'DATA.TWEET_EVICTED';
+        this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+        if (featLength === 2) {
+          this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
+          this.tweetParams = {
+            ...this.tweetParams, place2: features[1].properties.n
+          };
+        } else if (featLength === 3) {
+          this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
+          this.tweetParams = {
+            ...this.tweetParams,
+            place2: features[1].properties.n,
+            place3: features[2].properties.n
+          };
+        }
+      }
     }
+
+    const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
+    this.encodedTweet = this.platform.nativeWindow.encodeURIComponent(tweet);
   }
 
   /**

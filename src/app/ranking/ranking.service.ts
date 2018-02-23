@@ -3,13 +3,14 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { csvParse } from 'd3-dsv';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 import { REGIONS } from './ranking-regions';
 import { RankingLocation } from './ranking-location';
 
 @Injectable()
 export class RankingService {
-  year = 2016;
+  year = environment.maxYear;
   regions: Object = REGIONS;
   regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [

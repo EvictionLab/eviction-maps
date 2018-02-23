@@ -50,7 +50,7 @@
               class="btn btn-border icon btn-twitter"
               (click)="trackShare('twitter')" 
               appSocialSharePopup 
-              href="http://twitter.com/intent/tweet?status={{ tweetTranslation | translate:tweetParams }}" 
+              href="http://twitter.com/intent/tweet?status={{ encodedTweet }}" 
               [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate"
             >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
