@@ -266,9 +266,17 @@ export class RankingToolComponent implements OnInit, OnDestroy {
 
   /**
    * Creates Twitter text based on current selections
-   * TODO: Each view tab needs its own Twitter text function
    */
   updateTwitterText() {
+    if (this.activeTab === 'evictions') {
+      this.updateCitiesTwitterText();
+    }
+  }
+
+  /**
+   * Updates Twitter text for city rankings
+   */
+  private updateCitiesTwitterText() {
     this.tweetParams = {
       year: this.rankings.year,
       link: this.platform.currentUrl(),
@@ -297,8 +305,8 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.tweetTranslation = 'RANKINGS.SHARE_SELECTION';
       const location = this.listData[this.selectedIndex];
       this.tweetParams['area'] = location.name;
-      // TODO: Ordinalize ranking number
-      this.tweetParams['ranking'] = this.selectedIndex + 1;
+      this.tweetParams['ranking'] = `${this.selectedIndex + 1}${
+        this.rankings.ordinalSuffix(this.selectedIndex + 1)}`;
       const actionTrans = this.dataProperty.value.startsWith('e') ?
         'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
       this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
@@ -320,7 +328,6 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
       // TODO: Need to handle cases where there is no top for category
       const state = this.rankings.stateData.find(s => s.name === this.region);
-      // this.
       const location = this.listData[0];
       this.tweetParams['topArea'] = location.name;
       let amount = state[this.dataProperty.value];

@@ -119,6 +119,31 @@ export class RankingService {
     });
   }
 
+  /**
+   * Returns ordinal suffix for rank
+   * @param rank
+   */
+  ordinalSuffix(rank: number): string {
+    const digit = rank % 10;
+    if (this.translate.currentLang === 'en') {
+      if (rank >= 10 && rank <= 20) {
+        return 'th';
+      }
+      switch (digit) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    } else if (this.translate.currentLang === 'es') {
+      // Spanish depends on gender of word being described
+      // TODO: Check if this is right
+      return 'a';
+    }
+    // Default to empty string
+    return '';
+  }
+
   /** Creates a function to use for sorting the data */
   private getComparator(prop, invert?: boolean) {
     return (a, b) => {
