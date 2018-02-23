@@ -25,6 +25,7 @@ export class RankingService {
     { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
   data: Array<RankingLocation>;
+  stateData: Array<RankingLocation>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
 
@@ -39,6 +40,7 @@ export class RankingService {
       this.updateLanguage(lang.translations);
     });
     this.loadCsvData();
+    this.loadStateData();
   }
 
   /**
@@ -59,6 +61,12 @@ export class RankingService {
         this.data = locations;
         this.ready.next(true);
       });
+  }
+
+  loadStateData() {
+    return this.http.get(this.config.stateUrl, { responseType: 'text' })
+      .map((csvString) => this.parseCsvData(csvString))
+      .subscribe(locations => this.stateData = locations);
   }
 
   /**
@@ -103,9 +111,10 @@ export class RankingService {
         name: d['name'],
         displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],
-        displayParentLocation: this.regions[d['parent-location']],
+        displayParentLocation: d['parent-location'] === 'USA' ?
+          'USA' : this.regions[d['parent-location']],
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
-        areaType: parseInt(d['area-type'], 10)
+        areaType: d['area-type'] ? parseInt(d['area-type'], 10) : 3
       } as RankingLocation;
     });
   }

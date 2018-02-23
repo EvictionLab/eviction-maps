@@ -56,16 +56,16 @@ export class DataPanelComponent implements OnInit {
   @Output() graphTypeChange = new EventEmitter();
 
   encodedTweet: string;
-  tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+  tweetTranslation = 'DATA.TWEET_NO_FEATURES';
   tweetParams = {};
 
   constructor(
     public dialogService: UiDialogService,
     public mapToolService: MapToolService,
+    public platform: PlatformService,
     private decimal: DecimalPipe,
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
-    private platform: PlatformService,
     private analytics: AnalyticsService,
     private cd: ChangeDetectorRef
   ) {}
@@ -145,7 +145,7 @@ export class DataPanelComponent implements OnInit {
     const yearSuffix = this.year.toString().slice(2);
     // Default to eviction rate if no highlight is set, sort by that property for share text
     const action = this.mapToolService.activeBubbleHighlight.id.startsWith('ef') ? 'efr' : 'er';
-    this.tweetParams = { year: this.year, link: this.getCurrentUrl() };
+    this.tweetParams = { year: this.year, link: this.platform.currentUrl() };
     let feat, features, actionTrans;
 
     if (featLength === 0) {
@@ -201,28 +201,14 @@ export class DataPanelComponent implements OnInit {
     }
 
     const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
-    this.encodedTweet = this.platform.nativeWindow.encodeURIComponent(tweet);
-  }
-
-  /**
-   * Encoding URL for Facebook share
-   */
-  getEncodedUrl() {
-    return this.platform.nativeWindow.encodeURIComponent(this.getCurrentUrl());
-  }
-
-  /**
-   * Adding method because calling window directly in the template doesn't work
-   */
-  getCurrentUrl() {
-    return this.platform.nativeWindow.location.href;
+    this.encodedTweet = this.platform.urlEncode(tweet);
   }
 
   /**
    * Get pym.js HTML for embedding map
    */
   getEmbedCode() {
-    const splitUrl = this.platform.nativeWindow.location.href.split('#');
+    const splitUrl = this.platform.currentUrl().split('#');
     const embedUrl = [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
     return `<div data-pym-src="${embedUrl}">Loading...</div>` +
       '<script type="text/javascript" src="https://pym.nprapps.org/pym-loader.v1.min.js"></script>';

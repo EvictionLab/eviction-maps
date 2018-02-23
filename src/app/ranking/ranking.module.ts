@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { RankingToolComponent } from './ranking-tool/ranking-tool.component';
 import { RankingUiComponent } from './ranking-ui/ranking-ui.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
@@ -19,7 +20,8 @@ export class RankingConfig {
     CommonModule,
     RouterModule,
     UiModule,
-    TranslateModule
+    TranslateModule,
+    PopoverModule.forRoot()
   ],
   declarations: [
     RankingToolComponent,

@@ -62,7 +62,7 @@
               class="btn btn-border icon btn-facebook"
               (click)="trackShare('facebook')" 
               appSocialSharePopup 
-              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + getEncodedUrl()"  
+              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"  
               [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate"
             >
               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
@@ -71,7 +71,7 @@
             </a>
             <a
               class="btn btn-border icon btn-email" 
-              [href]="'mailto:?subject=Eviction Lab&body=' + getCurrentUrl()" 
+              [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" 
               (click)="checkMailto($event); trackShare('email')" 
               [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate"
             >
@@ -80,7 +80,7 @@
               </svg>
             </a>
             <ng-template #popTemplate>
-              <app-ui-copy-clipboard [copyText]="getCurrentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
+              <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
               <app-ui-copy-clipboard [copyText]="getEmbedCode()" [hintText]="'DATA.EMBED_SHARE_HINT' | translate"></app-ui-copy-clipboard>
             </ng-template>
             <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
