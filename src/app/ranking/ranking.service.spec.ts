@@ -1,9 +1,18 @@
+import { EventEmitter } from '@angular/core';
 import { TestBed, inject } from '@angular/core/testing';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RankingService } from './ranking.service';
 import { RankingModule } from './ranking.module';
+import { Observable } from 'rxjs/Observable';
+
+export class TranslateServiceStub {
+  currentLang = 'en';
+  translations = { 'en': {} };
+  public get onLangChange(): EventEmitter<any> { return new EventEmitter<any>(); }
+}
+
 
 describe('RankingService', () => {
   // tslint:disable-next-line:max-line-length
@@ -32,7 +41,10 @@ describe('RankingService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [RankingService, TranslateService],
+      providers: [
+        RankingService,
+        { provide: TranslateService, useClass: TranslateServiceStub },
+      ],
       imports: [
         RankingModule.forRoot({ dataUrl: 'https://fakeurl.com/' }),
         HttpClientModule,
