@@ -150,13 +150,6 @@ export class DataPanelComponent implements OnInit {
 
     if (featLength === 0) {
       this.tweetTranslation = 'DATA.TWEET_NO_FEATURES';
-      actionTrans = action === 'efr' ? 'DATA.TWEET_FILING' : 'DATA.TWEET_EVICTED';
-      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
-      if (this.mapToolService.usAverage) {
-        this.tweetParams['rate'] = this.decimal.transform(
-          this.mapToolService.usAverage[`${action}-${yearSuffix}`]
-        );
-      }
     } else {
       const sortProp = `${action}-${yearSuffix}`;
       features = this.locations.sort((a, b) =>
