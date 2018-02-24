@@ -95,6 +95,12 @@
   height: grid(8);
   font-size:15px;
   margin:auto;
+  .icon {
+    width: 14px;
+    height: 12px;
+    margin:auto;
+    fill: #fff;
+  }
 }
 // bring button above data panel content
 .btn-map {

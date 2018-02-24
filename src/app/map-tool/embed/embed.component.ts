@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef
+  Component, OnInit, AfterViewInit, ChangeDetectorRef, ViewChild, ElementRef, ViewEncapsulation
 } from '@angular/core';
 import { MapComponent } from '../map/map/map.component';
 import * as pym from 'pym.js';
@@ -13,7 +13,8 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-embed',
   templateUrl: './embed.component.html',
-  styleUrls: ['./embed.component.scss']
+  styleUrls: ['./embed.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class EmbedComponent implements OnInit, AfterViewInit {
   id = 'embed-map';

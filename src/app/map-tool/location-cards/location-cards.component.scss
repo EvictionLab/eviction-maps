@@ -31,7 +31,7 @@
   &:nth-child(3) { z-index: 18; }
   &:nth-child(4) { z-index: 17; }
   .card-header {
-    svg { display: none; } // hide marker by default
+    .marker { display: none; } // hide marker by default
     position:relative;
     display: flex;
     flex-direction: column;
@@ -72,25 +72,25 @@
   // set colors for cards
   &:nth-child(1) .card-header {
     border-bottom-color: $cardHeaderBg1;
-    path { fill: $cardHeaderBg1; }
+    .marker { fill: $cardHeaderBg1; }
     &:after { background: $gradient1; }
   }
   &:nth-child(2) .card-header { 
     border-bottom-color: $cardHeaderBg2; 
     .card-heading, .card-subheading { color: $cardHeaderBg2; }
-    path { fill: $cardHeaderBg2; }
+    .marker  { fill: $cardHeaderBg2; }
     &:after { background: $gradient2; }
   }
   &:nth-child(3) .card-header { 
     border-bottom-color: $cardHeaderBg3; 
     .card-heading, .card-subheading { color: $cardHeaderBg3; }
-    path { fill: $cardHeaderBg3; }
+    .marker  { fill: $cardHeaderBg3; }
     &:after { background: $gradient3; }
   }
   &:nth-child(4) .card-header { 
     border-bottom-color: $cardHeaderBg4; 
     .card-heading, .card-subheading { color: $cardHeaderBg4; }
-    path { fill: $cardHeaderBg4; }
+    .marker  { fill: $cardHeaderBg4; }
     &:after { background: $gradient4; }
   }
   .card-content {
@@ -118,13 +118,11 @@
           .hint-button {
             width:100%;
             text-align:right;
-            min-width: grid(2);
-            min-height:grid(2);
-            svg {
+            .icon {
               width:grid(2);
               height:grid(2);
               display:inline-block;
-              circle { fill: $grey2; }
+              fill: $grey2;
             }
           }
         }
@@ -283,7 +281,7 @@
     &:nth-child(2) .card-stat-comparison { color: $cardHeaderBg2 }
     &:nth-child(3) .card-stat-comparison { color: $cardHeaderBg3 }
     // marker icon
-    .card-header svg { 
+    .card-header .marker { 
         display:block; 
         width: 28px; 
         height: 40px;
@@ -440,7 +438,7 @@
     min-width: grid(39);
     flex:1;
     &:last-child { margin-right: 0; }
-    .card-header svg {
+    .card-header .marker {
       top:0;
       width: 40px; 
       height: 58px;

@@ -247,10 +247,10 @@
   }
   &.panel-next { right: 0; }
   &.panel-prev { left: 0; }
-  svg {
+  .icon {
     width: grid(3);
     height: grid(3);
-    polygon { fill: $color1; }
+    fill: $color1;
   }
 }
 // boost prev / next icon size on tablet
@@ -259,7 +259,7 @@
     top: 0;
     width: grid(6);
     height: grid(6);
-    svg {
+    .icon {
       width: grid(5);
       height: grid(5);
     }
@@ -296,21 +296,14 @@
   position: absolute;
   right: 0;
   top: grid(-10);
-
-  svg {
+  .icon {
     height: grid(2.5);
     width: grid(2.5);
-    path { 
-      stroke: $color1;
-      stroke-width: 4;
-    }
+    fill: $color1;
+    margin:auto;
   }
-
   &:hover, &:active {
     background-color: $color1;
-
-    svg {
-      path { stroke: $white; }
-    }
+    .icon { fill: $white; }
   }
 }

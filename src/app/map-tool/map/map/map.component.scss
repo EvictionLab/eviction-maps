@@ -157,10 +157,6 @@ app-location-cards {
     }
     ::ng-deep {
       .location-card {
-        // height: grid(42);
-        // position:absolute;
-        // margin:auto;
-        // top:0;bottom:0;left:0;right:auto;
         transition: transform 0.2s ease;
         transform: translateX(0);
         position:relative;
@@ -190,98 +186,82 @@ app-location-cards {
 // default: 
 //    hide labels and adjust width so the select menus
 //    span the full width of the window.
-.map-ui app-ui-select {
-  position: absolute;
-  width:33.3333%;
-  top:0;
-  z-index: 100;
-  transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
-  // position the dropwdowns
-  &:nth-of-type(1) { left: 0; }
-  &:nth-of-type(2) { left: 33.33333%; }
-  &:nth-of-type(3) { left: 66.66666%; right: 0; }
-  // span full width when open
-  &.open {
-    left: 0;
-    right: 0;
-    width: 100%;
-    z-index: 101;
-    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
-    ::ng-deep .el-select .el-select-label {
-      display: inherit;
-    }
-  }
-  &.none-selected {
-    ::ng-deep .el-select {
-      .dropdown-toggle { 
-        overflow: visible;
-        text-overflow: none;
-        white-space: normal;
-      }
-      .el-select-label { display: block; }
-      .el-select-value { display: none; }
-    }
-  }
-  ::ng-deep {
-    .el-select .el-select-label,
-    .el-select .el-select-value {
-      display:block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      span {
-        display:inline;
-        margin-left: grid(0.5);
+@media(max-width: $gtMobile) {
+  .map-ui app-ui-select {
+    position: absolute;
+    width:33.3333%;
+    top:0;
+    z-index: 100;
+    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
+    // position the dropwdowns
+    &:nth-of-type(1) { left: 0; }
+    &:nth-of-type(2) { left: 33.33333%; }
+    &:nth-of-type(3) { left: 66.66666%; right: 0; }
+    // span full width when open
+    &.open {
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 101;
+      transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
+      ::ng-deep .el-select .el-select-label {
+        display: inherit;
       }
     }
-    .el-select .dropdown-toggle.btn {
-      white-space: nowrap;
-      height: grid(7);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding-right: grid(3);
+    // when nothing is selected show the label only
+    &.none-selected {
+      ::ng-deep .el-select {
+        .dropdown-toggle { 
+          overflow: visible;
+          text-overflow: none;
+          white-space: normal;
+        }
+        .dropdown-label { display: block; }
+        .dropdown-value { display: none; }
+      }
+    }
+    ::ng-deep {
+      .el-select .dropdown-label,
+      .el-select .dropdown-value {
+        display:block;
+        overflow: hidden;
+        @include ellipsis-overflow();
+        span {
+          display:inline;
+          margin-left: grid(0.5);
+        }
+      }
+      .el-select .dropdown-toggle.btn {
+        height: grid(7);
+        padding-right: grid(3);
+      }
     }
   }
 }
-:host-context(.gt-mobile) {
+// dropdowns span the entire viewport
+@media(min-width: $gtMobile) {
   // label inline with selected value
   .map-ui app-ui-select {
     float:left;
     width:32%;
     margin: 0 2% 0 0;
     position: relative;
-    ::ng-deep .el-select .el-select-label,
-    ::ng-deep .el-select .el-select-value {
-      display: inline;
-    }
-    // drop height for one line
-    ::ng-deep .el-select .dropdown-toggle.btn {
-      height: grid(6);
-    }
-    // don't open to full width anymore
-    &.open {
-      left: inherit;
-      right: inherit;
-      width: 32%;
-    }
-    &:nth-of-type(1), 
-    &:nth-of-type(2), 
-    &:nth-of-type(3) {
-      left: inherit;
-    }
     &:nth-of-type(3) {
       margin-right: 0;
     }
+    ::ng-deep {
+      .el-select .dropdown-toggle.btn {
+        @include ellipsis-overflow();
+      }
+    }
   }
 }
-:host-context(.gt-tablet) {
+// dropdowns based on width of containing text
+@media(min-width: $gtTablet) {
   .map-ui app-ui-select {
     width:auto;
     max-width:31%; // prevent selects from wrapping to new line
     margin: 0 grid(2) 0 0;
-
-    &.open {
-      width: auto;
-    }
   }
 }
 // - End Map Data Select Boxes
@@ -349,26 +329,6 @@ app-ui-map-legend {
   display: none;
 }
 
-// Embed view overrides
-//    Ignores time slider, cards
-.embed :host-context(.slider-active) app-ui-map-legend,
-.embed :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: 0;
-}
-
-.embed :host-context(.cards-active) .mobile-scroll-indicator,
-.embed :host-context(.slider-active) .mobile-scroll-indicator,
-.embed :host-context(.cards-active.slider-active) .mobile-scroll-indicator {
-  display: none;
-}
-.embed.gt-mobile :host-context(.slider-active) app-ui-map-legend,
-.embed.gt-mobile :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $pageMarginLg;
-}
-.embed.gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $pageMarginLg;
-}
-
 // - End Map Legend
 
 
@@ -421,16 +381,18 @@ app-ui-map-legend {
 }
 // - End Year Slider
 
+
+// TODO: Move device specific styles to separate overrides file
 // Device-specific adjustments
 
 // Additional spacing for iOS Safari
-.ios-safari:not(.gt-tablet):not(.embed) :host-context(.slider-active) {
+.ios-safari:not(.gt-tablet) :host-context(.slider-active) {
   .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
 }
-.ios-safari:not(.gt-tablet):not(.embed) :host-context(.legend-active) {
+.ios-safari:not(.gt-tablet) :host-context(.legend-active) {
   app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
 }
-.ios-safari:not(.gt-tablet):not(.embed) :host-context(.cards-active) {
+.ios-safari:not(.gt-tablet) :host-context(.cards-active) {
   .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
   app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
   .year-slider-container {
@@ -441,13 +403,13 @@ app-ui-map-legend {
 }
 
 // Additional spacing for Android
-.android:not(.gt-tablet):not(.embed) :host-context(.slider-active) {
+.android:not(.gt-tablet) :host-context(.slider-active) {
   .year-slider-container { height: $timeSliderHeight + $androidPadding; }
 }
-.android:not(.gt-tablet):not(.embed) :host-context(.legend-active) {
+.android:not(.gt-tablet) :host-context(.legend-active) {
   app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
 }
-.android:not(.gt-tablet):not(.embed) :host-context(.cards-active) {
+.android:not(.gt-tablet) :host-context(.cards-active) {
   .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
   app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
   .year-slider-container {

@@ -113,6 +113,7 @@ $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
 $focusBgColor: #FFE8DE;
+$iconColor: #666;
 
 // Shadows
 // ----
@@ -282,6 +283,7 @@ $tooltipArrowSize: grid(1);
   padding: grid(1);
   background: $tooltipBackground;
   color: $tooltipFontColor;
+  max-width: grid(30);
 }
 
 

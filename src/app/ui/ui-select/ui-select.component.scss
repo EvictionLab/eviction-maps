@@ -1,63 +1,7 @@
 @import '../../../theme';
 
-@mixin ui-select-colors($text, $background, $labelText, $highlightBackground, $highlightText, $caretColor) {
-  .el-select {
-      .dropdown-toggle.btn { 
-          color: $text;
-          background: $background;
-      }
-      .el-select-label { color: $labelText; }
-      .caret { color: $caretColor; }
-  }
-}
-
-:host {
-  @include ui-select-colors($selectText,$selectBackground,$selectLabelText,$selectHighlightBackground,$selectHighlightText,$selectCaret);
-  box-shadow: $z1shadow;
-  &:focus {
-    @include focusState();
-  }
-}
-
 .el-select {
   width: auto;
   display:block;
   position:relative;
-  .el-select-label {
-    @include defaultFont(13px);
-    text-transform: uppercase;
-    letter-spacing: 0.7px;
-  }
-  .el-select-value {
-    font-size: 13px;
-  }
-}
-
-// more space for dropdown menus
-:host-context(.gt-mobile) {
-  .el-select .dropdown-menu { max-height: 300px; }
-}
-
-// OVERRIDES
-
-:host-context(.z0) {
-  border: 1px solid $shadingColor;
-  box-shadow: none;
-  // need to explicitly set focus state for z0 because box shadow is cleared
-  &:focus {
-    @include focusState();
-  }
-}
-
-:host-context(.gt-tablet) {
-  .el-select .el-select-label,
-  .el-select .el-select-value {
-    font-size: 14px;
-  }
-  .el-select .dropdown-toggle.btn {
-    padding-right: grid(5);
-    .svg-down-arrow {
-      right: grid(2);
-    }
-  }
 }

@@ -4,9 +4,7 @@
   [class]="'location-card card card-' + i"
 >
   <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">
-    <svg  aria-hidden="true" class="marker" viewBox="0 0 40 58" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <path d="M20,0 C29.8203125,0 40,6.75551115 40,19.0800608 C40,27.2964272 33.3333333,40.2697402 20,58 C6.66666667,40.3015304 3.48313052e-16,27.3282173 0,19.0800608 C0,6.70782593 10.1796875,0 20,0 Z M19.5,29.7038377 C24.4705627,29.7038377 28.5,25.6678161 28.5,20.6891311 C28.5,15.7104461 24.4705627,11.6744245 19.5,11.6744245 C14.5294373,11.6744245 10.5,15.7104461 10.5,20.6891311 C10.5,25.6678161 14.5294373,29.7038377 19.5,29.7038377 Z" id="Combined-Shape"></path>
-    </svg>
+    <app-ui-icon class="marker" icon="marker"></app-ui-icon>
     <h1 class="card-heading">{{f.properties.n}}</h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
     <button [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" class="btn btn-close" (click)="dismissedCard.emit(f)">

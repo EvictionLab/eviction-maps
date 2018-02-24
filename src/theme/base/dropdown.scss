@@ -1,84 +1,152 @@
-body {
-  .dropdown-menu {
-    border-radius: 0;
-    border: none;
-    margin-top: 1px;
-    width: 100%;
-    box-sizing: border-box;
-    min-width: grid(18);
-    max-height: grid(28); // prevent dropdown menu from going off screen
-    padding:0;
-    overflow: auto;
-    & > li > a {
-      padding: $defaultPadding;
-      border-top: 1px solid $shadingColor;
-      min-height: grid(5);
-      white-space: normal;
-      box-sizing: border-box;
-      &:hover {
-        background: $grey4;
-      }
-      &:focus {
-        outline: 0;
-        box-shadow: inset 0 0 3px $color1;
-      }
-    }
-    & > .active > a,
-    & > .active > a:focus,
-    & > .active > a:hover {
-      color: $black;
-      background: $grey4;
-    }
-    & > li > a.highlighted {
-      color: $white;
-      background-color: $color1;
-    }
-    & li:first-child a { border-top: none; }
-    & > li, & > li > a {
-      cursor: pointer;
-    }
-    & > li.bottom-label, & > li.bottom-label > a {
-      font-style: italic;
-      color: rgba(0, 0, 0, 0.5);
-      cursor: inherit;
-    }
-    & > li.bottom-label:hover, & > li.bottom-label > a:hover {
-      background: inherit;
-    }
-
-
-  }
-  .dropdown-toggle.btn {
-    height: grid(6);
-    padding: grid(1) grid(4) grid(1) grid(2);
-    position:relative;
-    border:none;
-    border-radius: 0;
-    text-transform: uppercase;
-    @include smallCapsText(13px);
-    width:100%;
-    text-align:left;
-    .svg-down-arrow {
-      position:absolute;
-      right:grid(1);
-      top:0px;
-      bottom:0;
-      width:14px;
-      height: grid(1);
-      margin:auto;
-      polyline {
-        stroke: $selectCaret;
-        stroke-width: 2px;
-        fill:none;
-      }
-    }
+@mixin ui-select-label($device) {
+  @if $device == 'laptop' {
+    @include defaultFont(14px);
+  } @else {
+    @include defaultFont(13px);
   }
 }
 
+@mixin ui-select-value($device) {
+  @if $device == 'laptop' {
+    @include defaultFontBold(14px);
+  } @else {
+    @include defaultFontBold(13px);
+  }
+}
+
+.dropup,
+.dropdown { position: relative; }
+.dropdown-toggle:focus { outline: 0; }
+.open > .dropdown-menu { display: block; }
+.open > a { outline: 0; }
+.dropup .dropdown-menu {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 2px;
+}
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  display: none;
+  float: left;
+  font-size: 14px;
+  text-align: left;
+  list-style: none;
+  background-color: $white;
+  background-clip: padding-box;
+  border-radius: 0;
+  border: none;
+  margin-top: 1px;
+  width: 100%;
+  box-sizing: border-box;
+  min-width: grid(10);
+  max-height: grid(28); // prevent dropdown menu from going off screen
+  padding:0;
+  overflow: auto;
+  box-shadow: $z1shadow;
+  & > li > a {
+    display: block;
+    clear: both;
+    font-weight: normal;
+    padding: $defaultPadding;
+    border-top: 1px solid $shadingColor;
+    height: grid(6);
+    min-height: grid(5);
+    white-space: normal;
+    box-sizing: border-box;
+    color: $black;
+    text-decoration: none;
+    &:hover {
+      color: $black;
+      background: $grey4;
+      text-decoration: none;
+    }
+    &:focus {
+      outline: 0;
+      box-shadow: inset 0 0 3px $color1;
+    }
+  }
+  & > .active > a,
+  & > .active > a:focus,
+  & > .active > a:hover {
+    color: $black;
+    background: $grey4;
+  }
+  & > li > a.highlighted {
+    color: $white;
+    background-color: $color1;
+  }
+  & li:first-child a { border-top: none; }
+  & > li, & > li > a {
+    cursor: pointer;
+  }
+  & > li.bottom-label, & > li.bottom-label > a {
+    font-style: italic;
+    color: rgba(0, 0, 0, 0.5);
+    cursor: inherit;
+  }
+  & > li.bottom-label:hover, & > li.bottom-label > a:hover {
+    background: inherit;
+  }
+}
+.dropdown-toggle.btn {
+  height: grid(6);
+  padding: grid(1) grid(4) grid(1) grid(2);
+  position:relative;
+  border:none;
+  border-radius: 0;
+  text-transform: uppercase;
+  width:100%;
+  text-align:left;
+  color: $selectText;
+  background: $selectBackground;
+  box-shadow: $z1shadow;
+  .icon {
+    position:absolute;
+    right:grid(1);
+    top:0px;
+    bottom:0;
+    width:14px;
+    height: grid(1);
+    margin:auto;
+    fill: $color1;
+  }
+}
+.dropdown-value {
+  @include ui-select-value('mobile');
+}
+.dropdown-label { 
+  @include ui-select-label('mobile');
+  color: $selectLabelText; 
+}
+
+
+
+.z0 .dropdown-toggle.btn {
+  border: 1px solid $shadingColor;
+  box-shadow: none;
+}
+
 @media(min-width: $gtMobile) {
-  body {
-    .dropdown-menu {
-      max-height: grid(50);
+  .dropdown-menu {
+    max-height: grid(50);
+  }
+}
+
+@media(min-width: $gtTablet) {
+  .dropdown-value {
+    @include ui-select-value('laptop');
+  }
+  .dropdown-label { 
+    @include ui-select-label('laptop');
+    color: $selectLabelText; 
+  }
+  .dropdown-toggle.btn {
+    padding-right: grid(5);
+    .icon {
+      right: grid(2);
     }
   }
 }

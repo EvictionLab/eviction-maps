@@ -208,10 +208,10 @@
       top:-1*grid(1);
     }
     &:last-child { border-bottom: none; }
-    &:nth-child(1) .legend-marker path { fill: $graphColor1; }
-    &:nth-child(2) .legend-marker path { fill: $graphColor2; }
-    &:nth-child(3) .legend-marker path { fill: $graphColor3; }
-    &.us-average .legend-marker path { fill: $graphColor4; }
+    &:nth-child(1) .legend-marker { fill: $graphColor1; }
+    &:nth-child(2) .legend-marker { fill: $graphColor2; }
+    &:nth-child(3) .legend-marker { fill: $graphColor3; }
+    &.us-average .legend-marker { fill: $graphColor4; }
   }
   li.us-average {
     opacity: 0.5;

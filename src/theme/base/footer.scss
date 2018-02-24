@@ -270,12 +270,12 @@ footer {
     &:hover {
       border-color: $footerHoverIconBorder;
     }
-    svg {
+    .icon {
       @include fill-parent();
       margin:auto;
       width: grid(2.5);
       height: grid(2.5);
-      path, polyline { fill: #fff; }
+      fill: #fff;
     }
   }
 }

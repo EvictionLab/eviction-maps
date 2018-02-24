@@ -124,11 +124,14 @@ $sidePanelHeight: grid(55);
   line-height: grid(5);
   box-sizing: content-box;
   text-align:left;
-  .glyphicon { 
-    color: $color1; 
-    font-size: 14px;
+  .icon { 
+    position: relative;
+    top: 4px;
+    fill: $color1; 
     display:inline-block;
     margin-right: grid(2);
+    width: grid(2);
+    height: grid(2);
   }
 }
 @media(min-width: $gtMobile) {
@@ -142,10 +145,12 @@ $sidePanelHeight: grid(55);
     box-sizing: border-box;
     color: $color1;
     box-shadow: $z2shadow;
-    .glyphicon { 
-      font-size: 24px;
+    .icon { 
+      position:static;
+      width: grid(3);
+      height: grid(3);
       display: block;
-      margin: 0 0 grid(1) 0;
+      margin: 0 auto grid(1);
     }
   }
 }
@@ -322,11 +327,17 @@ app-ranking-ui {
   bottom: grid(3);
   margin-left: auto;
   z-index: 2;
-  polyline { stroke: $color1; }
+  .icon {
+    width: grid(2);
+    height: grid(2);
+    margin:auto;
+    fill: $color1;
+  }
   &:hover, &:active {
     background-color: $color1;
-    polyline { stroke: $white; }
+    .icon { fill: $white; }
   }
+  
 }
 
 :host-context(.gt-mobile) {

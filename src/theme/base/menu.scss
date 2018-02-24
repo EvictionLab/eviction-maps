@@ -130,12 +130,14 @@ $menuMargin: grid(5);
     height: grid(5.5);
     border-width: grid(0.5);
     color: $grey4;
-    svg { 
-      margin: 0 auto; 
-      path { fill: $menuGrey; }
+    .icon { 
+      margin: 0 auto;
+      width: grid(2);
+      height: grid(2);
+      fill: $menuGrey;
     }
     &:hover {
-      svg path { fill: $white; }
+      .icon { fill: $white; }
     }
   }
 }
