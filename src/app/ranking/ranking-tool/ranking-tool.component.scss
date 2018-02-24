@@ -340,6 +340,38 @@ app-ranking-ui {
   
 }
 
+.social-icons {
+  margin-top: grid(3);
+  padding: grid(1);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .btn-border.icon {
+    margin: 0 grid(1);
+    border: none;
+    height: grid(3);
+    width: grid(3);
+    background-color: #EEF2F5;
+
+    &.btn-link { 
+      padding-top: 0;
+      svg { margin-top: 0; }
+    }
+  }
+
+  .share-intro {
+    @include altSmallCapsText(12px);
+    color: $grey1a;
+    margin-right: grid(1);
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+}
+
 :host-context(.gt-mobile) {
   .scroll-to-top-button {
     display: none;

@@ -86,7 +86,6 @@ export class AppComponent implements OnInit {
     this.scroll.setupScroll(this.pageScroll);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
-    this.updateLanguage(this.translate.translations);
     this.translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });

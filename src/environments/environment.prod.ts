@@ -4,7 +4,8 @@ import { version } from './version';
 export const environment = {
   production: true,
   tileBaseUrl: 'https://tiles.evictionlab.org/',
-  cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv',
+  cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/cities-rankings.csv',
+  stateRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/states-rankings.csv',
   usAverageDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/avg/us.json',
   mapboxApiKey: 'pk.' +
     'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqY20zamVpcTBwb3gzM28yb292YzM3dXoifQ.' +

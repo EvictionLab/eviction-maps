@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, Inject } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { DOCUMENT } from '@angular/common';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { DOCUMENT, DecimalPipe } from '@angular/common';
 import { Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
@@ -9,12 +9,15 @@ import { RankingLocation } from '../ranking-location';
 import { RankingService } from '../ranking.service';
 import { ScrollService } from '../../services/scroll.service';
 import { LoadingService } from '../../services/loading.service';
+import { PlatformService } from '../../services/platform.service';
+import { AnalyticsService } from '../../services/analytics.service';
 import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 
 @Component({
   selector: 'app-ranking-tool',
   templateUrl: './ranking-tool.component.html',
-  styleUrls: ['./ranking-tool.component.scss']
+  styleUrls: ['./ranking-tool.component.scss'],
+  providers: [ TranslatePipe, DecimalPipe ]
 })
 export class RankingToolComponent implements OnInit, OnDestroy {
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -79,13 +82,21 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.dataProperty.hasOwnProperty('value');
   }
 
+  encodedTweet: string;
+  tweetTranslation = 'RANKINGS.SHARE_DEFAULT';
+  tweetParams = {};
+
   constructor(
     public rankings: RankingService,
     public loader: LoadingService,
+    public platform: PlatformService,
     private route: ActivatedRoute,
     private router: Router,
     private scroll: ScrollService,
     private translate: TranslateService,
+    private analytics: AnalyticsService,
+    private translatePipe: TranslatePipe,
+    private decimal: DecimalPipe,
     @Inject(DOCUMENT) private document: any
   ) { }
 
@@ -127,6 +138,7 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
       this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
       this.selectedIndex = url[4] ? parseInt(url[4].path, 10) : null;
+      if (this.isDataReady) { this.updateTwitterText(); }
     }
   }
 
@@ -245,6 +257,95 @@ export class RankingToolComponent implements OnInit, OnDestroy {
     this.scroll.scrollTo('app-ranking-list');
   }
 
+  /**
+   * Tracks when the rankings are shared
+   */
+  trackShare(shareType: string) {
+    this.analytics.trackEvent('rankingShare', { shareType });
+  }
+
+  /**
+   * Creates Twitter text based on current selections
+   */
+  updateTwitterText() {
+    if (this.activeTab === 'evictions') {
+      this.updateCitiesTwitterText();
+    }
+  }
+
+  /**
+   * Updates Twitter text for city rankings
+   */
+  private updateCitiesTwitterText() {
+    this.tweetParams = {
+      year: this.rankings.year,
+      link: this.platform.currentUrl(),
+      areaType: this.translatePipe.transform(this.areaType.langKey).toLowerCase(),
+      region: this.region
+    };
+
+    if (this.region === 'United States' && !this.selectedIndex && this.selectedIndex !== 0) {
+      this.tweetTranslation = 'RANKINGS.SHARE_DEFAULT';
+      const actionTrans = this.dataProperty.value.startsWith('e') ?
+        'RANKINGS.SHARE_JUDGMENT' : 'RANKINGS.SHARE_FILING';
+      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+
+      let amount = this.listData.slice(0, 10).reduce((a, b) => {
+        return a + b[this.dataProperty.value];
+      }, 0);
+      if (this.dataProperty.value.endsWith('Rate')) {
+        amount = amount / 10;
+        amount = this.decimal.transform(amount, '1.1-2');
+        amount = this.translatePipe.transform('RANKINGS.SHARE_AVERAGE', {'amount': amount});
+      } else {
+        amount = this.decimal.transform(amount);
+      }
+      this.tweetParams['amount'] = amount;
+    } else if (this.selectedIndex || this.selectedIndex === 0) {
+      this.tweetTranslation = 'RANKINGS.SHARE_SELECTION';
+      const location = this.listData[this.selectedIndex];
+      this.tweetParams['area'] = location.name;
+      this.tweetParams['ranking'] = `${this.selectedIndex + 1}${
+        this.rankings.ordinalSuffix(this.selectedIndex + 1)}`;
+      const actionTrans = this.dataProperty.value.startsWith('e') ?
+        'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
+      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+
+      let amount = location[this.dataProperty.value];
+      if (this.dataProperty.value.endsWith('Rate')) {
+        amount = this.decimal.transform(amount, '1.1-2');
+        amount = this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', {'amount': amount});
+        this.tweetParams['category'] = this.translatePipe.transform('RANKINGS.SHARE_RATE');
+      } else {
+        amount = this.decimal.transform(amount);
+        this.tweetParams['category'] = this.translatePipe.transform('RANKINGS.SHARE_TOTAL');
+      }
+      this.tweetParams['amount'] = amount;
+    } else {
+      this.tweetTranslation = 'RANKINGS.SHARE_REGION_NO_SELECTION';
+      const actionTrans = this.dataProperty.value.startsWith('e') ?
+        'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
+      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+      // TODO: Need to handle cases where there is no top for category
+      const state = this.rankings.stateData.find(s => s.name === this.region);
+      const location = this.listData[0];
+      this.tweetParams['topArea'] = location.name;
+      let amount = state[this.dataProperty.value];
+      if (this.dataProperty.value.endsWith('Rate')) {
+        amount = this.decimal.transform(amount, '1.1-2');
+        amount = this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { 'amount': amount });
+        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE');
+      } else {
+        amount = this.decimal.transform(amount);
+        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
+      }
+      this.tweetParams['amount'] = amount;
+    }
+
+    const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
+    this.encodedTweet = this.platform.urlEncode(tweet);
+  }
+
   private getCurrentNavArray() {
     const routeArray =  [
       '/',
@@ -282,6 +383,7 @@ export class RankingToolComponent implements OnInit, OnDestroy {
         this.fullData = this.rankings.getSortedData(this.dataProperty.value);
         this.setupPageScroll();
       }
+      this.updateTwitterText();
     } else {
       console.warn('data is not ready yet');
     }

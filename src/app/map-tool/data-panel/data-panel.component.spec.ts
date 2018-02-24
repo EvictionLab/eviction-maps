@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -37,11 +38,20 @@ export class MapToolServiceStub {
   activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
+  usAverage = {};
+  usAverageLoaded = new EventEmitter<any>();
   getRouteArray() { return []; }
 }
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
+
+@Pipe({ name: 'decimal' })
+export class DecimalPipeMock implements PipeTransform {
   transform(value: any): any {
     return value;
   }
@@ -67,6 +77,7 @@ describe('DataPanelComponent', () => {
         providers: [
           { provide: MapToolService, useClass: MapToolServiceStub },
           { provide: TranslatePipe, useClass: TranslatePipeMock },
+          { provide: DecimalPipe, useClass: DecimalPipeMock },
           TranslateService
         ]
       }

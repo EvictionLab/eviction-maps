@@ -107,6 +107,20 @@ export class PlatformService {
     this.dimensions$.subscribe(this.updateDimensions.bind(this));
   }
 
+  /**
+   * Expose URL encoding helper
+   */
+  urlEncode(content: string) {
+    return this.nativeWindow.encodeURIComponent(content);
+  }
+
+  /**
+   * Helper for getting the current URL that works in templates
+   */
+  currentUrl() {
+    return this.nativeWindow.location.href;
+  }
+
   private updateDimensions(dim: { width: number, height: number }) {
     this.viewportHeight = dim.height;
     this.viewportWidth = dim.width;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
@@ -40,6 +40,7 @@ export class MapToolService {
   activeMapView;
   mapConfig;
   usAverage;
+  usAverageLoaded = new EventEmitter<any>();
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -62,7 +63,6 @@ export class MapToolService {
     private analytics: AnalyticsService,
     private platform: PlatformService
   ) {
-    this.updateLanguage(translate.translations);
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
@@ -362,7 +362,10 @@ export class MapToolService {
   loadUSAverage() {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     this.http.get(environment.usAverageDataUrl, { headers: headers })
-      .subscribe(data => this.usAverage = data);
+      .subscribe(data => {
+        this.usAverage = data;
+        this.usAverageLoaded.emit();
+      });
   }
 
   /** Gets a location string for a feature, including its parent location */

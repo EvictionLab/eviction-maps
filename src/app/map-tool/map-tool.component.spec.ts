@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { EventEmitter } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MapToolComponent } from './map-tool.component';
 import { Observable } from 'rxjs/Observable';
@@ -31,6 +32,8 @@ export class MapToolServiceStub {
   activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
+  usAverage = {};
+  usAverageLoaded = new EventEmitter<any>();
   getQueryParameters() { return []; }
   getRouteArray() { return []; }
   loadUSAverage() { }
