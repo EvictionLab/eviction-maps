@@ -62,7 +62,6 @@ export class MapToolService {
     private analytics: AnalyticsService,
     private platform: PlatformService
   ) {
-    this.updateLanguage(translate.translations);
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
