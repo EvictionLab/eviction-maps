@@ -20,8 +20,8 @@
   </ul>
   <ng-content></ng-content>
   <span class="menu-copyright">&copy; 2018 Eviction Lab</span>
-  <app-ui-close-button class="menu-close light"
-    [label]="'NAV.CLOSE_MENU' | translate"
-    (onPress)="onClose.emit()"
-  ></app-ui-close-button>
+  <button class="btn btn-icon menu-close" (click)="onClose.emit()">
+    <app-ui-icon icon="close"></app-ui-icon>
+    <span>{{ 'NAV.CLOSE_MENU' | translate }}</span>
+  </button>
 </div>

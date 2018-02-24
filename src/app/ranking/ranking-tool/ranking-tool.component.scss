@@ -29,6 +29,12 @@ $sidePanelHeight: grid(55);
   }
 }
 
+.hero {
+  background-image: url('/assets/images/hero-rankings.jpg');
+  background-size: cover;
+  background-position:center;
+}
+
 // vertical stacked layout on mobile
 .page-content .content-inner {
   display: flex;
@@ -353,12 +359,13 @@ app-ranking-ui {
     border: none;
     height: grid(3);
     width: grid(3);
-    background-color: #EEF2F5;
-
-    &.btn-link { 
-      padding-top: 0;
-      svg { margin-top: 0; }
+    background-color: transparent;
+    .icon {
+      height: grid(2);
+      fill: $grey1a;
     }
+    &:hover .icon { fill: $black;}
+
   }
 
   .share-intro {

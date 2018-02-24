@@ -43,7 +43,9 @@
     height: $cardHeaderHeight;
     padding-right: grid(6);
     &.clickable { cursor: pointer; }
-    &.clickable:hover { background: $shadingColor; }
+    &.clickable:hover { 
+      background: $cardHoverBg; 
+    }
     &:after {
       content: "";
       position: absolute;
@@ -61,7 +63,7 @@
     margin: grid(0.5) 0 0 0;     
     @include smallCapsText(12px);
   }
-  .btn-close { 
+  .card-dismiss { 
     position:absolute;
     top: 0px;
     right: 0px;
@@ -305,7 +307,7 @@
       border: 1px solid $panelCardBorder;
       padding:0;
     }
-    .btn-close {
+    .card-dismiss {
       top: auto;
       bottom: grid(5);
     }
@@ -450,7 +452,7 @@
     .card-subheading { 
       margin-left: grid(6); 
     }
-    .btn-close {
+    .card-dismiss {
       bottom: grid(4.5);
     }
     .card-stats { 

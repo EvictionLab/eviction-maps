@@ -46,8 +46,7 @@
           <h2>{{ 'DATA.SOCIAL_HEADING' | translate }}</h2>
           <span>{{ 'DATA.SOCIAL_HINT' | translate }}</span>
           <div class="social-icons">
-            <a 
-              class="btn btn-border icon btn-twitter"
+            <a class="btn btn-border icon btn-twitter"
               (click)="trackShare('twitter')" 
               appSocialSharePopup 
               href="http://twitter.com/intent/tweet?status={{ encodedTweet }}" 
@@ -55,8 +54,7 @@
             >
               <app-ui-icon icon="twitter"></app-ui-icon>
             </a>
-            <a
-              class="btn btn-border icon btn-facebook"
+            <a class="btn btn-border icon btn-facebook"
               (click)="trackShare('facebook')" 
               appSocialSharePopup 
               [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"  
@@ -64,8 +62,7 @@
             >
               <app-ui-icon icon="facebook"></app-ui-icon>
             </a>
-            <a
-              class="btn btn-border icon btn-email" 
+            <a class="btn btn-border icon btn-email" 
               [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" 
               (click)="checkMailto($event); trackShare('email')" 
               [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate"

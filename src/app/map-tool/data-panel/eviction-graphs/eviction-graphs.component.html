@@ -60,9 +60,7 @@
         <li *ngFor="let location of locations; let i = index;">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
           <span class="legend-label">{{ location.properties["n"] }}</span>
-          <button [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" class="btn btn-close" (click)="locationRemoved.emit(location)">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <app-ui-close-button class="clear-location" [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
             <span>{{ getLegendValue(location, i) }}</span>
           </p>
@@ -71,9 +69,7 @@
         <li *ngIf="average" class="us-average" [class.active]="showAverage">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
           <span class="legend-label">{{ average.properties["n"] }}</span>
-          <button [attr.aria-label]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.properties.n}" class="btn btn-close" (click)="showAverage = !showAverage">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <app-ui-close-button class="clear-location"  [attr.aria-label]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.properties.n}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
           <p class="legend-data">
               <span>{{ getLegendValue(average, this.locations.length) }}</span>
           </p>

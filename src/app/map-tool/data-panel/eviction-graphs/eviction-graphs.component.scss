@@ -202,10 +202,12 @@
       margin-top: grid(1);
       @include numberFont(14px);
     }
-    .btn-close { 
+    .clear-location { 
       position:absolute;
       right:0;
       top:-1*grid(1);
+      width: grid(5);
+      height: grid(5);
     }
     &:last-child { border-bottom: none; }
     &:nth-child(1) .legend-marker { fill: $graphColor1; }
@@ -214,17 +216,15 @@
     &.us-average .legend-marker { fill: $graphColor4; }
   }
   li.us-average {
-    opacity: 0.5;
-
-    .btn.btn-close::after {
+    .legend-label, .legend-marker { opacity: 0.5; }
+    // transition between "add" and "close"
+    .clear-location {
       transform: rotate(45deg);
       transition: all 0.2s ease;
     }
-
     &.active {
-      opacity: 1;
-
-      .btn.btn-close::after {
+      .legend-label, .legend-marker { opacity: 1; }
+      .clear-location {
         transform: rotate(0deg);
       }
     }
@@ -273,7 +273,7 @@
       .legend-label {
         margin-right:0;
       }
-      .btn-close { 
+      .clear-location { 
         position:absolute;
         right:-1*grid(5);
         top: -1*grid(1);
@@ -313,7 +313,7 @@
     li { 
       width:100%; 
       margin: grid(1.5) 0 grid(3);
-      .btn-close { position: absolute; right:0; }
+      .clear-location { position: absolute; right:0; }
       .legend-label { font-size: 21px; }
     }
   }

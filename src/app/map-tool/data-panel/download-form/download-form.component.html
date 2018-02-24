@@ -1,8 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">{{ 'DATA.DOWNLOAD_TITLE' | translate }}</h4>
-  <button type="button" class="close" [attr.aria-label]="'DATA.CLOSE_BUTTON' | translate" (click)="onCancelClick($event)">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <app-ui-close-button class="close" (onPress)="onCancelClick($event)"></app-ui-close-button>
 </div>
 <div class="modal-body">
   <div class="description" [innerHTML]="exportDescription | translate:exportDescriptionParams"></div>

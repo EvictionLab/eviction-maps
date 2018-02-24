@@ -7,9 +7,7 @@
     <app-ui-icon class="marker" icon="marker"></app-ui-icon>
     <h1 class="card-heading">{{f.properties.n}}</h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
-    <button [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" class="btn btn-close" (click)="dismissedCard.emit(f)">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <app-ui-close-button class="card-dismiss" [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" (onPress)="dismissedCard.emit(f)"></app-ui-close-button>
   </div>
   <div class="card-content">
     <ul class="card-stats">
