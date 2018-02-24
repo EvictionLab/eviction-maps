@@ -269,81 +269,102 @@ export class RankingToolComponent implements OnInit, OnDestroy {
    */
   updateTwitterText() {
     if (this.activeTab === 'evictions') {
-      this.updateCitiesTwitterText();
+      this.updateCitiesTweet();
     }
   }
 
   /**
    * Updates Twitter text for city rankings
    */
-  private updateCitiesTwitterText() {
+  private updateCitiesTweet() {
     this.tweetParams = {
       year: this.rankings.year,
       link: this.platform.currentUrl(),
       areaType: this.translatePipe.transform(this.areaType.langKey).toLowerCase(),
       region: this.region
     };
+    let amount;
 
+    // Update tweet template based on selections
     if (this.region === 'United States' && !this.selectedIndex && this.selectedIndex !== 0) {
+      // Set default tweet parameters with the US and no location selected
       this.tweetTranslation = 'RANKINGS.SHARE_DEFAULT';
-      const actionTrans = this.dataProperty.value.startsWith('e') ?
-        'RANKINGS.SHARE_JUDGMENT' : 'RANKINGS.SHARE_FILING';
-      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
 
-      let amount = this.listData.slice(0, 10).reduce((a, b) => {
+      amount = this.listData.slice(0, 10).reduce((a, b) => {
         return a + b[this.dataProperty.value];
       }, 0);
-      if (this.dataProperty.value.endsWith('Rate')) {
-        amount = amount / 10;
-        amount = this.decimal.transform(amount, '1.1-2');
-        amount = this.translatePipe.transform('RANKINGS.SHARE_AVERAGE', {'amount': amount});
-      } else {
-        amount = this.decimal.transform(amount);
-      }
-      this.tweetParams['amount'] = amount;
     } else if (this.selectedIndex || this.selectedIndex === 0) {
+      // Set tweet parameters when a location is currently selected
       this.tweetTranslation = 'RANKINGS.SHARE_SELECTION';
+
+      // Pull tweet parameters based on selected area
       const location = this.listData[this.selectedIndex];
       this.tweetParams['area'] = location.name;
       this.tweetParams['ranking'] = `${this.selectedIndex + 1}${
         this.rankings.ordinalSuffix(this.selectedIndex + 1)}`;
-      const actionTrans = this.dataProperty.value.startsWith('e') ?
-        'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
-      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+      const categoryTrans = this.dataProperty.value.endsWith('Rate') ?
+        'RANKINGS.SHARE_RATE' : 'RANKINGS.SHARE_TOTAL';
+      this.tweetParams['category'] = this.translatePipe.transform(categoryTrans);
 
-      let amount = location[this.dataProperty.value];
-      if (this.dataProperty.value.endsWith('Rate')) {
-        amount = this.decimal.transform(amount, '1.1-2');
-        amount = this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', {'amount': amount});
-        this.tweetParams['category'] = this.translatePipe.transform('RANKINGS.SHARE_RATE');
-      } else {
-        amount = this.decimal.transform(amount);
-        this.tweetParams['category'] = this.translatePipe.transform('RANKINGS.SHARE_TOTAL');
-      }
-      this.tweetParams['amount'] = amount;
+      amount = location[this.dataProperty.value];
     } else {
+      // Set tweet parameters when no location is selected, but a region is
       this.tweetTranslation = 'RANKINGS.SHARE_REGION_NO_SELECTION';
-      const actionTrans = this.dataProperty.value.startsWith('e') ?
-        'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
-      this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+
       // TODO: Need to handle cases where there is no top for category
-      const state = this.rankings.stateData.find(s => s.name === this.region);
       const location = this.listData[0];
       this.tweetParams['topArea'] = location.name;
-      let amount = state[this.dataProperty.value];
-      if (this.dataProperty.value.endsWith('Rate')) {
-        amount = this.decimal.transform(amount, '1.1-2');
-        amount = this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { 'amount': amount });
-        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE');
-      } else {
-        amount = this.decimal.transform(amount);
-        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
-      }
-      this.tweetParams['amount'] = amount;
+      const state = this.rankings.stateData.find(s => s.name === this.region);
+      amount = state[this.dataProperty.value];
     }
 
+    this.setTweetAction();
+    this.setTweetAmount(amount);
     const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
     this.encodedTweet = this.platform.urlEncode(tweet);
+  }
+
+  /**
+   * Set action portion of tweet based on selected template
+   */
+  private setTweetAction() {
+    let actionTrans;
+
+    if (this.tweetTranslation === 'RANKINGS.SHARE_DEFAULT') {
+      actionTrans = this.dataProperty.value.startsWith('e') ?
+        'RANKINGS.SHARE_JUDGMENT' : 'RANKINGS.SHARE_FILING';
+    } else {
+      actionTrans = this.dataProperty.value.startsWith('e') ?
+        'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
+    }
+    this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+  }
+
+  /**
+   * Set amount parameters in tweet depending on selections
+   * @param amountNum
+   */
+  private setTweetAmount(amountNum: number): void {
+    let amount;
+
+    // Format translation parameters depending on if they're percentages or totals
+    if (this.dataProperty.value.endsWith('Rate')) {
+      let amountTrans = 'RANKINGS.SHARE_AVERAGE';
+      // Default rate uses different language, averages top 10
+      if (this.tweetTranslation === 'RANKINGS.SHARE_DEFAULT') {
+        amount = amountNum / 10;
+      } else {
+        amount = amountNum;
+        amountTrans = 'RANKINGS.SHARE_PERCENT_OF';
+        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE');
+      }
+      amount = this.decimal.transform(amount, '1.1-2');
+      amount = this.translatePipe.transform(amountTrans, { 'amount': amount });
+    } else {
+      amount = this.decimal.transform(amountNum);
+      this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
+    }
+    this.tweetParams['amount'] = amount;
   }
 
   private getCurrentNavArray() {
