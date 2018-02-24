@@ -14,6 +14,7 @@
     "DOWNLOAD_HEADING": "Download Reports",
     "DOWNLOAD_HINT": "Descargar los datos y gráficos actuales en un archivo PowerPoint, PDF, u hoja de cálculo",
     "DOWNLOAD_BUTTON": "Select Report(s)",
+    "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Acceder a Más Datos",
     "GET_DATA": "Select Data Set(s)",
     "GET_DATA_HINT": "Access spreadsheets of full data sets from across the U.S.",
