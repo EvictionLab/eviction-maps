@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiCloseButtonComponent } from './ui-close-button.component';
+import { UiModule } from '../ui.module';
 
 describe('UiCloseButtonComponent', () => {
   let component: UiCloseButtonComponent;
@@ -8,7 +9,8 @@ describe('UiCloseButtonComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiCloseButtonComponent ]
+      declarations: [ ],
+      imports: [UiModule]
     })
     .compileComponents();
   }));
