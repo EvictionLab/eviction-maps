@@ -3,13 +3,14 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { csvParse } from 'd3-dsv';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 import { REGIONS } from './ranking-regions';
 import { RankingLocation } from './ranking-location';
 
 @Injectable()
 export class RankingService {
-  year = 2016;
+  year = environment.maxYear;
   regions: Object = REGIONS;
   regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
@@ -24,6 +25,7 @@ export class RankingService {
     { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
   data: Array<RankingLocation>;
+  stateData: Array<RankingLocation>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
 
@@ -38,6 +40,7 @@ export class RankingService {
       this.updateLanguage(lang.translations);
     });
     this.loadCsvData();
+    this.loadStateData();
   }
 
   /**
@@ -46,7 +49,7 @@ export class RankingService {
    */
   loadCsvData() {
     console.time('load rankings');
-    return this.http.get(this.config.dataUrl, { responseType: 'text' })
+    return this.http.get(this.config.cityUrl, { responseType: 'text' })
       .map((csvString) => {
         console.timeEnd('load rankings');
         console.time('parse csv');
@@ -58,6 +61,12 @@ export class RankingService {
         this.data = locations;
         this.ready.next(true);
       });
+  }
+
+  loadStateData() {
+    return this.http.get(this.config.stateUrl, { responseType: 'text' })
+      .map((csvString) => this.parseCsvData(csvString))
+      .subscribe(locations => this.stateData = locations);
   }
 
   /**
@@ -102,11 +111,37 @@ export class RankingService {
         name: d['name'],
         displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],
-        displayParentLocation: this.regions[d['parent-location']],
+        displayParentLocation: d['parent-location'] === 'USA' ?
+          'USA' : this.regions[d['parent-location']],
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
-        areaType: parseInt(d['area-type'], 10)
+        areaType: d['area-type'] ? parseInt(d['area-type'], 10) : 3
       } as RankingLocation;
     });
+  }
+
+  /**
+   * Returns ordinal suffix for rank
+   * @param rank
+   */
+  ordinalSuffix(rank: number): string {
+    const digit = rank % 10;
+    if (this.translate.currentLang === 'en') {
+      if (rank >= 10 && rank <= 20) {
+        return 'th';
+      }
+      switch (digit) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    } else if (this.translate.currentLang === 'es') {
+      // Spanish depends on gender of word being described
+      // TODO: Check if this is right
+      return 'a';
+    }
+    // Default to empty string
+    return '';
   }
 
   /** Creates a function to use for sorting the data */
