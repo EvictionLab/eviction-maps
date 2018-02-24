@@ -1,7 +1,4 @@
 <button class="btn btn-icon" (click)="onPress.emit()">
-  <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <path d="M10,0 L10,20" transform="translate(10, 10) rotate(45) translate(-10, -10) "></path>
-    <path d="M20,10 L0,10" transform="translate(10, 10) rotate(45) translate(-10, -10) "></path>
-  </svg>
+  <app-ui-icon icon="close"></app-ui-icon>
   <span *ngIf="label">{{ label }}</span>
 </button>

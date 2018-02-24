@@ -1,18 +1,22 @@
 // HERO
 
+@mixin heroText($size) {
+  @include altSmallCapsText($size);
+  letter-spacing: 0.11667em;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.16);
+}
+
 .hero {
   height: grid(19);
   position:relative;
   background: $grey0;
   h1 {
     @include fill-parent();
-    @include altSmallCapsText(20px);
+    @include heroText(20px);
     height: grid(5);
     text-align:center;
     color: #fff;
     margin:auto;
-    text-shadow: 0 1px 3px #000;
-    letter-spacing: 0.125em;
     &:after {
       content:"";
       width: grid(8);
@@ -31,9 +35,10 @@
 @media(min-width: $gtMobile) {
   .hero {
     height:auto;
-    padding-top: 23.125%; // 1280:296 ratio
+    padding-top: 20.55555%; // 1440:296 ratio
     h1 { 
-      @include altSmallCapsText(32px);
+      @include heroText(36px);
+      letter-spacing: 0.125em;
       height: grid(7);
       &:after {
         width: grid(12);

@@ -18,7 +18,7 @@
     <div class="content-inner">
       <div class="ranking-ui-container">
         <button class="search-filter" (click)="showUiPanel = true">
-          <span _ngcontent-c7="" aria-hidden="true" class="glyphicon glyphicon-search"></span>
+          <app-ui-icon icon="search"></app-ui-icon>
           <span> {{ 'RANKINGS.SEARCH_FILTER' | translate }}</span>
         </button>
         <app-ranking-ui
@@ -43,33 +43,22 @@
           <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
           <a class="btn btn-border icon btn-twitter" (click)="trackShare('twitter')" appSocialSharePopup href="http://twitter.com/intent/tweet?status={{ encodedTweet }}"
             [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M22.46,6C21.69,6.35 20.86,6.58 20,6.69C20.88,6.16 21.56,5.32 21.88,4.31C21.05,4.81 20.13,5.16 19.16,5.36C18.37,4.5 17.26,4 16,4C13.65,4 11.73,5.92 11.73,8.29C11.73,8.63 11.77,8.96 11.84,9.27C8.28,9.09 5.11,7.38 3,4.79C2.63,5.42 2.42,6.16 2.42,6.94C2.42,8.43 3.17,9.75 4.33,10.5C3.62,10.5 2.96,10.3 2.38,10C2.38,10 2.38,10 2.38,10.03C2.38,12.11 3.86,13.85 5.82,14.24C5.46,14.34 5.08,14.39 4.69,14.39C4.42,14.39 4.15,14.36 3.89,14.31C4.43,16 6,17.26 7.89,17.29C6.43,18.45 4.58,19.13 2.56,19.13C2.22,19.13 1.88,19.11 1.54,19.07C3.44,20.29 5.7,21 8.12,21C16,21 20.33,14.46 20.33,8.79C20.33,8.6 20.33,8.42 20.32,8.23C21.16,7.63 21.88,6.87 22.46,6Z"
-              />
-            </svg>
+            <app-ui-icon icon="twitter"></app-ui-icon>
           </a>
           <a class="btn btn-border icon btn-facebook" (click)="trackShare('facebook')" appSocialSharePopup [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"
             [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M17,2V2H17V6H15C14.31,6 14,6.81 14,7.5V10H14L17,10V14H14V22H10V14H7V10H10V6A4,4 0 0,1 14,2H17Z" />
-            </svg>
+            <app-ui-icon icon="facebook"></app-ui-icon>
           </a>
           <a class="btn btn-border icon btn-email" [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" (click)="checkMailto($event); trackShare('email')"
             [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z"
-              />
-            </svg>
+            <app-ui-icon icon="email"></app-ui-icon>
           </a>
           <ng-template #popTemplate>
             <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
           </ng-template>
           <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate"
             [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="24" height="24" viewBox="0 0 24 24">
-              <path d="M16,6H13V7.9H16C18.26,7.9 20.1,9.73 20.1,12A4.1,4.1 0 0,1 16,16.1H13V18H16A6,6 0 0,0 22,12C22,8.68 19.31,6 16,6M3.9,12C3.9,9.73 5.74,7.9 8,7.9H11V6H8A6,6 0 0,0 2,12A6,6 0 0,0 8,18H11V16.1H8C5.74,16.1 3.9,14.26 3.9,12M8,13H16V11H8V13Z"
-              />
-            </svg>
+            <app-ui-icon icon="link"></app-ui-icon>
           </button>
         </div>
       </app-ranking-ui>
@@ -91,13 +80,7 @@
     </div>
   </div>
   <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
-    <svg width="17px" height="11px" viewBox="0 0 17 11" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g transform="translate(-12, -15)" stroke="#E24000" stroke-width="3">
-          <polyline transform="translate(20.482980, 20.5) scale(1, -1) translate(-20.482980, -20.5) " points="13 17 20.2488435 24 22.1593956 22.2671098 27.9659591 17.0004975"></polyline>
-        </g>
-      </g>
-    </svg>
+    <app-ui-icon icon="arrow-up"></app-ui-icon>
   </div>
 </div>
 <div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">

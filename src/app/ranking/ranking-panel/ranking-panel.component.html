@@ -1,14 +1,9 @@
 <div *ngIf="location" class="content-inner">
   <div class="close-button" (click)="close.emit(true)">
-    <svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <path d="M10,0 L10,20" transform="translate(10, 10) rotate(45) translate(-10, -10) "></path>
-      <path d="M20,10 L0,10" transform="translate(10, 10) rotate(45) translate(-10, -10) "></path>
-    </svg>
+    <app-ui-icon icon="close"></app-ui-icon>
   </div>
   <button class="panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
-    <svg viewBox="0 0 8 12">
-      <polygon transform="translate(4.295000, 6.000000) scale(-1, 1) translate(-4.295000, -6.000000) " points="0.59 10.58 5.17 6 0.59 1.41 2 0 8 6 2 12"></polygon>
-    </svg>
+    <app-ui-icon icon="arrow-left"></app-ui-icon>
   </button>
   <div class="panel-summary">
     <div class="panel-top">
@@ -24,8 +19,6 @@
     </div>
   </div>
   <button class="panel-arrow panel-next" (click)="goToNext.emit(true)">
-    <svg viewBox="0 0 8 12">
-      <polygon points="0.59 10.58 5.17 6 0.59 1.41 2 0 8 6 2 12"></polygon>
-    </svg>
+    <app-ui-icon icon="arrow-right"></app-ui-icon>
   </button>
 </div>

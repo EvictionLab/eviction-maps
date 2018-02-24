@@ -89,7 +89,7 @@ app-location-cards {
       background: $white;
       border: 5px solid $grey5;
       color: $black;
-      path { fill: $black; }
+      text-decoration: none;
     }
     // non-icon buttons fill container
     &:not(.icon) { width:100%; }
@@ -149,6 +149,14 @@ app-location-cards {
   justify-content: space-around;
   a:hover {
     text-decoration: none;
+  }
+  .btn .icon {
+    width: grid(2.5);
+    height: grid(2.5);
+    fill: $grey1;
+  }
+  .btn:hover .icon {
+    fill: $black;
   }
 }
 

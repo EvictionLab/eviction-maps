@@ -3,6 +3,17 @@ body {
   
   // Default button
   .btn {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    user-select: none;
+    background-image: none;
     border-radius: 2px;
     border:none;
     @include smallCapsText($buttonTextSize);
@@ -10,7 +21,6 @@ body {
     padding: 0 $defaultPadding;
     &.active, &:active {
       background: $focusBgColor;
-      box-shadow: none;
     }
     &:focus, &:active:focus {
       outline: 0;
@@ -38,6 +48,7 @@ body {
   .btn-primary {
     border: none;
     background: $primaryButtonColor;
+    color: $white;
     height: grid(7);
     padding: 0 grid(7);
     &:hover {
@@ -59,7 +70,7 @@ body {
   .btn.btn-icon {
     background: none;
     border:none; 
-    padding: 2px 2px 1px 2px; // low padding to prevent icon + content from touching edges
+    padding: 0;
     margin:0;
     width: grid(5);
     height: grid(5);
@@ -117,17 +128,17 @@ body {
     display:flex;
     align-items:center;
     justify-content: center;
-    svg path { fill: $grey1; }
+    & > svg path { fill: $grey1; }
     &.icon {
       width: grid(7);
       height: grid(7);
-      padding: 3px 0 0 0;
+      padding: 0;
       margin: 0 grid(0.5) 0 0;
       &:last-child {
         margin-right: 0;
       }
 
-      svg { margin: 3px 6px 6px 6px; }
+      & > svg { margin: 3px 6px 6px 6px; }
     }
     &.dark {
       background: none;

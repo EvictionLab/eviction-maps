@@ -5,15 +5,18 @@
   width:100%;
 }
 
-.search-container .glyphicon {
+.search-container app-ui-icon {
   position: absolute;
   top: 0;
   bottom: 0;
   left: grid(2);
   color: $color1;
-  width: 15px;
-  height: 15px;
+  width: grid(2);
+  height: grid(2);
   margin: auto;
+  ::ng-deep svg {
+    fill: $color1;
+  }
 }
 
 .search-container .clear {

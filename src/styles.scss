@@ -13,6 +13,7 @@
 @import './theme/base/inputs';
 @import './theme/base/hero';
 @import './theme/base/menu';
+@import './theme/base/header';
 @import './theme/base/footer';
 
 
@@ -90,19 +91,6 @@ body {
 
 .modal .modal-dialog .modal-content {
   border-radius:0;
-}
-.down-arrow {
-  margin-bottom:4px;
-  width:14px;
-  height:8px;
-  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
-}
-.up-arrow {
-  margin-bottom:4px;
-  width:14px;
-  height:8px;
-  transform: rotate(180deg);
-  polyline { stroke-width: 3px; stroke: #fff; fill: none;}
 }
 
 

@@ -3,8 +3,8 @@ import {
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
 import { UiSelectComponent } from './ui-select.component';
+import { UiModule } from '../../ui/ui.module';
 
 describe('UiSelectComponent', () => {
   let component: UiSelectComponent;
@@ -15,8 +15,8 @@ describe('UiSelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiSelectComponent ],
-      imports: [BsDropdownModule.forRoot()]
+      declarations: [ ],
+      imports: [BsDropdownModule.forRoot(), UiModule]
     })
     .compileComponents();
   }));

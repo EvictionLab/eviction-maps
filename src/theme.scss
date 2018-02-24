@@ -113,6 +113,7 @@ $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
 $focusBgColor: #FFE8DE;
+$iconColor: #666;
 
 // Shadows
 // ----
@@ -167,14 +168,16 @@ $buttonTextSize: 14px;
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
 // Close button (default and light colors for dark bgs)
-$closeButton: $color1;
+$closeButton: $grey2a;
 $closeButtonBg: transparent;
 $closeButtonHover: $color1;
 $closeButtonHoverBg: transparent;
+$closeCircleBorder: 2px solid $grey4a;
 $lightCloseButton: $white;
 $lightCloseButtonBg: transparent;
 $lightCloseButtonHover: $grey2;
 $lightCloseButtonHoverBg: transparent;
+
 
 // Toast messages
 // ----
@@ -239,6 +242,7 @@ $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
 $cardLabelText: $grey1a;
 $cardValueText: $black;;
+$cardHoverBg: linear-gradient(180deg, #fff 20%, $color6);
 
 // colors - cards in data panel
 $panelCardLabelText: $black;;
@@ -282,6 +286,7 @@ $tooltipArrowSize: grid(1);
   padding: grid(1);
   background: $tooltipBackground;
   color: $tooltipFontColor;
+  max-width: grid(30);
 }
 
 
