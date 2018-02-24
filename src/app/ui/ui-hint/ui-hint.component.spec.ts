@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { UiHintComponent } from './ui-hint.component';
+import { UiModule } from '../../ui/ui.module';
 
 describe('UiHintComponent', () => {
   let component: UiHintComponent;
@@ -9,8 +10,8 @@ describe('UiHintComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ TooltipModule.forRoot() ],
-      declarations: [ UiHintComponent ]
+      imports: [ TooltipModule.forRoot(), UiModule ],
+      declarations: [ ]
     })
     .compileComponents();
   }));

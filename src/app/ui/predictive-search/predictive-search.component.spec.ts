@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { PredictiveSearchComponent } from './predictive-search.component';
+import { UiModule } from '../../ui/ui.module';
 
 describe('PredictiveSearchComponent', () => {
   let component: PredictiveSearchComponent;
@@ -24,8 +25,8 @@ describe('PredictiveSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PredictiveSearchComponent ],
-      imports: [ FormsModule, TypeaheadModule.forRoot() ]
+      declarations: [ ],
+      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule ]
     })
     .compileComponents();
   }));
