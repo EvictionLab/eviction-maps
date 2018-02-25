@@ -34,7 +34,6 @@ export class RankingService {
     private translate: TranslateService,
     @Inject('config') private config: any
   ) {
-    this.updateLanguage(this.translate.translations[this.translate.currentLang]);
     this.translate.onLangChange.subscribe(lang => {
       console.log('lang change', lang);
       this.updateLanguage(lang.translations);
@@ -60,6 +59,8 @@ export class RankingService {
       .subscribe(locations => {
         this.data = locations;
         this.ready.next(true);
+        this.translate.getTranslation(this.translate.currentLang).take(1)
+          .subscribe(translations => this.updateLanguage(translations));
       });
   }
 
@@ -156,6 +157,7 @@ export class RankingService {
   }
 
   private updateLanguage(translations) {
+    // console.log('updating language', translations);
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
       this.sortProps = this.sortProps.map(p => {
