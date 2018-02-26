@@ -1,147 +1,150 @@
-// wrapped in body to override bootstrap
-body {
-  
-  // Default button
-  .btn {
-    display: inline-block;
-    margin-bottom: 0;
-    font-weight: normal;
-    line-height: 1.42857143;
+// Default button
+.btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  line-height: 1.214285714285714; // 17:14 ratio on buttons
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  background-image: none;
+  border-radius: 2px;
+  border:none;
+  @include smallCapsText($buttonTextSize);
+  height: $buttonHeight;
+  padding: 0 $defaultPadding;
+  &.active, &:active {
+    background: $focusBgColor;
+  }
+  &:focus, &:active:focus {
+    outline: 0;
+  }
+  // icon above button label
+  svg{ display:block; margin: 0 auto 6px;}
+
+  // icon below button label
+  span + svg { margin: 4px auto; }
+  &.z1 { box-shadow: $z1shadow; }
+
+}
+
+// Buttons with smaller height
+.btn.btn-small {
+  height: $buttonHeightSm;
+}
+
+.btn.btn-large {
+  height:auto;
+  min-height: grid(8);
+}
+
+// Primary color buttons
+.btn-primary {
+  @include altSmallCapsText($buttonTextSize);
+  border: none;
+  background: $primaryButtonColor;
+  color: $white;
+  height: grid(7);
+  padding: 0 grid(7);
+  &:hover {
+    background: $primaryButtonHoverColor;
+  }
+  &:active, &:focus, &:active:focus {
+    background: darken($primaryButtonHoverColor, 5%);
+  }
+  .icon {
+    margin: 0 auto grid(0.5);
+  }
+  span + .icon {
+    margin: grid(0.5) auto 0;
+  }
+}
+
+.btn.btn-secondary {
+  background: none;
+  height: grid(7);
+  padding: 0 grid(7);
+  color: $grey1a;
+}
+
+// icon button with optional label
+.btn.btn-icon {
+  background: none;
+  border:none; 
+  padding: 0;
+  margin:0;
+  width: grid(5);
+  height: grid(5);
+  display:flex;
+  flex-direction: column; 
+  align-items:center;
+  justify-content: flex-start;
+  line-height:1;
+  @include smallCapsText(9px);
+  &:active {
+    background: none;
+  }
+}
+
+// DEPRECATED: use the close button component instead
+.btn.btn-close { 
+  font-size: 16px; 
+  width:grid(5);
+  height:grid(5);
+  background:none;
+  line-height:1;
+  color: $closeButtonColor;
+  &.alt { color: $altCloseButtonColor }
+  &:after {
+    border-radius: grid(3);
+    border: 1px solid $shadingColor;
+    @include fill-parent;
+    width: grid(3);
+    height: grid(3);
+    margin: auto;
+    background: $defaultBackground; 
+    content: "\00D7"; 
+    line-height: 22px;
     text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    touch-action: manipulation;
-    cursor: pointer;
-    user-select: none;
-    background-image: none;
-    border-radius: 2px;
-    border:none;
-    @include smallCapsText($buttonTextSize);
-    height: $buttonHeight;
-    padding: 0 $defaultPadding;
-    &.active, &:active {
-      background: $focusBgColor;
-    }
-    &:focus, &:active:focus {
-      outline: 0;
-    }
-    // icon above button label
-    svg{ display:block; margin: 0 auto 6px;}
-
-    // icon below button label
-    span + svg { margin: 4px auto; }
-    &.z1 { box-shadow: $z1shadow; }
-
   }
-
-  // Buttons with smaller height
-  .btn.btn-small {
-    height: $buttonHeightSm;
-  }
-
-  .btn.btn-large {
-    height: grid(8);
-    @include smallCapsText(15px);
-  }
-
-  // Primary color buttons
-  .btn-primary {
-    border: none;
-    background: $primaryButtonColor;
-    color: $white;
-    height: grid(7);
-    padding: 0 grid(7);
-    &:hover {
-      background: $primaryButtonHoverColor;
-    }
-    &:active, &:focus, &:active:focus {
-      background: darken($primaryButtonHoverColor, 5%);
-    }
-  }
-
-  .btn.btn-secondary {
+  &:hover {
     background: none;
-    height: grid(7);
-    padding: 0 grid(7);
-    color: $grey1a;
   }
+  &:focus {
+    background: $focusBgColor;
+  }
+}
 
-  // icon button with optional label
-  .btn.btn-icon {
-    background: none;
-    border:none; 
+// Square buttons with border
+.btn-border {
+  background: $defaultBackground;
+  color: $grey1;
+  border: 5px solid $grey5;
+  border-radius:0;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-weight: 500;
+  padding: grid(1) grid(2);
+  box-sizing: border-box;
+  display:flex;
+  align-items:center;
+  justify-content: center;
+  & > svg path { fill: $grey1; }
+  &.icon {
+    width: grid(7);
+    height: grid(7);
     padding: 0;
-    margin:0;
-    width: grid(5);
-    height: grid(5);
-    display:flex;
-    flex-direction: column; 
-    align-items:center;
-    justify-content: flex-start;
-    line-height:1;
-    @include smallCapsText(9px);
-    &:active {
-      background: none;
+    margin: 0 grid(0.5) 0 0;
+    &:last-child {
+      margin-right: 0;
     }
+
+    & > svg { margin: 3px 6px 6px 6px; }
   }
-
-  // DEPRECATED: use the close button component instead
-  .btn.btn-close { 
-    font-size: 16px; 
-    width:grid(5);
-    height:grid(5);
-    background:none;
-    line-height:1;
-    color: $closeButtonColor;
-    &.alt { color: $altCloseButtonColor }
-    &:after {
-      border-radius: grid(3);
-      border: 1px solid $shadingColor;
-      @include fill-parent;
-      width: grid(3);
-      height: grid(3);
-      margin: auto;
-      background: $defaultBackground; 
-      content: "\00D7"; 
-      line-height: 22px;
-      text-align: center;
-    }
-    &:hover {
-      background: none;
-    }
-    &:focus {
-      background: $focusBgColor;
-    }
-  }
-
-  // Square buttons with border
-  .btn-border {
-    background: $defaultBackground;
-    color: $grey1;
-    border: 5px solid $grey5;
-    border-radius:0;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    font-weight: 500;
-    padding: grid(1) grid(2);
-    box-sizing: border-box;
-    display:flex;
-    align-items:center;
-    justify-content: center;
-    & > svg path { fill: $grey1; }
-    &.icon {
-      width: grid(7);
-      height: grid(7);
-      padding: 0;
-      margin: 0 grid(0.5) 0 0;
-      &:last-child {
-        margin-right: 0;
-      }
-
-      & > svg { margin: 3px 6px 6px 6px; }
-    }
-    &.dark {
-      background: none;
-    }
+  &.dark {
+    background: none;
   }
 }

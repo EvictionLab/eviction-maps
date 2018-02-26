@@ -1,60 +1,104 @@
-body {
 
-  .form-control {
-    border: 1px solid $shadingColor;
-    border-radius: 0px;
-    box-shadow: none;
-    height: grid(7);
-    padding: grid(1) grid(2);
-    font-size: 15px;
-    &.light {
-      background: none;
-      color: $white;
-      border: 2px solid $white;
-      &:focus {
-        border: 2px solid $white;
-      }
-    }
+$inputTextColor: $black;
+$inputPlaceholderColor: $grey2a;
+$inputFontSize: 15px;
+$inputFontSize_lg: 17px;
+
+.form-control {
+  display: block;
+  width: 100%;
+  line-height: 1.42857143;
+  color: $inputTextColor;
+  background-color: $white;
+  background-image: none;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  border: 1px solid $shadingColor;
+  border-radius: 0px;
+  box-shadow: none;
+  height: grid(7);
+  padding: grid(1) grid(2);
+  font-size: $inputFontSize;
+  // placeholder text color
+  &::-moz-placeholder,
+  &:-ms-input-placeholder,
+  &::-webkit-input-placeholder {
+    color: $inputPlaceholderColor;
   }
-
-  // Checkboxes
-  // ---
-  input[type=checkbox] {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: grid(5);
-    height: grid(5);
-    margin:0;
-    background-color: $white;
-    border: 1px solid $grey4;
-    box-shadow: none;
-    display: inline-block;
-    position: relative;
-    // add a checkmark when checked
-    &:checked:after {
-      content: '';
-      display: block;
-      width: 10px;
-      height: 20px;
-      border: solid $color1;
-      border-width: 0 3px 3px 0;
-      transform: rotate(45deg);
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 4px;
-      margin: auto;
-    }
+  // hide the default arrow on select inputs
+  &::-ms-expand {
+    background-color: transparent;
+    border: 0;
+  }
+  // input focus state
+  &:focus {
+    border-color: $color1;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
+  }
+  // alternate styles for dark backgrounds
+  &.light {
+    background: none;
+    color: $white;
+    border: 2px solid $white;
     &:focus {
-      @include focusState();
+      border: 2px solid $white;
     }
   }
 }
 
+// Disabled state for inputs
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: $shadingColor;
+  opacity: 1;
+}
+.form-control[disabled],
+fieldset[disabled] .form-control {
+  cursor: not-allowed;
+}
+textarea.form-control { height: auto; }
+input[type="search"] { -webkit-appearance: none; }
+
+
+// Checkboxes
+// ---
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: grid(5);
+  height: grid(5);
+  margin:0;
+  background-color: $white;
+  border: 1px solid $grey4;
+  box-shadow: none;
+  display: inline-block;
+  position: relative;
+  // add a checkmark when checked
+  &:checked:after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 20px;
+    border: solid $color1;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    margin: auto;
+  }
+  &:focus {
+    @include focusState();
+  }
+}
+
+
 // boost font size on desktop+
 @media(min-width: $gtLaptop) {
-  body .form-control {
-    font-size: 17px;
+  .form-control {
+    font-size: $inputFontSize_lg;
   }
 }

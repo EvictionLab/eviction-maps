@@ -1,101 +1,143 @@
-body {
 
-  // Override bootstrap defaults
-  // ---
-  .modal-backdrop {
-    background: $grey3;
-    opacity: 0.75;
+
+.modal-open {
+  overflow: hidden;
+}
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.modal.fade .modal-dialog {
+  transition: transform .3s ease-out;
+  transform: translate(0, -25%);
+}
+.modal.in .modal-dialog {
+  transform: translate(0, 0);
+}
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.modal-dialog {
+  position: relative;
+  width: auto;
+  margin: grid(2);
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background: $grey3;
+  opacity: 0.75;
+  &.fade {
+    filter: alpha(opacity=0);
+    opacity: 0;
   }
-  // set padding for whole modal
-  .modal-content { 
-    padding: grid(4);
-    border:none;
-    box-shadow: $z3shadow;
-    background-clip: border-box;
-    @include defaultFont(12px);
-    b {
-      font-family: $boldFontStack;
-    }
+  &.fade.in {
+    filter: alpha(opacity=50);
+    opacity: .5;
   }
-  // clear padding on inner elements
-  .modal-header,
-  .modal-body,
-  .modal-footer { padding:0; }
-  // drop border from header and footer
-  .modal-header,
-  .modal-footer { border: none; }
-  .modal-header .close {
-    float: none;
+}
+// set padding for whole modal
+.modal-content { 
+  position: relative;
+  padding: grid(4);
+  border:none;
+  box-shadow: $z3shadow;
+  background-clip: border-box;
+  @include defaultFont(12px);
+  background-color: $defaultBackground;
+  outline: 0;
+  b {
+    font-family: $boldFontStack;
+  }
+}
+// clear padding on inner elements
+.modal-header,
+.modal-body,
+.modal-footer { padding:0; }
+// drop border from header and footer
+.modal-header,
+.modal-footer { border: none; }
+.modal-header .close {
+  float: none;
+  margin:0;
+  opacity:1;
+  text-shadow: none;
+}
+
+// Eviction Lab dialog styles
+.modal-header {
+  margin-bottom: grid(1);
+  .modal-title { 
+    @include altSmallCapsText(13px);
+    margin: 0;
+    color: $grey1a;
+    line-height:1;
+  }
+  .close {
+    position:absolute;
+    top:0;
+    right:0;
+    width: grid(5);
+    height: grid(5);
     margin:0;
     opacity:1;
     text-shadow: none;
   }
-
-  // Eviction Lab dialog styles
-  .modal-header {
-    margin-bottom: grid(1);
-    .modal-title { 
-      @include altSmallCapsText(13px);
-      color: $grey1a;
-      line-height:1;
-    }
-    .close {
-      position:absolute;
-      top:0;
-      right:0;
-      width: grid(5);
-      height: grid(5);
-      margin:0;
-      opacity:1;
-      text-shadow: none;
-    }
-  }
-  .modal-footer {
-    text-align: center;
-    margin-top: grid(3);
-  }
-
-  // Eviction Lab popover styles
-  .popover {
-    border: none;
-    border-radius: 0;
-    box-shadow: $z3shadow;
-    background-clip: border-box;
-    padding: grid(2);
-
-    .popover-header {
-      padding: 0;
-      background-color: inherit;
-      border-bottom: none;
-      margin-bottom: grid(2);
-      @include altSmallCapsText(16px);
-      color: $grey1a;
-      line-height: 1;
-    }
-    .popover-content {
-      padding: 0;
-      @include defaultFont(14px);
-    }
-  }
-
+}
+.modal-body {
+  position: relative;
+}
+.modal-footer {
+  text-align: center;
+  margin-top: grid(3);
+}
+.modal-scrollbar-measure {
+  position: absolute;
+  top: -9999px;
+  width: 50px;
+  height: 50px;
+  overflow: scroll;
 }
 
-
 @media(min-width: $gtMobile) {
-  body {
-    .modal-dialog {
-      width: grid(80);
-    }
-    .modal-content {
-      padding: grid(5);
-      @include defaultFont(15px);
-    }
-    .modal-header {
-      margin-bottom: grid(3);
-      .modal-title { @include altSmallCapsText(19px); }
-    }
-    .modal-footer {
-      margin-top: grid(5);
-    }
+  .modal-dialog {
+    margin: grid(4) auto;
+    width: grid(80);
   }
+  .modal-content {
+    padding: grid(5);
+    @include defaultFont(15px);
+  }
+  .modal-header {
+    margin-bottom: grid(3);
+    .modal-title { @include altSmallCapsText(19px); }
+  }
+  .modal-footer {
+    margin-top: grid(5);
+  }
+}
+.modal-header:before,
+.modal-header:after,
+.modal-footer:before,
+.modal-footer:after {
+  display: table;
+  content: " ";
+}
+.modal-header:after,
+.modal-footer:after {
+  clear: both;
 }
