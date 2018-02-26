@@ -1,27 +1,33 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { RankingToolComponent } from './ranking-tool/ranking-tool.component';
 import { RankingUiComponent } from './ranking-ui/ranking-ui.component';
 import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { RankingPanelComponent } from './ranking-panel/ranking-panel.component';
 import { RankingService } from './ranking.service';
-import { RankingScaleComponent } from './ranking-scale/ranking-scale.component';
 import { UiModule } from '../ui/ui.module';
 
 export class RankingConfig {
-  dataUrl: string;
+  cityUrl: string;
+  stateUrl: string;
 }
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    UiModule
+    UiModule,
+    TranslateModule,
+    PopoverModule.forRoot()
   ],
   declarations: [
-    RankingToolComponent, RankingUiComponent, RankingListComponent,
-    RankingPanelComponent, RankingScaleComponent
+    RankingToolComponent,
+    RankingUiComponent,
+    RankingListComponent,
+    RankingPanelComponent
   ]
 })
 export class RankingModule {

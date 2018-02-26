@@ -28,10 +28,15 @@
       [selectedValue]="selectedLayer"
       [values]="selectDataLevels" 
       [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
-      (change)="setGroupVisibility($event)">
+      (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
   </div>
-  <app-ui-map-legend *ngIf="showLegend" [choropleth]="selectedChoropleth" [bubbles]="selectedBubble" [layer]="selectedLayer"></app-ui-map-legend>   
+  <app-ui-map-legend 
+    *ngIf="showLegend" 
+    [choropleth]="selectedChoropleth" 
+    [bubbles]="selectedBubble" 
+    [layer]="selectedLayer">
+  </app-ui-map-legend>   
   <app-location-cards
     [collapsible]="gtTablet"
     [class.cards-2]="activeFeatures.length === 2"
@@ -42,17 +47,20 @@
     [year]="year"
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
-    [dollarProps]="dollarProps"
-    [percentProps]="percentProps"
   ></app-location-cards>
+  <div class="mobile-scroll-indicator">
+    <p *ngIf="activeFeatures.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
+    <p *ngIf="activeFeatures.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
+  </div>
 </div>
 <div class="map-wrapper" #mapEl>
   <app-mapbox
     [mapConfig]="mapConfig" 
     [eventLayers]="mapEventLayers"
     [selectedLayer]="selectedLayer"
+    [featureCount]="activeFeatures.length"
     (ready)="onMapReady($event)"
-    (zoom)="onMapZoom($event)"
+    (zoomEnd)="onMapZoomEnd($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
   ></app-mapbox>
@@ -63,8 +71,8 @@
     class="year-slider"
     [label]="year"
     [(value)]="year" 
-    [min]="2000" 
-    [max]="2016" 
+    [min]="minYear" 
+    [max]="maxYear" 
   ></app-ui-slider>
 </div>
 <ng-content></ng-content>

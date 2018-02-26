@@ -1,5 +1,10 @@
 @import '../../../../theme';
 
+$geolocateIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 23 22'%3E%3Cellipse fill='%23666' cx='11.0344828' cy='11' rx='5.51724138' ry='5.5'%3E%3C/ellipse%3E%3Cpath fill='%23666' d='M2.61064081,9.625 C3.19667682,6.02193919 6.0478813,3.17917494 9.65517241,2.60578908 L9.65517241,0 L12.4137931,0 L12.4137931,2.61704287 C15.9884156,3.2154873 18.8070629,6.04493162 19.3893592,9.625 L22.0689655,9.625 L22.0689655,12.375 L19.3893592,12.375 C18.8070629,15.9550684 15.9884156,18.7845127 12.4137931,19.3829571 L12.4137931,22 L9.65517241,22 L9.65517241,19.3942109 C6.0478813,18.8208251 3.19667682,15.9780608 2.61064081,12.375 L0,12.375 L0,9.625 L2.61064081,9.625 Z M11,18.1923077 C14.9722019,18.1923077 18.1923077,14.9722019 18.1923077,11 C18.1923077,7.02779815 14.9722019,3.80769231 11,3.80769231 C7.02779815,3.80769231 3.80769231,7.02779815 3.80769231,11 C3.80769231,14.9722019 7.02779815,18.1923077 11,18.1923077 Z'%3E%3C/path%3E%3C/svg%3E";
+$zoomInIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath fill='%23666' d='M8,8 L8,0 L13.6900001,0 L13.6900001,8 L22,8 L22,13.6700001 L13.6900001,13.6700001 L13.6900001,22 L8,22 L8,13.6700001 L0,13.6700001 L0,8 L8,8 Z'%3E%3C/path%3E%3C/svg%3E";
+$zoomOutIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 6'%3E%3Crect fill='%23666' x='0' y='0' width='22' height='6'%3E%3C/rect%3E%3C/svg%3E";
+$infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cpath fill='%23666' d='M11,22 C4.92486775,22 0,17.0751322 0,11 C0,4.92486775 4.92486775,0 11,0 C17.0751322,0 22,4.92486775 22,11 C22,17.0751322 17.0751322,22 11,22 Z M10.89,7.77999997 C11.65728,7.77999997 12.28,7.15727998 12.28,6.38999999 C12.28,5.62271999 11.65728,5 10.89,5 C10.12272,5 9.5,5.62271999 9.5,6.38999999 C9.5,7.15727998 10.12272,7.77999997 10.89,7.77999997 Z M9.5,9.47999954 L9.5,16.9799995 L12.28,16.9799995 L12.28,9.47999954 L9.5,9.47999954 Z'%3E%3C/path%3E%3C/svg%3E";
+
 .mapboxgl-map {
   width:100%;
   height:100%;
@@ -7,19 +12,55 @@
   left:0;right:0;top:0;bottom:0;
 }
 
+
 ::ng-deep {
+  .mapboxgl-ctrl-icon {
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
+    background-image: url($zoomInIcon);
+  }
+  .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
+    background-image: url($zoomOutIcon);
+  }
+  .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+    background-image: url($geolocateIcon);
+    background-size: 22px 22px;
+  }
+  .mapboxgl-ctrl-attrib.mapboxgl-compact:after {
+    background-image: url($infoIcon);
+    background-size: 16px 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
   .mapboxgl-canvas:focus {
     outline: 4px solid transparentize($color1, 0.5);
     outline-offset: -4px;
   }
+  .mapboxgl-popup, .mapboxgl-popup-content {
+    cursor: pointer;
+    pointer-events: none;
+  }
+  .mapboxgl-popup-tip {
+    border: $tooltipArrowSize solid transparent;
+    transform: scale(0.75, 1); 
+  }
+  
   .mapboxgl-popup-content {
-    background-color: $tooltipBackground;
-    color: $tooltipFontColor;
-    font-family: $fontStack;
+    @include tooltip();
+  }
+  .mapboxgl-popup-content p {
+    margin: 0;
+  }
+  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+    transform: scale(1, 0.75); 
   }
   .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
   .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip, {
+  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
     border-bottom: none;
     border-top-color: $tooltipBackground;
   }
@@ -78,7 +119,7 @@
 :host-context(.slider-active) {
   ::ng-deep {
     .mapboxgl-ctrl-bottom-left {
-      bottom: grid(12);
+      bottom: $timeSliderLg;
     }
   }
 }

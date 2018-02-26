@@ -2,32 +2,44 @@ import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { csvParse } from 'd3-dsv';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 import { REGIONS } from './ranking-regions';
 import { RankingLocation } from './ranking-location';
 
 @Injectable()
 export class RankingService {
-  regions: Array<string> = REGIONS;
+  year = environment.maxYear;
+  regions: Object = REGIONS;
+  regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
-    { value: 'evictionRate', name: 'Eviction Rate' },
-    { value: 'evictions', name: 'Evictions' }
+    { value: 'evictionRate', langKey: 'STATS.JUDGMENT_RATE' },
+    { value: 'evictions', langKey: 'STATS.JUDGMENTS' },
+    { value: 'filingRate', langKey: 'STATS.FILING_RATE' },
+    { value: 'filings', langKey: 'STATS.FILINGS'}
   ];
   areaTypes = [
-    { value: 0, name: 'Cities' },
-    { value: 1, name: 'Mid-sized Areas' },
-    { value: 2, name: 'Rural Areas' }
+    { value: 0, langKey: 'RANKINGS.CITIES' },
+    { value: 1, langKey: 'RANKINGS.MID_SIZED_AREAS' },
+    { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
+  data: Array<RankingLocation>;
+  stateData: Array<RankingLocation>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
-  private data: Array<RankingLocation>;
-
 
   constructor(
     private http: HttpClient,
+    private translate: TranslateService,
     @Inject('config') private config: any
   ) {
+    this.translate.onLangChange.subscribe(lang => {
+      console.log('lang change', lang);
+      this.updateLanguage(lang.translations);
+    });
     this.loadCsvData();
+    this.loadStateData();
   }
 
   /**
@@ -36,7 +48,7 @@ export class RankingService {
    */
   loadCsvData() {
     console.time('load rankings');
-    return this.http.get(this.config.dataUrl, { responseType: 'text' })
+    return this.http.get(this.config.cityUrl, { responseType: 'text' })
       .map((csvString) => {
         console.timeEnd('load rankings');
         console.time('parse csv');
@@ -47,16 +59,33 @@ export class RankingService {
       .subscribe(locations => {
         this.data = locations;
         this.ready.next(true);
+        this.translate.getTranslation(this.translate.currentLang).take(1)
+          .subscribe(translations => this.updateLanguage(translations));
       });
   }
 
+  loadStateData() {
+    return this.http.get(this.config.stateUrl, { responseType: 'text' })
+      .map((csvString) => this.parseCsvData(csvString))
+      .subscribe(locations => this.stateData = locations);
+  }
+
   /**
-   * Sorts and returns an array of locations based on the provided params
+   * Sorts and returns the full dataset by sortProperty
+   * @param sortProperty
+   * @param invert
+   */
+  getSortedData(sortProperty: string, invert?: boolean): Array<RankingLocation> {
+    return this.data.sort(this.getComparator(sortProperty, invert));
+  }
+
+  /**
+   * Filters, sorts and returns an array of locations based on the provided params
    * @param region the state name to get data for, or 'United States' for all states
    * @param areaType the area type to get data for (rural, mid-sized, cities)
    * @param sortProperty the property to sort the data by
    */
-  getSortedData(
+  getFilteredData(
     region: string, areaType: number, sortProperty: string, invert?: boolean
   ): Array<RankingLocation> {
     console.time('sort rankings');
@@ -66,6 +95,54 @@ export class RankingService {
     data = data.sort(this.getComparator(sortProperty, invert));
     console.timeEnd('sort rankings');
     return data;
+  }
+
+  /**
+   * Parses CSV data and maps it to an array of RankingLocation objects
+   * @param csv csv data as a string
+   */
+  parseCsvData(csv: string): Array<RankingLocation> {
+    return csvParse(csv, (d) => {
+      return {
+        geoId: d.GEOID,
+        evictions: parseFloat(d.evictions),
+        filings: parseFloat(d['eviction-filings']),
+        evictionRate: parseFloat(d['eviction-rate']),
+        filingRate: parseFloat(d['eviction-filing-rate']),
+        name: d['name'],
+        displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
+        parentLocation: d['parent-location'],
+        displayParentLocation: d['parent-location'] === 'USA' ?
+          'USA' : this.regions[d['parent-location']],
+        latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
+        areaType: d['area-type'] ? parseInt(d['area-type'], 10) : 3
+      } as RankingLocation;
+    });
+  }
+
+  /**
+   * Returns ordinal suffix for rank
+   * @param rank
+   */
+  ordinalSuffix(rank: number): string {
+    const digit = rank % 10;
+    if (this.translate.currentLang === 'en') {
+      if (rank >= 10 && rank <= 20) {
+        return 'th';
+      }
+      switch (digit) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    } else if (this.translate.currentLang === 'es') {
+      // Spanish depends on gender of word being described
+      // TODO: Check if this is right
+      return 'a';
+    }
+    // Default to empty string
+    return '';
   }
 
   /** Creates a function to use for sorting the data */
@@ -79,24 +156,22 @@ export class RankingService {
     };
   }
 
-  /**
-   * Parses CSV data and maps it to an array of RankingLocation objects
-   * @param csv csv data as a string
-   */
-  private parseCsvData(csv: string): Array<RankingLocation> {
-    return csvParse(csv, (d) => {
-      return {
-        geoId: parseInt(d.GEOID, 10),
-        evictions: parseFloat(d.evictions),
-        filings: parseFloat(d['eviction-filings']),
-        evictionRate: parseFloat(d['eviction-rate']),
-        filingRate: parseFloat(d['eviction-filing-rate']),
-        name: d['name'],
-        parentLocation: d['parent-location'],
-        latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
-        areaType: parseInt(d['area-type'], 10)
-      } as RankingLocation;
-    });
+  private updateLanguage(translations) {
+    // console.log('updating language', translations);
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.sortProps = this.sortProps.map(p => {
+        if (p.langKey) { p['name'] = stats[p.langKey.split('.')[1]]; }
+        return p;
+      });
+    }
+    if (translations.hasOwnProperty('RANKINGS')) {
+      const rankings = translations['RANKINGS'];
+      this.areaTypes = this.areaTypes.map(t => {
+        if (t.langKey) { t['name'] = rankings[t.langKey.split('.')[1]]; }
+        return t;
+      });
+    }
   }
 
 }

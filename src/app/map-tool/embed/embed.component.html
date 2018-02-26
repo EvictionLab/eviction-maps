@@ -1,0 +1,17 @@
+<div id="embed-branding">
+  <a href="/" target="_blank">
+    <img src="./assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
+  </a>
+</div>
+<app-map
+  [mapConfig]="mapConfig"
+  [dataAttributes]="mapToolService.dataAttributes"
+  [layerOptions]="mapToolService.dataLevels"
+  [scrollZoom]="false"
+  [activeFeatures]="mapToolService.activeFeatures"
+  [boundingBox]="mapToolService.activeMapView"
+  [year]="mapToolService.activeYear"
+  [selectedBubble]="mapToolService.activeBubbleHighlight"
+  [selectedChoropleth]="mapToolService.activeDataHighlight"
+  [selectedLayer]="mapToolService.activeDataLevel"
+></app-map>

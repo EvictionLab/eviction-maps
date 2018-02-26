@@ -1,0 +1,70 @@
+@import '../../../../theme';
+
+:host {
+  display:block;
+  pointer-events:all;
+}
+
+.map-legend {
+  height: 100%;
+  width: 100%;
+  padding: grid(2) grid(2) 0;
+  .legend {
+    position: absolute;
+    left: grid(2);
+    bottom: grid(1);
+    height: grid(1.5);
+    width: calc(100% - #{grid(8)});
+    padding: 0;
+    color: $legendTextColor;
+    text-align:center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    @include numberFont($legendFontSize);
+    span {
+      margin-top: -1*grid(3.75);
+    }
+  }
+}
+// hint icon above the legend on the right
+app-ui-hint.legend-hint {
+  position: absolute;
+  width: $legendHeight;
+  height: $legendHeight;
+  top: 0;
+  bottom:0;
+  right:grid(0.5);
+  left:auto;
+  margin:auto;
+  // adjust for white circle behind icon
+  ::ng-deep .hint-button {
+    width: grid(5);
+    height: 100%;
+    font-size: grid(3);
+    line-height:1;
+    padding: 0;
+    box-sizing: content-box;
+    border-radius: 100%;
+    color: $legendIconColor;
+    span {
+      top:1px;
+      width: grid(3);
+      height: grid(3);
+    }
+  }
+}
+
+:host-context(.gt-mobile) {
+  .map-legend {
+    .legend {
+      left: grid(1);
+      height: grid(2.5);
+      width: calc(100% - #{grid(7)});
+      span {
+        margin-top: -1*grid(4.25);
+        font-size: 11px;
+      }
+    }
+  }
+}

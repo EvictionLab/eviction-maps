@@ -16,24 +16,26 @@ import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { UiDialogComponent } from './ui-dialog/ui-dialog.component';
 import { UiDialogService } from './ui-dialog/ui-dialog.service';
 import { UiHintComponent } from './ui-hint/ui-hint.component';
-import { LocationCardsComponent } from './location-cards/location-cards.component';
-import { UiMapLegendComponent } from './ui-map-legend/ui-map-legend.component';
 import { UiSwitchComponent } from './ui-switch/ui-switch.component';
 import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.component';
+import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.directive';
+import { UiCloseButtonComponent } from './ui-close-button/ui-close-button.component';
+import { UiIconComponent } from './ui-icon/ui-icon.component';
 
 @NgModule({
   exports: [
     UiSelectComponent,
-    LocationCardsComponent,
     PredictiveSearchComponent,
     LocationSearchComponent,
     UiSliderComponent,
     UiToggleComponent,
     ProgressBarComponent,
     UiHintComponent,
-    UiMapLegendComponent,
     UiSwitchComponent,
-    UiCopyClipboardComponent
+    UiCopyClipboardComponent,
+    SocialSharePopupDirective,
+    UiCloseButtonComponent,
+    UiIconComponent
   ],
   imports: [
     CommonModule,
@@ -46,7 +48,6 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
   ],
   declarations: [
     UiSelectComponent,
-    LocationCardsComponent,
     PredictiveSearchComponent,
     LocationSearchComponent,
     UiSliderComponent,
@@ -54,11 +55,13 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
     ProgressBarComponent,
     UiDialogComponent,
     UiHintComponent,
-    UiMapLegendComponent,
     UiSwitchComponent,
-    UiCopyClipboardComponent
+    UiCopyClipboardComponent,
+    SocialSharePopupDirective,
+    UiCloseButtonComponent,
+    UiIconComponent
   ],
   providers: [ UiDialogService ],
-  entryComponents: [ UiDialogComponent, LocationCardsComponent ]
+  entryComponents: [ UiDialogComponent ]
 })
 export class UiModule { }

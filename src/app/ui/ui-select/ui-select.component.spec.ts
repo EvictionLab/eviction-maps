@@ -1,8 +1,10 @@
-import { async, tick, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  async, tick, fakeAsync, ComponentFixture, TestBed, flushMicrotasks, discardPeriodicTasks
+} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
-
 import { UiSelectComponent } from './ui-select.component';
+import { UiModule } from '../../ui/ui.module';
 
 describe('UiSelectComponent', () => {
   let component: UiSelectComponent;
@@ -13,8 +15,8 @@ describe('UiSelectComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiSelectComponent ],
-      imports: [BsDropdownModule.forRoot()]
+      declarations: [ ],
+      imports: [BsDropdownModule.forRoot(), UiModule]
     })
     .compileComponents();
   }));
@@ -48,16 +50,19 @@ describe('UiSelectComponent', () => {
     buttonEl.triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();
+    tick(1000);
+    fixture.detectChanges();
     menuEls = fixture.debugElement.queryAll(By.css('.dropdown-item'));
     expect(menuEls[0].nativeElement.textContent).toContain(expectedValues[0].name);
     expect(menuEls[1].nativeElement.textContent).toContain(expectedValues[1].name);
   }));
 
   it('should raise the selected value when clicked', fakeAsync(() => {
-    fixture.detectChanges();
     let selectedGroup;
     buttonEl.triggerEventHandler('click', null);
     tick();
+    fixture.detectChanges();
+    tick(1000);
     fixture.detectChanges();
     menuEls = fixture.debugElement.queryAll(By.css('.dropdown-item'));
     component.change.subscribe((group) => { selectedGroup = group; });

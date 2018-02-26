@@ -6,12 +6,13 @@ import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 import { UiDialogComponent } from './ui-dialog.component';
 import { UiDialogService } from './ui-dialog.service';
+import { UiModule } from '../ui.module';
 
 describe('UiDialogService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, ModalModule.forRoot() ],
-      declarations: [ UiDialogComponent ],
+      imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
+      declarations: [  ],
       providers: [BsModalService, UiDialogService]
     });
     TestBed.overrideModule(BrowserDynamicTestingModule, {

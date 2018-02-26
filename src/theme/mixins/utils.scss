@@ -5,36 +5,19 @@
     width:100%;
     height:100%;
     top:0;left:0;right:0;bottom:0;
-    margin:0;
-    padding:0;
 }
 
-@mixin down-arrow($size: 6px, $color: rgba(0,0,0,0.8)) {
-  &:after {
-    content:"";
-    display:block;
-    width:0;height:0;
-    border:$size solid transparent;
-    border-top-color: $color;
-    position: absolute;
-    bottom: -2*$size;
-    left: 50%;
-    margin-left: -$size;
-  }
+@mixin ellipsis-overflow() {
+  overflow:hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-@mixin left-arrow($size: 6px, $color: rgba(0,0,0,0.8)) {
-  &:after {
-    content:"";
-    display:block;
-    width:0;height:0;
-    border:$size solid transparent;
-    border-right-color: $color;
-    position: absolute;
-    left: -2*$size;
-    top: 50%;
-    margin-top: -$size;
-  }
+@mixin circle($size) {
+  display: block;
+  width: $size;
+  height: $size;
+  border-radius: $size;
 }
 
 @function to-string($value) {

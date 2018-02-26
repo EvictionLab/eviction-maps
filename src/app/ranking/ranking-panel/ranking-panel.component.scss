@@ -1,82 +1,309 @@
 @import '../../../theme';
 
+:host { padding: $pageMargin; }
+
+@media(min-width: $gtMobile) {
+  :host { padding: $pageMarginLg; }
+}
+
+// WRAPPER FOR ALL PANEL CONTENT
+// ---
 .content-inner {
   position:relative;
   display:flex;
   align-items: center;
   justify-content:flex-start;
 }
-.panel-controls {
-  list-style:none;
-  margin:0;
-  padding:0;
-  li {
-    position:absolute;
+@media(min-width: $gtMobile) {
+  .content-inner {
+    position:relative;
+    display:flex;
+    align-items: center;
+    justify-content:flex-start;
   }
 }
 
-.panel-rank {
-  min-width: grid(14);
-  height: grid(14);
-  padding: 0 grid(2);
-  margin:0 grid(5) 0 grid(3);
-  text-align:center;
-  flex:0;
-  background: $gradient4;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  .rank-number {
-    @include numberFont(24px);
-  }
-  .rank-label {
-    display:block;
-    @include smallCapsText(14px);
+// CONTAINER FOR ALL PANEL CONTENT EXCEPT ARROWS
+// ---
+.panel-summary {
+  width: 100%;
+}
+@media(min-width: $gtLaptop) {
+  .panel-summary {
+    max-width: grid(120);
+    margin: auto;
   }
 }
 
+// CONTAINER FOR LOCATION / VALUE / LINK
+// ---
 .panel-summary-heading {
-  display:flex;
-  align-items: flex-end;
-  justify-content: flex-start;
-  margin-bottom: grid(1);
-  h2 {
-    @include altFont(24px);
-    text-transform: uppercase;
-    line-height:1;
-    margin:0;
-    letter-spacing: 0.05em;
-    color: $color1;
-    margin-right: grid(1);
+  text-align:center;
+}
+@media(min-width: $gtMobile) {
+  .panel-summary-heading {
+    text-align: left;
+  }
+}
+@media(min-width: $gtLaptop) {
+  .panel-summary-heading {
+    margin-top: grid(1);
+  }
+}
+
+// CONTAINER FOR RANKING NUMBER / LOCATION / VALUE / LINK
+// ---
+.panel-top {
+  text-align: center;
+}
+@media(min-width: $gtMobile) {
+  .panel-top {
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
+@media(min-width: $gtLaptop) {
+  .panel-top {
+    display:inline;
+  }
+}
+
+// RANKING NUMBER
+// ---
+.rank-number {
+  display:inline-block;
+  margin:0 auto grid(1.5);
+  padding: 0 grid(1);
+  min-width: grid(3);
+  height: grid(3);
+  background: $gradient1;
+  @include numberFont(12px);
+  font-weight: bold;
+  color: $white;
+  text-align:center;
+  line-height: grid(3);
+}
+@media(min-width: $gtMobile) {
+  .rank-number {
+    min-width: grid(6);
+    height: grid(6);
+    margin: 0 grid(4) 0 0;
+    @include numberFont(28px);
+    font-weight: bold;
+    line-height: grid(6);
+  }
+}
+@media(min-width: $gtLaptop) {
+  .rank-number {
+    float:left;
+    margin-top: grid(1);
+    padding: 0 grid(2);
+    min-width: grid(15);
+    height: grid(15);
+    line-height: grid(15);
+    @include numberFont(48px);
+    font-weight: bold;
+  }
+}
+
+// CITY / PLACE NAME
+// ---
+.rank-location {
+  display: block;
+  margin: 0 0 grid(0.5) 0;
+  @include altSmallCapsText(14px);
+  text-align: center;
+  color: $color1;
+  line-height:1;
+  &.in-list:hover {
+    text-decoration: underline;
+    cursor: pointer;
   }
   span {
-    @include smallCapsText(14px);
-    margin-right: grid(0.5);
-    display:block;
-    margin-bottom:-2px;
+    @include smallCapsText(10px);
+  }
+}
+@media(min-width: $gtMobile) {
+  .rank-location {
+    @include altSmallCapsText(26px);
+    text-align: left;
+    span {
+      @include smallCapsText(14px);
+    }
+  }
+}
+@media(min-width: $gtLaptop) {
+  .rank-location {
+    display: block;
+    @include altSmallCapsText(30px);
+    margin-right: grid(3);
+    margin-bottom: grid(2);
+    span {
+      @include smallCapsText(15px);
+    }
   }
 }
 
-.panel-summary {
-  flex:1;
+// EVICTIONS / EVICTION RATE VALUE
+// ---
+.rank-value {
+  margin-right: grid(1);
+  @include smallCapsText(10px);
+  line-height:1;
 }
 
+@media(min-width: $gtMobile) {
+  .rank-value {
+    margin-right: grid(3);
+    @include smallCapsText(14px);
+  }  
+}
+
+@media(min-width: $gtLaptop) {
+  .rank-value {
+    @include smallCapsText(15px);
+  }
+}
+
+// TOP EVICTORS LINK
+// ---
+.rank-link {
+  @include smallCapsText(10px);
+  color: $color1;
+  line-height:1;
+}
+
+@media(min-width: $gtMobile) {
+  .rank-link {
+    @include smallCapsText(14px);
+  }  
+}
+
+@media(min-width: $gtLaptop) {
+  .rank-link {
+    @include smallCapsText(15px);
+  }
+}
+
+// ROBOTEXT CONTAINER
+// ---
 .panel-summary-content {
-  @include defaultFont(16px);
+  width: 100%;
+  padding: $pageMargin;
+  margin: grid(1) -1*$pageMargin -1*$pageMargin;
+  background: $grey5;
+  @include defaultFont(12px);
+  text-align: center;
+  box-sizing: content-box;
+  p {
+    margin: 0 auto;
+    max-width: grid(50);
+  }
+}
+// boost size on tablet
+@media(min-width: $gtMobile) {
+  .panel-summary-content {
+    @include defaultFont(18px);
+    padding: $pageMarginLg;
+    margin: grid(2) -1*$pageMarginLg -1*$pageMarginLg;
+    p { max-width: grid(90); }
+  }
+}
+// bring content inline with ranking number, remove bg color on desktop+
+@media(min-width: $gtLaptop) {
+  .panel-summary-content {
+    display:inline;
+    @include defaultFont(20px);
+    padding: 0;
+    margin: grid(2) 0;
+    background: none;
+    p {
+      max-width: none;
+      text-align: left;
+      margin-top: grid(2);
+    }
+  }
 }
 
-.panel-next, .panel-prev {
-  width: 48px;
-  height: 48px;
-  flex:0;
+// PREVIOUS / NEXT ARROWS
+// ---
+.panel-arrow {
+  appearance: none; // remove button defaults
+  background: none;
+  padding:0;
+  border: none;
+  position: absolute;
+  top: grid(2);
+  width: grid(2);
+  height: grid(4);
+  display:flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   &:hover {
     background: $shadingColor;
-  }  
+  }
+  &.panel-next { right: 0; }
+  &.panel-prev { left: 0; }
+  .icon {
+    width: grid(3);
+    height: grid(3);
+    fill: $color1;
+  }
 }
-svg {
-  width: 48px;
-  height: 48px;
-  path { fill: $grey3; }
+// boost prev / next icon size on tablet
+@media(min-width: $gtMobile) {
+  .panel-arrow {
+    top: 0;
+    width: grid(6);
+    height: grid(6);
+    .icon {
+      width: grid(5);
+      height: grid(5);
+    }
+  }
+}
+// move to vertical center of panel on desktop+
+@media(min-width: $gtLaptop) {
+  .panel-arrow { top: grid(5); }
+}
+
+
+// PANEL COLORS
+// --- 
+// colors based on selected area type
+:host-context(.area-1) {
+  .rank-number { background: $gradient2; }
+  .rank-location { color: $color2; }
+}
+:host-context(.area-2) {
+  .rank-number { background: $gradient3; }
+  .rank-location { color: $color3; }
+}
+
+
+// TODO: refactor so close button styles live in one place
+.close-button {
+  cursor: pointer;
+  text-align: center;
+  padding: grid(1.25);
+  width: grid(5);
+  height: grid(5);
+  box-shadow: $z1shadow;
+  background-color: $rankingsBg1;
+  position: absolute;
+  right: 0;
+  top: grid(-10);
+  .icon {
+    height: grid(2.5);
+    width: grid(2.5);
+    fill: $color1;
+    margin:auto;
+  }
+  &:hover, &:active {
+    background-color: $color1;
+    .icon { fill: $white; }
+  }
 }

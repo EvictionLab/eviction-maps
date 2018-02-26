@@ -16,6 +16,7 @@ export class PredictiveSearchComponent implements OnInit {
   @Input() placeholder;
   @Output() selectedChange = new EventEmitter();
   @Output() selectionChange: EventEmitter<Object> = new EventEmitter<Object>();
+  private typedValue: string;
 
   constructor() { }
 
@@ -26,6 +27,10 @@ export class PredictiveSearchComponent implements OnInit {
    * @param selectedText updated ngModel value
    */
   selectedTextChange(selectedText) {
+    // track typed value so we can emit for analytics
+    if (this.selected && selectedText && this.isTermTyped(this.selected, selectedText)) {
+      this.typedValue = selectedText;
+    }
     this.selected = selectedText;
     this.selectedChange.emit(selectedText);
   }
@@ -36,7 +41,18 @@ export class PredictiveSearchComponent implements OnInit {
    */
   updateSelection(selection: TypeaheadMatch = null) {
     this.selected = selection;
-    this.selectionChange.emit(selection ? selection.item : selection);
+    this.selectionChange.emit({
+      selection: selection ? selection.item : selection,
+      queryTerm: this.typedValue
+    });
+  }
+
+  /**
+   * Assuming typed search terms change one character at a time.
+   * Not completely accurate, but good enough for tracking purposes.
+   */
+  private isTermTyped(str1: string, str2: string) {
+    return Math.abs(str1.length - str2.length) === 1;
   }
 
 }

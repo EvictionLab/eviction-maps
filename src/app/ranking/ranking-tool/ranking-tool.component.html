@@ -1,54 +1,99 @@
 <div class="ranking-page" role="main">
   <div class="hero">
-    <h1>Eviction Rankings</h1>
+    <h1>{{ 'RANKINGS.EVICTION_RANKINGS' | translate }}</h1>
   </div>
   <div class="nav-bar nav-rankings">
     <div class="content-inner">
       <ul class="tabs">
         <li [class.active]="activeTab === 'evictions'">
-          <a routerLink="/evictions">Top Evicting Areas</a>
+          <a routerLink="/evictions">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
         </li>
         <li [class.active]="activeTab === 'evictors'">
-          <a>Top Evictors</a>
+          <a>{{ 'RANKINGS.TOP_EVICTORS' | translate }}</a>
         </li>
       </ul>
-      <app-ranking-ui
-        *ngIf="activeTab === 'evictions'"
-        [regions]="rankings.regions"
-        [areaTypes]="rankings.areaTypes"
-        [dataProperties]="rankings.sortProps"
-        [selectedRegion]="region"
-        (selectedRegionChange)="onRegionChange($event)"
-        [selectedAreaType]="areaType"
-        (selectedAreaTypeChange)="onAreaTypeChange($event)"
-        [selectedDataProperty]="dataProperty"
-        (selectedDataPropertyChange)="onDataPropertyChange($event)"
-      ></app-ranking-ui>
     </div>
   </div>
   <div class="page-content">
     <div class="content-inner">
+      <div class="ranking-ui-container">
+        <button class="search-filter" (click)="showUiPanel = true">
+          <app-ui-icon icon="search"></app-ui-icon>
+          <span> {{ 'RANKINGS.SEARCH_FILTER' | translate }}</span>
+        </button>
+        <app-ranking-ui
+          *ngIf="activeTab === 'evictions'"
+          [class.show]="showUiPanel"
+          [locationList]="fullData"
+          [regions]="rankings.regionList"
+          [areaTypes]="rankings.areaTypes"
+          [dataProperties]="rankings.sortProps"
+          (selectedLocationChange)="onSearchSelectLocation($event.hasOwnProperty('selection') ? $event.selection : null)"
+          [selectedRegion]="region"
+          (selectedRegionChange)="onRegionChange($event)"
+          [selectedAreaType]="areaType"
+          (selectedAreaTypeChange)="onAreaTypeChange($event)"
+          [selectedDataProperty]="dataProperty"
+          (selectedDataPropertyChange)="onDataPropertyChange($event)"
+          (applyFilters)="showUiPanel = false"
+          (clearFilters)="showUiPanel = false"
+          (closePanel)="showUiPanel = false"
+        >
+        <div class="social-icons">
+          <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
+          <a class="btn btn-border icon btn-twitter" (click)="trackShare('twitter')" appSocialSharePopup href="http://twitter.com/intent/tweet?status={{ encodedTweet }}"
+            [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate">
+            <app-ui-icon icon="twitter"></app-ui-icon>
+          </a>
+          <a class="btn btn-border icon btn-facebook" (click)="trackShare('facebook')" appSocialSharePopup [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"
+            [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate">
+            <app-ui-icon icon="facebook"></app-ui-icon>
+          </a>
+          <a class="btn btn-border icon btn-email" [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" (click)="checkMailto($event); trackShare('email')"
+            [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate">
+            <app-ui-icon icon="email"></app-ui-icon>
+          </a>
+          <ng-template #popTemplate>
+            <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
+          </ng-template>
+          <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate"
+            [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
+            <app-ui-icon icon="link"></app-ui-icon>
+          </button>
+        </div>
+      </app-ranking-ui>
+      </div>
+      <div class="ranking-body">
+        <h2 *ngIf="areaType && region">{{ 'RANKINGS.LIST_HEADING' | translate:{'area': areaType.name, 'region': region } }}</h2>
+        <h3 *ngIf="dataProperty">{{ 'RANKINGS.LIST_SUBHEADING' | translate:{'dataProperty': dataProperty.name } }}</h3>
+        <p>{{ 'RANKINGS.LIST_INTRO' | translate:{'year': rankings.year} }}</p>
         <app-ranking-list *ngIf="areaType && dataProperty"
           [class]="'area-'+areaType.value"
           [list]="truncatedList"
           [dataProperty]="dataProperty.value"
           [maxValue]="dataMax"
           [selectedIndex]="selectedIndex"
-          (locationSelected)="onSelectLocation($event)"
-      ></app-ranking-list>
+          (locationSelected)="onClickLocation($event)"
+        ></app-ranking-list>
+      </div>
+      
     </div>
   </div>
-  <div class="page-fixed-bottom" *ngIf="canRetrieveData">
-    <app-ranking-scale [min]="0" [max]="dataMax"></app-ranking-scale>
-    <app-ranking-panel *ngIf="selectedIndex || selectedIndex === 0"
-      [rank]="selectedIndex+1"
-      [location]="truncatedList[selectedIndex]"
-      [dataProperty]="dataProperty"
-      (goToPrevious)="onGoToPrevious()"
-      (goToNext)="onGoToNext()"
-    ></app-ranking-panel>
+  <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
+    <app-ui-icon icon="arrow-up"></app-ui-icon>
   </div>
-
 </div>
-
+<div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
+  <app-ranking-panel
+    [class]="'area-'+areaType.value"
+    [topCount]="topCount"
+    [rank]="selectedIndex+1"
+    [location]="listData[selectedIndex]"
+    [dataProperty]="dataProperty"
+    (goToPrevious)="onGoToPrevious()"
+    (goToNext)="onGoToNext()"
+    (close)="onClose()"
+    (locationClick)="onPanelLocationClick($event)"
+  ></app-ranking-panel>
+</div>
 

@@ -15,9 +15,6 @@
     .scrubber-label:after {
       border-top-color: $foregroundColor!important;
     }
-    .scrubber-marker {
-      background: $textColor;
-    }
   }
 }
 
@@ -27,21 +24,40 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  // TEMPORARY - should have a focus style for accessibility
+  // focus style for accessibility
   &:focus {
     box-shadow:none;
+    .el-slider .scrubber-marker {
+      // TODO: marker needs focus state
+    }
+  }
+  // show toolip when dragging
+  &.active { 
     .el-slider .scrubber-label {
       opacity:1;
+    }
+    .el-slider .scrubber {
+      transition: none;
     }
   }
 }
 .slider-label {
-  margin-left: grid(2);
-  @include defaultFont(14px);
+  @include numberFont(12px);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: $sliderLabel;
 }
+
+.slider-label:first-child {
+  margin-left: 0;
+  margin-right: grid(4);
+}
+
+.slider-label:last-child {
+  margin-right: 0;
+  margin-left: grid(4);
+}
+
 .el-slider {
   width: 100%;
   height: 100%;
@@ -65,15 +81,15 @@
   }  
   .scrubber {
     position: absolute;
-    width: grid(8);
-    height: grid(5);
+    width: grid(6);
+    height: grid(4);
     top: 0;
     left: 0;
     bottom: 0;
     margin: auto;
-    margin-left: -1 * grid(8) / 2;
-    transition: transform 0.1s cubic-bezier(0,.66,.66,1);
+    margin-left: -1 * grid(6) / 2;
     cursor: move;
+    transition: transform 0.4s ease;
   }  
   .scrubber-label {
     opacity:0;
@@ -82,16 +98,15 @@
     text-align: center;
     padding: 0;  
     @include numberFont(13px);  
-    top: -1 * grid(4.5);
+    top: -1 * grid(5);
     left: 0;
     right: 0;
     margin: auto;
-    font-weight: 500;
     letter-spacing: 0.4px;
     line-height: grid(4);
-    width: grid(7.5);
+    width: grid(6);
     height: grid(4);
-    border-radius: 2px;  
+    border-radius: 0;  
     &:after {
       // label arrow
       content: '';
@@ -106,37 +121,49 @@
       transform: scale(0.75, 1);
     }
   }
-  &.active, &:hover {
-    .scrubber-label {
-      opacity:1;
-    }
-  }
 
   // circle marker for scrubber
   .scrubber-marker {
-    width: grid(3);
-    height: grid(3);
-    border-radius: 15px;
-    border: 5px solid $color1;
+    width: grid(6);
+    height: grid(4);
+    line-height: grid(4);
+    @include numberFont(13px);
+    text-align: center;
     margin: auto;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
+    color: $white;
+    background: $color1;
+    border-radius: 0;
+    box-shadow: $z1shadow; // z1 shadow (elevation = 3, but stacked on elevation 2 element)
   }
 }
 
 :host-context(.gt-mobile) {
   .slider-label {
-    margin-left: grid(3);
+    @include numberFont(15px);
+  }
+  .slider-label:first-child {
+    margin-left: 0;
+    margin-right: grid(5);
+  }
+  .slider-label:last-child {
+    margin-right: 0;
+    margin-left: grid(5);
   }
   .el-slider {
+    .scrubber {
+      width: grid(8);
+      margin-left: -1 * grid(8) / 2;
+    }
     .scrubber-label {
-      top: -1 * grid(4.25);
-      font-size: 15px;
-      font-weight: 600;
+      top: -1 * grid(6.5);
+      @include numberFont(15px);
       width:grid(8);
+      
       height: grid(5);
       line-height: grid(5);
       &:after {
@@ -145,9 +172,10 @@
       }  
     }
     .scrubber-marker {
-      width: grid(5);
+      width: grid(8);
       height: grid(5);
-      border-radius: grid(2.5);
+      line-height: grid(5);
+      @include numberFont(15px);
     }
   }
 }

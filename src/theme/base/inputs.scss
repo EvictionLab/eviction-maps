@@ -1,0 +1,60 @@
+body {
+
+  .form-control {
+    border: 1px solid $shadingColor;
+    border-radius: 0px;
+    box-shadow: none;
+    height: grid(7);
+    padding: grid(1) grid(2);
+    font-size: 15px;
+    &.light {
+      background: none;
+      color: $white;
+      border: 2px solid $white;
+      &:focus {
+        border: 2px solid $white;
+      }
+    }
+  }
+
+  // Checkboxes
+  // ---
+  input[type=checkbox] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: grid(5);
+    height: grid(5);
+    margin:0;
+    background-color: $white;
+    border: 1px solid $grey4;
+    box-shadow: none;
+    display: inline-block;
+    position: relative;
+    // add a checkmark when checked
+    &:checked:after {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 20px;
+      border: solid $color1;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 4px;
+      margin: auto;
+    }
+    &:focus {
+      @include focusState();
+    }
+  }
+}
+
+// boost font size on desktop+
+@media(min-width: $gtLaptop) {
+  body .form-control {
+    font-size: 17px;
+  }
+}

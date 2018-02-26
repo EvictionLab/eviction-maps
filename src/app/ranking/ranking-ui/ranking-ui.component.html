@@ -1,20 +1,40 @@
-<app-ui-select class="region-select z0"
-  label="Region"
-  [values]="regions"
-  [selectedValue]="selectedRegion"
-  (change)="selectedRegionChange.emit($event)"
-></app-ui-select>
-<app-ui-select class="area-select z0"
-  label="Area"
-  labelProperty="name"
-  [values]="areaTypes"
-  [selectedValue]="selectedAreaType"
-  (change)="selectedAreaTypeChange.emit($event)"
-></app-ui-select>
-<app-ui-select class="prop-select z0"
-  label="Ranking By"
-  labelProperty="name"
-  [values]="dataProperties"
-  [selectedValue]="selectedDataProperty"
-  (change)="selectedDataPropertyChange.emit($event)"
-></app-ui-select>
+<div class="ranking-ui-container">
+  <div class="ranking-ui-search">
+    <app-predictive-search
+      placeholder="{{ 'RANKINGS.SEARCH_HINT' | translate }}"
+      [options]="locationList"
+      optionField="displayName"
+      (selectionChange)="selectedLocationChange.emit($event)"
+    ></app-predictive-search>
+  </div>
+  <div class="ranking-ui-filter">
+    <h2>{{ 'RANKINGS.FILTER' | translate }}</h2> 
+    <app-ui-select class="region-select z0"
+      label="{{ 'RANKINGS.REGION' | translate }}"
+      [values]="regions"
+      [selectedValue]="selectedRegion"
+      (change)="selectedRegionChange.emit($event)"
+    ></app-ui-select>
+    <app-ui-hint [hint]="'RANKINGS.AREA_HINT' | translate"></app-ui-hint>
+    <app-ui-select class="area-select hint-select z0"
+      label="{{ 'RANKINGS.AREA' | translate }}"
+      labelProperty="name"
+      [values]="areaTypes"
+      [selectedValue]="selectedAreaType"
+      (change)="selectedAreaTypeChange.emit($event)"
+    ></app-ui-select>
+    <app-ui-hint [hint]="'RANKINGS.DATA_HINT' | translate"></app-ui-hint>
+    <app-ui-select class="prop-select hint-select z0"
+      label="{{ 'RANKINGS.RANKING_BY' | translate }}"
+      labelProperty="name"
+      [values]="dataProperties"
+      [selectedValue]="selectedDataProperty"
+      (change)="selectedDataPropertyChange.emit($event)"
+    ></app-ui-select>
+  </div>
+  <div class="ranking-ui-actions">
+    <button class="btn btn-primary" (click)="applyFilters.emit()">Apply</button>
+  </div>
+  <button class="btn btn-close" (click)="closePanel.emit()"></button>
+  <ng-content></ng-content>
+</div>

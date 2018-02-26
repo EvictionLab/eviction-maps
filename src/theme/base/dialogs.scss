@@ -1,0 +1,101 @@
+body {
+
+  // Override bootstrap defaults
+  // ---
+  .modal-backdrop {
+    background: $grey3;
+    opacity: 0.75;
+  }
+  // set padding for whole modal
+  .modal-content { 
+    padding: grid(4);
+    border:none;
+    box-shadow: $z3shadow;
+    background-clip: border-box;
+    @include defaultFont(12px);
+    b {
+      font-family: $boldFontStack;
+    }
+  }
+  // clear padding on inner elements
+  .modal-header,
+  .modal-body,
+  .modal-footer { padding:0; }
+  // drop border from header and footer
+  .modal-header,
+  .modal-footer { border: none; }
+  .modal-header .close {
+    float: none;
+    margin:0;
+    opacity:1;
+    text-shadow: none;
+  }
+
+  // Eviction Lab dialog styles
+  .modal-header {
+    margin-bottom: grid(1);
+    .modal-title { 
+      @include altSmallCapsText(13px);
+      color: $grey1a;
+      line-height:1;
+    }
+    .close {
+      position:absolute;
+      top:0;
+      right:0;
+      width: grid(5);
+      height: grid(5);
+      margin:0;
+      opacity:1;
+      text-shadow: none;
+    }
+  }
+  .modal-footer {
+    text-align: center;
+    margin-top: grid(3);
+  }
+
+  // Eviction Lab popover styles
+  .popover {
+    border: none;
+    border-radius: 0;
+    box-shadow: $z3shadow;
+    background-clip: border-box;
+    padding: grid(2);
+
+    .popover-header {
+      padding: 0;
+      background-color: inherit;
+      border-bottom: none;
+      margin-bottom: grid(2);
+      @include altSmallCapsText(16px);
+      color: $grey1a;
+      line-height: 1;
+    }
+    .popover-content {
+      padding: 0;
+      @include defaultFont(14px);
+    }
+  }
+
+}
+
+
+@media(min-width: $gtMobile) {
+  body {
+    .modal-dialog {
+      width: grid(80);
+    }
+    .modal-content {
+      padding: grid(5);
+      @include defaultFont(15px);
+    }
+    .modal-header {
+      margin-bottom: grid(3);
+      .modal-title { @include altSmallCapsText(19px); }
+    }
+    .modal-footer {
+      margin-top: grid(5);
+    }
+  }
+}

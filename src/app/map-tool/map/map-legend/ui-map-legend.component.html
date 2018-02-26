@@ -1,0 +1,8 @@
+<div class="map-legend" *ngIf="stops">
+  <app-ui-hint class="legend-hint" [hint]="'MAP.LEGEND_HINT' | translate:hintData" triggers="hover touchend" placement="left"></app-ui-hint>
+  <div class="legend" [style.background]="legendGradient">
+    <span class="legend-start">{{ formatValue(stops[1][0]) }}</span>
+    <span class="legend-middle">{{ formatValue( ((stops[1][0] + stops[stops.length - 1][0]) / 2 ) ) }}</span>
+    <span class="legend-end">{{ formatValue(stops[stops.length - 1][0]) }}+</span>
+  </div>
+</div>

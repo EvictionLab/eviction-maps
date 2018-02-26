@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 import { MapFeature } from '../../map/map-feature';
 import * as bbox from '@turf/bbox';
 
@@ -11,6 +12,8 @@ export interface DownloadRequest {
   years: number[];
   features: MapFeature[];
   formats?: string[];
+  showUsAverage: boolean;
+  usAverage: Object;
 }
 
 export interface ExportType {
@@ -23,7 +26,7 @@ export interface ExportType {
 
 @Injectable()
 export class FileExportService {
-  downloadBase = 'https://exports.evictionlab.org';
+  downloadBase = environment.downloadBaseUrl;
   lang: string;
   features: MapFeature[];
   year: number;
@@ -32,6 +35,8 @@ export class FileExportService {
   dataProp: string;
   bubbleProp: string;
   description: string;
+  showUsAverage: boolean;
+  usAverage: Object;
   filetypes: ExportType[] = [
     {
       name: 'Excel',
@@ -71,6 +76,8 @@ export class FileExportService {
     this.endYear = config['endYear'];
     this.dataProp = config['dataProp'];
     this.bubbleProp = config['bubbleProp'];
+    this.showUsAverage = config['showUsAverage'];
+    this.usAverage = config['usAverage'];
   }
 
   /**
@@ -83,7 +90,8 @@ export class FileExportService {
     });
     const downloadRequest: DownloadRequest = {
       lang: this.lang, year: this.year, years: [this.startYear, this.endYear],
-      features: exportFeatures, dataProp: this.dataProp, bubbleProp: this.bubbleProp
+      features: exportFeatures, dataProp: this.dataProp, bubbleProp: this.bubbleProp,
+      showUsAverage: this.showUsAverage, usAverage: this.usAverage
     };
     if (this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1).length > 1) {
       downloadRequest.formats = fileValues;

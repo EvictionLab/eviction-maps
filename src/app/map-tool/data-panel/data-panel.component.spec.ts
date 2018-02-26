@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -8,10 +9,10 @@ import { DataPanelComponent } from './data-panel.component';
 import { DataPanelModule } from './data-panel.module';
 import { FileExportService } from './download-form/file-export.service';
 import { DownloadFormComponent } from './download-form/download-form.component';
-import { PlatformService } from '../../platform.service';
-import { DataService } from '../../data/data.service';
-import { DataAttributes, BubbleAttributes } from '../../data/data-attributes';
-import { DataLevels } from '../../data/data-levels';
+import { ServicesModule } from '../../services/services.module';
+import { MapToolService } from '../map-tool.service';
+import { DataAttributes } from '../data/data-attributes';
+import { DataLevels } from '../data/data-levels';
 import { Pipe, PipeTransform } from '@angular/core';
 
 export class FileExportStub {
@@ -26,23 +27,31 @@ export class FileExportStub {
   sendFileRequest(...args) {}
 }
 
-export class DataServiceStub {
+export class MapToolServiceStub {
   get dataLevels() { return DataLevels; }
   get dataAttributes() { return DataAttributes; }
-  get bubbleAttributes() { return BubbleAttributes; }
+  get bubbleAttributes() { return DataAttributes; }
   activeYear = 2010;
   activeFeatures = [];
   activeDataLevel = DataLevels[0];
   activeDataHighlight = DataAttributes[0];
-  activeBubbleHighlight = BubbleAttributes[0];
+  activeBubbleHighlight = DataAttributes[0];
   mapView;
   mapConfig;
-  locations$ = Observable.of([]);
+  usAverage = {};
+  usAverageLoaded = new EventEmitter<any>();
   getRouteArray() { return []; }
 }
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
+
+@Pipe({ name: 'decimal' })
+export class DecimalPipeMock implements PipeTransform {
   transform(value: any): any {
     return value;
   }
@@ -59,14 +68,16 @@ describe('DataPanelComponent', () => {
         DataPanelModule,
         HttpModule,
         HttpClientModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        ServicesModule.forRoot()
       ]
     });
     TestBed.overrideComponent(DataPanelComponent, {
       set: {
         providers: [
-          { provide: DataService, useClass: DataServiceStub },
+          { provide: MapToolService, useClass: MapToolServiceStub },
           { provide: TranslatePipe, useClass: TranslatePipeMock },
+          { provide: DecimalPipe, useClass: DecimalPipeMock },
           TranslateService
         ]
       }

@@ -2,7 +2,6 @@
 @import "theme/mixins/utils.scss";
 @import "theme/mixins/ui-toggle.theme";
 @import "theme/mixins/ui-dialog.theme";
-@import "theme/mixins/predictive-search.theme";
 @import "theme/mixins/progress-bar.theme";
 
 
@@ -17,10 +16,9 @@ $defaultPadding: grid(2); // default padding for containers
 $pageMargin: grid(2); // page margin on mobile
 $pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
-$gtMobile: 767px; // greater than mobile device breakpoint
+$gtMobile: 768px; // greater than mobile device breakpoint
 $gtTablet: 1024px; // greater than tablet device breakpoint
-$gtSmallDesktop: 1279px; // greater than small desktop device breakpoint
-$gtLargeDesktop: 1599px; // greater than large desktop device breakpoint
+$gtLaptop: 1440px; // greater than laptop device breakpoint
 
 
 // Typography
@@ -43,21 +41,40 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 }
 
 @mixin altFont($size) {
+  $letterSpacingRatio: (0.4 / 16);
   font-family: $altFontStack;
   font-size: $size;
   font-weight: normal;
+  letter-spacing: $letterSpacingRatio * $size;
 }
 
 @mixin numberFont($size) {
   font-family: $numberFontStack;
   font-size: $size;
-  font-weight: normal;
+  font-weight: 500; // Gotham Medium @ 500
 }
 
 @mixin smallCapsText($size) {
+  $letterSpacingRatio: 0.066666666666667;
   @include defaultFontBold($size);
   text-transform: uppercase;
-  letter-spacing: 0.7px;
+  letter-spacing: $size*$letterSpacingRatio;
+}
+
+@mixin altSmallCapsText($size) {
+  $letterSpacingRatio: 0.057894736842105;
+  @include altFont($size);
+  text-transform: uppercase;
+  letter-spacing: $size*$letterSpacingRatio;
+}
+
+@mixin dataPanelHeader($size) {
+  @include defaultFont($size);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  span {
+    @include defaultFontBold($size);
+  }
 }
 
 @mixin inputText() {
@@ -69,16 +86,23 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 $black: #050403;
 $grey0: #666;
 $grey1: #7F7F7F;
+$grey1a: #919191;
 $grey2: #A3A7A8;
+$grey2a: #B2B5B7;
 $grey3: #C6CCCF;
-$grey4: #efefef;
+$grey4: #efefef; 
+$grey4a: #EEF2F5;
 $grey5: #F4F7F9;
+$grey5a: #F9FAFB;
 $white: #fff;
+$red: #f00;
 $color1: #e24000;
 $color2: #434878;
 $color3: #2c897f;
-$color4: #4a4238;
+$color4: #94AABD;
 $color5: #b5c2b7;
+$color6: #EEF2F5;
+
 $gradient1: linear-gradient(180deg, #F27636, #E04119);
 $gradient2: linear-gradient(180deg, #787EB0, #434878);
 $gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
@@ -91,18 +115,42 @@ $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
 $focusBgColor: #FFE8DE;
+$iconColor: #666;
 
 // Shadows
 // ----
-$z1shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
-$z2shadow: 0 2px 5px rgba(0,0,0,0.5);
-$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 2px 10px rgba(0,0,0,0.5);
+$z1shadow: 0 1px 3px 0 rgba(0,0,0,0.30);
+$z2shadow: 0 2px 4px rgba(0,0,0,0.5);
+$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
 
 @mixin focusState() {
   outline: 0;
   box-shadow: 0 0 5px 1px $color1;
   border: none;
 }
+
+// Header Bar
+// ----
+$headerHeightSm: grid(7);
+$headerHeightLg: grid(10);
+$headerContentHeight: grid(7); // height form field / buttons on large displays
+$headerButtonColor: $grey0; // color for mobile icon buttons
+$headerActiveButtonColor: $color1; // color for active mobile icon button
+
+// Search
+$searchTextColor: $textColor;
+$searchHighlightTextColor: $defaultBackground;
+$searchHighlightBackgroundColor: $color1;
+$searchPlaceholderColor: $secondaryTextColor;
+$searchHeight: grid(7);
+
+// MENU
+// ----
+$menuBg: $color2;
+$menuShadow: -2px 0px 5px rgba(0,0,0,0.4);
+$menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device 
+$menuWidthLg: grid(52); // 416px
+$menuGrey: $grey2;
 
 // Buttons
 // ----
@@ -121,20 +169,30 @@ $buttonTextSize: 14px;
 
 $pageNavButtonWidth: grid(24); // buttons to toggle between data and map
 
-// Graph
+// Close button (default and light colors for dark bgs)
+$closeButton: $grey2a;
+$closeButtonBg: transparent;
+$closeButtonHover: $color1;
+$closeButtonHoverBg: transparent;
+$closeCircleBorder: 2px solid $grey4a;
+$lightCloseButton: $white;
+$lightCloseButtonBg: transparent;
+$lightCloseButtonHover: $grey2;
+$lightCloseButtonHoverBg: transparent;
+
+
+// Toast messages
 // ----
-$graphColor1: $color1;
-$graphColor2: $color2;
-$graphColor3: $color3;
-$graphColor4: $color4;
-$graphAxisLines: #fff;
-$graphAxisLabels: #919191;
+$toastBackground: $black;
+$toastColor: $white;
+$toastText: 12px;
+$toastText_lptp: 14px;
 
 
 // UI Toggle
 // ----
 $toggleBorderColor: $shadingColor;
-$toggleForeground: #C6CCCF;
+$toggleForeground: $grey3;
 $toggleBackground: #fff;
 $toggleSelectedBackground: $color1;
 $toggleSelectedForeground: $altTextColor;
@@ -142,19 +200,19 @@ $toggleHoverForeground: #000;
 
 // UI Switch
 // ----
-$onTextColor: #050403;
-$offTextColor: #919191;
+$onTextColor: $black;
+$offTextColor: $grey1a;
 $switchBorder: 5px solid $color1;
 $switchTextSize: 14px;
-$switchTrackColor: #c6cccf;
+$switchTrackColor: $grey3;
 
 // Slider
 $sliderText: $altTextColor;
 $sliderBackground: #000;
-$sliderTrack: #C6CCCF;
-$sliderLabel: #A3A7A8;
+$sliderTrack: $grey3;
+$sliderLabel: $grey2;
 $timeSliderHeight: grid(5); // 40px
-$timeSliderLg: grid(11); // 88px
+$timeSliderLg: grid(10); // 88px
 $timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
@@ -167,6 +225,9 @@ $selectCaret: $color1;
 
 // Progress Bars
 $progressBarColor: $color1;
+
+// Mobile Scroll Indicator
+$mobileScrollIndicatorHeight: grid(5);
 
 // Cards
 // ----
@@ -181,11 +242,12 @@ $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
-$cardLabelText: #919191;
-$cardValueText: #050403;
+$cardLabelText: $grey1a;
+$cardValueText: $black;;
+$cardHoverBg: linear-gradient(180deg, #fff 20%, $color6);
 
 // colors - cards in data panel
-$panelCardLabelText: #050403;
+$panelCardLabelText: $black;;
 $panelCardValueText: #434878;
 $panelCardBorder: $shadingColor;
 // font sizes
@@ -207,38 +269,58 @@ $panelCardStatTextSize_t: 18px;
 $cardAddLocationTextSize: 16px; 
 $cardAddLocationTextSize_t: 21px; 
 
-
-// Header Bar
-// ----
-$headerHeightSm: grid(7);
-$headerHeightLg: grid(11);
-$headerContentHeight: grid(7); // height form field / buttons on large displays
-$headerButtonColor: #666; // color for mobile icon buttons
-$headerActiveButtonColor: $color1; // color for active mobile icon button
-
-// Search
-$searchTextColor: $textColor;
-$searchHighlightTextColor: $defaultBackground;
-$searchHighlightBackgroundColor: $color1;
-$searchPlaceholderColor: $secondaryTextColor;
-$searchHeight: grid(7);
-
 // Legend
 $legendHeight: grid(5);
 $legendBackground: #fff;
 $legendIconColor: #666;
 $legendIconBackground: $defaultBackground;
 $legendFontSize: 10px;
-$legendTextColor: #7f7f7f;
+$legendTextColor: $grey1;
 
-// Mapbox
-$tooltipBackground: #050403;
-$tooltipFontColor: #fff;
+// Tooltips
+$tooltipBackground: $black;;
+$tooltipFontColor: $white;
+$tooltipArrowSize: grid(1);
+
+@mixin tooltip() {
+  @include defaultFont(12px);
+  border-radius:0;
+  padding: grid(1);
+  background: $tooltipBackground;
+  color: $tooltipFontColor;
+  max-width: grid(30);
+}
+
 
 // Map tool component heights, software button
-$iosSafariPadding: grid(4);
-$androidPadding: grid(2);
+$iosSafariPadding: grid(9);
+$androidPadding: grid(7);
+
+// Graph
+// ----
+$graphColor1: $color1;
+$graphColor2: $color2;
+$graphColor3: $color3;
+$graphColor4: $color4;
+$graphAxisLines: #fff;
+$graphAxisLabels: $grey1a;
+
+// Footer
+// ----
+$footerGradientFrom: #282828;
+$footerGradientTo: #2F2D2B;
+$footerIconBorder: #333;
+$footerHoverIconBorder: $white;
+$footerCopyrightColor: $grey2a;
+
+
+// Rankings
+$rankingsBg1: $color6;
+
+// Utility
+// Delay vh height transition on mobile to prevent jump on scroll
+// Idea from: https://abdus.co/blog/preventing-vh-jump-on-mobile-browsers
+$mobileVhTransition: height 3600s steps(1);
 
 // TODO: 
-// - standard values for shadow levels
 // - type definitions / sizes

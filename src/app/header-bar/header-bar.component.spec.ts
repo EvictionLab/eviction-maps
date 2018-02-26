@@ -36,7 +36,7 @@ describe('HeaderBarComponent', () => {
       let subscribeVal;
       fixture.detectChanges();
       tick();
-      component.selectMenuItem.subscribe((val: any) => { subscribeVal = val; });
+      component.activeMenuItemChange.subscribe((val: any) => { subscribeVal = val; });
       const button = fixture.debugElement.query(By.css('.el-button-map'));
       button.triggerEventHandler('click', null);
       fixture.detectChanges();

@@ -14,12 +14,23 @@ input {
   min-width: grid(30);
   height: grid(5);
   padding: 0 grid(1);
-
+  font-size: 12px;
+  font-family: monospace;
 }
 
 .btn {
   position:absolute;
-  top:0;right:0;
-  width: grid(5);
-  height: grid(5);
+  top:1px;right:1px;
+  border-radius: 0;
+  padding:0 grid(1);
+  border-left: 1px solid $shadingColor;
+  background: $shadingColor;
+  width: grid(5) - 2px;
+  height: grid(5) - 2px;
+  .icon { 
+    margin: auto;
+    width: grid(2);
+    height: grid(2);
+    fill: $iconColor;
+  }
 }

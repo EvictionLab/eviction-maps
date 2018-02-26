@@ -16,7 +16,8 @@ before_script:
 script:
 - ng test --watch=false --sourcemaps=false
 - ng lint
-- ng build --prod
+- if [ "$TRAVIS_BRANCH" = "development" ]; then npm run build-dev; fi
+- if [ "$TRAVIS_BRANCH" = "master" ]; then npm run build-prod; fi
 after_script:
 - npm run e2e
 before_deploy:

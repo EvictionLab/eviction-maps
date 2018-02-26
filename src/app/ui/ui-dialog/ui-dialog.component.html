@@ -1,11 +1,10 @@
 <div class="modal-header" *ngIf="title">
   <h4 class="modal-title">{{title}}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="onCancelClick($event)">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <app-ui-close-button class="close" (onPress)="onCancelClick('close')"></app-ui-close-button>
 </div>
 <div class="modal-body">
   <div *ngFor="let c of content; let i = index">
+    <div *ngIf="c.type === 'html'" [innerHTML]="c.data"></div>
     <p *ngIf="c.type === 'text'">{{c.data}}</p>
     <div *ngIf="c.type === 'checkbox'">
       <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="c.data.value">
@@ -13,7 +12,7 @@
     </div>
   </div>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" *ngIf="buttons.ok || buttons.cancel">
   <button
     *ngIf="buttons.ok"
     i18n="dialog|The OK button to accept and dismiss a dialog@@dialogOK" 
@@ -29,3 +28,4 @@
     (click)="onCancelClick($event)"
   >Cancel</button>
 </div>
+

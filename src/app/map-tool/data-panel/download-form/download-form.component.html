@@ -1,17 +1,13 @@
 <div class="modal-header">
   <h4 class="modal-title">{{ 'DATA.DOWNLOAD_TITLE' | translate }}</h4>
-  <button type="button" class="close" aria-label="Close" (click)="onCancelClick($event)">
-    <span aria-hidden="true">&times;</span>
-  </button>
+  <app-ui-close-button class="close" (onPress)="onCancelClick($event)"></app-ui-close-button>
 </div>
 <div class="modal-body">
-  <div class="description">{{ exportDescription | translate:exportDescriptionParams }}</div>
+  <div class="description" [innerHTML]="exportDescription | translate:exportDescriptionParams"></div>
   <div *ngFor="let f of filetypes; let i = index" class="filetype">
-    <div>
-      <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="f.checked">
-      <label [attr.for]="'checkbox' + i">{{ f.name }}</label>
-    </div>
-    <div>{{ f.description | translate }}</div>
+    <input type="checkbox" [attr.id]="'checkbox' + i" [(ngModel)]="f.checked">
+    <label [attr.for]="'checkbox' + i">{{ f.name }}</label>
+    <p>{{ f.description | translate }}</p>
   </div>
 </div>
 <div class="modal-footer">
@@ -22,11 +18,5 @@
     class="btn btn-primary" 
     (click)="onDownloadClick($event)"
   >{{ 'DATA.DOWNLOAD_BUTTON' | translate }}</button>
-  <button
-    i18n="dialog|The Cancel button to accept and dismiss a dialog@@dialogCancel" 
-    type="button" 
-    class="btn btn-default" 
-    (click)="onCancelClick($event)"
-  >{{ 'DATA.CANCEL_BUTTON' | translate }}</button>
   <app-progress-bar [indeterminate]="loading"></app-progress-bar>
 </div>

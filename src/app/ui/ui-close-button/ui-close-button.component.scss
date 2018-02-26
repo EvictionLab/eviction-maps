@@ -1,0 +1,47 @@
+@import '../../../theme';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: grid(6);
+  height: grid(6);
+}
+
+button.btn.btn-icon {
+  position:relative;
+  width:100%;
+  height:100%;
+  color: $closeButton;
+  background: $closeButtonBg;
+  .icon {
+    margin:auto;
+    width: 10px;
+    height: 10px;
+    fill: $closeButton;
+  }
+  &:hover {
+    color: $closeButtonHover;
+    background: $closeButtonHoverBg;
+    .icon { fill: $closeButtonHover; }
+  }
+  &:after {
+    content: "";
+    @include fill-parent();
+    @include circle(grid(3));
+    margin:auto;
+    border: $closeCircleBorder;
+  }
+}
+:host-context(.light) {
+  button {
+    color: $lightCloseButton;
+    background: $lightCloseButtonBg;
+    svg path { stroke: $lightCloseButton; }
+    &:hover {
+      background: $lightCloseButtonHoverBg;
+      color: $lightCloseButtonHover;
+      svg path { stroke: $lightCloseButtonHover; }
+    }
+  }
+}

@@ -4,6 +4,7 @@ import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { FormsModule } from '@angular/forms';
 
 import { UiDialogComponent } from './ui-dialog.component';
+import { UiModule } from '../ui.module';
 
 describe('UiDialogComponent', () => {
   let component: UiDialogComponent;
@@ -11,8 +12,8 @@ describe('UiDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, ModalModule.forRoot() ],
-      declarations: [ UiDialogComponent ],
+      imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
+      declarations: [ ],
       providers: [ BsModalService, BsModalRef ]
     })
     .compileComponents();
@@ -37,10 +38,10 @@ describe('UiDialogComponent', () => {
   it('should close dialog and emit data on button click', fakeAsync(() => {
     let returnValue;
     component.buttonClicked.subscribe((d) => { returnValue = d; });
-    const buttons = fixture.debugElement.queryAll(By.css('.btn'));
+    const buttons = fixture.debugElement.queryAll(By.css('.btn-icon'));
     buttons[0].triggerEventHandler('click', null);
     tick();
     fixture.detectChanges();
-    expect(returnValue.accepted).toBeTruthy();
+    expect(returnValue.accepted).toEqual(false);
   }));
 });

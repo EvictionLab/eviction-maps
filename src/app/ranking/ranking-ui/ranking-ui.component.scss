@@ -7,6 +7,79 @@
   height:100%;
 }
 
+.btn.btn-close {
+  position:absolute;
+  top:0;
+  right:0;
+  width: grid(5);
+  height: grid(5);
+}
+
+.ranking-ui-container {
+  h2 {
+    @include altSmallCapsText(12px);
+    line-height:1;
+    margin:grid(2) 0 grid(2) 0;
+    color: $grey1a;
+  }
+}
+
+.ranking-ui-search {
+  padding: grid(2);
+}
+.ranking-ui-filter {
+  padding: grid(2);
+  background: linear-gradient(180deg, #FAFCFD 0%, #F4F7F9 100%);
+}
+app-ui-hint {
+  position:absolute;
+  left: grid(2);
+  width:grid(6);
+  height: grid(6);
+  z-index:10;
+  ::ng-deep {
+    .hint-button {
+      width: 100%;
+      height:100%;
+      display: flex;
+      align-items: center;
+      justify-content:center;
+      .icon { 
+        width: grid(2); 
+        height: grid(2);
+        svg { fill: $grey2; }
+      }
+    }
+  }
+}
 app-ui-select {
-  margin-left: grid(1);
+  display:block;
+  margin: grid(1) 0;
+  &.hint-select {
+    ::ng-deep .btn.dropdown-toggle {
+      padding-left: grid(6);
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+}
+
+.ranking-ui-actions {
+  padding: 0 grid(2);
+  .btn {
+    display:block; 
+    width: 100%;
+  }
+}
+
+
+@media(min-width: $gtTablet) {
+  .ranking-ui-search {
+    background: #EEF2F5;
+    margin-bottom: grid(2);
+  }
+  .ranking-ui-filter {
+    background: linear-gradient(180deg, #FAFCFD 0%, #F4F7F9 100%);
+  }
 }

@@ -1,0 +1,58 @@
+@import '../../../theme';
+
+#embed-branding {
+  display: block;
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 11;
+  a {
+    padding: 16px;
+    img { height: 16px; }
+    &:hover { background-color: rgba(255,255,255,0.4); }
+  }
+}
+
+// pym.js embedded style
+html.embedded {
+  body {
+    min-height: 500px;
+    position: relative;
+    app-root, app-embed, app-map {
+      display: block;
+      height: 100%;
+    }
+    app-map .map-ui-wrapper, 
+    app-map .map-wrapper {
+      position: absolute;
+      height: 100%;
+    }
+  }
+}
+
+// Embed view overrides
+.embed {
+  // hide elements that allow navigation or modifying the view
+  app-header-bar,
+  app-menu, 
+  app-footer,
+  app-data-panel,
+  app-map .map-ui-wrapper .map-ui,
+  app-map .map-ui-wrapper app-location-cards,
+  app-map .year-slider-container { display: none !important; }
+  // force legend to the bottom
+  app-ui-map-legend { bottom: 0!important; }
+  // hide scroll indicator
+  .cards-active .mobile-scroll-indicator,
+  .slider-active .mobile-scroll-indicator,
+  .cards-active.slider-active .mobile-scroll-indicator { display: none!important; }
+  // mapbox overrides
+  .mapboxgl-ctrl-bottom-left { bottom: 0 !important; }
+  .mapboxgl-popup-content { line-height: 16px !important; }
+  // fix disappearing legend
+  .map-ui-wrapper { height: 100vh!important; }
+}
+@media(min-width: $gtMobile) {
+  .embed app-ui-map-legend { bottom: $pageMarginLg!important; }
+}
+

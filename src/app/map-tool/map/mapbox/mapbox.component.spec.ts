@@ -1,7 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MapboxComponent } from './mapbox.component';
 import { MapService } from '../map.service';
+import { PlatformService } from '../../../services/platform.service';
+import { ScrollService } from '../../../services/scroll.service';
+import { ServicesModule } from '../../../services/services.module';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 describe('MapboxComponent', () => {
   let component: MapboxComponent;
@@ -17,13 +22,14 @@ describe('MapboxComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [],
+      imports: [
+        TranslateModule.forRoot(),
+        ServicesModule.forRoot()
+      ],
       declarations: [
         MapboxComponent
       ],
-      providers: [
-        MapService
-      ]
+      providers: [ MapService ]
     }).compileComponents();
   }));
 

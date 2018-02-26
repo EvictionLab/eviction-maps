@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
@@ -8,19 +8,20 @@ import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
+import { environment } from '../environments/environment';
 
 // local imports
 import { AppComponent } from './app.component';
 import { UiModule } from './ui/ui.module';
 import { MapToolModule } from './map-tool/map-tool.module';
 import { MapToolComponent } from './map-tool/map-tool.component';
-import { PlatformService } from './platform.service';
 import { RankingModule } from './ranking/ranking.module';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
-import { DataService } from './data/data.service';
 import { HeaderBarComponent } from './header-bar/header-bar.component';
 import { FooterComponent } from './footer/footer.component';
-import { LoadingService } from './loading.service';
+import { MenuComponent } from './menu/menu.component';
+import { ServicesModule } from './services/services.module';
+import { EmbedComponent } from './map-tool/embed/embed.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -33,7 +34,7 @@ export class CustomOption extends ToastOptions {
 }
 
 @NgModule({
-  declarations: [ AppComponent, HeaderBarComponent, FooterComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent, MenuComponent ],
   imports: [
     UiModule,
     MapToolModule,
@@ -41,7 +42,8 @@ export class CustomOption extends ToastOptions {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
-      dataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/city-rankings.csv'
+      cityUrl: environment.cityRankingDataUrl,
+      stateUrl: environment.stateRankingDataUrl
     }),
     TranslateModule.forRoot({
       loader: {
@@ -50,17 +52,17 @@ export class CustomOption extends ToastOptions {
         deps: [HttpClient]
       }
     }),
+    ServicesModule.forRoot(),
     RouterModule.forRoot([], { useHash: true }),
     TooltipModule.forRoot(),
-    ToastModule.forRoot()
+    ToastModule.forRoot(),
+    Ng2PageScrollModule.forRoot()
   ],
   providers: [
-    PlatformService,
-    DataService,
-    LoadingService,
-    {provide: ToastOptions, useClass: CustomOption}
+    {provide: ToastOptions, useClass: CustomOption},
+    Title
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ MapToolComponent, RankingToolComponent ]
+  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent ]
 })
 export class AppModule { }

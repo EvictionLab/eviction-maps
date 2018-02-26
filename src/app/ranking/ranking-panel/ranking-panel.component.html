@@ -1,26 +1,24 @@
 <div *ngIf="location" class="content-inner">
-  <div class="panel-prev" (click)="goToPrevious.emit(true)">
-      <svg viewBox="0 0 24 24">
-          <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-      </svg>
+  <div class="close-button" (click)="close.emit(true)">
+    <app-ui-icon icon="close"></app-ui-icon>
   </div>
-  <div class="panel-rank">
-    <span class="rank-number">{{ rank }}</span>
-    <span class="rank-label">Highest {{dataProperty.name}}</span>
-  </div>
+  <button class="panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
+    <app-ui-icon icon="arrow-left"></app-ui-icon>
+  </button>
   <div class="panel-summary">
-    <div class="panel-summary-heading">
-      <h2>{{ location.name }}</h2>
-      <span>{{dataProperty.name}} </span>
-      <span>{{location[dataProperty.value]}}</span>
+    <div class="panel-top">
+      <span class="rank-number">{{ rank }}</span>
+      <div class="panel-summary-heading">
+        <h2 class="rank-location" [class.in-list]="rank <= topCount" (click)="locationClick.emit(rank)">{{ location.name }} <span>{{ location.displayParentLocation }}</span></h2>
+        <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
+        <a href="" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
+      </div>
     </div>
-    <p class="panel-summary-content">
-      There were {{location.evictions}} in the {{location.name}} area last year.  That amounts to {{ (location.evictions/365) | number: '1.2-2'}} people evicted every day.  {{ location.evictionRate }} in 100 renter homes are evicted each year.
-    </p>
+    <div class="panel-summary-content">
+      <p>{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
+    </div>
   </div>
-  <div class="panel-next" (click)="goToNext.emit(true)">
-      <svg viewBox="0 0 24 24">
-          <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
-      </svg>
-  </div>
+  <button class="panel-arrow panel-next" (click)="goToNext.emit(true)">
+    <app-ui-icon icon="arrow-right"></app-ui-icon>
+  </button>
 </div>

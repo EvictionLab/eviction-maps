@@ -1,35 +1,77 @@
-.toast-title {
-  font-weight: bold;
+// Toast message container
+// ---
+// directly below header on mobile
+#toast-container {
+  pointer-events: none;
+  position: fixed;
+  z-index: 99999;
+  top: grid(7);
+  width:100%;
+  left:0;
+  right:0;
 }
+// centered under header and UI on tablet+
+@media(min-width: $gtMobile) {
+  #toast-container {
+    top: grid(19);
+    left: $pageMarginLg;
+    right: $pageMarginLg;
+    margin:auto;
+    width: grid(45);
+  }
+}
+// right above the time slider in bottom left on laptop+
+@media(min-width: $gtTablet) {
+  #toast-container {
+    top: auto;
+    left: 0;
+    right: auto;
+    bottom: $timeSliderLg;
+    width: grid(45);
+  }
+}
+
+// Toast wrapper
+// ---
+.toast {
+  background-color: $black;
+  pointer-events: auto;
+}
+
+// Toast message text
+// ---
+#toast-container > div {
+  position: relative;
+  overflow: hidden;
+  padding: grid(2) grid(5) grid(2) grid(3);
+  width: 100%;
+  font-size:$toastText;
+  color: $white;
+}
+// boost font size on laptop+
+@media(min-width: $gtTablet) {
+  #toast-container > div {
+    font-size: $toastText_lptp;
+  }
+}
+
 .toast-message {
   word-wrap: break-word;
 }
-.toast-message a,
-.toast-message label {
-  color: #FFFFFF;
-}
-.toast-message a:hover {
-  color: #CCCCCC;
-  text-decoration: none;
-}
 .toast-close-button {
-  position: relative;
-  right: -0.3em;
-  top: -0.3em;
-  float: right;
+  position: absolute;
+  right: grid(2);
+  top: grid(2) - 2px;
   font-size: 20px;
+  line-height:1;
   font-weight: bold;
-  color: #FFFFFF;
-  -webkit-text-shadow: 0 1px 0 #ffffff;
-  text-shadow: 0 1px 0 #ffffff;
-  opacity: 0.8;
+  color: $white;
 }
 .toast-close-button:hover,
 .toast-close-button:focus {
-  color: #000000;
+  color: $color1;
   text-decoration: none;
   cursor: pointer;
-  opacity: 0.4;
 }
 /*Additional properties for button version
 iOS requires the button element instead of an anchor tag.
@@ -40,147 +82,8 @@ button.toast-close-button {
   background: transparent;
   border: 0;
   -webkit-appearance: none;
+  -moz-appearance: none;
 }
-.toast-top-center {
-  top: 0;
-  right: 0;
-  width: 100%;
-}
-.toast-bottom-center {
-  bottom: 0;
-  right: 0;
-  width: 100%;
-}
-.toast-top-full-width {
-  top: 0;
-  right: 0;
-  width: 100%;
-}
-.toast-bottom-full-width {
-  bottom: 0;
-  right: 0;
-  width: 100%;
-}
-.toast-top-left {
-  top: 12px;
-  left: 12px;
-}
-.toast-top-right {
-  top: 12px;
-  right: 12px;
-}
-.toast-bottom-right {
-  right: 12px;
-  bottom: 12px;
-}
-.toast-bottom-left {
-  bottom: 104px;
-  left: 16px;
-}
-#toast-container {
-  pointer-events: none;
-  position: fixed;
-  z-index: 99999;
-}
-#toast-container * {
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-}
-#toast-container > div {
-  position: relative;
-  overflow: hidden;
-  margin: 0 0 6px;
-  padding: 15px;
-  width: 300px;
-  -moz-border-radius: 3px 3px 3px 3px;
-  -webkit-border-radius: 3px 3px 3px 3px;
-  border-radius: 3px 3px 3px 3px;
-  background-position: 15px center;
-  background-repeat: no-repeat;
-  -moz-box-shadow: 0 0 12px #999999;
-  -webkit-box-shadow: 0 0 12px #999999;
-  box-shadow: 0 0 12px #999999;
-  color: #FFFFFF;
-  opacity: 0.8;
-}
-
-#toast-container > div.toast-custom {
-  padding: 15px;
-  color: #030303;
-}
-
-#toast-container > div.toast-custom .toast-close-button {
-  color: #999999 !important;
-}
-
 #toast-container > :hover {
-  -moz-box-shadow: 0 0 12px #000000;
-  -webkit-box-shadow: 0 0 12px #000000;
-  box-shadow: 0 0 12px #000000;
-  opacity: 1;
   cursor: pointer;
-}
-#toast-container.toast-top-center > div,
-#toast-container.toast-bottom-center > div {
-  width: 300px;
-  margin: auto;
-}
-#toast-container.toast-top-full-width > div,
-#toast-container.toast-bottom-full-width > div {
-  width: 96%;
-  margin: auto;
-}
-.toast {
-  background-color: #FFFFFF;
-  pointer-events: auto;
-}
-.toast-success {
-  background-color: #51A351;
-}
-.toast-error {
-  background-color: #BD362F;
-}
-.toast-info {
-  background-color: #2F96B4;
-}
-.toast-warning {
-  background-color: #F89406;
-}
-
-.toast-progress {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  height: 4px;
-  background-color: #000000;
-  opacity: 0.4;
-}
-
-/*Responsive Design*/
-@media all and (max-width: 240px) {
-  #toast-container > div {
-      padding: 8px;
-      width: 11em;
-  }
-  #toast-container .toast-close-button {
-      right: -0.2em;
-      top: -0.2em;
-  }
-}
-@media all and (min-width: 241px) and (max-width: 480px) {
-  #toast-container > div {
-      padding: 8px;
-      width: 18em;
-  }
-  #toast-container .toast-close-button {
-      right: -0.2em;
-      top: -0.2em;
-  }
-}
-@media all and (min-width: 481px) and (max-width: 768px) {
-  #toast-container > div {
-      padding: 15px;
-      width: 25em;
-  }
 }

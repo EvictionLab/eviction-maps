@@ -3,8 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { LocationSearchComponent } from './location-search.component';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { UiModule } from '../../ui/ui.module';
 
-import { SearchService } from './search/search.service';
+import { SearchService } from '../../services/search.service';
 
 describe('LocationSearchComponent', () => {
   let component: LocationSearchComponent;
@@ -16,8 +17,7 @@ describe('LocationSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LocationSearchComponent, PredictiveSearchComponent ],
-      imports: [ FormsModule, TypeaheadModule.forRoot() ]
+      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule ]
     });
     TestBed.overrideComponent(LocationSearchComponent, {
       set: {
