@@ -10,6 +10,7 @@ import { MapFeature } from '../../map-tool/map/map-feature';
   selector: 'app-location-cards',
   templateUrl: './location-cards.component.html',
   styleUrls: ['./location-cards.component.scss'],
+  providers: [ DecimalPipe ],
   animations: [
     trigger('cards', [
       state('card-1-1', style({ transform: 'translate3d(0%,0,0)' })),
@@ -117,6 +118,10 @@ export class LocationCardsComponent implements OnInit {
   private percentProps;
   private dollarProps;
 
+  constructor(private decimal: DecimalPipe) {
+
+  }
+
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
   }
@@ -141,6 +146,18 @@ export class LocationCardsComponent implements OnInit {
   getCardState(cardNum: number) {
     return this.collapsible ?
       'card' + (this.expanded ? '-e-' : '-') + cardNum + '-' + this.features.length : 'card';
+  }
+
+  getAverageOffsetPrefix(locationValue, averageValue) {
+    const difference = Math.abs(locationValue - averageValue);
+    return difference < 0.001 ? '=' :
+      (locationValue > averageValue ? '+' : '-');
+  }
+
+  getAverageOffset(locationValue, averageValue) {
+    const difference = Math.abs(locationValue - averageValue);
+    return this.getAverageOffsetPrefix(locationValue, averageValue)
+      + this.decimal.transform(difference, '1.1-2');
   }
 
   /** tracks card in the ngFor by the feature's GEOID */
