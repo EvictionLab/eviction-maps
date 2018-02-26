@@ -92,13 +92,12 @@
   left:0;
   right:0;
   width: grid(28);
-  height: grid(8);
   font-size:15px;
   margin:auto;
+  padding: 0 grid(2);
   .icon {
     width: 14px;
-    height: 12px;
-    margin:auto;
+    height: 9px;
     fill: #fff;
   }
 }

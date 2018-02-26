@@ -4,11 +4,13 @@
 @import 'theme';
 
 // Base Styles
+@import './theme/base/normalize';
 @import './theme/base/typography';
 @import './theme/base/buttons';
 @import './theme/base/toast';
 @import './theme/base/dropdown';
 @import './theme/base/dialogs';
+@import './theme/base/popovers';
 @import './theme/base/tooltips';
 @import './theme/base/inputs';
 @import './theme/base/hero';
@@ -16,29 +18,38 @@
 @import './theme/base/header';
 @import './theme/base/footer';
 
-
-// Header Bar
-// @import './theme/components/header-bar';
-
 // PAGE STYLES
 
 html, body {
-  background: #fff;
   margin:0;
   padding:0;
   width:100%;
   height:100%;
-  font-family: $fontStack!important;
 }
 
 body {
+  font-family: $fontStack;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: $black;
+  background-color: $defaultBackground;
   height:auto;
   overflow-x:hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  :focus, .form-control:focus, a:focus {
-    @include focusState();
-  }
+}
+
+a {
+  color: $color1;
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  color: $color1;
+  text-decoration: underline;
+}
+a:focus {
+  @include focusState();
 }
 
 
@@ -59,6 +70,43 @@ body {
 .content-inner {
   max-width: $maxContentWidth;
   margin:auto;
+}
+
+// HELPER CLASSES
+
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.hidden {
+  display: none !important;
+}
+.fade {
+  opacity: 0;
+  transition: opacity .15s linear;
+}
+.fade.in {
+  opacity: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: " ";
+}
+.clearfix:after {
+  clear: both;
 }
 
 // STYLE OVERRIDES
