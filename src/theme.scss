@@ -16,9 +16,9 @@ $defaultPadding: grid(2); // default padding for containers
 $pageMargin: grid(2); // page margin on mobile
 $pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
-$gtMobile: 768px; // greater than mobile device breakpoint
-$gtTablet: 1024px; // greater than tablet device breakpoint
-$gtLaptop: 1440px; // greater than laptop device breakpoint
+$gtMobile: 767px; // greater than mobile device breakpoint
+$gtTablet: 1023px; // greater than tablet device breakpoint
+$gtLaptop: 1439px; // greater than laptop device breakpoint
 
 
 // Typography
