@@ -5,6 +5,7 @@ import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { UiModule } from '../../../ui/ui.module';
+import { ToastModule } from 'ng2-toastr';
 import { DownloadFormComponent } from './download-form.component';
 import { FileExportService } from './file-export.service';
 import {Observable} from 'rxjs/Observable';
@@ -41,7 +42,13 @@ describe('DownloadFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, ModalModule.forRoot(), UiModule, TranslateModule.forRoot() ],
+      imports: [
+        FormsModule,
+        ModalModule.forRoot(),
+        UiModule,
+        TranslateModule.forRoot(),
+        ToastModule.forRoot()
+      ],
       declarations: [ DownloadFormComponent ],
       providers: [ BsModalService, BsModalRef ]
     });

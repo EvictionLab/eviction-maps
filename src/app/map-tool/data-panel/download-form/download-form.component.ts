@@ -3,6 +3,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
+import { ToastsManager } from 'ng2-toastr';
 import { FileExportService, ExportType } from './file-export.service';
 
 @Component({
@@ -21,8 +22,12 @@ export class DownloadFormComponent implements OnInit {
   constructor(
     public exportService: FileExportService,
     public bsModalRef: BsModalRef,
-    private translatePipe: TranslatePipe
-  ) { }
+    private translatePipe: TranslatePipe,
+    private toast: ToastsManager
+  ) {
+    // Add click to dimiss to all toast messages
+    this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
+  }
 
   ngOnInit() {
     this.filetypes = this.exportService.getFileTypes();
@@ -65,6 +70,9 @@ export class DownloadFormComponent implements OnInit {
           this.dismiss({ accepted: true });
           this.loading = false;
         }
+      }, err => {
+        this.loading = false;
+        this.toast.error(this.translatePipe.transform('DATA.DOWNLOAD_ERROR'));
       });
   }
 

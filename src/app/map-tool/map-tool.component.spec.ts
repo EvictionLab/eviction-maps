@@ -13,10 +13,18 @@ import { DataLevels } from './data/data-levels';
 import { ToastModule } from 'ng2-toastr';
 import { LoadingService } from '../services/loading.service';
 import { ServicesModule } from '../services/services.module';
+import { Pipe, PipeTransform } from '@angular/core';
 
 export class TranslateServiceStub {
   public get(key: any): any {
     Observable.of(key);
+  }
+}
+
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
   }
 }
 
@@ -59,6 +67,7 @@ describe('MapToolComponent', () => {
       set: {
         providers: [
           {provide: MapToolService, useClass: MapToolServiceStub },
+          { provide: TranslatePipe, useClass: TranslatePipeMock },
           TranslateService
         ]
       }

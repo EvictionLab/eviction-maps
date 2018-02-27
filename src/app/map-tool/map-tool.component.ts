@@ -30,7 +30,8 @@ import { ScrollService } from '../services/scroll.service';
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss']
+  styleUrls: ['./map-tool.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private ngUnsubscribe: Subject<any> = new Subject();
@@ -62,6 +63,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     private routing: RoutingService,
     private scroll: ScrollService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private toast: ToastsManager,
     private platform: PlatformService,
     private dialogService: UiDialogService,
@@ -122,9 +124,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loader.start('feature');
     const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
-      this.toast.error(
-        'Maximum limit reached. Please remove a location to add another.'
-      );
+      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
     }
     // track event
     const selectEvent = {
@@ -207,7 +207,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
       ).subscribe(data => {
           if (!data.properties.n) {
-            this.toast.error('Could not find data for location.');
+            this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
           } else {
             this.mapToolService.addLocation(data);
           }
