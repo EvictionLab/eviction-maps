@@ -3,7 +3,7 @@ import {
   HostListener, ElementRef
 } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -21,7 +21,8 @@ import { PlatformService } from '../../../services/platform.service';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
@@ -217,7 +218,8 @@ export class MapComponent implements OnInit, OnChanges {
     private map: MapService,
     private loader: LoadingService,
     private platform: PlatformService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private translatePipe: TranslatePipe
   ) {
     loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
@@ -438,10 +440,9 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    * Updates the selected layer's name with the word "auto" if
    * auto switch is enabled
-   * TODO: translate "auto"
    */
   private updateSelectedLayerName() {
-    const autoLabel = '<span>(auto)</span>';
+    const autoLabel = `<span>(${this.translatePipe.transform('MAP.AUTO')})</span>`;
     if (this._store.layer) {
       const layerId = this._store.layer.id;
       const layerOptions = this.layerOptions.filter(l => l.id === layerId);

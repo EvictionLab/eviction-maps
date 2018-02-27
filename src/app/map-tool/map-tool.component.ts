@@ -37,7 +37,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
-  title = 'Eviction Lab - Map';
   id = 'map-tool';
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
