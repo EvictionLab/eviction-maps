@@ -14,6 +14,7 @@
     "DOWNLOAD_HEADING": "Download Reports",
     "DOWNLOAD_HINT": "Descargar los datos y gráficos actuales en un archivo PowerPoint, PDF, u hoja de cálculo",
     "DOWNLOAD_BUTTON": "Select Report(s)",
+    "DOWNLOAD_ERROR": "There was an error completing your download. Please try again.",
     "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Acceder a Más Datos",
     "GET_DATA": "Select Data Set(s)",
@@ -77,6 +78,7 @@
     "BLOCK_GROUPS": "Grupos de Cuadras"
   },
   "MAP": {
+    "TITLE": "Eviction Lab - Map & Data",
     "EVICTION_SELECT": "Tipo de Desalojo",
     "CENSUS_SELECT": "Tipo de Datos del Censo ",
     "LAYER_SELECT": "Nivel del Mapa",
@@ -85,7 +87,10 @@
     "DATA_LINK_SINGLE": "Ver más datos",
     "DATA_LINK_MULTIPLE": "Ver comparación completa",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
-    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
+    "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
+    "NO_DATA_ERROR": "Could not find data for location.",
+    "AUTO": "auto"
   },
   "STATS": {
     "DEMOGRAPHICS": "Desglose Demográfico",
@@ -113,6 +118,7 @@
     "PCT_OTHER": "% Otra Raza"
   },
   "RANKINGS": {
+    "TITLE": "Eviction Lab - Eviction Rankings",
     "CITIES": "Cities",
     "MID_SIZED_AREAS": "Mid-sized Areas",
     "RURAL_AREAS": "Rural Areas",
@@ -152,6 +158,8 @@
     "SHARE_TWITTER": "Share on Twitter",
     "SHARE_FACEBOOK": "Share on Facebook",
     "SHARE_EMAIL": "Share via E-mail",
+    "SHARE_EMAIL_ERROR": "Email Link Error",
+    "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share Link"
   }
 }

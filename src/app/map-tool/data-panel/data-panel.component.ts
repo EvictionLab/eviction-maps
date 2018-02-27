@@ -222,11 +222,11 @@ export class DataPanelComponent implements OnInit {
     this.platform.nativeWindow.addEventListener('blur', () => clearTimeout(timeout));
     timeout = setTimeout(() => {
       this.dialogService.showDialog({
-        title: 'Email Link Error',
+        title: this.translatePipe.transform('FOOTER.SHARE_EMAIL_ERROR'),
         content: [
           {
             type: 'text',
-            data: 'Please set a default mail client in your browser to use the email link.'
+            data: this.translatePipe.transform('FOOTER.SHARE_EMAIL_ERROR_MESSAGE')
           }
         ]
       });

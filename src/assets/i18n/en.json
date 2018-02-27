@@ -14,6 +14,7 @@
     "DOWNLOAD_HEADING": "Download Reports",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files",
     "DOWNLOAD_BUTTON": "Select Report(s)",
+    "DOWNLOAD_ERROR": "There was an error completing your download. Please try again.",
     "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Get More Data",
     "GET_DATA": "Select Data Set(s)",
@@ -77,6 +78,7 @@
     "BLOCK_GROUPS": "Block Groups"
   },
   "MAP": {
+    "TITLE": "Eviction Lab - Map & Data",
     "EVICTION_SELECT": "Eviction Data",
     "CENSUS_SELECT": "Census Data",
     "LAYER_SELECT": "Map Level",
@@ -85,7 +87,10 @@
     "DATA_LINK_SINGLE": "View More Data",
     "DATA_LINK_MULTIPLE": "View Full Comparison",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
-    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
+    "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
+    "NO_DATA_ERROR": "Could not find data for location.",
+    "AUTO": "auto"
   },
   "NAV": {
     "HOME": "Home",
@@ -124,6 +129,7 @@
     "PCT_OTHER": "% Other Race"
   },
   "RANKINGS": {
+    "TITLE": "Eviction Lab - Eviction Rankings",
     "CITIES": "Cities",
     "MID_SIZED_AREAS": "Mid-sized Areas",
     "RURAL_AREAS": "Rural Areas",
@@ -163,6 +169,8 @@
     "SHARE_TWITTER": "Share on Twitter",
     "SHARE_FACEBOOK": "Share on Facebook",
     "SHARE_EMAIL": "Share via E-mail",
+    "SHARE_EMAIL_ERROR": "Email Link Error",
+    "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share Link",
     "CONNECT": "Connect With Us",
     "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>"
