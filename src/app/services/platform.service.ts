@@ -10,7 +10,7 @@ function _window(): any {
 
 const breakpoints = {
   'mobile': 767,
-  'tablet': 1024,
+  'tablet': 1023,
   'smallDesktop': 1279,
   'largeDesktop': 1599
 };
