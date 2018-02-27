@@ -160,6 +160,16 @@ app-location-cards {
   }
 }
 
+// Disabled download button
+.action-wrapper {
+  .btn.btn-border[disabled],
+  .btn.btn-border[disabled]:hover {
+    opacity: inherit;
+    color: $grey1a;
+    cursor: inherit;
+  }
+}
+
 // Margin in link/embed share popover
 ::ng-deep {
   .popover .popover-content app-ui-copy-clipboard:not(:last-child) {
