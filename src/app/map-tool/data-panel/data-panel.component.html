@@ -91,7 +91,15 @@
           </svg>
           <h2>{{ 'DATA.DOWNLOAD_HEADING' | translate }}</h2>
           <span>{{ 'DATA.DOWNLOAD_HINT' | translate }}</span>
-          <button class="btn btn-border" (click)="showDownloadDialog($event)">{{ 'DATA.DOWNLOAD_BUTTON' | translate }}</button>
+          <button
+            [disabled]="displayLocations.length === 0"
+            tooltip="{{ 'DATA.DOWNLOAD_DISABLED' | translate }}"
+            [isDisabled]="displayLocations.length > 0"
+            class="btn btn-border"
+            (click)="showDownloadDialog($event)"
+          >
+            {{ 'DATA.DOWNLOAD_BUTTON' | translate }}
+          </button>
         </div>
         <div class="action-wrapper">
           <svg viewBox="0 0 86 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
