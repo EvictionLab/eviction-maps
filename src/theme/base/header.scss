@@ -215,3 +215,14 @@
   }
 }
 
+// Condensed Header
+
+@media(min-width: $gtMobile) {
+  .header-wrapper {
+    transition: height 0.4s ease;
+  }
+  .condensed .header-wrapper {
+    height: $headerHeightSm;
+  }
+}
+

@@ -55,6 +55,7 @@ export class AppComponent implements OnInit {
     { id: 'es', name: '', langKey: 'HEADER.ES' }
   ];
   selectedLanguage;
+  isAtTop = true;
   private activeMenuItem;
 
   constructor(
@@ -84,6 +85,7 @@ export class AppComponent implements OnInit {
     };
     this.routing.setupRoutes(components);
     this.scroll.setupScroll(this.pageScroll);
+    this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.translate.onLangChange.subscribe((lang) => {

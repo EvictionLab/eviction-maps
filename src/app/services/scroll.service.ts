@@ -30,6 +30,7 @@ export class ScrollService {
     this.document.body.style.overflowY = changeScroll ? 'scroll' : '';
   }
   verticalOffset$: Observable<number>;
+  scrolledToTop$: Observable<boolean>;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -38,8 +39,13 @@ export class ScrollService {
     // provide observable with top / bottom vertical offset
     this.verticalOffset$ = Observable
       .fromEvent(this.platform.nativeWindow, 'scroll')
+      .throttleTime(10, undefined, { trailing: true, leading: true })
       .map(e => this.getVerticalOffset());
+    this.scrolledToTop$ = this.verticalOffset$
+      .map(offset => offset === 0)
+      .distinctUntilChanged();
   }
+
 
   /**
    * Sets up PageScrollConfig with defaults
