@@ -65,7 +65,7 @@ export class EvictionGraphsComponent implements OnInit {
     this._locations = value;
     this.setGraphData();
   }
-  get locations() { return this._locations; }
+  get locations() { return this._locations ? this._locations.filter(l => l) : []; }
   @Output() locationRemoved = new EventEmitter();
 
   /** Graph type input and output (allows double binding) */
