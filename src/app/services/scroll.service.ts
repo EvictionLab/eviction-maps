@@ -54,9 +54,11 @@ export class ScrollService {
   /**
    * Helper method for scrolling to an element on the page
    * @param selector Query selector for element to scroll to
+   * @param options Additional parameters for PageScrollOptions object
    */
-  scrollTo(selector: string) {
-    const scrollInstance = PageScrollInstance.simpleInstance(this.document, selector);
+  scrollTo(selector: string, scrollOptions?: Object) {
+    const options = { document: this.document, scrollTarget: selector, ...(scrollOptions || {}) };
+    const scrollInstance = PageScrollInstance.newInstance(options);
     this.pageScroll.start(scrollInstance);
   }
 
