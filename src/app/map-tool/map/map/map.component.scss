@@ -282,10 +282,6 @@ app-ui-map-legend {
   box-shadow: $z1shadow;
   border-bottom: 1px solid $shadingColor;
   z-index:10;
-  ::ng-deep .hint-button svg {
-    width: grid(3);
-    height: grid(3);
-  }
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
@@ -304,10 +300,11 @@ app-ui-map-legend {
     left:auto;
     right:$pageMarginLg;
     bottom: $timeSliderHeight + $pageMarginLg;
-    ::ng-deep .hint-button svg {
-      width: grid(3.75); // 30px
-      height: grid(3.75);
-      margin-top: grid(0.5);
+    ::ng-deep .hint-button .icon {
+      width: grid(3); // 30px
+      height: grid(3);
+      margin:auto;
+      
     }
   }
 }

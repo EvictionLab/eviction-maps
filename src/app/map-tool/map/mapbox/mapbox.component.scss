@@ -101,7 +101,7 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
   .mapboxgl-ctrl-bottom-left {
     display: none;
   }
-  @media(min-width: $gtTablet) {
+  @media(min-width: $gtMobile) {
     .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
       display: none;
     }
@@ -112,14 +112,24 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
       left: 0;
       right: auto;
     }
-    
+    .slider-active {
+      .mapboxgl-ctrl-bottom-left {
+        bottom: $timeSliderLg;
+      } 
+    }
+    .slider-active.cards-active {
+      .mapboxgl-ctrl-bottom-left {
+        bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight;
+      } 
+    }
   }
 }
 
-:host-context(.slider-active) {
-  ::ng-deep {
+@media(min-width: $gtTablet) {
+  .slider-active,
+  .slider-active.cards-active {
     .mapboxgl-ctrl-bottom-left {
       bottom: $timeSliderLg;
-    }
+    } 
   }
 }
