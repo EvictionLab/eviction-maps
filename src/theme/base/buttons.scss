@@ -119,7 +119,7 @@
 }
 
 // Square buttons with border
-.btn-border {
+.btn-border, .btn-border:focus {
   background: $defaultBackground;
   color: $grey1;
   border: 5px solid $grey5;
