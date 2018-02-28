@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { GraphModule } from 'angular-d3-graph/module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsModule } from '../location-cards/location-cards.module';
@@ -21,7 +22,8 @@ import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.compo
     LocationCardsModule,
     GraphModule.forRoot(),
     TranslateModule,
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: [
     DataPanelComponent,

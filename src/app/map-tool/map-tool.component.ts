@@ -30,13 +30,13 @@ import { ScrollService } from '../services/scroll.service';
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss']
+  styleUrls: ['./map-tool.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
-  title = 'Eviction Lab - Map';
   id = 'map-tool';
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
@@ -62,6 +62,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     private routing: RoutingService,
     private scroll: ScrollService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private toast: ToastsManager,
     private platform: PlatformService,
     private dialogService: UiDialogService,
@@ -122,9 +123,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loader.start('feature');
     const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
-      this.toast.error(
-        'Maximum limit reached. Please remove a location to add another.'
-      );
+      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
     }
     // track event
     const selectEvent = {
@@ -207,7 +206,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
       ).subscribe(data => {
           if (!data.properties.n) {
-            this.toast.error('Could not find data for location.');
+            this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
           } else {
             this.mapToolService.addLocation(data);
           }
@@ -249,8 +248,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * Triggers a scroll to the top of the page
    */
   goToTop() {
-    if (this.getVerticalOffset() > 0) {
-      this.scroll.scrollTo('#top');
+    if (this.scroll.getVerticalOffset() > 0) {
+      const topEl = this.document.getElementById('top');
+      this.scroll.scrollTo('#top', { pageScrollOffset: topEl.offsetTop });
     }
   }
 
@@ -278,18 +278,11 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private getVerticalOffset() {
-    return this.platform.nativeWindow.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop || 0;
-  }
-
   /**
    * Configures options for the `ng2-page-scroll` module, and setup scroll observables
    * to enable / disable map zoom
    */
   private setupPageScroll() {
-
     // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')
       .debounceTime(250)
@@ -299,10 +292,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
       .subscribe(e => this.wheelEvent = true);
-    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
-      // trailing scroll event is needed so verticalOffset = 0 event is fired
-      .throttleTime(10, undefined, { trailing: true, leading: true })
-      .subscribe(e => this.onScroll());
+    this.scroll.verticalOffset$.subscribe(this.onScroll.bind(this));
   }
 
   /**
@@ -311,7 +301,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * the wheel events
    */
   private onWheel() {
-    this.verticalOffset = this.getVerticalOffset();
+    this.verticalOffset = this.scroll.getVerticalOffset();
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
   }
@@ -320,8 +310,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * If scrolled to the top, enable the zoom.  Unless
    * there is a wheel event currently happening.
    */
-  private onScroll() {
-    this.verticalOffset = this.getVerticalOffset();
+  private onScroll(yOffset: number) {
+    this.verticalOffset = yOffset;
     if (!this.wheelEvent) {
       this.enableZoom = (this.verticalOffset === 0);
     } else {

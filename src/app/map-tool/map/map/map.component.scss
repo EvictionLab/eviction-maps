@@ -39,7 +39,7 @@
 }
 // larger than mobile:
 //    show select boxes by default
-.gt-mobile :host-context {
+@media(min-width: $gtMobile) {
   .map-ui { 
     display: block;
     width: calc(100% - #{($pageMarginLg*2)});    
@@ -74,51 +74,9 @@
   display: inherit;
 }
 
-:host-context(.map-inactive) {
-  .mobile-scroll-indicator p { opacity: 0; }
-}
-// - End mobile scroll indicator
+.mobile-scroll-indicator.inactive p { opacity: 0; }
 
-// Map Zoom Controls
-// ----
-// Hide rotate button because it's confusing
-app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
-  display: none;
-}
-// center controls vertically on the right side of the map
-app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
-  top: 0;
-  bottom: $timeSliderHeight + $mobileScrollIndicatorHeight + grid(5);
-  margin:auto;
-  height:grid(22);
-  right:$pageMargin;
-  left: auto;
-  .mapboxgl-ctrl-group {
-    float: right;
-    border-radius:0;
-    box-shadow: $z1shadow;
-    overflow:visible;
-     & > button {
-       border-bottom: none;
-       border-radius:0;
-       width: grid(5);
-       height: grid(5);
-       &.mapboxgl-ctrl-zoom-in {
-         border-bottom: 1px solid $shadingColor;
-       }
-     }
-  }
-}
-// increase page margins and account for larger time slider
-:host-context(.gt-mobile) {
-  app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
-    top: 0;
-    bottom:$timeSliderLg;
-    right:$pageMarginLg;
-    left: auto;
-  }
-}
-// - End Map Zoom Control
+// - End mobile scroll indicator
 
 
 // Map Location Cards
@@ -146,7 +104,7 @@ app-location-cards {
 // greater than tablet:
 //    Adjust cards container to account for the larger header height
 //    center cards vertically over the map
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   app-location-cards {
     background: none;
     pointer-events: none;
@@ -170,12 +128,14 @@ app-location-cards {
 }
 // greater than tablet when slider is active:
 //    Drop height of card container
-.gt-tablet :host-context(.slider-active) {
-  app-location-cards {
-    top:0;
-    bottom: auto;
-    margin:auto;
-    height: calc(100vh - #{$headerHeightLg} - #{$timeSliderLg});
+@media(min-width: $gtTablet) {
+  :host-context(.slider-active) {
+    app-location-cards {
+      top:0;
+      bottom: auto;
+      margin:auto;
+      height: calc(100vh - #{$headerHeightLg} - #{$timeSliderLg});
+    }
   }
 }
 // - End Map Location Cards
@@ -290,7 +250,7 @@ app-ui-map-legend {
 }
 // larger than tablet: 
 //    move legend to bottom right of the map
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   app-ui-map-legend {
     height: grid(6); // 6 * 8 = 48px
     width: grid(42.5); // 42.5 * 8 = 340px
@@ -310,21 +270,25 @@ app-ui-map-legend {
 }
 // large than mobile:
 //    legend is on the bottom right of the map, above cards
-.gt-mobile :host-context(.slider-active) app-ui-map-legend {
-  bottom: $timeSliderLg + $pageMarginLg;
+@media(min-width: $gtMobile) {
+  :host-context(.slider-active) app-ui-map-legend {
+    bottom: $timeSliderLg + $pageMarginLg;
+  }
+  :host-context(.cards-active.slider-active) app-ui-map-legend {
+    bottom: $timeSliderLg + $cardHeaderHeight + $pageMarginLg + $mobileScrollIndicatorHeight;
+  }
 }
-.gt-mobile :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $timeSliderLg + $cardHeaderHeight + $pageMarginLg + $mobileScrollIndicatorHeight;
-}
-
 // large than tablet:
 //    cards removed from bottom, adjust accordingly
-.gt-tablet :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $timeSliderLg + $pageMarginLg;
+@media(min-width: $gtTablet) {
+  :host-context(.cards-active.slider-active) app-ui-map-legend {
+    bottom: $timeSliderLg + $pageMarginLg;
+  }
+  :host-context(.cards-active) .mobile-scroll-indicator {
+    display: none;
+  }
 }
-.gt-tablet :host-context(.cards-active) .mobile-scroll-indicator {
-  display: none;
-}
+
 
 // - End Map Legend
 
@@ -334,8 +298,13 @@ app-ui-map-legend {
 // default: 
 //    Place year slider at the bottom of the window below the map
 .year-slider-container {
-  @include fill-parent();
+  position:absolute;
+  width: 100vw;
+  max-width: 100%;
   top: auto;
+  left:0;
+  right:0;
+  bottom:0;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
@@ -356,21 +325,24 @@ app-ui-map-legend {
     transform: translateY(0);
   }
 }
-// increase offset from the bottom if cards are shown
-:host-context(.cards-active) {
-  .year-slider-container { bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight; }
+// increase offset from the bottom if cards are shown (only up to tablet)
+@media(max-width: $gtTablet) {
+  :host-context(.cards-active) {
+    .year-slider-container { bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight; }
+  }
 }
-.gt-mobile :host-context {
+
+@media(min-width: $gtMobile) {
   .year-slider-container {
     padding: 0 ($pageMarginLg + grid(2)) 0 $pageMarginLg; // add grid(2) so slider marker aligns with margin edge
     height: $timeSliderLg;
     box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
   }
-  .year-slider { height: $timeSliderLg; }
+  .year-slider-container .year-slider { height: $timeSliderLg; }
 }
 // fixed at the bottom of the screen abover the overlay on 
 // devices larger than tablet
-.gt-tablet :host-context {
+@media(min-width: $gtTablet) {
   .year-slider-container {
     bottom: 0; 
     z-index:51;
@@ -382,37 +354,78 @@ app-ui-map-legend {
 // TODO: Move device specific styles to separate overrides file
 // Device-specific adjustments
 
-// Additional spacing for iOS Safari
-.ios-safari:not(.gt-tablet) :host-context(.slider-active) {
-  .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
-}
-.ios-safari:not(.gt-tablet) :host-context(.legend-active) {
-  app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
-}
-.ios-safari:not(.gt-tablet) :host-context(.cards-active) {
-  .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-  app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-  .year-slider-container {
-    height: $timeSliderHeight;
-    bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding;
+// iPhones w/ safari
+@media(max-width: $gtMobile) {
+  .ios-safari :host-context(.slider-active) {
+    .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
   }
-  app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding; }
+  .ios-safari :host-context(.legend-active) {
+    app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
+  }
+  .ios-safari :host-context(.cards-active) {
+    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
+    app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
+    .year-slider-container {
+      height: $timeSliderHeight;
+      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding;
+    }
+    app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding; }
+  }
+}
+// iPads w/ Safari
+@media(min-width: $gtMobile) and (max-width: $gtTablet) {
+  .ios-safari :host-context(.slider-active) {
+    .year-slider-container { height: $timeSliderLg + $iosSafariPadding; }
+  }
+  .ios-safari :host-context(.legend-active) {
+    app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderLg; }
+  }
+  .ios-safari :host-context(.cards-active) {
+    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
+    app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
+    .year-slider-container {
+      height: $timeSliderLg;
+      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding;
+    }
+    app-ui-map-legend { bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding; }
+  }
+}
+// Android - Mobile
+@media(max-width: $gtMobile) {
+  .android :host-context(.slider-active) {
+    .year-slider-container { height: $timeSliderHeight + $androidPadding; }
+  }
+  .android :host-context(.legend-active) {
+    app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
+  }
+  .android :host-context(.cards-active) {
+    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
+    app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
+    .year-slider-container {
+      height: $timeSliderHeight;
+      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding;
+    }
+    app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding; }
+  }
+}
+// Android - Tablet
+@media(min-width: $gtMobile) and (max-width: $gtTablet) {
+  .android :host-context(.slider-active) {
+    .year-slider-container { height: $timeSliderLg + $androidPadding; }
+  }
+  .android :host-context(.legend-active) {
+    app-ui-map-legend { bottom: $androidPadding + $timeSliderLg; }
+  }
+  .android :host-context(.cards-active) {
+    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
+    app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
+    .year-slider-container {
+      height: $timeSliderLg;
+      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding;
+    }
+    app-ui-map-legend { bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding; }
+  }
 }
 
-// Additional spacing for Android
-.android:not(.gt-tablet) :host-context(.slider-active) {
-  .year-slider-container { height: $timeSliderHeight + $androidPadding; }
-}
-.android:not(.gt-tablet) :host-context(.legend-active) {
-  app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
-}
-.android:not(.gt-tablet) :host-context(.cards-active) {
-  .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
-  app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
-  .year-slider-container {
-    height: $timeSliderHeight;
-    bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding;
-  }
-  app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding; }
-}
+
 // - End of device adjustments

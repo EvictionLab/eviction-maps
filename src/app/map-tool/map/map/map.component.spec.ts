@@ -1,5 +1,5 @@
 import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
@@ -13,6 +13,14 @@ import { ScrollService } from '../../../services/scroll.service';
 import { UiMapLegendComponent } from '../map-legend/ui-map-legend.component';
 import { LocationCardsModule } from '../../location-cards/location-cards.module';
 import { ServicesModule } from '../../../services/services.module';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 
 class MapServiceStub {
   updateCensusSource() {}
@@ -50,6 +58,7 @@ describe('MapComponent', () => {
       set: {
         providers: [
           { provide: MapService, useValue: new MapServiceStub() },
+          { provide: TranslatePipe, useClass: TranslatePipeMock }
         ],
       }
     })

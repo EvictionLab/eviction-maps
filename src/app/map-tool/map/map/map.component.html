@@ -48,7 +48,7 @@
     (clickedHeader)="clickedCardHeader.emit($event)"
     (dismissedCard)="dismissedCard.emit($event)"
   ></app-location-cards>
-  <div class="mobile-scroll-indicator">
+  <div class="mobile-scroll-indicator" [class.inactive]="!scrollZoom">
     <p *ngIf="activeFeatures.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
     <p *ngIf="activeFeatures.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
   </div>

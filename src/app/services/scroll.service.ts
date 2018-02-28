@@ -30,6 +30,9 @@ export class ScrollService {
     this.document.body.style.overflowY = changeScroll ? 'scroll' : '';
   }
   verticalOffset$: Observable<number>;
+  scrolledToTop$: Observable<boolean>;
+  /** Determines the range that triggers `scrolledToTop` to emit */
+  private topOffset = 56;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -38,8 +41,13 @@ export class ScrollService {
     // provide observable with top / bottom vertical offset
     this.verticalOffset$ = Observable
       .fromEvent(this.platform.nativeWindow, 'scroll')
+      .throttleTime(10, undefined, { trailing: true, leading: true })
       .map(e => this.getVerticalOffset());
+    this.scrolledToTop$ = this.verticalOffset$
+      .map(offset => offset < this.topOffset)
+      .distinctUntilChanged();
   }
+
 
   /**
    * Sets up PageScrollConfig with defaults
@@ -54,13 +62,15 @@ export class ScrollService {
   /**
    * Helper method for scrolling to an element on the page
    * @param selector Query selector for element to scroll to
+   * @param options Additional parameters for PageScrollOptions object
    */
-  scrollTo(selector: string) {
-    const scrollInstance = PageScrollInstance.simpleInstance(this.document, selector);
+  scrollTo(selector: string, scrollOptions?: Object) {
+    const options = { document: this.document, scrollTarget: selector, ...(scrollOptions || {}) };
+    const scrollInstance = PageScrollInstance.newInstance(options);
     this.pageScroll.start(scrollInstance);
   }
 
-  private getVerticalOffset() {
+  getVerticalOffset() {
     return this.platform.nativeWindow.pageYOffset ||
       this.document.documentElement.scrollTop ||
       this.document.body.scrollTop || 0;

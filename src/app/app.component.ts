@@ -26,7 +26,8 @@ import { ScrollService } from './services/scroll.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class AppComponent implements OnInit {
   mapComponent: MapToolComponent;
@@ -55,12 +56,14 @@ export class AppComponent implements OnInit {
     { id: 'es', name: '', langKey: 'HEADER.ES' }
   ];
   selectedLanguage;
+  isAtTop = true;
   private activeMenuItem;
 
   constructor(
     public loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private routing: RoutingService,
     private router: Router,
     private toastr: ToastsManager,
@@ -84,6 +87,7 @@ export class AppComponent implements OnInit {
     };
     this.routing.setupRoutes(components);
     this.scroll.setupScroll(this.pageScroll);
+    this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.translate.onLangChange.subscribe((lang) => {
@@ -104,9 +108,9 @@ export class AppComponent implements OnInit {
   onActivate(component: any) {
     if (component.id === 'map-tool') {
       this.mapComponent = component;
-      this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
+      this.titleService.setTitle(this.translatePipe.transform('MAP.TITLE'));
     } else if (component.id === 'ranking-tool') {
-      this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
+      this.titleService.setTitle(this.translatePipe.transform('RANKINGS.TITLE'));
     }
     this.updateClassAttributes(component.id);
     const loadedData = {
