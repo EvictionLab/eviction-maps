@@ -310,24 +310,44 @@ export class RankingToolComponent implements OnInit, OnDestroy {
     } else {
       // Set tweet parameters when no location is selected, but a region is
       this.tweetTranslation = 'RANKINGS.SHARE_REGION_NO_SELECTION';
-
-      // TODO: Need to handle cases where there is no top for category
-      const location = this.listData[0];
-      this.tweetParams['topArea'] = location.name;
+      this.tweetParams['topArea'] = '';
+      // Add top area if the filtered list has values
+      if (this.listData.length > 0) {
+        const location = this.listData[0];
+        const hadAmountTrans = this.dataProperty.value && this.dataProperty.value.endsWith('Rate') ?
+          'RANKINGS.SHARE_HAD_RATE' : 'RANKINGS.SHARE_HAD_COUNT';
+        const hadAmount = this.translatePipe.transform(hadAmountTrans);
+        this.tweetParams['topArea'] = this.translatePipe.transform(
+          'RANKINGS.SHARE_REGION_TOP_AREA', { topArea: location.name, hadAmount: hadAmount }
+        );
+      }
       const state = this.rankings.stateData.find(s => s.name === this.region);
       amount = state[this.dataProperty.value];
+
+      // Translate region amount (since possible that it's unavailable)
+      const regionParams = {
+        year: this.rankings.year,
+        region: this.region,
+        amount: amount,
+        action: this.getTweetAction()
+      };
+      const regionAmountTrans = (amount || amount === 0) ?
+        'RANKINGS.SHARE_REGION_AMOUNT' : 'RANKINGS.SHARE_REGION_UNAVAILABLE';
+      this.tweetParams['regionAmount'] = this.translatePipe.transform(
+        regionAmountTrans, regionParams
+      );
     }
 
-    this.setTweetAction();
-    this.setTweetAmount(amount);
+    this.tweetParams['action'] = this.getTweetAction();
+    this.tweetParams = { ...this.tweetParams, ...this.getTweetAmount(amount) };
     const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
     this.encodedTweet = this.platform.urlEncode(tweet);
   }
 
   /**
-   * Set action portion of tweet based on selected template
+   * Get action portion of tweet based on selected template
    */
-  private setTweetAction() {
+  private getTweetAction(): string {
     let actionTrans;
 
     if (this.tweetTranslation === 'RANKINGS.SHARE_DEFAULT') {
@@ -337,15 +357,16 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       actionTrans = this.dataProperty.value.startsWith('e') ?
         'RANKINGS.SHARE_PASSIVE_JUDGMENT' : 'RANKINGS.SHARE_PASSIVE_FILING';
     }
-    this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+    return this.translatePipe.transform(actionTrans);
   }
 
   /**
-   * Set amount parameters in tweet depending on selections
+   * Get amount parameters in tweet depending on selections
    * @param amountNum
    */
-  private setTweetAmount(amountNum: number): void {
+  private getTweetAmount(amountNum: number): Object {
     let amount;
+    const tweetParams = {};
 
     // Format translation parameters depending on if they're percentages or totals
     if (this.dataProperty.value.endsWith('Rate')) {
@@ -356,15 +377,16 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       } else {
         amount = amountNum;
         amountTrans = 'RANKINGS.SHARE_PERCENT_OF';
-        this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE');
+        tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE');
       }
       amount = this.decimal.transform(amount, '1.1-2');
       amount = this.translatePipe.transform(amountTrans, { 'amount': amount });
     } else {
       amount = this.decimal.transform(amountNum);
-      this.tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
+      tweetParams['hadAmount'] = this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
     }
-    this.tweetParams['amount'] = amount;
+    tweetParams['amount'] = amount;
+    return tweetParams;
   }
 
   private getCurrentNavArray() {
