@@ -31,6 +31,8 @@ export class ScrollService {
   }
   verticalOffset$: Observable<number>;
   scrolledToTop$: Observable<boolean>;
+  /** Determines the range that triggers `scrolledToTop` to emit */
+  private topOffset = 56;
 
   constructor(
     @Inject(DOCUMENT) private document: any,
@@ -42,7 +44,7 @@ export class ScrollService {
       .throttleTime(10, undefined, { trailing: true, leading: true })
       .map(e => this.getVerticalOffset());
     this.scrolledToTop$ = this.verticalOffset$
-      .map(offset => offset === 0)
+      .map(offset => offset < this.topOffset)
       .distinctUntilChanged();
   }
 
@@ -68,7 +70,7 @@ export class ScrollService {
     this.pageScroll.start(scrollInstance);
   }
 
-  private getVerticalOffset() {
+  getVerticalOffset() {
     return this.platform.nativeWindow.pageYOffset ||
       this.document.documentElement.scrollTop ||
       this.document.body.scrollTop || 0;

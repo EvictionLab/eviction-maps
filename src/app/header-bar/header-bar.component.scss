@@ -1,22 +1,75 @@
 @import '../../theme';
-// Ranking tool overrides
-:host-context(.ranking-tool) {
-  .btn.btn-icon {
-    display: none;
+
+// Map Tool Mobile Overrides
+@media(max-width: $gtMobile) {
+  :host-context(.map-tool) {
+    // no logo on mobile
+    .header-logo { 
+      display: none;
+    }
+    // show all icons on map tool
+    .header-icons {
+      width: 100%;
+      .btn.btn-icon {
+        display: block;
+      }
+    }
+    // no language select in mobile toolbar
+    .language-select {
+      display: none;
+    }
+    // place search below toolbar
+    .header-search {
+      display:none;
+      margin-top: grid(2);
+      &.active { 
+        display: block;
+        position: absolute;
+        top: grid(7);
+        left: 0;
+        right: 0;
+        z-index: 10;
+        padding-bottom: grid(1); // pad a bit so glow doesn't get cutoff
+      }
+    }
   }
-  .btn.btn-icon.el-button-menu {
-    display: block;
+}
+
+@media(min-width: $gtMobile) {
+  :host-context(.map-tool) {
+    // show search in header
+    .header-search {
+      position:relative;
+      display:flex;
+      order: 2;
+      flex: 1;
+      max-width: grid(37.5);
+      margin: 0 0 0 grid(3);
+      .search {
+        width: 100%;
+      }
+      // override mobile positioning
+      &.active { 
+        position:relative; 
+        top:auto; 
+        left:auto; 
+        right: auto; 
+        padding-bottom:0;
+      }
+    }
   }
-  .header-wrapper .header-logo {
-    display: block;
-    flex:1;
+}
+
+// Desktop+ Styles
+@media(min-width: $gtTablet) {
+  :host-context(.map-tool) {
+    .header-search {
+      flex:1;
+      max-width: none;
+      display:flex;
+      align-items: center;
+      justify-content: flex-end;
+      margin-right: grid(1);
+    }
   }
-  .header-wrapper .header-icons {
-    width: grid(5);
-    margin-right: -6px; // nudge a bit so menu icon aligns properly
-  }
-  .header-wrapper .language-select {
-    display: block;
-  }
-  .header-wrapper .header-search { display: none; }
 }

@@ -74,51 +74,9 @@
   display: inherit;
 }
 
-:host-context(.map-inactive) {
-  .mobile-scroll-indicator p { opacity: 0; }
-}
-// - End mobile scroll indicator
+.mobile-scroll-indicator.inactive p { opacity: 0; }
 
-// Map Zoom Controls
-// ----
-// Hide rotate button because it's confusing
-app-mapbox ::ng-deep .mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
-  display: none;
-}
-// center controls vertically on the right side of the map
-app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
-  top: 0;
-  bottom: $timeSliderHeight + $mobileScrollIndicatorHeight + grid(5);
-  margin:auto;
-  height:grid(22);
-  right:$pageMargin;
-  left: auto;
-  .mapboxgl-ctrl-group {
-    float: right;
-    border-radius:0;
-    box-shadow: $z1shadow;
-    overflow:visible;
-     & > button {
-       border-bottom: none;
-       border-radius:0;
-       width: grid(5);
-       height: grid(5);
-       &.mapboxgl-ctrl-zoom-in {
-         border-bottom: 1px solid $shadingColor;
-       }
-     }
-  }
-}
-// increase page margins and account for larger time slider
-@media(min-width: $gtMobile) {
-  app-mapbox ::ng-deep .mapboxgl-ctrl-top-left {
-    top: 0;
-    bottom:$timeSliderLg;
-    right:$pageMarginLg;
-    left: auto;
-  }
-}
-// - End Map Zoom Control
+// - End mobile scroll indicator
 
 
 // Map Location Cards

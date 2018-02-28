@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, AfterViewInit,
-  EventEmitter, ViewChild, ElementRef, NgZone, HostListener
+  EventEmitter, ViewChild, ElementRef, NgZone, HostListener, ViewEncapsulation
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
   styleUrls: ['./mapbox.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [ TranslatePipe, DecimalPipe ]
 })
 export class MapboxComponent implements AfterViewInit {

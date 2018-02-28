@@ -248,7 +248,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * Triggers a scroll to the top of the page
    */
   goToTop() {
-    if (this.getVerticalOffset() > 0) {
+    if (this.scroll.getVerticalOffset() > 0) {
       const topEl = this.document.getElementById('top');
       this.scroll.scrollTo('#top', { pageScrollOffset: topEl.offsetTop });
     }
@@ -278,19 +278,11 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private getVerticalOffset() {
-    return this.platform.nativeWindow.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop || 0;
-  }
-
   /**
    * Configures options for the `ng2-page-scroll` module, and setup scroll observables
    * to enable / disable map zoom
-   * TODO: use the scroll service!
    */
   private setupPageScroll() {
-
     // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')
       .debounceTime(250)
@@ -300,10 +292,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
       .subscribe(e => this.wheelEvent = true);
-    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
-      // trailing scroll event is needed so verticalOffset = 0 event is fired
-      .throttleTime(10, undefined, { trailing: true, leading: true })
-      .subscribe(e => this.onScroll());
+    this.scroll.verticalOffset$.subscribe(this.onScroll.bind(this));
   }
 
   /**
@@ -312,7 +301,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * the wheel events
    */
   private onWheel() {
-    this.verticalOffset = this.getVerticalOffset();
+    this.verticalOffset = this.scroll.getVerticalOffset();
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
   }
@@ -321,8 +310,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * If scrolled to the top, enable the zoom.  Unless
    * there is a wheel event currently happening.
    */
-  private onScroll() {
-    this.verticalOffset = this.getVerticalOffset();
+  private onScroll(yOffset: number) {
+    this.verticalOffset = yOffset;
     if (!this.wheelEvent) {
       this.enableZoom = (this.verticalOffset === 0);
     } else {
