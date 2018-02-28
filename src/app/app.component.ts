@@ -26,7 +26,8 @@ import { ScrollService } from './services/scroll.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class AppComponent implements OnInit {
   mapComponent: MapToolComponent;
@@ -62,6 +63,7 @@ export class AppComponent implements OnInit {
     public loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private routing: RoutingService,
     private router: Router,
     private toastr: ToastsManager,
@@ -106,9 +108,9 @@ export class AppComponent implements OnInit {
   onActivate(component: any) {
     if (component.id === 'map-tool') {
       this.mapComponent = component;
-      this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
+      this.titleService.setTitle(this.translatePipe.transform('MAP.TITLE'));
     } else if (component.id === 'ranking-tool') {
-      this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
+      this.titleService.setTitle(this.translatePipe.transform('RANKINGS.TITLE'));
     }
     this.updateClassAttributes(component.id);
     const loadedData = {

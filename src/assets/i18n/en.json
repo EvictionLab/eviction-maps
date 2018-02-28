@@ -14,6 +14,8 @@
     "DOWNLOAD_HEADING": "Download Reports",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files",
     "DOWNLOAD_BUTTON": "Select Report(s)",
+    "DOWNLOAD_ERROR": "There was an error completing your download. Please try again.",
+    "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Get More Data",
     "GET_DATA": "Select Data Set(s)",
     "GET_DATA_HINT": "Access spreadsheets of full data sets from across the U.S.",
@@ -76,6 +78,7 @@
     "BLOCK_GROUPS": "Block Groups"
   },
   "MAP": {
+    "TITLE": "Eviction Lab - Map & Data",
     "EVICTION_SELECT": "Eviction Data",
     "CENSUS_SELECT": "Census Data",
     "LAYER_SELECT": "Map Level",
@@ -84,7 +87,10 @@
     "DATA_LINK_SINGLE": "View More Data",
     "DATA_LINK_MULTIPLE": "View Full Comparison",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
-    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison"
+    "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
+    "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
+    "NO_DATA_ERROR": "Could not find data for location.",
+    "AUTO": "auto"
   },
   "NAV": {
     "HOME": "Home",
@@ -123,6 +129,7 @@
     "PCT_OTHER": "% Other Race"
   },
   "RANKINGS": {
+    "TITLE": "Eviction Lab - Eviction Rankings",
     "CITIES": "Cities",
     "MID_SIZED_AREAS": "Mid-sized Areas",
     "RURAL_AREAS": "Rural Areas",
@@ -151,7 +158,10 @@
     "SHARE_TOTAL": "total",
     "SHARE_RATE": "rate",
     "SHARE_DEFAULT": "The top 10 {{areaType}} in our rankings {{action}} {{amount}} renter homes in {{year}}. Find out how your city compares at {{link}}",
-    "SHARE_REGION_NO_SELECTION": "{{amount}} renter homes {{action}} in {{region}} in {{year}}. {{topArea}} {{hadAmount}}. Find out where your city ranks at {{link}}",
+    "SHARE_REGION_UNAVAILABLE": "Data for {{region}} in {{year}} is unavailable.",
+    "SHARE_REGION_AMOUNT": "{{amount}} renter homes {{action}} in {{region}} in {{year}}.",
+    "SHARE_REGION_TOP_AREA": " {{topArea}} {{hadAmount}}.",
+    "SHARE_REGION_NO_SELECTION": "{{regionAmount}}{{topArea}} Find out where your city ranks at {{link}}",
     "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}}'s {{areaType}}. Find out where your city ranks at {{link}}",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
@@ -162,6 +172,8 @@
     "SHARE_TWITTER": "Share on Twitter",
     "SHARE_FACEBOOK": "Share on Facebook",
     "SHARE_EMAIL": "Share via E-mail",
+    "SHARE_EMAIL_ERROR": "Email Link Error",
+    "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share Link",
     "CONNECT": "Connect With Us",
     "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>"
