@@ -1,15 +1,23 @@
-@mixin iconLabelFont() {
+// Header Mixins
+// ---
+@mixin iconLabelText() {
   @include altSmallCapsText(10px);
 }
-
-@mixin iconLabelFontLg() {
+@mixin iconLabelTextLg() {
   @include altSmallCapsText(14px);
 }
+@mixin langSelectText() {
+  @include defaultFont(10px);
+  letter-spacing: 0.3px;
+  text-transform: none;
+}
+@mixin langSelectTextLg() {
+  @include defaultFont(15px);
+  letter-spacing: 0;
+}
 
-// HEADER BAR
-
-// Mobile styles
-// - 5 icons at the top
+// Header Container / Layout
+// ---
 .header-wrapper {
   position:absolute;
   top:0;left:0;right:0;
@@ -32,186 +40,213 @@
     align-content: center;
     align-items: center;
   }
-  // toolbar icon row
-  .header-icons {
-    width: 100%;
-    height: 100%;
-    display:flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-    .btn.btn-icon {
-      width: grid(5);
-      height: grid(5);
-      @include iconLabelFont();
-    }
-    .icon {
-      width:22px;
-      height: 22px;
-      margin: auto auto grid(1);
-    }
-    // icon colors
-    .btn-icon { color: $headerButtonColor; }
-    .icon { fill: $headerButtonColor; }
-    .btn-icon.active { color: $headerActiveButtonColor; }
-    .btn-icon.active .icon { fill: $headerActiveButtonColor; }
-  }
-  // no logo on mobile
-  .header-logo { 
-    display: none;
-    img { width: 152px; }
-  }
-  // place search below toolbar
-  .header-search {
-    display:none;
-    margin-top: grid(2);
-    &.active { 
-      display: block;
-      position: absolute;
-      top: grid(7);
-      left: 0;
-      right: 0;
-      z-index: 10;
-      padding-bottom: grid(1); // pad a bit so glow doesn't get cutoff
-    }
-  }
-  .language-select {
-    display: none;
-    .btn.dropdown-toggle {
-      .dropdown-value {
-        @include defaultFont(13px);
-        text-transform: none;
-      }
-    }
-  }
 }
-// Override language select font/icon on mobile only
-@media(max-width: $gtMobile) {
-  .header-wrapper .language-select {
-    margin-right: grid(1);
-    width: grid(9);
-    .el-select {
-      .btn { 
-        padding: grid(1); 
-        height: grid(5); 
-      }
-      .btn .dropdown-value { font-size:10px; }
-      .btn .icon { width: 8px; right: 8px; }
-    } 
-  }
-}
-
-// Tablet+ Styles
+// boost header height on tablet+
 @media(min-width: $gtMobile) {
-  // boost header height
   .header-wrapper {
     height: $headerHeightLg;
     padding: 0 $pageMarginLg;    
-    .header-icons {
-      flex:none;
-      width:grid(5);
-      height:grid(7);
-      order: 4;
+  }
+}
+
+// Search
+// ---
+.header-search { display: none; } // Hide search by default
+
+// Toolbar Icons (show menu button only by default)
+// ---
+.header-icons {
+  width: grid(5);
+  margin-right: -6px; // nudge a bit so menu icon aligns properly
+  height: 100%;
+  display:flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  .btn.btn-icon {
+    display: none;
+    width: grid(5);
+    height: grid(5);
+    @include iconLabelText();
+    // only show menu button by default
+    &.el-button-menu {
+      display: block;
     }
-    // hide icons
-    .header-icons .btn-icon {
-      display: none;
-    }
+  }
+  .icon {
+    width:22px;
+    height: 22px;
+    margin: 2px auto 6px;
+  }
+  // icon colors
+  .btn-icon { color: $headerButtonColor; }
+  .icon { fill: $headerButtonColor; }
+  .btn-icon.active { color: $headerActiveButtonColor; }
+  .btn-icon.active .icon { fill: $headerActiveButtonColor; }
+}
+// boost icon size on tablet+
+@media(min-width: $gtMobile) {
+  .header-icons {
+    flex:none;
+    width:grid(5);
+    height:grid(7);
+    order: 4;
     // increase menu button size and show
-    .header-icons .btn.btn-icon.el-button-menu {
+    & .btn.btn-icon.el-button-menu {
       display:flex;
       width: grid(5);
-      height: grid(7);
-      color: $color1;
       height: $headerContentHeight;
+      color: $color1;
       .icon {
         width:grid(5);
         height: grid(4.5);
         fill: $color1;
+        transition: width, height 0.4s ease;
       }
       span {
         position:relative;
         top:1px;
-        @include iconLabelFontLg();
+        @include iconLabelTextLg();
         line-height: 1;
-      }
-    }
-    // show logo
-    .header-logo {
-      order:1;
-      display:block;
-      flex: 1;
-      a { display: inline-block; line-height:1; }
-      img { 
-        width:grid(36); // 288px 
-      }
-    }
-    // show search
-    .header-search {
-      position:relative;
-      display:flex;
-      order: 2;
-      flex: 1;
-      max-width: grid(37.5);
-      margin: 0 0 0 grid(3);
-      .search {
-        width: 100%;
-      }
-      // override mobile positioning
-      &.active { 
-        position:relative; 
-        top:auto; 
-        left:auto; 
-        right: auto; 
-        padding-bottom:0;
-      }
-    }
-    // show language toggle
-    .language-select {
-      display:block;
-      margin: 0 grid(3) 0 grid(2);
-      order: 3;
-      // Vertical treatment with arrow on bottom
-      .el-select .dropdown-toggle.btn {
-        height:grid(7);
-        padding: 6px 12px;
-        text-align: center;
-        padding-right: grid(1.5)!important; // never want to add padding for down arrow
-        span {
-          position: relative;
-          top: -7px;
-        }
-        .icon {
-          top:auto;
-          left: 0;
-          bottom: 11px;
-          right: 0!important; // need to force override for vertical select
-          margin: 0 auto;
-        }
+        transition: font-size 0.4s ease;
       }
     }
   }
 }
 
-// Desktop+ Styles
+// Logo
+// ---
+.header-logo {
+  display: block;
+  flex:1;
+  img { 
+    transform-origin: 0 0;
+    transition: transform 0.4s ease;
+    width: 152px; 
+  }
+}
+// boost logo size on tablet
+@media(min-width: $gtMobile) {
+  .header-logo {
+    order:1;
+    display:block;
+    flex: 1;
+    a { display: inline-block; line-height:1; }
+    img { 
+      width:grid(31); // 248px 
+      height: 18px;
+    }
+  }
+}
+// boost size on laptop+
 @media(min-width: $gtTablet) {
-  .header-wrapper {
-    .header-logo img {
-      width: grid(40); // 320px
+  .header-logo img {
+    width: grid(40); // 320px
+    height: 24px;
+  }
+}
+
+// Language Toggle
+// ---
+.language-select {
+  display: block;
+  margin-right: grid(1);
+  width: grid(9);
+  .dropdown-toggle.btn {
+    padding: grid(1) grid(2.5) grid(1) grid(1); 
+    height: grid(5);
+    text-align:center;
+    .dropdown-value {
+      @include langSelectText();
+      position: relative;
+      top: -2px; // nudge text up so it is vertically centered
     }
-    .header-content {
-      justify-content: flex-start;
-      align-content: center;
-      align-items: center;
-    }
-    .header-search {
-      flex:1;
-      max-width: none;
-      display:flex;
-      align-items: center;
-      justify-content: flex-end;
-      margin-right: grid(1);
+    .icon { width: grid(1); right: grid(1); }
+  }
+}
+// Boost toggle size on tablet+
+@media(min-width: $gtMobile) {
+  .language-select {
+    display:block;
+    margin: 0 grid(3) 0 grid(2);
+    height: grid(7);
+    width: grid(14);
+    order: 3;
+    transition: all 0.4s ease;
+    .dropdown-toggle.btn {
+      text-align:left;
+      height: grid(7);
+      padding: grid(1) grid(3) grid(1) grid(2);
+      .dropdown-value {
+        top:auto;
+        @include langSelectTextLg();
+        transition: font-size 0.4s ease;
+      }
+      .icon {
+        width: 14px;
+        right: grid(2);
+      }
     }
   }
 }
 
+// Condensed Header
+// ---
+@media(min-width: $gtMobile) {
+  .header-wrapper {
+    transition: height 0.4s ease;
+  }
+  .condensed {
+    .header-wrapper {
+      height: $headerHeightSm;
+    }
+    .header-logo img {
+      width: grid(31); // 248px
+      height: 18px;
+    }
+    .header-search {
+      .form-control {
+        height: grid(5);
+        font-size:13px;
+      }
+    }
+    .language-select {
+      width: grid(12);
+      height: grid(5);
+      .dropdown-toggle.btn {
+        height: grid(5);
+        .dropdown-value {
+          @include defaultFont(10px);
+          top: -2px; // nudge text up so it is vertically centered
+          letter-spacing: 0.3px;
+        }
+        .icon { width: grid(1); }
+      }
+    }
+    // resize menu icon
+    .header-icons {
+      width:grid(4);
+      height:grid(5);
+      & .btn.btn-icon.el-button-menu {
+        width: grid(4);
+        height: grid(5);
+        .icon {
+          width: 22px;
+          height: 22px;
+        }
+        span {
+          top:auto;
+          @include iconLabelText();
+        }
+      }
+    }
+  }
+}
+// scale header
+@media(min-width: $gtTablet) {
+  .condensed {
+    .header-logo img {
+      transform: scale(0.775);
+    }
+  }
+}
