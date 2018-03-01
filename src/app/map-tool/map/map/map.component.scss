@@ -245,7 +245,9 @@ app-location-cards {
     position:absolute;
     top:0;
     right:0;
-    display:block;
+    display:flex;
+    align-items: center;
+    justify-content: center;
     width: grid(5);
     height: grid(6);
     background: #fff;

@@ -245,6 +245,8 @@
 @media(min-width: $gtTablet) {
   .condensed {
     .header-logo img {
+      width: grid(40); // 320px
+      height: 24px;
       transform: scale(0.775);
     }
   }
