@@ -152,7 +152,7 @@ export class DataPanelComponent implements OnInit {
       this.tweetTranslation = 'DATA.TWEET_NO_FEATURES';
     } else {
       const sortProp = `${action}-${yearSuffix}`;
-      features = this.locations.sort((a, b) =>
+      features = [ ...this.locations ].sort((a, b) =>
         a.properties[sortProp] > b.properties[sortProp] ? -1 : 1);
 
       // TODO: Potentially pull state abbreviation into place name
