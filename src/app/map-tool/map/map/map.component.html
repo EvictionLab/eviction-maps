@@ -30,6 +30,9 @@
       [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
       (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
+    <button class="btn btn-icon overview">
+      <app-ui-icon icon="help"></app-ui-icon>
+    </button>
   </div>
   <app-ui-map-legend 
     *ngIf="showLegend" 

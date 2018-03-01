@@ -71,10 +71,16 @@
 }
 
 :host-context(.cards-active) .mobile-scroll-indicator {
-  display: inherit;
+  display: block;
 }
 
 .mobile-scroll-indicator.inactive p { opacity: 0; }
+
+@media(min-width: $gtTablet) {
+  :host-context(.cards-active) .mobile-scroll-indicator {
+    display: none;
+  }
+}
 
 // - End mobile scroll indicator
 
@@ -203,8 +209,8 @@ app-location-cards {
   // label inline with selected value
   .map-ui app-ui-select {
     float:left;
-    width:32%;
-    margin: 0 2% 0 0;
+    width:28.9%;
+    margin: 0 16px 0 0;
     position: relative;
     &:nth-of-type(3) {
       margin-right: 0;
@@ -225,6 +231,33 @@ app-location-cards {
   }
 }
 // - End Map Data Select Boxes
+
+// Feature Overview
+// ---
+.overview.btn {
+  display: none;
+  &:hover {
+    background: $shadingColor;
+  }
+}
+@media(min-width: $gtMobile) {
+  .overview.btn {
+    position:absolute;
+    top:0;
+    right:0;
+    display:block;
+    width: grid(5);
+    height: grid(6);
+    background: #fff;
+    box-shadow: $z1shadow;
+    .icon {
+      margin:auto;
+      width: 22px;
+      height:22px;
+      fill: $iconColor;
+    }
+  }
+}
 
 
 // Map Legend
@@ -283,9 +316,6 @@ app-ui-map-legend {
 @media(min-width: $gtTablet) {
   :host-context(.cards-active.slider-active) app-ui-map-legend {
     bottom: $timeSliderLg + $pageMarginLg;
-  }
-  :host-context(.cards-active) .mobile-scroll-indicator {
-    display: none;
   }
 }
 
