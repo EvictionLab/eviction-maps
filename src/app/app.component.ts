@@ -8,7 +8,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { Routes, Router } from '@angular/router';
+import { Routes, Router, ActivatedRoute } from '@angular/router';
 import { PageScrollService } from 'ng2-page-scroll';
 
 import { MapToolComponent } from './map-tool/map-tool.component';
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
     private platform: PlatformService,
     private translate: TranslateService,
     private translatePipe: TranslatePipe,
+    private activatedRoute: ActivatedRoute,
     private routing: RoutingService,
     private router: Router,
     private toastr: ToastsManager,
@@ -155,6 +156,13 @@ export class AppComponent implements OnInit {
   onLanguageSelect(lang) {
     this.translate.use(lang.id);
     this.analytics.trackEvent('languageSelection', { language: lang.id });
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        ...this.activatedRoute.snapshot.queryParams,
+        lang: lang.id,
+      }
+    });
   }
 
  /**

@@ -15,7 +15,7 @@
   height: grid(5);
 }
 
-.ranking-ui-container {
+.ranking-ui-wrapper {
   h2 {
     @include altSmallCapsText(12px);
     line-height:1;
@@ -68,7 +68,6 @@ app-ui-select {
 .ranking-ui-actions {
   padding: 0 grid(2);
   .btn {
-    display:block; 
     width: 100%;
   }
 }

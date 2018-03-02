@@ -98,6 +98,8 @@ export class RoutingService {
       { path: 'embed/:year/:geography/:bounds', component: components.embed },
       { path: ':year/:geography/:bounds', component: components.map },
       { path: 'evictors', component: components.rankings },
+      { path: 'evictors/:sortProp', component: components.rankings },
+      { path: 'evictors/:sortProp/:place', component: components.rankings },
       { path: 'evictions/:region/:areaType/:sortProp', component: components.rankings },
       { path: 'evictions/:region/:areaType/:sortProp/:location', component: components.rankings },
       { path: 'evictions', redirectTo: this.defaultViews.rankings },
