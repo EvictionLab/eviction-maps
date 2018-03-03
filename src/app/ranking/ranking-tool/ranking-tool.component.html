@@ -6,10 +6,10 @@
     <div class="content-inner">
       <ul class="tabs">
         <li [class.active]="activeTab === 'evictions'">
-          <a routerLink="/evictions">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
+          <a (click)="switchTab('evictions')">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
         </li>
         <li [class.active]="activeTab === 'evictors'">
-          <a>{{ 'RANKINGS.TOP_EVICTORS' | translate }}</a>
+          <a (click)="switchTab('evictors')">{{ 'RANKINGS.TOP_EVICTORS' | translate }}</a>
         </li>
       </ul>
     </div>
@@ -17,11 +17,16 @@
   <div class="page-content">
     <app-evictions
       class="ranking-component"
+      *ngIf="activeTab === 'evictions'"
       [region]="region"
       [areaType]="areaType"
       [dataProperty]="dataProperty"
       [selectedIndex]="selectedIndex"
     ></app-evictions>
+    <app-evictors
+      class="ranking-component"
+      *ngIf="activeTab === 'evictors'"
+    ></app-evictors>
   </div>
   <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
     <app-ui-icon icon="arrow-up"></app-ui-icon>

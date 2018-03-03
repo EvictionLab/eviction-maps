@@ -84,10 +84,6 @@ export class EvictionsComponent implements OnInit {
       this.dataProperty.hasOwnProperty('value');
   }
 
-  encodedTweet: string;
-  tweetTranslation = 'RANKINGS.SHARE_DEFAULT';
-  tweetParams = {};
-
   constructor(
     public rankings: RankingService,
     public loader: LoadingService,
@@ -393,22 +389,10 @@ export class EvictionsComponent implements OnInit {
       // Setup full data and scroll if initial data load
       if (!this.fullData) {
         this.fullData = this.rankings.getSortedData(this.dataProperty.value);
-        this.setupPageScroll();
       }
     } else {
       console.warn('data is not ready yet');
     }
-  }
-
-
-  private setupPageScroll() {
-    this.scroll.defaultScrollOffset = 175;
-
-    const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
-    this.scroll.verticalOffset$.debounceTime(100)
-      .subscribe(offset => {
-        this.showScrollButton = offset > listYOffset;
-      });
   }
 
 }

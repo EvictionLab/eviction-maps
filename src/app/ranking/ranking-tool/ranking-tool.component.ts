@@ -30,6 +30,8 @@ export class RankingToolComponent implements OnInit, OnDestroy {
   areaType;
   dataProperty;
   selectedIndex;
+  /** Boolean of whether to show scroll to top button */
+  showScrollButton = false;
 
   constructor(
     public rankings: RankingService,
@@ -51,6 +53,10 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       .subscribe(this.onRouteChange.bind(this));
     this.route.queryParams.takeUntil(this.ngUnsubscribe)
       .subscribe(this.onQueryParamChange.bind(this));
+  }
+
+  switchTab(id: string) {
+    this.router.navigate([ '/', id]);
   }
 
   /**
@@ -83,5 +89,16 @@ export class RankingToolComponent implements OnInit, OnDestroy {
   scrollToTop() {
     this.scroll.scrollTo('app-ranking-list');
   }
+
+
+  private setupPageScroll() {
+    this.scroll.defaultScrollOffset = 175;
+    const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
+    this.scroll.verticalOffset$.debounceTime(100)
+      .subscribe(offset => {
+        this.showScrollButton = offset > listYOffset;
+      });
+  }
+
 
 }

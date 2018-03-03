@@ -156,13 +156,13 @@ export class AppComponent implements OnInit {
   onLanguageSelect(lang) {
     this.translate.use(lang.id);
     this.analytics.trackEvent('languageSelection', { language: lang.id });
-    this.router.navigate([], {
-      relativeTo: this.activatedRoute,
-      queryParams: {
-        ...this.activatedRoute.snapshot.queryParams,
-        lang: lang.id,
-      }
-    });
+    // this.router.navigate([], {
+    //   relativeTo: this.activatedRoute,
+    //   queryParams: {
+    //     ...this.activatedRoute.snapshot.queryParams,
+    //     lang: lang.id,
+    //   }
+    // });
   }
 
  /**

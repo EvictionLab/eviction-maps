@@ -1,3 +1,14 @@
-<p>
-  evictors works!
-</p>
+<div class="content-inner content-evictions">
+  <div class="ranking-ui-container">
+    <button class="search-filter" (click)="showUiPanel = true">
+      <app-ui-icon icon="search"></app-ui-icon>
+      <span> {{ 'RANKINGS.SEARCH_FILTER' | translate }}</span>
+    </button>
+    <div class="ranking-ui-panel">
+      Panel Placeholder
+    </div>
+  </div>
+  <div class="ranking-body">
+    List Placeholder
+  </div>
+</div>
