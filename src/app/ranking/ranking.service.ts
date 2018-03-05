@@ -57,6 +57,7 @@ export class RankingService {
    * and passes it to the CSV parser
    */
   loadEvictionsData() {
+    if (this.evictions) { this.setReady(true); return; }
     console.time('load evictions data');
     this.loadStateData();
     return this.http.get(this.config.cityUrl, { responseType: 'text' })
@@ -80,6 +81,7 @@ export class RankingService {
    * and passes it to the CSV parser
    */
   loadEvictorsData() {
+    if (this.evictors) { this.setReady(true); return; }
     console.time('load evictors');
     return this.http.get(this.config.evictorsUrl, { responseType: 'text' })
       .map((csvString) => {

@@ -128,20 +128,6 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
     // handle search
   }
 
-  /**
-   * Tracks when the rankings are shared
-   */
-  trackShare(shareType: string) {
-    this.analytics.trackEvent('rankingShare', { shareType });
-  }
-
-  /** Handler for when the twitter icon is clicked */
-  shareTwitter() {
-    this.trackShare('twitter');
-    const href = 'http://twitter.com/intent/tweet?status=' + this.getEncodedTweet();
-    this.platform.nativeWindow.open(href, 'Social Share', 'height=285,width=550,resizable=1');
-  }
-
   private getQueryParams() {
     return { lang: this.translate.currentLang };
   }
