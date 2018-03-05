@@ -338,38 +338,35 @@ app-ranking-ui.ranking-ui-panel {
   
 }
 
-.social-icons {
+.share-wrapper {
   margin-top: grid(3);
-  padding: grid(1);
-  text-align: center;
+  padding: 0 grid(2);
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  .btn-border.icon {
-    margin: 0 grid(1);
-    border: none;
-    height: grid(3);
-    width: grid(3);
-    background-color: transparent;
-    .icon {
-      height: grid(2);
-      fill: $grey1a;
-    }
-    &:hover .icon { fill: $black;}
-
-  }
-
+  justify-content: flex-start;
   .share-intro {
     @include altSmallCapsText(12px);
     color: $grey1a;
     margin-right: grid(1);
   }
-
-  a:hover {
-    text-decoration: none;
+  app-ui-social-share {
+    flex:1;
+  }
+  .social-icons {
+    .btn-border.icon {
+      margin: 0 grid(1);
+      border: none;
+      height: grid(3);
+      width: grid(3);
+      background-color: transparent;
+    }
+    a:hover {
+      text-decoration: none;
+    }
   }
 }
+
+
 
 @media(min-width: $gtMobile) {
   .scroll-to-top-button {

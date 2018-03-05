@@ -21,29 +21,13 @@
       (clearFilters)="showUiPanel = false"
       (closePanel)="showUiPanel = false"
     >
-    <div class="social-icons">
-      <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
-      <button class="btn btn-border icon btn-twitter" 
-        (click)="shareTwitter()"
-        [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate">
-        <app-ui-icon icon="twitter"></app-ui-icon>
-      </button>
-      <a class="btn btn-border icon btn-facebook" (click)="trackShare('facebook')" appSocialSharePopup [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"
-        [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate">
-        <app-ui-icon icon="facebook"></app-ui-icon>
-      </a>
-      <a class="btn btn-border icon btn-email" [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" (click)="checkMailto($event); trackShare('email')"
-        [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate">
-        <app-ui-icon icon="email"></app-ui-icon>
-      </a>
-      <ng-template #popTemplate>
-        <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
-      </ng-template>
-      <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate"
-        [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
-        <app-ui-icon icon="link"></app-ui-icon>
-      </button>
-    </div>
+      <div class="share-wrapper">
+        <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
+        <app-ui-social-share
+          [tweet]="getTweet()"
+          emailSubject="Eviction Lab"
+        ></app-ui-social-share>
+      </div>
   </app-ranking-ui>
   </div>
   <div class="ranking-body">

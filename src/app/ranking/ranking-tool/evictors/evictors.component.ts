@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, Inject } from '@angular/core';
+import {
+  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit
+} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { DOCUMENT, DecimalPipe } from '@angular/common';
@@ -6,7 +8,7 @@ import { Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 
 import { RankingLocation } from '../../ranking-location';
-import { RankingService } from '../../ranking.service';
+import { RankingService, RankingEvictor } from '../../ranking.service';
 import { ScrollService } from '../../../services/scroll.service';
 import { LoadingService } from '../../../services/loading.service';
 import { PlatformService } from '../../../services/platform.service';
@@ -19,7 +21,7 @@ import { RankingUiComponent } from '../../ranking-ui/ranking-ui.component';
   templateUrl: './evictors.component.html',
   styleUrls: ['./evictors.component.scss']
 })
-export class EvictorsComponent implements OnInit {
+export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** string representing the region */
   @Input()
@@ -34,7 +36,7 @@ export class EvictorsComponent implements OnInit {
   /** object key representing the data property to sort by */
   @Input()
   set dataProperty(newProp) {
-    if (newProp !== this.store.dataProperty) {
+    if (!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) {
       this.store.dataProperty = newProp;
       this.updateEvictorsList();
     }
@@ -44,19 +46,19 @@ export class EvictorsComponent implements OnInit {
   /** tracks if the data has been loaded and parsed */
   isDataReady = false;
   /** A shortened version of `listData`, containing only the first `topCount` items */
-  truncatedList: Array<RankingLocation>;
+  truncatedList: Array<RankingEvictor>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
   /** full list of sorted data from rankings */
-  fullData: Array<RankingLocation>;
+  fullData: Array<RankingEvictor>;
   /** list of data for the current UI selections */
-  listData: Array<RankingLocation>; // Array of locations to show the rank list for
+  listData: Array<RankingEvictor>; // Array of locations to show the rank list for
   /** state for UI panel on mobile / tablet */
   showUiPanel = false;
   /** number of items to show in the list */
   topCount = 100;
   private store = {
-    place: 'United States',
+    place: '',
     dataProperty: null
   };
   /** returns if all of the required params are set to be able to fetch data */
@@ -64,9 +66,9 @@ export class EvictorsComponent implements OnInit {
     return this.canNavigate && this.isDataReady;
   }
   private get canNavigate(): boolean {
-    return this.place && this.dataProperty &&
-      this.dataProperty.hasOwnProperty('value');
+    return this.dataProperty && this.dataProperty.hasOwnProperty('value');
   }
+  private destroy: Subject<any> = new Subject();
 
   constructor(
     public rankings: RankingService,
@@ -84,29 +86,40 @@ export class EvictorsComponent implements OnInit {
 
   ngOnInit() {
     this.loader.start('evictors');
-    this.rankings.isReady.subscribe((ready) => {
-      this.isDataReady = ready;
-      if (ready) {
-        // this.updateEvictorsList();
-        this.loader.end('evictors');
-      }
-    });
+    this.rankings.isReady.takeUntil(this.destroy)
+      .subscribe((ready) => {
+        this.isDataReady = ready;
+        if (ready) {
+          this.updateEvictorsList();
+          this.loader.end('evictors');
+        }
+      });
+  }
+
+  ngAfterViewInit() {
+    this.rankings.loadEvictorsData();
+  }
+
+  ngOnDestroy() {
+    this.rankings.setReady(false);
+    this.destroy.next();
+    this.destroy.complete();
   }
 
   /** Update the route when the place changes */
   onPlaceChange(newPlace: string) {
     if (this.canNavigate) {
-      const newLocation = this.getCurrentNavArray();
-      newLocation[2] = newPlace;
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      // const newLocation = this.getCurrentNavArray();
+      // newLocation[3] = newPlace;
+      // this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
     }
   }
 
   /** Update the sort property when the area type changes */
-  onDataPropertyChange(dataProp: { name: string, value: string }) {
+  onDataPropertyChange(dataProp: { value: string }) {
     if (this.canNavigate) {
       const newLocation = this.getCurrentNavArray();
-      newLocation[4] = dataProp.value;
+      newLocation[2] = dataProp.value;
       this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
     }
   }
@@ -142,7 +155,11 @@ export class EvictorsComponent implements OnInit {
   }
 
   private getCurrentNavArray() {
-    return [ '/', 'evictors', this.place, this.dataProperty.value ];
+    const route = [ '/', 'evictors', this.dataProperty.value ];
+    if (this.place) {
+      route.push(this.place);
+    }
+    return route;
   }
 
   /**
@@ -150,7 +167,18 @@ export class EvictorsComponent implements OnInit {
    */
   private updateEvictorsList() {
     if (this.canRetrieveData) {
-      // update list based on selections
+      this.listData = this.rankings.getFilteredEvictors(null, this.dataProperty.value);
+      this.truncatedList = this.listData.slice(0, this.topCount);
+      this.dataMax = Math.max.apply(
+        Math, this.truncatedList.map(l => {
+          return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
+        })
+      );
+      console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
+      // Setup full data and scroll if initial data load
+      if (!this.fullData) {
+        this.fullData = this.rankings.getSortedEvictors(this.dataProperty.value);
+      }
     } else {
       console.warn('data is not ready yet');
     }

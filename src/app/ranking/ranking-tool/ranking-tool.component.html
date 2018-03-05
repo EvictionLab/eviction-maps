@@ -26,6 +26,7 @@
     <app-evictors
       class="ranking-component"
       *ngIf="activeTab === 'evictors'"
+      [dataProperty]="dataProperty"
     ></app-evictors>
   </div>
   <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">

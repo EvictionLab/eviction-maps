@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, OnDestroy, ViewChild, Inject } from '@angular/core';
+import {
+  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit
+} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { DOCUMENT, DecimalPipe } from '@angular/common';
@@ -19,7 +21,7 @@ import { RankingUiComponent } from '../../ranking-ui/ranking-ui.component';
   templateUrl: './evictions.component.html',
   styleUrls: ['./evictions.component.scss']
 })
-export class EvictionsComponent implements OnInit {
+export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** string representing the region */
   @Input()
@@ -83,6 +85,7 @@ export class EvictionsComponent implements OnInit {
       this.areaType.hasOwnProperty('value') &&
       this.dataProperty.hasOwnProperty('value');
   }
+  private destroy: Subject<any> = new Subject();
 
   constructor(
     public rankings: RankingService,
@@ -99,14 +102,25 @@ export class EvictionsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loader.start('rankings');
-    this.rankings.isReady.subscribe((ready) => {
-      this.isDataReady = ready;
-      if (ready) {
-        this.updateEvictionList();
-        this.loader.end('rankings');
-      }
-    });
+    this.loader.start('evictions');
+    this.rankings.isReady.takeUntil(this.destroy)
+      .subscribe((ready) => {
+        this.isDataReady = ready;
+        if (ready) {
+          this.updateEvictionList();
+          this.loader.end('evictions');
+        }
+      });
+  }
+
+  ngAfterViewInit() {
+    this.rankings.loadEvictionsData();
+  }
+
+  ngOnDestroy() {
+    this.rankings.setReady(false);
+    this.destroy.next();
+    this.destroy.complete();
   }
 
   /** Update the route when the region changes */
@@ -210,21 +224,6 @@ export class EvictionsComponent implements OnInit {
     if (rank <= this.topCount && this.document.querySelector(query)) {
       this.scroll.scrollTo(query);
     }
-  }
-
-
-  /**
-   * Tracks when the rankings are shared
-   */
-  trackShare(shareType: string) {
-    this.analytics.trackEvent('rankingShare', { shareType });
-  }
-
-  /** Handler for when the twitter icon is clicked */
-  shareTwitter() {
-    this.trackShare('twitter');
-    const href = 'http://twitter.com/intent/tweet?status=' + this.getEncodedTweet();
-    this.platform.nativeWindow.open(href, 'Social Share', 'height=285,width=550,resizable=1');
   }
 
   private getQueryParams() {
@@ -331,10 +330,11 @@ export class EvictionsComponent implements OnInit {
   /**
    * Updates Twitter text for city rankings
    */
-  private getEncodedTweet() {
-    const tweet = this.isDefaultSelection() ? this.getDefaultTweet() :
+  private getTweet() {
+    if (!this.canNavigate || !this.listData) { return ''; }
+    return this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
-    return this.platform.urlEncode(tweet);
+
   }
 
   /** Returns true if the data property is eviction judgements */
@@ -377,8 +377,9 @@ export class EvictionsComponent implements OnInit {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
-      this.listData =
-        this.rankings.getFilteredData(this.region, this.areaType.value, this.dataProperty.value);
+      this.listData = this.rankings.getFilteredEvictions(
+        this.region, this.areaType.value, this.dataProperty.value
+      );
       this.truncatedList = this.listData.slice(0, this.topCount);
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
@@ -388,11 +389,10 @@ export class EvictionsComponent implements OnInit {
       console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
       // Setup full data and scroll if initial data load
       if (!this.fullData) {
-        this.fullData = this.rankings.getSortedData(this.dataProperty.value);
+        this.fullData = this.rankings.getSortedEvictions(this.dataProperty.value);
       }
     } else {
       console.warn('data is not ready yet');
     }
   }
-
 }

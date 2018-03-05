@@ -11,5 +11,9 @@ export class RankingListComponent {
   @Input() dataProperty: string;
   @Input() maxValue: number;
   @Input() selectedIndex: number;
+  @Input() propertyMap = {
+    'primary': 'name',
+    'secondary': 'displayParentLocation'
+  };
   @Output() locationSelected = new EventEmitter<number>();
 }

@@ -13,6 +13,7 @@ import { EvictorsComponent } from './ranking-tool/evictors/evictors.component';
 import { EvictionsComponent } from './ranking-tool/evictions/evictions.component';
 
 export class RankingConfig {
+  evictorsUrl: string;
   cityUrl: string;
   stateUrl: string;
 }

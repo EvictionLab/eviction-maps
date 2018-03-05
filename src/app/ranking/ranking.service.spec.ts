@@ -47,7 +47,7 @@ describe('RankingService', () => {
       ],
       imports: [
         RankingModule.forRoot({
-          cityUrl: 'https://fakeurl.com/', stateUrl: 'https://fakeurl.com/'
+          cityUrl: 'https://fakeurl.com/', stateUrl: 'https://fakeurl.com/', evictorsUrl: ''
         }),
         HttpClientModule,
         HttpClientTestingModule,
@@ -63,7 +63,7 @@ describe('RankingService', () => {
   it(
     'parse a CSV string into a RankLocation array',
     inject([RankingService], (service: RankingService) => {
-      const locationsArray = service.parseCsvData(csvString);
+      const locationsArray = service.parseEvictionsData(csvString);
       expect(locationsArray[4].geoId).toEqual('0274830');
       expect(locationsArray[4].evictions).toEqual(23);
       expect(locationsArray[4].filings).toEqual(248);
@@ -81,8 +81,8 @@ describe('RankingService', () => {
   it(
     'should filter and sort data based on parameters',
     inject([RankingService], (service: RankingService) => {
-      service.data = service.parseCsvData(csvString);
-      const filtered = service.getFilteredData('Arizona', 2, 'evictions');
+      service.evictions = service.parseEvictionsData(csvString);
+      const filtered = service.getFilteredEvictions('Arizona', 2, 'evictions');
       expect(filtered.length).toEqual(5);
       expect(filtered[0].name).toEqual('Bisbee');
       expect(filtered[4].name).toEqual('Black Canyon City');

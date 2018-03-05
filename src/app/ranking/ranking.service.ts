@@ -8,6 +8,17 @@ import { environment } from '../../environments/environment';
 import { REGIONS } from './ranking-regions';
 import { RankingLocation } from './ranking-location';
 
+export class RankingEvictor {
+  plaintiff: string;
+  placeId?: string; // optional for now, not in the mock data
+  placeName: string;
+  renterHomes: number;
+  filings: number;
+  evictions: number;
+  evictionRate: number;
+  filingRate: number;
+}
+
 @Injectable()
 export class RankingService {
   year = environment.maxYear;
@@ -24,8 +35,9 @@ export class RankingService {
     { value: 1, langKey: 'RANKINGS.MID_SIZED_AREAS' },
     { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
   ];
-  data: Array<RankingLocation>;
+  evictions: Array<RankingLocation>;
   stateData: Array<RankingLocation>;
+  evictors: Array<RankingEvictor>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
 
@@ -38,36 +50,63 @@ export class RankingService {
       console.log('lang change', lang);
       this.updateLanguage(lang.translations);
     });
-    this.loadCsvData();
-    this.loadStateData();
   }
 
   /**
    * Loads the CSV from the url provided in the module configuration
    * and passes it to the CSV parser
    */
-  loadCsvData() {
-    console.time('load rankings');
+  loadEvictionsData() {
+    console.time('load evictions data');
+    this.loadStateData();
     return this.http.get(this.config.cityUrl, { responseType: 'text' })
       .map((csvString) => {
-        console.timeEnd('load rankings');
+        console.timeEnd('load evictions data');
         console.time('parse csv');
-        const parsedCsv = this.parseCsvData(csvString);
+        const parsedCsv = this.parseEvictionsData(csvString);
         console.timeEnd('parse csv');
         return parsedCsv;
       })
       .subscribe(locations => {
-        this.data = locations;
-        this.ready.next(true);
+        this.evictions = locations;
+        this.setReady(true);
         this.translate.getTranslation(this.translate.currentLang).take(1)
           .subscribe(translations => this.updateLanguage(translations));
       });
   }
 
+  /**
+   * Loads the CSV from the url provided in the module configuration
+   * and passes it to the CSV parser
+   */
+  loadEvictorsData() {
+    console.time('load evictors');
+    return this.http.get(this.config.evictorsUrl, { responseType: 'text' })
+      .map((csvString) => {
+        console.timeEnd('load evictors');
+        console.time('parse csv');
+        const parsedCsv = this.parseEvictorsData(csvString);
+        console.timeEnd('parse csv');
+        return parsedCsv;
+      })
+      .subscribe(locations => {
+        this.evictors = locations;
+        this.setReady(true);
+        this.translate.getTranslation(this.translate.currentLang).take(1)
+          .subscribe(translations => this.updateLanguage(translations));
+      });
+  }
+
+  /** Loads state data that is used for social share */
   loadStateData() {
     return this.http.get(this.config.stateUrl, { responseType: 'text' })
-      .map((csvString) => this.parseCsvData(csvString))
+      .map((csvString) => this.parseEvictionsData(csvString))
       .subscribe(locations => this.stateData = locations);
+  }
+
+  /** Set the ready status for the service */
+  setReady(isReady: boolean) {
+    this.ready.next(isReady);
   }
 
   /**
@@ -75,9 +114,19 @@ export class RankingService {
    * @param sortProperty
    * @param invert
    */
-  getSortedData(sortProperty: string, invert?: boolean): Array<RankingLocation> {
-    return this.data.sort(this.getComparator(sortProperty, invert));
+  getSortedEvictions(sortProperty: string, invert?: boolean): Array<RankingLocation> {
+    return this.evictions.sort(this.getComparator(sortProperty, invert));
   }
+
+  /**
+   * Sorts and returns the full dataset by sortProperty
+   * @param sortProperty
+   * @param invert
+   */
+  getSortedEvictors(sortProperty: string, invert?: boolean): Array<RankingEvictor> {
+    return this.evictors.sort(this.getComparator(sortProperty, invert));
+  }
+
 
   /**
    * Filters, sorts and returns an array of locations based on the provided params
@@ -85,15 +134,31 @@ export class RankingService {
    * @param areaType the area type to get data for (rural, mid-sized, cities)
    * @param sortProperty the property to sort the data by
    */
-  getFilteredData(
+  getFilteredEvictions(
     region: string, areaType: number, sortProperty: string, invert?: boolean
   ): Array<RankingLocation> {
     console.time('sort rankings');
     let data = region !== 'United States' ?
-      this.data.filter(l => l.parentLocation === region && l.areaType === areaType) :
-      this.data.filter(l => l.areaType === areaType);
+      this.evictions.filter(l => l.parentLocation === region && l.areaType === areaType) :
+      this.evictions.filter(l => l.areaType === areaType);
     data = data.sort(this.getComparator(sortProperty, invert));
     console.timeEnd('sort rankings');
+    return data;
+  }
+
+  /**
+   * Filters, sorts and returns an array of locations based on the provided params
+   * @param place the state name to get data for, or 'United States' for all states
+   * @param sortProperty the property to sort the data by
+   */
+  getFilteredEvictors(
+    place: string, sortProperty: string, invert?: boolean
+  ): Array<RankingEvictor> {
+    console.time('sort evictors');
+    let data = place ?
+      this.evictors.filter(l => l.placeName === place) : this.evictors;
+    data = data.sort(this.getComparator(sortProperty, invert));
+    console.timeEnd('sort evictors');
     return data;
   }
 
@@ -101,7 +166,7 @@ export class RankingService {
    * Parses CSV data and maps it to an array of RankingLocation objects
    * @param csv csv data as a string
    */
-  parseCsvData(csv: string): Array<RankingLocation> {
+  parseEvictionsData(csv: string): Array<RankingLocation> {
     return csvParse(csv, (d) => {
       return {
         geoId: d.GEOID,
@@ -117,6 +182,24 @@ export class RankingService {
         latLon: [ parseFloat(d.lat), parseFloat(d.lon) ],
         areaType: d['area-type'] ? parseInt(d['area-type'], 10) : 3
       } as RankingLocation;
+    });
+  }
+
+  /**
+   * Parses CSV data and maps it to an array of RankingLocation objects
+   * @param csv csv data as a string
+   */
+  parseEvictorsData(csv: string): Array<RankingEvictor> {
+    return csvParse(csv, (d) => {
+      return {
+        plaintiff: d['Plaintiff'],
+        placeName: d['Place'],
+        renterHomes: parseInt(d['Renting Households'], 10),
+        filings: parseInt(d['Filings'], 10),
+        evictions: parseInt(d['Evictions'], 10),
+        evictionRate: parseFloat(d['Eviction Rate']),
+        filingRate: parseFloat(d['Filing Rate'])
+      } as RankingEvictor;
     });
   }
 

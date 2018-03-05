@@ -83,6 +83,8 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
       this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
       this.selectedIndex = url[4] ? parseInt(url[4].path, 10) : null;
+    } else if (this.activeTab === 'evictors') {
+      this.dataProperty = this.rankings.sortProps.find(p => p.value === url[1].path);
     }
   }
 

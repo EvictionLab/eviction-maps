@@ -36,7 +36,7 @@ export class RoutingService {
   private defaultViews = {
     map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
     rankings: '/evictions/United%20States/0/evictionRate',
-    evictors: '/evictors'
+    evictors: '/evictors/evictionRate'
   };
 
   constructor(
@@ -90,19 +90,19 @@ export class RoutingService {
   /** Route Configuration */
   setupRoutes(components: any) {
     // sets the default route based on the page URL
-    const defaultRoute =
-      this.platform.nativeWindow.location.pathname.includes('rankings') ?
-        this.defaultViews.rankings : this.defaultViews.map;
+    const url = this.platform.nativeWindow.location.pathname;
+    const defaultRoute = url.includes('rankings') ?
+        (url.includes('evictors') ? this.defaultViews.evictors : this.defaultViews.rankings ) :
+        this.defaultViews.map;
     // all routes for the app
     const appRoutes: Routes = [
       { path: 'embed/:year/:geography/:bounds', component: components.embed },
       { path: ':year/:geography/:bounds', component: components.map },
-      { path: 'evictors', component: components.rankings },
       { path: 'evictors/:sortProp', component: components.rankings },
-      { path: 'evictors/:sortProp/:place', component: components.rankings },
       { path: 'evictions/:region/:areaType/:sortProp', component: components.rankings },
       { path: 'evictions/:region/:areaType/:sortProp/:location', component: components.rankings },
       { path: 'evictions', redirectTo: this.defaultViews.rankings },
+      { path: 'evictors', redirectTo: this.defaultViews.evictors },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' } // default route based on URL path
     ];
     // reset router with dynamic routes
