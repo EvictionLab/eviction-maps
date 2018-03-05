@@ -330,7 +330,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /**
    * Updates Twitter text for city rankings
    */
-  private getTweet() {
+  getTweet() {
     if (!this.canNavigate || !this.listData) { return ''; }
     return this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
