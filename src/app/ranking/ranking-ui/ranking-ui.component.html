@@ -1,4 +1,4 @@
-<div class="ranking-ui-container">
+<div class="ranking-ui-wrapper">
   <div class="ranking-ui-search">
     <app-predictive-search
       placeholder="{{ 'RANKINGS.SEARCH_HINT' | translate }}"
@@ -10,21 +10,24 @@
   <div class="ranking-ui-filter">
     <h2>{{ 'RANKINGS.FILTER' | translate }}</h2> 
     <app-ui-select class="region-select z0"
+      *ngIf="regions"
       label="{{ 'RANKINGS.REGION' | translate }}"
       [values]="regions"
       [selectedValue]="selectedRegion"
       (change)="selectedRegionChange.emit($event)"
     ></app-ui-select>
-    <app-ui-hint [hint]="'RANKINGS.AREA_HINT' | translate"></app-ui-hint>
+    <app-ui-hint *ngIf="areaTypes" [hint]="'RANKINGS.AREA_HINT' | translate"></app-ui-hint>
     <app-ui-select class="area-select hint-select z0"
+      *ngIf="areaTypes"
       label="{{ 'RANKINGS.AREA' | translate }}"
       labelProperty="name"
       [values]="areaTypes"
       [selectedValue]="selectedAreaType"
       (change)="selectedAreaTypeChange.emit($event)"
     ></app-ui-select>
-    <app-ui-hint [hint]="'RANKINGS.DATA_HINT' | translate"></app-ui-hint>
+    <app-ui-hint *ngIf="dataProperties" [hint]="'RANKINGS.DATA_HINT' | translate"></app-ui-hint>
     <app-ui-select class="prop-select hint-select z0"
+      *ngIf="dataProperties"
       label="{{ 'RANKINGS.RANKING_BY' | translate }}"
       labelProperty="name"
       [values]="dataProperties"

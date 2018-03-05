@@ -9,8 +9,11 @@ import { RankingListComponent } from './ranking-list/ranking-list.component';
 import { RankingPanelComponent } from './ranking-panel/ranking-panel.component';
 import { RankingService } from './ranking.service';
 import { UiModule } from '../ui/ui.module';
+import { EvictorsComponent } from './ranking-tool/evictors/evictors.component';
+import { EvictionsComponent } from './ranking-tool/evictions/evictions.component';
 
 export class RankingConfig {
+  evictorsUrl: string;
   cityUrl: string;
   stateUrl: string;
 }
@@ -27,7 +30,9 @@ export class RankingConfig {
     RankingToolComponent,
     RankingUiComponent,
     RankingListComponent,
-    RankingPanelComponent
+    RankingPanelComponent,
+    EvictorsComponent,
+    EvictionsComponent
   ]
 })
 export class RankingModule {

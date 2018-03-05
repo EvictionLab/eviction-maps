@@ -1,0 +1,23 @@
+@import '../../../theme';
+
+:host {
+  display: block;
+}
+.social-icons {
+  width:100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  a:hover {
+    text-decoration: none;
+  }
+  .btn .icon {
+    width: grid(2.5);
+    height: grid(2.5);
+    fill: $grey1;
+  }
+  .btn:hover .icon {
+    fill: $black;
+  }
+}

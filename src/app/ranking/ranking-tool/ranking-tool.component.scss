@@ -6,25 +6,31 @@ $sidePanelHeight: grid(55);
 // add margin so header doesn't overlap page content
 .ranking-page {
   margin-top: $headerHeightSm;
-  margin-bottom: grid(2);
+  margin-bottom: 0;
 }
-:host-context(.gt-mobile) {
+
+@media(min-width: $gtMobile) {
   .ranking-page {
     margin-top: $headerHeightLg;
   }
 }
 
 // default content margins
-.page-content {
+// vertical stacked layout on mobile
+.page-content .ranking-component > .content-inner {
+  display: flex;
+  flex-direction: column;
   padding: $pageMargin;
 }
+// side by side layout on tablet+
 @media(min-width: $gtMobile) {
-  .page-content {
+  .page-content .ranking-component > .content-inner {
+    flex-direction: row;
     padding: $pageMarginLg;
   }
 }
 @media(min-width: $gtTablet) {
-  .page-content {
+  .page-content .ranking-component > .content-inner {
     padding: grid(6) $pageMarginLg;
   }
 }
@@ -33,18 +39,6 @@ $sidePanelHeight: grid(55);
   background-image: url('/assets/images/hero-rankings.jpg');
   background-size: cover;
   background-position:center;
-}
-
-// vertical stacked layout on mobile
-.page-content .content-inner {
-  display: flex;
-  flex-direction: column;
-}
-// side by side layout on tablet+
-@media(min-width: $gtMobile) {
-  .page-content .content-inner {
-    flex-direction: row;
-  }
 }
 
 // subpage navigation (tabs)
@@ -165,7 +159,7 @@ $sidePanelHeight: grid(55);
 }
 
 // panel off-screen by default
-app-ranking-ui {
+app-ranking-ui.ranking-ui-panel {
   position:fixed;
   top: $headerHeightSm;
   bottom:0;
@@ -195,7 +189,7 @@ app-ranking-ui {
     overflow:visible;
     z-index: 20;
   }
-  app-ranking-ui {
+  app-ranking-ui.ranking-ui-panel {
     position:absolute; 
     top:0;left:0;
     width:grid(40);
@@ -205,7 +199,7 @@ app-ranking-ui {
     box-shadow: $z2shadow;
     overflow:visible;
     // no "apply" button, filters are applied immediately
-    ::ng-deep .ranking-ui-actions .btn.btn-primary {
+    .ranking-ui-actions .btn.btn-primary {
       display: none;
     }
   }
@@ -218,7 +212,7 @@ app-ranking-ui {
     height: $sidePanelHeight;
     margin-left:0;
   }
-  app-ranking-ui {
+  app-ranking-ui.ranking-ui-panel  {
     position:relative;
     display:block;
     z-index:10;
@@ -229,7 +223,7 @@ app-ranking-ui {
     overflow:visible;
     box-shadow:none;
     // hide close button
-    ::ng-deep .btn-close { display: none; }
+    .btn-close { display: none; }
   }
 }
 // make sidebar sticky when there is enough vertical space
@@ -302,8 +296,6 @@ app-ranking-ui {
   }
 }
 
-
-
 // bottom data panel
 .page-fixed-bottom {
   position: fixed; // fallback for IE11
@@ -346,40 +338,37 @@ app-ranking-ui {
   
 }
 
-.social-icons {
+.share-wrapper {
   margin-top: grid(3);
-  padding: grid(1);
-  text-align: center;
+  padding: 0 grid(2);
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  .btn-border.icon {
-    margin: 0 grid(1);
-    border: none;
-    height: grid(3);
-    width: grid(3);
-    background-color: transparent;
-    .icon {
-      height: grid(2);
-      fill: $grey1a;
-    }
-    &:hover .icon { fill: $black;}
-
-  }
-
+  justify-content: flex-start;
   .share-intro {
     @include altSmallCapsText(12px);
     color: $grey1a;
     margin-right: grid(1);
   }
-
-  a:hover {
-    text-decoration: none;
+  app-ui-social-share {
+    flex:1;
+  }
+  .social-icons {
+    .btn-border.icon {
+      margin: 0 grid(1);
+      border: none;
+      height: grid(3);
+      width: grid(3);
+      background-color: transparent;
+    }
+    a:hover {
+      text-decoration: none;
+    }
   }
 }
 
-:host-context(.gt-mobile) {
+
+
+@media(min-width: $gtMobile) {
   .scroll-to-top-button {
     display: none;
   }

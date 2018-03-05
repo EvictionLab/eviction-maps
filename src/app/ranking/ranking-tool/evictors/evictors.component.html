@@ -1,0 +1,36 @@
+<div class="content-inner content-evictions">
+  <div class="ranking-ui-container">
+    <button class="search-filter" (click)="showUiPanel = true">
+      <app-ui-icon icon="search"></app-ui-icon>
+      <span> {{ 'RANKINGS.SEARCH_FILTER' | translate }}</span>
+    </button>
+    <div class="ranking-ui-panel">
+      <app-ranking-ui class="ranking-ui-panel"
+        [class.show]="showUiPanel"
+        [locationList]="fullData"
+        [dataProperties]="rankings.sortProps"
+        [selectedDataProperty]="dataProperty"
+        (selectedDataPropertyChange)="onDataPropertyChange($event)"
+        (applyFilters)="showUiPanel = false"
+        (clearFilters)="showUiPanel = false"
+        (closePanel)="showUiPanel = false"
+      >
+        <div class="share-wrapper">
+          <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
+          <app-ui-social-share emailSubject="Eviction Lab"></app-ui-social-share>
+        </div>
+      </app-ranking-ui>
+    </div>
+  </div>
+  <div class="ranking-body">
+    <h2>Top Evictors for LOCATION</h2>
+    <h3 *ngIf="dataProperty">{{ 'RANKINGS.LIST_SUBHEADING' | translate:{'dataProperty': dataProperty.name } }}</h3>
+    <p>{{ 'RANKINGS.LIST_INTRO' | translate:{'year': rankings.year} }}</p>
+    <app-ranking-list *ngIf="dataProperty"
+      [list]="truncatedList"
+      [dataProperty]="dataProperty.value"
+      [maxValue]="dataMax"
+      [propertyMap]="{ 'primary': 'plaintiff', 'secondary': 'placeName' }"
+    ></app-ranking-list>
+  </div>
+</div>

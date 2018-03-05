@@ -41,6 +41,10 @@ $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
       cursor:pointer;
     }
   }
+  .ranking-bar {
+    background: $barGradient1;
+  }
+  
 }
 @media(min-width: $gtMobile) {
   .ranking-list li {

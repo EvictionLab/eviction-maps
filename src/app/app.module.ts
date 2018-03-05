@@ -42,6 +42,7 @@ export class CustomOption extends ToastOptions {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
+      evictorsUrl: environment.evictorsRankingDataUrl,
       cityUrl: environment.cityRankingDataUrl,
       stateUrl: environment.stateRankingDataUrl
     }),

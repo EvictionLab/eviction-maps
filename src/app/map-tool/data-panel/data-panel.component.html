@@ -45,38 +45,7 @@
           </svg>
           <h2>{{ 'DATA.SOCIAL_HEADING' | translate }}</h2>
           <span>{{ 'DATA.SOCIAL_HINT' | translate }}</span>
-          <div class="social-icons">
-            <a class="btn btn-border icon btn-twitter"
-              (click)="trackShare('twitter')" 
-              appSocialSharePopup 
-              href="http://twitter.com/intent/tweet?status={{ encodedTweet }}" 
-              [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate"
-            >
-              <app-ui-icon icon="twitter"></app-ui-icon>
-            </a>
-            <a class="btn btn-border icon btn-facebook"
-              (click)="trackShare('facebook')" 
-              appSocialSharePopup 
-              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"  
-              [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate"
-            >
-              <app-ui-icon icon="facebook"></app-ui-icon>
-            </a>
-            <a class="btn btn-border icon btn-email" 
-              [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" 
-              (click)="checkMailto($event); trackShare('email')" 
-              [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate"
-            >
-              <app-ui-icon icon="email"></app-ui-icon>
-            </a>
-            <ng-template #popTemplate>
-              <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
-              <app-ui-copy-clipboard [copyText]="getEmbedCode()" [hintText]="'DATA.EMBED_SHARE_HINT' | translate"></app-ui-copy-clipboard>
-            </ng-template>
-            <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
-                <app-ui-icon icon="link"></app-ui-icon>
-            </button>
-          </div>
+          <app-ui-social-share [tweet]="tweet" emailSubject="Eviction Lab" [embed]="getEmbedUrl()"></app-ui-social-share>
         </div>
         <div class="action-wrapper">
           <svg viewBox="0 0 62 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
