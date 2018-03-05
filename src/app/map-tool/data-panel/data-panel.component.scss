@@ -43,6 +43,7 @@ app-location-cards {
   justify-content: space-between;
   margin-top: grid(3);
   margin-bottom: grid(6);
+  -webkit-overflow-scrolling: touch;
 }
 
 // Data Panel Footer Container

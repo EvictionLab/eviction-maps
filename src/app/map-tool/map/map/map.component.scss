@@ -103,6 +103,7 @@ app-location-cards {
   align-items: flex-end;
   width:100%;
   overflow:auto;
+  -webkit-overflow-scrolling: touch;
   &.no-cards {
     height: 0;
   }
