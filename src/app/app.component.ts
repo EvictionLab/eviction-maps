@@ -153,16 +153,13 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Set the language to use in the translate service
+   * TODO: Make sure the route parameter is updated when changed
+   */
   onLanguageSelect(lang) {
     this.translate.use(lang.id);
     this.analytics.trackEvent('languageSelection', { language: lang.id });
-    // this.router.navigate([], {
-    //   relativeTo: this.activatedRoute,
-    //   queryParams: {
-    //     ...this.activatedRoute.snapshot.queryParams,
-    //     lang: lang.id,
-    //   }
-    // });
   }
 
  /**

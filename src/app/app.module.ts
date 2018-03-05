@@ -54,7 +54,7 @@ export class CustomOption extends ToastOptions {
       }
     }),
     ServicesModule.forRoot(),
-    RouterModule.forRoot([], { useHash: true, enableTracing: true }),
+    RouterModule.forRoot([], { useHash: true }),
     TooltipModule.forRoot(),
     ToastModule.forRoot(),
     Ng2PageScrollModule.forRoot()
