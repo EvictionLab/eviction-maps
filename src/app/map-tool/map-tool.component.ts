@@ -110,6 +110,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   onResize(e) {
     this.panelOffset =
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+    this.resetVhTransition();
   }
 
   /**
@@ -317,6 +318,18 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     } else {
       this.enableZoom = false;
     }
+  }
+
+  /**
+   * Toggle mobile vh transition to force a height change on resize
+   */
+  private resetVhTransition() {
+    this.map.el.nativeElement.style.transition = 'none';
+    this.map.el.nativeElement.style.height = '100vh';
+    setTimeout(() => {
+      this.map.el.nativeElement.style.height = null;
+      setTimeout(() => this.map.el.nativeElement.style.transition = null);
+    }, 350);
   }
 
 }

@@ -215,6 +215,7 @@ export class MapComponent implements OnInit, OnChanges {
   );
 
   constructor(
+    public el: ElementRef,
     private map: MapService,
     private loader: LoadingService,
     private platform: PlatformService,
