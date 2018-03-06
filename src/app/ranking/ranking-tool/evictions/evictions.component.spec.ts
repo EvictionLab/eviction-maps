@@ -14,7 +14,7 @@ import { RankingPanelComponent } from '../../ranking-panel/ranking-panel.compone
 import { RankingService } from '../../ranking.service';
 import { RankingModule } from '../../ranking.module';
 import { ServicesModule } from '../../../services/services.module';
-
+import { ToastModule } from 'ng2-toastr';
 
 
 export class TranslateServiceStub {
@@ -60,7 +60,8 @@ describe('EvictionsComponent', () => {
         TranslateModule.forRoot(),
         RouterTestingModule,
         RankingModule.forRoot(config),
-        ServicesModule.forRoot()
+        ServicesModule.forRoot(),
+        ToastModule.forRoot()
       ]
     });
     TestBed.overrideComponent(EvictionsComponent, {

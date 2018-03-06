@@ -166,7 +166,8 @@
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
     "DATA_HINT": "Lorem ipsum",
-    "AREA_HINT": "Lorem ipsum"
+    "AREA_HINT": "Lorem ipsum",
+    "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable."
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",

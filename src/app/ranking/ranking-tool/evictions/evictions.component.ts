@@ -6,6 +6,8 @@ import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { DOCUMENT, DecimalPipe } from '@angular/common';
 import { Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
+import { ToastsManager, ToastOptions } from 'ng2-toastr';
+
 
 import { RankingLocation } from '../../ranking-location';
 import { RankingService } from '../../ranking.service';
@@ -105,10 +107,12 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     private translatePipe: TranslatePipe,
     private decimal: DecimalPipe,
     private changeDetectorRef: ChangeDetectorRef,
+    private toast: ToastsManager,
     @Inject(DOCUMENT) private document: any
   ) {
     this.store.areaType = this.rankings.areaTypes[0];
     this.store.dataProperty = this.rankings.sortProps[0];
+    this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
   }
 
   ngOnInit() {
@@ -203,7 +207,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onClickLocation(index: number) {
-    this.setCurrentLocation(index);
+    if (this.listData[index][this.dataProperty.value] < 0) {
+      this.showUnavailableToast();
+    } else {
+      this.setCurrentLocation(index);
+    }
   }
 
   /** Switch the selected location to the next one in the list */
@@ -234,6 +242,14 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (rank <= this.topCount && this.document.querySelector(query)) {
       this.scroll.scrollTo(query);
     }
+  }
+
+  private showUnavailableToast() {
+    this.toast.error(
+      this.translatePipe.transform('RANKINGS.LOCATION_DATA_UNAVAILABLE'),
+      null,
+      {messageClass: 'ranking-error'}
+    );
   }
 
   private getQueryParams() {
