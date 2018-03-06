@@ -6,7 +6,7 @@
     </button>
     <app-ranking-ui class="ranking-ui-panel"
       [class.show]="showUiPanel"
-      [locationList]="fullData"
+      [locationList]="rankings.evictions"
       [regions]="rankings.regionList"
       [areaTypes]="rankings.areaTypes"
       [dataProperties]="rankings.sortProps"
@@ -24,7 +24,7 @@
       <div class="share-wrapper">
         <span class="share-intro">{{ 'RANKINGS.SHARE_VIA' | translate }}</span>
         <app-ui-social-share
-          [tweet]="getTweet()"
+          [tweet]="tweet"
           emailSubject="Eviction Lab"
         ></app-ui-social-share>
       </div>
@@ -44,8 +44,9 @@
     ></app-ranking-list>
   </div>
 </div>
-<div class="page-fixed-bottom" *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)">
+<div class="page-fixed-bottom" [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)">
   <app-ranking-panel
+    *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)"
     [class]="'area-'+areaType.value"
     [topCount]="topCount"
     [rank]="selectedIndex+1"

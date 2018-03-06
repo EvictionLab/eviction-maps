@@ -1,4 +1,6 @@
-import { Component, OnInit, OnDestroy, ViewChild, Inject, ViewEncapsulation } from '@angular/core';
+import {
+  Component, OnInit, OnDestroy, ViewChild, Inject, ViewEncapsulation, ElementRef, AfterViewInit
+} from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { DOCUMENT, DecimalPipe } from '@angular/common';
@@ -20,8 +22,9 @@ import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
   providers: [TranslatePipe, DecimalPipe],
   encapsulation: ViewEncapsulation.None
 })
-export class RankingToolComponent implements OnInit, OnDestroy {
-  private ngUnsubscribe: Subject<any> = new Subject();
+export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
+  /** page content element */
+  @ViewChild('content') contentEl: ElementRef;
   /** identifier for the component so AppComponent can detect type */
   id = 'ranking-tool';
   /** tab ID for the active tab */
@@ -32,6 +35,8 @@ export class RankingToolComponent implements OnInit, OnDestroy {
   selectedIndex;
   /** Boolean of whether to show scroll to top button */
   showScrollButton = false;
+
+  private ngUnsubscribe: Subject<any> = new Subject();
 
   constructor(
     public rankings: RankingService,
@@ -53,6 +58,10 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       .subscribe(this.onRouteChange.bind(this));
     this.route.queryParams.takeUntil(this.ngUnsubscribe)
       .subscribe(this.onQueryParamChange.bind(this));
+  }
+
+  ngAfterViewInit() {
+    this.setupPageScroll();
   }
 
   switchTab(id: string) {
@@ -77,7 +86,9 @@ export class RankingToolComponent implements OnInit, OnDestroy {
    * in the route, and then update the list data
    */
   onRouteChange(url) {
-    this.activeTab = url[0].path;
+    if (this.activeTab !== url[0].path) {
+      this.activeTab = url[0].path;
+    }
     if (this.activeTab === 'evictions') {
       this.region = url[1].path;
       this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
@@ -89,13 +100,13 @@ export class RankingToolComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    this.scroll.scrollTo('app-ranking-list');
+    this.scroll.scrollTo(this.contentEl.nativeElement);
   }
 
 
   private setupPageScroll() {
     this.scroll.defaultScrollOffset = 175;
-    const listYOffset = this.document.querySelector('app-ranking-list').getBoundingClientRect().top;
+    const listYOffset = this.contentEl.nativeElement.getBoundingClientRect().top;
     this.scroll.verticalOffset$.debounceTime(100)
       .subscribe(offset => {
         this.showScrollButton = offset > listYOffset;

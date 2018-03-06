@@ -283,8 +283,6 @@
   .rank-location { color: $color3; }
 }
 
-
-// TODO: refactor so close button styles live in one place
 .close-button {
   cursor: pointer;
   text-align: center;
@@ -294,8 +292,9 @@
   box-shadow: $z1shadow;
   background-color: $rankingsBg1;
   position: absolute;
-  right: 0;
-  top: grid(-10);
+  right: $pageMargin;
+  top: -1*$pageMargin;
+  transform: translate3d(0,-100%,0);
   .icon {
     height: grid(2.5);
     width: grid(2.5);
@@ -305,5 +304,11 @@
   &:hover, &:active {
     background-color: $color1;
     .icon { fill: $white; }
+  }
+}
+@media(min-width: $gtMobile) {
+  .close-button {
+    top: -1*$pageMarginLg;
+    right: $pageMarginLg;
   }
 }

@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit
+  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -27,6 +27,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   set region(regionValue) {
     if (regionValue !== this.store.region) {
+      console.log('set region', regionValue, this.store.region);
       this.store.region = regionValue;
       this.updateEvictionList();
     }
@@ -36,7 +37,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** ID representing the selected area type */
   @Input()
   set areaType(newType) {
-    if (newType !== this.store.areaType) {
+    if ((!this.store.areaType || newType.value !== this.store.areaType.value) && newType) {
+      console.log('set areaType', newType, this.store.areaType);
       this.store.areaType = newType;
       this.updateEvictionList();
     }
@@ -46,7 +48,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** object key representing the data property to sort by */
   @Input()
   set dataProperty(newProp) {
-    if (newProp !== this.store.dataProperty) {
+    if ((!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) && newProp) {
+      console.log('set dataProp', newProp, this.store.dataProperty);
       this.store.dataProperty = newProp;
       this.updateEvictionList();
     }
@@ -61,8 +64,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   truncatedList: Array<RankingLocation>;
   /** Stores the maximum value in the truncated List */
   dataMax = 1;
-  /** full list of sorted data from rankings */
-  fullData: Array<RankingLocation>;
   /** list of data for the current UI selections */
   listData: Array<RankingLocation>; // Array of locations to show the rank list for
   /** state for UI panel on mobile / tablet */
@@ -71,6 +72,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   showScrollButton = false;
   /** number of items to show in the list */
   topCount = 100;
+  /** Tweet text */
+  tweet: string;
   private store = {
     region: 'United States',
     areaType: null,
@@ -98,6 +101,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     private analytics: AnalyticsService,
     private translatePipe: TranslatePipe,
     private decimal: DecimalPipe,
+    private changeDetectorRef: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: any
   ) { }
 
@@ -377,6 +381,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
+      this.tweet = this.getTweet();
       this.listData = this.rankings.getFilteredEvictions(
         this.region, this.areaType.value, this.dataProperty.value
       );
@@ -386,11 +391,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
         })
       );
+      this.changeDetectorRef.detectChanges();
       console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
-      // Setup full data and scroll if initial data load
-      if (!this.fullData) {
-        this.fullData = this.rankings.getSortedEvictions(this.dataProperty.value);
-      }
     } else {
       console.warn('data is not ready yet');
     }
