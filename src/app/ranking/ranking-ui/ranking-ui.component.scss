@@ -63,6 +63,10 @@ app-ui-select {
       overflow: hidden;
     }
   }
+  // keep dropdown max height low so it doesn't get overlapped by footer
+  & ::ng-deep .dropdown-menu {
+    max-height: grid(33);
+  }
 }
 
 .ranking-ui-actions {

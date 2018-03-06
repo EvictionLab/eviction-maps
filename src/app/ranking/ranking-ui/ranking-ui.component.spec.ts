@@ -2,6 +2,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { UiModule } from '../../ui/ui.module';
 import { RankingUiComponent } from './ranking-ui.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { UiSelectComponent } from '../../ui/ui-select/ui-select.component';
 
 describe('RankingUiComponent', () => {
   let component: RankingUiComponent;
@@ -9,8 +11,8 @@ describe('RankingUiComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [RankingUiComponent],
-      imports: [ UiModule, TranslateModule.forRoot() ]
+      declarations: [ RankingUiComponent ],
+      imports: [ BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot() ]
     })
     .compileComponents();
   }));
