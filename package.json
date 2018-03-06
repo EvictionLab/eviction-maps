@@ -6,8 +6,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "node ./build/pre-build.js && ng build",
-    "build-prod": "node ./build/pre-build.js && ng build --prod --env=prod",
-    "build-dev": "node ./build/pre-build.js && ng build --prod --env=staging",
+    "build-prod": "node ./build/pre-build.js && ng build --prod --env=prod --base-href=/map/ --deploy-url=https://beta.evictionlab.org/tool/",
+    "build-dev": "node ./build/pre-build.js && ng build --prod --env=staging --base-href=/map/ --deploy-url=https://staging.evictionlab.org/tool/",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e --port 4000"

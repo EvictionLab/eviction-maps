@@ -47,7 +47,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   activeMenuItem; // tracks the active menu item on mobile
   helpData: string; // translated title / content for help dialog.
   private defaultMapConfig = {
-    style: './assets/style.json',
+    style: `${environment.deployUrl}assets/style.json`,
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 2,

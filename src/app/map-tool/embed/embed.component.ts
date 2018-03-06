@@ -3,6 +3,7 @@ import {
 } from '@angular/core';
 import { MapComponent } from '../map/map/map.component';
 import * as pym from 'pym.js';
+import { environment } from '../../../environments/environment';
 
 import { MapToolService } from '../map-tool.service';
 import { MapService } from '../map/map.service';
@@ -18,10 +19,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EmbedComponent implements OnInit, AfterViewInit {
   id = 'embed-map';
+  deployUrl = environment.deployUrl;
   @ViewChild(MapComponent) map;
 
   private defaultMapConfig = {
-    style: './assets/style.json',
+    style: `${environment.deployUrl}assets/style.json`,
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 2,
