@@ -195,7 +195,7 @@ app-ranking-ui.ranking-ui-panel {
     width: grid(10);
     height: grid(10);
     overflow:visible;
-    z-index: 20;
+    z-index: 995; // panel should overlap footer on tablet
   }
   app-ranking-ui.ranking-ui-panel {
     position:absolute; 
@@ -219,6 +219,7 @@ app-ranking-ui.ranking-ui-panel {
     width: grid(40);
     height: $sidePanelHeight;
     margin-left:0;
+    z-index:20; // panel should fall behind footer desktop
   }
   app-ranking-ui.ranking-ui-panel  {
     position:relative;

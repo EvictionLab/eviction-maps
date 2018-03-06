@@ -86,6 +86,9 @@ app-location-cards {
     @include altSmallCapsText(13px);
     border: 5px solid $grey5;
     color: $grey1a;
+    text-align: center;
+    display:block;
+    line-height:32px;
     &:hover, &:focus, &:active {
       background: $white;
       border: 5px solid $grey5;
