@@ -26,6 +26,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** string representing the region */
   @Input()
   set region(regionValue) {
+    if (!regionValue) { return; }
     if (regionValue !== this.store.region) {
       console.log('set region', regionValue, this.store.region);
       this.store.region = regionValue;
@@ -37,6 +38,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** ID representing the selected area type */
   @Input()
   set areaType(newType) {
+    if (!newType) { return; }
     if ((!this.store.areaType || newType.value !== this.store.areaType.value) && newType) {
       console.log('set areaType', newType, this.store.areaType);
       this.store.areaType = newType;
@@ -48,6 +50,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** object key representing the data property to sort by */
   @Input()
   set dataProperty(newProp) {
+    if (!newProp) { return; }
     if ((!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) && newProp) {
       console.log('set dataProp', newProp, this.store.dataProperty);
       this.store.dataProperty = newProp;
@@ -76,8 +79,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   tweet: string;
   private store = {
     region: 'United States',
-    areaType: null,
-    dataProperty: null
+    areaType: this.rankings.areaTypes[0],
+    dataProperty: this.rankings.sortProps[0]
   };
   /** returns if all of the required params are set to be able to fetch data */
   get canRetrieveData(): boolean {
@@ -103,7 +106,10 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     private decimal: DecimalPipe,
     private changeDetectorRef: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: any
-  ) { }
+  ) {
+    this.store.areaType = this.rankings.areaTypes[0];
+    this.store.dataProperty = this.rankings.sortProps[0];
+  }
 
   ngOnInit() {
     this.loader.start('evictions');
@@ -131,9 +137,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   onRegionChange(newRegion: string) {
     if (this.canNavigate) {
       if (newRegion !== this.region) { this.selectedIndex = null; }
-      const newLocation = this.getCurrentNavArray();
-      newLocation[2] = newRegion;
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      const params = this.getQueryParams();
+      params['region'] = newRegion;
+      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
     }
   }
 
@@ -143,9 +149,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.areaType !== null && areaType.value !== this.areaType.value) {
         this.selectedIndex = null;
       }
-      const newLocation = this.getCurrentNavArray();
-      newLocation[3] = areaType.value;
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      const params = this.getQueryParams();
+      params['areaType'] = areaType.value;
+      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
     }
   }
 
@@ -155,22 +161,22 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.dataProperty !== null && dataProp.value !== this.dataProperty.value) {
         this.selectedIndex = null;
       }
-      const newLocation = this.getCurrentNavArray();
-      newLocation[4] = dataProp.value;
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      const params = this.getQueryParams();
+      params['dataProperty'] = dataProp.value;
+      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
     }
   }
 
   /** Update current location */
   setCurrentLocation(locationIndex: number) {
     if (this.canNavigate) {
-      const newLocation = this.getCurrentNavArray();
+      const params = this.getQueryParams();
       if (locationIndex || locationIndex === 0) {
-        newLocation[5] = locationIndex;
+        params['selectedIndex'] = locationIndex;
       } else {
-        newLocation.splice(-1, 1);
+        params['selectedIndex'] = null;
       }
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
     }
   }
 
@@ -231,7 +237,17 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getQueryParams() {
-    return { lang: this.translate.currentLang };
+    // this.selectedIndex
+    const params = {
+      lang: this.translate.currentLang,
+      region: this.region,
+      areaType: this.areaType.value,
+      dataProperty: this.dataProperty.value
+    };
+    if (this.selectedIndex || this.selectedIndex === 0) {
+      params['selectedIndex'] = this.selectedIndex;
+    }
+    return params;
   }
 
   /**
@@ -365,14 +381,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getCurrentNavArray() {
     const routeArray =  [
       '/',
-      'evictions',
-      this.region,
-      this.areaType.value,
-      this.dataProperty.value
+      'evictions'
     ];
-    if (this.selectedIndex || this.selectedIndex === 0) {
-      routeArray.push(this.selectedIndex);
-    }
     return routeArray;
   }
 

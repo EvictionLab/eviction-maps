@@ -74,6 +74,15 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onQueryParamChange(params) {
     this.translate.use(params['lang'] || 'en');
+    if (this.activeTab === 'evictions') {
+      this.region = params['region'];
+      this.areaType =
+        this.rankings.areaTypes.find(a => a.value === parseInt(params['areaType'], 10));
+      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['dataProperty']);
+      this.selectedIndex = params['selectedIndex'] ? parseInt(params['selectedIndex'], 10) : null;
+    } else if (this.activeTab === 'evictors') {
+      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['dataProperty']);
+    }
   }
 
   ngOnDestroy() {
@@ -88,14 +97,6 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
   onRouteChange(url) {
     if (this.activeTab !== url[0].path) {
       this.activeTab = url[0].path;
-    }
-    if (this.activeTab === 'evictions') {
-      this.region = url[1].path;
-      this.areaType = this.rankings.areaTypes.find(a => a.value === parseInt(url[2].path, 10));
-      this.dataProperty = this.rankings.sortProps.find(p => p.value === url[3].path);
-      this.selectedIndex = url[4] ? parseInt(url[4].path, 10) : null;
-    } else if (this.activeTab === 'evictors') {
-      this.dataProperty = this.rankings.sortProps.find(p => p.value === url[1].path);
     }
   }
 

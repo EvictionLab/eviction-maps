@@ -2,6 +2,9 @@
 
 $navBarHeight: grid(8);
 $sidePanelHeight: grid(55);
+$panelHeightSm: 181px;
+$panelHeightMd: 188px;
+$panelHeightLg: 194px;
 
 // add margin so header doesn't overlap page content
 .ranking-page {
@@ -33,6 +36,11 @@ $sidePanelHeight: grid(55);
   .page-content .ranking-component > .content-inner {
     padding: grid(6) $pageMarginLg;
   }
+}
+
+.content-evictions {
+  margin-bottom: -1*$panelHeightSm;
+  &.panel-open { margin-bottom: 0; }
 }
 
 .hero {
@@ -296,9 +304,7 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 
-$panelHeightSm: 181px;
-$panelHeightMd: 188px;
-$panelHeightLg: 194px;
+
 
 // bottom data panel
 .page-fixed-bottom {
@@ -311,6 +317,7 @@ $panelHeightLg: 194px;
   background: $white;
   z-index:21;
   box-shadow: $z1shadow;
+  transition: transform 0.4s ease;
   transform: translate3d(0, 100%, 0);
   &.visible {
     transform: translate3d(0,0,0);

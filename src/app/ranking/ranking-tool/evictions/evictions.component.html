@@ -1,4 +1,4 @@
-<div class="content-inner content-evictions">
+<div class="content-inner content-evictions" [class.panel-open]="canRetrieveData && (selectedIndex || selectedIndex === 0)">
   <div class="ranking-ui-container">
     <button class="search-filter" (click)="showUiPanel = true">
       <app-ui-icon icon="search"></app-ui-icon>
@@ -44,7 +44,9 @@
     ></app-ranking-list>
   </div>
 </div>
-<div class="page-fixed-bottom" [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)">
+<div class="page-fixed-bottom" 
+  [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)"
+>
   <app-ranking-panel
     *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)"
     [class]="'area-'+areaType.value"
