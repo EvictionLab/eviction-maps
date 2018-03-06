@@ -1,5 +1,9 @@
 @import '../../theme';
 
+::ng-deep {
+  html { overflow-x: hidden; }
+}
+
 // Page Layout
 .app-wrapper {
   min-height:100%;
