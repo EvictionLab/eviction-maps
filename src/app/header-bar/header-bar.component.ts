@@ -2,6 +2,7 @@ import {
   Component, Input, Output, EventEmitter, HostListener, OnInit, AfterViewInit, ViewChild
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-header-bar',
@@ -24,6 +25,7 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
   @Output() selectLanguage = new EventEmitter();
   @ViewChild('pop') mapTooltip;
   tooltipEnabled = true;
+  deployUrl = environment.deployUrl;
   private state = { menuItem: null };
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
