@@ -143,7 +143,8 @@ export class RankingService {
     let data = region !== 'United States' ?
       this.evictions.filter(l => l.parentLocation === region && l.areaType === areaType) :
       this.evictions.filter(l => l.areaType === areaType);
-    data = data.sort(this.getComparator(sortProperty, invert));
+    data = data.sort(this.getComparator(sortProperty, invert))
+      .map((d) => this.handleNaN(d, sortProperty));
     console.timeEnd('sort rankings');
     return data;
   }
@@ -228,6 +229,13 @@ export class RankingService {
     }
     // Default to empty string
     return '';
+  }
+
+  private handleNaN(dataItem, dataProp) {
+    if (isNaN(dataItem[dataProp])) {
+      dataItem[dataProp] = -1;
+    }
+    return dataItem;
   }
 
   /** Creates a function to use for sorting the data */

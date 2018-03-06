@@ -87,3 +87,15 @@ button.toast-close-button {
 #toast-container > :hover {
   cursor: pointer;
 }
+
+
+// Overrides for ranking tool
+@media(min-width: $gtTablet) {
+  .ranking-tool + toast-container #toast-container {
+    top: $headerHeightSm + grid(8); // show below header and nav bar
+    left: auto;
+    right: 0;
+    bottom: auto;
+    width: grid(45);
+  }
+}
