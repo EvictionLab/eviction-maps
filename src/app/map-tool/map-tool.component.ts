@@ -10,6 +10,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
@@ -87,6 +88,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
         .subscribe((res: string) => this.helpData = res);
     });
+    // Reset VH transition only on width changes
+    this.platform.dimensions$.distinctUntilChanged((prev, next) => {
+      return prev.width === next.width;
+    }).skip(1).subscribe(this.resetVhTransition.bind(this));
     this.cdRef.detectChanges();
   }
 
@@ -110,7 +115,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   onResize(e) {
     this.panelOffset =
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
-    this.resetVhTransition();
   }
 
   /**
