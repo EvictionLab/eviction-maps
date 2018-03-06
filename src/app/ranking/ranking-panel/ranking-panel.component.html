@@ -1,7 +1,7 @@
-<div *ngIf="location" class="content-inner">
-  <div class="close-button" (click)="close.emit(true)">
-    <app-ui-icon icon="close"></app-ui-icon>
-  </div>
+<div class="close-button" (click)="close.emit(true)">
+  <app-ui-icon icon="close"></app-ui-icon>
+</div>
+<div *ngIf="location && rank && dataProperty" class="content-inner">
   <button class="panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
     <app-ui-icon icon="arrow-left"></app-ui-icon>
   </button>
@@ -9,9 +9,14 @@
     <div class="panel-top">
       <span class="rank-number">{{ rank }}</span>
       <div class="panel-summary-heading">
-        <h2 class="rank-location" [class.in-list]="rank <= topCount" (click)="locationClick.emit(rank)">{{ location.name }} <span>{{ location.displayParentLocation }}</span></h2>
+        <h2 class="rank-location" 
+          [class.in-list]="rank <= topCount" 
+          (click)="locationClick.emit(rank)"
+        >
+          {{ location.name }} <span>{{ location.displayParentLocation }}</span>
+        </h2>
         <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
-        <a href="" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
+        <a href="#" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
       </div>
     </div>
     <div class="panel-summary-content">

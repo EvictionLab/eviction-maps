@@ -33,9 +33,19 @@ export class TranslatePipeMock implements PipeTransform {
 export class RankingServiceStub {
   ready = new BehaviorSubject<boolean>(false);
   isReady = this.ready.asObservable();
+  sortProps = [
+    { value: 'evictionRate', langKey: 'STATS.JUDGMENT_RATE' },
+    { value: 'evictions', langKey: 'STATS.JUDGMENTS' },
+    { value: 'filingRate', langKey: 'STATS.FILING_RATE' },
+    { value: 'filings', langKey: 'STATS.FILINGS'}
+  ];
+  areaTypes = [
+    { value: 0, langKey: 'RANKINGS.CITIES' },
+    { value: 1, langKey: 'RANKINGS.MID_SIZED_AREAS' },
+    { value: 2, langKey: 'RANKINGS.RURAL_AREAS' }
+  ];
   loadEvictionsData = () => {};
   setReady = (ready) => {};
-
 }
 
 describe('EvictionsComponent', () => {

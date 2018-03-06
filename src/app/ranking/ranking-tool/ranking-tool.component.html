@@ -14,7 +14,7 @@
       </ul>
     </div>
   </div>
-  <div class="page-content">
+  <div class="page-content" #content>
     <app-evictions
       class="ranking-component"
       *ngIf="activeTab === 'evictions'"
@@ -29,7 +29,12 @@
       [dataProperty]="dataProperty"
     ></app-evictors>
   </div>
-  <div *ngIf="showScrollButton" class="scroll-to-top-button" (click)="scrollToTop()">
+  <div 
+    class="scroll-to-top-button"
+    [class.visible]="showScrollButton"
+    [class.panel-open]="selectedIndex && activeTab === 'evictions'"
+    (click)="scrollToTop()"
+  >
     <app-ui-icon icon="arrow-up"></app-ui-icon>
   </div>
 </div>

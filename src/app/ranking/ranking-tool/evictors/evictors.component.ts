@@ -36,6 +36,7 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
   /** object key representing the data property to sort by */
   @Input()
   set dataProperty(newProp) {
+    if (!newProp) { return; }
     if (!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) {
       this.store.dataProperty = newProp;
       this.updateEvictorsList();
@@ -82,7 +83,9 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
     private translatePipe: TranslatePipe,
     private decimal: DecimalPipe,
     @Inject(DOCUMENT) private document: any
-  ) { }
+  ) {
+    this.store.dataProperty = this.rankings.sortProps[0];
+  }
 
   ngOnInit() {
     this.loader.start('evictors');
@@ -118,9 +121,9 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Update the sort property when the area type changes */
   onDataPropertyChange(dataProp: { value: string }) {
     if (this.canNavigate) {
-      const newLocation = this.getCurrentNavArray();
-      newLocation[2] = dataProp.value;
-      this.router.navigate(newLocation, { queryParams: this.getQueryParams() });
+      const params = this.getQueryParams();
+      params['dataProperty'] = dataProp.value;
+      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
     }
   }
 
@@ -129,7 +132,10 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getQueryParams() {
-    return { lang: this.translate.currentLang };
+    return {
+      lang: this.translate.currentLang,
+      dataProperty: this.dataProperty
+    };
   }
 
   /**
@@ -141,11 +147,7 @@ export class EvictorsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getCurrentNavArray() {
-    const route = [ '/', 'evictors', this.dataProperty.value ];
-    if (this.place) {
-      route.push(this.place);
-    }
-    return route;
+    return [ '/', 'evictors' ];
   }
 
   /**

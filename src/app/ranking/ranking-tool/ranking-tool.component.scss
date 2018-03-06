@@ -2,6 +2,9 @@
 
 $navBarHeight: grid(8);
 $sidePanelHeight: grid(55);
+$panelHeightSm: 181px;
+$panelHeightMd: 188px;
+$panelHeightLg: 194px;
 
 // add margin so header doesn't overlap page content
 .ranking-page {
@@ -33,6 +36,11 @@ $sidePanelHeight: grid(55);
   .page-content .ranking-component > .content-inner {
     padding: grid(6) $pageMarginLg;
   }
+}
+
+.content-evictions {
+  margin-bottom: -1*$panelHeightSm;
+  &.panel-open { margin-bottom: 0; }
 }
 
 .hero {
@@ -296,6 +304,8 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 
+
+
 // bottom data panel
 .page-fixed-bottom {
   position: fixed; // fallback for IE11
@@ -303,17 +313,33 @@ app-ranking-ui.ranking-ui-panel {
   bottom:0;
   left:0;
   right:0;
+  height: $panelHeightSm;
   background: $white;
   z-index:21;
   box-shadow: $z1shadow;
+  transition: transform 0.4s ease;
+  transform: translate3d(0, 100%, 0);
+  &.visible {
+    transform: translate3d(0,0,0);
+  }
   app-ranking-panel {
     display:block;
   }
 }
 
+@media(min-width: $gtMobile) {
+  .page-fixed-bottom {
+    height: $panelHeightMd;
+  }
+}
+@media(min-width: $gtLaptop) {
+  .page-fixed-bottom {
+    height: $panelHeightLg;
+  }
+}
+
 .scroll-to-top-button {
   position: fixed;
-  position: sticky;
   cursor: pointer;
   text-align: center;
   padding: grid(1.25);
@@ -321,10 +347,22 @@ app-ranking-ui.ranking-ui-panel {
   height: grid(5);
   box-shadow: $z1shadow;
   background-color: $rankingsBg1;
-  right: grid(3);
-  bottom: grid(3);
+  right: $pageMargin;
+  bottom: $pageMargin;
   margin-left: auto;
   z-index: 2;
+  transition: transform 0.4s ease;
+  transform: translate3d(0, 200%, 0);
+  &.visible {
+    transform: translate3d(0, 0, 0);
+  }
+  &.panel-open {
+    transform: translate3d(-100%, 0, 0);
+    right: $pageMargin + grid(2);
+  }
+  &.visible.panel-open {
+    transform: translate3d(-100%, -1*$panelHeightSm, 0);
+  }
   .icon {
     width: grid(2);
     height: grid(2);
@@ -335,7 +373,24 @@ app-ranking-ui.ranking-ui-panel {
     background-color: $color1;
     .icon { fill: $white; }
   }
-  
+}
+
+@media(min-width: $gtMobile) {
+  .scroll-to-top-button {
+    right: $pageMarginLg;
+    bottom: $pageMarginLg;
+    &.panel-open {
+      right: $pageMarginLg + grid(2);
+    }
+    &.visible.panel-open {
+      transform: translate3d(-100%, -1*$panelHeightMd, 0);
+    }
+  }
+}
+@media(min-width: $gtLaptop) {
+  .scroll-to-top-button.visible.panel-open {
+    transform: translate3d(-100%, -1*$panelHeightLg, 0);
+  }
 }
 
 .share-wrapper {
@@ -366,10 +421,3 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 
-
-
-@media(min-width: $gtMobile) {
-  .scroll-to-top-button {
-    display: none;
-  }
-}

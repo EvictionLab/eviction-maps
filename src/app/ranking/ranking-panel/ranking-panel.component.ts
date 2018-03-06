@@ -8,7 +8,7 @@ import { RankingLocation } from '../ranking-location';
   styleUrls: ['./ranking-panel.component.scss'],
   providers: [DecimalPipe]
 })
-export class RankingPanelComponent implements OnInit {
+export class RankingPanelComponent {
   @Input() rank: number;
   @Input() topCount: number;
   @Input() location: RankingLocation;
@@ -17,9 +17,5 @@ export class RankingPanelComponent implements OnInit {
   @Output() goToNext = new EventEmitter();
   @Output() close = new EventEmitter();
   @Output() locationClick = new EventEmitter<number>();
-  constructor() { }
-
-  ngOnInit() {
-  }
 
 }
