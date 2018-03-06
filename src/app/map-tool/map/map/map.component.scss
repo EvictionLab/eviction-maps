@@ -254,7 +254,10 @@ app-location-cards {
     height: grid(6);
     background: #fff;
     box-shadow: $z1shadow;
+    // make sure icon is centered (IE11)
     .icon {
+      position: absolute;
+      top:0; right:0; bottom:0; left: 0;
       margin:auto;
       width: 22px;
       height:22px;
