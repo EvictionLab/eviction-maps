@@ -46,8 +46,6 @@ export class RankingServiceStub {
   ];
   loadEvictionsData = () => {};
   setReady = (ready) => {};
-  
-
 }
 
 describe('EvictionsComponent', () => {
