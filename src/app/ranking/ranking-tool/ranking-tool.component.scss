@@ -93,7 +93,7 @@ $panelHeightLg: 194px;
 @media(min-width: $gtMobile) {
   .nav-bar {
     position: sticky;
-    z-index:30;
+    z-index:998;
     top: $headerHeightSm - 1px; // fix 1px showing through
     height: grid(8);
     ul {
