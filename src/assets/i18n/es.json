@@ -69,7 +69,7 @@
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
-    "RENT_BURDEN": "The percentage of household income spent on rent in an area."
+    "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
   },
   "LAYERS": {
     "STATES": "Estados",
