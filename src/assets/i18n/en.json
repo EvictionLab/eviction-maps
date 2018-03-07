@@ -9,8 +9,6 @@
     "LINE_GRAPH_TITLE": "{{type}} for {{locations}} from {{year1}} to {{year2}}",
     "LINE_GRAPH_DESC": "A line graph showing {{type}} values for over time.",
     "REMOVE_BUTTON": "Remove",
-    "CANCEL_BUTTON": "Cancel",
-    "CLOSE_BUTTON": "Close",
     "DOWNLOAD_HEADING": "Download Reports",
     "DOWNLOAD_HINT": "Download the current data and graphs in PowerPoint, PDF, or spreadsheet files",
     "DOWNLOAD_BUTTON": "Select Report(s)",
