@@ -9,7 +9,7 @@
     "LINE_GRAPH_TITLE": "{{type}} for {{locations}} from {{year1}} to {{year2}}",
     "LINE_GRAPH_DESC": "A line graph showing {{type}} values for over time.",
     "REMOVE_BUTTON": "Eliminar",
-    "DOWNLOAD_HEADING": "Download Reports",
+    "DOWNLOAD_HEADING": "Descargar",
     "DOWNLOAD_HINT": "Descargar los datos y gráficos actuales en un archivo PowerPoint, PDF, u hoja de cálculo",
     "DOWNLOAD_BUTTON": "Select Report(s)",
     "DOWNLOAD_ERROR": "There was an error completing your download. Please try again.",
@@ -48,7 +48,7 @@
     "UNAVAILABLE": "Unavailable",
     "ADD_LOCATION": "Add {{name}}",
     "REMOVE_LOCATION": "Eliminar {{name}}",
-    "US_AVERAGE": "U.S. average"
+    "US_AVERAGE": "Promedio de los EE.UU. "
   },
   "HEADER": {
     "HOME": "Inicio",
@@ -111,7 +111,7 @@
     "PCT_WHITE": "% Blanco",
     "PCT_AFR_AMER": "% Negro",
     "PCT_HISPANIC": "% Hispánico",
-    "PCT_AMER_INDIAN": "% Indígena/Nativo de Alaska ",
+    "PCT_AMER_INDIAN": "% Indígena/Nativo de Alaska",
     "PCT_ASIAN": "% Asiático",
     "PCT_HAW_ISL": "% Nativo de Hawaii/Isleños del Pacífico",
     "PCT_MULTIPLE": "% Dos o Más Razas ",
@@ -130,7 +130,6 @@
     "RANKING_BY": "Ranking By",
     "TOP_EVICTING_AREAS": "Top Evicting Areas",
     "TOP_EVICTORS": "Top Evictors",
-    "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
     "SEARCH_FILTER": "Search & Filter",

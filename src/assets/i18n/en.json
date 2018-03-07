@@ -48,7 +48,7 @@
     "UNAVAILABLE": "Unavailable",
     "ADD_LOCATION": "Add {{name}}",
     "REMOVE_LOCATION": "Remove {{name}}",
-    "US_AVERAGE": "U.S. average"
+    "US_AVERAGE": "US average"
   },
   "HEADER": {
     "HOME": "Home",
@@ -112,7 +112,6 @@
     "FILINGS": "Eviction Filings",
     "POVERTY_RATE": "Poverty Rate",
     "POPULATION": "Population",
-    "AVG_HOUSEHOLD": "Average Household Size",
     "RENTER_HOMES": "Renter Homes",
     "PCT_RENTER": "% Renter Homes",
     "MED_RENT": "Median Gross Rent",
@@ -141,7 +140,6 @@
     "EVICTION_RANKINGS": "Eviction Rankings",
     "TOP_EVICTING_AREAS": "Top Evicting Areas",
     "TOP_EVICTORS": "Top Evictors",
-    "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
     "SEARCH_FILTER": "Search & Filter",
@@ -175,7 +173,7 @@
     "SHARE_EMAIL": "Share via E-mail",
     "SHARE_EMAIL_ERROR": "Email Link Error",
     "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
-    "SHARE_LINK": "Share Link",
+    "SHARE_LINK": "Share a Link",
     "CONNECT": "Connect With Us",
     "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>"
   }
