@@ -66,7 +66,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'default': 'rgba(0, 0, 0, 0)',
     'order': 7,
     'stops': {
-      'default': getScale([0, 25, 50, 75, 100])
+      'default': getScale([0, 15, 30, 45, 60])
     }
   },
   {
@@ -77,7 +77,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 8,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': getScale([0, 250, 500, 750, 1000])
+      'default': getScale([0, 300, 600, 900, 1200])
     }
   },
   {
