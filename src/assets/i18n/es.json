@@ -66,7 +66,8 @@
     "CONTENT": "¿Necesita ayuda? Pulse \"BUSCAR\" para encontrar un lugar. Pulse \"MAPA\" para ver los datos de desalojo. Pulse \"MENU\" para más ayuda."
   },
   "HINTS": {
-    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
+    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
+    "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
   },
   "LAYERS": {
     "STATES": "Estados",
@@ -106,6 +107,7 @@
     "MED_RENT": "Renta Bruta Mediana",
     "MED_INCOME": "Ingreso Bruto Mediano",
     "MED_PROPERTY": "Valor de Propiedad Mediano",
+    "RENT_BURDEN": "Rent Burden",
     "PCT_WHITE": "% Blanco",
     "PCT_AFR_AMER": "% Negro",
     "PCT_HISPANIC": "% Hispánico",
