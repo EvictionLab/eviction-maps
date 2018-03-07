@@ -82,7 +82,9 @@ $panelHeightLg: 194px;
           text-decoration: none;
         }
       }
-      &.active {
+      /* Temporarily disabling top evictors */
+      &.disabled { a:hover { color: $grey1a; } }
+      &.active:not(.disabled) {
         a { color: $color1; }
       }
 

@@ -8,8 +8,8 @@
         <li [class.active]="activeTab === 'evictions'">
           <a (click)="switchTab('evictions')">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
         </li>
-        <li [class.active]="activeTab === 'evictors'">
-          <a (click)="switchTab('evictors')">{{ 'RANKINGS.TOP_EVICTORS' | translate }}</a>
+        <li class="disabled">
+          <a disabled>{{ 'RANKINGS.TOP_EVICTORS' | translate }} ({{ 'RANKINGS.COMING_SOON' | translate }})</a>
         </li>
       </ul>
     </div>
