@@ -11,6 +11,7 @@ import { PlatformLocation, DecimalPipe } from '@angular/common';
 import { MapToolService } from '../map-tool.service';
 import { MapDataAttribute } from '../data/map-data-attribute';
 import { AnalyticsService } from '../../services/analytics.service';
+import { DataSignupFormComponent } from './data-signup-form/data-signup-form.component';
 
 @Component({
   selector: 'app-data-panel',
@@ -97,6 +98,10 @@ export class DataPanelComponent implements OnInit {
     // only graphing the bubble attributes
     this.graphAttributes = this.dataAttributes
       .filter(d => d.type === 'bubble' && d.id !== 'none');
+  }
+
+  showDataSignupDialog(e) {
+    this.dialogService.showCustomDialog(DataSignupFormComponent);
   }
 
   showDownloadDialog(e) {

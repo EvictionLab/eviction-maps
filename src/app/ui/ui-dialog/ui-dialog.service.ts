@@ -76,6 +76,12 @@ export class UiDialogService {
     return this.showDialog(dialog);
   }
 
+  /** Shows the provided component in a dialog */
+  showCustomDialog(component: any) {
+    this.currentDialogRef = this.modalService.show(component);
+    return this.currentDialogRef;
+  }
+
   /**
    * Format the config object to match what the component is expecting
    */
