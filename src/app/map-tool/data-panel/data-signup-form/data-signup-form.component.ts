@@ -3,6 +3,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-data-signup-form',
@@ -10,11 +11,18 @@ import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
   styleUrls: ['./data-signup-form.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class DataSignupFormComponent {
+export class DataSignupFormComponent implements OnInit {
 
   @ViewChild('form') formEl: ElementRef;
 
-  constructor(public bsModalRef: BsModalRef) {}
+  constructor(
+    public bsModalRef: BsModalRef,
+    private analytics: AnalyticsService
+  ) {}
+
+  ngOnInit() {
+    this.analytics.trackEvent('dataSubscribe', { subscribed: false });
+  }
 
   onCancelClick(e) { this.dismiss({ accepted: false }); }
 
@@ -23,6 +31,7 @@ export class DataSignupFormComponent {
    * NOTE: Form will not submit in dialog unless manually submitted with javascript
    */
   formSubmit() {
+    this.analytics.trackEvent('dataSubscribe', { subscribed: true });
     this.formEl.nativeElement.submit();
   }
 

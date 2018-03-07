@@ -9,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/delay';
 import { DataSignupFormComponent } from './data-signup-form.component';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 
 @Pipe({ name: 'translate' })
@@ -50,7 +51,8 @@ describe('DataSignupFormComponent', () => {
     TestBed.overrideComponent(DataSignupFormComponent, {
       set: {
         providers: [
-          { provide: TranslatePipe, useClass: TranslatePipeMock }
+          { provide: TranslatePipe, useClass: TranslatePipeMock },
+          { provide: AnalyticsService, useValue: { trackEvent: () => {} }}
         ]
       }
     })
