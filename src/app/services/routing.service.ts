@@ -107,16 +107,18 @@ export class RoutingService {
   }
 
   /**
-   * Pym.js uses window.location.search which is overriden by the current hash routing.
-   * We need to place it back without triggering a page refresh in order for elements to
-   * resize correctly
+   * Pym.js uses window.location.search which is overriden by hash routing.
+   * We need to place it back if hash routing is used without triggering
+   * a page refresh in order for elements to resize correctly
    */
   updatePymSearch() {
     const location = this.platform.nativeWindow.location;
-    const newUrl = location.origin + this.pymSearchStr + location.hash;
-    this.platform.nativeWindow.history.replaceState(
-      {}, this.platform.nativeWindow.document.title, newUrl
-    );
+    if (location.hash) {
+      const newUrl = location.origin + this.pymSearchStr + location.hash;
+      this.platform.nativeWindow.history.replaceState(
+        {}, this.platform.nativeWindow.document.title, newUrl
+      );
+    }
   }
 
 }
