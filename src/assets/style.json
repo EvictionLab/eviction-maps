@@ -541,13 +541,7 @@
         "visibility": "visible"
       },
       "paint": {
-        "line-color": "rgba(150,150,150,0.5)",
-        "line-opacity": {
-          "stops": [
-            [ 7, 0 ],
-            [ 14, 1 ]
-          ]
-        },
+        "line-color": "rgba(150,150,150,0.9)",
         "line-width": {
           "stops": [
             [
@@ -556,7 +550,7 @@
             ],
             [
               11,
-              2
+              3
             ]
           ]
         }
@@ -790,7 +784,7 @@
           "default": 1,
           "stops": [
             [
-              2,
+              1,
               0.1
             ],
             [
