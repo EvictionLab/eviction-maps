@@ -10,6 +10,8 @@ import { UiModule } from '../../ui/ui.module';
 import { LocationCardsModule } from '../location-cards/location-cards.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
+import { DataSignupFormComponent } from './data-signup-form/data-signup-form.component';
+
 import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
 
 
@@ -28,8 +30,9 @@ import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.compo
   declarations: [
     DataPanelComponent,
     DownloadFormComponent,
+    DataSignupFormComponent,
     EvictionGraphsComponent
   ],
-  entryComponents: [ DataPanelComponent, DownloadFormComponent ]
+  entryComponents: [ DataPanelComponent, DownloadFormComponent, DataSignupFormComponent ]
 })
 export class DataPanelModule { }
