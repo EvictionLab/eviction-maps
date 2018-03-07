@@ -140,11 +140,30 @@ export const DataAttributes: Array<MapDataAttribute> = [
     }
   },
   {
+    'id': 'rb',
+    'type': 'choropleth',
+    'langKey': 'STATS.RENT_BURDEN',
+    'hintKey': 'HINTS.RENT_BURDEN',
+    'format': 'percent',
+    'order': 10,
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': [
+        [-1.0, 'rgba(198, 204, 207, 0.6)'],
+        [0, 'rgba(215, 227, 244, 0.7)'],
+        [25, 'rgba(170, 191, 226, 0.75)'],
+        [50, 'rgba(133, 157, 204, 0.8)'],
+        [75, 'rgba(81, 101, 165, 0.85)'],
+        [100, 'rgba(37, 51, 132, 0.9)']
+      ]
+    }
+  },
+  {
     'id': 'mhi',
     'type': 'choropleth',
     'langKey': 'STATS.MED_INCOME',
     'format': 'dollar',
-    'order': 10,
+    'order': 11,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -162,7 +181,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_WHITE',
     'format': 'percent',
-    'order': 11,
+    'order': 12,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -180,7 +199,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AFR_AMER',
     'format': 'percent',
-    'order': 12,
+    'order': 13,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -197,7 +216,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'ph',
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HISPANIC',
-    'order': 13,
+    'order': 14,
     'default': 'rgba(0, 0, 0, 0)',
     'format': 'percent',
     'stops': {
@@ -216,7 +235,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AMER_INDIAN',
     'format': 'percent',
-    'order': 14,
+    'order': 15,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -234,7 +253,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_ASIAN',
     'format': 'percent',
-    'order': 15,
+    'order': 16,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -252,7 +271,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HAW_ISL',
     'format': 'percent',
-    'order': 16,
+    'order': 17,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -270,7 +289,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_MULTIPLE',
     'format': 'percent',
-    'order': 17,
+    'order': 18,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [
@@ -288,7 +307,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_OTHER',
     'format': 'percent',
-    'order': 18,
+    'order': 19,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
       'default': [

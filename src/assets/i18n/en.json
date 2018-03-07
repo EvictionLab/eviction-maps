@@ -64,7 +64,8 @@
     "MAP_HINT": "Start Here"
   },
   "HINTS": {
-    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes."
+    "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
+    "RENT_BURDEN": "The percentage of household income spent on rent in an area."
   },
   "HELP": {
     "TITLE": "Help",
@@ -119,6 +120,7 @@
     "MED_RENT": "Median Gross Rent",
     "MED_INCOME": "Median Household Income",
     "MED_PROPERTY": "Median Property Value",
+    "RENT_BURDEN": "Rent Burden",
     "PCT_WHITE": "% White",
     "PCT_AFR_AMER": "% African American",
     "PCT_HISPANIC": "% Hispanic/Latinx",
