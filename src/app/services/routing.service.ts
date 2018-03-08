@@ -82,7 +82,6 @@ export class RoutingService {
       .filter(k => this.isValidQueryParam(k, currentData[k]))
       .reduce((acc, cur) => { acc[cur] = currentData[cur]; return acc; }, {});
     if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
-      console.log('NAV', routeArray, queryParams, currentData);
       setTimeout(() => {
         this.router.navigate(routeArray, { replaceUrl: true, queryParams });
       });
