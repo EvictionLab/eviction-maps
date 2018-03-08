@@ -30,7 +30,7 @@
       [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
       (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
-    <button class="btn btn-icon overview">
+    <button class="btn btn-icon overview" (click)="helpClick.emit()">
       <app-ui-icon icon="help"></app-ui-icon>
     </button>
   </div>

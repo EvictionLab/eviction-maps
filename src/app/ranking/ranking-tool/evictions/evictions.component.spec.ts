@@ -58,7 +58,10 @@ describe('EvictionsComponent', () => {
       imports: [
         UiModule,
         TranslateModule.forRoot(),
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'evictions', component: EvictionsComponent},
+          { path: 'evictors', component: EvictionsComponent}
+        ]),
         RankingModule.forRoot(config),
         ServicesModule.forRoot(),
         ToastModule.forRoot()

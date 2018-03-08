@@ -75,12 +75,14 @@ export class RoutingService {
 
   /** Update the route based on current data */
   updateRouteData(currentData: MapRouteData) {
+    if (!currentData || Object.keys(currentData).length === 0) { return; }
     const routeArray = this.mapRouteKeys.map(k => currentData[k]); // array of route data
     // grab non-route keys as query params
     const queryParams = Object.keys(currentData)
       .filter(k => this.isValidQueryParam(k, currentData[k]))
       .reduce((acc, cur) => { acc[cur] = currentData[cur]; return acc; }, {});
     if (this.urlParts && this.urlParts.length && this.urlParts[0].path !== 'editor') {
+      console.log('NAV', routeArray, queryParams, currentData);
       setTimeout(() => {
         this.router.navigate(routeArray, { replaceUrl: true, queryParams });
       });

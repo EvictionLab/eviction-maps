@@ -1,0 +1,55 @@
+<div class="modal-header">
+  <app-ui-close-button class="close" (onPress)="onCancelClick($event)"></app-ui-close-button>
+</div>
+<div class="modal-body">
+  <ngx-carousel [inputs]="carousel">
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_1' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_2' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_3' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_4' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_5' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+      <div class="slide-animation">
+        <img src="./assets/images/all-shapes.svg" />
+      </div>
+      <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_6' | translate"></div>
+    </ngx-item>
+    <ngx-item NgxCarouselItem>
+        <div class="slide-animation">
+          <img src="./assets/images/all-shapes.svg" />
+        </div>
+        <div class="overview-text" [innerHTML]="'OVERVIEW.SLIDE_7' | translate"></div>
+    </ngx-item>
+    <button NgxCarouselPrev class='btn btn-icon leftRs'>
+      <app-ui-icon icon="arrow-left"></app-ui-icon>
+    </button>
+    <button NgxCarouselNext class='btn btn-icon rightRs'>
+      <app-ui-icon icon="arrow-right"></app-ui-icon>
+    </button>
+  </ngx-carousel>
+</div>

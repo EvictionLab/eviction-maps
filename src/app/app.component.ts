@@ -143,7 +143,7 @@ export class AppComponent implements OnInit {
     // show help dialog when help is pressed
     if (itemId === 'help') {
       if (this.mapComponent) {
-        this.mapComponent.showHelpDialog()
+        this.mapComponent.showFeatureOverview().content.closed
           .subscribe((res) => { this.onMenuSelect(null); });
       }
     }
