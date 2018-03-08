@@ -192,7 +192,13 @@ export class DataPanelComponent implements OnInit {
   }
 
   getEmbedUrl() {
-    const splitUrl = this.platform.currentUrl().split('#');
-    return [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
+    const url = this.platform.currentUrl();
+    if (url.includes('#')) {
+      const splitUrl = url.split('#');
+      return [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
+    } else {
+      const splitUrl = url.split('/map/');
+      return [splitUrl[0], '/map/embed/', ...splitUrl.slice(1)].join('');
+    }
   }
 }
