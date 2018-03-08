@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
+  @HostBinding('class.ios') ios = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit {
     });
     this.onWindowResize();
     // Add user agent-specific classes
+    this.ios = this.platform.isIos;
     this.iosSafari = this.platform.isIosSafari;
     this.android = this.platform.isAndroid;
   }
