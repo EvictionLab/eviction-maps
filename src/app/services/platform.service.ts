@@ -75,10 +75,14 @@ export class PlatformService {
     return this.viewportWidth > breakpoints['largeDesktop'];
   }
 
+  /** Returns true if device is iOS */
+  get isIos(): boolean {
+    return this.userAgent.includes('iphone') || this.userAgent.includes('ipad');
+  }
+
   /** Returns true if the device is iOS, running safari */
   get isIosSafari(): boolean {
-    return ((this.userAgent.includes('iphone') || this.userAgent.includes('ipad')) &&
-      (!this.userAgent.includes('crios') && !this.userAgent.includes('fxios')));
+    return this.isIos && (!this.userAgent.includes('crios') && !this.userAgent.includes('fxios'));
   }
 
   /** Returns if the device is android (but not firefox) */
