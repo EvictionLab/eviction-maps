@@ -107,11 +107,16 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
+    let title;
     if (component.id === 'map-tool') {
       this.mapComponent = component;
-      this.titleService.setTitle(this.translatePipe.transform('MAP.TITLE'));
+      title = this.translatePipe.transform('MAP.TITLE');
     } else if (component.id === 'ranking-tool') {
-      this.titleService.setTitle(this.translatePipe.transform('RANKINGS.TITLE'));
+      title = this.translatePipe.transform('RANKINGS.TITLE');
+    }
+    // Only set title if not empty
+    if (title) {
+      this.titleService.setTitle(title);
     }
     this.updateClassAttributes(component.id);
     const loadedData = {
