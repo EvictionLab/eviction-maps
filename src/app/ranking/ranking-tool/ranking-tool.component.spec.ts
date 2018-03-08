@@ -40,7 +40,9 @@ describe('RankingToolComponent', () => {
       declarations: [],
       imports: [
         UiModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([
+          { path: 'evictions', component: RankingToolComponent}
+        ]),
         ServicesModule.forRoot(),
         TranslateModule.forRoot(),
         RankingModule.forRoot(config),

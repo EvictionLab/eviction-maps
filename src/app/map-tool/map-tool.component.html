@@ -20,6 +20,7 @@
     (clickedCardHeader)="onCardHeaderClick($event)"
     (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
     (layerChangedFromDropdown)="trackLevelSelection($event)"
+    (helpClick)="showFeatureOverview()"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
       <button

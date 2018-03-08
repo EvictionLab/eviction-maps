@@ -154,6 +154,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() showMapClick = new EventEmitter();
   // emits event when layer changed from dropdown (for analytics)
   @Output() layerChangedFromDropdown = new EventEmitter();
+  // emits when help button is clicked
+  @Output() helpClick = new EventEmitter();
   @HostBinding('class.cards-active') get cardsActive() {
     return this.activeFeatures.length;
   }

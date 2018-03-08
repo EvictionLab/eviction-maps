@@ -1,0 +1,54 @@
+@import '../../../theme';
+
+.modal-header {
+  position: relative;
+  z-index:99;
+}
+
+.ngxcarousel, .ngxcarousel-inner {
+  position:relative;
+  width: grid(36);
+  height: grid(48);
+  margin:auto;
+
+  .item {
+    width:100%;
+    height:100%;
+    background: #ccc;
+  }
+}
+
+
+.slide-animation {
+  width:100%;
+  img { 
+    display:block;
+    margin: auto; 
+  }
+}
+
+.overview-text {
+  text-align:center;
+  padding: grid(2);
+}
+
+.btn.btn-icon {
+  position: absolute;
+  top: 0;
+  bottom:0;
+  margin:auto;
+  .icon {
+    fill: $color1;
+    width: grid(3);
+    height: grid(3);
+  }
+}
+
+.leftRs {
+  
+  left:0;
+}
+
+.rightRs {
+ right: 0;
+}

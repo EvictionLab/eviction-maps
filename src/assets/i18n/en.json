@@ -109,6 +109,15 @@
     "UPDATES": "Updates",
     "CLOSE_MENU": "Close"
   },
+  "OVERVIEW": {
+    "SLIDE_1": "Select eviction and census data you want to view on the map",
+    "SLIDE_2": "View detailed information by searching or pressing on a location in the map",
+    "SLIDE_3": "View data for locations over several years",
+    "SLIDE_4": "Scroll down the page to view the full data set for your selected locations",
+    "SLIDE_5": "View bar and line graphs for your selected locations",
+    "SLIDE_6": "Share your customized view on social media or generate a custom report",
+    "SLIDE_7": "For more help read the FAQ"
+  },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
     "NONE": "None",

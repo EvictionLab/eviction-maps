@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UiDialogComponent } from './ui-dialog.component';
 import { DialogResponse } from './ui-dialog.types';
@@ -77,8 +77,8 @@ export class UiDialogService {
   }
 
   /** Shows the provided component in a dialog */
-  showCustomDialog(component: any) {
-    this.currentDialogRef = this.modalService.show(component);
+  showCustomDialog(component: any, options?: ModalOptions) {
+    this.currentDialogRef = this.modalService.show(component, options);
     return this.currentDialogRef;
   }
 

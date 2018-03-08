@@ -111,6 +111,31 @@ a:focus {
   clear: both;
 }
 
+// screenreader only
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  border: 0;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  -webkit-clip-path: none;
+  clip-path: none;
+}
+
 // STYLE OVERRIDES
 
 // no mobile "map button" hint on tablet+
@@ -139,8 +164,22 @@ a:focus {
   .mapboxgl-popup-close-button { display: none; }
 }
 
+// override modal styles
 .modal .modal-dialog .modal-content {
   border-radius:0;
+}
+
+.feature-overview-dialog {
+  width: grid(36);
+  .modal-content {
+    padding:0;
+  }
+}
+// boost modal width on tablet+
+@media(min-width: $gtMobile) {
+  .feature-overview-dialog {
+    width: grid(45);
+  }
 }
 
 

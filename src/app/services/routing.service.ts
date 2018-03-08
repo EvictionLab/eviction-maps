@@ -75,6 +75,7 @@ export class RoutingService {
 
   /** Update the route based on current data */
   updateRouteData(currentData: MapRouteData) {
+    if (!currentData || Object.keys(currentData).length === 0) { return; }
     const routeArray = this.mapRouteKeys.map(k => currentData[k]); // array of route data
     // grab non-route keys as query params
     const queryParams = Object.keys(currentData)
