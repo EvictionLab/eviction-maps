@@ -27,6 +27,7 @@ import { RoutingService } from '../services/routing.service';
 import { environment } from '../../environments/environment';
 import { AnalyticsService } from '../services/analytics.service';
 import { ScrollService } from '../services/scroll.service';
+import { FeatureOverviewComponent } from './feature-overview/feature-overview.component';
 
 @Component({
   selector: 'app-map-tool',
@@ -267,6 +268,12 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.analytics.trackEvent('viewMoreData');
     // animate scroll to data panel
     this.scroll.scrollTo('#data-panel');
+  }
+
+  showFeatureOverview() {
+    return this.dialogService.showCustomDialog(
+      FeatureOverviewComponent, { class: 'feature-overview-dialog' }
+    );
   }
 
   /**

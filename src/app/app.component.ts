@@ -37,6 +37,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.gt-mobile') largerThanMobile: boolean;
   @HostBinding('class.gt-tablet') largerThanTablet: boolean;
   @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
+  @HostBinding('class.ios') ios = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
@@ -96,6 +97,7 @@ export class AppComponent implements OnInit {
     });
     this.onWindowResize();
     // Add user agent-specific classes
+    this.ios = this.platform.isIos;
     this.iosSafari = this.platform.isIosSafari;
     this.android = this.platform.isAndroid;
   }
@@ -107,11 +109,16 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
+    let title;
     if (component.id === 'map-tool') {
       this.mapComponent = component;
-      this.titleService.setTitle(this.translatePipe.transform('MAP.TITLE'));
+      title = this.translatePipe.transform('MAP.TITLE');
     } else if (component.id === 'ranking-tool') {
-      this.titleService.setTitle(this.translatePipe.transform('RANKINGS.TITLE'));
+      title = this.translatePipe.transform('RANKINGS.TITLE');
+    }
+    // Only set title if not empty
+    if (title) {
+      this.titleService.setTitle(title);
     }
     this.updateClassAttributes(component.id);
     const loadedData = {
@@ -143,7 +150,7 @@ export class AppComponent implements OnInit {
     // show help dialog when help is pressed
     if (itemId === 'help') {
       if (this.mapComponent) {
-        this.mapComponent.showHelpDialog()
+        this.mapComponent.showFeatureOverview().content.closed
           .subscribe((res) => { this.onMenuSelect(null); });
       }
     }

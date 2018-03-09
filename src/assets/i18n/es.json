@@ -48,7 +48,12 @@
     "UNAVAILABLE": "Unavailable",
     "ADD_LOCATION": "Add {{name}}",
     "REMOVE_LOCATION": "Eliminar {{name}}",
-    "US_AVERAGE": "Promedio de los EE.UU. "
+    "US_AVERAGE": "Promedio de los EE.UU.",
+    "SIGNUP_TITLE": "Get Raw Data",
+    "SIGNUP_DESCRIPTION": "Enter your email address below to recieve the raw eviction data for the Unites States.",
+    "SIGNUP_EMAIL_LABEL": "Email Address", 
+    "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
+    "SEND_DATA": "Send Data"
   },
   "HEADER": {
     "HOME": "Inicio",
@@ -91,6 +96,26 @@
     "NO_DATA_ERROR": "Could not find data for location.",
     "AUTO": "auto"
   },
+  "NAV": {
+    "HOME": "Home",
+    "MAP": "Map & Data",
+    "RANKINGS": "Eviction Rankings",
+    "ABOUT": "About Eviction Lab",
+    "PROBLEM": "The Problem",
+    "METHODS": "Our Methodology",
+    "HELP": "Help & FAQ",
+    "UPDATES": "Updates",
+    "CLOSE_MENU": "Close"
+  },
+  "OVERVIEW": {
+    "SLIDE_1": "Select eviction and census data you want to view on the map",
+    "SLIDE_2": "View detailed information by searching or pressing on a location in the map",
+    "SLIDE_3": "View data for locations over several years",
+    "SLIDE_4": "Scroll down the page to view the full data set for your selected locations",
+    "SLIDE_5": "View bar and line graphs for your selected locations",
+    "SLIDE_6": "Share your customized view on social media or generate a custom report",
+    "SLIDE_7": "For more help read the FAQ"
+  },
   "STATS": {
     "DEMOGRAPHICS": "Desglose Demográfico",
     "NONE": "Nada",
@@ -130,6 +155,8 @@
     "RANKING_BY": "Ranking By",
     "TOP_EVICTING_AREAS": "Top Evicting Areas",
     "TOP_EVICTORS": "Top Evictors",
+    "COMING_SOON": "Coming Soon",
+    "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
     "SEARCH_FILTER": "Search & Filter",

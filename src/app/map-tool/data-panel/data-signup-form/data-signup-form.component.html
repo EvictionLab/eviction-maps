@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{ 'DATA.SIGNUP_TITLE' | translate }}</h4>
+  <app-ui-close-button class="close" (onPress)="onCancelClick($event)"></app-ui-close-button>
+</div>
+<div class="modal-body">
+  <div class="description">{{ 'DATA.SIGNUP_DESCRIPTION' | translate }}</div>
+  <!--mc_embed_signup-->
+  <div>
+    <form #form action="//evictionlab.us16.list-manage.com/subscribe/post?u=8e16f46a586eeb4578fbfe6ba&amp;id=9c55c12d21" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <div id="mc_embed_signup_scroll2">
+        <div class="mc-field-group">
+          <input class="form-control" type="email" value="" name="EMAIL" id="mce-EMAIL" [attr.placeholder]="'DATA.SIGNUP_EMAIL_LABEL' | translate">
+        </div>
+        <div class="mc-field-group input-group">
+          <input type="checkbox" value="1" name="group[4647][1]" id="mce-group[4647]-4647-0">
+          <label for="mce-group[4647]-4647-0">{{ 'DATA.NEWSLETTER_OPT_IN' | translate }}</label>
+          <input style="display:none" type="checkbox" checked value="2" name="group[4647][2]" id="mce-group[4647]-4647-1">
+        </div>
+        <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+        <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_8e16f46a586eeb4578fbfe6ba_9c55c12d21" tabindex="-1" value=""></div>
+        <div class="form-footer">
+          <input (click)="formSubmit()" type="submit" [attr.value]="'DATA.SEND_DATA' | translate" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+  <!--End mc_embed_signup-->
+</div>
