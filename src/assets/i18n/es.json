@@ -16,7 +16,7 @@
     "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Acceder a Más Datos",
     "GET_DATA": "Select Data Set(s)",
-    "GET_DATA_HINT": "Access spreadsheets of full data sets from across the U.S.",
+    "GET_DATA_HINT": "Access spreadsheets and geographic data from across the U.S.",
     "SOCIAL_HEADING": "Share",
     "SOCIAL_HINT": "Share a link to this map and data, or embed the map on your website",    
     "ADD_LABEL": "Añadir otro lugar",
@@ -50,7 +50,7 @@
     "REMOVE_LOCATION": "Eliminar {{name}}",
     "US_AVERAGE": "Promedio de los EE.UU.",
     "SIGNUP_TITLE": "Get Raw Data",
-    "SIGNUP_DESCRIPTION": "Enter your email address below to recieve the raw eviction data for the Unites States.",
+    "SIGNUP_DESCRIPTION": "Enter your email address below to receive a link to raw eviction data for the Unites States.",
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data"
