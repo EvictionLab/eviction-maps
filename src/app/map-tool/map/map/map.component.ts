@@ -216,6 +216,14 @@ export class MapComponent implements OnInit, OnChanges {
     }, 400
   );
 
+  // returns true if there is data being shown that changes by year
+  get isYearDataShown() {
+    if (!this.activeFeatures || !this.selectedBubble || !this.selectedChoropleth) { return false; }
+    return this.activeFeatures.length > 0 ||
+      this.selectedBubble.id.indexOf('none') < 0 ||
+      this.selectedChoropleth.id.indexOf('none') < 0;
+  }
+
   constructor(
     public el: ElementRef,
     private map: MapService,

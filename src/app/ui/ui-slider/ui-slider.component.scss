@@ -26,9 +26,10 @@
   justify-content: flex-start;
   // focus style for accessibility
   &:focus {
-    box-shadow:none;
-    .el-slider .scrubber-marker {
-      // TODO: marker needs focus state
+    outline:0;
+    box-shadow: none;
+    .el-slider .scrubber-label {
+      opacity:1;
     }
   }
   // show toolip when dragging
