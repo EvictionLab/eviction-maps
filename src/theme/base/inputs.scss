@@ -31,9 +31,8 @@ $inputFontSize_lg: 17px;
   }
   // input focus state
   &:focus {
+    @include focusState();
     border-color: $color1;
-    outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
   }
   // alternate styles for dark backgrounds
   &.light {

@@ -14,9 +14,59 @@
   }
 }
 
+// Dropdown button toggle
+// ---
+.dropdown-toggle.btn {
+  height: grid(6);
+  padding: grid(1) grid(4) grid(1) grid(2);
+  position:relative;
+  border:none;
+  border-radius: 0;
+  text-transform: uppercase;
+  width:100%;
+  text-align:left;
+  color: $selectText;
+  background: $selectBackground;
+  box-shadow: $z1shadow;
+  .icon {
+    position:absolute;
+    right:grid(1);
+    top:0px;
+    bottom:0;
+    width:14px;
+    height: grid(1);
+    margin:auto;
+    fill: $color1;
+  }
+  // focus state
+  &:focus { 
+    outline: 0; 
+    @include focusState();
+  }
+}
+// button state when not raised
+.z0 .dropdown-toggle.btn {
+  border: 1px solid $shadingColor;
+  box-shadow: none;
+  &:focus {
+    @include focusState();
+    border: 1px solid $color1;
+  }
+}
+// adjust icon positioning on laptop+
+@media(min-width: $gtTablet) {
+  .dropdown-toggle.btn {
+    padding-right: grid(5);
+    .icon {
+      right: grid(2);
+    }
+  }
+}
+
+// Dropdown Menu Styles
+// ---
 .dropup,
 .dropdown { position: relative; }
-.dropdown-toggle:focus { outline: 0; }
 .open > .dropdown-menu { display: block; }
 .open > a { outline: 0; }
 .dropup .dropdown-menu {
@@ -90,42 +140,12 @@
     background: inherit;
   }
 }
-.dropdown-toggle.btn {
-  height: grid(6);
-  padding: grid(1) grid(4) grid(1) grid(2);
-  position:relative;
-  border:none;
-  border-radius: 0;
-  text-transform: uppercase;
-  width:100%;
-  text-align:left;
-  color: $selectText;
-  background: $selectBackground;
-  box-shadow: $z1shadow;
-  .icon {
-    position:absolute;
-    right:grid(1);
-    top:0px;
-    bottom:0;
-    width:14px;
-    height: grid(1);
-    margin:auto;
-    fill: $color1;
-  }
-}
 .dropdown-value {
   @include ui-select-value('mobile');
 }
 .dropdown-label { 
   @include ui-select-label('mobile');
   color: $selectLabelText; 
-}
-
-
-
-.z0 .dropdown-toggle.btn {
-  border: 1px solid $shadingColor;
-  box-shadow: none;
 }
 
 @media(min-width: $gtMobile) {
@@ -141,11 +161,5 @@
   .dropdown-label { 
     @include ui-select-label('laptop');
     color: $selectLabelText; 
-  }
-  .dropdown-toggle.btn {
-    padding-right: grid(5);
-    .icon {
-      right: grid(2);
-    }
   }
 }

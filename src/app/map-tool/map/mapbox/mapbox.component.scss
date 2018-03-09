@@ -39,6 +39,9 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
        &.mapboxgl-ctrl-zoom-in {
          border-bottom: 1px solid $shadingColor;
        }
+       &:focus {
+         @include focusState();
+       }
      }
   }
 }

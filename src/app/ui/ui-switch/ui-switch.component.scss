@@ -4,6 +4,12 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  &:focus {
+    outline:0;
+    .switch-toggle {
+      @include focusState();
+    }
+  }
 }
 
 .switch-label {
