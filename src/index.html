@@ -45,6 +45,60 @@
   <meta name="twitter:title" content="Eviction Lab: Map and Data" />
   <meta name="twitter:description" content="We’ve built the first nationwide database of evictions. Use our customizable map to find and compare eviction rates in your neighborhood, city, or state." />
   <meta name="twitter:image" content="https://beta.evictionlab.org/tool/assets/images/el-twitter-img.jpg" />
+
+  <style>
+    app-progress-bar {
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 5px;
+      overflow-x: hidden;
+    }
+    .progress-line, .subline { background: #e24000; }
+    .progress-line {
+      position: absolute;
+      opacity: 0.4;
+      width: 150%;
+      height: 5px;
+    }
+    .subline{
+      position: absolute;
+      height: 5px;
+    }
+    .subline.progress {
+      left: 0;
+    }
+    .inc{
+      animation: increase 2s infinite;
+    }
+    .dec{
+      animation: decrease 2s 0.5s infinite;
+    }
+    @keyframes increase {
+      from {
+        left: -5%;
+        width: 5%;
+      }
+      to {
+        left: 130%;
+        width: 100%;
+      }
+    }
+    @keyframes decrease {
+      from {
+        left: -80%;
+        width: 80%;
+      }
+      to {
+        left: 110%;
+        width: 10%;
+      }
+    }
+  </style>
+
 </head>
 <body>
   <!-- SVG icon sprite -->
@@ -73,6 +127,24 @@
   </svg>
   <!-- Google Tag Manager (noscript) -->
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M955JVB" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-  <app-root></app-root>
+  <app-root>
+    <app-progress-bar>
+      <div class="progress-line"></div>
+      <div class="subline inc"></div>
+      <div class="subline dec"></div>
+    </app-progress-bar>
+    
+    <app-header-bar>
+      <div class="header-wrapper">
+        <div class="header-content">
+          <div class="header-logo">
+            <a href="/">
+              <img src="https://beta.evictionlab.org/tool/assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </app-header-bar>
+  </app-root>
 </body>
 </html>
