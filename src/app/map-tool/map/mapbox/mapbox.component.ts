@@ -172,7 +172,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
-      if (this.platform.isLargerThanMobile || this.embedded) {
+      if (!(this.platform.isIos || this.platform.isAndroid) || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
         this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
         this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
