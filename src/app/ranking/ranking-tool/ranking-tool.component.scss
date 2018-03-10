@@ -341,28 +341,27 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 
-.scroll-to-top-button {
-  position: fixed;
+.btn.btn-icon.scroll-to-top-button {
+  position: sticky;
   cursor: pointer;
   text-align: center;
   padding: grid(1.25);
   width: grid(5);
   height: grid(5);
-  box-shadow: $z1shadow;
-  background-color: $rankingsBg1;
+  background: $white;
   right: $pageMargin;
   bottom: $pageMargin;
-  margin-left: auto;
-  z-index: 2;
+  margin:  -1*grid(8) 0 grid(2) auto;
+  z-index: 20;
   transition: transform 0.4s ease;
-  transform: translate3d(0, 200%, 0);
+  transform: translate3d(0, 250%, 0);
   &.visible {
     transform: translate3d(0, 0, 0);
   }
-  &.panel-open {
-    transform: translate3d(-100%, 0, 0);
-    right: $pageMargin + grid(2);
-  }
+  // &.panel-open {
+  //   transform: translate3d(-100%, 0, 0);
+  //   right: $pageMargin + grid(2);
+  // }
   &.visible.panel-open {
     transform: translate3d(-100%, -1*$panelHeightSm, 0);
   }
@@ -379,9 +378,10 @@ app-ranking-ui.ranking-ui-panel {
 }
 
 @media(min-width: $gtMobile) {
-  .scroll-to-top-button {
+  .btn.btn-icon.scroll-to-top-button {
     right: $pageMarginLg;
     bottom: $pageMarginLg;
+    margin:  -1*grid(8) 0 grid(3) auto;
     &.panel-open {
       right: $pageMarginLg + grid(2);
     }
@@ -391,8 +391,8 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 @media(min-width: $gtLaptop) {
-  .scroll-to-top-button.visible.panel-open {
-    transform: translate3d(-100%, -1*$panelHeightLg, 0);
+  .btn.btn-icon.scroll-to-top-button.visible.panel-open {
+    transform: translate3d(-100%, -1*($panelHeightLg), 0);
   }
 }
 

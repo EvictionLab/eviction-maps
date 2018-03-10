@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { RankingLocation } from '../ranking-location';
 
 @Component({
@@ -16,4 +16,6 @@ export class RankingListComponent {
     'secondary': 'displayParentLocation'
   };
   @Output() locationSelected = new EventEmitter<number>();
+
+  constructor(public el: ElementRef) {}
 }

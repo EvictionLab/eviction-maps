@@ -1,8 +1,8 @@
-<div class="close-button" (click)="close.emit(true)">
+<button *ngIf="location" class="btn btn-icon close-button z1" (click)="close.emit(true)">
   <app-ui-icon icon="close"></app-ui-icon>
-</div>
+</button>
 <div *ngIf="location && rank && dataProperty" class="content-inner">
-  <button class="panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
+  <button class="btn btn-icon panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
     <app-ui-icon icon="arrow-left"></app-ui-icon>
   </button>
   <div class="panel-summary">
@@ -23,7 +23,7 @@
       <p>{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
     </div>
   </div>
-  <button class="panel-arrow panel-next" (click)="goToNext.emit(true)">
+  <button class="btn btn-icon panel-arrow panel-next" (click)="goToNext.emit(true)">
     <app-ui-icon icon="arrow-right"></app-ui-icon>
   </button>
 </div>
