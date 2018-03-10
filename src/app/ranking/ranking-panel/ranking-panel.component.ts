@@ -20,7 +20,7 @@ export class RankingPanelComponent implements AfterViewInit {
   @Output() close = new EventEmitter();
   @Output() locationClick = new EventEmitter<number>();
 
-  constructor(private el: ElementRef) {}
+  constructor(public el: ElementRef) {}
 
   /**
    * Grab focus when the panel opens
@@ -30,10 +30,12 @@ export class RankingPanelComponent implements AfterViewInit {
    *    out the focus until we determine a best approach.
    */
   ngAfterViewInit() {
-    // const buttons = this.el.nativeElement.getElementsByTagName('button');
-    // if (buttons.length) {
-    //   buttons[0].focus();
-    // }
+    // setTimeout(() => {
+    //   const buttons = this.el.nativeElement.getElementsByTagName('button');
+    //   if (buttons.length) {
+    //     buttons[0].focus();
+    //   }
+    // }, 800);
   }
 
 }

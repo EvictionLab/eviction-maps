@@ -1,4 +1,4 @@
-<button class="btn btn-icon close-button z1" (click)="close.emit(true)">
+<button *ngIf="location" class="btn btn-icon close-button z1" (click)="close.emit(true)">
   <app-ui-icon icon="close"></app-ui-icon>
 </button>
 <div *ngIf="location && rank && dataProperty" class="content-inner">

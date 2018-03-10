@@ -45,10 +45,10 @@
   </div>
 </div>
 <div class="page-fixed-bottom" 
+  *ngIf="listData"
   [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)"
 >
   <app-ranking-panel
-    *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)"
     [class]="'area-'+areaType.value"
     [topCount]="topCount"
     [rank]="selectedIndex+1"

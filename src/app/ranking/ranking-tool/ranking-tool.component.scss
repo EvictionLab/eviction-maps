@@ -352,7 +352,7 @@ app-ranking-ui.ranking-ui-panel {
   right: $pageMargin;
   bottom: $pageMargin;
   margin:  -1*grid(8) 0 grid(2) auto;
-  z-index: 989;
+  z-index: 20;
   transition: transform 0.4s ease;
   transform: translate3d(0, 250%, 0);
   &.visible {
