@@ -140,7 +140,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.analytics.trackEvent('locationSelection', selectEvent);
     // pull full data for the location
-    this.mapToolService.getTileData(feature['layer']['id'], featureLonLat, null, true)
+    this.mapToolService.getTileData(feature.properties['GEOID'] as string, featureLonLat, true)
       .subscribe(data => {
         this.mapToolService.updateLocation(data);
         this.updateRoute();
@@ -209,7 +209,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
       this.mapToolService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
+        feature.properties['GEOID'] as string, feature.geometry['coordinates'], true
       ).subscribe(data => {
           if (!data.properties.n) {
             this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
