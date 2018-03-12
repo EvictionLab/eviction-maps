@@ -55,7 +55,8 @@
     "SIGNUP_DESCRIPTION": "Enter your email address below to recieve the raw eviction data for the Unites States.",
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
-    "SEND_DATA": "Send Data"
+    "SEND_DATA": "Send Data",
+    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select."
   },
   "HEADER": {
     "HOME": "Home",
@@ -97,7 +98,8 @@
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
     "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
     "NO_DATA_ERROR": "Could not find data for location.",
-    "AUTO": "auto"
+    "AUTO": "auto",
+    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview"
   },
   "NAV": {
     "HOME": "Home",

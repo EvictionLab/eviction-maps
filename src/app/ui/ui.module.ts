@@ -48,7 +48,7 @@ import { UiSocialShareComponent } from './ui-social-share/ui-social-share.compon
     TooltipModule.forRoot(),
     PopoverModule.forRoot(),
     TypeaheadModule,
-    TranslateModule
+    TranslateModule.forRoot()
   ],
   declarations: [
     UiSelectComponent,

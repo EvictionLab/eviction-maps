@@ -5,6 +5,15 @@ import { FormsModule } from '@angular/forms';
 
 import { UiDialogComponent } from './ui-dialog.component';
 import { UiModule } from '../ui.module';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 
 describe('UiDialogComponent', () => {
   let component: UiDialogComponent;
@@ -14,7 +23,11 @@ describe('UiDialogComponent', () => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
       declarations: [ ],
-      providers: [ BsModalService, BsModalRef ]
+      providers: [
+        BsModalService,
+        BsModalRef,
+        { provide: TranslatePipe, useClass: TranslatePipeMock }
+      ]
     })
     .compileComponents();
   }));

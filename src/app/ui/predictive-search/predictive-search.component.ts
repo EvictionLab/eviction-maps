@@ -31,7 +31,7 @@ export class PredictiveSearchComponent implements OnInit {
   ngOnInit() { }
 
   @HostListener('keydown', [ '$event' ]) onkeypress(e) {
-    const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27, 'TAB': 9 };
+    const keys = { 'UP': 38, 'DOWN': 40, 'ESC': 27 };
     const items = this.el.nativeElement.querySelectorAll('.dropdown-menu li');
     if (!items) { return; }
     if (e.keyCode === keys['DOWN']) {
@@ -55,6 +55,7 @@ export class PredictiveSearchComponent implements OnInit {
     this.selectedIndex = 0;
   }
 
+  /** Sets or updates the appropriate aria values on the predictive search */
   updateAria() {
     const menu = this.el.nativeElement.querySelector('.dropdown-menu');
     if (menu) {
@@ -121,18 +122,13 @@ export class PredictiveSearchComponent implements OnInit {
    * @param selection object returned from selection
    */
   updateSelection(selection: TypeaheadMatch = null) {
-    this.selected = selection.value;
+    this.selected = selection ? selection.value : selection;
     this.selectionChange.emit({
       selection: selection ? selection.item : selection,
       queryTerm: this.typedValue
     });
     // clear the selection after selected and emitted
-    setTimeout(() => { this.selected = null; }, 1000);
-  }
-
-  /** Gets the option that matches the item selected with the keyboard */
-  getKeyboardSelection() {
-    return this.options.find(item => item[this.optionField] === this._keyboardSelected);
+    this.selected = null;
   }
 
   /**
