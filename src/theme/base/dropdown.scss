@@ -95,6 +95,7 @@
   max-height: grid(28); // prevent dropdown menu from going off screen
   padding:0;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   box-shadow: $z1shadow;
   & > li > a {
     display: block;
