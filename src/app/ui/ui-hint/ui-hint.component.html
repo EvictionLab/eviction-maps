@@ -1,3 +1,11 @@
-<button *ngIf="hint" class="hint-button" container="body" [tooltip]="hint" [triggers]="triggers" [placement]="placement" (onShown)="onTooltipShown($event)">
+<button class="hint-button" 
+  *ngIf="hint" 
+  container="body"
+  [attr.aria-label]="hint"
+  [tooltip]="hint" 
+  [triggers]="triggers" 
+  [placement]="placement" 
+  (onShown)="onTooltipShown($event)" 
+>
   <app-ui-icon icon="info"></app-ui-icon>
 </button>

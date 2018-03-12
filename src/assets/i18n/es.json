@@ -107,7 +107,11 @@
     "METHODS": "Our Methodology",
     "HELP": "Help & FAQ",
     "UPDATES": "Updates",
-    "CLOSE_MENU": "Close"
+    "FACEBOOK": "Eviction Lab on Facebook",
+    "TWITTER": "Eviction Lab on Twitter",
+    "GITHUB": "Eviction Lab on Github",
+    "CLOSE_MENU": "Close",
+    "SCROLL_TO_TOP": "Scroll to top"
   },
   "OVERVIEW": {
     "SLIDE_1": "Select eviction and census data you want to view on the map",
@@ -184,7 +188,10 @@
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
     "DATA_HINT": "Lorem ipsum",
     "AREA_HINT": "Lorem ipsum",
-    "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable."
+    "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable.",
+    "LOCATION_DESCRIPTION": "Rank {{rank}}: {{location}} with {{value}} {{dataType}}",
+    "NEXT_LOCATION": "Next",
+    "PREV_LOCATION": "Previous"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
@@ -192,6 +199,10 @@
     "SHARE_EMAIL": "Share via E-mail",
     "SHARE_EMAIL_ERROR": "Email Link Error",
     "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
-    "SHARE_LINK": "Share Link"
+    "SHARE_LINK": "Share Link",
+    "CONNECT": "Connect With Us",
+    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>",
+    "EMAIL_SIGNUP": "Sign up to receive news about events and new features from Eviction Lab.",
+    "EMAIL_SUBSCRIBE": "Subscribe"
   }
 }

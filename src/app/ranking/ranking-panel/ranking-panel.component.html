@@ -1,8 +1,15 @@
-<button *ngIf="location" class="btn btn-icon close-button z1" (click)="close.emit(true)">
+<button class="btn btn-icon close-button z1" 
+  *ngIf="location"
+  [attr.aria-label]="'DATA.CLOSE_BUTTON' | translate"
+  (click)="close.emit(true)"
+>
   <app-ui-icon icon="close"></app-ui-icon>
 </button>
 <div *ngIf="location && rank && dataProperty" class="content-inner">
-  <button class="btn btn-icon panel-arrow panel-prev" (click)="goToPrevious.emit(true)">
+  <button class="btn btn-icon panel-arrow panel-prev"
+    [attr.aria-label]="'RANKINGS.PREV_LOCATION' | translate"
+    (click)="goToPrevious.emit(true)"
+  >
     <app-ui-icon icon="arrow-left"></app-ui-icon>
   </button>
   <div class="panel-summary">
@@ -16,14 +23,19 @@
           {{ location.name }} <span>{{ location.displayParentLocation }}</span>
         </h2>
         <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
-        <a href="#" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
+        <!-- COMING SOON
+          <a href="#" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
+        -->
       </div>
     </div>
     <div class="panel-summary-content">
       <p>{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
     </div>
   </div>
-  <button class="btn btn-icon panel-arrow panel-next" (click)="goToNext.emit(true)">
+  <button class="btn btn-icon panel-arrow panel-next"
+    [attr.aria-label]="'RANKINGS.NEXT_LOCATION' | translate"
+    (click)="goToNext.emit(true)"
+  >
     <app-ui-icon icon="arrow-right"></app-ui-icon>
   </button>
 </div>
