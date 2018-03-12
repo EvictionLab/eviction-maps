@@ -179,9 +179,26 @@ export class MapboxComponent implements AfterViewInit {
       }
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
-          this.featureClick.emit(e.features[0]);
+          const feat = e.features[0];
+          // Merge in center feature props if found so there's no delay in displaying them
+          const centerFeatures = this.queryFeatureCenter(feat);
+          if (centerFeatures.length > 0) {
+            feat.properties = { ...feat.properties, ...centerFeatures[0].properties };
+          }
+          this.featureClick.emit(feat);
         }
       });
+    });
+  }
+
+  /**
+   * Queries map for the center feature of a given polygon feature
+   * @param feat Feature to find center feature for
+   */
+  private queryFeatureCenter(feat: MapFeature) {
+    return this.map.querySourceFeatures(feat['layer']['source'], {
+      sourceLayer: `${feat['layer']['source-layer']}-centers`,
+      filter: ['==', 'GEOID', feat.properties['GEOID']]
     });
   }
 

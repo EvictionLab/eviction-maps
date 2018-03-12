@@ -31,7 +31,7 @@ describe('MapToolService', () => {
     inject(
       [MapToolService, HttpTestingController],
       (service: MapToolService, backend: HttpTestingController) => {
-        service.getTileData('states', [50, 50], 'featureName', false).subscribe();
+        service.getTileData('17', [50, 50], false).subscribe();
         backend.expectOne((req: HttpRequest<any>) => {
           return req.url.includes('states')
             && req.method === 'GET'
