@@ -7,20 +7,43 @@
   height:100%;
 }
 
-.btn.btn-close {
+app-ui-close-button {
   position:absolute;
-  top:0;
-  right:0;
+  top:grid(1);
+  right:grid(2);
   width: grid(5);
   height: grid(5);
 }
 
+@media(min-width: $gtMobile) {
+  app-ui-close-button {
+    top:0;
+    right:0;
+  }
+}
+@media(min-width: $gtTablet) {
+  app-ui-close-button {
+    display:none;
+  }
+}
+
 .ranking-ui-wrapper {
+  padding-top: grid(5);
   h2 {
     @include altSmallCapsText(12px);
     line-height:1;
     margin:grid(2) 0 grid(2) 0;
     color: $grey1a;
+  }
+}
+@media(min-width: $gtMobile) {
+  .ranking-ui-wrapper {
+    padding-top: grid(4);
+  }
+}
+@media(min-width: $gtTablet) {
+  .ranking-ui-wrapper {
+    padding-top: 0;
   }
 }
 

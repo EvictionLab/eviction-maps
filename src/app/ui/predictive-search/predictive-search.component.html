@@ -6,10 +6,20 @@
          [typeaheadOptionField]="optionField ? optionField : null"
          [typeaheadOptionsLimit]="optionsLimit"
          (typeaheadOnSelect)="updateSelection($event)"
+         (typeaheadOnBlur)="clearSelection($event)"
          [typeaheadWaitMs]="waitMs"
          [placeholder]="placeholder"
+         [attr.aria-owns]="ariaOwns"
+         [attr.aria-expanded]="ariaExpanded"
+         [attr.aria-activedescendant]="ariaActiveDescendant"
+         autocomplete="off"
+         aria-describedby="initInstr"
+         aria-autocomplete="both"
          class="form-control">
-  <span class="clear"
-        [style.display]="selected ? 'block' : 'none'"
-        (click)="updateSelection()">&times;</span>
+  <app-ui-close-button class="clear"
+    [ariaLabel]="'HEADER.SEARCH_CLEAR' | translate"
+    [style.display]="selected ? 'block' : 'none'"
+    (click)="clearSelection()">
+  </app-ui-close-button>
+  <span id="initInstr" style="display: none;">When autocomplete results are available use up and down arrows to review and enter to select.</span>
 </div>
