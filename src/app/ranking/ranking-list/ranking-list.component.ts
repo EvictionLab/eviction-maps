@@ -23,8 +23,8 @@ export class RankingListComponent {
 
   /**
    * Gets a readable string for the provided list item
-   * @param rank 
-   * @param listItem 
+   * @param rank
+   * @param listItem
    */
   getAriaLabel(rank, listItem) {
     if (this.propertyMap.primary === 'name') {

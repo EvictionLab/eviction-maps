@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener 
+  Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener
 } from '@angular/core';
 import { NgModel } from '@angular/forms';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
