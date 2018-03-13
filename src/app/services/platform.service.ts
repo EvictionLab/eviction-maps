@@ -91,6 +91,17 @@ export class PlatformService {
       !this.userAgent.includes('firefox');
   }
 
+  /** Returns if the device has WebGL support */
+  get hasWebGLSupport(): boolean {
+    // Create canvas element. The canvas is not added to the
+    // document itself, so it is never displayed in the
+    // browser window.
+    const canvas = this.nativeWindow.document.createElement('canvas');
+    // Get WebGLRenderingContext from canvas element.
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    return (gl && gl instanceof WebGLRenderingContext);
+  }
+
   constructor() {
     this.userAgent = this.nativeWindow.navigator.userAgent.toLowerCase();
     // store viewport width / height
@@ -123,6 +134,10 @@ export class PlatformService {
    */
   currentUrl() {
     return this.nativeWindow.location.href;
+  }
+
+  isMapToolSupported() {
+
   }
 
   private updateDimensions(dim: { width: number, height: number }) {

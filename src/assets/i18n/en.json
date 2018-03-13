@@ -72,10 +72,6 @@
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
     "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
   },
-  "HELP": {
-    "TITLE": "Help",
-    "CONTENT": "Need help? Tap <b>SEARCH</b> to find a location. Tap <b>MAP</b> to look at eviction and census data. Tap on <b>MENU</b> and select <b>Help &amp; FAQ</b> from the list to find answers to specific qestions you may have."
-  },
   "LAYERS": {
     "STATES": "States",
     "COUNTIES": "Counties",
@@ -96,7 +92,9 @@
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
     "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
     "NO_DATA_ERROR": "Could not find data for location.",
-    "AUTO": "auto"
+    "AUTO": "auto",
+    "UNSUPPORTED_TITLE": "Unsupported Browser",
+    "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers."
   },
   "NAV": {
     "HOME": "Home",
