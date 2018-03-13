@@ -37,7 +37,7 @@
     <app-ranking-list *ngIf="areaType && dataProperty"
       [class]="'area-'+areaType.value"
       [list]="truncatedList"
-      [dataProperty]="dataProperty.value"
+      [dataProperty]="dataProperty"
       [maxValue]="dataMax"
       [selectedIndex]="selectedIndex"
       (locationSelected)="onClickLocation($event)"
