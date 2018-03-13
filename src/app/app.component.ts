@@ -34,9 +34,6 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ranking-tool') isRankingTool: boolean;
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
-  @HostBinding('class.gt-mobile') largerThanMobile: boolean;
-  @HostBinding('class.gt-tablet') largerThanTablet: boolean;
-  @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
   @HostBinding('class.ios') ios = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
@@ -95,7 +92,6 @@ export class AppComponent implements OnInit {
     this.translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
-    this.onWindowResize();
     // Add user agent-specific classes
     this.ios = this.platform.isIos;
     this.iosSafari = this.platform.isIosSafari;
@@ -187,13 +183,6 @@ export class AppComponent implements OnInit {
     }
     // forward to map component
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
-  }
-
-  /** Sets the booleans that determine the classes on the app component */
-  @HostListener('window:resize') onWindowResize() {
-    this.largerThanMobile = this.platform.isLargerThanMobile;
-    this.largerThanTablet = this.platform.isLargerThanTablet;
-    this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
   }
 
   /**
