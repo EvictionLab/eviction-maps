@@ -61,14 +61,18 @@ export class RoutingService {
     this.route.url.subscribe((url) => { this.urlParts = url; });
   }
 
-  /** Checks if the provided key / value is a valid query parameter */
+  /** 
+   * Checks if the provided key / value is a valid query parameter,
+   * returns false for any default values
+   */
   isValidQueryParam(key, value) {
     return (
       (
         this.mapRouteKeys.indexOf(key) === -1 &&
         value !== '' &&
-        value !== 'none' &&
-        value !== 'line'
+        value !== 'none' && // select box defaults
+        value !== 'line' && // graph default
+        value !== 'en' // language default
       )
     );
   }
