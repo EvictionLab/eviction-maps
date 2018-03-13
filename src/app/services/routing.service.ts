@@ -61,7 +61,7 @@ export class RoutingService {
     this.route.url.subscribe((url) => { this.urlParts = url; });
   }
 
-  /** 
+  /**
    * Checks if the provided key / value is a valid query parameter,
    * returns false for any default values
    */
