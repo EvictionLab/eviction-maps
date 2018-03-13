@@ -39,16 +39,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
   menuActive = false;
-  siteNav = [
-    { url: 'https://evictionlab.org/', langKey: 'NAV.HOME' },
-    { url: 'https://evictionlab.org/map', langKey: 'NAV.MAP' },
-    { url: 'https://evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
-    { url: 'https://evictionlab.org/about-eviction-lab', langKey: 'NAV.ABOUT' },
-    { url: 'https://evictionlab.org/the-problem', langKey: 'NAV.PROBLEM' },
-    { url: 'https://evictionlab.org/our-methodology', langKey: 'NAV.METHODS' },
-    { url: 'https://evictionlab.org/help-faq', langKey: 'NAV.HELP' },
-    { url: 'https://evictionlab.org/updates', langKey: 'NAV.UPDATES' }
-  ];
+  siteNav = environment.siteNav;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }

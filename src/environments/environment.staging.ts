@@ -16,5 +16,15 @@ export const environment = {
     downloadBaseUrl: 'https://exports-dev.evictionlab.org',
     minYear: 2000,
     maxYear: 2016,
-    appVersion: version + '-staging'
+    appVersion: version + '-staging',
+    siteNav: [
+      { url: 'https://staging.evictionlab.org/', langKey: 'NAV.HOME' },
+      { url: 'https://staging.evictionlab.org/map', langKey: 'NAV.MAP' },
+      { url: 'https://staging.evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
+      { url: 'https://staging.evictionlab.org/about-us', langKey: 'NAV.ABOUT' },
+      { url: 'https://staging.evictionlab.org/why-eviction-matters', langKey: 'NAV.PROBLEM' },
+      { url: 'https://staging.evictionlab.org/methods', langKey: 'NAV.METHODS' },
+      { url: 'https://staging.evictionlab.org/help-faq', langKey: 'NAV.HELP' },
+      { url: 'https://staging.evictionlab.org/updates', langKey: 'NAV.UPDATES' }
+    ]
 };
