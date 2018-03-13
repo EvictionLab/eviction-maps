@@ -37,9 +37,6 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ios') ios = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
-  largerThanMobile: boolean;
-  largerThanTablet: boolean;
-  largerThanSmallDesktop: boolean;
   currentMenuItem: string;
   menuActive = false;
   siteNav = [
@@ -95,7 +92,6 @@ export class AppComponent implements OnInit {
     this.translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
-    this.onWindowResize();
     // Add user agent-specific classes
     this.ios = this.platform.isIos;
     this.iosSafari = this.platform.isIosSafari;
@@ -187,13 +183,6 @@ export class AppComponent implements OnInit {
     }
     // forward to map component
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
-  }
-
-  /** Sets the booleans that determine the classes on the app component */
-  @HostListener('window:resize') onWindowResize() {
-    this.largerThanMobile = this.platform.isLargerThanMobile;
-    this.largerThanTablet = this.platform.isLargerThanTablet;
-    this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
   }
 
   /**
