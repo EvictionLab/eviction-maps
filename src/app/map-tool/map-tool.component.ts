@@ -208,30 +208,28 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     if (feature) {
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
-      this.mapToolService.getTileData(
-        feature.properties['GEOID'] as string, feature.geometry['coordinates'], true
-      ).subscribe(data => {
-          if (!data.properties.n) {
-            this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+      this.mapToolService.getSearchTileData(feature).subscribe(data => {
+        if (!data.properties.n) {
+          this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+        } else {
+          this.mapToolService.addLocation(data);
+        }
+        const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
+        if (updateMap) {
+          if (feature.hasOwnProperty('bbox')) {
+            this.mapToolService.activeMapView = feature['bbox'];
           } else {
-            this.mapToolService.addLocation(data);
+            this.map.zoomToPointFeature(feature);
           }
-          const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
-          if (updateMap) {
-            if (feature.hasOwnProperty('bbox')) {
-              this.mapToolService.activeMapView = feature['bbox'];
-            } else {
-              this.map.zoomToPointFeature(feature);
-            }
-            // Wait for map to be done loading, then set data layer
-            this.map.map.isLoading$.distinctUntilChanged()
-              .debounceTime(500)
-              .filter(state => !state)
-              .first()
-              .subscribe((state) => this.map.setGroupVisibility(dataLevel));
-          }
-          this.loader.end('search');
-        });
+          // Wait for map to be done loading, then set data layer
+          this.map.map.isLoading$.distinctUntilChanged()
+            .debounceTime(500)
+            .filter(state => !state)
+            .first()
+            .subscribe((state) => this.map.setGroupVisibility(dataLevel));
+        }
+        this.loader.end('search');
+      });
     }
   }
 
