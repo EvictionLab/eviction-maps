@@ -18,6 +18,10 @@ button {
   margin: 6px 0;
   border-radius:0;
   color: $toggleForeground;
+  // background is set when focused, so clear glow
+  &:focus {
+    outline: 0;
+  }
   &:after {
     content: "";
   }

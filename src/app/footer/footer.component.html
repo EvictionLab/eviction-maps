@@ -1,17 +1,17 @@
 <div class="newsletter-signup">
   <div class="content-inner">
-    <p>Sign up to receive news about events and new features from Eviction Lab.</p>
+    <p>{{ 'FOOTER.EMAIL_SIGNUP' | translate }}</p>
     <div id="mc_embed_signup">
       <form action="//evictionlab.us16.list-manage.com/subscribe/post?u=8e16f46a586eeb4578fbfe6ba&amp;id=9c55c12d21" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate="">
         <div class="signup-form" id="mc_embed_signup_scroll">            	
-          <input value="" name="EMAIL" class="form-control light" id="mce-EMAIL" placeholder="Email Address" required="" type="email">
+          <input value="" name="EMAIL" class="form-control light" id="mce-EMAIL" [attr.placeholder]="'DATA.SIGNUP_EMAIL_LABEL' | translate" required="" type="email">
           <input style="display:none" type="checkbox" value="1" checked name="group[4647][1]" id="mce-group[4647]-4647-0">
           <input style="display:none" type="checkbox" value="2" name="group[4647][2]" id="mce-group[4647]-4647-1">
           <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
           <div style="position: absolute; left: -5000px;" aria-hidden="true">
             <input name="b_8e16f46a586eeb4578fbfe6ba_9c55c12d21" tabindex="-1" value="" type="text">
           </div>
-          <input value="Submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary" type="submit">
+          <input [attr.value]="'FOOTER.EMAIL_SUBSCRIBE' | translate" name="subscribe" id="mc-embedded-subscribe" class="btn btn-primary" type="submit">
         </div>
       </form>
     </div>
@@ -75,17 +75,17 @@
       <p>{{ 'FOOTER.CONNECT' | translate }}</p>
       <ul>
         <li>
-          <a class="btn btn-border dark icon" href="#">
+          <a [attr.aria-label]="'NAV.FACEBOOK' | translate" class="btn btn-border dark icon" href="https://www.facebook.com/evictionlab/" target="_blank">
             <app-ui-icon icon="facebook"></app-ui-icon>
           </a>
         </li>
         <li>
-          <a class="btn btn-border dark icon" href="#">
+          <a [attr.aria-label]="'NAV.TWITTER' | translate" class="btn btn-border dark icon" href="https://twitter.com/evictionlab" target="_blank">
             <app-ui-icon icon="twitter"></app-ui-icon>
           </a>
         </li>
         <li>
-          <a class="btn btn-border dark icon" href="https://github.com/EvictionLab/eviction-maps" target="_blank">
+          <a [attr.aria-label]="'NAV.GITHUB' | translate"  class="btn btn-border dark icon" href="https://github.com/EvictionLab/eviction-maps" target="_blank">
             <app-ui-icon icon="github"></app-ui-icon>
           </a>
         </li>
@@ -93,7 +93,7 @@
     </div>
     <div class="footer-copyright">
       <div class="copyright-text" [innerHTML]="'FOOTER.COPYRIGHT' | translate"></div>
-      <img src="{{deployUrl}}assets/images/princeton-logo.svg" /> 
+      <img src="{{deployUrl}}assets/images/princeton-logo.svg" alt="Princeton Logo" /> 
     </div>
   </div>
 </footer>

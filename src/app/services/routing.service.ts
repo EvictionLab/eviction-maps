@@ -31,12 +31,12 @@ export class RoutingService {
     bounds: '-136.80,20.68,-57.60,52.06'
   });
   private pymSearchStr: string;
-  private mapRouteKeys = ['year', 'geography', 'bounds']; // keys mandatory for map route
+  private mapRouteKeys = ['year' ]; // keys mandatory for map route
 
   private defaultViews = {
-    map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
+    map: `/${environment.maxYear}`,
     rankings: '/evictions',
-    evictors: '/evictors/evictionRate'
+    evictors: '/evictors'
   };
 
   constructor(
@@ -61,14 +61,18 @@ export class RoutingService {
     this.route.url.subscribe((url) => { this.urlParts = url; });
   }
 
-  /** Checks if the provided key / value is a valid query parameter */
+  /**
+   * Checks if the provided key / value is a valid query parameter,
+   * returns false for any default values
+   */
   isValidQueryParam(key, value) {
     return (
       (
         this.mapRouteKeys.indexOf(key) === -1 &&
         value !== '' &&
-        value !== 'none' &&
-        value !== 'line'
+        value !== 'none' && // select box defaults
+        value !== 'line' && // graph default
+        value !== 'en' // language default
       )
     );
   }
@@ -97,10 +101,10 @@ export class RoutingService {
         this.defaultViews.map;
     // all routes for the app
     const appRoutes: Routes = [
-      { path: 'embed/:year/:geography/:bounds', component: components.embed },
-      { path: ':year/:geography/:bounds', component: components.map },
+      { path: 'embed/:year', component: components.embed },
       { path: 'evictions', component: components.rankings  },
       { path: 'evictors', component: components.rankings },
+      { path: ':year', component: components.map },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' } // default route based on URL path
     ];
     // reset router with dynamic routes

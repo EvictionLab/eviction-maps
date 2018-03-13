@@ -32,7 +32,7 @@
 
 // Larger than mobile:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .app-wrapper {
     app-map {
       margin-top: $headerHeightLg;
@@ -43,7 +43,7 @@
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .app-wrapper {
     &.map-active { transition: none; }
 
@@ -122,7 +122,7 @@
   }
 }
 
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .map-overlay .btn-compare { display:block; }
   .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});

@@ -6,7 +6,7 @@
     <div class="content-inner">
       <ul class="tabs">
         <li [class.active]="activeTab === 'evictions'">
-          <a (click)="switchTab('evictions')">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
+          <a href="#" (click)="switchTab('evictions')">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
         </li>
         <li class="disabled">
           <a disabled>{{ 'RANKINGS.TOP_EVICTORS' | translate }} ({{ 'RANKINGS.COMING_SOON' | translate }})</a>
@@ -29,14 +29,15 @@
       [dataProperty]="dataProperty"
     ></app-evictors>
   </div>
-  <div 
-    class="scroll-to-top-button"
+  <button 
+    class="btn btn-icon scroll-to-top-button z1"
+    [attr.aria-label]="'NAV.SCROLL_TO_TOP' | translate"
     [class.visible]="showScrollButton"
     [class.panel-open]="selectedIndex && activeTab === 'evictions'"
     (click)="scrollToTop()"
   >
     <app-ui-icon icon="arrow-up"></app-ui-icon>
-  </div>
+</button>
 </div>
 
 

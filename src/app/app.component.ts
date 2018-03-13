@@ -34,24 +34,12 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ranking-tool') isRankingTool: boolean;
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
-  @HostBinding('class.gt-mobile') largerThanMobile: boolean;
-  @HostBinding('class.gt-tablet') largerThanTablet: boolean;
-  @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
   @HostBinding('class.ios') ios = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
   menuActive = false;
-  siteNav = [
-    { url: 'https://evictionlab.org/', langKey: 'NAV.HOME' },
-    { url: 'https://evictionlab.org/map', langKey: 'NAV.MAP' },
-    { url: 'https://evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
-    { url: 'https://evictionlab.org/about-eviction-lab', langKey: 'NAV.ABOUT' },
-    { url: 'https://evictionlab.org/the-problem', langKey: 'NAV.PROBLEM' },
-    { url: 'https://evictionlab.org/our-methodology', langKey: 'NAV.METHODS' },
-    { url: 'https://evictionlab.org/help-faq', langKey: 'NAV.HELP' },
-    { url: 'https://evictionlab.org/updates', langKey: 'NAV.UPDATES' }
-  ];
+  siteNav = environment.siteNav;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
@@ -95,7 +83,6 @@ export class AppComponent implements OnInit {
     this.translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
-    this.onWindowResize();
     // Add user agent-specific classes
     this.ios = this.platform.isIos;
     this.iosSafari = this.platform.isIosSafari;
@@ -187,13 +174,6 @@ export class AppComponent implements OnInit {
     }
     // forward to map component
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
-  }
-
-  /** Sets the booleans that determine the classes on the app component */
-  @HostListener('window:resize') onWindowResize() {
-    this.largerThanMobile = this.platform.isLargerThanMobile;
-    this.largerThanTablet = this.platform.isLargerThanTablet;
-    this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
   }
 
   /**

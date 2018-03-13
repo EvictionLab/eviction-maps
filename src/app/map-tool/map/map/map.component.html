@@ -30,27 +30,10 @@
       [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
       (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
-    <button class="btn btn-icon overview" (click)="helpClick.emit()">
+    <button class="btn btn-icon overview z1" (click)="helpClick.emit()" [attr.aria-label]="'MAP.FEATURE_OVERVIEW_LABEL' | translate">
       <app-ui-icon icon="help"></app-ui-icon>
     </button>
   </div>
-  <app-ui-map-legend 
-    *ngIf="showLegend" 
-    [choropleth]="selectedChoropleth" 
-    [bubbles]="selectedBubble" 
-    [layer]="selectedLayer">
-  </app-ui-map-legend>   
-  <app-location-cards
-    [collapsible]="gtTablet"
-    [class.cards-2]="activeFeatures.length === 2"
-    [class.cards-3]="activeFeatures.length === 3"
-    [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"
-    [features]="activeFeatures"
-    [cardProperties]="cardProps"
-    [year]="year"
-    (clickedHeader)="clickedCardHeader.emit($event)"
-    (dismissedCard)="dismissedCard.emit($event)"
-  ></app-location-cards>
   <div class="mobile-scroll-indicator" [class.inactive]="!scrollZoom">
     <p *ngIf="activeFeatures.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
     <p *ngIf="activeFeatures.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
@@ -70,6 +53,7 @@
 </div>
 <div class="year-slider-container">
   <app-ui-slider
+    *ngIf="isYearDataShown"
     tabindex="0"
     class="year-slider"
     [label]="year"
@@ -78,4 +62,24 @@
     [max]="maxYear" 
   ></app-ui-slider>
 </div>
+<div class="map-ui-wrapper">
+    <app-ui-map-legend 
+      *ngIf="showLegend" 
+      [choropleth]="selectedChoropleth" 
+      [bubbles]="selectedBubble" 
+      [layer]="selectedLayer">
+    </app-ui-map-legend>   
+    <app-location-cards
+      [collapsible]="gtTablet"
+      [class.cards-2]="activeFeatures.length === 2"
+      [class.cards-3]="activeFeatures.length === 3"
+      [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"
+      [features]="activeFeatures"
+      [cardProperties]="cardProps"
+      [year]="year"
+      (clickedHeader)="clickedCardHeader.emit($event)"
+      (dismissedCard)="dismissedCard.emit($event)"
+    ></app-location-cards>
+</div>
+
 <ng-content></ng-content>

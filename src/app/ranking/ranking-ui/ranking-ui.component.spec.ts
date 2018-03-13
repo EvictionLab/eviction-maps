@@ -1,9 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { UiModule } from '../../ui/ui.module';
 import { RankingUiComponent } from './ranking-ui.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { UiSelectComponent } from '../../ui/ui-select/ui-select.component';
+
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 
 describe('RankingUiComponent', () => {
   let component: RankingUiComponent;
@@ -12,7 +21,8 @@ describe('RankingUiComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RankingUiComponent ],
-      imports: [ BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot() ]
+      imports: [ BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot() ],
+      providers: [ { provide: TranslatePipe, useClass: TranslatePipeMock }]
     })
     .compileComponents();
   }));

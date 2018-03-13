@@ -1,7 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
 import { RankingListComponent } from './ranking-list.component';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 describe('RankingListComponent', () => {
   let component: RankingListComponent;
   let fixture: ComponentFixture<RankingListComponent>;
@@ -9,7 +16,8 @@ describe('RankingListComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ TranslateModule.forRoot() ],
-      declarations: [ RankingListComponent ]
+      declarations: [ RankingListComponent ],
+      providers: [ { provide: TranslatePipe, useClass: TranslatePipeMock }]
     })
     .compileComponents();
   }));

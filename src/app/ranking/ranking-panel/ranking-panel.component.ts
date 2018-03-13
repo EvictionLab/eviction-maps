@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component, OnInit, Input, Output, EventEmitter, ElementRef
+} from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { RankingLocation } from '../ranking-location';
 
@@ -17,5 +19,7 @@ export class RankingPanelComponent {
   @Output() goToNext = new EventEmitter();
   @Output() close = new EventEmitter();
   @Output() locationClick = new EventEmitter<number>();
+
+  constructor(public el: ElementRef) {}
 
 }

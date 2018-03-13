@@ -9,4 +9,8 @@
   padding:0;
   margin:0;
   .icon { fill: $iconColor; }
+  // no focus state needed, tooltip shows on focus
+  &:focus {
+    outline: 0;
+  }
 }

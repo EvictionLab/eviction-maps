@@ -9,11 +9,11 @@
   p { margin:0; }
 }
 // increase header spacing for devices larger than mobile
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .data-header { padding: grid(4) 0 grid(2); }
 }
 // increase spacing for devices larger than tablet
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .data-header { padding: grid(8) 0 grid(4); }
 }
 
@@ -57,7 +57,7 @@ app-location-cards {
   justify-content: space-around;
   margin-bottom: grid(5);
 }
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .data-panel-footer {
     flex-direction: row;
     align-items: flex-start;

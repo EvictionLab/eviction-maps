@@ -20,15 +20,25 @@
     background: $focusBgColor;
   }
   &:focus, &:active:focus {
-    outline: 0;
+    @include focusState();
   }
   // icon above button label
   svg{ display:block; margin: 0 auto 6px;}
 
   // icon below button label
   span + svg { margin: 4px auto; }
-  &.z1 { box-shadow: $z1shadow; }
-
+  &.z1 { 
+    box-shadow: $z1shadow;
+    &:focus { @include focusState(); }
+  }
+  &.z2 { 
+    box-shadow: $z2shadow;
+    &:focus { @include focusState(); }
+  }
+  &.z3 { 
+    box-shadow: $z3shadow;
+    &:focus { @include focusState(); }
+  }
 }
 
 // Buttons with smaller height

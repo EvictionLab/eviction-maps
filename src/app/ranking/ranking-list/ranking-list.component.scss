@@ -40,6 +40,20 @@ $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
     &:hover, &.active {
       cursor:pointer;
     }
+    
+  }
+  li button {
+    background: none;
+    border:none;
+    padding:0;
+    margin:0;
+    display: block;
+    width:100%;
+    text-align: left;
+    &:focus {
+      color: $color1;
+      @include focusState();
+    }
   }
   .ranking-bar {
     background: $barGradient1;

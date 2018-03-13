@@ -4,9 +4,17 @@ import { LocationSearchComponent } from './location-search.component';
 import { PredictiveSearchComponent } from '../predictive-search/predictive-search.component';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { UiModule } from '../../ui/ui.module';
+import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { SearchService } from '../../services/search.service';
+import { Pipe, PipeTransform } from '@angular/core';
 
+@Pipe({ name: 'translate' })
+export class TranslatePipeMock implements PipeTransform {
+  transform(value: any): any {
+    return value;
+  }
+}
 describe('LocationSearchComponent', () => {
   let component: LocationSearchComponent;
   let fixture: ComponentFixture<LocationSearchComponent>;
@@ -21,7 +29,11 @@ describe('LocationSearchComponent', () => {
     });
     TestBed.overrideComponent(LocationSearchComponent, {
       set: {
-        providers: [ {provide: SearchService, useValue: searchServiceStub } ],
+        providers: [
+          {provide: SearchService, useValue: searchServiceStub },
+          { provide: TranslatePipe, useClass: TranslatePipeMock }
+        ]
+
       }
     })
     .compileComponents();
