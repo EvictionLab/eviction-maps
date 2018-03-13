@@ -20,7 +20,7 @@ export const environment = {
     siteNav: [
       { url: 'https://staging.evictionlab.org/', langKey: 'NAV.HOME' },
       { url: 'https://staging.evictionlab.org/map', langKey: 'NAV.MAP' },
-      { url: 'https://staging.evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
+      { url: 'https://staging.evictionlab.org/rankings', langKey: 'NAV.RANKINGS' },
       { url: 'https://staging.evictionlab.org/about-us', langKey: 'NAV.ABOUT' },
       { url: 'https://staging.evictionlab.org/why-eviction-matters', langKey: 'NAV.PROBLEM' },
       { url: 'https://staging.evictionlab.org/methods', langKey: 'NAV.METHODS' },
