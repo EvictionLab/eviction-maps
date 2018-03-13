@@ -577,6 +577,8 @@ export class MapToolService {
         return 4;
       case 'counties':
         return 7;
+      case 'cities':
+        return 8;
       default:
         return 10;
     }
