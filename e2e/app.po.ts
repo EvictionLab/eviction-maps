@@ -1,19 +1,19 @@
 import { browser, by, element } from 'protractor';
 
 export class AppPage {
-  navigateTo() {
-    return browser.get('/');
+  navigateTo(path = '/') {
+    return browser.get(path);
   }
 
-  getMapElement() {
+  mapElement() {
     return element(by.css('app-root app-mapbox'));
   }
 
-  getSearchHeaderElement() {
+  searchHeaderElement() {
     return element(by.css('.header-search app-predictive-search'));
   }
 
-  getFullPath() {
+  fullPath() {
     return browser.getCurrentUrl();
   }
 

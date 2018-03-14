@@ -15,18 +15,24 @@ describe('eviction-maps Search', () => {
   });
 
   it('should display suggestions after text input', () => {
-    const searchInput = search.getSearchInputElement();
+    const searchInput = search.searchInputElement();
     searchInput.sendKeys('detr');
-    browser.wait(() => search.getTypeaheadContainer().isPresent(), 1100);
-    expect(search.getTypeaheadContainer().isPresent()).toBeTruthy();
+    browser.wait(() => search.typeaheadContainer().isPresent(), 1100);
+    expect(search.typeaheadContainer().isPresent()).toBeTruthy();
   });
 
   it('should add a location after selecting a result', () => {
-    const searchInput = search.getSearchInputElement();
+    search.searchLocation();
+    expect(search.locationCard().isPresent()).toBeTruthy();
+  });
+
+  it('should display a toast message if a location is not found', () => {
+    search.searchLocation('long island');
+    expect(search.toastElement().isPresent()).toBeTruthy();
+  });
+
+  it('should display a toast message if 3 locations are already selected', () => {
+    const searchInput = search.searchInputElement();
     searchInput.sendKeys('detr');
-    browser.wait(() => search.getFirstResult().isPresent(), 2000);
-    search.getFirstResult().click();
-    browser.wait(() => search.getLocationCard().isPresent(), 3000);
-    expect(search.getLocationCard().isPresent()).toBeTruthy();
   });
 });

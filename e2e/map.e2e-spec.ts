@@ -15,16 +15,16 @@ describe('eviction-maps Map', () => {
   });
 
   it('should open a dropdown on click', () => {
-    const dropdown = map.getSelectElement();
+    const dropdown = map.selectElement();
     dropdown.click();
     expect(element(by.css('ul.dropdown-menu')).isPresent()).toBeTruthy();
   });
 
   it('should display the slider on selecting a layer', () => {
-    expect(map.getSliderElement().isPresent()).toBeFalsy();
-    const dropdown = map.getSelectElement();
+    expect(map.sliderElement().isPresent()).toBeFalsy();
+    const dropdown = map.selectElement();
     dropdown.click();
     element(by.css('ul.dropdown-menu li:nth-child(3)')).click();
-    expect(map.getSliderElement().isPresent()).toBeTruthy();
+    expect(map.sliderElement().isPresent()).toBeTruthy();
   });
 });
