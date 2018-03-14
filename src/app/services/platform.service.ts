@@ -143,15 +143,18 @@ export class PlatformService {
   saveActiveElement() {
     if (this.nativeWindow && this.nativeWindow.document) {
       this._activeElement = this.nativeWindow.document.activeElement;
+      console.log('saved active element', this._activeElement);
     }
   }
 
   /**
    * Restore focus to the active element that was saved with `saveActiveElement`
    */
-  restoreActiveElement() {
-    if (this._activeElement) {
-      this._activeElement.focus();
+  restoreActiveElement(el?: any) {
+    if (!el) { el = this._activeElement; }
+    if (el) {
+      console.log('restoring active element', el);
+      el.focus();
       this._activeElement = null;
     }
   }
