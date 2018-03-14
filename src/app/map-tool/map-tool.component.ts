@@ -334,7 +334,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   private resetVhTransition() {
     this.map.el.nativeElement.style.transition = 'none';
-    this.map.el.nativeElement.style.height = this.map.el.nativeElement.offsetHeight;
+    this.map.el.nativeElement.style.height = '100vh';
     setTimeout(() => {
       this.map.el.nativeElement.style.height = null;
       setTimeout(() => this.map.el.nativeElement.style.transition = null);
