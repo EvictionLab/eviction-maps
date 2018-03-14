@@ -54,7 +54,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (!_isEqual(roundedVal, this._store.bounds) && val.length === 4) {
       this._store.bounds = roundedVal;
       if (this._mapInstance) {
-        this.map.zoomToBoundingBox(this._store.bounds);
+        this.mapService.zoomToBoundingBox(this._store.bounds);
       }
       this.boundingBoxChange.emit(this._store.bounds);
     }
@@ -226,7 +226,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   constructor(
     public el: ElementRef,
-    private map: MapService,
+    private mapService: MapService,
     private loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
@@ -252,10 +252,10 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.scrollZoom) {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
-    if (changes.activeFeatures && this.map.mapCreated) {
+    if (changes.activeFeatures && this.mapService.mapCreated) {
       const features = (changes.activeFeatures.currentValue ?
         changes.activeFeatures.currentValue : []);
-      this.map.updateHighlightFeatures(this.selectedLayer.id, features);
+      this.mapService.updateHighlightFeatures(this.selectedLayer.id, features);
     }
   }
 
@@ -290,36 +290,11 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
       this.layerOptions.forEach((group: MapLayerGroup) => {
-        this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
+        this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
       // Reset the hover layer
-      this.map.setSourceData('hover');
+      this.mapService.setSourceData('hover');
     }
-  }
-
-  /**
-   * Zoom to Point feature
-   * @param feature Point feature
-   * @param zoom Zoom level
-   */
-  zoomToPointFeature(feature: MapFeature, zoom = 14) {
-    this.map.zoomToPoint(feature, zoom);
-  }
-
-  /**
-   * Zoom to Polygon feature
-   * @param feature Polygon feature
-   */
-  zoomToFeature(feature: MapFeature) {
-    this.map.zoomToFeature(feature);
-  }
-
-  /**
-   * Zoom to bounding box
-   * @param bbox
-   */
-  zoomToBoundingBox(bbox: number[]) {
-    this.map.zoomToBoundingBox(bbox);
   }
 
   /**
@@ -329,22 +304,22 @@ export class MapComponent implements OnInit, OnChanges {
    */
   onMapReady(map) {
     this._mapInstance = map;
-    this.map.setMapInstance(map);
+    this.mapService.setMapInstance(map);
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
-    this.map.isLoading$
+    this.mapService.isLoading$
       .debounceTime(150)
       .distinctUntilChanged()
       .subscribe((state) => {
         this.mapLoading = state;
         // Whenever map finishes loading, update boundaries
         if (!this.mapLoading) {
-          this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+          this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
         }
       });
     if (this.boundingBox) {
-      this.map.zoomToBoundingBox(this.boundingBox);
+      this.mapService.zoomToBoundingBox(this.boundingBox);
       // Only toggle if autoSwitch is currently on
       if (this.autoSwitch) {
         this.autoSwitch = false; // needs to be off when navigating to a param location
@@ -363,30 +338,30 @@ export class MapComponent implements OnInit, OnChanges {
       this.autoSwitch = true;
     }
     if (this.autoSwitch) {
-      const visibleGroups = this.map.filterLayerGroupsByZoom(this.layerOptions, zoom);
+      const visibleGroups = this.mapService.filterLayerGroupsByZoom(this.layerOptions, zoom);
       if (visibleGroups.length > 0) {
         if (this.selectedLayer !== visibleGroups[0]) {
           this.selectedLayer = visibleGroups[0];
         }
       }
     }
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
-  enableZoom() { return this.map.enableZoom(); }
-  disableZoom() { return this.map.disableZoom(); }
+  enableZoom() { return this.mapService.enableZoom(); }
+  disableZoom() { return this.mapService.disableZoom(); }
 
   /**
    * Emits the new bounds of the current map view anytime the map finishes moving
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._store.bounds = this.map.getBoundsArray()
+    this._store.bounds = this.mapService.getBoundsArray()
       .reduce((a, b) => a.concat(b))
       .map(v => Math.round(v * 1000) / 1000);
     this.boundingBoxChange.emit(this._store.bounds);
     if (this.restoreAutoSwitch) { this.autoSwitch = true; }
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   /**
@@ -436,7 +411,7 @@ export class MapComponent implements OnInit, OnChanges {
     const censusYear = this.yearToCensusYear(this.year);
     if (this.censusYear !== censusYear) {
       this.censusYear = censusYear;
-      this.map.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
+      this.mapService.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
     }
   }
 
@@ -500,9 +475,11 @@ export class MapComponent implements OnInit, OnChanges {
           if (expression.length > 1) {
             expression[2][2][1] = bubble.id;
           }
-          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
-          this.map.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
-          this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
+          this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
+          this.mapService.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
+          this.mapService.setLayerDataProperty(
+            `${layerId}_bubbles`, 'circle-stroke-color', bubble.id
+          );
         });
       }
     }
@@ -524,8 +501,8 @@ export class MapComponent implements OnInit, OnChanges {
               'stops': (choropleth.stops[layerId] ?
                 choropleth.stops[layerId] : choropleth.stops['default'])
             };
-            this.map.setLayerStyle(layerId, 'fill-color', newFill);
-            this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
+            this.mapService.setLayerStyle(layerId, 'fill-color', newFill);
+            this.mapService.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
         });
       }
     }
@@ -538,7 +515,7 @@ export class MapComponent implements OnInit, OnChanges {
   private updateMapData() {
     this.updateMapBubbles();
     this.updateMapChoropleths();
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
 }

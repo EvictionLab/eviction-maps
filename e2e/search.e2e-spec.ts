@@ -15,18 +15,28 @@ describe('eviction-maps Search', () => {
   });
 
   it('should display suggestions after text input', () => {
-    const searchInput = search.getSearchInputElement();
+    const searchInput = search.searchInputElement();
     searchInput.sendKeys('detr');
-    browser.wait(() => search.getTypeaheadContainer().isPresent(), 1100);
-    expect(search.getTypeaheadContainer().isPresent()).toBeTruthy();
+    browser.wait(() => search.typeaheadContainer().isPresent(), 1100);
+    expect(search.typeaheadContainer().isPresent()).toBeTruthy();
   });
 
   it('should add a location after selecting a result', () => {
-    const searchInput = search.getSearchInputElement();
-    searchInput.sendKeys('detr');
-    browser.wait(() => search.getFirstResult().isPresent(), 2000);
-    search.getFirstResult().click();
-    browser.wait(() => search.getLocationCard().isPresent(), 3000);
-    expect(search.getLocationCard().isPresent()).toBeTruthy();
+    search.searchLocation();
+    expect(search.locationCard().isPresent()).toBeTruthy();
+  });
+
+  it('should display a toast message if a location is not found', () => {
+    search.searchLocation('long island');
+    expect(search.toastElement().isPresent()).toBeTruthy();
+  });
+
+  it('should display a toast message if 3 locations are already selected', () => {
+    search.searchLocation();
+    search.searchLocation('north dakota');
+    search.searchLocation('florida');
+    search.searchLocation('minnesota');
+    browser.sleep(1000);
+    expect(search.toastElement().isPresent()).toBeTruthy();
   });
 });

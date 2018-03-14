@@ -1,15 +1,15 @@
 import { browser, by, element } from 'protractor';
 
 export class Map {
-  getMapElement() {
+  mapElement() {
     return element(by.css('app-map'));
   }
 
-  getSelectElement(index = 1) {
+  selectElement(index = 1) {
     return element(by.css(`app-map app-ui-select:nth-of-type(${index})`));
   }
 
-  getSliderElement() {
+  sliderElement() {
     return element(by.css('app-map app-ui-slider'));
   }
 }
