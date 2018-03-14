@@ -143,7 +143,6 @@ export class PlatformService {
   saveActiveElement() {
     if (this.nativeWindow && this.nativeWindow.document) {
       this._activeElement = this.nativeWindow.document.activeElement;
-      console.log('saved active element', this._activeElement);
     }
   }
 
@@ -153,7 +152,6 @@ export class PlatformService {
   restoreActiveElement(el?: any) {
     if (!el) { el = this._activeElement; }
     if (el) {
-      console.log('restoring active element', el);
       el.focus();
       this._activeElement = null;
     }

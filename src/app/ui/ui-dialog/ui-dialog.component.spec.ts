@@ -7,6 +7,7 @@ import { UiDialogComponent } from './ui-dialog.component';
 import { UiModule } from '../ui.module';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ServicesModule } from '../../services/services.module';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -21,7 +22,7 @@ describe('UiDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, ModalModule.forRoot(), UiModule ],
+      imports: [ FormsModule, ModalModule.forRoot(), UiModule, ServicesModule.forRoot() ],
       declarations: [ ],
       providers: [
         BsModalService,
