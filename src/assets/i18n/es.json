@@ -98,6 +98,8 @@
     "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
     "NO_DATA_ERROR": "Could not find data for location.",
     "AUTO": "auto",
+    "UNSUPPORTED_TITLE": "Unsupported Browser",
+    "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
     "FEATURE_OVERVIEW_LABEL": "Show the map feature overview"
   },
   "NAV": {

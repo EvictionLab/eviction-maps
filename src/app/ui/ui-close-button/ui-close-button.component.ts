@@ -4,7 +4,8 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-ui-close-button',
   templateUrl: './ui-close-button.component.html',
-  styleUrls: ['./ui-close-button.component.scss']
+  styleUrls: ['./ui-close-button.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class UiCloseButtonComponent implements OnInit {
   @Input() label;

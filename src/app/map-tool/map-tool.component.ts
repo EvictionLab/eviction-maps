@@ -86,9 +86,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // Subscribe to language changes and store translated help content
     this.translate.onLangChange.takeUntil(this.ngUnsubscribe).subscribe(() => {
       this.updateRoute();
-      this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
-        .subscribe((res: string) => this.helpData = res);
     });
+    // Check device support for map once language has loaded
+    this.translate.getTranslation(this.translate.currentLang)
+      .take(1).subscribe(() => { this.checkSupport(); });
     // Reset VH transition only on width changes
     this.platform.dimensions$.distinctUntilChanged((prev, next) => {
       return prev.width === next.width;
@@ -116,6 +117,19 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   onResize(e) {
     this.panelOffset =
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+  }
+
+  /** Checks if the map features are supported (currently just WebGL) and shows a dialog if not */
+  checkSupport() {
+    if (!this.platform.hasWebGLSupport) {
+      const title = this.translatePipe.transform('MAP.UNSUPPORTED_TITLE');
+      const data = this.translatePipe.transform('MAP.UNSUPPORTED_MESSAGE');
+      return this.dialogService.showDialog({
+        title: title,
+        content: [{ type: 'html', data: data }],
+        buttons: { ok: true, cancel: false }
+      });
+    }
   }
 
   /**
@@ -151,17 +165,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Updates the map tool route */
   updateRoute() {
     this.routing.updateRouteData(this.mapToolService.getCurrentData());
-  }
-
-  /**
-   * Shows the help dialog with data loaded from i18n
-   */
-  showHelpDialog() {
-    return this.dialogService.showDialog({
-      title: this.helpData['HELP.TITLE'],
-      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }],
-      buttons: { ok: false, cancel: false }
-    });
   }
 
   onBubbleChange(bubble: any) {
