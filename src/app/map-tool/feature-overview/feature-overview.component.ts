@@ -1,16 +1,17 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { NgxCarousel } from 'ngx-carousel';
+import { AppDialog } from '../../ui/ui-dialog/ui-dialog.types';
 
 @Component({
   selector: 'app-feature-overview',
   templateUrl: './feature-overview.component.html',
   styleUrls: ['./feature-overview.component.scss']
 })
-export class FeatureOverviewComponent implements OnInit {
+export class FeatureOverviewComponent implements OnInit, AppDialog {
 
   carousel: NgxCarousel;
-  @Output() closed = new EventEmitter();
+  @Output() buttonClicked = new EventEmitter();
 
   constructor(public bsModalRef: BsModalRef) { }
 
@@ -30,8 +31,11 @@ export class FeatureOverviewComponent implements OnInit {
     };
   }
 
+  /** No config for this dialog */
+  setDialogConfig(config: any) {}
+
   onCancelClick(e) {
-    this.closed.emit();
+    this.buttonClicked.emit({ accepted: false });
     this.bsModalRef.hide();
   }
 

@@ -272,8 +272,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeatureOverview() {
-    return this.dialogService.showCustomDialog(
-      FeatureOverviewComponent, { class: 'feature-overview-dialog' }
+    return this.dialogService.showDialog(
+      { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
     );
   }
 

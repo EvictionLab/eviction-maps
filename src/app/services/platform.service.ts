@@ -21,6 +21,7 @@ export class PlatformService {
   viewportWidth: number;
   viewportHeight: number;
   dimensions$: Observable<{ width: number, height: number }>;
+  private _activeElement;
 
   get nativeWindow(): any {
     return _window();
@@ -134,6 +135,25 @@ export class PlatformService {
    */
   currentUrl() {
     return this.nativeWindow.location.href;
+  }
+
+  /**
+   * Store the currently active element so it can be restored later
+   */
+  saveActiveElement() {
+    if (this.nativeWindow && this.nativeWindow.document) {
+      this._activeElement = this.nativeWindow.document.activeElement;
+    }
+  }
+
+  /**
+   * Restore focus to the active element that was saved with `saveActiveElement`
+   */
+  restoreActiveElement() {
+    if (this._activeElement) {
+      this._activeElement.focus();
+      this._activeElement = null;
+    }
   }
 
   private updateDimensions(dim: { width: number, height: number }) {

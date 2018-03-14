@@ -5,6 +5,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
 import { ToastsManager } from 'ng2-toastr';
 import { FileExportService, ExportType } from './file-export.service';
+import { AppDialog } from '../../../ui/ui-dialog/ui-dialog.types';
 
 @Component({
   selector: 'app-download-form',
@@ -12,10 +13,10 @@ import { FileExportService, ExportType } from './file-export.service';
   styleUrls: ['./download-form.component.scss'],
   providers: [ FileExportService, TranslatePipe ]
 })
-export class DownloadFormComponent implements OnInit {
+export class DownloadFormComponent implements OnInit, AppDialog {
   filetypes: ExportType[];
   loading = false;
-  buttonClicked = new EventEmitter<string>();
+  buttonClicked: EventEmitter<any> = new EventEmitter<any>();
   exportDescription = 'DATA.EXPORT_ONE_FEATURE_DESCRIPTION';
   exportDescriptionParams = {};
 
@@ -33,7 +34,7 @@ export class DownloadFormComponent implements OnInit {
     this.filetypes = this.exportService.getFileTypes();
   }
 
-  setFormConfig(config: Object) {
+  setDialogConfig(config: Object) {
     this.exportService.setExportValues(config);
     const exportParams = {
       startYear: this.exportService.startYear,
@@ -59,7 +60,7 @@ export class DownloadFormComponent implements OnInit {
     this.loading = true;
     const filetypes = this.filetypes
       .filter(f => f.checked).map(f => f.value);
-    this.buttonClicked.emit(filetypes.join(','));
+    this.buttonClicked.emit({ accepted: true, filetypes: filetypes.join(',') });
     this.exportService.sendFileRequest(filetypes)
       .subscribe(res => {
         if (!res.hasOwnProperty('path')) {
@@ -81,6 +82,7 @@ export class DownloadFormComponent implements OnInit {
   }
 
   private dismiss(data) {
+    this.buttonClicked.emit({accepted: false });
     this.bsModalRef.hide();
   }
 
