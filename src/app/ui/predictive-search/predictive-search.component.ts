@@ -21,6 +21,7 @@ export class PredictiveSearchComponent implements OnInit {
   ariaOwns = 'results';
   ariaActiveDescendant: string;
   ariaExpanded = false;
+  inputId = 'input_' + Math.random().toString(36).substring(7);
   private typedValue: string;
   private selectedIndex = 0;
   private _enteredText;

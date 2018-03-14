@@ -124,7 +124,9 @@
     "SLIDE_4": "Scroll down the page to view the full data set for your selected locations",
     "SLIDE_5": "View bar and line graphs for your selected locations",
     "SLIDE_6": "Share your customized view on social media or generate a custom report",
-    "SLIDE_7": "For more help read the FAQ"
+    "SLIDE_7": "For more help read the FAQ",
+    "NEXT": "Next",
+    "PREV": "Previous"
   },
   "STATS": {
     "DEMOGRAPHICS": "Desglose Demográfico",
