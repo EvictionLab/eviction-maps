@@ -32,7 +32,11 @@ describe('eviction-maps Search', () => {
   });
 
   it('should display a toast message if 3 locations are already selected', () => {
-    const searchInput = search.searchInputElement();
-    searchInput.sendKeys('detr');
+    search.searchLocation();
+    search.searchLocation('north dakota');
+    search.searchLocation('florida');
+    search.searchLocation('minnesota');
+    browser.sleep(1000);
+    expect(search.toastElement().isPresent()).toBeTruthy();
   });
 });

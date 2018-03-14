@@ -208,7 +208,15 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onSearchSelect(searchData: any, updateMap = true) {
     const feature: MapFeature = searchData.feature;
+    const maxLocations = this.mapToolService.activeFeatures.length >= 3;
+
     if (feature) {
+      if (maxLocations) {
+        this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+        this.map.mapService.zoomToFeature(feature);
+        return;
+      }
+
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
       this.mapToolService.getSearchTileData(feature).subscribe(data => {
@@ -219,13 +227,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         }
         const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
         if (updateMap) {
-          if (feature.hasOwnProperty('bbox')) {
-            this.mapToolService.activeMapView = feature['bbox'];
-          } else {
-            this.map.zoomToPointFeature(feature);
-          }
+          this.map.mapService.zoomToFeature(feature);
           // Wait for map to be done loading, then set data layer
-          this.map.map.isLoading$.distinctUntilChanged()
+          this.map.mapService.isLoading$.distinctUntilChanged()
             .debounceTime(500)
             .filter(state => !state)
             .first()
@@ -244,11 +248,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const layerId = feature.properties['layerId'];
     const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
-    if (feature.hasOwnProperty('bbox')) {
-      this.map.zoomToBoundingBox(feature.bbox);
-    } else {
-      this.map.zoomToPointFeature(feature);
-    }
+    this.map.mapService.zoomToFeature(feature);
   }
 
   /**
