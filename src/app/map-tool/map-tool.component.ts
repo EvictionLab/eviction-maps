@@ -121,7 +121,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Checks if the map features are supported (currently just WebGL) and shows a dialog if not */
   checkSupport() {
-    if (!this.platform.hasWebGLSupport) {
+    if (!mapboxgl.supported()) {
       const title = this.translatePipe.transform('MAP.UNSUPPORTED_TITLE');
       const data = this.translatePipe.transform('MAP.UNSUPPORTED_MESSAGE');
       return this.dialogService.showDialog({
