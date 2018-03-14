@@ -136,10 +136,6 @@ export class PlatformService {
     return this.nativeWindow.location.href;
   }
 
-  isMapToolSupported() {
-
-  }
-
   private updateDimensions(dim: { width: number, height: number }) {
     this.viewportHeight = dim.height;
     this.viewportWidth = dim.width;
