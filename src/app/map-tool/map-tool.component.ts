@@ -258,13 +258,15 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.scroll.getVerticalOffset() > 0) {
       const topEl = this.document.getElementById('top');
       this.scroll.scrollTo('#top', { pageScrollOffset: topEl.offsetTop });
+      // set focus to map UI, but give it some time to scroll
+      setTimeout(() => { topEl.querySelector('button').focus(); }, 1000);
     }
   }
 
   /**
    * Triggers a scroll to the data panel
    */
-  goToDataPanel(feature) {
+  goToDataPanel(e) {
     // track event
     this.analytics.trackEvent('viewMoreData');
     // animate scroll to data panel
@@ -272,8 +274,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeatureOverview() {
-    return this.dialogService.showCustomDialog(
-      FeatureOverviewComponent, { class: 'feature-overview-dialog' }
+    return this.dialogService.showDialog(
+      { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
     );
   }
 

@@ -1,14 +1,14 @@
 import { Component, EventEmitter } from '@angular/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { DialogConfig, DialogContentItem, DialogResponse } from './ui-dialog.types';
+import { DialogConfig, DialogContentItem, DialogResponse, AppDialog } from './ui-dialog.types';
 
 @Component({
   selector: 'app-ui-dialog',
   templateUrl: './ui-dialog.component.html',
   styleUrls: [ './ui-dialog.component.scss' ]
 })
-export class UiDialogComponent {
+export class UiDialogComponent implements AppDialog {
 
   title: string;
   content: Array<DialogContentItem> = [

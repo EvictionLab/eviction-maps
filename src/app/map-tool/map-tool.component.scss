@@ -82,11 +82,6 @@
     &.inactive {
       pointer-events:none;
     }
-    .btn-map {
-      position:fixed;
-      top:grid(20);
-      bottom:auto;
-    }
   }
 }
 .btn-map, 

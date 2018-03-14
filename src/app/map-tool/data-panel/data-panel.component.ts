@@ -102,7 +102,7 @@ export class DataPanelComponent implements OnInit {
   }
 
   showDataSignupDialog(e) {
-    this.dialogService.showCustomDialog(DataSignupFormComponent);
+    this.dialogService.showDialog({}, DataSignupFormComponent);
   }
 
   showDownloadDialog(e) {
@@ -117,8 +117,8 @@ export class DataPanelComponent implements OnInit {
       showUsAverage: this.mapToolService.activeShowGraphAvg,
       usAverage: this.mapToolService.usAverage
     };
-    this.dialogService.showDownloadDialog(DownloadFormComponent, config)
-      .subscribe((d) => this.trackDownload(d));
+    this.dialogService.showDialog(config, DownloadFormComponent)
+      .subscribe((d) => { if (d.accepted) { this.trackDownload(d.filetypes); } });
   }
 
   /**

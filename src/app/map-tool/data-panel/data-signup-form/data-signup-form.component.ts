@@ -2,7 +2,7 @@ import { Component, EventEmitter, OnInit, ViewChild, ElementRef } from '@angular
 import { TranslatePipe } from '@ngx-translate/core';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
-import { DialogResponse } from '../../../ui/ui-dialog/ui-dialog.types';
+import { DialogResponse, AppDialog } from '../../../ui/ui-dialog/ui-dialog.types';
 import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
@@ -11,9 +11,10 @@ import { AnalyticsService } from '../../../services/analytics.service';
   styleUrls: ['./data-signup-form.component.scss'],
   providers: [ TranslatePipe ]
 })
-export class DataSignupFormComponent implements OnInit {
+export class DataSignupFormComponent implements OnInit, AppDialog {
 
   @ViewChild('form') formEl: ElementRef;
+  buttonClicked = new EventEmitter();
 
   constructor(
     public bsModalRef: BsModalRef,
@@ -24,6 +25,8 @@ export class DataSignupFormComponent implements OnInit {
     this.analytics.trackEvent('dataSubscribe', { subscribed: false });
   }
 
+  setDialogConfig(dialogConfig: any) {}
+
   onCancelClick(e) { this.dismiss({ accepted: false }); }
 
   /**
@@ -33,8 +36,12 @@ export class DataSignupFormComponent implements OnInit {
   formSubmit() {
     this.analytics.trackEvent('dataSubscribe', { subscribed: true });
     this.formEl.nativeElement.submit();
+    this.buttonClicked.emit({ accepted: true });
   }
 
-  private dismiss(data) { this.bsModalRef.hide(); }
+  private dismiss(data) {
+    this.bsModalRef.hide();
+    this.buttonClicked.emit({ accepted: false });
+  }
 
 }

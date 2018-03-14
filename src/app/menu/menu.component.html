@@ -32,7 +32,7 @@
   </ul>
   <ng-content></ng-content>
   <span class="menu-copyright">&copy; 2018 Eviction Lab</span>
-  <button [attr.tabindex]="expanded ? null : -1" class="btn btn-icon menu-close" (click)="onClose.emit()">
+  <button [attr.tabindex]="expanded ? null : -1" class="btn btn-icon menu-close" (click)="closeMenu()">
     <app-ui-icon icon="close"></app-ui-icon>
     <span>{{ 'NAV.CLOSE_MENU' | translate }}</span>
   </button>

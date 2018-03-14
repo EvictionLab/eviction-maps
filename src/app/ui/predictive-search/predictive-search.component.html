@@ -1,5 +1,6 @@
 <div class="search-container">
   <app-ui-icon icon="search" aria-hidden="true"></app-ui-icon>
+  <label [attr.for]="inputId" class="sr-only">{{ placeholder }}</label>
   <input [ngModel]="selected"
          (ngModelChange)="selectedTextChange($event)"
          [typeahead]="options || []" 
@@ -9,6 +10,7 @@
          (typeaheadOnBlur)="clearSelection($event)"
          [typeaheadWaitMs]="waitMs"
          [placeholder]="placeholder"
+         [attr.id]="inputId"
          [attr.aria-owns]="ariaOwns"
          [attr.aria-expanded]="ariaExpanded"
          [attr.aria-activedescendant]="ariaActiveDescendant"
