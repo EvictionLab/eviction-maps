@@ -18,17 +18,22 @@ const browserStackConfig = {
     'browserstack.debug': 'true'
   },
   multiCapabilities: [{
-    'browserName': 'Chrome'
+    'browserName': 'Chrome',
+    'resolution': '1440x900',
   }, {
     'browserName': 'Safari',
-    'browser_version': '10'
+    'browser_version': '10',
+    'resolution': '1440x900'
   }, {
-    'browserName': 'Firefox'
+    'browserName': 'Firefox',
+    'browserVersion': '57',
+    'resolution': '1440x900'
   }, {
     'browserName': 'IE',
     'browser_version': '11',
     'os': 'Windows',
-    'os_version': '10'
+    'os_version': '10',
+    'resolution': '1440x900'
   }],
   baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
