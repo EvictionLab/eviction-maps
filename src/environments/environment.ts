@@ -21,5 +21,15 @@ export const environment = {
   downloadBaseUrl: 'https://exports-dev.evictionlab.org',
   minYear: 2000,
   maxYear: 2016,
-  appVersion: version + '-dev'
+  appVersion: version + '-dev',
+  siteNav: [
+    { url: '/', langKey: 'NAV.HOME' },
+    { url: '/map', langKey: 'NAV.MAP' },
+    { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
+    { url: '/about-us', langKey: 'NAV.ABOUT' },
+    { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
+    { url: '/methods', langKey: 'NAV.METHODS' },
+    { url: '/help-faq', langKey: 'NAV.HELP' },
+    { url: '/updates', langKey: 'NAV.UPDATES' }
+  ]
 };

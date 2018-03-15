@@ -37,7 +37,7 @@
     <app-ranking-list *ngIf="areaType && dataProperty"
       [class]="'area-'+areaType.value"
       [list]="truncatedList"
-      [dataProperty]="dataProperty.value"
+      [dataProperty]="dataProperty"
       [maxValue]="dataMax"
       [selectedIndex]="selectedIndex"
       (locationSelected)="onClickLocation($event)"
@@ -45,10 +45,10 @@
   </div>
 </div>
 <div class="page-fixed-bottom" 
+  *ngIf="listData"
   [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)"
 >
   <app-ranking-panel
-    *ngIf="canRetrieveData && (selectedIndex || selectedIndex === 0)"
     [class]="'area-'+areaType.value"
     [topCount]="topCount"
     [rank]="selectedIndex+1"

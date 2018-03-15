@@ -56,7 +56,7 @@ app-ui-hint.legend-hint {
   }
 }
 
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .map-legend {
     .legend {
       left: grid(1);

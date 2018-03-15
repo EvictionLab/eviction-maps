@@ -53,7 +53,8 @@
     "SIGNUP_DESCRIPTION": "Enter your email address below to receive a link to raw eviction data for the Unites States.",
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
-    "SEND_DATA": "Send Data"
+    "SEND_DATA": "Send Data",
+    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select."
   },
   "HEADER": {
     "HOME": "Home",
@@ -64,15 +65,12 @@
     "EN": "English",
     "ES": "Spanish",
     "SEARCH_HINT": "Search for places",
-    "MAP_HINT": "Start Here"
+    "MAP_HINT": "Start Here",
+    "SEARCH_CLEAR": "Clear entered text"
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
     "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
-  },
-  "HELP": {
-    "TITLE": "Help",
-    "CONTENT": "Need help? Tap <b>SEARCH</b> to find a location. Tap <b>MAP</b> to look at eviction and census data. Tap on <b>MENU</b> and select <b>Help &amp; FAQ</b> from the list to find answers to specific qestions you may have."
   },
   "LAYERS": {
     "STATES": "States",
@@ -94,27 +92,36 @@
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
     "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
     "NO_DATA_ERROR": "Could not find data for location.",
-    "AUTO": "auto"
+    "AUTO": "auto",
+    "UNSUPPORTED_TITLE": "Unsupported Browser",
+    "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
+    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview"
   },
   "NAV": {
     "HOME": "Home",
     "MAP": "Map & Data",
     "RANKINGS": "Eviction Rankings",
     "ABOUT": "About Eviction Lab",
-    "PROBLEM": "The Problem",
-    "METHODS": "Our Methodology",
+    "PROBLEM": "Why Eviction Matters",
+    "METHODS": "Methods",
     "HELP": "Help & FAQ",
     "UPDATES": "Updates",
-    "CLOSE_MENU": "Close"
+    "FACEBOOK": "Eviction Lab on Facebook",
+    "TWITTER": "Eviction Lab on Twitter",
+    "GITHUB": "Eviction Lab on Github",
+    "CLOSE_MENU": "Close",
+    "SCROLL_TO_TOP": "Scroll to top"
   },
   "OVERVIEW": {
-    "SLIDE_1": "Select eviction and census data you want to view on the map",
-    "SLIDE_2": "View detailed information by searching or pressing on a location in the map",
-    "SLIDE_3": "View data for locations over several years",
-    "SLIDE_4": "Scroll down the page to view the full data set for your selected locations",
-    "SLIDE_5": "View bar and line graphs for your selected locations",
-    "SLIDE_6": "Share your customized view on social media or generate a custom report",
-    "SLIDE_7": "For more help read the FAQ"
+    "SLIDE_1": "Select eviction and census data you want to view on the map.",
+    "SLIDE_2": "View detailed information by searching or pressing on a location in the map.",
+    "SLIDE_3": "View data for locations over several years.",
+    "SLIDE_4": "Scroll down the page to view the full data set for your selected locations.",
+    "SLIDE_5": "View bar and line graphs for your selected locations.",
+    "SLIDE_6": "Share your customized view on social media or generate a custom report.",
+    "SLIDE_7": "For more help read the FAQ",
+    "NEXT": "Next",
+    "PREV": "Previous"
   },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
@@ -181,7 +188,10 @@
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
     "DATA_HINT": "Lorem ipsum",
     "AREA_HINT": "Lorem ipsum",
-    "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable."
+    "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable.",
+    "LOCATION_DESCRIPTION": "Rank {{rank}}: {{location}} with {{value}} {{dataType}}",
+    "NEXT_LOCATION": "Next",
+    "PREV_LOCATION": "Previous"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
@@ -191,6 +201,8 @@
     "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share a Link",
     "CONNECT": "Connect With Us",
-    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>"
+    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>",
+    "EMAIL_SIGNUP": "Sign up to receive news about events and new features from Eviction Lab.",
+    "EMAIL_SUBSCRIBE": "Subscribe"
   }
 }

@@ -114,8 +114,10 @@
   }
 }
 // increase page margin for toggle on tablet+
-:host-context(.gt-mobile) .graph-type-toggle {
-  right: $pageMarginLg;
+@media(min-width: $gtMobile) { 
+  .graph-type-toggle {
+    right: $pageMarginLg;
+  }
 }
 // graph style
 .graph-area { 
@@ -231,7 +233,7 @@
   }
 }
 
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .graph-header {
     height: grid(11);
     .graph-header-inner {
@@ -281,7 +283,7 @@
     }
   }
 }
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .graph-container {
     position:relative;
     padding-top: grid(11);
@@ -318,8 +320,8 @@
     }
   }
 }
-
-:host-context(.gt-laptop) {
+// boost legend margins on desktop+
+@media(min-width: $gtLaptop) {
   .graph-legend {
     padding-left: grid(5);
     padding-right: grid(5);

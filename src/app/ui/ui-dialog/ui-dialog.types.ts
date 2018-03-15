@@ -1,3 +1,5 @@
+import { EventEmitter } from '@angular/core';
+
 class DialogContentItem {
     type: string;
     data: any;
@@ -14,4 +16,9 @@ class DialogResponse {
     content?: Array<DialogContentItem>;
 }
 
-export { DialogConfig, DialogContentItem, DialogResponse };
+interface AppDialog {
+  buttonClicked: EventEmitter<any>;
+  setDialogConfig(config: any);
+}
+
+export { DialogConfig, DialogContentItem, DialogResponse, AppDialog };

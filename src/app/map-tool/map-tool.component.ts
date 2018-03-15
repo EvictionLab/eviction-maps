@@ -86,9 +86,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // Subscribe to language changes and store translated help content
     this.translate.onLangChange.takeUntil(this.ngUnsubscribe).subscribe(() => {
       this.updateRoute();
-      this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
-        .subscribe((res: string) => this.helpData = res);
     });
+    // Check device support for map once language has loaded
+    this.translate.getTranslation(this.translate.currentLang)
+      .take(1).subscribe(() => { this.checkSupport(); });
     // Reset VH transition only on width changes
     this.platform.dimensions$.distinctUntilChanged((prev, next) => {
       return prev.width === next.width;
@@ -118,6 +119,19 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
   }
 
+  /** Checks if the map features are supported (currently just WebGL) and shows a dialog if not */
+  checkSupport() {
+    if (!mapboxgl.supported()) {
+      const title = this.translatePipe.transform('MAP.UNSUPPORTED_TITLE');
+      const data = this.translatePipe.transform('MAP.UNSUPPORTED_MESSAGE');
+      return this.dialogService.showDialog({
+        title: title,
+        content: [{ type: 'html', data: data }],
+        buttons: { ok: true, cancel: false }
+      });
+    }
+  }
+
   /**
    * Accepts a clicked feature, queries tile data to get data across all years
    * @param feature returned from featureClick event
@@ -140,7 +154,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.analytics.trackEvent('locationSelection', selectEvent);
     // pull full data for the location
-    this.mapToolService.getTileData(feature['layer']['id'], featureLonLat, null, true)
+    this.mapToolService.getTileData(feature.properties['GEOID'] as string, featureLonLat, true)
       .subscribe(data => {
         this.mapToolService.updateLocation(data);
         this.updateRoute();
@@ -151,17 +165,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Updates the map tool route */
   updateRoute() {
     this.routing.updateRouteData(this.mapToolService.getCurrentData());
-  }
-
-  /**
-   * Shows the help dialog with data loaded from i18n
-   */
-  showHelpDialog() {
-    return this.dialogService.showDialog({
-      title: this.helpData['HELP.TITLE'],
-      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }],
-      buttons: { ok: false, cancel: false }
-    });
   }
 
   onBubbleChange(bubble: any) {
@@ -205,33 +208,35 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onSearchSelect(searchData: any, updateMap = true) {
     const feature: MapFeature = searchData.feature;
+    const maxLocations = this.mapToolService.activeFeatures.length >= 3;
+
     if (feature) {
+      if (maxLocations) {
+        this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+        this.map.mapService.zoomToFeature(feature);
+        return;
+      }
+
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
-      this.mapToolService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
-      ).subscribe(data => {
-          if (!data.properties.n) {
-            this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
-          } else {
-            this.mapToolService.addLocation(data);
-          }
-          const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
-          if (updateMap) {
-            if (feature.hasOwnProperty('bbox')) {
-              this.mapToolService.activeMapView = feature['bbox'];
-            } else {
-              this.map.zoomToPointFeature(feature);
-            }
-            // Wait for map to be done loading, then set data layer
-            this.map.map.isLoading$.distinctUntilChanged()
-              .debounceTime(500)
-              .filter(state => !state)
-              .first()
-              .subscribe((state) => this.map.setGroupVisibility(dataLevel));
-          }
-          this.loader.end('search');
-        });
+      this.mapToolService.getSearchTileData(feature).subscribe(data => {
+        if (!data.properties.n) {
+          this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+        } else {
+          this.mapToolService.addLocation(data);
+        }
+        const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
+        if (updateMap) {
+          this.map.mapService.zoomToFeature(feature);
+          // Wait for map to be done loading, then set data layer
+          this.map.mapService.isLoading$.distinctUntilChanged()
+            .debounceTime(500)
+            .filter(state => !state)
+            .first()
+            .subscribe((state) => this.map.setGroupVisibility(dataLevel));
+        }
+        this.loader.end('search');
+      });
     }
   }
 
@@ -243,11 +248,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const layerId = feature.properties['layerId'];
     const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
-    if (feature.hasOwnProperty('bbox')) {
-      this.map.zoomToBoundingBox(feature.bbox);
-    } else {
-      this.map.zoomToPointFeature(feature);
-    }
+    this.map.mapService.zoomToFeature(feature);
   }
 
   /**
@@ -257,13 +258,15 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.scroll.getVerticalOffset() > 0) {
       const topEl = this.document.getElementById('top');
       this.scroll.scrollTo('#top', { pageScrollOffset: topEl.offsetTop });
+      // set focus to map UI, but give it some time to scroll
+      setTimeout(() => { topEl.querySelector('button').focus(); }, 1000);
     }
   }
 
   /**
    * Triggers a scroll to the data panel
    */
-  goToDataPanel(feature) {
+  goToDataPanel(e) {
     // track event
     this.analytics.trackEvent('viewMoreData');
     // animate scroll to data panel
@@ -271,8 +274,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeatureOverview() {
-    return this.dialogService.showCustomDialog(
-      FeatureOverviewComponent, { class: 'feature-overview-dialog' }
+    return this.dialogService.showDialog(
+      { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
     );
   }
 

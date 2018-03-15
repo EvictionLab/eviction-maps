@@ -81,12 +81,13 @@ export class DataPanelComponent implements OnInit {
 
   /** Builds the array of card attributes from the array of data attributes */
   updateCardAttributes() {
-    const dividerIndex = 11; // index where the divider is inserted
-    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
     // put the props in the correct order
     const cardProps = this._dataAttributes
       .filter(d => typeof d.order === 'number')
       .sort((a, b) => a.order > b.order ? 1 : -1);
+    // index where the divider is inserted, right before "percent white" (pw)
+    const dividerIndex = cardProps.findIndex(p => p.id === 'pw');
+    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
     // add the divider
     this.cardAttributes = [
       ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
@@ -101,7 +102,7 @@ export class DataPanelComponent implements OnInit {
   }
 
   showDataSignupDialog(e) {
-    this.dialogService.showCustomDialog(DataSignupFormComponent);
+    this.dialogService.showDialog({}, DataSignupFormComponent);
   }
 
   showDownloadDialog(e) {
@@ -116,8 +117,8 @@ export class DataPanelComponent implements OnInit {
       showUsAverage: this.mapToolService.activeShowGraphAvg,
       usAverage: this.mapToolService.usAverage
     };
-    this.dialogService.showDownloadDialog(DownloadFormComponent, config)
-      .subscribe((d) => this.trackDownload(d));
+    this.dialogService.showDialog(config, DownloadFormComponent)
+      .subscribe((d) => { if (d.accepted) { this.trackDownload(d.filetypes); } });
   }
 
   /**

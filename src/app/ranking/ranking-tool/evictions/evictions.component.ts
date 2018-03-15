@@ -1,5 +1,6 @@
 import {
-  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef
+  Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef,
+  HostListener
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -16,6 +17,8 @@ import { LoadingService } from '../../../services/loading.service';
 import { PlatformService } from '../../../services/platform.service';
 import { AnalyticsService } from '../../../services/analytics.service';
 import { RankingUiComponent } from '../../ranking-ui/ranking-ui.component';
+import { RankingListComponent } from '../../ranking-list/ranking-list.component';
+import { RankingPanelComponent } from '../../ranking-panel/ranking-panel.component';
 
 
 @Component({
@@ -62,7 +65,20 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   get dataProperty() { return this.store.dataProperty; }
 
   /** the index of the selected location for the data panel */
-  @Input() selectedIndex: number;
+  @Input()
+  set selectedIndex(value: number) {
+    const panelOpened = this.store.selectedIndex === null;
+    this.store.selectedIndex = value;
+    // location exists in the current list, set active and scroll to it
+    if (value !== null && value < this.topCount) { this.scrollToIndex(value); }
+    // if the panel is newly opened, focus
+    if (panelOpened) { this.focusPanel(); }
+  }
+  get selectedIndex(): number { return this.store.selectedIndex; }
+  /** Reference to the ranking list component */
+  @ViewChild(RankingListComponent) rankingList: RankingListComponent;
+  /** Reference to the ranking panel component */
+  @ViewChild(RankingPanelComponent) rankingPanel: RankingPanelComponent;
   /** tracks if the data has been loaded and parsed */
   isDataReady = false;
   /** A shortened version of `listData`, containing only the first `topCount` items */
@@ -82,7 +98,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private store = {
     region: 'United States',
     areaType: this.rankings.areaTypes[0],
-    dataProperty: this.rankings.sortProps[0]
+    dataProperty: this.rankings.sortProps[0],
+    selectedIndex: null
   };
   /** returns if all of the required params are set to be able to fetch data */
   get canRetrieveData(): boolean {
@@ -115,6 +132,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
   }
 
+  /** subscribe to when the rankings data is ready, show loading */
   ngOnInit() {
     this.loader.start('evictions');
     this.rankings.isReady.takeUntil(this.destroy)
@@ -127,91 +145,98 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  /** load data once the view has been initialized */
   ngAfterViewInit() {
     this.rankings.loadEvictionsData();
   }
 
+  /** clear any subscriptions on destroy */
   ngOnDestroy() {
     this.rankings.setReady(false);
     this.destroy.next();
     this.destroy.complete();
   }
 
+  /** Move to previous or next location with arrows, hide panel with escape */
+  @HostListener('keydown', ['$event']) onKeypress(e) {
+    if (this.selectedIndex === null) { return; }
+    if ((e.keyCode === 37 || e.keyCode === 39)) {
+      // left or right
+      const newValue = (e.keyCode === 37) ? this.selectedIndex - 1 : this.selectedIndex + 1;
+      this.setCurrentLocation(Math.min(Math.max(0, newValue), this.topCount));
+    }
+    if (e.keyCode === 27) {
+      // escape
+      this.onClose();
+      e.preventDefault();
+    }
+  }
+
+  /** Updates one of the query parameters and updates the route */
+  updateQueryParam(paramName: string, value: any) {
+    if (!this.canNavigate) { return; }
+    if (paramName === 'region' || paramName === 'areaType' || paramName === 'dataProperty') {
+      this.selectedIndex = null;
+    }
+    const params = this.getQueryParams();
+    params[paramName] = value;
+    this.router.navigate([ '/', 'evictions' ], { queryParams: params });
+  }
+
   /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
-    if (this.canNavigate) {
-      if (newRegion !== this.region) { this.selectedIndex = null; }
-      const params = this.getQueryParams();
-      params['region'] = newRegion;
-      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
-    }
+    if (newRegion === this.region) { return; }
+    this.updateQueryParam('region', newRegion);
   }
 
   /** Update the route when the area type changes */
   onAreaTypeChange(areaType: { name: string, value: number }) {
-    if (this.canNavigate) {
-      if (this.areaType !== null && areaType.value !== this.areaType.value) {
-        this.selectedIndex = null;
-      }
-      const params = this.getQueryParams();
-      params['areaType'] = areaType.value;
-      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
-    }
+    if (this.areaType && areaType.value === this.areaType.value) { return; }
+    this.updateQueryParam('areaType', areaType.value);
   }
 
   /** Update the sort property when the area type changes */
   onDataPropertyChange(dataProp: { name: string, value: string }) {
-    if (this.canNavigate) {
-      if (this.dataProperty !== null && dataProp.value !== this.dataProperty.value) {
-        this.selectedIndex = null;
-      }
-      const params = this.getQueryParams();
-      params['dataProperty'] = dataProp.value;
-      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
-    }
+    if (this.dataProperty && dataProp.value === this.dataProperty.value) { return; }
+    this.updateQueryParam('dataProperty', dataProp.value);
   }
 
-  /** Update current location */
+  /** Update current location, shows toast if data unavailable */
   setCurrentLocation(locationIndex: number) {
-    if (this.canNavigate) {
-      const params = this.getQueryParams();
-      if (locationIndex || locationIndex === 0) {
-        params['selectedIndex'] = locationIndex;
-      } else {
-        params['selectedIndex'] = null;
-      }
-      this.router.navigate(this.getCurrentNavArray(), { queryParams: params });
-    }
-  }
-
-  onSearchSelectLocation(location: RankingLocation | null) {
-    if (location === null) {
-      this.setCurrentLocation(null);
+    if (this.selectedIndex === locationIndex) { return; }
+    if (this.listData[locationIndex][this.dataProperty.value] < 0) {
+      this.showUnavailableToast();
       return;
     }
+    const value = (locationIndex || locationIndex === 0) ? locationIndex : null;
+    this.updateQueryParam('selectedIndex', value);
+  }
+
+  /**
+   * Scrolls to the searched location if it exists in the list
+   * or switches to the corresponding area type for the location and activates
+   * the location
+   * @param location
+   */
+  onSearchSelectLocation(location: RankingLocation | null) {
+    if (location === null) { return this.setCurrentLocation(null); }
     this.showUiPanel = false;
-    const listIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
-    let selectedIndex = -1;
+    let listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
     if (listIndex > -1) {
-      selectedIndex = listIndex;
+      this.setCurrentLocation(listIndex);
     } else {
+      // location doesn't exist in the list, update to full list and find the location
       this.region = 'United States';
       this.areaType = this.rankings.areaTypes.filter(t => t.value === location.areaType)[0];
       this.updateEvictionList();
-      selectedIndex = this.listData.map(d => d.geoId).indexOf(location.geoId);
+      listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
+      this.setCurrentLocation(listIndex);
     }
-    if (selectedIndex < this.topCount) {
-      this.scroll.scrollTo(`.ranking-list > li:nth-child(${selectedIndex + 1})`);
-    }
-    this.setCurrentLocation(selectedIndex);
   }
 
+  /** handles the click on a specific location */
   onClickLocation(index: number) {
-    if (this.listData[index][this.dataProperty.value] < 0) {
-      this.showUnavailableToast();
-    } else {
-      this.setCurrentLocation(index);
-    }
+    this.setCurrentLocation(index);
   }
 
   /** Switch the selected location to the next one in the list */
@@ -230,6 +255,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** Removes currently selected index on closing the panel */
   onClose() {
+    this.scrollToIndex(this.selectedIndex, true);
     this.setCurrentLocation(null);
   }
 
@@ -238,12 +264,17 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param rank Rank of location
    */
   onPanelLocationClick(rank: number) {
-    const query = `.ranking-list > li:nth-child(${rank})`;
-    if (rank <= this.topCount && this.document.querySelector(query)) {
-      this.scroll.scrollTo(query);
-    }
+    this.scrollToIndex(rank - 1);
   }
 
+  /** Updates Twitter text for city rankings based on selections */
+  getTweet() {
+    if (!this.canNavigate || !this.listData) { return ''; }
+    return this.isDefaultSelection() ? this.getDefaultTweet() :
+      (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
+  }
+
+  /** Shows a toast message indicating the data is not available */
   private showUnavailableToast() {
     this.toast.error(
       this.translatePipe.transform('RANKINGS.LOCATION_DATA_UNAVAILABLE'),
@@ -252,6 +283,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
+  /** gets the query parameters for the current view */
   private getQueryParams() {
     // this.selectedIndex
     const params = {
@@ -363,14 +395,27 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /**
-   * Updates Twitter text for city rankings
-   */
-  getTweet() {
-    if (!this.canNavigate || !this.listData) { return ''; }
-    return this.isDefaultSelection() ? this.getDefaultTweet() :
-      (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
+  /** Sets the focus on the first button in the rankings panel */
+  private focusPanel() {
+    if (!this.rankingPanel || !this.rankingPanel.el) { return; }
+    // use a timeout, the buttons are not immediately available
+    setTimeout(() => {
+      const buttons = this.rankingPanel.el.nativeElement.getElementsByTagName('button');
+      if (buttons.length) {
+        buttons[0].focus();
+      }
+    }, 500);
+  }
 
+  /** Scrolls to an item in the list and optionally sets focus */
+  private scrollToIndex(index: number, focus = false) {
+    if (!this.rankingList || !this.rankingList.el) { return; }
+    // set focus back to the list item
+    const listItems = this.rankingList.el.nativeElement.getElementsByTagName('button');
+    if (listItems.length > index) {
+      this.scroll.scrollTo(listItems[index]);
+      if (focus) { listItems[index].focus(); }
+    }
   }
 
   /** Returns true if the data property is eviction judgements */
@@ -394,14 +439,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.dataProperty.value.endsWith('Rate');
   }
 
-  private getCurrentNavArray() {
-    const routeArray =  [
-      '/',
-      'evictions'
-    ];
-    return routeArray;
-  }
-
     /**
    * Update the list data based on the selected UI properties
    */
@@ -418,7 +455,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       );
       this.changeDetectorRef.detectChanges();
-      console.log('got list data:', this.listData, this.truncatedList, this.dataMax);
     } else {
       console.warn('data is not ready yet');
     }

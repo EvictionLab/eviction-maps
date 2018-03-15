@@ -66,6 +66,7 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
   switchTab(id: string) {
     this.router.navigate([ '/', id]);
+    return false;
   }
 
   /**
@@ -102,6 +103,14 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
   scrollToTop() {
     this.scroll.scrollTo(this.contentEl.nativeElement);
+    // set focus to an element at the top of the page for keyboard nav
+    const focusableEl = this.contentEl.nativeElement.querySelector('app-ranking-list button');
+    setTimeout(() => {
+      if (focusableEl.length) {
+        focusableEl[0].focus();
+        focusableEl[0].blur();
+      }
+    }, this.scroll.defaultDuration);
   }
 
 
