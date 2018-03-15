@@ -2,7 +2,7 @@
   Something about the production deployment is causing SVG linear gradients to fail on iOS browsers.
   This replaces the fill of any element using a linear gradient with a flat color.
 */
-.ios {
+.ios, .safari {
   .fallback-gradient { fill: $color1 !important; }
   .app-graph {
     .bar-0 { fill: $color1 !important; }
