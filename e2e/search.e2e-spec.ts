@@ -12,6 +12,7 @@ describe('eviction-maps Search', () => {
     page = new AppPage();
     search = new Search();
     page.navigateTo();
+    browser.driver.manage().window().maximize();
   });
 
   it('should display suggestions after text input', () => {
