@@ -39,8 +39,8 @@ export class UiMapLegendComponent implements OnChanges {
     this.hintData = {
       geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
       attribute: this.choropleth['name'].toLowerCase(),
-      min: this.formatType(this.stops[1][0]),
-      max: this.formatType(this.stops[this.stops.length - 1][0])
+      min: this.formatType(this.stops[2]),
+      max: this.formatType(this.stops[this.stops.length - 2])
     };
   }
 
@@ -48,7 +48,7 @@ export class UiMapLegendComponent implements OnChanges {
   setLegendGradient() {
     if (this.stops && this.stops.length) {
       this.legendGradient = this.sanitizer.bypassSecurityTrustStyle(`linear-gradient(
-          to right, ${this.stops[1][1]}, ${this.stops[this.stops.length - 1][1]}
+          to right, ${this.stops[3]}, ${this.stops[this.stops.length - 1]}
       )`);
     } else {
       this.legendGradient = null;
