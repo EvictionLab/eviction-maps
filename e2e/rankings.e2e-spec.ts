@@ -15,7 +15,7 @@ describe('eviction-maps Rankings', () => {
     browser.wait(ExpectedConditions.presenceOf(rankings.rankingsListElement()), 10000);
   });
 
-  it('should display the list but not the ranking?s panel on load', () => {
+  it('should display the list but not the rankings panel on load', () => {
     expect(rankings.rankingsListElement().isPresent()).toBeTruthy();
     expect(rankings.rankingsPanelContent().isPresent()).toBeFalsy();
   });
@@ -23,6 +23,13 @@ describe('eviction-maps Rankings', () => {
   it('should display the rankings panel on selecting a location', () => {
     rankings.selectLocation();
     expect(rankings.rankingsPanelContent().isPresent()).toBeTruthy();
+  });
+
+  it('should close the rankings panel on clicking the close button', () => {
+    rankings.selectLocation();
+    browser.sleep(1000);
+    rankings.closePanelButton().click();
+    expect(rankings.rankingsPanelContent().isPresent()).toBeFalsy();
   });
 
   it('should give focus to the close button on initially selecting a location', () => {
