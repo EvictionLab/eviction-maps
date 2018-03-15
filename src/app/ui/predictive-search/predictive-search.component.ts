@@ -1,6 +1,7 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener
 } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
 import { NgModel } from '@angular/forms';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
@@ -16,6 +17,7 @@ export class PredictiveSearchComponent implements OnInit {
   @Input() optionsLimit = 5;
   @Input() waitMs = 500;
   @Input() placeholder;
+  @Output() initialInput = new EventEmitter();
   @Output() selectedChange = new EventEmitter();
   @Output() selectionChange: EventEmitter<Object> = new EventEmitter<Object>();
   ariaOwns = 'results';
@@ -128,8 +130,17 @@ export class PredictiveSearchComponent implements OnInit {
       selection: selection ? selection.item : selection,
       queryTerm: this.typedValue
     });
-    // clear the selection after selected and emitted
+    // clear the selection after selected and emitted, reset input listener
     this.selected = null;
+    this.setupInputListener();
+  }
+
+  /**
+   * Take the first keydown event after setup and emit an input event
+   */
+  setupInputListener() {
+    Observable.fromEvent(this.el.nativeElement, 'keydown')
+      .take(1).subscribe(() => this.initialInput.emit());
   }
 
   /**

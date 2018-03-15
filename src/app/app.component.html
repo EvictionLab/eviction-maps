@@ -6,6 +6,7 @@
   [languageOptions]="languageOptions"
   (activeMenuItemChange)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
+  (initialInput)="onInitialSearchInput()"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
 <app-menu class="app-menu" tabindex="-1" 
