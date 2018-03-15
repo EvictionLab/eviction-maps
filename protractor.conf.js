@@ -19,21 +19,21 @@ const browserStackConfig = {
   },
   multiCapabilities: [{
     'browserName': 'Chrome',
-    'resolution': '1440x900',
+    'resolution': '1600x1200'
   }, {
     'browserName': 'Safari',
     'browser_version': '10',
-    'resolution': '1440x900'
+    'resolution': '1600x1200'
   }, {
     'browserName': 'Firefox',
-    'browserVersion': '57',
-    'resolution': '1440x900'
+    'browserVersion': '56.0',
+    'resolution': '1600x1200'
   }, {
     'browserName': 'IE',
     'browser_version': '11',
     'os': 'Windows',
     'os_version': '10',
-    'resolution': '1440x900'
+    'resolution': '1600x1200'
   }],
   baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
