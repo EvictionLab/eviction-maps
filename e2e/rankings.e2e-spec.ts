@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 import { Rankings } from './rankings.po';
-import { browser, element, by } from 'protractor';
+import { browser, element, by, ExpectedConditions } from 'protractor';
 
 browser.waitForAngularEnabled(false);
 
@@ -12,10 +12,10 @@ describe('eviction-maps Rankings', () => {
     page = new AppPage();
     rankings = new Rankings();
     page.navigateTo('/#/evictions');
-    browser.sleep(2000);
+    browser.wait(ExpectedConditions.presenceOf(rankings.rankingsListElement()), 10000);
   });
 
-  it('should display the list but not the rankings panel on load', () => {
+  it('should display the list but not the ranking?s panel on load', () => {
     expect(rankings.rankingsListElement().isPresent()).toBeTruthy();
     expect(rankings.rankingsPanelContent().isPresent()).toBeFalsy();
   });
@@ -48,5 +48,46 @@ describe('eviction-maps Rankings', () => {
   it('should display the ranking panel on search select', () => {
     rankings.searchRankings();
     expect(rankings.rankingsPanelContent().isPresent()).toBeTruthy();
+  });
+
+  it('should show a toast and not update when trying to search for a location without data', () => {
+    page.scrollToPosition(100);
+    rankings.searchRankings('springdale, ar', 1);
+    browser.sleep(1000);
+    expect(page.toastElement().isPresent()).toBeTruthy();
+    expect(rankings.rankingsPanelContent().isPresent()).toBeFalsy();
+  });
+
+  it('should show a toast and not update when trying to select a location without data', () => {
+    page.scrollToPosition(200);
+    browser.sleep(500);
+    rankings.updateFilter(rankings.regionFilterSelect(), 5);
+    rankings.updateFilter(rankings.areaFilterSelect(), 2);
+    browser.sleep(500);
+    rankings.selectLocation(3);
+    rankings.selectLocation(10);
+    rankings.selectLocation(15);
+    const locationText = rankings.rankingsPanelLocationName().getText();
+    browser.sleep(1000);
+    rankings.selectLocation(21);
+    browser.sleep(500);
+    expect(page.toastElement().isPresent()).toBeTruthy();
+    expect(rankings.rankingsPanelLocationName().getText()).toBe(locationText);
+  });
+
+  it('should show a toast and not update when clicking next to a location without data', () => {
+    page.scrollToPosition(200);
+    browser.sleep(500);
+    rankings.updateFilter(rankings.regionFilterSelect(), 5);
+    rankings.updateFilter(rankings.areaFilterSelect(), 2);
+    rankings.selectLocation(3);
+    rankings.selectLocation(10);
+    rankings.selectLocation(15);
+    rankings.selectLocation(20);
+    browser.sleep(1000);
+    const locationText = rankings.rankingsPanelLocationName().getText();
+    rankings.rankingsPanelNextButton().click();
+    expect(page.toastElement().isPresent()).toBeTruthy();
+    expect(rankings.rankingsPanelLocationName().getText()).toBe(locationText);
   });
 });

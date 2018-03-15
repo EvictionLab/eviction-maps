@@ -28,13 +28,14 @@ describe('eviction-maps DataPanel', () => {
     expect(dataPanel.panelCards().isDisplayed()).toBeTruthy();
     browser.sleep(1000);
     dataPanel.clickViewMore();
-    browser.sleep(1000);
+    browser.sleep(2000);
     expect(browser.executeScript('return window.scrollY;').then(v => +v)).toBeGreaterThan(0);
   });
 
   it('should hide the data panel when all locations are removed', () => {
     dataPanel.selectLocation();
     expect(dataPanel.panelCards().isDisplayed()).toBeTruthy();
+    browser.sleep(1000);
     dataPanel.clickViewMore();
     browser.sleep(2000);
     dataPanel.removeLocation();

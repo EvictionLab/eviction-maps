@@ -28,7 +28,7 @@ describe('eviction-maps Search', () => {
 
   it('should display a toast message if a location is not found', () => {
     search.searchLocation('long island');
-    expect(search.toastElement().isPresent()).toBeTruthy();
+    expect(page.toastElement().isPresent()).toBeTruthy();
   });
 
   it('should display a toast message if 3 locations are already selected', () => {
@@ -37,6 +37,6 @@ describe('eviction-maps Search', () => {
     search.searchLocation('florida');
     search.searchLocation('minnesota');
     browser.sleep(1000);
-    expect(search.toastElement().isPresent()).toBeTruthy();
+    expect(page.toastElement().isPresent()).toBeTruthy();
   });
 });

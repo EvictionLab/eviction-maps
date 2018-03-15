@@ -17,10 +17,6 @@ export class Search {
     return element(by.css('.map-ui-wrapper app-location-cards .card'));
   }
 
-  toastElement() {
-    return element(by.css('#toast-container .toast'));
-  }
-
   searchLocation(searchText = 'detr') {
     const searchInput = this.searchInputElement();
     searchInput.sendKeys(searchText);

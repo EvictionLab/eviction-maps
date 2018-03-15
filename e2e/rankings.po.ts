@@ -14,7 +14,7 @@ export class Rankings {
   }
 
   rankingsListElement() {
-    return element(by.css('app-ranking-list'));
+    return element(by.css('ul.ranking-list'));
   }
 
   closePanelButton() {
@@ -23,6 +23,14 @@ export class Rankings {
 
   rankingsPanelContent() {
     return this.rankingsPanelElement().element(by.css('.content-inner'));
+  }
+
+  rankingsPanelLocationName() {
+    return this.rankingsPanelContent().element(by.css('h2.rank-location'));
+  }
+
+  rankingsPanelNextButton() {
+    return this.rankingsPanelContent().element(by.css('button.panel-next'));
   }
 
   searchInputElement() {
@@ -34,7 +42,7 @@ export class Rankings {
   }
 
   searchResult(index = 2) {
-    return this.typeaheadContainer().element(by.css(`li:nth-child(${index}`));
+    return this.typeaheadContainer().element(by.css(`li:nth-of-type(${index})`));
   }
 
   regionFilterSelect() {
@@ -55,18 +63,18 @@ export class Rankings {
 
   updateFilter(el, index = 1) {
     el.click();
-    el.element(by.css(`.dropdown-menu li:nth-child(${index})`)).click();
+    el.element(by.css(`.dropdown-menu li:nth-of-type(${index})`)).click();
   }
 
-  searchRankings(searchText = 'detr') {
+  searchRankings(searchText = 'detr', index = 2) {
     const searchInput = this.searchInputElement();
     searchInput.sendKeys(searchText);
-    browser.wait(() => this.searchResult().isPresent(), 2000);
-    this.searchResult().click();
+    browser.wait(() => this.searchResult(index).isPresent(), 3000);
+    this.searchResult(index).click();
   }
 
   selectLocation(index = 1) {
-    const loc = element(by.css(`app-ranking-list li:nth-child(${index})`));
+    const loc = element(by.css(`app-ranking-list li:nth-of-type(${index})`));
     loc.click();
     return loc;
   }
