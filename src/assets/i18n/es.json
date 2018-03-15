@@ -65,11 +65,8 @@
     "EN": "Inglés",
     "ES": "Español",
     "SEARCH_HINT": "Buscar lugares",
-    "MAP_HINT": "Empiece aquí"
-  },
-  "HELP": {
-    "TITLE": "Ayuda",
-    "CONTENT": "¿Necesita ayuda? Pulse \"BUSCAR\" para encontrar un lugar. Pulse \"MAPA\" para ver los datos de desalojo. Pulse \"MENU\" para más ayuda."
+    "MAP_HINT": "Empiece aquí",
+    "SEARCH_CLEAR": "Clear entered text"
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
@@ -136,7 +133,6 @@
     "FILINGS": "Presentaciones",
     "POVERTY_RATE": "Tasa de Pobreza",
     "POPULATION": "Población",
-    "AVG_HOUSEHOLD": "Average Household Size",
     "RENTER_HOMES": "Casas Ocupadas por Inquilinos",
     "PCT_RENTER": "% Casas Ocupadas por Inquilinos",
     "MED_RENT": "Renta Bruta Mediana",
