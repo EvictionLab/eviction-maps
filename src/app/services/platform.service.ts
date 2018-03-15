@@ -76,6 +76,11 @@ export class PlatformService {
     return this.viewportWidth > breakpoints['largeDesktop'];
   }
 
+  /** Returns true if browser is Safari */
+  get isSafari(): boolean {
+    return this.userAgent.includes('safari');
+  }
+
   /** Returns true if device is iOS */
   get isIos(): boolean {
     return this.userAgent.includes('iphone') || this.userAgent.includes('ipad');

@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
   @HostBinding('class.ios') ios = false;
+  @HostBinding('class.safari') safari = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
@@ -85,6 +86,7 @@ export class AppComponent implements OnInit {
     });
     // Add user agent-specific classes
     this.ios = this.platform.isIos;
+    this.safari = this.platform.isSafari;
     this.iosSafari = this.platform.isIosSafari;
     this.android = this.platform.isAndroid;
   }
