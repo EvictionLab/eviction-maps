@@ -3,5 +3,6 @@
   [options]="results"
   [placeholder]="placeholder"
   optionField="properties.label"
+  (initialInput)="initialInput.emit($event)"
   (selectionChange)="onSearchSelect($event)">
 </app-predictive-search>

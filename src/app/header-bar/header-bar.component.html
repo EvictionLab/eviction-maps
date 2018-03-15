@@ -11,6 +11,7 @@
         class="search"
         [placeholder]="'HEADER.SEARCH_HINT' | translate"
         (locationSelected)="selectLocation.emit($event)"
+        (initialInput)="initialInput.emit($event)"
       ></app-location-search>
     </div>
     <app-ui-select 
