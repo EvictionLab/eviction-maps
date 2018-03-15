@@ -201,9 +201,13 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateQueryParam('dataProperty', dataProp.value);
   }
 
-  /** Update current location */
+  /** Update current location, shows toast if data unavailable */
   setCurrentLocation(locationIndex: number) {
     if (this.selectedIndex === locationIndex) { return; }
+    if (this.listData[locationIndex][this.dataProperty.value] < 0) {
+      this.showUnavailableToast();
+      return;
+    }
     const value = (locationIndex || locationIndex === 0) ? locationIndex : null;
     this.updateQueryParam('selectedIndex', value);
   }
@@ -230,13 +234,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /** handles the click on a specific location, shows a toast message if data is unavailable */
+  /** handles the click on a specific location */
   onClickLocation(index: number) {
-    if (this.listData[index][this.dataProperty.value] < 0) {
-      this.showUnavailableToast();
-    } else {
-      this.setCurrentLocation(index);
-    }
+    this.setCurrentLocation(index);
   }
 
   /** Switch the selected location to the next one in the list */

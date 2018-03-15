@@ -574,7 +574,7 @@ export class MapToolService {
     }
     switch (layerId) {
       case 'states':
-        return 4;
+        return 2;
       case 'counties':
         return 7;
       case 'cities':
