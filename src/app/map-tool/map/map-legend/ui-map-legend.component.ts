@@ -1,10 +1,12 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-ui-map-legend',
   templateUrl: './ui-map-legend.component.html',
-  styleUrls: ['./ui-map-legend.component.scss']
+  styleUrls: ['./ui-map-legend.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class UiMapLegendComponent implements OnChanges {
   /** Current `MapDataAttribute` being shown for choropleths */
@@ -21,7 +23,7 @@ export class UiMapLegendComponent implements OnChanges {
   hintData;
   legendGradient;
 
-  constructor(private sanitizer: DomSanitizer) { }
+  constructor(private sanitizer: DomSanitizer, private translatePipe: TranslatePipe) {}
 
   /** Set the hint data and gradient when inputs change */
   ngOnChanges(changes: SimpleChanges) {
@@ -33,15 +35,15 @@ export class UiMapLegendComponent implements OnChanges {
     }
   }
 
-  /** Sets the data required for the tooltip hint */
+  /** Sets the tooltip hint */
   setHintData() {
     if (!this.choropleth.name || !this.layer.name) { return; }
-    this.hintData = {
+    this.hintData = this.translatePipe.transform('MAP.LEGEND_HINT', {
       geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
       attribute: this.choropleth['name'].toLowerCase(),
       min: this.formatType(this.stops[1][0]),
       max: this.formatType(this.stops[this.stops.length - 1][0])
-    };
+    });
   }
 
   /** Sets the CSS background gradient for the legend */
