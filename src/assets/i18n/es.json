@@ -91,6 +91,7 @@
     "LAYER_SELECT": "Nivel del Mapa",
     "ZOOM_HINT": "Agrandar para ver más",
     "LEGEND_HINT": "{{geography}} = {{attribute}}, {{min}} - {{max}}.",
+    "LEGEND_NA": "N/A",
     "DATA_LINK_SINGLE": "Ver más datos",
     "DATA_LINK_MULTIPLE": "Ver comparación completa",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
