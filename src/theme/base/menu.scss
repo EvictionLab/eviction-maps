@@ -11,7 +11,7 @@ $menuMargin: grid(5);
   transform: translate3d(($menuWidth+5px),0,0); // translate a little extra so shadow doesn't show
   z-index:999;
   background: $menuBg;
-  padding: 0 $menuMargin; // 40px margin on menu
+  padding: 0 $pageMarginLg; // large margin on menu
   display:block;
   transition: transform 0.4s ease;
   box-shadow: $menuShadow;
@@ -105,13 +105,17 @@ $menuMargin: grid(5);
   display: block;
   position:absolute;
   width: grid(27);
-  left: $menuMargin;
+  left: $pageMarginLg;
   bottom: grid(15);
   .el-select .dropdown-toggle.btn {
     background: none!important;
     color: $white!important;
     border: 4px solid $white;
-    border-radius: 2px;
+    border-radius: 0;
+    text-align: left;
+    .dropdown-value {
+      @include altSmallCapsText(13px);
+    }
   }
 }
 @media(min-width: $gtMobile) {
@@ -127,7 +131,7 @@ $menuMargin: grid(5);
   position:absolute;
   bottom:0;
   left:0;
-  padding: 0 0 $menuMargin $menuMargin;
+  padding: 0 0 $pageMarginLg $pageMarginLg;
   list-style: none;
   margin:0;
   display:flex;
@@ -158,8 +162,8 @@ $menuMargin: grid(5);
 // ---
 .menu-copyright {
   position:absolute;
-  bottom: $menuMargin;
-  right: $menuMargin;
+  bottom: $pageMarginLg;
+  right: $pageMarginLg;
   @include defaultFont(11px);
   color: $menuGrey;
 }
