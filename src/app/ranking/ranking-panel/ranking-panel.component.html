@@ -29,7 +29,8 @@
       </div>
     </div>
     <div class="panel-summary-content">
-      <p>{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
+      <p *ngIf="location.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
+      <p *ngIf="location.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
     </div>
   </div>
   <button class="btn btn-icon panel-arrow panel-next"
