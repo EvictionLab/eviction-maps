@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, AfterViewInit,
-  EventEmitter, ViewChild, ElementRef, NgZone, HostListener
+  EventEmitter, ViewChild, ElementRef, NgZone, HostListener, ViewEncapsulation
 } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -18,6 +18,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
   selector: 'app-mapbox',
   templateUrl: './mapbox.component.html',
   styleUrls: ['./mapbox.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [ TranslatePipe, DecimalPipe ]
 })
 export class MapboxComponent implements AfterViewInit {
@@ -171,16 +172,33 @@ export class MapboxComponent implements AfterViewInit {
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.eventLayers.forEach((layer) => {
-      if (this.platform.isLargerThanMobile || this.embedded) {
+      if (!(this.platform.isIos || this.platform.isAndroid) || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
         this.map.on('mouseleave', layer, (ev) => this.onMouseLeaveFeature());
         this.map.on('mousemove', layer, (ev) => this.featureMouseMove.emit(ev));
       }
       this.map.on('click', layer, (e) => {
         if (e.features.length) {
-          this.featureClick.emit(e.features[0]);
+          const feat = e.features[0];
+          // Merge in center feature props if found so there's no delay in displaying them
+          const centerFeatures = this.queryFeatureCenter(feat);
+          if (centerFeatures.length > 0) {
+            feat.properties = { ...feat.properties, ...centerFeatures[0].properties };
+          }
+          this.featureClick.emit(feat);
         }
       });
+    });
+  }
+
+  /**
+   * Queries map for the center feature of a given polygon feature
+   * @param feat Feature to find center feature for
+   */
+  private queryFeatureCenter(feat: MapFeature) {
+    return this.map.querySourceFeatures(feat['layer']['source'], {
+      sourceLayer: `${feat['layer']['source-layer']}-centers`,
+      filter: ['==', 'GEOID', feat.properties['GEOID']]
     });
   }
 

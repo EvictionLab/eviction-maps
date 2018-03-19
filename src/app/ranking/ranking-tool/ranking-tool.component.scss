@@ -2,49 +2,51 @@
 
 $navBarHeight: grid(8);
 $sidePanelHeight: grid(55);
+$panelHeightSm: 181px;
+$panelHeightMd: 188px;
+$panelHeightLg: 194px;
 
 // add margin so header doesn't overlap page content
 .ranking-page {
   margin-top: $headerHeightSm;
-  margin-bottom: grid(2);
+  margin-bottom: 0;
 }
-:host-context(.gt-mobile) {
+
+@media(min-width: $gtMobile) {
   .ranking-page {
     margin-top: $headerHeightLg;
   }
 }
 
 // default content margins
-.page-content {
+// vertical stacked layout on mobile
+.page-content .ranking-component > .content-inner {
+  display: flex;
+  flex-direction: column;
   padding: $pageMargin;
 }
+// side by side layout on tablet+
 @media(min-width: $gtMobile) {
-  .page-content {
+  .page-content .ranking-component > .content-inner {
+    flex-direction: row;
     padding: $pageMarginLg;
   }
 }
 @media(min-width: $gtTablet) {
-  .page-content {
+  .page-content .ranking-component > .content-inner {
     padding: grid(6) $pageMarginLg;
   }
+}
+
+.content-evictions {
+  margin-bottom: -1*$panelHeightSm;
+  &.panel-open { margin-bottom: 0; }
 }
 
 .hero {
   background-image: url('/assets/images/hero-rankings.jpg');
   background-size: cover;
   background-position:center;
-}
-
-// vertical stacked layout on mobile
-.page-content .content-inner {
-  display: flex;
-  flex-direction: column;
-}
-// side by side layout on tablet+
-@media(min-width: $gtMobile) {
-  .page-content .content-inner {
-    flex-direction: row;
-  }
 }
 
 // subpage navigation (tabs)
@@ -80,7 +82,9 @@ $sidePanelHeight: grid(55);
           text-decoration: none;
         }
       }
-      &.active {
+      /* Temporarily disabling top evictors */
+      &.disabled { a:hover { color: $grey1a; } }
+      &.active:not(.disabled) {
         a { color: $color1; }
       }
 
@@ -91,8 +95,8 @@ $sidePanelHeight: grid(55);
 @media(min-width: $gtMobile) {
   .nav-bar {
     position: sticky;
-    z-index:30;
-    top: $headerHeightLg - 1px; // fix 1px showing through
+    z-index:998;
+    top: $headerHeightSm - 1px; // fix 1px showing through
     height: grid(8);
     ul {
       flex-direction: row;
@@ -165,7 +169,7 @@ $sidePanelHeight: grid(55);
 }
 
 // panel off-screen by default
-app-ranking-ui {
+app-ranking-ui.ranking-ui-panel {
   position:fixed;
   top: $headerHeightSm;
   bottom:0;
@@ -193,9 +197,9 @@ app-ranking-ui {
     width: grid(10);
     height: grid(10);
     overflow:visible;
-    z-index: 20;
+    z-index: 995; // panel should overlap footer on tablet
   }
-  app-ranking-ui {
+  app-ranking-ui.ranking-ui-panel {
     position:absolute; 
     top:0;left:0;
     width:grid(40);
@@ -205,7 +209,7 @@ app-ranking-ui {
     box-shadow: $z2shadow;
     overflow:visible;
     // no "apply" button, filters are applied immediately
-    ::ng-deep .ranking-ui-actions .btn.btn-primary {
+    .ranking-ui-actions .btn.btn-primary {
       display: none;
     }
   }
@@ -217,8 +221,9 @@ app-ranking-ui {
     width: grid(40);
     height: $sidePanelHeight;
     margin-left:0;
+    z-index:20; // panel should fall behind footer desktop
   }
-  app-ranking-ui {
+  app-ranking-ui.ranking-ui-panel  {
     position:relative;
     display:block;
     z-index:10;
@@ -229,7 +234,7 @@ app-ranking-ui {
     overflow:visible;
     box-shadow:none;
     // hide close button
-    ::ng-deep .btn-close { display: none; }
+    .btn-close { display: none; }
   }
 }
 // make sidebar sticky when there is enough vertical space
@@ -311,28 +316,55 @@ app-ranking-ui {
   bottom:0;
   left:0;
   right:0;
+  height: $panelHeightSm;
   background: $white;
   z-index:21;
   box-shadow: $z1shadow;
+  transition: transform 0.4s ease;
+  transform: translate3d(0, 100%, 0);
+  &.visible {
+    transform: translate3d(0,0,0);
+  }
   app-ranking-panel {
     display:block;
   }
 }
 
-.scroll-to-top-button {
-  position: fixed;
+@media(min-width: $gtMobile) {
+  .page-fixed-bottom {
+    height: $panelHeightMd;
+  }
+}
+@media(min-width: $gtLaptop) {
+  .page-fixed-bottom {
+    height: $panelHeightLg;
+  }
+}
+
+.btn.btn-icon.scroll-to-top-button {
   position: sticky;
   cursor: pointer;
   text-align: center;
   padding: grid(1.25);
   width: grid(5);
   height: grid(5);
-  box-shadow: $z1shadow;
-  background-color: $rankingsBg1;
-  right: grid(3);
-  bottom: grid(3);
-  margin-left: auto;
-  z-index: 2;
+  background: $white;
+  right: $pageMargin;
+  bottom: $pageMargin;
+  margin:  -1*grid(7) 0 grid(2) auto;
+  z-index: 20;
+  transition: transform 0.4s ease;
+  transform: translate3d(0, 250%, 0);
+  &.visible {
+    transform: translate3d(0, 0, 0);
+  }
+  // &.panel-open {
+  //   transform: translate3d(-100%, 0, 0);
+  //   right: $pageMargin + grid(2);
+  // }
+  &.visible.panel-open {
+    transform: translate3d(-100%, -1*$panelHeightSm, 0);
+  }
   .icon {
     width: grid(2);
     height: grid(2);
@@ -343,44 +375,52 @@ app-ranking-ui {
     background-color: $color1;
     .icon { fill: $white; }
   }
-  
 }
 
-.social-icons {
+@media(min-width: $gtMobile) {
+  .btn.btn-icon.scroll-to-top-button {
+    right: $pageMarginLg;
+    bottom: $pageMarginLg;
+    margin:  -1*grid(8) 0 grid(3) auto;
+    &.panel-open {
+      right: $pageMarginLg + grid(2);
+    }
+    &.visible.panel-open {
+      transform: translate3d(-100%, -1*$panelHeightMd, 0);
+    }
+  }
+}
+@media(min-width: $gtLaptop) {
+  .btn.btn-icon.scroll-to-top-button.visible.panel-open {
+    transform: translate3d(-100%, -1*($panelHeightLg), 0);
+  }
+}
+
+.share-wrapper {
   margin-top: grid(3);
-  padding: grid(1);
-  text-align: center;
+  padding: 0 grid(2);
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  .btn-border.icon {
-    margin: 0 grid(1);
-    border: none;
-    height: grid(3);
-    width: grid(3);
-    background-color: transparent;
-    .icon {
-      height: grid(2);
-      fill: $grey1a;
-    }
-    &:hover .icon { fill: $black;}
-
-  }
-
+  justify-content: flex-start;
   .share-intro {
     @include altSmallCapsText(12px);
     color: $grey1a;
     margin-right: grid(1);
   }
-
-  a:hover {
-    text-decoration: none;
+  app-ui-social-share {
+    flex:1;
+  }
+  .social-icons {
+    .btn-border.icon {
+      margin: 0 grid(1);
+      border: none;
+      height: grid(3);
+      width: grid(3);
+      background-color: transparent;
+    }
+    a:hover {
+      text-decoration: none;
+    }
   }
 }
 
-:host-context(.gt-mobile) {
-  .scroll-to-top-button {
-    display: none;
-  }
-}

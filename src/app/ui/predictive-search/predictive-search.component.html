@@ -1,15 +1,28 @@
 <div class="search-container">
   <app-ui-icon icon="search" aria-hidden="true"></app-ui-icon>
+  <label [attr.for]="inputId" class="sr-only">{{ placeholder }}</label>
   <input [ngModel]="selected"
          (ngModelChange)="selectedTextChange($event)"
          [typeahead]="options || []" 
          [typeaheadOptionField]="optionField ? optionField : null"
          [typeaheadOptionsLimit]="optionsLimit"
          (typeaheadOnSelect)="updateSelection($event)"
+         (typeaheadOnBlur)="clearSelection($event)"
          [typeaheadWaitMs]="waitMs"
          [placeholder]="placeholder"
-         class="form-control">
-  <span class="clear"
-        [style.display]="selected ? 'block' : 'none'"
-        (click)="updateSelection()">&times;</span>
+         [attr.id]="inputId"
+         [attr.aria-owns]="ariaOwns"
+         [attr.aria-expanded]="ariaExpanded"
+         [attr.aria-activedescendant]="ariaActiveDescendant"
+         autocomplete="off"
+         aria-describedby="initInstr"
+         aria-autocomplete="both"
+         class="form-control"
+         (focus)="setupInputListener()">
+  <app-ui-close-button class="clear"
+    [ariaLabel]="'HEADER.SEARCH_CLEAR' | translate"
+    [style.display]="selected ? 'block' : 'none'"
+    (click)="clearSelection()">
+  </app-ui-close-button>
+  <span id="initInstr" style="display: none;">{{ 'DATA.AUTOCOMPLETE_HINT' | translate }}</span>
 </div>

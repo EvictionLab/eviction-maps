@@ -31,7 +31,13 @@
         [selectedValue]="graphType"
         (selectedValueChanged)="graphType = $event"
       ></app-ui-toggle>
-      <app-graph *ngIf="graphData" [class.average-shown]="averageActive" [data]="graphData" [settings]="graphSettings" [hoverAll]="true" (activeValuesChanged)="graphHover.emit($event)">
+      <app-graph *ngIf="graphData" 
+        [class.average-shown]="averageActive" 
+        [data]="graphData" 
+        [settings]="graphSettings" 
+        [hoverAll]="true" 
+        (activeValuesChanged)="graphHover.emit($event)"
+      >
         <div class="line-tooltips" *ngIf="graphType === 'line'">
           <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
           <div class="tooltip tooltip-number" role="tooltip" 
@@ -60,7 +66,7 @@
         <li *ngFor="let location of locations; let i = index;">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
           <span class="legend-label">{{ location.properties["n"] }}</span>
-          <app-ui-close-button class="clear-location" [attr.aria-label]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
+          <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
             <span>{{ getLegendValue(location, i) }}</span>
           </p>
@@ -69,7 +75,7 @@
         <li *ngIf="average" class="us-average" [class.active]="showAverage">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
           <span class="legend-label">{{ average.properties["n"] }}</span>
-          <app-ui-close-button class="clear-location"  [attr.aria-label]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.properties.n}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
+          <app-ui-close-button class="clear-location"  [ariaLabel]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.properties.n}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
           <p class="legend-data">
               <span>{{ getLegendValue(average, this.locations.length) }}</span>
           </p>

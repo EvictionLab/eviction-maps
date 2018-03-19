@@ -1,15 +1,20 @@
-import { Injectable, EventEmitter } from '@angular/core';
-import { BsModalService } from 'ngx-bootstrap/modal';
+import { Injectable, EventEmitter, Component } from '@angular/core';
+import { BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { UiDialogComponent } from './ui-dialog.component';
-import { DialogResponse } from './ui-dialog.types';
+import { DialogResponse, AppDialog } from './ui-dialog.types';
+import { PlatformService } from '../../services/platform.service';
+
 
 @Injectable()
 export class UiDialogService {
 
   private currentDialogRef: BsModalRef;
 
-  constructor(private modalService: BsModalService) {}
+  constructor(
+    private modalService: BsModalService,
+    private platform: PlatformService
+  ) {}
 
   /**
    * Gets the current dialog reference, if any.
@@ -21,10 +26,15 @@ export class UiDialogService {
    * modal is closed.
    * @param config title, content, button configuration for dialog
    */
-  showDialog(config): EventEmitter<DialogResponse> {
+  showDialog(config, component: any = UiDialogComponent): EventEmitter<DialogResponse> {
+    this.platform.saveActiveElement();
     const dialogConfig = this.processConfig(config);
-    this.currentDialogRef = this.modalService.show(UiDialogComponent);
+    this.currentDialogRef =
+      this.modalService.show(component, (config.options ? config.options : null));
     this.currentDialogRef.content.setDialogConfig(dialogConfig);
+    this.currentDialogRef.content.buttonClicked.take(1).subscribe(() => {
+      this.platform.restoreActiveElement();
+    });
     return this.currentDialogRef.content.buttonClicked;
   }
 
@@ -53,12 +63,6 @@ export class UiDialogService {
       buttons: { ok: true, cancel: true }
     };
     return this.showDialog(dialog);
-  }
-
-  showDownloadDialog(component, config: Object) {
-    this.currentDialogRef = this.modalService.show(component);
-    this.currentDialogRef.content.setFormConfig(config);
-    return this.currentDialogRef.content.buttonClicked;
   }
 
   /**

@@ -154,12 +154,15 @@ export class MapService {
       filter: ['==', 'GEOID', feature.properties['GEOID']]
     });
     if (queryFeatures.length > 0) {
-      return queryFeatures.reduce((currFeat, nextFeat) => {
-        return union(
-          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-        );
-      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+      // Combine features, ignoring any TopologyExceptions
+      try {
+        return queryFeatures.reduce((currFeat, nextFeat) => {
+          return union(
+            currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+            nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+          );
+        }) as GeoJSON.Feature<GeoJSON.Polygon>;
+      } catch (e) { }
     }
     return null;
   }
@@ -292,9 +295,9 @@ export class MapService {
    * Zoom to supplied map features
    * @param feature
    */
-  zoomToFeature(feature: any) {
-    const featureBbox = bbox(feature);
-    this.zoomToBoundingBox(featureBbox);
+  zoomToFeature(feature: MapFeature) {
+    const featBbox = feature.hasOwnProperty('bbox') ? feature['bbox'] : bbox(feature);
+    this.zoomToBoundingBox(featBbox);
   }
 
   /**
@@ -302,7 +305,7 @@ export class MapService {
    * @param feature Point feature
    * @param zoom Zoom level
    */
-  zoomToPoint(feature: MapFeature, zoom: number) {
+  zoomToPoint(feature: MapFeature, zoom = 14) {
     this.map.flyTo({ center: feature.geometry['coordinates'], zoom: zoom });
   }
 

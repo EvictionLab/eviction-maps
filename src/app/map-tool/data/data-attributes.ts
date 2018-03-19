@@ -1,5 +1,28 @@
 import { MapDataAttribute } from './map-data-attribute';
 
+const colorScales = {
+  3: [
+    'rgba(238, 226, 239, 0.7)',
+    'rgba(137, 140, 206, 0.8)',
+    'rgba(64, 71, 124, 0.9)'
+  ],
+  5: [
+    'rgba(215, 227, 244, 0.7)',
+    'rgba(170, 191, 226, 0.75)',
+    'rgba(133, 157, 204, 0.8)',
+    'rgba(81, 101, 165, 0.85)',
+    'rgba(37, 51, 132, 0.9)'
+  ]
+};
+
+function getScale(scaleVals: Array<number>): Array<any> {
+  let scaleArr = [-1.0, 'rgba(0, 0, 0, 0)'];
+  colorScales[scaleVals.length].forEach((v, i) => {
+    scaleArr = scaleArr.concat([scaleVals[i], v]);
+  });
+  return scaleArr;
+}
+
 export const DataAttributes: Array<MapDataAttribute> = [
   {
     'id': 'none',
@@ -19,52 +42,12 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'default': 'rgba(0, 0, 0, 0)',
     'order': 6,
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(238, 226, 239, 0.7)'],
-        [50000, 'rgba(137, 140, 206, 0.8)'],
-        [100000, 'rgba(64, 71, 124, 0.9)']
-      ],
-      'block-groups': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [1250, 'rgba(170, 191, 226, 0.75)'],
-        [2500, 'rgba(133, 157, 204, 0.8)'],
-        [3750, 'rgba(81, 101, 165, 0.85)'],
-        [5000, 'rgba(37, 51, 132, 0.9)']
-      ],
-      'tracts': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [2500, 'rgba(170, 191, 226, 0.75)'],
-        [5000, 'rgba(133, 157, 204, 0.8)'],
-        [7500, 'rgba(81, 101, 165, 0.85)'],
-        [10000, 'rgba(37, 51, 132, 0.9)']
-      ],
-      'cities': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [250000, 'rgba(170, 191, 226, 0.75)'],
-        [500000, 'rgba(133, 157, 204, 0.8)'],
-        [750000, 'rgba(81, 101, 165, 0.85)'],
-        [1000000, 'rgba(37, 51, 132, 0.9)']
-      ],
-      'counties': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [250000, 'rgba(170, 191, 226, 0.75)'],
-        [500000, 'rgba(133, 157, 204, 0.8)'],
-        [750000, 'rgba(81, 101, 165, 0.85)'],
-        [1000000, 'rgba(37, 51, 132, 0.9)']
-      ],
-      'states': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [7500000, 'rgba(170, 191, 226, 0.75)'],
-        [15000000, 'rgba(133, 157, 204, 0.8)'],
-        [22500000, 'rgba(81, 101, 165, 0.85)'],
-        [30000000, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 50000, 100000]),
+      'block-groups': getScale([0, 1250, 2500, 3750, 5000]),
+      'tracts': getScale([0, 2500, 5000, 7500, 10000]),
+      'cities': getScale([0, 250000, 500000, 750000, 1000000]),
+      'counties': getScale([0, 250000, 500000, 750000, 1000000]),
+      'states': getScale([0, 7500000, 15000000, 22500000, 30000000])
     }
   },
   {
@@ -75,14 +58,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 5,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [5, 'rgba(170, 191, 226, 0.75)'],
-        [10, 'rgba(133, 157, 204, 0.8)'],
-        [15, 'rgba(81, 101, 165, 0.85)'],
-        [20, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 5, 10, 15, 20])
     }
   },
   {
@@ -93,14 +69,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'default': 'rgba(0, 0, 0, 0)',
     'order': 7,
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 15, 30, 45, 60])
     }
   },
   {
@@ -111,14 +80,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 8,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [250, 'rgba(170, 191, 226, 0.75)'],
-        [500, 'rgba(133, 157, 204, 0.8)'],
-        [750, 'rgba(81, 101, 165, 0.85)'],
-        [1000, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 300, 600, 900, 1200])
     }
   },
   {
@@ -129,14 +91,19 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 9,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [50000, 'rgba(170, 191, 226, 0.75)'],
-        [100000, 'rgba(133, 157, 204, 0.8)'],
-        [150000, 'rgba(81, 101, 165, 0.85)'],
-        [200000, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 50000, 100000, 150000, 200000])
+    }
+  },
+  {
+    'id': 'rb',
+    'type': 'choropleth',
+    'langKey': 'STATS.RENT_BURDEN',
+    'hintKey': 'HINTS.RENT_BURDEN',
+    'format': 'percent',
+    'order': 10,
+    'default': 'rgba(0, 0, 0, 0)',
+    'stops': {
+      'default': getScale([10, 20, 30, 40, 50])
     }
   },
   {
@@ -144,17 +111,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.MED_INCOME',
     'format': 'dollar',
-    'order': 10,
+    'order': 11,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25000, 'rgba(170, 191, 226, 0.75)'],
-        [50000, 'rgba(133, 157, 204, 0.8)'],
-        [75000, 'rgba(81, 101, 165, 0.85)'],
-        [100000, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25000, 50000, 75000, 100000])
     }
   },
   {
@@ -162,17 +122,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_WHITE',
     'format': 'percent',
-    'order': 11,
+    'order': 12,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -180,35 +133,21 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AFR_AMER',
     'format': 'percent',
-    'order': 12,
+    'order': 13,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
     'id': 'ph',
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HISPANIC',
-    'order': 13,
+    'order': 14,
     'default': 'rgba(0, 0, 0, 0)',
     'format': 'percent',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -216,17 +155,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_AMER_INDIAN',
     'format': 'percent',
-    'order': 14,
+    'order': 15,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -234,17 +166,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_ASIAN',
     'format': 'percent',
-    'order': 15,
+    'order': 16,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -252,17 +177,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HAW_ISL',
     'format': 'percent',
-    'order': 16,
+    'order': 17,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -270,17 +188,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_MULTIPLE',
     'format': 'percent',
-    'order': 17,
+    'order': 18,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -288,17 +199,10 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'choropleth',
     'langKey': 'STATS.PCT_OTHER',
     'format': 'percent',
-    'order': 18,
+    'order': 19,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': [
-        [-1.0, 'rgba(198, 204, 207, 0.6)'],
-        [0, 'rgba(215, 227, 244, 0.7)'],
-        [25, 'rgba(170, 191, 226, 0.75)'],
-        [50, 'rgba(133, 157, 204, 0.8)'],
-        [75, 'rgba(81, 101, 165, 0.85)'],
-        [100, 'rgba(37, 51, 132, 0.9)']
-      ]
+      'default': getScale([0, 25, 50, 75, 100])
     }
   },
   {
@@ -340,63 +244,94 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 1,
     'default': 0,
     'expressions': {
-      'default': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], 4],
-          6, ['/', ['var', 'data_prop'], 3],
-          8, ['/', ['var', 'data_prop'], 2],
-          9, ['/', ['var', 'data_prop'], 1],
-          10, ['/', ['var', 'data_prop'], 0.5]
-        ]
-      ],
       'states': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], 0.8],
-          4, ['/', ['var', 'data_prop'], 0.4],
-          6, ['/', ['var', 'data_prop'], 0.2]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 2.5,
+            30, 60
+          ],
+          6, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 3,
+            0, 2.5,
+            30, 120
+          ]
         ]
       ],
       'counties': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], 4],
-          4, ['/', ['var', 'data_prop'], 2],
-          6, ['/', ['var', 'data_prop'], 1],
-          8, ['/', ['var', 'data_prop'], 0.5]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            30, 10
+          ],
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            30, 30
+          ]
         ]
       ],
       'cities': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], 4],
-          6, ['/', ['var', 'data_prop'], 3],
-          8, ['/', ['var', 'data_prop'], 2],
-          9, ['/', ['var', 'data_prop'], 1],
-          10, ['/', ['var', 'data_prop'], 0.5]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            30, 7.5
+          ],
+          10, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 3,
+            0, 1,
+            30, 20
+          ]
         ]
       ],
       'tracts': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          8, ['/', ['var', 'data_prop'], 4],
-          10, ['/', ['var', 'data_prop'], 1],
-          12, ['/', ['var', 'data_prop'], 0.5]
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            30, 10
+          ],
+          12, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            30, 45
+          ]
         ]
       ],
       'block-groups': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          8, ['/', ['var', 'data_prop'], 8],
-          10, ['/', ['var', 'data_prop'], 2],
-          12, ['/', ['var', 'data_prop'], 1]
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            30, 7.5
+          ],
+          12, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            30, 30
+          ]
         ]
       ]
     }
@@ -416,63 +351,94 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'format': 'percent',
     'default': 0,
     'expressions': {
-      'default': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 3, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
-        ]
-      ],
       'states': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], ['*', 0.8, 1.5]],
-          4, ['/', ['var', 'data_prop'], ['*', 0.4, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 0.2, 1.5]]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 2.5,
+            45, 60
+          ],
+          6, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 3,
+            0, 2.5,
+            45, 120
+          ]
         ]
       ],
       'counties': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
-          4, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            45, 10
+          ],
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            45, 30
+          ]
         ]
       ],
       'cities': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          4, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
-          6, ['/', ['var', 'data_prop'], ['*', 3, 1.5]],
-          8, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
-          9, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
+          2, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            45, 7.5
+          ],
+          10, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 3,
+            0, 1,
+            45, 20
+          ]
         ]
       ],
       'tracts': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          8, ['/', ['var', 'data_prop'], ['*', 4, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 1, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 0.5, 1.5]]
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            45, 10
+          ],
+          12, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            45, 45
+          ]
         ]
       ],
       'block-groups': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
+        'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          8, ['/', ['var', 'data_prop'], ['*', 8, 1.5]],
-          10, ['/', ['var', 'data_prop'], ['*', 2, 1.5]],
-          12, ['/', ['var', 'data_prop'], ['*', 1, 1.5]]
+          8, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 2,
+            0, 1,
+            45, 7.5
+          ],
+          12, [
+            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            -1, 4,
+            0, 2,
+            45, 30
+          ]
         ]
       ]
     }

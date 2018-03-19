@@ -16,9 +16,9 @@ $defaultPadding: grid(2); // default padding for containers
 $pageMargin: grid(2); // page margin on mobile
 $pageMarginLg: grid(3); // page margin on tablet+
 $maxContentWidth: 1200px; // max width for page content
-$gtMobile: 768px; // greater than mobile device breakpoint
-$gtTablet: 1024px; // greater than tablet device breakpoint
-$gtLaptop: 1440px; // greater than laptop device breakpoint
+$gtMobile: 767px; // greater than mobile device breakpoint
+$gtTablet: 1023px; // greater than tablet device breakpoint
+$gtLaptop: 1439px; // greater than laptop device breakpoint
 
 
 // Typography
@@ -126,7 +126,7 @@ $z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
 @mixin focusState() {
   outline: 0;
   box-shadow: 0 0 5px 1px $color1;
-  border: none;
+  border-color: $color1;
 }
 
 // Header Bar
@@ -161,7 +161,7 @@ $buttonHeightSm: grid(5);
 $buttonColor: $shadingColor;
 $buttonHoverColor: darken($buttonColor, 5%);
 $primaryButtonColor: $color1;
-$primaryButtonHoverColor: darken($color1, 3%);
+$primaryButtonHoverColor: #F9471A;
 $closeButtonColor: rgba(0,0,0,0.5);
 $altCloseButtonColor: #fff;
 // fonts

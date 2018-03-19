@@ -14,6 +14,7 @@ import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../ranking-list/ranking-list.component';
 import { RankingPanelComponent } from '../ranking-panel/ranking-panel.component';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { RankingModule } from '../ranking.module';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -32,17 +33,19 @@ export class DecimalPipeMock implements PipeTransform {
 describe('RankingToolComponent', () => {
   let component: RankingToolComponent;
   let fixture: ComponentFixture<RankingToolComponent>;
+  const config = { evictorsUrl: '', cityUrl: '', stateUrl: '' };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        RankingToolComponent,
-        RankingUiComponent,
-        RankingListComponent,
-        RankingPanelComponent
-      ],
+      declarations: [],
       imports: [
-        UiModule, RouterTestingModule, ServicesModule.forRoot(), TranslateModule.forRoot(),
+        UiModule,
+        RouterTestingModule.withRoutes([
+          { path: 'evictions', component: RankingToolComponent}
+        ]),
+        ServicesModule.forRoot(),
+        TranslateModule.forRoot(),
+        RankingModule.forRoot(config),
         PopoverModule.forRoot()
       ]
     });

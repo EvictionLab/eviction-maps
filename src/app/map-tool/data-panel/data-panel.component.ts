@@ -11,6 +11,7 @@ import { PlatformLocation, DecimalPipe } from '@angular/common';
 import { MapToolService } from '../map-tool.service';
 import { MapDataAttribute } from '../data/map-data-attribute';
 import { AnalyticsService } from '../../services/analytics.service';
+import { DataSignupFormComponent } from './data-signup-form/data-signup-form.component';
 
 @Component({
   selector: 'app-data-panel',
@@ -55,9 +56,8 @@ export class DataPanelComponent implements OnInit {
   // Used to inform map tool when graph type changes
   @Output() graphTypeChange = new EventEmitter();
 
-  encodedTweet: string;
-  tweetTranslation = 'DATA.TWEET_NO_FEATURES';
-  tweetParams = {};
+  embedUrl: string;
+  tweet: string;
 
   constructor(
     public dialogService: UiDialogService,
@@ -81,12 +81,13 @@ export class DataPanelComponent implements OnInit {
 
   /** Builds the array of card attributes from the array of data attributes */
   updateCardAttributes() {
-    const dividerIndex = 11; // index where the divider is inserted
-    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
     // put the props in the correct order
     const cardProps = this._dataAttributes
       .filter(d => typeof d.order === 'number')
       .sort((a, b) => a.order > b.order ? 1 : -1);
+    // index where the divider is inserted, right before "percent white" (pw)
+    const dividerIndex = cardProps.findIndex(p => p.id === 'pw');
+    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
     // add the divider
     this.cardAttributes = [
       ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
@@ -98,6 +99,10 @@ export class DataPanelComponent implements OnInit {
     // only graphing the bubble attributes
     this.graphAttributes = this.dataAttributes
       .filter(d => d.type === 'bubble' && d.id !== 'none');
+  }
+
+  showDataSignupDialog(e) {
+    this.dialogService.showDialog({}, DataSignupFormComponent);
   }
 
   showDownloadDialog(e) {
@@ -112,8 +117,8 @@ export class DataPanelComponent implements OnInit {
       showUsAverage: this.mapToolService.activeShowGraphAvg,
       usAverage: this.mapToolService.usAverage
     };
-    this.dialogService.showDownloadDialog(DownloadFormComponent, config)
-      .subscribe((d) => this.trackDownload(d));
+    this.dialogService.showDialog(config, DownloadFormComponent)
+      .subscribe((d) => { if (d.accepted) { this.trackDownload(d.filetypes); } });
   }
 
   /**
@@ -131,13 +136,6 @@ export class DataPanelComponent implements OnInit {
   }
 
   /**
-   * Tracks when the map is shared from the data panel footer
-   */
-  trackShare(mapShareType: string) {
-    this.analytics.trackEvent('mapShare', { mapShareType });
-  }
-
-  /**
    * Update Twitter share text
    */
   updateTwitterText() {
@@ -145,91 +143,63 @@ export class DataPanelComponent implements OnInit {
     const yearSuffix = this.year.toString().slice(2);
     // Default to eviction rate if no highlight is set, sort by that property for share text
     const action = this.mapToolService.activeBubbleHighlight.id.startsWith('ef') ? 'efr' : 'er';
-    this.tweetParams = { year: this.year, link: this.platform.currentUrl() };
+    let tweetParams: any = { year: this.year, link: this.platform.currentUrl() };
+    let tweetTranslation = 'DATA.TWEET_NO_FEATURES';
     let feat, features, actionTrans;
 
     if (featLength === 0) {
-      this.tweetTranslation = 'DATA.TWEET_NO_FEATURES';
+      tweetTranslation = 'DATA.TWEET_NO_FEATURES';
     } else {
       const sortProp = `${action}-${yearSuffix}`;
-      features = this.locations.sort((a, b) =>
+      features = [ ...this.locations ].sort((a, b) =>
         a.properties[sortProp] > b.properties[sortProp] ? -1 : 1);
 
       // TODO: Potentially pull state abbreviation into place name
       feat = features[0].properties;
-      this.tweetParams['place1'] = feat.n;
-      this.tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
-      this.tweetParams['total'] = this.decimal.transform(
-        feat[`${action.slice(0, -1)}-${yearSuffix}`]
-      );
-      this.tweetParams['rate'] = this.decimal.transform(feat[`${action}-${yearSuffix}`]);
+      tweetParams['place1'] = feat.n;
+      tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
+      tweetParams['total'] = this.decimal.transform(feat[`${action.slice(0, -1)}-${yearSuffix}`]);
+      tweetParams['rate'] = this.decimal.transform(feat[`${action}-${yearSuffix}`]);
 
       if (featLength === 1) {
         actionTrans = action === 'efr' ? 'DATA.TWEET_EVICTION_FILINGS' : 'DATA.TWEET_EVICTIONS';
-        this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+        tweetParams['action'] = this.translatePipe.transform(actionTrans);
 
         if (feat[`epd-${yearSuffix}`] >= 50) {
-          this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE_PER_DAY';
-          this.tweetParams = { ...this.tweetParams, units: this.tweetParams['perDay'] };
+          tweetTranslation = 'DATA.TWEET_ONE_FEATURE_PER_DAY';
+          tweetParams = { ...tweetParams, units: tweetParams['perDay'] };
         } else {
-          this.tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
+          tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
         }
       } else if (featLength > 1) {
         actionTrans = action === 'efr' ? 'DATA.TWEET_FILING' : 'DATA.TWEET_EVICTED';
-        this.tweetParams['action'] = this.translatePipe.transform(actionTrans);
+        tweetParams['action'] = this.translatePipe.transform(actionTrans);
         if (featLength === 2) {
-          this.tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
-          this.tweetParams = {
-            ...this.tweetParams, place2: features[1].properties.n
+          tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
+          tweetParams = {
+            ...tweetParams, place2: features[1].properties.n
           };
         } else if (featLength === 3) {
-          this.tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
-          this.tweetParams = {
-            ...this.tweetParams,
+          tweetTranslation = 'DATA.TWEET_THREE_FEATURES';
+          tweetParams = {
+            ...tweetParams,
             place2: features[1].properties.n,
             place3: features[2].properties.n
           };
         }
       }
     }
-
-    const tweet = this.translatePipe.transform(this.tweetTranslation, this.tweetParams);
-    this.encodedTweet = this.platform.urlEncode(tweet);
+    this.tweet = this.translatePipe.transform(tweetTranslation, tweetParams);
   }
 
-  /**
-   * Get pym.js HTML for embedding map
-   */
-  getEmbedCode() {
-    const splitUrl = this.platform.currentUrl().split('#');
-    const embedUrl = [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
-    return `<div data-pym-src="${embedUrl}">Loading...</div>` +
-      '<script type="text/javascript" src="https://pym.nprapps.org/pym-loader.v1.min.js"></script>';
-  }
-
-  /**
-   * Display dialog with error message if mailto link doesn't open after 1 second
-   * @param e
-   */
-  checkMailto(e) {
-    // Cancel if on mobile, since behavior isn't the same
-    if (this.platform.isMobile) {
-      return;
+  getEmbedUrl() {
+    const url = this.platform.currentUrl();
+    if (url.includes('#')) {
+      const splitUrl = url.split('#');
+      return [splitUrl[0], '#/embed', ...splitUrl.slice(1)].join('');
+    } else {
+      const splitUrl = url.split('/map/');
+      return [splitUrl[0], '/map/embed/', ...splitUrl.slice(1)].join('');
     }
-    // https://www.uncinc.nl/articles/dealing-with-mailto-links-if-no-mail-client-is-available
-    let timeout;
-
-    this.platform.nativeWindow.addEventListener('blur', () => clearTimeout(timeout));
-    timeout = setTimeout(() => {
-      this.dialogService.showDialog({
-        title: 'Email Link Error',
-        content: [
-          {
-            type: 'text',
-            data: 'Please set a default mail client in your browser to use the email link.'
-          }
-        ]
-      });
-    }, 1000);
   }
 }

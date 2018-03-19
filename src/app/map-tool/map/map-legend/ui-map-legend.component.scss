@@ -47,15 +47,16 @@ app-ui-hint.legend-hint {
     box-sizing: content-box;
     border-radius: 100%;
     color: $legendIconColor;
-    span {
-      top:1px;
+    span, .icon {
+      margin: auto;
       width: grid(3);
       height: grid(3);
     }
+    span { top:1px; }
   }
 }
 
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .map-legend {
     .legend {
       left: grid(1);

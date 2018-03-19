@@ -1,0 +1,35 @@
+<div class="social-icons">
+  <button class="btn btn-border icon btn-twitter"
+    *ngIf="tweet"
+    (click)="shareTwitter()"
+    [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate">
+    <app-ui-icon icon="twitter"></app-ui-icon>
+  </button>
+  <button class="btn btn-border icon btn-facebook"
+    *ngIf="facebook"
+    (click)="shareFacebook()"
+    [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate">
+    <app-ui-icon icon="facebook"></app-ui-icon>
+  </button>
+  <a class="btn btn-border icon btn-email" 
+    *ngIf="emailSubject"
+    [href]="'mailto:?subject=' + emailSubject + '&body=' + this.getEncodedShareUrl()" 
+    (click)="shareEmail($event)"
+    [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate">
+    <app-ui-icon icon="email"></app-ui-icon>
+  </a>
+  <ng-template #popTemplate>
+    <app-ui-copy-clipboard *ngIf="link" [copyText]="getShareUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
+    <app-ui-copy-clipboard *ngIf="embed" [copyText]="getEmbedCode()" [hintText]="'DATA.EMBED_SHARE_HINT' | translate"></app-ui-copy-clipboard>
+  </ng-template>
+  <button class="btn btn-border icon btn-link" 
+    *ngIf="link || embed"
+    (click)="shareLink()" 
+    container="body" 
+    [outsideClick]="true" 
+    [popover]="popTemplate"
+    [popoverTitle]="'DATA.SHARE_LINK' | translate"
+    [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
+      <app-ui-icon icon="link"></app-ui-icon>
+  </button>
+</div>

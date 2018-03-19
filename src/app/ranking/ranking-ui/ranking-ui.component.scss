@@ -7,20 +7,43 @@
   height:100%;
 }
 
-.btn.btn-close {
+app-ui-close-button {
   position:absolute;
-  top:0;
-  right:0;
+  top:grid(1);
+  right:grid(2);
   width: grid(5);
   height: grid(5);
 }
 
-.ranking-ui-container {
+@media(min-width: $gtMobile) {
+  app-ui-close-button {
+    top:0;
+    right:0;
+  }
+}
+@media(min-width: $gtTablet) {
+  app-ui-close-button {
+    display:none;
+  }
+}
+
+.ranking-ui-wrapper {
+  padding-top: grid(5);
   h2 {
     @include altSmallCapsText(12px);
     line-height:1;
     margin:grid(2) 0 grid(2) 0;
     color: $grey1a;
+  }
+}
+@media(min-width: $gtMobile) {
+  .ranking-ui-wrapper {
+    padding-top: grid(4);
+  }
+}
+@media(min-width: $gtTablet) {
+  .ranking-ui-wrapper {
+    padding-top: 0;
   }
 }
 
@@ -63,12 +86,15 @@ app-ui-select {
       overflow: hidden;
     }
   }
+  // keep dropdown max height low so it doesn't get overlapped by footer
+  & ::ng-deep .dropdown-menu {
+    max-height: grid(33);
+  }
 }
 
 .ranking-ui-actions {
   padding: 0 grid(2);
   .btn {
-    display:block; 
     width: 100%;
   }
 }

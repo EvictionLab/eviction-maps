@@ -8,19 +8,31 @@
   </nav>
   <ul class="social-media-links">
     <li>
-      <a [attr.tabindex]="expanded ? null : -1" class="btn btn-border" href="#" target="_blank">
+      <a 
+        [attr.tabindex]="expanded ? null : -1" 
+        [attr.aria-label]="'NAV.FACEBOOK' | translate" 
+        class="btn btn-border" 
+        href="https://www.facebook.com/evictionlab/" 
+        target="_blank"
+      >
         <app-ui-icon icon="facebook"></app-ui-icon>
       </a>
     </li>
     <li>
-      <a [attr.tabindex]="expanded ? null : -1" class="btn btn-border" href="#" target="_blank">
+      <a 
+        [attr.tabindex]="expanded ? null : -1" 
+        [attr.aria-label]="'NAV.TWITTER' | translate" 
+        class="btn btn-border" 
+        href="https://twitter.com/evictionlab" 
+        target="_blank"
+      >
           <app-ui-icon icon="twitter"></app-ui-icon>
       </a>
     </li>
   </ul>
   <ng-content></ng-content>
   <span class="menu-copyright">&copy; 2018 Eviction Lab</span>
-  <button class="btn btn-icon menu-close" (click)="onClose.emit()">
+  <button [attr.tabindex]="expanded ? null : -1" class="btn btn-icon menu-close" (click)="closeMenu()">
     <app-ui-icon icon="close"></app-ui-icon>
     <span>{{ 'NAV.CLOSE_MENU' | translate }}</span>
   </button>

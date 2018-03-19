@@ -10,6 +10,7 @@ import 'rxjs/add/operator/takeUntil';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/first';
+import 'rxjs/add/operator/skip';
 import 'rxjs/add/operator/throttleTime';
 import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
@@ -26,17 +27,18 @@ import { RoutingService } from '../services/routing.service';
 import { environment } from '../../environments/environment';
 import { AnalyticsService } from '../services/analytics.service';
 import { ScrollService } from '../services/scroll.service';
+import { FeatureOverviewComponent } from './feature-overview/feature-overview.component';
 
 @Component({
   selector: 'app-map-tool',
   templateUrl: './map-tool.component.html',
-  styleUrls: ['./map-tool.component.scss']
+  styleUrls: ['./map-tool.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private ngUnsubscribe: Subject<any> = new Subject();
   @ViewChild(MapComponent) map;
   @ViewChild('divider') dividerEl: ElementRef;
-  title = 'Eviction Lab - Map';
   id = 'map-tool';
   enableZoom = true; // controls if map scroll zoom is enabled
   wheelEvent = false; // tracks if there is an active wheel event
@@ -47,7 +49,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   activeMenuItem; // tracks the active menu item on mobile
   helpData: string; // translated title / content for help dialog.
   private defaultMapConfig = {
-    style: './assets/style.json',
+    style: `${environment.deployUrl}assets/style.json`,
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 2,
@@ -62,6 +64,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     private routing: RoutingService,
     private scroll: ScrollService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private toast: ToastsManager,
     private platform: PlatformService,
     private dialogService: UiDialogService,
@@ -83,9 +86,14 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // Subscribe to language changes and store translated help content
     this.translate.onLangChange.takeUntil(this.ngUnsubscribe).subscribe(() => {
       this.updateRoute();
-      this.translate.get(['HELP.TITLE', 'HELP.CONTENT']).take(1)
-        .subscribe((res: string) => this.helpData = res);
     });
+    // Check device support for map once language has loaded
+    this.translate.getTranslation(this.translate.currentLang)
+      .take(1).subscribe(() => { this.checkSupport(); });
+    // Reset VH transition only on width changes
+    this.platform.dimensions$.distinctUntilChanged((prev, next) => {
+      return prev.width === next.width;
+    }).skip(1).subscribe(this.resetVhTransition.bind(this));
     this.cdRef.detectChanges();
   }
 
@@ -111,6 +119,19 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.verticalOffset + this.dividerEl.nativeElement.getBoundingClientRect().bottom;
   }
 
+  /** Checks if the map features are supported (currently just WebGL) and shows a dialog if not */
+  checkSupport() {
+    if (!mapboxgl.supported()) {
+      const title = this.translatePipe.transform('MAP.UNSUPPORTED_TITLE');
+      const data = this.translatePipe.transform('MAP.UNSUPPORTED_MESSAGE');
+      return this.dialogService.showDialog({
+        title: title,
+        content: [{ type: 'html', data: data }],
+        buttons: { ok: true, cancel: false }
+      });
+    }
+  }
+
   /**
    * Accepts a clicked feature, queries tile data to get data across all years
    * @param feature returned from featureClick event
@@ -122,9 +143,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loader.start('feature');
     const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
-      this.toast.error(
-        'Maximum limit reached. Please remove a location to add another.'
-      );
+      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
     }
     // track event
     const selectEvent = {
@@ -135,7 +154,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.analytics.trackEvent('locationSelection', selectEvent);
     // pull full data for the location
-    this.mapToolService.getTileData(feature['layer']['id'], featureLonLat, null, true)
+    this.mapToolService.getTileData(feature.properties['GEOID'] as string, featureLonLat, true)
       .subscribe(data => {
         this.mapToolService.updateLocation(data);
         this.updateRoute();
@@ -146,17 +165,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   /** Updates the map tool route */
   updateRoute() {
     this.routing.updateRouteData(this.mapToolService.getCurrentData());
-  }
-
-  /**
-   * Shows the help dialog with data loaded from i18n
-   */
-  showHelpDialog() {
-    return this.dialogService.showDialog({
-      title: this.helpData['HELP.TITLE'],
-      content: [{ type: 'html', data: this.helpData['HELP.CONTENT'] }],
-      buttons: { ok: false, cancel: false }
-    });
   }
 
   onBubbleChange(bubble: any) {
@@ -200,33 +208,44 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onSearchSelect(searchData: any, updateMap = true) {
     const feature: MapFeature = searchData.feature;
+    const maxLocations = this.mapToolService.activeFeatures.length >= 3;
+
     if (feature) {
+      if (maxLocations) {
+        this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+        this.map.mapService.zoomToFeature(feature);
+        return;
+      }
+
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
-      this.mapToolService.getTileData(
-        layerId, feature.geometry['coordinates'], feature.properties['name'] as string, true
-      ).subscribe(data => {
-          if (!data.properties.n) {
-            this.toast.error('Could not find data for location.');
-          } else {
-            this.mapToolService.addLocation(data);
-          }
-          const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
-          if (updateMap) {
-            if (feature.hasOwnProperty('bbox')) {
-              this.mapToolService.activeMapView = feature['bbox'];
-            } else {
-              this.map.zoomToPointFeature(feature);
-            }
-            // Wait for map to be done loading, then set data layer
-            this.map.map.isLoading$.distinctUntilChanged()
-              .debounceTime(500)
-              .filter(state => !state)
-              .first()
-              .subscribe((state) => this.map.setGroupVisibility(dataLevel));
-          }
-          this.loader.end('search');
-        });
+      this.mapToolService.getSearchTileData(feature).subscribe(data => {
+        if (!data.properties.n) {
+          this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+        } else {
+          this.mapToolService.addLocation(data);
+        }
+        const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
+        if (updateMap) {
+          this.map.mapService.zoomToFeature(feature);
+          // Wait for map to be done loading, then set data layer
+          this.map.mapService.isLoading$.distinctUntilChanged()
+            .debounceTime(500)
+            .filter(state => !state)
+            .first()
+            .subscribe((state) => this.map.setGroupVisibility(dataLevel));
+        }
+        this.loader.end('search');
+      });
+    }
+  }
+
+  /**
+   * Show toast message on initial search input if max locations already selected
+   */
+  onInitialSearchInput() {
+    if (this.mapToolService.activeFeatures.length >= 3) {
+      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
     }
   }
 
@@ -238,30 +257,35 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const layerId = feature.properties['layerId'];
     const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
-    if (feature.hasOwnProperty('bbox')) {
-      this.map.zoomToBoundingBox(feature.bbox);
-    } else {
-      this.map.zoomToPointFeature(feature);
-    }
+    this.map.mapService.zoomToFeature(feature);
   }
 
   /**
    * Triggers a scroll to the top of the page
    */
   goToTop() {
-    if (this.getVerticalOffset() > 0) {
-      this.scroll.scrollTo('#top');
+    if (this.scroll.getVerticalOffset() > 0) {
+      const topEl = this.document.getElementById('top');
+      this.scroll.scrollTo('#top', { pageScrollOffset: topEl.offsetTop });
+      // set focus to map UI, but give it some time to scroll
+      setTimeout(() => { topEl.querySelector('button').focus(); }, 1000);
     }
   }
 
   /**
    * Triggers a scroll to the data panel
    */
-  goToDataPanel(feature) {
+  goToDataPanel(e) {
     // track event
     this.analytics.trackEvent('viewMoreData');
     // animate scroll to data panel
     this.scroll.scrollTo('#data-panel');
+  }
+
+  showFeatureOverview() {
+    return this.dialogService.showDialog(
+      { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
+    );
   }
 
   /**
@@ -278,18 +302,11 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private getVerticalOffset() {
-    return this.platform.nativeWindow.pageYOffset ||
-      this.document.documentElement.scrollTop ||
-      this.document.body.scrollTop || 0;
-  }
-
   /**
    * Configures options for the `ng2-page-scroll` module, and setup scroll observables
    * to enable / disable map zoom
    */
   private setupPageScroll() {
-
     // Setup scroll events to handle enable / disable map zoom
     Observable.fromEvent(this.document, 'wheel')
       .debounceTime(250)
@@ -299,10 +316,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
       .subscribe(e => this.wheelEvent = true);
-    Observable.fromEvent(this.platform.nativeWindow, 'scroll')
-      // trailing scroll event is needed so verticalOffset = 0 event is fired
-      .throttleTime(10, undefined, { trailing: true, leading: true })
-      .subscribe(e => this.onScroll());
+    this.scroll.verticalOffset$.subscribe(this.onScroll.bind(this));
   }
 
   /**
@@ -311,7 +325,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * the wheel events
    */
   private onWheel() {
-    this.verticalOffset = this.getVerticalOffset();
+    this.verticalOffset = this.scroll.getVerticalOffset();
     this.wheelEvent = false;
     this.enableZoom = (this.verticalOffset === 0);
   }
@@ -320,13 +334,25 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * If scrolled to the top, enable the zoom.  Unless
    * there is a wheel event currently happening.
    */
-  private onScroll() {
-    this.verticalOffset = this.getVerticalOffset();
+  private onScroll(yOffset: number) {
+    this.verticalOffset = yOffset;
     if (!this.wheelEvent) {
       this.enableZoom = (this.verticalOffset === 0);
     } else {
       this.enableZoom = false;
     }
+  }
+
+  /**
+   * Toggle mobile vh transition to force a height change on resize
+   */
+  private resetVhTransition() {
+    this.map.el.nativeElement.style.transition = 'none';
+    this.map.el.nativeElement.style.height = '100vh';
+    setTimeout(() => {
+      this.map.el.nativeElement.style.height = null;
+      setTimeout(() => this.map.el.nativeElement.style.transition = null);
+    }, 350);
   }
 
 }

@@ -8,7 +8,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
-import { Routes, Router } from '@angular/router';
+import { Routes, Router, ActivatedRoute } from '@angular/router';
 import { PageScrollService } from 'ng2-page-scroll';
 
 import { MapToolComponent } from './map-tool/map-tool.component';
@@ -26,41 +26,35 @@ import { ScrollService } from './services/scroll.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class AppComponent implements OnInit {
   mapComponent: MapToolComponent;
   @HostBinding('class.ranking-tool') isRankingTool: boolean;
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
-  @HostBinding('class.gt-mobile') largerThanMobile: boolean;
-  @HostBinding('class.gt-tablet') largerThanTablet: boolean;
-  @HostBinding('class.gt-laptop') largerThanSmallDesktop: boolean;
+  @HostBinding('class.ios') ios = false;
+  @HostBinding('class.safari') safari = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   currentMenuItem: string;
   menuActive = false;
-  siteNav = [
-    { url: 'https://evictionlab.org/', langKey: 'NAV.HOME' },
-    { url: 'https://evictionlab.org/map', langKey: 'NAV.MAP' },
-    { url: 'https://evictionlab.org/eviction-rankings', langKey: 'NAV.RANKINGS' },
-    { url: 'https://evictionlab.org/about-eviction-lab', langKey: 'NAV.ABOUT' },
-    { url: 'https://evictionlab.org/the-problem', langKey: 'NAV.PROBLEM' },
-    { url: 'https://evictionlab.org/our-methodology', langKey: 'NAV.METHODS' },
-    { url: 'https://evictionlab.org/help-faq', langKey: 'NAV.HELP' },
-    { url: 'https://evictionlab.org/updates', langKey: 'NAV.UPDATES' }
-  ];
+  siteNav = environment.siteNav;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
   ];
   selectedLanguage;
+  isAtTop = true;
   private activeMenuItem;
 
   constructor(
     public loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
+    private activatedRoute: ActivatedRoute,
     private routing: RoutingService,
     private router: Router,
     private toastr: ToastsManager,
@@ -84,13 +78,15 @@ export class AppComponent implements OnInit {
     };
     this.routing.setupRoutes(components);
     this.scroll.setupScroll(this.pageScroll);
+    this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
     this.translate.setDefaultLang('en');
     this.translate.use('en');
     this.translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
     });
-    this.onWindowResize();
     // Add user agent-specific classes
+    this.ios = this.platform.isIos;
+    this.safari = this.platform.isSafari;
     this.iosSafari = this.platform.isIosSafari;
     this.android = this.platform.isAndroid;
   }
@@ -102,11 +98,16 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
+    let title;
     if (component.id === 'map-tool') {
       this.mapComponent = component;
-      this.titleService.setTitle('Eviction Lab - Map & Data'); // TODO: translate
+      title = this.translatePipe.transform('MAP.TITLE');
     } else if (component.id === 'ranking-tool') {
-      this.titleService.setTitle('Eviction Lab - Eviction Rankings'); // TODO: translate
+      title = this.translatePipe.transform('RANKINGS.TITLE');
+    }
+    // Only set title if not empty
+    if (title) {
+      this.titleService.setTitle(title);
     }
     this.updateClassAttributes(component.id);
     const loadedData = {
@@ -129,6 +130,7 @@ export class AppComponent implements OnInit {
   onMenuSelect(itemId: string) {
     this.currentMenuItem = itemId;
     if (itemId === 'menu') {
+      this.platform.saveActiveElement();
       this.menuActive = true;
     }
     // scroll to top when map is selected
@@ -138,7 +140,7 @@ export class AppComponent implements OnInit {
     // show help dialog when help is pressed
     if (itemId === 'help') {
       if (this.mapComponent) {
-        this.mapComponent.showHelpDialog()
+        this.mapComponent.showFeatureOverview()
           .subscribe((res) => { this.onMenuSelect(null); });
       }
     }
@@ -148,6 +150,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Set the language to use in the translate service
+   * TODO: Make sure the route parameter is updated when changed
+   */
   onLanguageSelect(lang) {
     this.translate.use(lang.id);
     this.analytics.trackEvent('languageSelection', { language: lang.id });
@@ -173,11 +179,11 @@ export class AppComponent implements OnInit {
     return this.mapComponent.onSearchSelect.apply(this.mapComponent, arguments);
   }
 
-  /** Sets the booleans that determine the classes on the app component */
-  @HostListener('window:resize') onWindowResize() {
-    this.largerThanMobile = this.platform.isLargerThanMobile;
-    this.largerThanTablet = this.platform.isLargerThanTablet;
-    this.largerThanSmallDesktop = this.platform.isLargerThanSmallDesktop;
+  /**
+   * Forward initial search event to map tool component
+   */
+  onInitialSearchInput() {
+    this.mapComponent.onInitialSearchInput.apply(this.mapComponent, arguments);
   }
 
   /**

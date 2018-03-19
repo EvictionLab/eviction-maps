@@ -3,16 +3,21 @@
 </h4>
 <ul *ngIf="dataProperty && list && maxValue" class="ranking-list">
   <li 
-    *ngFor="let location of list; let i = index" 
+    *ngFor="let listItem of list; let i = index" 
     [class.active]="selectedIndex === i"
-    (click)="locationSelected.emit(i)"
   >
-    <span class="ranking-number">{{ i + 1 }}</span>
-    <div class="ranking-bar" [style.width]="''+(100*(location[dataProperty]/maxValue))+'%'"></div>
-    <div class="ranking-content">
-      <span class="ranking-name">{{ location.name }}</span><span class="place-separator">,</span>
-      <span class="ranking-parent">{{location.displayParentLocation}}</span>
-      <span class="ranking-value">{{location[dataProperty]}}{{ dataProperty.includes('Rate') ? '%' : '' }}</span>
-    </div>
+    <button
+      (click)="locationSelected.emit(i)"
+      [attr.aria-label]="getAriaLabel(i+1, listItem)"
+    >
+      <span class="ranking-number">{{ i + 1 }}</span>
+      <div class="ranking-bar" [style.width]="''+(100*(listItem[dataProperty.value]/maxValue))+'%'"></div>
+      <div class="ranking-content">
+        <span class="ranking-name">{{ listItem[propertyMap.primary] }}</span><span class="place-separator">,</span>
+        <span class="ranking-parent">{{listItem[propertyMap.secondary]}}</span>
+        <span *ngIf="listItem[dataProperty.value] >= 0" class="ranking-value">{{listItem[dataProperty.value]}}{{ isRate ? '%' : '' }}</span>
+        <span *ngIf="listItem[dataProperty.value] < 0" class="ranking-value unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+      </div>
+    </button>
   </li>
 </ul>

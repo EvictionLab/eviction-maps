@@ -7,16 +7,29 @@ import { version } from './version';
 
 export const environment = {
   production: false,
+  deployUrl: './',
   tileBaseUrl: 'https://tiles.evictionlab.org/',
-  cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/cities-rankings.csv',
-  stateRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/states-rankings.csv',
-  usAverageDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/avg/us.json',
+  evictorsRankingDataUrl: './assets/MOCK_EVICTORS.csv',
+  // tslint:disable-next-line:max-line-length
+  cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/cities-rankings.csv',
+  stateRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/states-rankings.csv',
+  usAverageDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/avg/us.json',
   mapboxApiKey: 'pk.' +
     'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
     '4et5d5nstXWM5P0JG67XEQ',
-  mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
+  mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/search/counties.csv',
   downloadBaseUrl: 'https://exports-dev.evictionlab.org',
   minYear: 2000,
   maxYear: 2016,
-  appVersion: version + '-dev'
+  appVersion: version + '-dev',
+  siteNav: [
+    { url: '/', langKey: 'NAV.HOME' },
+    { url: '/map', langKey: 'NAV.MAP' },
+    { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
+    { url: '/about-us', langKey: 'NAV.ABOUT' },
+    { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
+    { url: '/methods', langKey: 'NAV.METHODS' },
+    { url: '/help-faq', langKey: 'NAV.HELP' },
+    { url: '/updates', langKey: 'NAV.UPDATES' }
+  ]
 };

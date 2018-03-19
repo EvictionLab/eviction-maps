@@ -3,7 +3,7 @@ import {
   HostListener, ElementRef
 } from '@angular/core';
 import { environment } from '../../../../environments/environment';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/distinctUntilChanged';
 import * as _isEqual from 'lodash.isequal';
@@ -21,7 +21,8 @@ import { PlatformService } from '../../../services/platform.service';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
+  providers: [ TranslatePipe ]
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
@@ -53,7 +54,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (!_isEqual(roundedVal, this._store.bounds) && val.length === 4) {
       this._store.bounds = roundedVal;
       if (this._mapInstance) {
-        this.map.zoomToBoundingBox(this._store.bounds);
+        this.mapService.zoomToBoundingBox(this._store.bounds);
       }
       this.boundingBoxChange.emit(this._store.bounds);
     }
@@ -153,6 +154,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() showMapClick = new EventEmitter();
   // emits event when layer changed from dropdown (for analytics)
   @Output() layerChangedFromDropdown = new EventEmitter();
+  // emits when help button is clicked
+  @Output() helpClick = new EventEmitter();
   @HostBinding('class.cards-active') get cardsActive() {
     return this.activeFeatures.length;
   }
@@ -213,11 +216,21 @@ export class MapComponent implements OnInit, OnChanges {
     }, 400
   );
 
+  // returns true if there is data being shown that changes by year
+  get isYearDataShown() {
+    if (!this.activeFeatures || !this.selectedBubble || !this.selectedChoropleth) { return false; }
+    return this.activeFeatures.length > 0 ||
+      this.selectedBubble.id.indexOf('none') < 0 ||
+      this.selectedChoropleth.id.indexOf('none') < 0;
+  }
+
   constructor(
-    private map: MapService,
+    public el: ElementRef,
+    private mapService: MapService,
     private loader: LoadingService,
     private platform: PlatformService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private translatePipe: TranslatePipe
   ) {
     loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
@@ -239,10 +252,10 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.scrollZoom) {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
-    if (changes.activeFeatures && this.map.mapCreated) {
+    if (changes.activeFeatures && this.mapService.mapCreated) {
       const features = (changes.activeFeatures.currentValue ?
         changes.activeFeatures.currentValue : []);
-      this.map.updateHighlightFeatures(this.selectedLayer.id, features);
+      this.mapService.updateHighlightFeatures(this.selectedLayer.id, features);
     }
   }
 
@@ -277,36 +290,11 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
       this.layerOptions.forEach((group: MapLayerGroup) => {
-        this.map.setLayerGroupVisibility(group, (group.id === layerGroup.id));
+        this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
       // Reset the hover layer
-      this.map.setSourceData('hover');
+      this.mapService.setSourceData('hover');
     }
-  }
-
-  /**
-   * Zoom to Point feature
-   * @param feature Point feature
-   * @param zoom Zoom level
-   */
-  zoomToPointFeature(feature: MapFeature, zoom = 14) {
-    this.map.zoomToPoint(feature, zoom);
-  }
-
-  /**
-   * Zoom to Polygon feature
-   * @param feature Polygon feature
-   */
-  zoomToFeature(feature: MapFeature) {
-    this.map.zoomToFeature(feature);
-  }
-
-  /**
-   * Zoom to bounding box
-   * @param bbox
-   */
-  zoomToBoundingBox(bbox: number[]) {
-    this.map.zoomToBoundingBox(bbox);
   }
 
   /**
@@ -316,22 +304,22 @@ export class MapComponent implements OnInit, OnChanges {
    */
   onMapReady(map) {
     this._mapInstance = map;
-    this.map.setMapInstance(map);
+    this.mapService.setMapInstance(map);
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
-    this.map.isLoading$
+    this.mapService.isLoading$
       .debounceTime(150)
       .distinctUntilChanged()
       .subscribe((state) => {
         this.mapLoading = state;
         // Whenever map finishes loading, update boundaries
         if (!this.mapLoading) {
-          this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+          this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
         }
       });
     if (this.boundingBox) {
-      this.map.zoomToBoundingBox(this.boundingBox);
+      this.mapService.zoomToBoundingBox(this.boundingBox);
       // Only toggle if autoSwitch is currently on
       if (this.autoSwitch) {
         this.autoSwitch = false; // needs to be off when navigating to a param location
@@ -350,30 +338,30 @@ export class MapComponent implements OnInit, OnChanges {
       this.autoSwitch = true;
     }
     if (this.autoSwitch) {
-      const visibleGroups = this.map.filterLayerGroupsByZoom(this.layerOptions, zoom);
+      const visibleGroups = this.mapService.filterLayerGroupsByZoom(this.layerOptions, zoom);
       if (visibleGroups.length > 0) {
         if (this.selectedLayer !== visibleGroups[0]) {
           this.selectedLayer = visibleGroups[0];
         }
       }
     }
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
-  enableZoom() { return this.map.enableZoom(); }
-  disableZoom() { return this.map.disableZoom(); }
+  enableZoom() { return this.mapService.enableZoom(); }
+  disableZoom() { return this.mapService.disableZoom(); }
 
   /**
    * Emits the new bounds of the current map view anytime the map finishes moving
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._store.bounds = this.map.getBoundsArray()
+    this._store.bounds = this.mapService.getBoundsArray()
       .reduce((a, b) => a.concat(b))
       .map(v => Math.round(v * 1000) / 1000);
     this.boundingBoxChange.emit(this._store.bounds);
     if (this.restoreAutoSwitch) { this.autoSwitch = true; }
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   /**
@@ -423,7 +411,7 @@ export class MapComponent implements OnInit, OnChanges {
     const censusYear = this.yearToCensusYear(this.year);
     if (this.censusYear !== censusYear) {
       this.censusYear = censusYear;
-      this.map.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
+      this.mapService.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
     }
   }
 
@@ -438,10 +426,9 @@ export class MapComponent implements OnInit, OnChanges {
   /**
    * Updates the selected layer's name with the word "auto" if
    * auto switch is enabled
-   * TODO: translate "auto"
    */
   private updateSelectedLayerName() {
-    const autoLabel = '<span>(auto)</span>';
+    const autoLabel = `<span>(${this.translatePipe.transform('MAP.AUTO')})</span>`;
     if (this._store.layer) {
       const layerId = this._store.layer.id;
       const layerOptions = this.layerOptions.filter(l => l.id === layerId);
@@ -481,16 +468,24 @@ export class MapComponent implements OnInit, OnChanges {
       const bubble = this.addYearToObject(this.selectedBubble, this.year) as MapDataAttribute;
       if (bubble) {
         this.mapEventLayers.forEach((layerId) => {
-          const expression = (bubble.expressions[layerId] ?
+          const expression: any = (bubble.expressions[layerId] ?
             bubble.expressions[layerId] : bubble.expressions['default']);
 
-          // Update property used in expression
-          if (expression.length > 1) {
-            expression[2][2][1] = bubble.id;
+          if (!bubble.id.startsWith('none')) {
+            this.mapService.setLayerFilter(`${layerId}_bubbles`, undefined);
+            expression[2][1] = bubble.id;
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-color', [
+              'case', ['<', ['number', ['get', bubble.id]], 0],
+              'rgba(255,255,255,0.65)', 'rgba(255,4,0,0.65)'
+            ]);
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-stroke-color', [
+              'case', ['<', ['number', ['get', bubble.id]], 0],
+              'rgba(128,128,128,1)', 'rgba(255,255,255,1)'
+            ]);
+          } else {
+            this.mapService.setLayerFilter(`${layerId}_bubbles`, ['has', bubble.id]);
           }
-          this.map.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
-          this.map.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
-          this.map.setLayerDataProperty(`${layerId}_bubbles`, 'circle-stroke-color', bubble.id);
         });
       }
     }
@@ -506,14 +501,15 @@ export class MapComponent implements OnInit, OnChanges {
         this.addYearToObject(this.selectedChoropleth, this.year) as MapDataAttribute;
       if (choropleth) {
         this.mapEventLayers.forEach((layerId) => {
-            const newFill = {
-              'property': choropleth.id,
-              'default': choropleth.default,
-              'stops': (choropleth.stops[layerId] ?
-                choropleth.stops[layerId] : choropleth.stops['default'])
-            };
-            this.map.setLayerStyle(layerId, 'fill-color', newFill);
-            this.map.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
+            const stops = choropleth.stops[layerId] ?
+              choropleth.stops[layerId] : choropleth.stops['default'];
+            if (!choropleth.id.startsWith('none')) {
+              const newFill = ['interpolate', ['linear'], ['get', choropleth.id], ...stops];
+              this.mapService.setLayerStyle(layerId, 'fill-color', newFill);
+            } else {
+              this.mapService.setLayerStyle(layerId, 'fill-color', choropleth.default);
+            }
+            this.mapService.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
         });
       }
     }
@@ -526,7 +522,7 @@ export class MapComponent implements OnInit, OnChanges {
   private updateMapData() {
     this.updateMapBubbles();
     this.updateMapChoropleths();
-    this.map.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
 }

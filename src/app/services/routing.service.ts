@@ -31,11 +31,11 @@ export class RoutingService {
     bounds: '-136.80,20.68,-57.60,52.06'
   });
   private pymSearchStr: string;
-  private mapRouteKeys = ['year', 'geography', 'bounds']; // keys mandatory for map route
+  private mapRouteKeys = ['year' ]; // keys mandatory for map route
 
   private defaultViews = {
-    map: `/${environment.maxYear}/auto/-136.80,20.68,-57.60,52.06`,
-    rankings: '/evictions/United%20States/0/evictionRate',
+    map: `/${environment.maxYear}`,
+    rankings: '/evictions',
     evictors: '/evictors'
   };
 
@@ -61,20 +61,25 @@ export class RoutingService {
     this.route.url.subscribe((url) => { this.urlParts = url; });
   }
 
-  /** Checks if the provided key / value is a valid query parameter */
+  /**
+   * Checks if the provided key / value is a valid query parameter,
+   * returns false for any default values
+   */
   isValidQueryParam(key, value) {
     return (
       (
         this.mapRouteKeys.indexOf(key) === -1 &&
         value !== '' &&
-        value !== 'none' &&
-        value !== 'line'
+        value !== 'none' && // select box defaults
+        value !== 'line' && // graph default
+        value !== 'en' // language default
       )
     );
   }
 
   /** Update the route based on current data */
   updateRouteData(currentData: MapRouteData) {
+    if (!currentData || Object.keys(currentData).length === 0) { return; }
     const routeArray = this.mapRouteKeys.map(k => currentData[k]); // array of route data
     // grab non-route keys as query params
     const queryParams = Object.keys(currentData)
@@ -90,17 +95,16 @@ export class RoutingService {
   /** Route Configuration */
   setupRoutes(components: any) {
     // sets the default route based on the page URL
-    const defaultRoute =
-      this.platform.nativeWindow.location.pathname.includes('rankings') ?
-        this.defaultViews.rankings : this.defaultViews.map;
+    const url = this.platform.nativeWindow.location.pathname;
+    const defaultRoute = url.includes('rankings') ?
+        (url.includes('evictors') ? this.defaultViews.evictors : this.defaultViews.rankings ) :
+        this.defaultViews.map;
     // all routes for the app
     const appRoutes: Routes = [
-      { path: 'embed/:year/:geography/:bounds', component: components.embed },
-      { path: ':year/:geography/:bounds', component: components.map },
+      { path: 'embed/:year', component: components.embed },
+      { path: 'evictions', component: components.rankings  },
       { path: 'evictors', component: components.rankings },
-      { path: 'evictions/:region/:areaType/:sortProp', component: components.rankings },
-      { path: 'evictions/:region/:areaType/:sortProp/:location', component: components.rankings },
-      { path: 'evictions', redirectTo: this.defaultViews.rankings },
+      { path: ':year', component: components.map },
       { path: '', redirectTo: defaultRoute, pathMatch: 'full' } // default route based on URL path
     ];
     // reset router with dynamic routes
@@ -108,16 +112,18 @@ export class RoutingService {
   }
 
   /**
-   * Pym.js uses window.location.search which is overriden by the current hash routing.
-   * We need to place it back without triggering a page refresh in order for elements to
-   * resize correctly
+   * Pym.js uses window.location.search which is overriden by hash routing.
+   * We need to place it back if hash routing is used without triggering
+   * a page refresh in order for elements to resize correctly
    */
   updatePymSearch() {
     const location = this.platform.nativeWindow.location;
-    const newUrl = location.origin + this.pymSearchStr + location.hash;
-    this.platform.nativeWindow.history.replaceState(
-      {}, this.platform.nativeWindow.document.title, newUrl
-    );
+    if (location.hash) {
+      const newUrl = location.origin + this.pymSearchStr + location.hash;
+      this.platform.nativeWindow.history.replaceState(
+        {}, this.platform.nativeWindow.document.title, newUrl
+      );
+    }
   }
 
 }

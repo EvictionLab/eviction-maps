@@ -1,5 +1,9 @@
 @import '../../theme';
 
+::ng-deep {
+  html { overflow-x: hidden; }
+}
+
 // Page Layout
 .app-wrapper {
   min-height:100%;
@@ -28,7 +32,7 @@
 
 // Larger than mobile:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .app-wrapper {
     app-map {
       margin-top: $headerHeightLg;
@@ -39,7 +43,7 @@
 
 // Larger than tablet:
 //    Adjust height of map / location cards to reflect large header.
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .app-wrapper {
     &.map-active { transition: none; }
 
@@ -78,11 +82,6 @@
     &.inactive {
       pointer-events:none;
     }
-    .btn-map {
-      position:fixed;
-      top:grid(20);
-      bottom:auto;
-    }
   }
 }
 .btn-map, 
@@ -92,13 +91,12 @@
   left:0;
   right:0;
   width: grid(28);
-  height: grid(8);
   font-size:15px;
   margin:auto;
+  padding: 0 grid(2);
   .icon {
     width: 14px;
-    height: 12px;
-    margin:auto;
+    height: 9px;
     fill: #fff;
   }
 }
@@ -119,7 +117,7 @@
   }
 }
 
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .map-overlay .btn-compare { display:block; }
   .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});

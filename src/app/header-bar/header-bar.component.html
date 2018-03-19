@@ -2,7 +2,7 @@
   <div class="header-content">
     <div class="header-logo">
       <a href="/">
-        <img src="./assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
+        <img src="{{deployUrl}}assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
       </a>
     </div>
     <div [class.active]="activeMenuItem === 'search'" class="header-search">
@@ -11,6 +11,7 @@
         class="search"
         [placeholder]="'HEADER.SEARCH_HINT' | translate"
         (locationSelected)="selectLocation.emit($event)"
+        (initialInput)="initialInput.emit($event)"
       ></app-location-search>
     </div>
     <app-ui-select 

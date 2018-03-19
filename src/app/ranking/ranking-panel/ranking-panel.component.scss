@@ -3,7 +3,18 @@
 :host { padding: $pageMargin; }
 
 @media(min-width: $gtMobile) {
-  :host { padding: $pageMarginLg; }
+  :host { 
+    padding: $pageMarginLg; 
+    // make sure shading behind robotext extends to panel edges
+    background: linear-gradient(transparent, transparent 90px, $grey5 90px); 
+  }
+}
+
+@media(min-width: $gtLaptop) {
+  :host { 
+    padding: $pageMarginLg; 
+    background: none; 
+  }
 }
 
 // WRAPPER FOR ALL PANEL CONTENT
@@ -199,7 +210,7 @@
   box-sizing: content-box;
   p {
     margin: 0 auto;
-    max-width: grid(50);
+    max-width: grid(44);
   }
 }
 // boost size on tablet
@@ -283,19 +294,17 @@
   .rank-location { color: $color3; }
 }
 
-
-// TODO: refactor so close button styles live in one place
 .close-button {
   cursor: pointer;
   text-align: center;
   padding: grid(1.25);
   width: grid(5);
   height: grid(5);
-  box-shadow: $z1shadow;
   background-color: $rankingsBg1;
   position: absolute;
-  right: 0;
-  top: grid(-10);
+  right: $pageMargin;
+  top: -1*$pageMargin;
+  transform: translate3d(0,-100%,0);
   .icon {
     height: grid(2.5);
     width: grid(2.5);
@@ -305,5 +314,11 @@
   &:hover, &:active {
     background-color: $color1;
     .icon { fill: $white; }
+  }
+}
+@media(min-width: $gtMobile) {
+  .close-button {
+    top: -1*$pageMarginLg;
+    right: $pageMarginLg;
   }
 }

@@ -24,7 +24,7 @@ import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
 
 export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+  return new TranslateHttpLoader(http, `${environment.deployUrl}assets/i18n/`, '.json');
 }
 
 export class CustomOption extends ToastOptions {
@@ -42,6 +42,7 @@ export class CustomOption extends ToastOptions {
     BrowserAnimationsModule,
     HttpClientModule,
     RankingModule.forRoot({
+      evictorsUrl: environment.evictorsRankingDataUrl,
       cityUrl: environment.cityRankingDataUrl,
       stateUrl: environment.stateRankingDataUrl
     }),
@@ -53,7 +54,7 @@ export class CustomOption extends ToastOptions {
       }
     }),
     ServicesModule.forRoot(),
-    RouterModule.forRoot([], { useHash: true }),
+    RouterModule.forRoot([], { useHash: !environment.production }),
     TooltipModule.forRoot(),
     ToastModule.forRoot(),
     Ng2PageScrollModule.forRoot()

@@ -9,11 +9,11 @@
   p { margin:0; }
 }
 // increase header spacing for devices larger than mobile
-:host-context(.gt-mobile) {
+@media(min-width: $gtMobile) {
   .data-header { padding: grid(4) 0 grid(2); }
 }
 // increase spacing for devices larger than tablet
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .data-header { padding: grid(8) 0 grid(4); }
 }
 
@@ -43,6 +43,7 @@ app-location-cards {
   justify-content: space-between;
   margin-top: grid(3);
   margin-bottom: grid(6);
+  -webkit-overflow-scrolling: touch;
 }
 
 // Data Panel Footer Container
@@ -56,7 +57,7 @@ app-location-cards {
   justify-content: space-around;
   margin-bottom: grid(5);
 }
-:host-context(.gt-tablet) {
+@media(min-width: $gtTablet) {
   .data-panel-footer {
     flex-direction: row;
     align-items: flex-start;
@@ -85,6 +86,9 @@ app-location-cards {
     @include altSmallCapsText(13px);
     border: 5px solid $grey5;
     color: $grey1a;
+    text-align: center;
+    display:block;
+    line-height:32px;
     &:hover, &:focus, &:active {
       background: $white;
       border: 5px solid $grey5;
@@ -157,6 +161,16 @@ app-location-cards {
   }
   .btn:hover .icon {
     fill: $black;
+  }
+}
+
+// Disabled download button
+.action-wrapper {
+  .btn.btn-border[disabled],
+  .btn.btn-border[disabled]:hover {
+    opacity: inherit;
+    color: $grey1a;
+    cursor: inherit;
   }
 }
 

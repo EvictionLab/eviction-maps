@@ -12,114 +12,174 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
   left:0;right:0;top:0;bottom:0;
 }
 
-
-::ng-deep {
-  .mapboxgl-ctrl-icon {
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
-    background-position: center;
+// Map Zoom Controls
+// ----
+// Hide rotate button because it's confusing
+.mapboxgl-ctrl-group > button.mapboxgl-ctrl-compass {
+  display: none;
+}
+// center controls vertically on the right side of the map
+.mapboxgl-ctrl-top-left {
+  top: 0;
+  bottom: $timeSliderHeight + $mobileScrollIndicatorHeight + grid(5);
+  margin:auto;
+  height:grid(22);
+  right:$pageMargin;
+  left: auto;
+  .mapboxgl-ctrl-group {
+    float: right;
+    border-radius:0;
+    box-shadow: $z1shadow;
+    overflow:visible;
+     & > button {
+       border-bottom: none;
+       border-radius:0;
+       width: grid(5);
+       height: grid(5);
+       &.mapboxgl-ctrl-zoom-in {
+         border-bottom: 1px solid $shadingColor;
+       }
+       &:focus {
+         @include focusState();
+       }
+     }
   }
-  .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
-    background-image: url($zoomInIcon);
-  }
-  .mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
-    background-image: url($zoomOutIcon);
-  }
-  .mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
-    background-image: url($geolocateIcon);
-    background-size: 22px 22px;
-  }
-  .mapboxgl-ctrl-attrib.mapboxgl-compact:after {
-    background-image: url($infoIcon);
-    background-size: 16px 16px;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  .mapboxgl-canvas:focus {
-    outline: 4px solid transparentize($color1, 0.5);
-    outline-offset: -4px;
-  }
-  .mapboxgl-popup, .mapboxgl-popup-content {
-    cursor: pointer;
-    pointer-events: none;
-  }
-  .mapboxgl-popup-tip {
-    border: $tooltipArrowSize solid transparent;
-    transform: scale(0.75, 1); 
-  }
-  
-  .mapboxgl-popup-content {
-    @include tooltip();
-  }
-  .mapboxgl-popup-content p {
-    margin: 0;
-  }
-  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
-    transform: scale(1, 0.75); 
-  }
-  .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
-    border-bottom: none;
-    border-top-color: $tooltipBackground;
-  }
-  .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
-    border-right: none;
-  }
-  .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
-    border-left: none;
-  }
-  .mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
-    border-right: none;
-    border-left-color: $tooltipBackground;
-  }
-  .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
-    border-left: none;
-    border-right-color: $tooltipBackground;
-  }
-  .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
-  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
-    border-top: none;
-    border-bottom-color: $tooltipBackground;
-  }
-  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
-    border-right: none;
-  }
-  .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
-    border-left: none;
-  }
-  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
-    margin: grid(1);
-  }
-  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+}
+// increase page margins and account for larger time slider
+@media(min-width: $gtMobile) {
+  .mapboxgl-ctrl-top-left {
     top: 0;
-    bottom: auto;
+    bottom:$timeSliderLg;
+    right:$pageMarginLg;
+    left: auto;
   }
-  .mapboxgl-ctrl-bottom-left {
+}
+// - End Map Zoom Control
+
+
+.mapboxgl-ctrl-icon {
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-in {
+  background-image: url($zoomInIcon);
+}
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-zoom-out {
+  background-image: url($zoomOutIcon);
+}
+.mapboxgl-ctrl-icon.mapboxgl-ctrl-geolocate {
+  background-image: url($geolocateIcon);
+  background-size: 22px 22px;
+}
+.mapboxgl-ctrl-attrib.mapboxgl-compact:after {
+  background-image: url($infoIcon);
+  background-size: 16px 16px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.mapboxgl-canvas:focus {
+  outline: 4px solid transparentize($color1, 0.5);
+  outline-offset: -4px;
+}
+.mapboxgl-popup, .mapboxgl-popup-content {
+  cursor: pointer;
+  pointer-events: none;
+}
+.mapboxgl-popup-tip {
+  border: $tooltipArrowSize solid transparent;
+  transform: scale(0.75, 1); 
+}
+
+.mapboxgl-popup-content {
+  @include tooltip();
+}
+.mapboxgl-popup-content p {
+  margin: 0;
+}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip {
+  transform: scale(1, 0.75); 
+}
+.mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
+  border-bottom: none;
+  border-top-color: $tooltipBackground;
+}
+.mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip {
+  border-right: none;
+}
+.mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip {
+  border-left: none;
+}
+.mapboxgl-popup-anchor-right .mapboxgl-popup-tip {
+  border-right: none;
+  border-left-color: $tooltipBackground;
+}
+.mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-left: none;
+  border-right-color: $tooltipBackground;
+}
+.mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-top: none;
+  border-bottom-color: $tooltipBackground;
+}
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-right: none;
+}
+.mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip {
+  border-left: none;
+}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
+  margin: grid(1);
+}
+.mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
+  top: 0;
+  bottom: auto;
+}
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}
+
+@media(min-width: $gtMobile) {
+  .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
     display: none;
   }
-  @media(min-width: $gtTablet) {
-    .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib {
-      display: none;
-    }
+  .mapboxgl-ctrl-bottom-left {
+    display: block;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: auto;
+  }
+  .slider-active {
     .mapboxgl-ctrl-bottom-left {
-      display: inherit;
-      top: auto;
-      bottom: 0;
-      left: 0;
-      right: auto;
-    }
-    
+      bottom: $timeSliderLg;
+    } 
+  }
+  .slider-active.cards-active {
+    .mapboxgl-ctrl-bottom-left {
+      bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight;
+    } 
   }
 }
 
-:host-context(.slider-active) {
-  ::ng-deep {
+@media(min-width: $gtTablet) {
+  .slider-active,
+  .slider-active.cards-active {
     .mapboxgl-ctrl-bottom-left {
       bottom: $timeSliderLg;
     }
+  }
+  .mapboxgl-ctrl-bottom-left {
+    display: inherit;
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: auto;
   }
 }

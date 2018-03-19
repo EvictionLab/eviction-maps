@@ -3,16 +3,28 @@ import { version } from './version';
 
 export const environment = {
     production: true,
+    deployUrl: 'https://staging.evictionlab.org/tool/',
     tileBaseUrl: 'https://tiles.evictionlab.org/',
-    cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/cities-rankings.csv',
-    stateRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/rankings/states-rankings.csv',
-    usAverageDataUrl: 'https://s3.amazonaws.com/eviction-lab-data/avg/us.json',
+    evictorsRankingDataUrl: 'https://staging.evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
+    cityRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/cities-rankings.csv',
+    stateRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/states-rankings.csv',
+    usAverageDataUrl: 'https://staging.evictionlab.org/data/avg/us.json',
     mapboxApiKey: 'pk.' +
         'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
         '4et5d5nstXWM5P0JG67XEQ',
-    mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-data/search/counties.csv',
+    mapboxCountyUrl: 'https://staging.evictionlab.org/data/search/counties.csv',
     downloadBaseUrl: 'https://exports-dev.evictionlab.org',
     minYear: 2000,
     maxYear: 2016,
-    appVersion: version + '-staging'
+    appVersion: version + '-staging',
+    siteNav: [
+      { url: 'https://staging.evictionlab.org/', langKey: 'NAV.HOME' },
+      { url: 'https://staging.evictionlab.org/map', langKey: 'NAV.MAP' },
+      { url: 'https://staging.evictionlab.org/rankings', langKey: 'NAV.RANKINGS' },
+      { url: 'https://staging.evictionlab.org/about-us', langKey: 'NAV.ABOUT' },
+      { url: 'https://staging.evictionlab.org/why-eviction-matters', langKey: 'NAV.PROBLEM' },
+      { url: 'https://staging.evictionlab.org/methods', langKey: 'NAV.METHODS' },
+      { url: 'https://staging.evictionlab.org/help-faq', langKey: 'NAV.HELP' },
+      { url: 'https://staging.evictionlab.org/updates', langKey: 'NAV.UPDATES' }
+    ]
 };

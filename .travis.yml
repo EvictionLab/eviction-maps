@@ -25,38 +25,15 @@ before_deploy:
 - export PATH=$PATH:$HOME/.local/bin
 deploy:
 - skip_cleanup: true
-  provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  bucket: eviction-maps-prod
-  region: us-east-2
-  acl: public_read
-  local_dir: dist
+  provider: script
+  script: ./build/deploy.sh
   on:
     branch: master
-- provider: script
-  script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_PROD --paths="/*"
-  on:
-    branch: master
-- skip_cleanup: true
-  provider: s3
-  access_key_id: $AWS_KEY
-  secret_access_key: $AWS_SECRET
-  region: us-east-2
-  bucket: eviction-maps
-  acl: public_read
-  local_dir: dist
-  on:
-    branch: development
-- provider: script
-  script: aws cloudfront create-invalidation --distribution-id=$CLOUDFRONT_ID_DEV --paths="/*"
-  on:
-    branch: development
 - skip_cleanup: true
   provider: script
-  script: bash -c "if [[ $TRAVIS_BRANCH == prototypes/* ]]; then aws s3 cp dist/ s3://eviction-lab-prototypes/${TRAVIS_BRANCH:11} --recursive --acl=public-read; fi"
+  script: ./build/deploy.sh
   on:
-    all_branches: true
+    branch: development
 notifications:
   slack:
     template:

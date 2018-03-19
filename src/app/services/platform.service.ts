@@ -10,7 +10,7 @@ function _window(): any {
 
 const breakpoints = {
   'mobile': 767,
-  'tablet': 1024,
+  'tablet': 1023,
   'smallDesktop': 1279,
   'largeDesktop': 1599
 };
@@ -21,6 +21,7 @@ export class PlatformService {
   viewportWidth: number;
   viewportHeight: number;
   dimensions$: Observable<{ width: number, height: number }>;
+  private _activeElement;
 
   get nativeWindow(): any {
     return _window();
@@ -75,10 +76,19 @@ export class PlatformService {
     return this.viewportWidth > breakpoints['largeDesktop'];
   }
 
+  /** Returns true if browser is Safari */
+  get isSafari(): boolean {
+    return this.userAgent.includes('safari');
+  }
+
+  /** Returns true if device is iOS */
+  get isIos(): boolean {
+    return this.userAgent.includes('iphone') || this.userAgent.includes('ipad');
+  }
+
   /** Returns true if the device is iOS, running safari */
   get isIosSafari(): boolean {
-    return ((this.userAgent.includes('iphone') || this.userAgent.includes('ipad')) &&
-      (!this.userAgent.includes('crios') && !this.userAgent.includes('fxios')));
+    return this.isIos && (!this.userAgent.includes('crios') && !this.userAgent.includes('fxios'));
   }
 
   /** Returns if the device is android (but not firefox) */
@@ -119,6 +129,26 @@ export class PlatformService {
    */
   currentUrl() {
     return this.nativeWindow.location.href;
+  }
+
+  /**
+   * Store the currently active element so it can be restored later
+   */
+  saveActiveElement() {
+    if (this.nativeWindow && this.nativeWindow.document) {
+      this._activeElement = this.nativeWindow.document.activeElement;
+    }
+  }
+
+  /**
+   * Restore focus to the active element that was saved with `saveActiveElement`
+   */
+  restoreActiveElement(el?: any) {
+    if (!el) { el = this._activeElement; }
+    if (el) {
+      el.focus();
+      this._activeElement = null;
+    }
   }
 
   private updateDimensions(dim: { width: number, height: number }) {

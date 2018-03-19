@@ -1,6 +1,5 @@
 <div id="top" role="main" class="app-wrapper">
   <app-map
-    [class.map-inactive]="!enableZoom"
     [mapConfig]="mapToolService.mapConfig"
     [dataAttributes]="mapToolService.dataAttributes"
     [layerOptions]="mapToolService.dataLevels"
@@ -21,10 +20,18 @@
     (clickedCardHeader)="onCardHeaderClick($event)"
     (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
     (layerChangedFromDropdown)="trackLevelSelection($event)"
+    (helpClick)="showFeatureOverview()"
   >
     <div class="map-overlay" [class.active]="!enableZoom">
+      <div class="show-map-overlay" (click)="goToTop()" [class.inactive]="enableZoom">
+        <button class="btn btn-large btn-primary btn-map z1">
+          <app-ui-icon icon="arrow-up"></app-ui-icon>
+          <span>{{ 'DATA.MAP_LINK' | translate }}</span>              
+        </button>
+      </div>
       <button
         class="btn btn-primary btn-large btn-compare z1" 
+        [attr.tabindex]="(mapToolService.activeFeatures.length > 0 && enableZoom) ? null : -1"
         [class.visible]="(mapToolService.activeFeatures.length > 0) && enableZoom"
         (click)="goToDataPanel($event)"
       >
@@ -32,12 +39,6 @@
         <span *ngIf="mapToolService.activeFeatures.length > 1">{{ 'MAP.DATA_LINK_MULTIPLE' | translate}}</span>        
         <app-ui-icon icon="arrow-down"></app-ui-icon>
       </button>
-      <div class="show-map-overlay" (click)="goToTop()" [class.inactive]="enableZoom">
-        <button class="btn btn-large btn-primary btn-map z1" >
-          <app-ui-icon icon="arrow-up"></app-ui-icon>
-          <span>{{ 'DATA.MAP_LINK' | translate }}</span>              
-        </button>
-      </div>
     </div>
   </app-map>
   <!-- divider div used as a reference for scroll -->

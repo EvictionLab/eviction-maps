@@ -33,84 +33,64 @@
         <div class="action-wrapper">
           <svg viewBox="0 0 69 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
-                <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+                <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="l1">
                     <stop stop-color="#F27636" offset="0%"></stop>
                     <stop stop-color="#E04119" offset="100%"></stop>
                 </linearGradient>
             </defs>
             <polygon fill="#434878" fill-rule="nonzero" points="23.9141276 36.741661 66.1846271 58.9274154 61.0725846 68.6673857 0.91345856 37.0927507 60.8448534 3.26544827 66.2517931 12.8448534"></polygon>
-            <circle fill="url(#linearGradient-1)" cx="57.5172414" cy="11.1724138" r="11.1724138"></circle>
-            <circle fill="url(#linearGradient-1)" cx="11.1724138" cy="36" r="11.1724138"></circle>
-            <circle fill="url(#linearGradient-1)" cx="57.5172414" cy="60.8275862" r="11.1724138"></circle>
+            <circle class="fallback-gradient" fill="url(#l1)" cx="57.5172414" cy="11.1724138" r="11.1724138"></circle>
+            <circle class="fallback-gradient" fill="url(#l1)" cx="11.1724138" cy="36" r="11.1724138"></circle>
+            <circle class="fallback-gradient" fill="url(#l1)" cx="57.5172414" cy="60.8275862" r="11.1724138"></circle>
           </svg>
           <h2>{{ 'DATA.SOCIAL_HEADING' | translate }}</h2>
           <span>{{ 'DATA.SOCIAL_HINT' | translate }}</span>
-          <div class="social-icons">
-            <a class="btn btn-border icon btn-twitter"
-              (click)="trackShare('twitter')" 
-              appSocialSharePopup 
-              href="http://twitter.com/intent/tweet?status={{ encodedTweet }}" 
-              [attr.aria-label]="'FOOTER.SHARE_TWITTER' | translate"
-            >
-              <app-ui-icon icon="twitter"></app-ui-icon>
-            </a>
-            <a class="btn btn-border icon btn-facebook"
-              (click)="trackShare('facebook')" 
-              appSocialSharePopup 
-              [href]="'https://www.facebook.com/sharer/sharer.php?u=' + platform.urlEncode(platform.currentUrl())"  
-              [attr.aria-label]="'FOOTER.SHARE_FACEBOOK' | translate"
-            >
-              <app-ui-icon icon="facebook"></app-ui-icon>
-            </a>
-            <a class="btn btn-border icon btn-email" 
-              [href]="'mailto:?subject=Eviction Lab&body=' + platform.currentUrl()" 
-              (click)="checkMailto($event); trackShare('email')" 
-              [attr.aria-label]="'FOOTER.SHARE_EMAIL' | translate"
-            >
-              <app-ui-icon icon="email"></app-ui-icon>
-            </a>
-            <ng-template #popTemplate>
-              <app-ui-copy-clipboard [copyText]="platform.currentUrl()" [hintText]="'DATA.SHARE_HINT' | translate"></app-ui-copy-clipboard>
-              <app-ui-copy-clipboard [copyText]="getEmbedCode()" [hintText]="'DATA.EMBED_SHARE_HINT' | translate"></app-ui-copy-clipboard>
-            </ng-template>
-            <button class="btn btn-border icon btn-link" (click)="trackShare('link')" container="body" [outsideClick]="true" [popover]="popTemplate" [popoverTitle]="'DATA.SHARE_LINK' | translate" [attr.aria-label]="'FOOTER.SHARE_LINK' | translate">
-                <app-ui-icon icon="link"></app-ui-icon>
-            </button>
-          </div>
+          <app-ui-social-share [tweet]="tweet" emailSubject="Eviction Lab" [embed]="getEmbedUrl()"></app-ui-social-share>
         </div>
         <div class="action-wrapper">
+
           <svg viewBox="0 0 62 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
-              <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+              <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="l2">
                 <stop stop-color="#F27636" offset="0%"></stop>
                 <stop stop-color="#E04119" offset="100%"></stop>
               </linearGradient>
             </defs>
             <polygon fill="#434878" fill-rule="nonzero" points="44 24 44 0 17 0 17 24 0 24 31 54 61 24"></polygon>
-            <polygon fill="url(#linearGradient-1)" points="0 61 0 72 61 72 61 61"></polygon>
+            <polygon class="fallback-gradient" fill="url(#l2)" points="0 61 0 72 61 72 61 61"></polygon>
           </svg>
           <h2>{{ 'DATA.DOWNLOAD_HEADING' | translate }}</h2>
           <span>{{ 'DATA.DOWNLOAD_HINT' | translate }}</span>
-          <button class="btn btn-border" (click)="showDownloadDialog($event)">{{ 'DATA.DOWNLOAD_BUTTON' | translate }}</button>
+          <button
+            [disabled]="displayLocations.length === 0"
+            tooltip="{{ 'DATA.DOWNLOAD_DISABLED' | translate }}"
+            [isDisabled]="displayLocations.length > 0"
+            class="btn btn-border"
+            (click)="showDownloadDialog($event)"
+          >
+            {{ 'DATA.DOWNLOAD_BUTTON' | translate }}
+          </button>
         </div>
         <div class="action-wrapper">
           <svg viewBox="0 0 86 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
             <defs>
-              <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+              <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="l3">
                 <stop stop-color="#F27636" offset="0%"></stop>
                 <stop stop-color="#E04119" offset="100%"></stop>
               </linearGradient>
             </defs>
             <polygon fill="#434878" points="42.7723453 0 0 36.7759181 0 71.9133052 85.5446906 71.9133052 85.5446906 36.7759181"></polygon>
-            <rect fill="url(#linearGradient-1)" x="0" y="51.7654425" width="22.547541" height="20.1175196"></rect>
-            <rect fill="url(#linearGradient-1)" x="31.4985748" y="31.6782661" width="22.547541" height="40.2289705"></rect>
-            <rect fill="url(#linearGradient-1)" x="62.9404975" y="9.89187237" width="22.547541" height="62.003227"></rect>
+            <rect class="fallback-gradient" fill="url(#l3)" x="0" y="51.7654425" width="22.547541" height="20.1175196"></rect>
+            <rect class="fallback-gradient" fill="url(#l3)" x="31.4985748" y="31.6782661" width="22.547541" height="40.2289705"></rect>
+            <rect class="fallback-gradient" fill="url(#l3)" x="62.9404975" y="9.89187237" width="22.547541" height="62.003227"></rect>
           </svg>
           <h2>{{ 'DATA.GET_DATA_HEADING' | translate }}</h2>
           <span>{{ 'DATA.GET_DATA_HINT' | translate }}</span>
-          <a class="btn btn-border" href="https://data.evictionlab.org/" target="_blank">
+          <button class="btn btn-border"
+            (click)="showDataSignupDialog($event)"
+          >
             {{ 'DATA.GET_DATA' | translate }}
-          </a>
+          </button>
         </div>
       </div>
     </div>

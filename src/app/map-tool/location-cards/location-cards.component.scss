@@ -56,6 +56,7 @@
     }
   }
   .card-heading { 
+    width: 100%;
     margin: 0; 
     @include cardHeading(16px);
   }
@@ -197,69 +198,79 @@
   }
 }
 // split cards across viewport on devices larger than mobile 
-.gt-mobile .map-ui-wrapper :host-context {
-  .location-card { 
-    width: 100%; 
-    min-width: grid(35); 
-    .card-content li { 
-      max-width: 30%;
+@media(min-width: $gtMobile) {
+  :host-context(.map-ui-wrapper) {
+    .location-card { 
+      width: 100%; 
+      min-width: grid(35); 
+      .card-content li { 
+        max-width: 30%;
+      }
     }
   }
-}
+} 
 // tablet and larger displays:
-.gt-tablet .map-ui-wrapper :host-context {
-  box-shadow:none;
-  // drop card width
-  .location-card {
-    width: $cardWidth;
-    min-width: $cardWidth;
-    // align header text at the bottom of the header
-    .card-header {
-      justify-content: flex-end; 
-    }
-    // increase font sizes
-    .card-heading { 
-      @include cardHeading($cardHeadingSize);
-    }
-    .card-subheading {
-      margin: grid(1) 0 0 0;     
-      @include smallCapsText($cardSubheadingSize);
-    }
-    // stacked statistics
-    .card-content {
-      position: static;
-      padding: $defaultPadding;
-      li {
-        max-width: none;
-        float: none;
-        margin-right: 0;
-
-        span {
-          overflow: visible;
-          white-space: normal;
-        }
+@media(min-width: $gtTablet) {
+  :host-context(.map-ui-wrapper) {
+    box-shadow:none;
+    // drop card width
+    .location-card {
+      width: $cardWidth;
+      min-width: $cardWidth;
+      // align header text at the bottom of the header
+      .card-header {
+        justify-content: flex-end; 
       }
-      .card-stat-label {
-        font-size: $cardLabelTextSize;
-        // align hint button with text
-        .attribute-hint ::ng-deep .hint-button svg {
-          margin-top:2px;
-        }
+      // increase font sizes
+      .card-heading { 
+        @include cardHeading($cardHeadingSize);
       }
-      .card-stat-value {
-        @include numberFont($cardValueTextSize);
-        &.unavailable {
-          @include defaultFont($cardValueTextSize);
-        }
+      .card-subheading {
+        margin: grid(1) 0 0 0;     
+        @include smallCapsText($cardSubheadingSize);
       }
-      // override for eviction rate to place the hint button after text
-      li.er .card-stat-label .attribute-hint {
-        width: auto;
-        right: grid(4);
+      // stacked statistics
+      .card-content {
+        position: static;
+        padding: $defaultPadding;
+        li {
+          max-width: none;
+          float: none;
+          margin-right: 0;
+          &:nth-child(2):last-child,
+          &:nth-child(3) { float: none; }
+          span {
+            overflow: visible;
+            white-space: normal;
+          }
+        }
+        .card-stat-label {
+          font-size: $cardLabelTextSize;
+          // align hint button with text
+          .attribute-hint ::ng-deep .hint-button svg {
+            margin-top:2px;
+          }
+        }
+        .card-stat-value {
+          @include numberFont($cardValueTextSize);
+          &.unavailable {
+            @include defaultFont($cardValueTextSize);
+          }
+        }
+        // override for eviction rate to place the hint button after text
+        li.has-hint .card-stat-label {
+          width:auto;
+          display: inline-block;
+          .attribute-hint {
+            width: auto;
+            right: 0;
+          }
+        }
       }
     }
   }
 }
+
 
 // Location cards in the data panel
 // ----
@@ -427,53 +438,52 @@
 //  - Boost font sizes
 //  - Adjust margins / padding
 //  - No horizontal overflow on wrapper
-// ----
-// Workaround for multiple host contexts below
-// https://github.com/angular/angular/issues/19199
-.gt-tablet .data-wrapper :host-context {
-  overflow:none;
-  max-width: $maxContentWidth;
-  margin: auto;
-  padding: 0 $pageMarginLg grid(6);
-  .location-card {
-    margin-right: grid(4);
-    min-width: grid(39);
-    flex:1;
-    &:last-child { margin-right: 0; }
-    .card-header .marker {
-      top:0;
-      width: 40px; 
-      height: 58px;
-    }
-    .card-heading { 
-      font-size: 26px; 
-      margin-left: grid(6);
-    }
-    .card-subheading { 
-      margin-left: grid(6); 
-    }
-    .card-dismiss {
-      bottom: grid(4.5);
-    }
-    .card-stats { 
-      padding-top: grid(15); 
-      li:nth-child(1),
-      li:nth-child(2) {
-        height: grid(15);
-        .card-stat-label { font-size: $panelCardLabelTextLg_t; }
-        .card-stat-value { font-size: $panelCardLabelValueLg_t; }
+@media(min-width: $gtTablet) {
+  :host-context(.data-wrapper) {
+    overflow:none;
+    max-width: $maxContentWidth;
+    margin: auto;
+    padding: 0 $pageMarginLg grid(6);
+    .location-card {
+      margin-right: grid(4);
+      min-width: grid(39);
+      flex:1;
+      &:last-child { margin-right: 0; }
+      .card-header .marker {
+        top:0;
+        width: 40px; 
+        height: 58px;
       }
-      li:nth-child(n+3) { 
-        padding: grid(1.5) $defaultPadding; 
-        .card-stat-label,
-        .card-stat-value { font-size: $panelCardStatTextSize_t; }
+      .card-heading { 
+        font-size: 26px; 
+        margin-left: grid(6);
       }
-      li.divider .card-stat-label {
-        font-size:14px;
+      .card-subheading { 
+        margin-left: grid(6); 
       }
-    }
-    &.location-add .card-content p {
-      font-size: $cardAddLocationTextSize_t;
+      .card-dismiss {
+        bottom: grid(4.5);
+      }
+      .card-stats { 
+        padding-top: grid(15); 
+        li:nth-child(1),
+        li:nth-child(2) {
+          height: grid(15);
+          .card-stat-label { font-size: $panelCardLabelTextLg_t; }
+          .card-stat-value { font-size: $panelCardLabelValueLg_t; }
+        }
+        li:nth-child(n+3) { 
+          padding: grid(1.5) $defaultPadding; 
+          .card-stat-label,
+          .card-stat-value { font-size: $panelCardStatTextSize_t; }
+        }
+        li.divider .card-stat-label {
+          font-size:14px;
+        }
+      }
+      &.location-add .card-content p {
+        font-size: $cardAddLocationTextSize_t;
+      }
     }
   }
 }

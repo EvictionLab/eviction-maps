@@ -4,11 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { GraphModule } from 'angular-d3-graph/module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'ngx-bootstrap/popover';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsModule } from '../location-cards/location-cards.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
+import { DataSignupFormComponent } from './data-signup-form/data-signup-form.component';
+
 import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
 
 
@@ -21,13 +24,15 @@ import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.compo
     LocationCardsModule,
     GraphModule.forRoot(),
     TranslateModule,
-    PopoverModule.forRoot()
+    PopoverModule.forRoot(),
+    TooltipModule.forRoot()
   ],
   declarations: [
     DataPanelComponent,
     DownloadFormComponent,
+    DataSignupFormComponent,
     EvictionGraphsComponent
   ],
-  entryComponents: [ DataPanelComponent, DownloadFormComponent ]
+  entryComponents: [ DataPanelComponent, DownloadFormComponent, DataSignupFormComponent ]
 })
 export class DataPanelModule { }

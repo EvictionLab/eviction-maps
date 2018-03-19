@@ -1,4 +1,4 @@
-<button class="btn btn-icon" (click)="onPress.emit()">
+<button class="btn btn-icon" (click)="onPress.emit()" [attr.aria-label]="ariaLabel">
   <app-ui-icon icon="close"></app-ui-icon>
   <span *ngIf="label">{{ label }}</span>
 </button>

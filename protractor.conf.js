@@ -4,7 +4,7 @@
 const { SpecReporter } = require('jasmine-spec-reporter');
 const browserstack = require('browserstack-local');
 
-exports.config = {
+const browserStackConfig = {
   getPageTimeout: 60000,
   allScriptsTimeout: 60000,
   specs: [
@@ -18,24 +18,29 @@ exports.config = {
     'browserstack.debug': 'true'
   },
   multiCapabilities: [{
-    'browserName': 'Chrome'
+    'browserName': 'Chrome',
+    'resolution': '1600x1200'
   }, {
     'browserName': 'Safari',
-    'browser_version': '10'
+    'browser_version': '10',
+    'resolution': '1600x1200'
   }, {
-    'browserName': 'Firefox'
+    'browserName': 'Firefox',
+    'browserVersion': '56.0',
+    'resolution': '1600x1200'
   }, {
     'browserName': 'IE',
     'browser_version': '11',
     'os': 'Windows',
-    'os_version': '10'
+    'os_version': '10',
+    'resolution': '1600x1200'
   }],
   baseUrl: 'http://localhost:4000/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 60000,
-    print: function() {}
+    print: function () { }
   },
   onPrepare() {
     require('ts-node').register({
@@ -67,6 +72,33 @@ exports.config = {
 };
 
 // https://www.browserstack.com/automate/protractor
-exports.config.multiCapabilities.forEach(function (caps) {
-  for (var i in exports.config.commonCapabilities) caps[i] = caps[i] || exports.config.commonCapabilities[i];
+browserStackConfig.multiCapabilities.forEach(function (caps) {
+  for (var i in browserStackConfig.commonCapabilities) caps[i] = caps[i] || browserStackConfig.commonCapabilities[i];
 });
+
+const localConfig = {
+  getPageTimeout: 120000,
+  allScriptsTimeout: 120000,
+  specs: [
+    './e2e/**/*.e2e-spec.ts'
+  ],
+  capabilities: {
+    'browserName': 'chrome'
+  },
+  directConnect: true,
+  baseUrl: 'http://localhost:4000/',
+  framework: 'jasmine',
+  jasmineNodeOpts: {
+    showColors: true,
+    defaultTimeoutInterval: 120000,
+    print: function() {}
+  },
+  onPrepare() {
+    require('ts-node').register({
+      project: 'e2e/tsconfig.e2e.json'
+    });
+    jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStackTrace: true }}));
+  }
+};
+
+exports.config = process.env['TRAVIS_BRANCH'] ? browserStackConfig : localConfig;

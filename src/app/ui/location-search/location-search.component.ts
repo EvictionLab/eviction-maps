@@ -12,6 +12,7 @@ export class LocationSearchComponent {
   query: string;
   results: Observable<Object[]>;
   @Input() placeholder;
+  @Output() initialInput = new EventEmitter();
   /** Emits a location whenever one is selected in the search */
   @Output() locationSelected = new EventEmitter();
 

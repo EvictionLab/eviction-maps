@@ -5,6 +5,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { UiSelectComponent } from './ui-select/ui-select.component';
@@ -21,6 +22,7 @@ import { UiCopyClipboardComponent } from './ui-copy-clipboard/ui-copy-clipboard.
 import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.directive';
 import { UiCloseButtonComponent } from './ui-close-button/ui-close-button.component';
 import { UiIconComponent } from './ui-icon/ui-icon.component';
+import { UiSocialShareComponent } from './ui-social-share/ui-social-share.component';
 
 @NgModule({
   exports: [
@@ -35,7 +37,8 @@ import { UiIconComponent } from './ui-icon/ui-icon.component';
     UiCopyClipboardComponent,
     SocialSharePopupDirective,
     UiCloseButtonComponent,
-    UiIconComponent
+    UiIconComponent,
+    UiSocialShareComponent
   ],
   imports: [
     CommonModule,
@@ -43,8 +46,9 @@ import { UiIconComponent } from './ui-icon/ui-icon.component';
     BsDropdownModule.forRoot(),
     ModalModule.forRoot(),
     TooltipModule.forRoot(),
+    PopoverModule.forRoot(),
     TypeaheadModule,
-    TranslateModule
+    TranslateModule.forRoot()
   ],
   declarations: [
     UiSelectComponent,
@@ -59,7 +63,8 @@ import { UiIconComponent } from './ui-icon/ui-icon.component';
     UiCopyClipboardComponent,
     SocialSharePopupDirective,
     UiCloseButtonComponent,
-    UiIconComponent
+    UiIconComponent,
+    UiSocialShareComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]
