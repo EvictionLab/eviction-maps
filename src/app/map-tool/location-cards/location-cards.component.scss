@@ -237,7 +237,8 @@
           max-width: none;
           float: none;
           margin-right: 0;
-  
+          &:nth-child(2):last-child,
+          &:nth-child(3) { float: none; }
           span {
             overflow: visible;
             white-space: normal;
@@ -257,9 +258,13 @@
           }
         }
         // override for eviction rate to place the hint button after text
-        li.er .card-stat-label .attribute-hint {
-          width: auto;
-          right: grid(4);
+        li.has-hint .card-stat-label {
+          width:auto;
+          display: inline-block;
+          .attribute-hint {
+            width: auto;
+            right: 0;
+          }
         }
       }
     }
