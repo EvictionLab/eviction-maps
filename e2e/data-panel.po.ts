@@ -11,7 +11,7 @@ export class DataPanel {
   }
 
   viewMoreElement() {
-    return element(by.css('.map-overlay button'));
+    return element(by.css('.map-overlay > button.btn-compare'));
   }
 
   clickViewMore() {

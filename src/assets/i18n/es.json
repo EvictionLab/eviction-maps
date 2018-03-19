@@ -118,13 +118,12 @@
     "SCROLL_TO_TOP": "Scroll to top"
   },
   "OVERVIEW": {
-    "SLIDE_1": "Select eviction and census data you want to view on the map",
-    "SLIDE_2": "View detailed information by searching or pressing on a location in the map",
-    "SLIDE_3": "View data for locations over several years",
-    "SLIDE_4": "Scroll down the page to view the full data set for your selected locations",
-    "SLIDE_5": "View bar and line graphs for your selected locations",
-    "SLIDE_6": "Share your customized view on social media or generate a custom report",
-    "SLIDE_7": "For more help read the FAQ",
+    "SLIDE_1": "Select eviction rates and census data to show on the map.",
+    "SLIDE_2": "Search or interact with the map to show location details.",
+    "SLIDE_3": "Move the year slider to see how areas have changed over time.",
+    "SLIDE_4": "Scroll down the page to view in-depth data and graphs.",
+    "SLIDE_5": "Share direct links to your selected locations, generate reports, or download raw data.",
+    "SLIDE_6": "Need more help?<br /> View the <a href='https://evictionlab.org/help-faq'>Help and FAQ page</a>.",
     "NEXT": "Next",
     "PREV": "Previous"
   },

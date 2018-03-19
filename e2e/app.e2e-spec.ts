@@ -9,6 +9,7 @@ describe('eviction-maps App', () => {
   beforeEach(() => {
     page = new AppPage();
     page.navigateTo();
+    browser.driver.manage().window().maximize();
   });
 
   it('should have the map element', () => {

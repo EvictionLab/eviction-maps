@@ -22,6 +22,7 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
 
   @Output() activeMenuItemChange = new EventEmitter();
   @Output() selectLocation = new EventEmitter();
+  @Output() initialInput = new EventEmitter();
   @Output() selectLanguage = new EventEmitter();
   @ViewChild('pop') mapTooltip;
   tooltipEnabled = true;

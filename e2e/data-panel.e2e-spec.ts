@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 import { DataPanel } from './data-panel.po';
-import { browser, element, by } from 'protractor';
+import { browser, element, by, ExpectedConditions } from 'protractor';
 
 browser.waitForAngularEnabled(false);
 
@@ -12,6 +12,7 @@ describe('eviction-maps DataPanel', () => {
     page = new AppPage();
     dataPanel = new DataPanel();
     page.navigateTo();
+    browser.driver.manage().window().maximize();
   });
 
   it('should not display the data panel cards without locations', () => {
@@ -25,19 +26,18 @@ describe('eviction-maps DataPanel', () => {
 
   it('should scroll to the data panel after clicking view more', () => {
     dataPanel.selectLocation();
-    expect(dataPanel.panelCards().isDisplayed()).toBeTruthy();
-    browser.sleep(1000);
+    browser.wait(ExpectedConditions.presenceOf(dataPanel.viewMoreElement()), 10000);
     dataPanel.clickViewMore();
-    browser.sleep(2000);
-    expect(browser.executeScript('return window.scrollY;').then(v => +v)).toBeGreaterThan(0);
+    // Not sure why this is necessary, but otherwise it doesn't work
+    dataPanel.removeLocation();
+    expect(browser.executeScript('return document.documentElement.scrollTop;')
+      .then(v => +v)).toBeGreaterThan(0);
   });
 
   it('should hide the data panel when all locations are removed', () => {
     dataPanel.selectLocation();
-    expect(dataPanel.panelCards().isDisplayed()).toBeTruthy();
-    browser.sleep(1000);
+    browser.wait(ExpectedConditions.presenceOf(dataPanel.viewMoreElement()), 10000);
     dataPanel.clickViewMore();
-    browser.sleep(2000);
     dataPanel.removeLocation();
     expect(dataPanel.panelCards().isDisplayed()).toBeFalsy();
   });

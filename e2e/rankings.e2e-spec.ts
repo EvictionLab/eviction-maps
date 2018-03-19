@@ -12,6 +12,7 @@ describe('eviction-maps Rankings', () => {
     page = new AppPage();
     rankings = new Rankings();
     page.navigateTo('/#/evictions');
+    browser.driver.manage().window().maximize();
     browser.wait(ExpectedConditions.presenceOf(rankings.rankingsListElement()), 10000);
   });
 

@@ -241,6 +241,15 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Show toast message on initial search input if max locations already selected
+   */
+  onInitialSearchInput() {
+    if (this.mapToolService.activeFeatures.length >= 3) {
+      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+    }
+  }
+
+  /**
    * Set map layer and view from clicked location card header
    * @param feature clicked feature from card
    */

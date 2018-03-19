@@ -180,6 +180,13 @@ export class AppComponent implements OnInit {
   }
 
   /**
+   * Forward initial search event to map tool component
+   */
+  onInitialSearchInput() {
+    this.mapComponent.onInitialSearchInput.apply(this.mapComponent, arguments);
+  }
+
+  /**
    * Update the lang attribute on the html element
    * Based on https://github.com/ngx-translate/core/issues/565
    */

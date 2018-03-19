@@ -12,6 +12,7 @@ describe('eviction-maps Map', () => {
     page = new AppPage();
     map = new Map();
     page.navigateTo();
+    browser.driver.manage().window().maximize();
   });
 
   it('should open a dropdown on click', () => {
