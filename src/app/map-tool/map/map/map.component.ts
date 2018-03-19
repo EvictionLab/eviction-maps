@@ -468,18 +468,24 @@ export class MapComponent implements OnInit, OnChanges {
       const bubble = this.addYearToObject(this.selectedBubble, this.year) as MapDataAttribute;
       if (bubble) {
         this.mapEventLayers.forEach((layerId) => {
-          const expression = (bubble.expressions[layerId] ?
+          const expression: any = (bubble.expressions[layerId] ?
             bubble.expressions[layerId] : bubble.expressions['default']);
 
-          // Update property used in expression
-          if (expression.length > 1) {
-            expression[2][2][1] = bubble.id;
+          if (!bubble.id.startsWith('none')) {
+            this.mapService.setLayerFilter(`${layerId}_bubbles`, undefined);
+            expression[2][1] = bubble.id;
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-color', [
+              'case', ['<', ['number', ['get', bubble.id]], 0],
+              'rgba(255,255,255,0.65)', 'rgba(255,4,0,0.65)'
+            ]);
+            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-stroke-color', [
+              'case', ['<', ['number', ['get', bubble.id]], 0],
+              'rgba(128,128,128,1)', 'rgba(255,255,255,1)'
+            ]);
+          } else {
+            this.mapService.setLayerFilter(`${layerId}_bubbles`, ['has', bubble.id]);
           }
-          this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
-          this.mapService.setLayerFilter(`${layerId}_bubbles`, ['>', bubble.id, -1]);
-          this.mapService.setLayerDataProperty(
-            `${layerId}_bubbles`, 'circle-stroke-color', bubble.id
-          );
         });
       }
     }
@@ -495,13 +501,14 @@ export class MapComponent implements OnInit, OnChanges {
         this.addYearToObject(this.selectedChoropleth, this.year) as MapDataAttribute;
       if (choropleth) {
         this.mapEventLayers.forEach((layerId) => {
-            const newFill = {
-              'property': choropleth.id,
-              'default': choropleth.default,
-              'stops': (choropleth.stops[layerId] ?
-                choropleth.stops[layerId] : choropleth.stops['default'])
-            };
-            this.mapService.setLayerStyle(layerId, 'fill-color', newFill);
+            const stops = choropleth.stops[layerId] ?
+              choropleth.stops[layerId] : choropleth.stops['default'];
+            if (!choropleth.id.startsWith('none')) {
+              const newFill = ['interpolate', ['linear'], ['get', choropleth.id], ...stops];
+              this.mapService.setLayerStyle(layerId, 'fill-color', newFill);
+            } else {
+              this.mapService.setLayerStyle(layerId, 'fill-color', choropleth.default);
+            }
             this.mapService.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
         });
       }

@@ -600,39 +600,9 @@
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "er-10",
-        -1
-      ],
       "paint": {
-        "circle-stroke-color": {
-          "property": "er-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(255, 255, 255, 1)"
-            ]
-          ]
-        },
-        "circle-stroke-width": {
-          "default": 1,
-          "stops": [
-            [
-              5,
-              0
-            ],
-            [
-              10,
-              1
-            ],
-            [
-              14,
-              2
-            ]
-          ]
-        },
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
         "circle-color": "rgba(255,4,0,0.65)",
         "circle-radius": 0
       }
@@ -688,10 +658,7 @@
       "paint": {
         "line-width": 2,
         "line-opacity": 0.9,
-        "line-color": {
-          "property": "color",
-          "type": "identity"
-        }
+        "line-color": ["get", "color"]
       }
     },
     {
@@ -713,10 +680,7 @@
       "paint": {
         "line-width": 2,
         "line-opacity": 0.9,
-        "line-color": {
-          "property": "color",
-          "type": "identity"
-        }
+        "line-color": ["get", "color"]
       }
     },
     {
@@ -727,31 +691,10 @@
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "er-10",
-        -1
-      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
-        "circle-stroke-color": {
-          "property": "er-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(255, 255, 255, 1)"
-            ]
-          ]
-        },
-        "circle-stroke-width": { 
-          "default": 1,
-          "stops": [
-            [5, 0],
-            [8, 1],
-            [14, 2]
-          ]
-        },
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
         "circle-radius": 0
       }
     },
@@ -763,40 +706,10 @@
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "er-10",
-        -1
-      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
-        "circle-stroke-color": {
-          "property": "er-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(255, 255, 255, 1)"
-            ]
-          ]
-        },
-        "circle-stroke-width": {
-          "default": 1,
-          "stops": [
-            [
-              1,
-              0.1
-            ],
-            [
-              5,
-              1
-            ],
-            [
-              14,
-              2
-            ]
-          ]
-        },
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
         "circle-radius": 0
       }
     },
@@ -864,24 +777,10 @@
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "er-10",
-        -1
-      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
-        "circle-stroke-color": {
-          "property": "er-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(255, 255, 255, 1)"
-            ]
-          ]
-        },
-        "circle-stroke-width": 1.5,
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
         "circle-radius": 0
       }
     },
@@ -894,40 +793,10 @@
       "layout": {
         "visibility": "none"
       },
-      "filter": [
-        ">",
-        "er-10",
-        -1
-      ],
       "paint": {
         "circle-color": "rgba(255,4,0,0.65)",
-        "circle-stroke-color": {
-          "property": "er-10",
-          "default": "rgba(0, 0, 0, 0)",
-          "stops": [
-            [
-              0,
-              "rgba(255, 255, 255, 1)"
-            ]
-          ]
-        },
-        "circle-stroke-width": {
-          "default": 1,
-          "stops": [
-            [
-              3,
-              0
-            ],
-            [
-              8,
-              1.5
-            ],
-            [
-              14,
-              2
-            ]
-          ]
-        },
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
         "circle-radius": 0
       }
     },
