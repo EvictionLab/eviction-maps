@@ -359,9 +359,11 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.bounds = this.mapService.getBoundsArray()
       .reduce((a, b) => a.concat(b))
       .map(v => Math.round(v * 1000) / 1000);
-    this.boundingBoxChange.emit(this._store.bounds);
-    if (this.restoreAutoSwitch) { this.autoSwitch = true; }
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    if (this.scrollZoom) {
+      this.boundingBoxChange.emit(this._store.bounds);
+      if (this.restoreAutoSwitch) { this.autoSwitch = true; }
+      this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    }
   }
 
   /**

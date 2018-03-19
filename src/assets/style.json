@@ -265,6 +265,9 @@
       "source-layer": "block-groups",
       "layout": {
         "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -310,6 +313,9 @@
       "source-layer": "tracts",
       "layout": {
         "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -355,6 +361,9 @@
       "source-layer": "counties",
       "layout": {
         "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -402,7 +411,7 @@
         "visibility": "none"
       },
       "paint": {
-        "fill-color": "rgba(67,72,120,0.7)"
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
@@ -443,6 +452,9 @@
       "source-layer": "cities",
       "layout": {
         "visibility": "none"
+      },
+      "paint": {
+        "fill-color": "rgba(0,0,0,0)"
       }
     },
     {
