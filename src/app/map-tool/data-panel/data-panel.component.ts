@@ -106,6 +106,8 @@ export class DataPanelComponent implements OnInit {
   }
 
   showDownloadDialog(e) {
+    // Don't fire if no features
+    if (this.displayLocations.length === 0) { return; }
     const config = {
       lang: this.translate.currentLang,
       year: this.year,

@@ -262,6 +262,8 @@ app-location-cards {
       width: 22px;
       height:22px;
       fill: $iconColor;
+      // Hack to prevent overflow on Safari
+      ::ng-deep { svg { height: inherit; } }
     }
   }
 }

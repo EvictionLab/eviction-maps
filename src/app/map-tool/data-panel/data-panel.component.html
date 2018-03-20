@@ -62,7 +62,7 @@
           <h2>{{ 'DATA.DOWNLOAD_HEADING' | translate }}</h2>
           <span>{{ 'DATA.DOWNLOAD_HINT' | translate }}</span>
           <button
-            [disabled]="displayLocations.length === 0"
+            [class.disabled]="displayLocations.length === 0"
             tooltip="{{ 'DATA.DOWNLOAD_DISABLED' | translate }}"
             [isDisabled]="displayLocations.length > 0"
             class="btn btn-border"
