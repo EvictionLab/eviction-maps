@@ -1,4 +1,11 @@
 /*
+  ngx-bootstrap checks if the body is overflowing, and adds padding if so. Since
+  we have the html overflow-x hidden, this ends up just adding extra padding. Ignoring
+  this padding is more straightforward than trying to toggle the overflow on and off
+*/
+body { padding-right: 0 !important; }
+
+/*
   Something about the production deployment is causing SVG linear gradients to fail on iOS browsers.
   This replaces the fill of any element using a linear gradient with a flat color.
 */
