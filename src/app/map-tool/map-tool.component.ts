@@ -228,12 +228,12 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
         if (updateMap) {
           this.map.mapService.zoomToFeature(feature);
-          // Wait for map to be done loading, then set data layer
-          this.map.mapService.isLoading$.distinctUntilChanged()
-            .debounceTime(500)
-            .filter(state => !state)
+          // Wait for map to be done zooming, then set data layer
+          this.map.mapService.zoom$
+            .distinctUntilChanged()
+            .filter(zoom => zoom !== null)
             .first()
-            .subscribe((state) => this.map.setGroupVisibility(dataLevel));
+            .subscribe(() => this.map.setGroupVisibility(dataLevel));
         }
         this.loader.end('search');
       });

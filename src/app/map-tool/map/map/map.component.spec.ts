@@ -2,6 +2,7 @@ import { async, fakeAsync, tick, ComponentFixture, TestBed } from '@angular/core
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import { MapComponent } from './map.component';
 import { MapboxComponent } from '../mapbox/mapbox.component';
@@ -23,6 +24,7 @@ export class TranslatePipeMock implements PipeTransform {
 }
 
 class MapServiceStub {
+  zoom$ = new BehaviorSubject<number>(null);
   updateCensusSource() {}
   createMap(settings) { return this; }
   addControl(...args) { return this; }
