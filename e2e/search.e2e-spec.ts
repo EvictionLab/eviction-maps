@@ -27,6 +27,11 @@ describe('eviction-maps Search', () => {
     expect(search.locationCard().isPresent()).toBeTruthy();
   });
 
+  it('should add a location when searching for a county', () => {
+    search.searchLocation('wayne county');
+    expect(search.locationCard().isPresent()).toBeTruthy();
+  });
+
   it('should display a toast message if a location is not found', () => {
     search.searchLocation('long island');
     expect(page.toastElement().isPresent()).toBeTruthy();
