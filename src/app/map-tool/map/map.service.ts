@@ -17,7 +17,9 @@ export class MapService {
   embedded = false;
   private map: mapboxgl.Map;
   private _isLoading = new BehaviorSubject<boolean>(true);
+  private _zoom = new BehaviorSubject<number>(null);
   isLoading$ = this._isLoading.asObservable();
+  zoom$ = this._zoom.asObservable();
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
 
@@ -46,6 +48,10 @@ export class MapService {
 
   setLoading(state: boolean) {
     this._isLoading.next(state);
+  }
+
+  setZoomEvent(zoom: number) {
+    this._zoom.next(zoom);
   }
 
   /**
