@@ -307,6 +307,7 @@
     .card-heading { 
       @include panelCardHeading($panelCardHeadingSize);
       margin-left: grid(4);
+      width: auto;
     }
     .card-subheading { 
       font-size: $panelCardSubheadingSize;

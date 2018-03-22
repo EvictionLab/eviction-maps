@@ -188,6 +188,12 @@ app-ranking-ui.ranking-ui-panel {
     transform: translate3d(0,0,0);
   }
 }
+
+// Safari 9 doesn't specify this automatically
+.ranking-ui-container {
+  flex: 1 0 auto;
+}
+
 // panel is sticky, but still off-screen on tablet
 @media(min-width: $gtMobile) {
   .ranking-ui-container {
