@@ -217,7 +217,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         return;
       }
 
-      this.loader.start('search');
+      this.loader.start('search', searchData);
       const layerId = feature.properties['layerId'] as string;
       this.mapToolService.getSearchTileData(feature).subscribe(data => {
         if (!data.properties.n) {
@@ -235,7 +235,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
             .first()
             .subscribe(() => this.map.setGroupVisibility(dataLevel));
         }
-        this.loader.end('search');
+        this.loader.end('search', searchData);
       });
     }
   }

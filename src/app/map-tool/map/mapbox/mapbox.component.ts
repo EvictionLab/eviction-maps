@@ -39,6 +39,7 @@ export class MapboxComponent implements AfterViewInit {
   hoverColors = [
     'rgba(226,64,0,0.8)', 'rgba(67,72,120,0.8)', 'rgba(44,137,127,0.8)', 'rgba(255,255,255,0.8)'
   ];
+  private _debug = true;
 
   constructor(
     private mapService: MapService,
@@ -58,12 +59,14 @@ export class MapboxComponent implements AfterViewInit {
     this.map = this.mapService.createMap({
       ...this.mapConfig, container: this.mapEl.nativeElement, attributionControl: false
     });
+    this.debug('after view init', this.map, this.mapConfig, this.mapEl);
     this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
     this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
     this.map.addControl(new mapboxgl.GeolocateControl({showUserLocation: false}), 'top-left');
     this.map.addControl(new mapboxgl.AttributionControl({ compact: true }), 'top-left');
     this.popup = new mapboxgl.Popup({ closeButton: false });
     this.map.on('load', () => {
+      this.debug('map loaded', this.map);
       this.onMapInstance(this.map);
     });
     this.map.on('error', (e) => {
@@ -263,5 +266,9 @@ export class MapboxComponent implements AfterViewInit {
     } else {
       this.popup.remove();
     }
+  }
+
+  private debug(...args) {
+    this._debug ? console.debug.apply(console, args) : null;
   }
 }

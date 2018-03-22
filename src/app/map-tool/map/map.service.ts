@@ -40,7 +40,10 @@ export class MapService {
    * @param options
    */
   createMap(options: Object) {
+    const _tmpStyle = options['style'];
+    options['style'] = {version: 8, sources: {}, layers: []};
     const map = new mapboxgl.Map(options);
+    map.setStyle(_tmpStyle);
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
     return map;

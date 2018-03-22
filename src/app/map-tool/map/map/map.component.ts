@@ -224,6 +224,8 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth.id.indexOf('none') < 0;
   }
 
+  private _debug = true;
+
   constructor(
     public el: ElementRef,
     private mapService: MapService,
@@ -306,6 +308,7 @@ export class MapComponent implements OnInit, OnChanges {
    * @param map mapbox instance
    */
   onMapReady(map) {
+    this.debug('map ready', map);
     this._mapInstance = map;
     this.mapService.setMapInstance(map);
     this.setGroupVisibility(this.selectedLayer);
@@ -315,6 +318,7 @@ export class MapComponent implements OnInit, OnChanges {
       .debounceTime(150)
       .distinctUntilChanged()
       .subscribe((state) => {
+        this.debug('map loading', state);
         this.mapLoading = state;
         // Whenever map finishes loading, update boundaries
         if (!this.mapLoading) {
@@ -528,6 +532,10 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapBubbles();
     this.updateMapChoropleths();
     this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+  }
+
+  private debug(...args) {
+    this._debug ? console.debug.apply(console, args) : null;
   }
 
 }
