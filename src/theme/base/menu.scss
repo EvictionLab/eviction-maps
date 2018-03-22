@@ -25,6 +25,7 @@ $menuMargin: grid(5);
   .app-menu {
     width: $menuWidthLg;
     transform: translate3d(($menuWidthLg+5px),0,0);
+    padding: 0 grid(5);
     &.expanded {
       transform:translate3d(0,0,0);
     }
@@ -159,6 +160,13 @@ $menuMargin: grid(5);
   }
 }
 
+@media(min-width: $gtMobile) {
+  .social-media-links {
+    left: grid(2);
+    bottom: grid(2); 
+  }
+}
+
 // Copyright Message
 // ---
 .menu-copyright {
@@ -169,4 +177,10 @@ $menuMargin: grid(5);
   color: $menuGrey;
 }
 
+@media(min-width: $gtMobile) {
+  .menu-copyright { 
+    bottom: grid(5); 
+    font-size:14px;
+  }
+}
 

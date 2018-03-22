@@ -27,3 +27,13 @@
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "GT-Eesti-Text-Medium";
+  src:url("assets/fonts/GT-Eesti-Display-Medium.eot");
+  src:url("assets/fonts/GT-Eesti-Display-Medium.eot?#iefix") format("embedded-opentype"),
+      url("assets/fonts/GT-Eesti-Display-Medium.woff2") format("woff2"),
+      url("assets/fonts/GT-Eesti-Display-Medium.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
