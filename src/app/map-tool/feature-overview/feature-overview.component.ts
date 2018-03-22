@@ -79,8 +79,8 @@ export class FeatureOverviewComponent implements OnInit, AfterViewInit, AppDialo
     return this.getAllSvgs()[i];
   }
 
-  private getAllSvgs() {
-    return this.el.nativeElement.querySelectorAll('.slide-animation svg');
+  private getAllSvgs(): Element[] {
+    return Array.from(this.el.nativeElement.querySelectorAll('.slide-animation svg'));
   }
 
 }
