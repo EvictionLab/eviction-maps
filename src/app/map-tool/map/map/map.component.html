@@ -64,6 +64,7 @@
 <div class="map-ui-wrapper">
     <app-ui-map-legend 
       *ngIf="showLegend" 
+      [zoom]="zoom"
       [choropleth]="selectedChoropleth" 
       [bubbles]="selectedBubble" 
       [layer]="selectedLayer">

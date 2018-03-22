@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 import { TranslatePipe } from '@ngx-translate/core';
+import { PlatformService } from '../../../services/platform.service';
 
 @Component({
   selector: 'app-ui-map-legend',
@@ -15,14 +16,25 @@ export class UiMapLegendComponent implements OnChanges {
   @Input() bubbles;
   /** Current data layer being shown on the map */
   @Input() layer;
+  /** Current map zoom, used in setting bubble legend values */
+  @Input() zoom: number;
   /** Gets the fill stops based on the selected choropleth */
   stops;
+  /** Radius and values for bubble legend. Max value changes with screen size */
+  minBubbleRadius = 4;
+  get maxBubbleRadius() { return this.platform.isLargerThanMobile ? 12 : 8; }
+  minBubbleValue: number;
+  maxBubbleValue: number;
   hasBubbles = false;
   hasChoropleth = false;
   hintData;
   legendGradient;
 
-  constructor(private sanitizer: DomSanitizer, private translatePipe: TranslatePipe) {}
+  constructor(
+    private sanitizer: DomSanitizer,
+    private translatePipe: TranslatePipe,
+    private platform: PlatformService
+  ) {}
 
   /** Set the hint data and gradient when inputs change */
   ngOnChanges(changes: SimpleChanges) {
@@ -31,8 +43,12 @@ export class UiMapLegendComponent implements OnChanges {
         this.setChoroplethValues();
       }
     }
-    if (changes.hasOwnProperty('layer') || changes.hasOwnProperty('bubbles')) {
-      if (this.choropleth) {
+    if (
+      changes.hasOwnProperty('layer') ||
+      changes.hasOwnProperty('bubbles') ||
+      changes.hasOwnProperty('zoom')
+    ) {
+      if (this.bubbles) {
         this.setBubbleValues();
       }
     }
@@ -53,6 +69,11 @@ export class UiMapLegendComponent implements OnChanges {
     console.log(this.bubbles);
     if (this.bubbles && this.bubbles.id !== 'none') {
       this.hasBubbles = true;
+      const expr = this.layer.id in this.bubbles['expressions'] ?
+        this.bubbles['expressions'][this.layer.id] : this.bubbles['expressions']['default'];
+      const steps = expr[3].slice(3);
+      this.minBubbleValue = this.bubbleValue(this.minBubbleRadius, this.zoom, steps);
+      this.maxBubbleValue = this.bubbleValue(this.maxBubbleRadius, this.zoom, steps);
     } else {
       this.hasBubbles = false;
     }
@@ -117,6 +138,38 @@ export class UiMapLegendComponent implements OnChanges {
 
   private stripHtmlFromString(htmlString: string) {
     return htmlString.replace(/<(?:.|\n)*?>*.<\/(?:.|\n)*?>+/g, '');
+  }
+
+  /**
+   * Performs nested interpolation for the Mapbox expression to get
+   * the value for a given circle radius
+   * @param radius
+   * @param mapZoom
+   * @param steps
+   */
+  private bubbleValue(radius: number, mapZoom: number, steps: any[]) {
+    const minZoom = steps[0];
+    const minVal = this.interpolateValue(radius, steps[1].slice(5));
+    const maxZoom = steps[steps.length - 2];
+    const maxVal = this.interpolateValue(radius, steps[steps.length - 1].slice(5));
+    // Clamp zoom to range
+    const zoom = Math.max(minZoom, Math.min(mapZoom, maxZoom));
+
+    return this.interpolateValue(zoom, [minVal, minZoom, maxVal, maxZoom]);
+  }
+
+  /**
+   * Linear interpolation function
+   * @param x value to get an interpolated y for
+   * @param steps Array of the format [y1, x1, y2, x2...]
+   */
+  private interpolateValue(x: number, steps: number[]): number {
+    const y1 = steps[0];
+    const x1 = steps[1];
+    const y2 = steps[steps.length - 2];
+    const x2 = steps[steps.length - 1];
+    const rateOfChange = (y2 - y1) / (x2 - x1);
+    return y1 + ((x - x1) * rateOfChange);
   }
 
 }

@@ -4,11 +4,11 @@
     <div class="legend-circle"></div>
   </div>
   <div class="legend-item small-bubble" *ngIf="hasBubbles">
-    <span>1%</span>
+    <span>{{ minBubbleValue | number: '1.0-1' }}%</span>
     <div class="legend-circle"></div>
   </div>
   <div class="legend-item large-bubble" *ngIf="hasBubbles">
-    <span>100%</span>
+    <span>{{ maxBubbleValue | number: '1.0-1' }}%</span>
     <div class="legend-circle"></div>
   </div>
   <div class="legend-divider" *ngIf="hasBubbles && hasChoropleth"></div>
