@@ -16,10 +16,9 @@ export class UiMapLegendComponent implements OnChanges {
   /** Current data layer being shown on the map */
   @Input() layer;
   /** Gets the fill stops based on the selected choropleth */
-  get stops() {
-    if (!this.choropleth || !this.layer) { return null; }
-    return this.choropleth.stops[this.layer.id] || this.choropleth.stops['default'];
-  }
+  stops;
+  hasBubbles = false;
+  hasChoropleth = false;
   hintData;
   legendGradient;
 
@@ -29,8 +28,12 @@ export class UiMapLegendComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.hasOwnProperty('layer') || changes.hasOwnProperty('choropleth')) {
       if (this.choropleth) {
-        this.setHintData();
-        this.setLegendGradient();
+        this.setChoroplethValues();
+      }
+    }
+    if (changes.hasOwnProperty('layer') || changes.hasOwnProperty('bubbles')) {
+      if (this.choropleth) {
+        this.setBubbleValues();
       }
     }
   }
@@ -44,6 +47,28 @@ export class UiMapLegendComponent implements OnChanges {
       min: this.formatType(this.stops[2]),
       max: this.formatType(this.stops[this.stops.length - 2])
     });
+  }
+
+  setBubbleValues() {
+    console.log(this.bubbles);
+    if (this.bubbles && this.bubbles.id !== 'none') {
+      this.hasBubbles = true;
+    } else {
+      this.hasBubbles = false;
+    }
+  }
+
+  setChoroplethValues() {
+    console.log(this.choropleth);
+    if (!this.choropleth || !this.layer) { return; }
+    if (this.choropleth && this.choropleth.id !== 'none') {
+      this.hasChoropleth = true;
+      this.stops = this.choropleth.stops[this.layer.id] || this.choropleth.stops['default'];
+      this.setLegendGradient();
+      this.setHintData();
+    } else {
+      this.hasChoropleth = false;
+    }
   }
 
   /** Sets the CSS background gradient for the legend */

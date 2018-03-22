@@ -8,35 +8,134 @@
 .map-legend {
   height: 100%;
   width: 100%;
-  padding: grid(2) grid(2) 0;
-  .legend {
-    position: absolute;
-    left: grid(2);
-    bottom: grid(1);
-    height: grid(1.5);
-    width: calc(100% - #{grid(8)});
-    padding: 0;
-    color: $legendTextColor;
-    text-align:center;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    @include numberFont($legendFontSize);
-    span {
-      margin-top: -1*grid(3.75);
-    }
+  padding: 0 grid(1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+// generic legend item class with label above
+.legend-item {
+  @include numberFont($legendFontSize);
+  position:relative;
+  margin: (grid(2)+2px) grid(1) 0;
+  height: grid(2);
+  padding:0;
+  color: $legendTextColor;
+  text-align:center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    margin-top: -1*grid(4);
+    white-space:nowrap;
   }
 }
+
+// bubbles
+.small-bubble {
+  font-weight: 500;
+  .legend-circle {
+    position: absolute;
+    width:grid(1);
+    height:grid(1);
+    border-radius: grid(1);
+    background: $color1;
+  }
+}
+.large-bubble {
+  font-weight: 500;
+  .legend-circle {
+    position: absolute;
+    width: grid(2);
+    height: grid(2);
+    border-radius: grid(2);
+    background: $color1;
+  }
+}
+.bubble-no-data {
+  font-family: $boldFontStack;
+  .legend-circle {
+    background: #fff;
+    border: 1px solid $grey3;
+  }
+}
+
+.legend-divider {
+  width:1px;
+  background: $grey4a;
+  height:calc(100% - 8px);
+  margin-top:4px;
+}
+
+// choropleth no data
+.choropleth-no-data {
+  font-family: $boldFontStack;
+  .no-data-square {
+    position: absolute;
+    width: grid(2);
+    top:0;right:0;bottom:0;left:0;
+    height:100%;
+    margin:auto;
+    background: repeating-linear-gradient(
+      45deg,
+      $white,
+      $white 4px,
+      $grey3 4px,
+      $grey3 8px
+    );
+  }
+  span {
+    margin-top: -1*grid(4);
+    white-space:nowrap;
+  }
+}
+
+// choropleth legend
+.choropleth-legend {
+  flex:1;
+  width: grid(13);
+  justify-content: space-between;
+  font-weight: 500;
+}
+.legend-middle {
+  display: none;
+}
+
+@media(min-width: $gtMobile) {
+  .legend-item {
+    @include numberFont(11px);
+    margin: grid(3) grid(1) 0;
+    height: grid(3);
+    span {
+      margin-top: -1*grid(5);
+    }
+  }
+  .large-bubble .legend-circle {
+    width: grid(3);
+    height: grid(3);
+  }
+  .legend-divider {
+    margin-top: 8px;
+    height: calc(100% - 16px);
+  }
+  .choropleth-no-data .no-data-square {
+    width:grid(3);
+  }
+  .choropleth-legend {
+    width: grid(22);
+  }
+  .legend-middle {
+    display: block;
+  }
+}
+
+
 // hint icon above the legend on the right
 app-ui-hint.legend-hint {
-  position: absolute;
+  display:block;
   width: $legendHeight;
   height: $legendHeight;
-  top: 0;
-  bottom:0;
-  right:grid(0.5);
-  left:auto;
-  margin:auto;
   // adjust for white circle behind icon
   ::ng-deep .hint-button {
     width: grid(5);
@@ -57,15 +156,7 @@ app-ui-hint.legend-hint {
 }
 
 @media(min-width: $gtMobile) {
-  .map-legend {
-    .legend {
-      left: grid(1);
-      height: grid(2.5);
-      width: calc(100% - #{grid(7)});
-      span {
-        margin-top: -1*grid(4.25);
-        font-size: 11px;
-      }
-    }
+  app-ui-hint.legend-hint {
+    margin-top: grid(1);
   }
 }
