@@ -66,7 +66,6 @@ export class PredictiveSearchComponent implements OnInit {
       menu.setAttribute('id', this.ariaOwns);
       menu.setAttribute('role', 'listbox');
       const items = this.el.nativeElement.querySelectorAll('.dropdown-menu li');
-      console.log('here are the items', items);
       if (items && items.length > 0 && items.length > this.selectedIndex) {
         this.ariaActiveDescendant = 'selectedOption';
         items.forEach(i => {
