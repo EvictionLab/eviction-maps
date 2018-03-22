@@ -75,7 +75,8 @@
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
-    "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
+    "EVICTION_FILING_RATE": "Represents the number of eviction filings per 100 renter homes.",
+    "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more."
   },
   "LAYERS": {
     "STATES": "Estados",
