@@ -348,7 +348,8 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    // Update highlighted features, forcing a query of rendered features
+    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures, true);
   }
 
   enableZoom() { return this.mapService.enableZoom(); }

@@ -137,6 +137,30 @@ export class MapService {
   }
 
   /**
+   * Query the map and return a union of features with a given GEOID
+   * @param layerId
+   * @param geoid
+   */
+  getQueryUnion(layerId: string, geoid: string): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
+      layers: [layerId],
+      filter: ['==', 'GEOID', geoid]
+    });
+    if (queryFeatures.length > 0) {
+      // Combine features, ignoring any TopologyExceptions
+      try {
+        return queryFeatures.reduce((currFeat, nextFeat) => {
+          return union(
+            currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+            nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+          );
+        }) as GeoJSON.Feature<GeoJSON.Polygon>;
+      } catch (e) { }
+    }
+    return null;
+  }
+
+  /**
    * Queries a layer for all features matching the name and parent-location of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
@@ -155,22 +179,7 @@ export class MapService {
     ) {
       return feature as GeoJSON.Feature<GeoJSON.Polygon>;
     }
-    const queryFeatures = this.map.queryRenderedFeatures(undefined, {
-      layers: [layerId],
-      filter: ['==', 'GEOID', feature.properties['GEOID']]
-    });
-    if (queryFeatures.length > 0) {
-      // Combine features, ignoring any TopologyExceptions
-      try {
-        return queryFeatures.reduce((currFeat, nextFeat) => {
-          return union(
-            currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-            nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-          );
-        }) as GeoJSON.Feature<GeoJSON.Polygon>;
-      } catch (e) { }
-    }
-    return null;
+    return this.getQueryUnion(layerId, feature.properties['GEOID'] as string);
   }
 
   /**
@@ -205,8 +214,9 @@ export class MapService {
    * Sets or updates highlight features
    * @param layerId String ID of current displayed map layer
    * @param features Array of active features to highlight
+   * @param forceQuery whether a queryRenderedFeatures call should be required
    */
-  updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+  updateHighlightFeatures(layerId: string, features: MapFeature[], forceQuery = false) {
     if (this.embedded) { return; }
     const highlightSource = this.getSourceData('highlight');
     const geoids = highlightSource.map(f => f['properties']['GEOID']);
@@ -219,7 +229,14 @@ export class MapService {
         f.properties['layerId'] === layerId &&
         this.hasRenderedFeatures(f.properties['layerId'] as string, f)
       ) {
-        feat = this.getUnionFeature(f.properties['layerId'] as string, f);
+        // Query features directly if forceQuery is true
+        if (forceQuery) {
+          feat = this.getQueryUnion(
+            f.properties['layerId'] as string, f.properties['GEOID'] as string
+          );
+        } else {
+          feat = this.getUnionFeature(f.properties['layerId'] as string, f);
+        }
         const geoidFeatures = highlightSource.filter(
           sf => sf['properties']['GEOID'] === f['properties']['GEOID']
         );
