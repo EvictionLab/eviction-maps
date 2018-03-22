@@ -11,10 +11,10 @@
   padding: grid(2) grid(2) 0;
   .legend {
     position: absolute;
-    left: grid(2);
+    left: grid(7.5);
     bottom: grid(1);
     height: grid(1.5);
-    width: calc(100% - #{grid(8)});
+    width: calc(100% - #{grid(13.5)});
     padding: 0;
     color: $legendTextColor;
     text-align:center;
@@ -22,6 +22,12 @@
     align-items: center;
     justify-content: space-between;
     @include numberFont($legendFontSize);
+    &.null-pattern {
+      left: grid(2);
+      width: grid(4.5);
+      background: repeating-linear-gradient(45deg, #C6CCCF, #C6CCCF 5px, transparent 5px, transparent 10px);
+      span { width: 100%; }
+    }
     span {
       margin-top: -1*grid(3.75);
     }
@@ -59,9 +65,14 @@ app-ui-hint.legend-hint {
 @media(min-width: $gtMobile) {
   .map-legend {
     .legend {
-      left: grid(1);
+      left: grid(5.5);
       height: grid(2.5);
-      width: calc(100% - #{grid(7)});
+      width: calc(100% - #{grid(11.5)});
+      &.null-pattern {
+        left: grid(1);
+        height: grid(2.5);
+        width: grid(3.5);
+      }
       span {
         margin-top: -1*grid(4.25);
         font-size: 11px;
