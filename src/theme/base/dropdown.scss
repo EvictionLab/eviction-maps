@@ -33,7 +33,7 @@
     right:grid(1);
     top:0px;
     bottom:0;
-    width:14px;
+    width:10px;
     height: grid(1);
     margin:auto;
     fill: $color1;
@@ -51,6 +51,12 @@
   &:focus {
     @include focusState();
     border: 1px solid $color1;
+  }
+}
+// boost arrow width on tablet+
+@media(min-width: $gtMobile) {
+  .dropdown-toggle.btn .icon {
+    width: 13px;
   }
 }
 // adjust icon positioning on laptop+

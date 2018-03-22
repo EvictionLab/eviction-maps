@@ -33,7 +33,6 @@ export class MapboxComponent implements AfterViewInit {
   @Input() selectedLayer: MapLayerGroup;
   @Input() featureCount = 0;
   @Output() ready: EventEmitter<any> = new EventEmitter();
-  @Output() zoomEnd: EventEmitter<number> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
   featureMouseMove: EventEmitter<any> = new EventEmitter();
@@ -163,11 +162,14 @@ export class MapboxComponent implements AfterViewInit {
    */
   private setupEmitters() {
     this.map.on('moveend', (e) => this.moveEnd.emit(e));
-    this.map.on('zoomstart', (e) => this.scroll.allowScroll = false);
-    // Emit feature on zoom end to account for geography details changing across zooms
+    this.map.on('zoomstart', (e) => {
+      this.scroll.allowScroll = false;
+      this.mapService.setZoomEvent(null);
+    });
+    // Update zoom observable zoom end to account for geography details changing across zooms
     this.map.on('zoomend', () => {
       this.scroll.allowScroll = true;
-      this.zoomEnd.emit(this.map.getZoom());
+      this.mapService.setZoomEvent(this.map.getZoom());
     });
     this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
     this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));

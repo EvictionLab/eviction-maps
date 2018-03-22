@@ -234,6 +234,9 @@ export class MapComponent implements OnInit, OnChanges {
   ) {
     loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
+    this.mapService.zoom$.skip(1)
+      .filter(zoom => zoom !== null)
+      .subscribe((zoom) => this.onMapZoomEnd(zoom));
   }
 
   ngOnInit() {

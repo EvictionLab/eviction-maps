@@ -1,7 +1,7 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
-    "DATE_RANGE": "Displaying year",
+    "DATE_RANGE": "Range",
     "JUDGMENTS": "Eviction Rate",
     "FILINGS": "Eviction Filing Rate",
     "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",

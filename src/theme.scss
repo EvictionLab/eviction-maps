@@ -25,6 +25,7 @@ $gtLaptop: 1439px; // greater than laptop device breakpoint
 // ----
 $fontStack: Akkurat-Regular, sans-serif;
 $boldFontStack: Akkurat-Bold, sans-serif;
+$altFontStackMedium: GT-Eesti-Text-Medium, sans-serif;
 $altFontStack: GT-Eesti-Text-Bold, sans-serif;
 $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 
@@ -48,6 +49,15 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
   letter-spacing: $letterSpacingRatio * $size;
 }
 
+@mixin altFontMedium($size) {
+  $letterSpacingRatio: (0.4 / 16);
+  font-family: $altFontStackMedium;
+  font-size: $size;
+  font-weight: normal;
+  letter-spacing: $letterSpacingRatio * $size;
+}
+
+
 @mixin numberFont($size) {
   font-family: $numberFontStack;
   font-size: $size;
@@ -62,8 +72,15 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 }
 
 @mixin altSmallCapsText($size) {
-  $letterSpacingRatio: 0.057894736842105;
+  $letterSpacingRatio: (0.9 / 16);
   @include altFont($size);
+  text-transform: uppercase;
+  letter-spacing: $size*$letterSpacingRatio;
+}
+
+@mixin altSmallCapsTextMedium($size) {
+  $letterSpacingRatio: (0.9 / 16);
+  @include altFontMedium($size);
   text-transform: uppercase;
   letter-spacing: $size*$letterSpacingRatio;
 }
@@ -266,8 +283,8 @@ $panelCardLabelTextLg_t: 13px;
 $panelCardLabelValueLg_t: 24px;
 $panelCardStatTextSize_t: 18px;
 // font sizes - add location
-$cardAddLocationTextSize: 16px; 
-$cardAddLocationTextSize_t: 21px; 
+$cardAddLocationTextSize: 12px; 
+$cardAddLocationTextSize_t: 16px; 
 
 // Legend
 $legendHeight: grid(5);

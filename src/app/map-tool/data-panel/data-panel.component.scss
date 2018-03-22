@@ -166,8 +166,8 @@ app-location-cards {
 
 // Disabled download button
 .action-wrapper {
-  .btn.btn-border[disabled],
-  .btn.btn-border[disabled]:hover {
+  .btn.btn-border.disabled,
+  .btn.btn-border.disabled:hover {
     opacity: inherit;
     color: $grey1a;
     cursor: inherit;

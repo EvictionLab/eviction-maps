@@ -512,7 +512,7 @@ export class MapToolService {
    * @param features an array of features
    */
   private mergeFeatureProperties(features: any[]) {
-    const feat = features[0];
+    const feat = features.find(f => f.hasOwnProperty('geometry'));
     for (let i = 1; i < this.tilesetYears.length; ++i) {
       feat['properties'] = { ...feat['properties'], ...features[i]['properties']};
     }
