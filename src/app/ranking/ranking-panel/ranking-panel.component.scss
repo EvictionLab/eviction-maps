@@ -259,8 +259,8 @@
   &.panel-next { right: 0; }
   &.panel-prev { left: 0; }
   .icon {
-    width: grid(3);
-    height: grid(3);
+    width: grid(2);
+    height: grid(2);
     fill: $color1;
   }
 }
@@ -271,8 +271,8 @@
     width: grid(6);
     height: grid(6);
     .icon {
-      width: grid(5);
-      height: grid(5);
+      width: grid(4);
+      height: grid(4);
     }
   }
 }

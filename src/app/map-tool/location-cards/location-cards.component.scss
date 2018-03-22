@@ -424,8 +424,12 @@
         align-items: center;
         justify-content: flex-start;
         p {
-          @include defaultFontBold($cardAddLocationTextSize);
-          margin: $defaultPadding 0;
+          @include altSmallCapsText($cardAddLocationTextSize);
+          margin: 0 0 $defaultPadding 0;
+          color: $black;
+          letter-spacing: 0.65px;
+          text-align: center;
+          line-height: 1;
         }
       }
       app-location-search { width: 100%;}
@@ -483,6 +487,8 @@
       }
       &.location-add .card-content p {
         font-size: $cardAddLocationTextSize_t;
+        letter-spacing: 0.9px;
+        margin: grid(1) 0 grid(4) 0;
       }
     }
   }

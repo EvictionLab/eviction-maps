@@ -366,8 +366,8 @@ app-ranking-ui.ranking-ui-panel {
     transform: translate3d(-100%, -1*$panelHeightSm, 0);
   }
   .icon {
-    width: grid(2);
-    height: grid(2);
+    width: 13px;
+    height: 13px;
     margin:auto;
     fill: $color1;
   }
