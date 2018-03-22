@@ -760,7 +760,8 @@
         "text-transform": "uppercase",
         "text-letter-spacing": 0.12,
         "text-max-width": 3,
-        "visibility": "none"
+        "visibility": "none",
+        "text-offset": [-3, -2]
       },
       "paint": {
         "icon-translate-anchor": "map",
@@ -819,9 +820,9 @@
       "source-layer": "cities-centers",
       "minzoom": 10,
       "filter": [
-        ">=",
-        "p-10",
-        50000
+        "all",
+        [">=", "p-10", 50000],
+        ["<", "p-10", 75000]
       ],
       "layout": {
         "text-size": {
@@ -841,10 +842,7 @@
           "Lato+Bold"
         ],
         "text-justify": "left",
-        "text-offset": [
-          0.5,
-          0.2
-        ],
+        "text-offset": [-2, -1],
         "text-anchor": "left",
         "text-field": "{n}",
         "text-padding": 0.5,
@@ -876,9 +874,9 @@
       "source-layer": "cities-centers",
       "minzoom": 8,
       "filter": [
-        ">=",
-        "p-10",
-        75000
+        "all",
+        [">=", "p-10", 75000],
+        ["<", "p-10", 100000]
       ],
       "layout": {
         "text-size": {
@@ -911,7 +909,12 @@
             ]
           ]
         },
-        "text-padding": 2
+        "text-padding": 2,
+        "text-offset": [
+          "interpolate", ["linear"], ["zoom"],
+          6, ["literal", [-1, -0.5]],
+          12, ["literal", [-2, -1]]
+        ]
       },
       "paint": {
         "text-color": "rgba(102, 102, 102, 1)",
@@ -941,9 +944,9 @@
       "minzoom": 6,
       "maxzoom": 14,
       "filter": [
-        ">=",
-        "p-10",
-        100000
+        "all",
+        [">=", "p-10", 100000],
+        ["<", "p-10", 500000]
       ],
       "layout": {
         "text-size": {
@@ -968,7 +971,12 @@
         "text-padding": 0,
         "text-letter-spacing": 0.12,
         "icon-allow-overlap": true,
-        "icon-ignore-placement": true
+        "icon-ignore-placement": true,
+        "text-offset": [
+          "interpolate", ["linear"], ["zoom"],
+          6, ["literal", [-1, -0.5]],
+          10, ["literal", [-2, -1]]
+        ]
       },
       "paint": {
         "text-color": {
@@ -1036,7 +1044,12 @@
         "text-padding": 0,
         "text-letter-spacing": 0.12,
         "icon-allow-overlap": true,
-        "icon-ignore-placement": true
+        "icon-ignore-placement": true,
+        "text-offset": [
+          "interpolate", ["linear"], ["zoom"],
+          6, ["literal", [-1, -0.5]],
+          10, ["literal", [-2, -1]]
+        ]
       },
       "paint": {
         "text-color": "rgba(5, 4, 3, 1)",
