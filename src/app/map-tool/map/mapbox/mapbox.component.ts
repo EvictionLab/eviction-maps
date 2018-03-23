@@ -39,6 +39,7 @@ export class MapboxComponent implements AfterViewInit {
   hoverColors = [
     'rgba(226,64,0,0.8)', 'rgba(67,72,120,0.8)', 'rgba(44,137,127,0.8)', 'rgba(255,255,255,0.8)'
   ];
+  private _debug = true;
 
   constructor(
     private mapService: MapService,
@@ -148,10 +149,11 @@ export class MapboxComponent implements AfterViewInit {
 
         this.featureMouseMove
           .subscribe(e => this.updatePopupLocation(e));
-        distinctFeature(this.featureMouseMove)
-          .subscribe(feat => this.updatePopupContent(feat));
-        distinctFeature(this.featureMouseMove.debounceTime(150))
-          .subscribe(feat => this.updateActiveFeature(feat));
+        distinctFeature(this.featureMouseMove.debounceTime(100))
+          .subscribe(feat => {
+            this.updatePopupContent(feat);
+            this.updateActiveFeature(feat);
+          });
       });
     }
     this.ready.emit(this.map);
@@ -171,8 +173,16 @@ export class MapboxComponent implements AfterViewInit {
       this.scroll.allowScroll = true;
       this.mapService.setZoomEvent(this.map.getZoom());
     });
-    this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
-    this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
+    this.map.on('data', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
+    this.map.on('dataloading', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
     this.eventLayers.forEach((layer) => {
       if (!(this.platform.isIos || this.platform.isAndroid) || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
@@ -264,4 +274,5 @@ export class MapboxComponent implements AfterViewInit {
       this.popup.remove();
     }
   }
+
 }

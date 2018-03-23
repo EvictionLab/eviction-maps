@@ -138,7 +138,7 @@ export class MapToolService {
   setLocations(locations) {
     locations.forEach(l => {
       this.getTileData(l.geoid, l.lonLat, true)
-        .subscribe((data) => { this.addLocation(data); });
+        .subscribe((data) => { this.addLocation(data); }, err => { console.error(err.message); });
     });
   }
 

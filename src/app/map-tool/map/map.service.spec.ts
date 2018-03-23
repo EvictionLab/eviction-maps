@@ -1,6 +1,8 @@
 import { TestBed, inject } from '@angular/core/testing';
 import { MapFeature } from './map-feature';
 import { MapService } from './map.service';
+import { LoadingService } from '../../services/loading.service';
+import { ServicesModule } from '../../services/services.module';
 
 describe('MapService', () => {
   let mapFeatureStub: MapFeature;
@@ -10,6 +12,7 @@ describe('MapService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [ ServicesModule.forRoot() ],
       providers: [MapService]
     });
 
