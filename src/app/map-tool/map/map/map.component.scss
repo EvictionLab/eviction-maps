@@ -118,9 +118,6 @@ app-location-cards {
     pointer-events: none;
     align-items: center;
     height: calc(100vh - #{$headerHeightLg});
-    &.no-census-data ::ng-deep .location-card {
-      height: grid(34);
-    }
     ::ng-deep {
       .location-card {
         transition: transform 0.2s ease;
