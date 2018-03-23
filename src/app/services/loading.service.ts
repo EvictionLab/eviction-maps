@@ -39,11 +39,12 @@ export class LoadingService {
    * Triggers loading to start for a given identifier
    */
   start(id: string, done$?: Observable<any>) {
-    this.debug('loading start', id);
     const timeout$ = timer(this._timeout);
     const itemLoading$ = done$ ? Observable.race(done$, timeout$) : timeout$;
     if (this.loadingStore[id]) {
       this.subscriptionStore[id].unsubscribe();
+    } else {
+      this.debug('loading start', id);
     }
     this.loadingStore[id] = itemLoading$;
     this.subscriptionStore[id] = this.loadingStore[id].subscribe(done => this.end(id));
@@ -80,7 +81,7 @@ export class LoadingService {
         Object.keys(this.timeStore).forEach(k => {
           if (keys.indexOf(k) === -1) {
             const totalTime = window.performance.now() - this.timeStore[k];
-            this.debug('time end ' + k, totalTime);
+            this.debug('loading time for ' + k, totalTime);
             delete this.timeStore[k];
           }
         });
