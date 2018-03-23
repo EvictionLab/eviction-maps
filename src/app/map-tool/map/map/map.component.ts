@@ -289,7 +289,7 @@ export class MapComponent implements OnInit, OnChanges {
         this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
       // Reset the hover layer
-      this.mapService.setSourceData('hover');
+      this.mapService.setHoveredFeature(null);
     }
   }
 
@@ -331,14 +331,6 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-    // updating the highlighted features when zoom is finished
-    this.loader.isLoading$.take(1)
-      .subscribe(loading => {
-        if (this.activeFeatures.length > 0 && !loading) {
-          this.mapService
-            .updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
-        }
-      });
   }
 
   enableZoom() { return this.mapService.enableZoom(); }

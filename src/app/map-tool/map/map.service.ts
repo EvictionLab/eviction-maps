@@ -9,6 +9,7 @@ import * as union from '@turf/union';
 import * as polylabel from 'polylabel';
 import area from '@turf/area';
 import { coordAll } from '@turf/meta';
+import * as _isEqual from 'lodash.isequal';  
 
 import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
@@ -22,6 +23,15 @@ export class MapService {
   zoom$ = this._zoom.asObservable();
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
+  /** Returns true if highlighting features on hover is enabled */
+  get hoverEnabled() { 
+    return this._hoverEnabled && this._mapHighlights.length < this._maxLocations; 
+  }
+  private _debug = true;
+  private _maxLocations = 3;
+  private _mapHighlights = [];
+  private _mapHover = [];
+  private _hoverEnabled = true;
 
   constructor(private loader: LoadingService) { }
 
@@ -51,6 +61,7 @@ export class MapService {
 
   /** Set a map source as loading, and watch the source until it's loaded */
   setSourceLoading(sourceId: string) {
+    if (this.loader.isItemLoading(sourceId)) { return; }
     const sourceLoaded$ = interval(200)
       .map(() => this.map.isSourceLoaded(sourceId))
       .filter(loaded => loaded)
@@ -133,14 +144,11 @@ export class MapService {
    * @param layerId ID of vector tile layer to query
    * @param feature feature with attributes to query
    */
-  hasRenderedFeatures(layerId: string, feature: MapFeature): boolean {
+  isHighlightVisible(feature: MapFeature): boolean {
+    const layerId = feature['properties']['layerId'] as string;
     return this.map.queryRenderedFeatures(undefined, {
-      layers: [layerId],
-      filter: [
-        'all',
-        ['==', 'n', feature.properties.n],
-        ['==', 'pl', feature.properties.pl]
-      ]
+      layers: [ layerId, 'highlight' ],
+      filter: ['==', 'GEOID', feature.properties['GEOID']]
     }).length > 0;
   }
 
@@ -153,33 +161,21 @@ export class MapService {
    * @param feature feature with attributes to query
    */
   getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
-    // Check if feature already has needed data first
-    const geomBbox = bbox(feature);
-    const featBbox = this.featureBbox(feature);
-    const addReduce = (a, b) => a + b;
-    if (
-      this.bboxArea(geomBbox) >= (this.bboxArea(featBbox) * 0.98) &&
-      geomBbox.reduce(addReduce, 0) !== featBbox.reduce(addReduce, 0)
-    ) {
-      return feature as GeoJSON.Feature<GeoJSON.Polygon>;
-    }
     const queryFeatures = this.map.queryRenderedFeatures(undefined, {
-      layers: [layerId],
+      layers: [ (layerId === 'states' ? 'boundary_state' : layerId) ],
       filter: ['==', 'GEOID', feature.properties['GEOID']]
     });
-    if (queryFeatures.length > 0) {
-      // Combine features, ignoring any TopologyExceptions
-      try {
-        const feats = queryFeatures.reduce((currFeat, nextFeat) => {
-          return union(
-            currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
-            nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
-          );
-        }) as GeoJSON.Feature<GeoJSON.Polygon>;
-        return feats;
-      } catch (e) { }
-    }
-    return null;
+    this.debug('get union feature', layerId, feature['properties']['n'], queryFeatures);
+    // Combine features, ignoring any TopologyExceptions
+    try {
+      const feats = queryFeatures.reduce((currFeat, nextFeat) => {
+        return union(
+          currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
+          nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
+        );
+      }) as GeoJSON.Feature<GeoJSON.Polygon>;
+      return feats;
+    } catch (e) { }
   }
 
   /**
@@ -189,25 +185,53 @@ export class MapService {
     return this.map.getBounds().toArray();
   }
 
-  /**
-   * Returns source data
-   * @param sourceId ID of source to return
-   */
-  getSourceData(sourceId) {
-    return (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource)['_data']['features'];
+  /** sets if map features should be highlighted on hover */
+  setHoverEnabled(value: boolean) {
+    this._hoverEnabled = value;
   }
 
-  /**
-   * Set the data of a GeoJSON layer source, or empty the data if no
-   * feature supplied
-   * @param sourceId ID of GeoJSON source to modify
-   * @param features Array of MapFeature objects
-   */
-  setSourceData(sourceId: string, features?: MapFeature[]) {
-    (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
-      'type': 'FeatureCollection',
-      'features': features ? features : []
-    });
+  /** Updates the 'hover' source on the map if there is a new hovered feature */
+  setHoveredFeature(feature) {
+    if (!this.hoverEnabled) { return false; }
+    const newFeature = feature ? [ feature ] : [];
+    if (this.areFeaturesEqual(newFeature, this._mapHover)) { return; }
+    this._mapHover = newFeature;
+    this.setSourceData('hover', newFeature);
+  }
+
+  /** Checks if the geometry of two feature arrays are equal */
+  areFeaturesEqual(f1:MapFeature[], f2: MapFeature[]) {
+    if (f1.length !== f2.length) { return false; }
+    if (f1.length === 0) { return true; }
+    return f1
+      .map((f,i) => _isEqual(f['geometry'], f2[i]['geometry']))
+      .reduce((acc, curr) => acc ? curr : false);
+  }
+
+  /** Sets the highlighted features to the given feature array */
+  setHighlightedFeatures(features: MapFeature[]) {
+    if (this.areFeaturesEqual(features, this._mapHighlights)) { return; }
+    this._mapHighlights = features;
+    this.setSourceData('highlight', features);
+  }
+
+  /** Gets an updated feature geometry */
+  getUpdatedFeature(layerId: string, f: MapFeature) {
+    const featureActive = this.isHighlightVisible(f);
+    const currentFeature = this._mapHighlights
+      .find(sf => sf['properties']['GEOID'] === f['properties']['GEOID']);
+    const updatedFeature = this.getUnionFeature(f.properties['layerId'] as string, f);
+    if (!featureActive && !currentFeature) {
+      // feature is not highlighted and not in the active layer - use bounding box
+      f.geometry['type'] = 'Polygon';
+      f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
+      return f;
+    } else if (featureActive && updatedFeature) {
+      // the feature is visible and has an updated geometry
+      return updatedFeature;
+    }
+    // feature is not highlighted, but exists in _mapHighlights
+    return currentFeature;
   }
 
   /**
@@ -217,44 +241,13 @@ export class MapService {
    */
   updateHighlightFeatures(layerId: string, features: MapFeature[]) {
     if (this.embedded) { return; }
-    const highlightSource = this.getSourceData('highlight');
-    const geoids = highlightSource.map(f => f['properties']['GEOID']);
-
-    const highlightFeatures = features.map((f, i) => {
-      let feat;
-      // If feature is in active layer, update bounds
-      // Otherwise, check if currently added or use bounding box
-      if (
-        f.properties['layerId'] === layerId &&
-        this.hasRenderedFeatures(f.properties['layerId'] as string, f)
-      ) {
-        feat = this.getUnionFeature(f.properties['layerId'] as string, f);
-        const geoidFeatures = highlightSource.filter(
-          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
-        );
-        if (
-          geoidFeatures.length > 0 &&
-          feat !== null &&
-          !this.shouldUpdateFeature(geoidFeatures[0], feat)
-        ) {
-          feat = geoidFeatures[0];
-        }
-      } else if (geoids.indexOf(f['properties']['GEOID']) !== -1) {
-        feat = highlightSource.filter(
-          sf => sf['properties']['GEOID'] === f['properties']['GEOID']
-        )[0];
-      } else {
-        f.geometry['type'] = 'Polygon';
-        f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
-        feat = f;
-      }
-      // Null check (later filtered out) null feature from getUnionFeature
-      if (feat !== null) {
-        feat['properties']['color'] = this.colors[i];
-      }
-      return feat;
-    }).filter(f => f !== null);
-    this.setSourceData('highlight', highlightFeatures);
+    if (features.length === 0) { return this.setHighlightedFeatures([]); }
+    console.time('time: update highlighted features');
+    const highlightFeatures = features
+      .map((f) => { return this.getUpdatedFeature(layerId, f); })
+      .map((f, i) => { f['properties']['color'] = this.colors[i]; return f});
+    this.setHighlightedFeatures(highlightFeatures);
+    console.timeEnd('time: update highlighted features');
   }
 
   /**
@@ -335,17 +328,18 @@ export class MapService {
     ], { padding: 50 });
   }
 
-  private bboxArea(bbox: Array<number>): number {
-    return Math.abs(bbox[0] - bbox[2]) * Math.abs(bbox[1] - bbox[3]);
-  }
-
-  private featureBbox(feature: MapFeature): Array<number> {
-    return [
-      +feature.properties['west'],
-      +feature.properties['south'],
-      +feature.properties['east'],
-      +feature.properties['north']
-    ];
+  /**
+   * Set the data of a GeoJSON layer source, or empty the data if no
+   * feature supplied
+   * @param sourceId ID of GeoJSON source to modify
+   * @param features Array of MapFeature objects
+   */
+  private setSourceData(sourceId: string, features?: MapFeature[]) {
+    this.debug('setting source data', sourceId, features);
+    (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
+      'type': 'FeatureCollection',
+      'features': features ? features : []
+    });
   }
 
   /**
@@ -372,30 +366,8 @@ export class MapService {
     ]];
   }
 
-  /**
-   * Determines whether selected feature boundaries should update
-   * @param currentFeat
-   * @param newFeat
-   */
-  private shouldUpdateFeature(currentFeat, newFeat): boolean {
-    // Check if the current feature has geometry
-    if (!currentFeat.geometry && newFeat.geometry) { return true; }
-    // Return false and exit early if the new feature has no geometry
-    if (!newFeat.geometry) { return false; }
-
-    const bboxPoly = {
-      type: 'Polygon',
-      coordinates: currentFeat.hasOwnProperty('bbox') ?
-        this.bboxPolygon(currentFeat.bbox) : bbox(currentFeat)
-    };
-    // Update if current feature is a bounding box
-    if (area(currentFeat) === area(bboxPoly)) { return true; }
-    // Update if current feature has less than 95% of the new feature's area
-    // Accounts for the fact that more detailed boundaries have slightly less area
-    if (area(currentFeat) < (area(newFeat) * 0.95)) { return true; }
-    // Update if the current feature has fewer coordinates than the new feature,
-    // indicating that it's less detailed
-    if (coordAll(currentFeat).length < coordAll(newFeat).length) { return true; }
-    return false;
+  private debug(...args) {
+    // tslint:disable-next-line
+    this._debug ? console.debug.apply(console, args) : null;
   }
 }

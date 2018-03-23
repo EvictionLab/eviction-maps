@@ -95,7 +95,7 @@ export class MapboxComponent implements AfterViewInit {
   onMouseLeaveFeature() {
     this.map.getCanvas().style.cursor = '';
     this.activeFeature = null;
-    this.mapService.setSourceData('hover');
+    this.mapService.setHoveredFeature(null);
     // Make sure debounced featureMouseMove doesn't re-add element
     this.featureMouseMove.emit({features: []});
     this.popup.remove();
@@ -106,23 +106,23 @@ export class MapboxComponent implements AfterViewInit {
    * @param feature Feature or null
    */
   updateActiveFeature(feature) {
-    if (feature === null) {
-      this.mapService.setSourceData('hover');
+    if (!this.mapService.hoverEnabled) { return; }
+    if (feature === null || feature.layer.id !== this.selectedLayer.id) {
+      this.mapService.setHoveredFeature(null);
       return;
     }
     this.activeFeature = feature;
-    if (feature.layer.id === this.selectedLayer.id) {
-      const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
-      if (union !== null) {
-        union.properties['color'] = this.hoverColors[this.featureCount];
-        if (this.featureCount < 3) {
-          union.properties['hover'] = true;
-        }
-        this.mapService.setSourceData('hover', [union]);
+    console.time('time: union feature');
+    const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
+    console.timeEnd('time: union feature');
+    if (union !== null) {
+      union.properties['color'] = this.hoverColors[this.featureCount];
+      if (this.featureCount < 3) {
+        union.properties['hover'] = true;
       }
-    } else {
-      this.mapService.setSourceData('hover');
+      this.mapService.setHoveredFeature(union);
     }
+
   }
 
   /**
@@ -227,7 +227,7 @@ export class MapboxComponent implements AfterViewInit {
    */
   private updatePopupContent(feature: MapFeature | null) {
     // Since fires before updating outline, remove outline
-    this.mapService.setSourceData('hover');
+    this.mapService.setHoveredFeature(null);
     if (!feature) {
       this.popup.remove();
       return;
