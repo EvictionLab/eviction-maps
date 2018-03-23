@@ -59,14 +59,12 @@ export class MapboxComponent implements AfterViewInit {
     this.map = this.mapService.createMap({
       ...this.mapConfig, container: this.mapEl.nativeElement, attributionControl: false
     });
-    this.debug('after view init', this.map, this.mapConfig, this.mapEl);
     this.map.addControl(new mapboxgl.AttributionControl(), 'bottom-left');
     this.map.addControl(new mapboxgl.NavigationControl(), 'top-left');
     this.map.addControl(new mapboxgl.GeolocateControl({showUserLocation: false}), 'top-left');
     this.map.addControl(new mapboxgl.AttributionControl({ compact: true }), 'top-left');
     this.popup = new mapboxgl.Popup({ closeButton: false });
     this.map.on('load', () => {
-      this.debug('map loaded', this.map);
       this.onMapInstance(this.map);
     });
     this.map.on('error', (e) => {
@@ -151,10 +149,11 @@ export class MapboxComponent implements AfterViewInit {
 
         this.featureMouseMove
           .subscribe(e => this.updatePopupLocation(e));
-        distinctFeature(this.featureMouseMove)
-          .subscribe(feat => this.updatePopupContent(feat));
-        distinctFeature(this.featureMouseMove.debounceTime(150))
-          .subscribe(feat => this.updateActiveFeature(feat));
+        distinctFeature(this.featureMouseMove.debounceTime(100))
+          .subscribe(feat => {
+            this.updatePopupContent(feat);
+            this.updateActiveFeature(feat);
+          });
       });
     }
     this.ready.emit(this.map);
@@ -174,8 +173,16 @@ export class MapboxComponent implements AfterViewInit {
       this.scroll.allowScroll = true;
       this.mapService.setZoomEvent(this.map.getZoom());
     });
-    this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
-    this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
+    this.map.on('data', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
+    this.map.on('dataloading', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
     this.eventLayers.forEach((layer) => {
       if (!(this.platform.isIos || this.platform.isAndroid) || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
@@ -268,7 +275,4 @@ export class MapboxComponent implements AfterViewInit {
     }
   }
 
-  private debug(...args) {
-    this._debug ? console.debug.apply(console, args) : null;
-  }
 }
