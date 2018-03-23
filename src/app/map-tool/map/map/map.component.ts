@@ -195,15 +195,6 @@ export class MapComponent implements OnInit, OnChanges {
     const selectOptions = (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
     return [ this.autoSelect, ...selectOptions ];
   }
-  /** Sets if the map is loading and informs the service */
-  set mapLoading(isLoading: boolean) {
-    this._store.loading = isLoading;
-    if (this.loader) {
-      isLoading ? this.loader.start('map') : this.loader.end('map');
-    }
-  }
-  /** Gets if the map is loading */
-  get mapLoading(): boolean { return this._store.loading; }
   /** Debounced function for year change */
   private updateMapYear = _debounce(() => {
       this.yearChange.emit(this.year);
@@ -224,6 +215,8 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth.id.indexOf('none') < 0;
   }
 
+  private _debug = true;
+
   constructor(
     public el: ElementRef,
     private mapService: MapService,
@@ -232,7 +225,7 @@ export class MapComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     private translatePipe: TranslatePipe
   ) {
-    loader.start('map');
+    // loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
     this.mapService.zoom$.skip(1)
       .filter(zoom => zoom !== null)
@@ -311,16 +304,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
-    this.mapService.isLoading$
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .subscribe((state) => {
-        this.mapLoading = state;
-        // Whenever map finishes loading, update boundaries
-        if (!this.mapLoading) {
-          this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
-        }
-      });
     if (this.boundingBox) {
       this.mapService.zoomToBoundingBox(this.boundingBox);
       // Only toggle if autoSwitch is currently on
@@ -348,7 +331,14 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    // updating the highlighted features when zoom is finished
+    this.loader.isLoading$.take(1)
+      .subscribe(loading => {
+        if (this.activeFeatures.length > 0 && !loading) {
+          this.mapService
+            .updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+        }
+      });
   }
 
   enableZoom() { return this.mapService.enableZoom(); }

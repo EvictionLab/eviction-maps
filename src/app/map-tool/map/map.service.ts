@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { interval } from 'rxjs/observable/interval';
 import 'rxjs/add/operator/distinct';
 import 'rxjs/add/observable/fromEvent';
 import * as bbox from '@turf/bbox';
@@ -11,19 +12,18 @@ import { coordAll } from '@turf/meta';
 
 import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
+import { LoadingService } from '../../services/loading.service';
 
 @Injectable()
 export class MapService {
   embedded = false;
   private map: mapboxgl.Map;
-  private _isLoading = new BehaviorSubject<boolean>(true);
   private _zoom = new BehaviorSubject<number>(null);
-  isLoading$ = this._isLoading.asObservable();
   zoom$ = this._zoom.asObservable();
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
 
-  constructor() { }
+  constructor(private loader: LoadingService) { }
 
   /** Expose any MapboxGL API functions that are needed  */
   // https://www.mapbox.com/mapbox-gl-js/api/#map#setpaintproperty
@@ -40,14 +40,22 @@ export class MapService {
    * @param options
    */
   createMap(options: Object) {
+    const _tmpStyle = options['style'];
+    options['style'] = {version: 8, sources: {}, layers: []};
     const map = new mapboxgl.Map(options);
+    map.setStyle(_tmpStyle);
     map.dragRotate.disable();
     map.touchZoomRotate.disableRotation();
     return map;
   }
 
-  setLoading(state: boolean) {
-    this._isLoading.next(state);
+  /** Set a map source as loading, and watch the source until it's loaded */
+  setSourceLoading(sourceId: string) {
+    const sourceLoaded$ = interval(200)
+      .map(() => this.map.isSourceLoaded(sourceId))
+      .filter(loaded => loaded)
+      .take(1);
+    this.loader.start(sourceId, sourceLoaded$);
   }
 
   setZoomEvent(zoom: number) {
@@ -162,12 +170,13 @@ export class MapService {
     if (queryFeatures.length > 0) {
       // Combine features, ignoring any TopologyExceptions
       try {
-        return queryFeatures.reduce((currFeat, nextFeat) => {
+        const feats = queryFeatures.reduce((currFeat, nextFeat) => {
           return union(
             currFeat as GeoJSON.Feature<GeoJSON.Polygon>,
             nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
           );
         }) as GeoJSON.Feature<GeoJSON.Polygon>;
+        return feats;
       } catch (e) { }
     }
     return null;
