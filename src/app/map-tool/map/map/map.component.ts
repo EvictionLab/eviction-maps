@@ -336,7 +336,7 @@ export class MapComponent implements OnInit, OnChanges {
       .subscribe(loading => {
         if (this.activeFeatures.length > 0 && !loading) {
           this.mapService
-            .updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+            .updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures, true);
         }
       });
   }
