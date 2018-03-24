@@ -54,6 +54,8 @@ export class MapboxComponent implements AfterViewInit {
    * Create map object from mapEl ViewChild
    */
   ngAfterViewInit() {
+    // rendering hover outlines is slow on IE, so disable
+    if (this.platform.isIE) { this.mapService.setHoverEnabled(false); }
     this.embedded = this.platform.nativeWindow.document.querySelector('app-embed');
     this.mapService.embedded = this.embedded;
     this.map = this.mapService.createMap({

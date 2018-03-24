@@ -153,6 +153,26 @@ export class MapService {
   }
 
   /**
+   * Checks the bounding box of the geometry and compares it with
+   * the bounding box of the feature nwse  
+   */
+  isFullFeaturePresent(feature: MapFeature) {
+    // if there is a cached version at a lower zoom level the geometry must be updated
+    if (
+      feature.properties['geoDepth'] && 
+      feature.properties['geoDepth'] < this.map.getZoom()
+    ) { return false; }
+    // check the feature bounding box to see if the whole feature is present
+    const geomBbox = bbox(feature);
+    const featBbox = this.featureBbox(feature);
+    const addReduce = (a, b) => a + b;
+    return (
+      this.bboxArea(geomBbox) >= (this.bboxArea(featBbox) * 0.98) &&
+      geomBbox.reduce(addReduce, 0) !== featBbox.reduce(addReduce, 0)
+    );
+  }
+
+  /**
    * Queries a layer for all features matching the name and parent-location of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
@@ -161,11 +181,14 @@ export class MapService {
    * @param feature feature with attributes to query
    */
   getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
+    if (this.isFullFeaturePresent(feature)) {
+      return feature as GeoJSON.Feature<GeoJSON.Polygon>; 
+    }
+    // full feature is not present, so query the map for it
     const queryFeatures = this.map.queryRenderedFeatures(undefined, {
       layers: [ (layerId === 'states' ? 'boundary_state' : layerId) ],
       filter: ['==', 'GEOID', feature.properties['GEOID']]
     });
-    this.debug('get union feature', layerId, feature['properties']['n'], queryFeatures);
     // Combine features, ignoring any TopologyExceptions
     try {
       const feats = queryFeatures.reduce((currFeat, nextFeat) => {
@@ -174,6 +197,8 @@ export class MapService {
           nextFeat as GeoJSON.Feature<GeoJSON.Polygon>
         );
       }) as GeoJSON.Feature<GeoJSON.Polygon>;
+      // add geometry level of detail in the feature properties
+      feats.properties['geoDepth'] = this.map.getZoom();
       return feats;
     } catch (e) { }
   }
@@ -185,6 +210,13 @@ export class MapService {
     return this.map.getBounds().toArray();
   }
 
+  /** Gets the feature from map highlights if it exists */
+  getActiveFeature(f: MapFeature) {
+    if (!f || !f.properties) { return false; }
+    return this._mapHighlights
+      .find(sf => sf['properties']['GEOID'] === f['properties']['GEOID']);
+  }
+
   /** sets if map features should be highlighted on hover */
   setHoverEnabled(value: boolean) {
     this._hoverEnabled = value;
@@ -192,7 +224,7 @@ export class MapService {
 
   /** Updates the 'hover' source on the map if there is a new hovered feature */
   setHoveredFeature(feature) {
-    if (!this.hoverEnabled) { return false; }
+    if (!this.hoverEnabled || this.getActiveFeature(feature)) { return false; }
     const newFeature = feature ? [ feature ] : [];
     if (this.areFeaturesEqual(newFeature, this._mapHover)) { return; }
     this._mapHover = newFeature;
@@ -216,38 +248,42 @@ export class MapService {
   }
 
   /** Gets an updated feature geometry */
-  getUpdatedFeature(layerId: string, f: MapFeature) {
+  getUpdatedFeature(f: MapFeature) {
     const featureActive = this.isHighlightVisible(f);
-    const currentFeature = this._mapHighlights
-      .find(sf => sf['properties']['GEOID'] === f['properties']['GEOID']);
+    const currentFeature = this.getActiveFeature(f);
     const updatedFeature = this.getUnionFeature(f.properties['layerId'] as string, f);
     if (!featureActive && !currentFeature) {
-      // feature is not highlighted and not in the active layer - use bounding box
+      // feature is not highlighted and the active layer
+      // is not available to query - use bounding box
       f.geometry['type'] = 'Polygon';
       f.geometry['coordinates'] = this.bboxPolygon(f.bbox);
       return f;
     } else if (featureActive && updatedFeature) {
-      // the feature is visible and has an updated geometry
+      // the feature is visible and geometry can be queried
       return updatedFeature;
     }
-    // feature is not highlighted, but exists in _mapHighlights
+    // feature geometry cannot be queried, but exists in map highlights
     return currentFeature;
   }
 
   /**
    * Sets or updates highlight features
-   * @param layerId String ID of current displayed map layer
    * @param features Array of active features to highlight
    */
-  updateHighlightFeatures(layerId: string, features: MapFeature[]) {
+  updateHighlightFeatures(features: MapFeature[]) {
     if (this.embedded) { return; }
     if (features.length === 0) { return this.setHighlightedFeatures([]); }
-    console.time('time: update highlighted features');
     const highlightFeatures = features
-      .map((f) => { return this.getUpdatedFeature(layerId, f); })
-      .map((f, i) => { f['properties']['color'] = this.colors[i]; return f});
+      .map((f, i) => {
+        // make sure feature has a geo depth value so geometry is cached
+        const geoDepth = f['properties']['geoDepth'];
+        if (!geoDepth) { f['properties']['geoDepth'] = 0.1; }
+        f = this.getUpdatedFeature(f);
+        f['properties']['color'] = this.colors[i]; 
+        return f;
+      });
     this.setHighlightedFeatures(highlightFeatures);
-    console.timeEnd('time: update highlighted features');
+    return highlightFeatures;
   }
 
   /**
@@ -340,6 +376,21 @@ export class MapService {
       'type': 'FeatureCollection',
       'features': features ? features : []
     });
+  }
+
+  /** Get the area of a provided bbox */
+  private bboxArea(bbox: Array<number>): number {
+    return Math.abs(bbox[0] - bbox[2]) * Math.abs(bbox[1] - bbox[3]);
+  }
+
+  /** Get the bbox of the feature based on it's properties */
+  private featureBbox(feature: MapFeature): Array<number> {
+    return [
+      +feature.properties['west'],
+      +feature.properties['south'],
+      +feature.properties['east'],
+      +feature.properties['north']
+    ];
   }
 
   /**

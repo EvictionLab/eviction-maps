@@ -97,6 +97,11 @@ export class PlatformService {
       !this.userAgent.includes('firefox');
   }
 
+  /** Returns if the device is Internet Explorer */
+  get isIE(): boolean {
+    return this.userAgent.includes('trident');
+  }
+
   constructor() {
     this.userAgent = this.nativeWindow.navigator.userAgent.toLowerCase();
     // store viewport width / height
