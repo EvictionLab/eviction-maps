@@ -299,15 +299,23 @@ export class MapService {
   updateCensusSource(layerGroups: MapLayerGroup[], sourceSuffix: string) {
     const mapStyle: mapboxgl.Style = this.map.getStyle();
     const layerPrefixes = layerGroups.map(l => l.id);
-
-    mapStyle.layers.map(l => {
-      const layerPrefix = l.id.split('_')[0];
-      if (layerPrefixes.indexOf(layerPrefix) > -1) {
+    const newLayers = mapStyle.layers
+      // filter to retrieve relevant layers
+      .filter(l => {
+        const layerPrefix = l.id.split('_')[0];
+        return (layerPrefixes.indexOf(layerPrefix) > -1);
+      })
+      // map to a new source and remove the existing layer
+      .map(l => {
+        const layerPrefix = l.id.split('_')[0];
         l.source = `us-${layerPrefix}-${sourceSuffix}`;
-      }
-      return l;
-    });
-    this.map.setStyle(mapStyle);
+        this.map.removeLayer(l.id);
+        return l;
+      })
+      // add the new layer w/ updated source
+      .forEach(l => {
+        this.map.addLayer(l, this.getBeforeLayer(l.id));
+      });
   }
 
   /**
@@ -363,6 +371,16 @@ export class MapService {
       [box[0], box[1]],
       [box[2], box[3]]
     ], { padding: 50 });
+  }
+
+  /**
+   * Given a layer id, this will return the layer it should be inserted before
+   * in the map style. Bubbles / text layers return null, so those layers will
+   * be added at the top level.  All others will be inserted before 'roads'.
+   */
+  private getBeforeLayer(layerId: string) {
+    if (layerId.includes('bubbles') || layerId.includes('text')) { return null; }
+    return 'roads';
   }
 
   /**
