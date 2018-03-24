@@ -228,6 +228,7 @@
       .card-subheading {
         margin: grid(1) 0 0 0;     
         @include smallCapsText($cardSubheadingSize);
+        width:100%;
       }
       // stacked statistics
       .card-content {
