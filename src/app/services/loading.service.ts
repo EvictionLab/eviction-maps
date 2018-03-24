@@ -41,10 +41,9 @@ export class LoadingService {
   start(id: string, done$?: Observable<any>) {
     const timeout$ = timer(this._timeout);
     const itemLoading$ = done$ ? Observable.race(done$, timeout$) : timeout$;
+    this.debug('loading start', id);
     if (this.loadingStore[id]) {
       this.subscriptionStore[id].unsubscribe();
-    } else {
-      this.debug('loading start', id);
     }
     this.loadingStore[id] = itemLoading$;
     this.subscriptionStore[id] = this.loadingStore[id].subscribe(done => this.end(id));

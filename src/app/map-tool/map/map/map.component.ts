@@ -225,7 +225,6 @@ export class MapComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     private translatePipe: TranslatePipe
   ) {
-    // loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
     this.mapService.zoom$.skip(1)
       .filter(zoom => zoom !== null)
@@ -251,7 +250,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.activeFeatures && this.mapService.mapCreated) {
       const features = (changes.activeFeatures.currentValue ?
         changes.activeFeatures.currentValue : []);
-      this.mapService.updateHighlightFeatures(this.selectedLayer.id, features);
+      this.updateHighlights();
     }
   }
 
@@ -289,7 +288,7 @@ export class MapComponent implements OnInit, OnChanges {
         this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
       // Reset the hover layer
-      this.mapService.setSourceData('hover');
+      this.mapService.setHoveredFeature(null);
     }
   }
 
@@ -331,14 +330,6 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-    // updating the highlighted features when zoom is finished
-    this.loader.isLoading$.take(1)
-      .subscribe(loading => {
-        if (this.activeFeatures.length > 0 && !loading) {
-          this.mapService
-            .updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
-        }
-      });
   }
 
   enableZoom() { return this.mapService.enableZoom(); }
@@ -355,7 +346,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (this.scrollZoom) {
       this.boundingBoxChange.emit(this._store.bounds);
       if (this.restoreAutoSwitch) { this.autoSwitch = true; }
-      this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+      this.updateHighlights();
     }
   }
 
@@ -368,6 +359,27 @@ export class MapComponent implements OnInit, OnChanges {
   onFeatureClick(feature) {
     if (feature && feature.properties) {
       this.featureClick.emit(feature);
+    }
+  }
+
+  /**
+   * Updates the active feature highlights and caches the geometry if it is at
+   * a higher detail level.
+   */
+  private updateHighlights() {
+    const updatedFeatures =
+      this.mapService.updateHighlightFeatures(this.activeFeatures);
+    // update geometries in place if higher detail
+    for (let i = 0; i < this.activeFeatures.length; i++) {
+      const f1 = this.activeFeatures[i];
+      const f2 = updatedFeatures[i];
+      if (
+        !f1.properties['geoDepth'] ||
+        f1.properties['geoDepth'] < f2.properties['geoDepth']
+      ) {
+        f1.properties['geoDepth'] = f2.properties['geoDepth'];
+        f1.geometry = f2.geometry;
+      }
     }
   }
 
@@ -517,7 +529,7 @@ export class MapComponent implements OnInit, OnChanges {
   private updateMapData() {
     this.updateMapBubbles();
     this.updateMapChoropleths();
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.updateHighlights();
   }
 
 }
