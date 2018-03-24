@@ -28,8 +28,8 @@ describe('MapService', () => {
     } as GeoJSON.Feature<GeoJSON.Polygon>;
     mapFeatureStub = featureStub as MapFeature;
     mapboxStub = {
-      getZoom: () => { return 5; },
-      getSource: (id) => { return { setData: (...args) => {} } },
+      getZoom: () => 5,
+      getSource: (id) => ({ setData: (...args) => {} }),
       queryRenderedFeatures: (a, b) => [featureStub]
     };
   });

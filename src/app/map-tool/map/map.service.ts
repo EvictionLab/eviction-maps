@@ -9,7 +9,7 @@ import * as union from '@turf/union';
 import * as polylabel from 'polylabel';
 import area from '@turf/area';
 import { coordAll } from '@turf/meta';
-import * as _isEqual from 'lodash.isequal';  
+import * as _isEqual from 'lodash.isequal';
 
 import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
@@ -24,8 +24,8 @@ export class MapService {
   private colors = ['#e24000', '#434878', '#2c897f'];
   get mapCreated() { return this.map !== undefined; }
   /** Returns true if highlighting features on hover is enabled */
-  get hoverEnabled() { 
-    return this._hoverEnabled && this._mapHighlights.length < this._maxLocations; 
+  get hoverEnabled() {
+    return this._hoverEnabled && this._mapHighlights.length < this._maxLocations;
   }
   private _debug = true;
   private _maxLocations = 3;
@@ -154,12 +154,12 @@ export class MapService {
 
   /**
    * Checks the bounding box of the geometry and compares it with
-   * the bounding box of the feature nwse  
+   * the bounding box of the feature nwse
    */
   isFullFeaturePresent(feature: MapFeature) {
     // if there is a cached version at a lower zoom level the geometry must be updated
     if (
-      feature.properties['geoDepth'] && 
+      feature.properties['geoDepth'] &&
       feature.properties['geoDepth'] < this.map.getZoom()
     ) { return false; }
     // check the feature bounding box to see if the whole feature is present
@@ -182,7 +182,7 @@ export class MapService {
    */
   getUnionFeature(layerId: string, feature: MapFeature): GeoJSON.Feature<GeoJSON.Polygon> | null {
     if (this.isFullFeaturePresent(feature)) {
-      return feature as GeoJSON.Feature<GeoJSON.Polygon>; 
+      return feature as GeoJSON.Feature<GeoJSON.Polygon>;
     }
     // full feature is not present, so query the map for it
     const queryFeatures = this.map.queryRenderedFeatures(undefined, {
@@ -233,11 +233,11 @@ export class MapService {
   }
 
   /** Checks if the geometry of two feature arrays are equal */
-  areFeaturesEqual(f1:MapFeature[], f2: MapFeature[]) {
+  areFeaturesEqual(f1: MapFeature[], f2: MapFeature[]) {
     if (f1.length !== f2.length) { return false; }
     if (f1.length === 0) { return true; }
     return f1
-      .map((f,i) => _isEqual(f['geometry'], f2[i]['geometry']))
+      .map((f, i) => _isEqual(f['geometry'], f2[i]['geometry']))
       .reduce((acc, curr) => acc ? curr : false);
   }
 
@@ -280,7 +280,7 @@ export class MapService {
         const geoDepth = f['properties']['geoDepth'];
         if (!geoDepth) { f['properties']['geoDepth'] = 0.1; }
         f = this.getUpdatedFeature(f);
-        f['properties']['color'] = this.colors[i]; 
+        f['properties']['color'] = this.colors[i];
         return f;
       });
     this.setHighlightedFeatures(highlightFeatures);

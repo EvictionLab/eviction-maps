@@ -362,19 +362,19 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  /** 
+  /**
    * Updates the active feature highlights and caches the geometry if it is at
    * a higher detail level.
    */
   private updateHighlights() {
-    const updatedFeatures = 
+    const updatedFeatures =
       this.mapService.updateHighlightFeatures(this.activeFeatures);
     // update geometries in place if higher detail
     for (let i = 0; i < this.activeFeatures.length; i++) {
       const f1 = this.activeFeatures[i];
       const f2 = updatedFeatures[i];
       if (
-        !f1.properties['geoDepth'] || 
+        !f1.properties['geoDepth'] ||
         f1.properties['geoDepth'] < f2.properties['geoDepth']
       ) {
         f1.properties['geoDepth'] = f2.properties['geoDepth'];
