@@ -201,6 +201,7 @@ export class MapService {
       feats.properties['geoDepth'] = this.map.getZoom();
       return feats;
     } catch (e) { }
+    return null;
   }
 
   /**

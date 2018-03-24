@@ -28,6 +28,8 @@ describe('MapService', () => {
     } as GeoJSON.Feature<GeoJSON.Polygon>;
     mapFeatureStub = featureStub as MapFeature;
     mapboxStub = {
+      getZoom: () => { return 5; },
+      getSource: (id) => { return { setData: (...args) => {} } },
       queryRenderedFeatures: (a, b) => [featureStub]
     };
   });
@@ -72,56 +74,56 @@ describe('MapService', () => {
   it('highlight features should create a union feature if rendered features are present',
     inject([MapService], (service: MapService) => {
       service.setMapInstance(mapboxStub);
-      spyOn(service, 'getSourceData').and.returnValue([]);
-      spyOn(service, 'hasRenderedFeatures').and.returnValue(true);
-      spyOn(service, 'setSourceData');
+      spyOn(service, 'isHighlightVisible').and.returnValue(true);
       spy = spyOn(service, 'getUnionFeature').and.returnValue(featureStub);
-      service.updateHighlightFeatures('layer', [mapFeatureStub]);
-
+      service.updateHighlightFeatures([mapFeatureStub]);
       expect(service.getUnionFeature).toHaveBeenCalledWith('layer', mapFeatureStub);
     }
   ));
 
-  it('highlight features should use existing feature, updating color if in current features',
+  it('highlight feature should use existing feature, updating color if in current features',
     inject([MapService], (service: MapService) => {
       service.setMapInstance(mapboxStub);
       const altFeature = featureStub;
       altFeature.properties = {
         ...altFeature.properties, alt: true
       };
-      spyOn(service, 'getSourceData').and.returnValue([altFeature]);
-      spyOn(service, 'hasRenderedFeatures').and.returnValue(false);
-      spyOn(service, 'setSourceData').and.callFake(function() {
-        const feat = arguments[1][0];
+      spyOn(service, 'getActiveFeature').and.returnValue(altFeature);
+      spyOn(service, 'isHighlightVisible').and.returnValue(false);
+      spyOn(service, 'setHighlightedFeatures').and.callFake(function() {
+        const feat = arguments[0][0];
         expect(feat.properties.alt).toBeTruthy();
         expect(feat.properties.color).toEqual('#e24000');
       });
-      service.updateHighlightFeatures('layer', [mapFeatureStub]);
+      service.updateHighlightFeatures([mapFeatureStub]);
     }
   ));
 
   it('highlight features should add from bbox if no geometry and not present',
     inject([MapService], (service: MapService) => {
       service.setMapInstance(mapboxStub);
-      spyOn(service, 'getSourceData').and.returnValue([]);
-      spyOn(service, 'hasRenderedFeatures').and.returnValue(false);
-      spyOn(service, 'setSourceData').and.callFake(function() {
-        const features = arguments[1];
+      spyOn(service, 'getActiveFeature').and.returnValue(undefined);
+      spyOn(service, 'isHighlightVisible').and.returnValue(false);
+      spyOn(service, 'setHighlightedFeatures').and.callFake(function() {
+        const features = arguments[0];
         expect(features.length).toEqual(1);
       });
-      service.updateHighlightFeatures('layer', [mapFeatureStub]);
+      service.updateHighlightFeatures([ mapFeatureStub ]);
     })
   );
 
-  it('highlight features should not add null feature',
-    inject([MapService], (service: MapService) => {
-      service.setMapInstance(mapboxStub);
-      spyOn(service, 'getSourceData').and.returnValue([]);
-      spyOn(service, 'hasRenderedFeatures').and.returnValue(true);
-      spyOn(service, 'getUnionFeature').and.returnValue(null);
-      spyOn(service, 'setSourceData');
-      service.updateHighlightFeatures('layer', [mapFeatureStub]);
-      expect(service.setSourceData).toHaveBeenCalledWith('highlight', []);
-    })
-  );
+  // Note: Should not be possible to get a null feature from `updateFeature`
+  //  so this test is not needed. (03/23/2018)
+  //
+  // it('highlight features should not add null feature',
+  //   inject([MapService], (service: MapService) => {
+  //     service.setMapInstance(mapboxStub);
+  //     spyOn(service, 'getActiveFeature').and.returnValue(undefined);
+  //     spyOn(service, 'isHighlightVisible').and.returnValue(true);
+  //     spyOn(service, 'getUnionFeature').and.returnValue(null);
+  //     spyOn(service, 'setHighlightedFeatures');
+  //     service.updateHighlightFeatures([mapFeatureStub]);
+  //     expect(service.setHighlightedFeatures).toHaveBeenCalledWith('highlight', []);
+  //   })
+  // );
 });
