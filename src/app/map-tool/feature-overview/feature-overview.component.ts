@@ -12,6 +12,7 @@ export class FeatureOverviewComponent implements OnInit, AfterViewInit, AppDialo
 
   carousel: NgxCarousel;
   slideIndex: number;
+  animationSupport;
   @Output() buttonClicked = new EventEmitter();
   private _animationLength = {
     '0': 6000,
@@ -21,7 +22,6 @@ export class FeatureOverviewComponent implements OnInit, AfterViewInit, AppDialo
     '4': 6000
   };
   private _animateInterval = null;
-  private animationSupport;
 
   constructor(public bsModalRef: BsModalRef, public el: ElementRef) { }
 
