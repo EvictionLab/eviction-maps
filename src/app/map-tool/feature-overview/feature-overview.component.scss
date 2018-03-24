@@ -25,6 +25,12 @@
     display:block;
     margin: auto; 
   }
+  img {
+    width: 280px;
+    height:320px;
+    margin:auto;
+    display: block;
+  }
 }
 
 .text-slide {
@@ -37,6 +43,7 @@
   padding: grid(2);
   max-width:280px;
   margin: auto;
+  white-space: normal;
 }
 
 .btn.btn-icon {
