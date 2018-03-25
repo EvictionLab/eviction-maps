@@ -136,9 +136,10 @@ $iconColor: #666;
 
 // Shadows
 // ----
-$z1shadow: 0 1px 3px 0 rgba(0,0,0,0.30);
-$z2shadow: 0 2px 4px rgba(0,0,0,0.5);
-$z3shadow: 0 2px 5px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+$z1shadow: 0 3px 6px 0 rgba(145,145,145,0.23);
+$z2shadow: 0 6px 6px 0 rgba(145,145,145,0.26);
+$z3shadow: 0 10px 10px 0 rgba(145,145,145,0.26);
+$z4shadow: 0 15px 12px 0 rgba(145,145,145,0.22);
 
 @mixin focusState() {
   outline: 0;
@@ -164,7 +165,7 @@ $searchHeight: grid(7);
 // MENU
 // ----
 $menuBg: $color2;
-$menuShadow: -2px 0px 5px rgba(0,0,0,0.4);
+$menuShadow: $z4shadow;
 $menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device 
 $menuWidthLg: grid(52); // 416px
 $menuGrey: $grey2;
