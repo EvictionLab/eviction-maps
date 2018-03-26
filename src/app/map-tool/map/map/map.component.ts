@@ -167,8 +167,11 @@ export class MapComponent implements OnInit, OnChanges {
    /** Gets if the legend should be shown or not */
   @HostBinding('class.legend-active') get showLegend(): boolean {
     return this.selectedLayer &&
-      this.selectedChoropleth &&
-      !this.selectedChoropleth.id.includes('none');
+      (
+        (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
+        (this.selectedBubble && !this.selectedBubble.id.includes('none'))
+      );
+
   }
   @ViewChild('pop') mapTooltip;
   @ViewChild('mapEl') mapEl: ElementRef;

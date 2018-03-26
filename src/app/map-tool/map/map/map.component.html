@@ -64,10 +64,11 @@
 <div class="map-ui-wrapper">
     <app-ui-map-legend 
       *ngIf="showLegend" 
+      [zoom]="zoom"
       [choropleth]="selectedChoropleth" 
       [bubbles]="selectedBubble" 
       [layer]="selectedLayer">
-    </app-ui-map-legend>   
+    </app-ui-map-legend>
     <app-location-cards
       [collapsible]="gtTablet"
       [class.cards-2]="activeFeatures.length === 2"
