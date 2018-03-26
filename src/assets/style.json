@@ -563,57 +563,6 @@
       }
     },
     {
-      "id": "roads-highways_text",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "transportation_name",
-      "minzoom": 11,
-      "filter": [
-        "all"
-      ],
-      "layout": {
-        "text-size": 13,
-        "text-max-angle": 45,
-        "text-transform": "none",
-        "symbol-spacing": 250,
-        "text-font": [
-          "Lato+Bold"
-        ],
-        "symbol-placement": "line",
-        "text-rotation-alignment": "map",
-        "text-pitch-alignment": "viewport",
-        "text-field": "{name}",
-        "text-letter-spacing": 0.05,
-        "text-keep-upright": true
-      },
-      "paint": {
-        "text-color": "rgba(5, 4, 3, 1)",
-        "text-halo-color": "rgba(255,255,255,1)",
-        "text-translate": [
-          0,
-          0
-        ],
-        "text-halo-width": 2,
-        "text-halo-blur": 1
-      }
-    },
-    {
-      "id": "block-groups_bubbles",
-      "type": "circle",
-      "source": "us-block-groups-10",
-      "source-layer": "block-groups-centers",
-      "minzoom": 8,
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "circle-stroke-color": "rgba(255, 255, 255, 1)",
-        "circle-stroke-width": 0.75,
-        "circle-color": "rgba(255,4,0,0.65)",
-        "circle-radius": 0
-      }
-    },
-    {
       "id": "boundary_state",
       "type": "line",
       "source": "us-states-10",
@@ -687,6 +636,57 @@
         "line-width": 2,
         "line-opacity": 0.9,
         "line-color": ["get", "color"]
+      }
+    },
+    {
+      "id": "roads-highways_text",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "transportation_name",
+      "minzoom": 11,
+      "filter": [
+        "all"
+      ],
+      "layout": {
+        "text-size": 13,
+        "text-max-angle": 45,
+        "text-transform": "none",
+        "symbol-spacing": 250,
+        "text-font": [
+          "Lato+Bold"
+        ],
+        "symbol-placement": "line",
+        "text-rotation-alignment": "map",
+        "text-pitch-alignment": "viewport",
+        "text-field": "{name}",
+        "text-letter-spacing": 0.05,
+        "text-keep-upright": true
+      },
+      "paint": {
+        "text-color": "rgba(5, 4, 3, 1)",
+        "text-halo-color": "rgba(255,255,255,1)",
+        "text-translate": [
+          0,
+          0
+        ],
+        "text-halo-width": 2,
+        "text-halo-blur": 1
+      }
+    },
+    {
+      "id": "block-groups_bubbles",
+      "type": "circle",
+      "source": "us-block-groups-10",
+      "source-layer": "block-groups-centers",
+      "minzoom": 8,
+      "layout": {
+        "visibility": "none"
+      },
+      "paint": {
+        "circle-stroke-color": "rgba(255, 255, 255, 1)",
+        "circle-stroke-width": 0.75,
+        "circle-color": "rgba(255,4,0,0.65)",
+        "circle-radius": 0
       }
     },
     {
