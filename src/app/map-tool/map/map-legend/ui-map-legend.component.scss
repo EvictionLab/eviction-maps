@@ -1,5 +1,7 @@
 @import '../../../../theme';
 
+$bubbleColor: rgba(255,4,0,0.65);
+
 :host {
   display:block;
   pointer-events:all;
@@ -45,7 +47,7 @@
     width:grid(1);
     height:grid(1);
     border-radius: grid(1);
-    background: $color1;
+    background: $bubbleColor;
   }
 }
 .large-bubble {
@@ -55,7 +57,7 @@
     width: grid(2);
     height: grid(2);
     border-radius: grid(2);
-    background: $color1;
+    background: $bubbleColor;
   }
 }
 .bubble-no-data {
