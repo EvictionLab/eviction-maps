@@ -55,10 +55,11 @@
 .btn-primary {
   @include altSmallCapsText($buttonTextSize);
   border: none;
-  background: $primaryButtonColor;
+  background-color: $primaryButtonColor;
   color: $white;
   height: grid(7);
   padding: 0 grid(7);
+  transition: background-color 0.4s ease-in-out;
   &:hover {
     background: $primaryButtonHoverColor;
   }
@@ -70,6 +71,9 @@
   }
   span + .icon {
     margin: grid(0.5) auto 0;
+  }
+  &.disabled {
+    background-color: $grey3;
   }
 }
 
