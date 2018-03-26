@@ -56,13 +56,22 @@ export class UiMapLegendComponent implements OnChanges {
 
   /** Sets the tooltip hint */
   setHintData() {
-    if (!this.choropleth.name || !this.layer.name) { return; }
-    this.hintData = this.translatePipe.transform('MAP.LEGEND_HINT', {
-      geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
-      attribute: this.choropleth['name'].toLowerCase(),
-      min: this.formatType(this.stops[2]),
-      max: this.formatType(this.stops[this.stops.length - 2])
-    });
+    if ((!this.choropleth.name || !this.bubbles.name) || !this.layer.name) { return; }
+    const legendText = [];
+    if (this.hasChoropleth) {
+      legendText.push(this.translatePipe.transform('MAP.CHORO_LEGEND_HINT', {
+        geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
+        attribute: this.choropleth['name'].toLowerCase(),
+        min: this.formatType(this.stops[2]),
+        max: this.formatType(this.stops[this.stops.length - 2])
+      }));
+    }
+    if (this.hasBubbles) {
+      legendText.push(this.translatePipe.transform('MAP.BUBBLE_LEGEND_HINT', {
+        attribute: this.bubbles.name.toLowerCase()
+      }));
+    }
+    this.hintData = legendText.join(' ');
   }
 
   setBubbleValues() {
@@ -74,6 +83,7 @@ export class UiMapLegendComponent implements OnChanges {
       const steps = expr[3].slice(3);
       this.minBubbleValue = this.bubbleValue(this.minBubbleRadius, this.zoom, steps);
       this.maxBubbleValue = this.bubbleValue(this.maxBubbleRadius, this.zoom, steps);
+      this.setHintData();
     } else {
       this.hasBubbles = false;
     }

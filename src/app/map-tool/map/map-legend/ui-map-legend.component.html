@@ -21,5 +21,5 @@
     <span class="legend-middle">{{ formatValue( ((stops[2] + stops[stops.length - 2]) / 2 ) ) }}</span>
     <span class="legend-end">{{ formatValue(stops[stops.length - 2]) }}+</span>
   </div>
-  <app-ui-hint *ngIf="hasChoropleth" class="legend-hint" [hint]="hintData" triggers="hover touchend focus" placement="left"></app-ui-hint>
+  <app-ui-hint *ngIf="hasChoropleth || hasBubbles" class="legend-hint" [hint]="hintData" triggers="hover touchend focus" placement="left"></app-ui-hint>
 </div>
