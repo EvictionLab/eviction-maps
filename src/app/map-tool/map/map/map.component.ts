@@ -198,15 +198,6 @@ export class MapComponent implements OnInit, OnChanges {
     const selectOptions = (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
     return [ this.autoSelect, ...selectOptions ];
   }
-  /** Sets if the map is loading and informs the service */
-  set mapLoading(isLoading: boolean) {
-    this._store.loading = isLoading;
-    if (this.loader) {
-      isLoading ? this.loader.start('map') : this.loader.end('map');
-    }
-  }
-  /** Gets if the map is loading */
-  get mapLoading(): boolean { return this._store.loading; }
   /** Debounced function for year change */
   private updateMapYear = _debounce(() => {
       this.yearChange.emit(this.year);
@@ -227,6 +218,8 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth.id.indexOf('none') < 0;
   }
 
+  private _debug = true;
+
   constructor(
     public el: ElementRef,
     private mapService: MapService,
@@ -235,7 +228,6 @@ export class MapComponent implements OnInit, OnChanges {
     private translate: TranslateService,
     private translatePipe: TranslatePipe
   ) {
-    loader.start('map');
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
     this.mapService.zoom$.skip(1)
       .filter(zoom => zoom !== null)
@@ -261,7 +253,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (changes.activeFeatures && this.mapService.mapCreated) {
       const features = (changes.activeFeatures.currentValue ?
         changes.activeFeatures.currentValue : []);
-      this.mapService.updateHighlightFeatures(this.selectedLayer.id, features);
+      this.updateHighlights();
     }
   }
 
@@ -299,7 +291,7 @@ export class MapComponent implements OnInit, OnChanges {
         this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
       });
       // Reset the hover layer
-      this.mapService.setSourceData('hover');
+      this.mapService.setHoveredFeature(null);
     }
   }
 
@@ -314,16 +306,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.setGroupVisibility(this.selectedLayer);
     this.updateCensusYear();
     this.updateMapData();
-    this.mapService.isLoading$
-      .debounceTime(150)
-      .distinctUntilChanged()
-      .subscribe((state) => {
-        this.mapLoading = state;
-        // Whenever map finishes loading, update boundaries
-        if (!this.mapLoading) {
-          this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
-        }
-      });
     if (this.boundingBox) {
       this.mapService.zoomToBoundingBox(this.boundingBox);
       // Only toggle if autoSwitch is currently on
@@ -351,7 +333,6 @@ export class MapComponent implements OnInit, OnChanges {
         }
       }
     }
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
   }
 
   enableZoom() { return this.mapService.enableZoom(); }
@@ -368,7 +349,7 @@ export class MapComponent implements OnInit, OnChanges {
     if (this.scrollZoom) {
       this.boundingBoxChange.emit(this._store.bounds);
       if (this.restoreAutoSwitch) { this.autoSwitch = true; }
-      this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+      this.updateHighlights();
     }
   }
 
@@ -381,6 +362,27 @@ export class MapComponent implements OnInit, OnChanges {
   onFeatureClick(feature) {
     if (feature && feature.properties) {
       this.featureClick.emit(feature);
+    }
+  }
+
+  /**
+   * Updates the active feature highlights and caches the geometry if it is at
+   * a higher detail level.
+   */
+  private updateHighlights() {
+    const updatedFeatures =
+      this.mapService.updateHighlightFeatures(this.activeFeatures);
+    // update geometries in place if higher detail
+    for (let i = 0; i < this.activeFeatures.length; i++) {
+      const f1 = this.activeFeatures[i];
+      const f2 = updatedFeatures[i];
+      if (
+        !f1.properties['geoDepth'] ||
+        f1.properties['geoDepth'] < f2.properties['geoDepth']
+      ) {
+        f1.properties['geoDepth'] = f2.properties['geoDepth'];
+        f1.geometry = f2.geometry;
+      }
     }
   }
 
@@ -530,7 +532,7 @@ export class MapComponent implements OnInit, OnChanges {
   private updateMapData() {
     this.updateMapBubbles();
     this.updateMapChoropleths();
-    this.mapService.updateHighlightFeatures(this.selectedLayer.id, this.activeFeatures);
+    this.updateHighlights();
   }
 
 }

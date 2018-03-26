@@ -143,6 +143,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.loader.start('feature');
     const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
+      this.loader.end('feature');
       this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
     }
     // track event
@@ -159,6 +160,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mapToolService.updateLocation(data);
         this.updateRoute();
         this.loader.end('feature');
+      }, err => {
+        this.loader.end('feature');
+        console.error(err.message);
       });
   }
 
@@ -235,6 +239,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
             .first()
             .subscribe(() => this.map.setGroupVisibility(dataLevel));
         }
+        this.loader.end('search');
+      }, err => {
+        this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
         this.loader.end('search');
       });
     }

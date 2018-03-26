@@ -348,6 +348,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'type': 'bubble',
     'order': 3,
     'langKey': 'STATS.FILING_RATE',
+    'hintKey': 'HINTS.EVICTION_FILING_RATE',
     'format': 'percent',
     'default': 0,
     'expressions': {

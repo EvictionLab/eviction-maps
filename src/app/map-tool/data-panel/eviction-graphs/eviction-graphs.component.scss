@@ -39,7 +39,7 @@
     max-width: $maxContentWidth;
   }
 }
-// header with graph controls
+// graph controls layout
 .graph-header {
   background: $grey4a;
   .graph-header-inner {
@@ -51,81 +51,205 @@
     height:100%;
     margin:auto;
     padding: grid(2) 0;
-    > * {
-      margin: grid(1) 0;
+  }
+}
+.graph-eviction-toggle {
+  order: 1;
+  margin: grid(1) 0;
+}
+.graph-year-select {
+  order: 2;
+  margin: grid(1) 0;
+}
+.graph-type-toggle {
+  order: 3;
+  margin: grid(1) 0;
+}
+
+@media(min-width: $gtMobile) {
+  .graph-header {
+    height: auto;
+    .graph-header-inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: grid(2) $pageMarginLg;
     }
   }
-
   .graph-eviction-toggle {
+    width: 60%;
+    margin:0;
+  }
+  .graph-year-select {
+    min-width: 40%;
+    flex:1;
+    margin:0;
+  }
+  .graph-type-toggle {
+    margin:grid(3) 0 0 0;
+  }
+}
+
+@media(min-width: $gtTablet) {
+  .graph-header {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
+    .graph-header-inner {
+      flex-wrap: nowrap;
+      padding:grid(3) grid(3);
+      justify-content: flex-start;
+    }
+  }
+  .graph-eviction-toggle {
+    width:auto;
     order: 1;
   }
   .graph-year-select {
+    min-width: 1px;
+    width: auto;
+    order: 3;
+  }
+  .graph-type-toggle {
     order: 2;
-    .graph-year-label { display: none; }
-    .graph-select { 
-      display:flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      span { 
-        line-height: grid(6); 
-        margin: 0 grid(1.5); 
-        @include yearSelectLabel(10px);
-      }
+    margin: -2px grid(8) 0 grid(10);
+    position:relative;
+    &:before {
+      content:"";
+      display:block;
+      width:1px;
+      height: grid(5);
+      position:absolute;
+      background: $grey3;
+      top:0;
+      left: -1*grid(9);
     }
   }
 }
+
+
+
+// eviction type toggle
+@media(min-width: $gtMobile) {
+  .graph-header .graph-eviction-toggle ::ng-deep .switch-label {
+    &.left { @include altSmallCapsText(16px); }
+    &.right { @include altSmallCapsTextMedium(16px); }
+  }
+  .graph-header .graph-eviction-toggle.on ::ng-deep .switch-label {
+    &.right { @include altSmallCapsText(16px); }
+    &.left { @include altSmallCapsTextMedium(16px); }
+  }
+}
+
+// year selects
+.graph-year-label { display: none; }
+.graph-select { 
+  display:flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  app-ui-select ::ng-deep .dropdown-toggle.btn { 
+    height: grid(5);
+  }
+  span { 
+    line-height: grid(5); 
+    margin: 0 grid(1.5); 
+    @include yearSelectLabel(10px);
+  }
+}
+
+@media(min-width: $gtMobile) {
+  .graph-year-select {
+    display:flex;
+    align-items:center;
+    justify-content: flex-end;
+    .graph-year-label { 
+      display: flex;
+      align-items: center;
+      justify-content:center;
+      text-align:right; 
+      @include altSmallCapsTextMedium(16px);
+      margin-right: grid(2);
+      color: $graphAxisLabels;
+    }
+  }
+  .graph-select span { font-size: 14px; }
+}
+
+
+// graph type
 .graph-type-toggle {
-  position:absolute;
-  right: $pageMargin;
-  top: $pageMargin;
+  
   ::ng-deep {
-    height: grid(6);
+    height: grid(5);
     button {
+      position:relative;
       width: grid(6);
-      height: grid(4.5);
-      padding: 0 6px;
+      height: grid(3.5);
+      padding: 0;
       box-sizing:border-box;
       background-repeat: no-repeat;
       background-position: center;
       &:focus {
         box-shadow:none;
-        span { background-color: $focusBgColor; }
+        background-color: $focusBgColor;
       }
-      span {
+      &:after {
+        content:"";
+        position:absolute;
+        top:0;
+        left:0;
         display:block;
         width:100%;
-        height:100%;
+        height: 100%;
         background-position: 50% 50%;
         background-repeat: no-repeat;
-        // hide text
-        text-indent: 100%;
-        white-space: nowrap;
-        overflow: hidden;
+      }
+      span {
+        display: none;
+        width:grid(6);
+        text-align:center; 
+        @include altSmallCapsTextMedium(16px);
+        color: $graphAxisLabels;
+      }
+      &.selected span {
+        @include altSmallCapsText(16px);
+        color: $black;
       }
     }
+    // bar graph icon and label positioning
     button:first-child {
-      span { background-image: bar-chart($grey3); }
-      &.selected span { background-image: bar-chart($color1); }
+      &:after { background-image: bar-chart($grey3); }
+      &.selected:after { background-image: bar-chart($color1); }
+      span { 
+        text-align:right;
+        transform: translateX(-1*grid(8)); 
+      }
     }
     button:last-child {
-      span { background-image: line-chart($grey3); }
-      &.selected span { background-image: line-chart($color1); }
+      &:after { background-image: line-chart($grey3); }
+      &.selected:after { background-image: line-chart($color1); }
+      span { 
+        text-align: left;
+        transform: translateX(grid(8)); 
+      }
     }
   }
 }
 // increase page margin for toggle on tablet+
 @media(min-width: $gtMobile) { 
-  .graph-type-toggle {
-    right: $pageMarginLg;
-  }
+  // show labels
+  .graph-type-toggle ::ng-deep button span { display: block; }
 }
+
 // graph style
 .graph-area { 
   position:relative;
   display: block; 
   width:100%;
   text-align:right;
-  padding-top: grid(8);
+  padding-top: grid(5);
   app-graph {
     display:block;
     width:100%;
@@ -234,35 +358,6 @@
 }
 
 @media(min-width: $gtMobile) {
-  .graph-header {
-    height: grid(11);
-    .graph-header-inner {
-      flex-direction: row;
-      padding: 0 $pageMarginLg;
-    }
-    .graph-eviction-toggle {
-      order: 1;
-    }
-    app-ui-switch {
-      flex:1;
-    }
-    .graph-year-select {
-      order: 2;
-      display:flex;
-      align-items:center;
-      justify-content: flex-end;
-      flex:1;
-      .graph-year-label { 
-        display: flex;
-        align-items: center;
-        justify-content:center;
-        text-align:right; 
-        @include yearSelectLabel(14px);
-        margin-right: grid(2);
-        color: $graphAxisLabels;
-      }
-    }
-  }
   .graph-legend {
     max-width: none;
     padding-left: $pageMarginLg;
@@ -272,6 +367,7 @@
     }
     li {
       width:auto;
+      margin-right: grid(5);
       .legend-label {
         margin-right:0;
       }
@@ -288,19 +384,6 @@
     position:relative;
     padding-top: grid(11);
   }
-  .graph-header {
-    position:absolute;
-    top:0;
-    left:0;
-    right:0;
-    width:100%;
-    .graph-selects span { @include yearSelectLabel(14px); }
-  }
-  .graph-type-toggle {
-    position: absolute;
-    right: grid(2);
-    top: grid(2);
-  }
   .graph-area { 
     width:66.666666%; 
     display:inline-block;
@@ -308,7 +391,7 @@
   .graph-legend {
     width: 33.33333%;
     float:right;
-    padding-top: grid(9);
+    padding-top: grid(5);
     ul {
       flex-direction:column;
     }
@@ -325,9 +408,6 @@
   .graph-legend {
     padding-left: grid(5);
     padding-right: grid(5);
-  }
-  .graph-header .graph-year-select {
-    margin-left: grid(5);
   }
 }
 
@@ -391,6 +471,7 @@ $graphTooltipCircleSize: 10px;
   // shift the tooltip to the left and nudge the arrow out of the wrapper
   &.left {
     .tooltip-wrapper {
+      transform: translateX(-74px);
       transform: translateX(calc(-100% - #{grid(3)}));
       .tooltip-arrow {
         right: -1*$tooltipArrowSize;

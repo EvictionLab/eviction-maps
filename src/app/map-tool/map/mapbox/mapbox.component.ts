@@ -39,6 +39,7 @@ export class MapboxComponent implements AfterViewInit {
   hoverColors = [
     'rgba(226,64,0,0.8)', 'rgba(67,72,120,0.8)', 'rgba(44,137,127,0.8)', 'rgba(255,255,255,0.8)'
   ];
+  private _debug = true;
 
   constructor(
     private mapService: MapService,
@@ -53,6 +54,8 @@ export class MapboxComponent implements AfterViewInit {
    * Create map object from mapEl ViewChild
    */
   ngAfterViewInit() {
+    // rendering hover outlines is slow on IE, so disable
+    if (this.platform.isIE) { this.mapService.setHoverEnabled(false); }
     this.embedded = this.platform.nativeWindow.document.querySelector('app-embed');
     this.mapService.embedded = this.embedded;
     this.map = this.mapService.createMap({
@@ -94,7 +97,7 @@ export class MapboxComponent implements AfterViewInit {
   onMouseLeaveFeature() {
     this.map.getCanvas().style.cursor = '';
     this.activeFeature = null;
-    this.mapService.setSourceData('hover');
+    this.mapService.setHoveredFeature(null);
     // Make sure debounced featureMouseMove doesn't re-add element
     this.featureMouseMove.emit({features: []});
     this.popup.remove();
@@ -105,23 +108,23 @@ export class MapboxComponent implements AfterViewInit {
    * @param feature Feature or null
    */
   updateActiveFeature(feature) {
-    if (feature === null) {
-      this.mapService.setSourceData('hover');
+    if (!this.mapService.hoverEnabled) { return; }
+    if (feature === null || feature.layer.id !== this.selectedLayer.id) {
+      this.mapService.setHoveredFeature(null);
       return;
     }
     this.activeFeature = feature;
-    if (feature.layer.id === this.selectedLayer.id) {
-      const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
-      if (union !== null) {
-        union.properties['color'] = this.hoverColors[this.featureCount];
-        if (this.featureCount < 3) {
-          union.properties['hover'] = true;
-        }
-        this.mapService.setSourceData('hover', [union]);
+    console.time('time: union feature');
+    const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
+    console.timeEnd('time: union feature');
+    if (union !== null) {
+      union.properties['color'] = this.hoverColors[this.featureCount];
+      if (this.featureCount < 3) {
+        union.properties['hover'] = true;
       }
-    } else {
-      this.mapService.setSourceData('hover');
+      this.mapService.setHoveredFeature(union);
     }
+
   }
 
   /**
@@ -148,10 +151,11 @@ export class MapboxComponent implements AfterViewInit {
 
         this.featureMouseMove
           .subscribe(e => this.updatePopupLocation(e));
-        distinctFeature(this.featureMouseMove)
-          .subscribe(feat => this.updatePopupContent(feat));
-        distinctFeature(this.featureMouseMove.debounceTime(150))
-          .subscribe(feat => this.updateActiveFeature(feat));
+        distinctFeature(this.featureMouseMove.debounceTime(100))
+          .subscribe(feat => {
+            this.updatePopupContent(feat);
+            this.updateActiveFeature(feat);
+          });
       });
     }
     this.ready.emit(this.map);
@@ -171,8 +175,16 @@ export class MapboxComponent implements AfterViewInit {
       this.scroll.allowScroll = true;
       this.mapService.setZoomEvent(this.map.getZoom());
     });
-    this.map.on('data', (e) =>  this.mapService.setLoading(!this.map.areTilesLoaded()));
-    this.map.on('dataloading', (e) => this.mapService.setLoading(!this.map.areTilesLoaded()));
+    this.map.on('data', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
+    this.map.on('dataloading', (e) => {
+      if (e.sourceId) {
+        this.mapService.setSourceLoading(e.sourceId);
+      }
+    });
     this.eventLayers.forEach((layer) => {
       if (!(this.platform.isIos || this.platform.isAndroid) || this.embedded) {
         this.map.on('mouseenter', layer, (ev) => this.onMouseEnterFeature(ev));
@@ -217,7 +229,7 @@ export class MapboxComponent implements AfterViewInit {
    */
   private updatePopupContent(feature: MapFeature | null) {
     // Since fires before updating outline, remove outline
-    this.mapService.setSourceData('hover');
+    this.mapService.setHoveredFeature(null);
     if (!feature) {
       this.popup.remove();
       return;
@@ -264,4 +276,5 @@ export class MapboxComponent implements AfterViewInit {
       this.popup.remove();
     }
   }
+
 }
