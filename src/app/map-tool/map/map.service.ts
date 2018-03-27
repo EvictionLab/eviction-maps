@@ -14,6 +14,7 @@ import * as _isEqual from 'lodash.isequal';
 import { MapLayerGroup } from '../data/map-layer-group';
 import { MapFeature } from './map-feature';
 import { LoadingService } from '../../services/loading.service';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class MapService {
@@ -438,6 +439,6 @@ export class MapService {
 
   private debug(...args) {
     // tslint:disable-next-line
-    this._debug ? console.debug.apply(console, args) : null;
+    environment.production || !this._debug ?  null : console.debug.apply(console, args);
   }
 }

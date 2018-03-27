@@ -4,6 +4,7 @@ import { timer } from 'rxjs/observable/timer';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/race';
+import { environment } from '../../environments/environment.prod';
 
 @Injectable()
 export class LoadingService {
@@ -95,7 +96,7 @@ export class LoadingService {
 
   private debug(...args) {
     // tslint:disable-next-line
-    this._debug ? console.debug.apply(console, args) : null;
+    environment.production || !this._debug ? null : console.debug.apply(console, args);
   }
 
 }
