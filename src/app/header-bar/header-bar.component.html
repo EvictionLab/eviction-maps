@@ -22,10 +22,10 @@
       [values]="languageOptions"
     ></app-ui-select>
     <div class="header-icons">
-      <button [class.active]="activeMenuItem === 'home'" class="btn btn-icon el-button-home" (click)="onMenuSelect('home')">
+      <a href="/" class="btn btn-icon el-button-home">
         <app-ui-icon icon="home" class="home-icon"></app-ui-icon>
         <span>{{ 'HEADER.HOME' | translate }}</span>
-      </button>
+      </a>
       <button [class.active]="activeMenuItem === 'search'" class="btn btn-icon el-button-search" (click)="onMenuSelect('search')">
         <app-ui-icon icon="search"></app-ui-icon>
         <span>{{ 'HEADER.SEARCH' | translate }}</span>
