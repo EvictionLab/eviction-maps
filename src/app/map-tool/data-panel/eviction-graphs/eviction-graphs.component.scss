@@ -23,10 +23,23 @@
   .g3-start { stop-color: #C6D5E0; }
   .g3-end { stop-color: #94AABD; }
   .app-graph {
-    .line-0 { stroke: $c1; stroke-width: $strokeWidth; }
-    .line-1 { stroke: $c2; stroke-width: $strokeWidth; }
-    .line-2 { stroke: $c3; stroke-width: $strokeWidth; }
-    .line-3 { stroke: $c4; stroke-width: $strokeWidth; }
+    .line-0 {
+      stroke: $c1; stroke-width: $strokeWidth;
+      circle { fill: $c1; }
+    }
+    .line-1 {
+      stroke: $c2; stroke-width: $strokeWidth;
+      circle { fill: $c2; }
+    }
+    .line-2 {
+      stroke: $c3; stroke-width: $strokeWidth;
+      circle { fill: $c3; }
+    }
+    .line-3 {
+      stroke: $c4; stroke-width: $strokeWidth;
+      circle { fill: $c4; }
+    }
+    circle { stroke-width: 0 }
   }
 
 }
