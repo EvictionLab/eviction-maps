@@ -9,7 +9,7 @@ import { Subject} from 'rxjs/Subject';
 import 'rxjs/add/operator/takeUntil';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
 
-
+import { environment } from '../../../../environments/environment';
 import { RankingLocation } from '../../ranking-location';
 import { RankingService } from '../../ranking.service';
 import { ScrollService } from '../../../services/scroll.service';
@@ -73,6 +73,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (value !== null && value < this.topCount) { this.scrollToIndex(value); }
     // if the panel is newly opened, focus
     if (panelOpened) { this.focusPanel(); }
+    this.updateTweet();
   }
   get selectedIndex(): number { return this.store.selectedIndex; }
   /** Reference to the ranking list component */
@@ -111,6 +112,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataProperty.hasOwnProperty('value');
   }
   private destroy: Subject<any> = new Subject();
+  private _debug = true;
 
   constructor(
     public rankings: RankingService,
@@ -268,10 +270,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /** Updates Twitter text for city rankings based on selections */
-  getTweet() {
+  updateTweet() {
     if (!this.canNavigate || !this.listData) { return ''; }
-    return this.isDefaultSelection() ? this.getDefaultTweet() :
+    this.tweet = this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
+    this.debug('updated tweet: ', this.tweet);
   }
 
   /** Shows a toast message indicating the data is not available */
@@ -444,7 +447,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private updateEvictionList() {
     if (this.canRetrieveData) {
-      this.tweet = this.getTweet();
       this.listData = this.rankings.getFilteredEvictions(
         this.region, this.areaType.value, this.dataProperty.value
       );
@@ -454,9 +456,15 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
         })
       );
+      this.updateTweet();
       this.changeDetectorRef.detectChanges();
     } else {
       console.warn('data is not ready yet');
     }
+  }
+
+  private debug(...args) {
+    // tslint:disable-next-line
+    environment.production || !this._debug ? null : console.debug.apply(console, args);
   }
 }
