@@ -39,8 +39,7 @@ $panelHeightLg: 194px;
 }
 
 .content-evictions {
-  margin-bottom: -1*$panelHeightSm;
-  &.panel-open { margin-bottom: 0; }
+  margin-bottom: 0;
 }
 
 .hero {
@@ -253,6 +252,7 @@ app-ranking-ui.ranking-ui-panel {
 // Rankings Page Body
 // ---
 .ranking-body {
+  min-height: 100vh;
   & > h2 {
     margin: grid(2) 0 grid(1);
     @include altFont(16px);
@@ -322,7 +322,6 @@ app-ranking-ui.ranking-ui-panel {
   bottom:0;
   left:0;
   right:0;
-  height: $panelHeightSm;
   background: $white;
   z-index:21;
   box-shadow: $z1shadow;
@@ -336,69 +335,44 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 
-@media(min-width: $gtMobile) {
-  .page-fixed-bottom {
-    height: $panelHeightMd;
-  }
-}
-@media(min-width: $gtLaptop) {
-  .page-fixed-bottom {
-    height: $panelHeightLg;
-  }
-}
-
 .btn.btn-icon.scroll-to-top-button {
-  position: sticky;
+  position:absolute;
+  top: -1*grid(7);
+  right: $pageMargin;
   cursor: pointer;
   text-align: center;
   padding: grid(1.25);
   width: grid(5);
   height: grid(5);
   background: $white;
-  right: $pageMargin;
-  bottom: $pageMargin;
-  margin:  -1*grid(7) 0 grid(2) auto;
+  margin:  0 0 grid(2) auto;
   z-index: 20;
-  transition: transform 0.4s ease;
-  transform: translate3d(0, 250%, 0);
-  &.visible {
-    transform: translate3d(0, 0, 0);
-  }
-  // &.panel-open {
-  //   transform: translate3d(-100%, 0, 0);
-  //   right: $pageMargin + grid(2);
-  // }
-  &.visible.panel-open {
-    transform: translate3d(-100%, -1*$panelHeightSm, 0);
-  }
+  border-radius:0;
+  transition: transform 0.2s ease-in-out;
+  transform: translate3d(250%, 0, 0);
   .icon {
     width: 13px;
     height: 13px;
     margin:auto;
     fill: $color1;
   }
+  &.visible {
+    transform: translate3d(0, 0, 0);
+  }
   &:hover, &:active {
     background-color: $color1;
     .icon { fill: $white; }
   }
 }
+// shift to the left of the close button when panel is open
+.visible .btn.btn-icon.scroll-to-top-button.visible {
+  transform: translate3d((-1*grid(6)), 0, 0);
+}
 
 @media(min-width: $gtMobile) {
   .btn.btn-icon.scroll-to-top-button {
+    top: -1*grid(8);
     right: $pageMarginLg;
-    bottom: $pageMarginLg;
-    margin:  -1*grid(8) 0 grid(3) auto;
-    &.panel-open {
-      right: $pageMarginLg + grid(2);
-    }
-    &.visible.panel-open {
-      transform: translate3d(-100%, -1*$panelHeightMd, 0);
-    }
-  }
-}
-@media(min-width: $gtLaptop) {
-  .btn.btn-icon.scroll-to-top-button.visible.panel-open {
-    transform: translate3d(-100%, -1*($panelHeightLg), 0);
   }
 }
 

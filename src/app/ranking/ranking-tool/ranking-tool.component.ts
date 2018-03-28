@@ -1,5 +1,5 @@
 import {
-  Component, OnInit, OnDestroy, ViewChild, Inject, ViewEncapsulation, ElementRef, AfterViewInit
+  Component, OnInit, OnDestroy, ViewChild, Inject, ViewEncapsulation, ElementRef
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -22,9 +22,8 @@ import { RankingUiComponent } from '../ranking-ui/ranking-ui.component';
   providers: [TranslatePipe, DecimalPipe],
   encapsulation: ViewEncapsulation.None
 })
-export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
-  /** page content element */
-  @ViewChild('content') contentEl: ElementRef;
+export class RankingToolComponent implements OnInit, OnDestroy {
+
   /** identifier for the component so AppComponent can detect type */
   id = 'ranking-tool';
   /** tab ID for the active tab */
@@ -33,8 +32,6 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
   areaType;
   dataProperty;
   selectedIndex;
-  /** Boolean of whether to show scroll to top button */
-  showScrollButton = false;
 
   private ngUnsubscribe: Subject<any> = new Subject();
 
@@ -58,10 +55,6 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(this.onRouteChange.bind(this));
     this.route.queryParams.takeUntil(this.ngUnsubscribe)
       .subscribe(this.onQueryParamChange.bind(this));
-  }
-
-  ngAfterViewInit() {
-    this.setupPageScroll();
   }
 
   switchTab(id: string) {
@@ -100,28 +93,5 @@ export class RankingToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.activeTab = url[0].path;
     }
   }
-
-  scrollToTop() {
-    this.scroll.scrollTo(this.contentEl.nativeElement);
-    // set focus to an element at the top of the page for keyboard nav
-    const focusableEl = this.contentEl.nativeElement.querySelector('app-ranking-list button');
-    setTimeout(() => {
-      if (focusableEl.length) {
-        focusableEl[0].focus();
-        focusableEl[0].blur();
-      }
-    }, this.scroll.defaultDuration);
-  }
-
-
-  private setupPageScroll() {
-    this.scroll.defaultScrollOffset = 175;
-    const listYOffset = this.contentEl.nativeElement.getBoundingClientRect().top;
-    this.scroll.verticalOffset$.debounceTime(100)
-      .subscribe(offset => {
-        this.showScrollButton = offset > listYOffset;
-      });
-  }
-
 
 }
