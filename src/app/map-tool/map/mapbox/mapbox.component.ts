@@ -255,6 +255,17 @@ export class MapboxComponent implements AfterViewInit {
       let popupData = `<p>${feature.properties.n}, ${feature.properties.pl}</p>`;
       if (this.mapConfig['popupProps']) {
         const yearSuffix = this.mapConfig['year'].toString().slice(2);
+        // Add centers if an eviction prop is included
+        if (this.mapConfig['popupProps'].find(p => p.type === 'bubble')) {
+          const centerLayerId = `${feature['layer']['id']}_bubbles`;
+          const centerFeatures = this.map.queryRenderedFeatures(undefined, {
+            layers: [centerLayerId],
+            filter: ['==', 'GEOID', feature.properties['GEOID']]
+          });
+          const centerFeat = centerFeatures.length > 0 ? centerFeatures[0] : { properties: {} };
+          feature.properties = { ...feature.properties, ...centerFeat.properties };
+        }
+
         this.mapConfig['popupProps'].forEach(p => {
           const label = this.translate.transform(p['langKey']);
           let value;
