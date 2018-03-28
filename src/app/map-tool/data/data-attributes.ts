@@ -249,16 +249,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 2.5,
-            30, 60
+            30, 60,
+            500, 60
           ],
           6, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2.5,
-            30, 120
+            30, 90,
+            500, 90
           ]
         ]
       ],
@@ -267,16 +269,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1.5,
             0, 1,
-            30, 10
+            30, 7.5,
+            500, 7.5
           ],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            30, 30
+            30, 30,
+            500, 30
           ]
         ]
       ],
@@ -284,17 +288,19 @@ export const DataAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+          3, [
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1,
             0, 1,
-            30, 7.5
+            60, 7.5,
+            500, 7.5
           ],
           10, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 3,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 2,
             0, 1,
-            30, 20
+            60, 15,
+            500, 15
           ]
         ]
       ],
@@ -303,16 +309,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1.5,
             0, 1,
-            30, 10
+            50, 12.5,
+            500, 12.5
           ],
           12, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 4,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 3,
             0, 2,
-            30, 45
+            30, 30,
+            500, 30
           ]
         ]
       ],
@@ -321,16 +329,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 1,
-            30, 7.5
+            30, 7.5,
+            500, 7.5
           ],
           12, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            30, 30
+            30, 30,
+            500, 30
           ]
         ]
       ]
@@ -357,16 +367,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 2.5,
-            45, 60
+            40, 40,
+            500, 40
           ],
           6, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2.5,
-            45, 120
+            40, 80,
+            500, 80
           ]
         ]
       ],
@@ -375,16 +387,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1.5,
             0, 1,
-            45, 10
+            60, 7.5,
+            500, 7.5
           ],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            45, 30
+            60, 30,
+            500, 30
           ]
         ]
       ],
@@ -392,17 +406,19 @@ export const DataAttributes: Array<MapDataAttribute> = [
         'let', 'data_prop', ['get', 'PROP'],
         [
           'interpolate', ['linear'], ['zoom'],
-          2, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+          3, [
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1,
             0, 1,
-            45, 7.5
+            100, 7.5,
+            500, 7.5
           ],
           10, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 3,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 2,
             0, 1,
-            45, 20
+            100, 15,
+            500, 15
           ]
         ]
       ],
@@ -411,16 +427,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 2,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 1.5,
             0, 1,
-            45, 10
+            50, 12.5,
+            500, 12.5
           ],
           12, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
-            -1, 4,
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
+            -1, 3,
             0, 2,
-            45, 45
+            60, 30,
+            500, 30
           ]
         ]
       ],
@@ -429,16 +447,18 @@ export const DataAttributes: Array<MapDataAttribute> = [
         [
           'interpolate', ['linear'], ['zoom'],
           8, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 1,
-            45, 7.5
+            60, 7.5,
+            500, 7.5
           ],
           12, [
-            'interpolate', ['exponential', 1], ['number', ['var', 'data_prop']],
+            'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            45, 30
+            60, 30,
+            500, 30
           ]
         ]
       ]
