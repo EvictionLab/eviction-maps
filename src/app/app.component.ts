@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.safari') safari = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
+  @HostBinding('class.ie') ie = false;
   currentMenuItem: string;
   menuActive = false;
   siteNav = environment.siteNav;
@@ -89,6 +90,7 @@ export class AppComponent implements OnInit {
     this.safari = this.platform.isSafari;
     this.iosSafari = this.platform.isIosSafari;
     this.android = this.platform.isAndroid;
+    this.ie = this.platform.isIE;
   }
 
   closeMenu() {

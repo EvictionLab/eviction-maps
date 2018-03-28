@@ -131,6 +131,7 @@ $bubbleColor: rgba(255,4,0,0.65);
   }
   .choropleth-legend {
     width: grid(22);
+    min-width: grid(22);
   }
   .legend-middle {
     display: block;
