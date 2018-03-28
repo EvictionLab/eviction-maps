@@ -21,8 +21,8 @@ export class UiMapLegendComponent implements OnChanges {
   /** Gets the fill stops based on the selected choropleth */
   stops;
   /** Radius and values for bubble legend. Max value changes with screen size */
-  minBubbleRadius = 4;
-  get maxBubbleRadius() { return this.platform.isLargerThanMobile ? 12 : 8; }
+  minBubbleRadius = 2;
+  get maxBubbleRadius() { return this.platform.isLargerThanMobile ? 8 : 4; }
   minBubbleValue: number;
   maxBubbleValue: number;
   hasBubbles = false;
@@ -159,13 +159,14 @@ export class UiMapLegendComponent implements OnChanges {
    */
   private bubbleValue(radius: number, mapZoom: number, steps: any[]) {
     const minZoom = steps[0];
-    const minVal = this.interpolateValue(radius, steps[1].slice(5));
+    const minVal = this.interpolateValue(radius, steps[1].slice(5, -2));
     const maxZoom = steps[steps.length - 2];
-    const maxVal = this.interpolateValue(radius, steps[steps.length - 1].slice(5));
+    const maxVal = this.interpolateValue(radius, steps[steps.length - 1].slice(5, -2));
     // Clamp zoom to range
     const zoom = Math.max(minZoom, Math.min(mapZoom, maxZoom));
 
-    return this.interpolateValue(zoom, [minVal, minZoom, maxVal, maxZoom]);
+    // Don't return less than 0
+    return Math.max(0, this.interpolateValue(zoom, [minVal, minZoom, maxVal, maxZoom]));
   }
 
   /**
