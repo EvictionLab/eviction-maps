@@ -19,6 +19,9 @@ export class DownloadFormComponent implements OnInit, AppDialog {
   buttonClicked: EventEmitter<any> = new EventEmitter<any>();
   exportDescription = 'DATA.EXPORT_ONE_FEATURE_DESCRIPTION';
   exportDescriptionParams = {};
+  get optionChecked() {
+    return this.filetypes.reduce((acc, cur) => (acc || cur.checked ), false);
+  }
 
   constructor(
     public exportService: FileExportService,
@@ -57,6 +60,7 @@ export class DownloadFormComponent implements OnInit, AppDialog {
   }
 
   onDownloadClick(e) {
+    if (!this.optionChecked) { return; }
     this.loading = true;
     const filetypes = this.filetypes
       .filter(f => f.checked).map(f => f.value);
@@ -64,8 +68,8 @@ export class DownloadFormComponent implements OnInit, AppDialog {
     this.exportService.sendFileRequest(filetypes)
       .subscribe(res => {
         if (!res.hasOwnProperty('path')) {
-          console.log(`Error occured: ${res}`);
           this.loading = false;
+          throw (new Error(`Error occured: ${res}`));
         } else {
           window.location.href = res['path'];
           this.dismiss({ accepted: true });
@@ -74,11 +78,20 @@ export class DownloadFormComponent implements OnInit, AppDialog {
       }, err => {
         this.loading = false;
         this.toast.error(this.translatePipe.transform('DATA.DOWNLOAD_ERROR'));
+        throw this.DownloadErrorMessage(filetypes);
       });
   }
 
   onCancelClick(e) {
     this.dismiss({ accepted: false });
+  }
+
+  private DownloadErrorMessage(fileTypes: string[]) {
+    return new Error(
+      'Couldn\'t fetch ' + fileTypes.join(',') + ' for GEOIDs: ' +
+      this.exportService.features.map(f => f['properties']['GEOID']).join(',') +
+      ' from ' + this.exportService.startYear + ' to ' + this.exportService.endYear
+    );
   }
 
   private dismiss(data) {

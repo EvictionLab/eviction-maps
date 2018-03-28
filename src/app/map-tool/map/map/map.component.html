@@ -46,7 +46,6 @@
     [selectedLayer]="selectedLayer"
     [featureCount]="activeFeatures.length"
     (ready)="onMapReady($event)"
-    (zoomEnd)="onMapZoomEnd($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
   ></app-mapbox>
@@ -65,15 +64,15 @@
 <div class="map-ui-wrapper">
     <app-ui-map-legend 
       *ngIf="showLegend" 
+      [zoom]="zoom"
       [choropleth]="selectedChoropleth" 
       [bubbles]="selectedBubble" 
       [layer]="selectedLayer">
-    </app-ui-map-legend>   
+    </app-ui-map-legend>
     <app-location-cards
       [collapsible]="gtTablet"
       [class.cards-2]="activeFeatures.length === 2"
       [class.cards-3]="activeFeatures.length === 3"
-      [class.no-census-data]="!selectedChoropleth || selectedChoropleth.id.includes('none')"
       [features]="activeFeatures"
       [cardProperties]="cardProps"
       [year]="year"

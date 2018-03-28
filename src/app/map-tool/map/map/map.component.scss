@@ -118,9 +118,6 @@ app-location-cards {
     pointer-events: none;
     align-items: center;
     height: calc(100vh - #{$headerHeightLg});
-    &.no-census-data ::ng-deep .location-card {
-      height: grid(34);
-    }
     ::ng-deep {
       .location-card {
         transition: transform 0.2s ease;
@@ -262,6 +259,8 @@ app-location-cards {
       width: 22px;
       height:22px;
       fill: $iconColor;
+      // Hack to prevent overflow on Safari
+      ::ng-deep { svg { height: inherit; } }
     }
   }
 }
@@ -292,8 +291,8 @@ app-ui-map-legend {
 //    move legend to bottom right of the map
 @media(min-width: $gtMobile) {
   app-ui-map-legend {
-    height: grid(6); // 6 * 8 = 48px
-    width: grid(42.5); // 42.5 * 8 = 340px
+    height: grid(7); // 7 * 8 = 56px
+    width: auto;
     max-width: $maxContentWidth;
     margin:auto;
     top:auto;
@@ -373,7 +372,7 @@ app-ui-map-legend {
   .year-slider-container {
     padding: 0 ($pageMarginLg + grid(2)) 0 $pageMarginLg; // add grid(2) so slider marker aligns with margin edge
     height: $timeSliderLg;
-    box-shadow: 0 -1px 2px rgba(0,0,0,0.2);
+    box-shadow: $z1shadow;
   }
   .year-slider-container .year-slider { height: $timeSliderLg; }
 }

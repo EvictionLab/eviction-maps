@@ -16,6 +16,7 @@
     i18n="dialog|The Download button to trigger a file download@@dialogDownload" 
     type="button" 
     class="btn btn-primary" 
+    [class.disabled]="!optionChecked"
     (click)="onDownloadClick($event)"
   >{{ 'DATA.DOWNLOAD_BUTTON' | translate }}</button>
   <app-progress-bar [indeterminate]="loading"></app-progress-bar>

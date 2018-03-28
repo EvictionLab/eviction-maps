@@ -1,7 +1,7 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
-    "DATE_RANGE": "Displaying year",
+    "DATE_RANGE": "Range",
     "JUDGMENTS": "Eviction Rate",
     "FILINGS": "Eviction Filing Rate",
     "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",
@@ -72,7 +72,8 @@
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
-    "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
+    "EVICTION_FILING_RATE": "Represents the number of eviction filings per 100 renter homes.",
+    "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more."
   },
   "LAYERS": {
     "STATES": "States",
@@ -87,7 +88,8 @@
     "CENSUS_SELECT": "Census Data",
     "LAYER_SELECT": "Map Level",
     "ZOOM_HINT": "Zoom for More",
-    "LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
+    "CHORO_LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
+    "BUBBLE_LEGEND_HINT": "The bubbles represent the {{attribute}}.",
     "DATA_LINK_SINGLE": "View More Data",
     "DATA_LINK_MULTIPLE": "View Full Comparison",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
@@ -103,7 +105,7 @@
     "HOME": "Home",
     "MAP": "Map & Data",
     "RANKINGS": "Eviction Rankings",
-    "ABOUT": "About Eviction Lab",
+    "ABOUT": "About Us",
     "PROBLEM": "Why Eviction Matters",
     "METHODS": "Methods",
     "HELP": "Help & FAQ",

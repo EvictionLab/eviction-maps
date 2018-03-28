@@ -62,7 +62,7 @@ export const MapboxSource: SearchSource = {
 
         const countyFeatures = this.featureList.filter(f => {
             return f.properties.label.toLowerCase().startsWith(text.toLowerCase());
-        });
+        }).map(f => { f.center = f.geometry.coordinates; return f; });
 
         return countyFeatures.concat(results['features'].map(r => {
             r.properties.label = r.place_name;

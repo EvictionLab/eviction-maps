@@ -35,7 +35,9 @@ export class PredictiveSearchComponent implements OnInit {
 
   @HostListener('keydown', [ '$event' ]) onkeypress(e) {
     const keys = { 'UP': 38, 'DOWN': 40, 'ESC': 27 };
-    const items = this.el.nativeElement.querySelectorAll('.dropdown-menu li');
+    const items: Element[] = Array.from(
+      this.el.nativeElement.querySelectorAll('.dropdown-menu li')
+    );
     if (!items) { return; }
     if (e.keyCode === keys['DOWN']) {
       this.selectedIndex++;
@@ -65,7 +67,9 @@ export class PredictiveSearchComponent implements OnInit {
       this.ariaExpanded = true;
       menu.setAttribute('id', this.ariaOwns);
       menu.setAttribute('role', 'listbox');
-      const items = this.el.nativeElement.querySelectorAll('.dropdown-menu li');
+      const items: Element[] = Array.from(
+        this.el.nativeElement.querySelectorAll('.dropdown-menu li')
+      );
       if (items && items.length > 0 && items.length > this.selectedIndex) {
         this.ariaActiveDescendant = 'selectedOption';
         items.forEach(i => {

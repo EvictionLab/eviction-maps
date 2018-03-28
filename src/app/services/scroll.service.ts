@@ -26,8 +26,8 @@ export class ScrollService {
       !val && this.document.documentElement.scrollTop === 0 &&
       !this.document.documentElement.classList.contains('embedded')
     );
-    this.document.body.style.position = changeScroll ? 'fixed' : '';
-    this.document.body.style.overflowY = changeScroll ? 'scroll' : '';
+    this.document.documentElement.style.position = changeScroll ? 'fixed' : '';
+    this.document.documentElement.style.overflowY = changeScroll ? 'scroll' : '';
   }
   verticalOffset$: Observable<number>;
   scrolledToTop$: Observable<boolean>;

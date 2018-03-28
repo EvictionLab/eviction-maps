@@ -1,7 +1,7 @@
 {
   "DATA": {
     "CARD_HEADING": "<span>{{year}}</span>",
-    "DATE_RANGE": "Rango de fechas",
+    "DATE_RANGE": "Range",
     "JUDGMENTS": "Sentencias",
     "FILINGS": "Presentaciones",
     "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",
@@ -75,7 +75,8 @@
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
-    "RENT_BURDEN": "The percentage of household income spent on rent (max 50% or more)."
+    "EVICTION_FILING_RATE": "Represents the number of eviction filings per 100 renter homes.",
+    "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more."
   },
   "LAYERS": {
     "STATES": "Estados",
@@ -90,7 +91,8 @@
     "CENSUS_SELECT": "Tipo de Datos del Censo ",
     "LAYER_SELECT": "Nivel del Mapa",
     "ZOOM_HINT": "Agrandar para ver más",
-    "LEGEND_HINT": "{{geography}} = {{attribute}}, {{min}} - {{max}}.",
+    "CHORO_LEGEND_HINT": "{{geography}} = {{attribute}}, {{min}} - {{max}}.",
+    "BUBBLE_LEGEND_HINT": "The bubbles represent the {{attribute}}.",
     "DATA_LINK_SINGLE": "Ver más datos",
     "DATA_LINK_MULTIPLE": "Ver comparación completa",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
@@ -106,7 +108,7 @@
     "HOME": "Home",
     "MAP": "Map & Data",
     "RANKINGS": "Eviction Rankings",
-    "ABOUT": "About Eviction Lab",
+    "ABOUT": "About Us",
     "PROBLEM": "Why Eviction Matters",
     "METHODS": "Methods",
     "HELP": "Help & FAQ",

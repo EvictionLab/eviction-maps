@@ -126,8 +126,11 @@ export class UiSliderComponent implements AfterViewInit {
     if ((e.keyCode === 37 || e.keyCode === 39)) {
       // left or right
       const newValue = (e.keyCode === 37) ?
-        this.value - this.step : this.value + this.step;
-      this.valueChange.emit(newValue);
+        this.valueInRange(this.value - this.step) :
+        this.valueInRange(this.value + this.step);
+      if (newValue !== this.value) {
+        this.valueChange.emit(newValue);
+      }
     }
   }
 
@@ -143,6 +146,11 @@ export class UiSliderComponent implements AfterViewInit {
     if (!this.pressed) {
       this.position = (val - this.min) / (this.max - this.min);
     }
+  }
+
+  /** Returns the value within the min / max range */
+  private valueInRange(value) {
+    return Math.min(this.max, Math.max(this.min, value));
   }
 
   /**

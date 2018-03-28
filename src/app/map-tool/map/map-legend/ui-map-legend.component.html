@@ -1,8 +1,25 @@
-<div class="map-legend" *ngIf="stops">
-  <app-ui-hint class="legend-hint" [hint]="hintData" triggers="hover touchend focus" placement="left"></app-ui-hint>
-  <div class="legend" [style.background]="legendGradient">
+<div class="map-legend">
+  <div class="legend-item small-bubble bubble-no-data" *ngIf="hasBubbles">
+    <span>No Data</span>
+    <div class="legend-circle"></div>
+  </div>
+  <div class="legend-item small-bubble" *ngIf="hasBubbles">
+    <span>{{ minBubbleValue | number: '1.0-1' }}%</span>
+    <div class="legend-circle"></div>
+  </div>
+  <div class="legend-item large-bubble" *ngIf="hasBubbles">
+    <span>{{ maxBubbleValue | number: '1.0-1' }}%</span>
+    <div class="legend-circle"></div>
+  </div>
+  <div class="legend-divider" *ngIf="hasBubbles && hasChoropleth"></div>
+  <div class="legend-item choropleth-no-data" *ngIf="hasChoropleth">
+    <span>No Data</span>
+    <div class="no-data-square"></div>
+  </div>
+  <div class="legend-item choropleth-legend" *ngIf="hasChoropleth" [style.background]="legendGradient">
     <span class="legend-start">{{ formatValue(stops[2]) }}</span>
     <span class="legend-middle">{{ formatValue( ((stops[2] + stops[stops.length - 2]) / 2 ) ) }}</span>
     <span class="legend-end">{{ formatValue(stops[stops.length - 2]) }}+</span>
   </div>
+  <app-ui-hint *ngIf="hasChoropleth || hasBubbles" class="legend-hint" [hint]="hintData" triggers="hover touchend focus" placement="left"></app-ui-hint>
 </div>

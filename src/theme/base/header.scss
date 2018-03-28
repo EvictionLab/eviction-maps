@@ -27,6 +27,7 @@
   box-shadow: $z1shadow;
   padding: grid(1) $pageMargin;
   z-index:999;
+  transform: translateZ(0);
   .header-content {
     position:relative;
     width: 100%;

@@ -25,6 +25,7 @@ $menuMargin: grid(5);
   .app-menu {
     width: $menuWidthLg;
     transform: translate3d(($menuWidthLg+5px),0,0);
+    padding: 0 grid(5);
     &.expanded {
       transform:translate3d(0,0,0);
     }
@@ -106,13 +107,14 @@ $menuMargin: grid(5);
   position:absolute;
   width: grid(27);
   left: $pageMarginLg;
-  bottom: grid(15);
+  bottom: grid(9);
   .el-select .dropdown-toggle.btn {
     background: none!important;
     color: $white!important;
-    border: 4px solid $white;
+    border: 4px solid #383D65;
     border-radius: 0;
     text-align: left;
+    box-shadow:none;
     .dropdown-value {
       @include altSmallCapsText(13px);
     }
@@ -131,7 +133,7 @@ $menuMargin: grid(5);
   position:absolute;
   bottom:0;
   left:0;
-  padding: 0 0 $pageMarginLg $pageMarginLg;
+  padding: 0 0 $pageMargin $pageMargin;
   list-style: none;
   margin:0;
   display:flex;
@@ -142,19 +144,26 @@ $menuMargin: grid(5);
     padding: grid(1);
     background: none;
     margin-right: grid(1.5);
-    width: grid(5.5);
-    height: grid(5.5);
-    border-width: grid(0.5);
-    color: $grey4;
+    width: grid(5);
+    height: grid(5);
+    border-width: 0;
+    color: $white;
     .icon { 
       margin: 0 auto;
       width: grid(2);
       height: grid(2);
-      fill: $menuGrey;
+      fill: $white;
     }
     &:hover {
       .icon { fill: $white; }
     }
+  }
+}
+
+@media(min-width: $gtMobile) {
+  .social-media-links {
+    left: grid(2);
+    bottom: grid(2); 
   }
 }
 
@@ -168,4 +177,10 @@ $menuMargin: grid(5);
   color: $menuGrey;
 }
 
+@media(min-width: $gtMobile) {
+  .menu-copyright { 
+    bottom: grid(5); 
+    font-size:14px;
+  }
+}
 
