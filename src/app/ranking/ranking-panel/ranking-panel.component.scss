@@ -114,6 +114,7 @@
   .rank-number {
     float:left;
     margin-top: grid(1);
+    margin-bottom: grid(3); // keeps text aligned when it wraps to 3 lines
     padding: 0 grid(2);
     min-width: grid(15);
     height: grid(15);
