@@ -48,6 +48,15 @@
   *ngIf="listData"
   [class.visible]="canRetrieveData && (selectedIndex || selectedIndex === 0)"
 >
+  <button 
+    class="btn btn-icon scroll-to-top-button z1"
+    [attr.aria-label]="'NAV.SCROLL_TO_TOP' | translate"
+    [class.visible]="showScrollButton"
+    [class.panel-open]="selectedIndex"
+    (click)="goToTop.emit()"
+  >
+    <app-ui-icon icon="arrow-up"></app-ui-icon>
+  </button>
   <app-ranking-panel
     [class]="'area-'+areaType.value"
     [topCount]="topCount"

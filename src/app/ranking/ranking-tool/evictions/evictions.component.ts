@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef,
-  HostListener
+  HostListener, Output
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -19,6 +19,7 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { RankingUiComponent } from '../../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../../ranking-list/ranking-list.component';
 import { RankingPanelComponent } from '../../ranking-panel/ranking-panel.component';
+import { EventEmitter } from 'protractor';
 
 
 @Component({
@@ -75,6 +76,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (panelOpened) { this.focusPanel(); }
     this.updateTweet();
   }
+  @Output() goToTop = new EventEmitter();
   get selectedIndex(): number { return this.store.selectedIndex; }
   /** Reference to the ranking list component */
   @ViewChild(RankingListComponent) rankingList: RankingListComponent;
