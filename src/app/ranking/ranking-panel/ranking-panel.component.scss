@@ -54,11 +54,13 @@
 @media(min-width: $gtMobile) {
   .panel-summary-heading {
     text-align: left;
+    max-width: calc(100% - #{grid(20)});
   }
 }
 @media(min-width: $gtLaptop) {
   .panel-summary-heading {
     margin-top: grid(1);
+    max-width: none;
   }
 }
 
@@ -66,6 +68,8 @@
 // ---
 .panel-top {
   text-align: center;
+  width: calc(100% - 40px); // keep some space for arrows
+  margin:auto;
 }
 @media(min-width: $gtMobile) {
   .panel-top {
@@ -139,10 +143,16 @@
 @media(min-width: $gtMobile) {
   .rank-location {
     @include altSmallCapsText(26px);
+    @include ellipsis-overflow();
     text-align: left;
     span {
       @include smallCapsText(14px);
     }
+  }
+}
+@media(min-width: $gtTablet) {
+  .rank-location {
+    
   }
 }
 @media(min-width: $gtLaptop) {
@@ -234,6 +244,7 @@
       max-width: none;
       text-align: left;
       margin-top: grid(2);
+      margin-left: grid(19);
     }
   }
 }
