@@ -24,7 +24,7 @@
           <app-ui-hint *ngIf="prop.hintKey" class="attribute-hint" [hint]="prop.hintKey | translate" placement="right" triggers="hover touchend focus"></app-ui-hint>
         </span>
         <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
-          <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ (f.properties[prop.yearAttr] | number) }}{{ suffix(prop.id) }}</span>
+          <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
         </span>
         <span *ngIf="prop.id === 'divider'" class="card-stat-label">{{ 'STATS.DEMOGRAPHICS' | translate }}</span>

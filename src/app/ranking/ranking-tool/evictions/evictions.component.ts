@@ -320,7 +320,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 0);
     // format number based on if it's a rate or not
     amount = this.isRateValue() ?
-      this.decimal.transform(amount / 10, '1.1-2') : this.decimal.transform(amount);
+      this.cappedRateValue(amount / 10) : this.decimal.transform(amount);
     // add average text if the number is an average rate
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_AVERAGE', { amount }) : amount;
@@ -339,7 +339,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getLocationTweet() {
     const location = this.listData[this.selectedIndex];
     let amount = this.isRateValue() ?
-      this.decimal.transform(location[this.dataProperty.value], '1.1-2') :
+      this.cappedRateValue(location[this.dataProperty.value]) :
       this.decimal.transform(location[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
@@ -374,7 +374,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_FILING');
     const state = this.rankings.stateData.find(s => s.name === this.region);
     let amount = this.isRateValue() ?
-      this.decimal.transform(state[this.dataProperty.value], '1.1-2') :
+      this.cappedRateValue(state[this.dataProperty.value]) :
       this.decimal.transform(state[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
@@ -440,6 +440,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Returns true if the data property is a rate instead of a count */
   private isRateValue(): boolean {
     return this.dataProperty.value.endsWith('Rate');
+  }
+
+  /** Returns the formatted rate number, with >100 instead of values over */
+  private cappedRateValue(val: number): string {
+    return val > 100 ? '>100' : this.decimal.transform(val, '1.1-2');
   }
 
     /**

@@ -181,6 +181,14 @@ export class LocationCardsComponent implements OnInit {
     return (this.percentProps.indexOf(prop) !== -1) ? '%' : null;
   }
 
+  /** Handle capping rate values at >100 */
+  processValue(feat: MapFeature, prop: MapDataAttribute) {
+    if (prop.type === 'bubble' && feat.properties[prop.yearAttr] > 100) {
+      return '>100';
+    }
+    return this.decimal.transform(feat.properties[prop.yearAttr], '1.0-2');
+  }
+
   /** Add a reference to the current year property name for each data attribute */
   private addYearAttrToProps() {
     this._cardProps = this._cardProps.map(p => {

@@ -15,7 +15,7 @@
       <div class="ranking-content">
         <span class="ranking-name">{{ listItem[propertyMap.primary] }}</span><span class="place-separator">,</span>
         <span class="ranking-parent">{{listItem[propertyMap.secondary]}}</span>
-        <span *ngIf="listItem[dataProperty.value] >= 0" class="ranking-value">{{listItem[dataProperty.value]}}{{ isRate ? '%' : '' }}</span>
+        <span *ngIf="listItem[dataProperty.value] >= 0" class="ranking-value">{{ listItem[dataProperty.value] > 100 && isRate ? '>100' : (listItem[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
         <span *ngIf="listItem[dataProperty.value] < 0" class="ranking-value unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
       </div>
     </button>
