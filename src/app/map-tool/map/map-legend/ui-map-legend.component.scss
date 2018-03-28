@@ -29,7 +29,7 @@ $bubbleColor: rgba(255,4,0,0.65);
   align-items: center;
   justify-content: center;
   span {
-    margin-top: -1*grid(4);
+    margin-top: (-1*grid(4)) - 2px; // shift text up so it is flush with top margin
     white-space:nowrap;
   }
 }
@@ -71,8 +71,8 @@ $bubbleColor: rgba(255,4,0,0.65);
 .legend-divider {
   width:1px;
   background: $grey4a;
-  height:calc(100% - 8px);
-  margin-top:4px;
+  height: calc(100% - #{grid(1)});
+  margin: grid(0.5) grid(0.5) 0;
 }
 
 // choropleth no data
@@ -93,7 +93,6 @@ $bubbleColor: rgba(255,4,0,0.65);
     );
   }
   span {
-    margin-top: -1*grid(4);
     white-space:nowrap;
   }
 }
@@ -115,7 +114,7 @@ $bubbleColor: rgba(255,4,0,0.65);
     margin: grid(3) grid(1) 0;
     height: grid(3);
     span {
-      margin-top: -1*grid(5);
+      margin-top: (-1*grid(5)) - 4px; // shift text up so it is flush with top margin
     }
   }
   .large-bubble .legend-circle {
@@ -123,8 +122,8 @@ $bubbleColor: rgba(255,4,0,0.65);
     height: grid(3);
   }
   .legend-divider {
-    margin-top: 8px;
-    height: calc(100% - 16px);
+    margin: grid(1) grid(0.5) 0;
+    height: calc(100% - #{grid(2)});
   }
   .choropleth-no-data .no-data-square {
     width:grid(3);

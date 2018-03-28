@@ -117,8 +117,17 @@
   }
 }
 
+// shift the more data button to the left so it doesn't sit on top of the legend
+@media(min-width: $gtTablet) and (max-width: 1200px) {
+  .map-overlay .btn-compare { margin-left: $pageMarginLg; margin-right: 0; }
+}
+
+// On laptop+ resolutions, show the compare button and adjust the map overlay
+// size to account for larger slider
 @media(min-width: $gtTablet) {
-  .map-overlay .btn-compare { display:block; }
+  .map-overlay .btn-compare { 
+    display:block; 
+  }
   .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});
   }
