@@ -580,7 +580,7 @@ export class MapToolService {
       case 'cities':
         return 8;
       default:
-        return 10;
+        return 9;
     }
   }
 
