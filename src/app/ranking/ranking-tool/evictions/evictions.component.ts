@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef,
-  HostListener, Output
+  HostListener, Output, EventEmitter
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -19,7 +19,6 @@ import { AnalyticsService } from '../../../services/analytics.service';
 import { RankingUiComponent } from '../../ranking-ui/ranking-ui.component';
 import { RankingListComponent } from '../../ranking-list/ranking-list.component';
 import { RankingPanelComponent } from '../../ranking-panel/ranking-panel.component';
-import { EventEmitter } from 'protractor';
 
 
 @Component({
@@ -64,7 +63,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   get dataProperty() { return this.store.dataProperty; }
-
   /** the index of the selected location for the data panel */
   @Input()
   set selectedIndex(value: number) {
@@ -76,7 +74,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (panelOpened) { this.focusPanel(); }
     this.updateTweet();
   }
-  @Output() goToTop = new EventEmitter();
   get selectedIndex(): number { return this.store.selectedIndex; }
   /** Reference to the ranking list component */
   @ViewChild(RankingListComponent) rankingList: RankingListComponent;
@@ -152,6 +149,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** load data once the view has been initialized */
   ngAfterViewInit() {
     this.rankings.loadEvictionsData();
+    // list takes a bit to render, so setup page scroll in a timeout instead
+    setTimeout(() => { this.setupPageScroll(); }, 500);
   }
 
   /** clear any subscriptions on destroy */
@@ -277,6 +276,29 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.tweet = this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
     this.debug('updated tweet: ', this.tweet);
+  }
+
+  scrollToTop() {
+    this.scroll.scrollTo(this.rankingList.el.nativeElement);
+    // set focus to an element at the top of the page for keyboard nav
+    const focusableEl = this.rankingList.el.nativeElement.querySelector('app-ranking-list button');
+    setTimeout(() => {
+      if (focusableEl.length) {
+        focusableEl[0].focus();
+        focusableEl[0].blur();
+      }
+    }, this.scroll.defaultDuration);
+  }
+
+  private setupPageScroll() {
+    this.scroll.defaultScrollOffset = 0;
+    this.scroll.verticalOffset$
+      .map(offset => offset > 600)
+      .distinctUntilChanged()
+      .subscribe(showButton => {
+        this.debug('show scroll to top button:', showButton);
+        this.showScrollButton = showButton;
+      });
   }
 
   /** Shows a toast message indicating the data is not available */

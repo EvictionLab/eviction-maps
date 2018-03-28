@@ -52,8 +52,7 @@
     class="btn btn-icon scroll-to-top-button z1"
     [attr.aria-label]="'NAV.SCROLL_TO_TOP' | translate"
     [class.visible]="showScrollButton"
-    [class.panel-open]="selectedIndex"
-    (click)="goToTop.emit()"
+    (click)="scrollToTop()"
   >
     <app-ui-icon icon="arrow-up"></app-ui-icon>
   </button>

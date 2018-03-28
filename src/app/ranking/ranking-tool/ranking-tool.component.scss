@@ -39,7 +39,7 @@ $panelHeightLg: 194px;
 }
 
 .content-evictions {
-  margin-bottom: -1*$panelHeightSm;
+  margin-bottom: 0;
   &.panel-open { margin-bottom: 0; }
 }
 
@@ -349,7 +349,8 @@ app-ranking-ui.ranking-ui-panel {
   margin:  0 0 grid(2) auto;
   z-index: 20;
   border-radius:0;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease-in-out;
+  transform: translate3d(250%, 0, 0);
   .icon {
     width: 13px;
     height: 13px;
@@ -365,7 +366,7 @@ app-ranking-ui.ranking-ui-panel {
   }
 }
 // shift to the left of the close button when panel is open
-.visible .btn.btn-icon.scroll-to-top-button {
+.visible .btn.btn-icon.scroll-to-top-button.visible {
   transform: translate3d((-1*grid(6)), 0, 0);
 }
 
