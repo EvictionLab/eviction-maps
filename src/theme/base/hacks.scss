@@ -18,3 +18,16 @@ body { padding-right: 0 !important; }
   }
   .graph-area app-graph.average-shown .app-graph rect.bar:last-of-type { fill: $color4 !important; }
 }
+
+
+// IE: set some alternate styles for the navbar because sticky is not supported
+@media(min-width: $gtMobile) {
+  .ie .nav-bar {
+    position: relative;
+    left:auto;right:auto;bottom:auto;top:auto;
+  }
+}
+
+.ie .content-evictions {
+  margin-bottom: 0;
+}
