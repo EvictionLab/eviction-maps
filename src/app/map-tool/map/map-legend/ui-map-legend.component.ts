@@ -159,9 +159,9 @@ export class UiMapLegendComponent implements OnChanges {
    */
   private bubbleValue(radius: number, zoom: number, steps: any[]) {
     const minZoom = steps[0];
-    const minVal = this.interpolateSteps(radius, steps[1].slice(3));
+    const minVal = this.interpolateSteps(radius, steps[1].slice(5, -2));
     const maxZoom = steps[steps.length - 2];
-    const maxVal = this.interpolateSteps(radius, steps[steps.length - 1].slice(3));
+    const maxVal = this.interpolateSteps(radius, steps[steps.length - 1].slice(5, -2));
 
     // Don't return less than 0
     return Math.max(0, this.interpolateSteps(zoom, [minVal, minZoom, maxVal, maxZoom]));
