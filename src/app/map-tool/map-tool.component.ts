@@ -322,7 +322,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       .throttleTime(50)
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
-      .subscribe(e => this.wheelEvent = true);
+      .subscribe(e => {
+        // only set wheel scroll flag when we're scrolling from a non-top position
+        if (this.verticalOffset > 0) { this.wheelEvent = true; }
+      });
     this.scroll.verticalOffset$.subscribe(this.onScroll.bind(this));
   }
 
@@ -334,7 +337,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private onWheel() {
     this.verticalOffset = this.scroll.getVerticalOffset();
     this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
+    this.enableZoom = (this.verticalOffset <= 0);
   }
 
   /**
@@ -344,7 +347,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private onScroll(yOffset: number) {
     this.verticalOffset = yOffset;
     if (!this.wheelEvent) {
-      this.enableZoom = (this.verticalOffset === 0);
+      this.enableZoom = (this.verticalOffset <= 0);
     } else {
       this.enableZoom = false;
     }
