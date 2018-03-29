@@ -157,13 +157,11 @@ export class UiMapLegendComponent implements OnChanges {
    * @param mapZoom
    * @param steps
    */
-  private bubbleValue(radius: number, mapZoom: number, steps: any[]) {
+  private bubbleValue(radius: number, zoom: number, steps: any[]) {
     const minZoom = steps[0];
     const minVal = this.interpolateSteps(radius, steps[1].slice(3));
     const maxZoom = steps[steps.length - 2];
     const maxVal = this.interpolateSteps(radius, steps[steps.length - 1].slice(3));
-    // Clamp zoom to range
-    const zoom = Math.max(minZoom, Math.min(mapZoom, maxZoom));
 
     // Don't return less than 0
     return Math.max(0, this.interpolateSteps(zoom, [minVal, minZoom, maxVal, maxZoom]));
@@ -186,10 +184,10 @@ export class UiMapLegendComponent implements OnChanges {
     const stepCount = labels.length;
 
     if (value <= outputs[0]) {
-      return outputs[0];
+      return labels[0];
     }
     if (value >= outputs[stepCount - 1]) {
-      return outputs[stepCount - 1];
+      return labels[stepCount - 1];
     }
 
     const index = this.findClosestStop(outputs, value);
