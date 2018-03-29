@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsComponent } from './location-cards.component';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   exports: [ LocationCardsComponent ],
@@ -13,7 +14,8 @@ import { LocationCardsComponent } from './location-cards.component';
     CommonModule,
     FormsModule,
     UiModule,
-    TranslateModule
+    TranslateModule,
+    TooltipModule
   ],
   declarations: [ LocationCardsComponent ],
   entryComponents: [ LocationCardsComponent ]

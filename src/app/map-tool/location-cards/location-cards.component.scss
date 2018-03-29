@@ -41,7 +41,7 @@
     color: $cardHeaderBg1;
     border-bottom: $cardBarHeight solid transparent;
     height: $cardHeaderHeight;
-    padding-right: grid(6);
+    padding-right: grid(5);
     &.clickable { cursor: pointer; }
     &.clickable:hover { 
       background: $cardHoverBg; 
