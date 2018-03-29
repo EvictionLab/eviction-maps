@@ -40,8 +40,8 @@
     padding: $defaultPadding;
     color: $cardHeaderBg1;
     border-bottom: $cardBarHeight solid transparent;
-    height: $cardHeaderHeight;
-    padding-right: grid(6);
+    height: $cardHeaderHeight + 20px; // boost height for data panel cards to allow 3 lines
+    padding-right: grid(5);
     &.clickable { cursor: pointer; }
     &.clickable:hover { 
       background: $cardHoverBg; 
@@ -153,6 +153,7 @@
     min-width: 75vw;
     // align location text at top of card header
     .card-header {
+      height: $cardHeaderHeight;
       justify-content: flex-start;
     }
     // overlay the card content at the bottom of the header

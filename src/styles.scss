@@ -169,6 +169,10 @@ a:focus {
   border-radius:0;
 }
 
+.card-header .tooltip {
+  max-width:grid(21);
+}
+
 .feature-overview-dialog {
   margin:grid(2);
   width: grid(36);
@@ -205,3 +209,4 @@ a:focus {
 ::-ms-clear {
   display: none;
 }
+
