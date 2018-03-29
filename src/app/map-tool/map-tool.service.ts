@@ -480,16 +480,24 @@ export class MapToolService {
         }
       } else {
         const featName = (feat.properties['label'] as string)
-          .replace(',', '').split(' ')[0].toLowerCase();
-        const nameFilter = (f) => f.properties['n'].toLowerCase().startsWith(featName);
+          .replace(',', '').toLowerCase();
+        const featFirstWord = featName.split(' ')[0];
+        const nameFilter = (f) => f.properties['n'].toLowerCase().includes(featName);
+        const firstWordFilter = (f) => f.properties['n'].toLowerCase().includes(featFirstWord);
 
-        const containsMatchName = containsPoint.filter(nameFilter);
-        const matchesName = features.filter(nameFilter);
+        const containsMatchName = containsPoint.find(nameFilter);
+        const containsMatchFirst = containsPoint.find(firstWordFilter);
+        const matchName = features.find(nameFilter);
+        const matchFirst = features.find(firstWordFilter);
 
-        if (containsMatchName.length > 0) {
-          matchFeat = containsMatchName[0];
-        } else if (matchesName.length > 0) {
-          matchFeat = matchesName[0];
+        if (containsMatchName) {
+          matchFeat = containsMatchName;
+        } else if (matchName) {
+          matchFeat = matchName;
+        } else if (containsMatchFirst) {
+          matchFeat = containsMatchFirst;
+        } else if (matchFirst) {
+          matchFeat = matchFirst;
         }
       }
 

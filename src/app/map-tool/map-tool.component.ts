@@ -226,12 +226,13 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mapToolService.getSearchTileData(feature).subscribe(data => {
         if (!data.properties.n) {
           this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+          this.map.mapService.zoomToFeature(feature);
         } else {
           this.mapToolService.addLocation(data);
         }
         const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
         if (updateMap) {
-          this.map.mapService.zoomToFeature(feature);
+          this.map.mapService.zoomToFeature(data);
           // Wait for map to be done zooming, then set data layer
           this.map.mapService.zoom$
             .distinctUntilChanged()
@@ -242,6 +243,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loader.end('search');
       }, err => {
         this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+        this.map.mapService.zoomToFeature(feature);
         this.loader.end('search');
       });
     }
