@@ -243,8 +243,8 @@ export class RankingService {
     return (a, b) => {
       const item1 = invert ? a : b;
       const item2 = invert ? b : a;
-      if (!item1[prop] || isNaN(item1[prop])) { return -1; }
-      if (!item2[prop] || isNaN(item2[prop])) { return 1; }
+      if (!(prop in item1) || isNaN(item1[prop])) { return -1; }
+      if (!(prop in item2) || isNaN(item2[prop])) { return 1; }
       return item1[prop] - item2[prop];
     };
   }
