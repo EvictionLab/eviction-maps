@@ -38,11 +38,26 @@ export class ScrollService {
     @Inject(DOCUMENT) private document: any,
     private platform: PlatformService
   ) {
-    // provide observable with top / bottom vertical offset
+    // kill overscroll on safari so the map is zoomable with
+    // mousewheel / trackpad.
+    if (this.platform.isSafari) {
+      this.platform.nativeWindow.addEventListener('mousewheel', (e) => {
+        if (e && e.deltaY < 0) {
+          if (
+            this.getVerticalOffset() === 0 &&
+            e.target.className.indexOf('dropdown-item') === -1
+          ) {
+            e.preventDefault();
+            return false;
+          }
+        }
+      });
+    }
+    // provide observable with top vertical offset
     this.verticalOffset$ = Observable
       .fromEvent(this.platform.nativeWindow, 'scroll')
       .throttleTime(10, undefined, { trailing: true, leading: true })
-      .map(e => this.getVerticalOffset());
+      .map((e: any) => this.getVerticalOffset());
     this.scrolledToTop$ = this.verticalOffset$
       .map(offset => offset < this.topOffset)
       .distinctUntilChanged();
