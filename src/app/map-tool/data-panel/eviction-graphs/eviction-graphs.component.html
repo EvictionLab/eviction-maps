@@ -7,6 +7,7 @@
           class="graph-eviction-toggle"
           [leftLabel]="'DATA.JUDGMENTS'| translate" 
           [rightLabel]="'DATA.FILINGS' | translate" 
+          [on]="this.graphAttribute && this.graphAttribute.id === this.dataAttributes[1].id"
           (switched)="changeGraphProperty($event)"
         ></app-ui-switch>
         <app-ui-toggle

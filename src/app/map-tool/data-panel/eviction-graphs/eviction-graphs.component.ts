@@ -27,6 +27,19 @@ export class EvictionGraphsComponent implements OnInit {
   get barYear() { return this._barYear; }
   @Output() barYearChange = new EventEmitter();
 
+  /** Allow double-binding of graph attribute */
+  private _graphAttribute;
+  @Input() set graphAttribute(attr: MapDataAttribute) {
+    if (!attr || !this._graphAttribute) { return; }
+    if (attr.id !== this._graphAttribute.id) {
+      this._graphAttribute = attr.id === 'none' ? this.dataAttributes[0] : attr;
+      this.graphAttributeChange.emit(this._graphAttribute);
+      this.setGraphData();
+    }
+  }
+  get graphAttribute(): MapDataAttribute { return this._graphAttribute; }
+  @Output() graphAttributeChange = new EventEmitter();
+
   /** Line graph year start input / output (allows double binding) */
   private _lineStartYear;
   @Input() set lineStartYear(value: number) {
@@ -109,7 +122,6 @@ export class EvictionGraphsComponent implements OnInit {
   averageActive = true; // tracks if the average is active on the graph
   tooltips = []; // attribute for holding tooltip data
   graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
-  graphAttribute: MapDataAttribute; // current graph property (sync with map?)
   graphData; // graph data that is passed to the graph component
   graphSettings; // attribute for passing graph settings to graph component
   startSelect: Array<number>; // array of years for the "start year" select for line graph
@@ -128,7 +140,6 @@ export class EvictionGraphsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.graphAttribute = this.dataAttributes[0];
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
