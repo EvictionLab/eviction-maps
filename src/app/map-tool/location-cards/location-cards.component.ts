@@ -140,6 +140,12 @@ export class LocationCardsComponent implements OnInit {
     this.expanded = this.collapsible ? false : true;
   }
 
+  /** Checks if the property name exists in the feature's flagged properties */
+  isPropFlagged(feature, prop: string) {
+    if (!feature['flagProps']) { return false; }
+    return feature['flagProps'].indexOf(prop) > -1;
+  }
+
   getAbbrYear() {
     if (!this.year) { return; }
     return this.year.toString().slice(-2);

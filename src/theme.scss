@@ -299,6 +299,7 @@ $legendTextColor: $grey1;
 $tooltipBackground: $black;;
 $tooltipFontColor: $white;
 $tooltipArrowSize: grid(1);
+$tooltipTriggerBorder: 2px dotted $grey3;
 
 @mixin tooltip() {
   @include defaultFont(12px);

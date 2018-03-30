@@ -42,6 +42,7 @@ export class MapToolService {
   mapConfig;
   usAverage;
   usAverageLoaded = new EventEmitter<any>();
+  flagValues = new BehaviorSubject<any>(null);
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -243,6 +244,8 @@ export class MapToolService {
     }
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
+      // Add flag properties
+      this.addFlaggedProps(feature);
       this.activeFeatures = [...this.activeFeatures, feature];
       // track comparissons added
       if (this.activeFeatures.length === 2) {
@@ -276,6 +279,7 @@ export class MapToolService {
       if (feature.properties.GEOID === f.properties.GEOID) {
         f.properties = feature.properties;
         f.geometry = feature.geometry;
+        this.addFlaggedProps(f);
       }
       return f;
     });
@@ -370,6 +374,7 @@ export class MapToolService {
     } else if (feature['layer']) {
       feature.properties.layerId = feature['layer']['id'];
     }
+    // Add bounding box
     feature.bbox = [
       +feature.properties['west'],
       +feature.properties['south'],
@@ -406,6 +411,33 @@ export class MapToolService {
   /** Gets a string with all of the active locations, separated by a semicolon */
   getActiveLocationNames() {
     return this.activeFeatures.map(f => this.getFullLocationName(f)).join(';');
+  }
+
+  /** Adds a string of property names that are in the 99th percentile for the feature */
+  addFlaggedProps(feature: MapFeature) {
+    this.getOutliers().take(1).subscribe(flagValues => {
+      if (!flagValues || !feature.properties.layerId) { return; }
+      const percentileVals = flagValues[feature.properties.layerId];
+      const flaggedProps = Object.keys(percentileVals);
+      feature['flagProps'] = flaggedProps
+        .filter((p: string) => feature.properties[p] >= percentileVals[p])
+        .join(',');
+    });
+
+  }
+
+  /**
+   * Gets an observable of the 99th percentile data.
+   * Stashes the 99th percentil data in a local BeviorSubject for future
+   * requests.
+   */
+  private getOutliers() {
+    if (!this.flagValues.getValue()) {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.get(environment.outliersDataUrl, { headers: headers })
+        .do((data) => { this.flagValues.next(data); });
+    }
+    return this.flagValues.asObservable();
   }
 
   private stripYearFromAttr(attr: string) {

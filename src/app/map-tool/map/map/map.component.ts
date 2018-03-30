@@ -251,8 +251,6 @@ export class MapComponent implements OnInit, OnChanges {
       changes.scrollZoom.currentValue ? this.enableZoom() : this.disableZoom();
     }
     if (changes.activeFeatures && this.mapService.mapCreated) {
-      const features = (changes.activeFeatures.currentValue ?
-        changes.activeFeatures.currentValue : []);
       this.updateHighlights();
     }
   }
