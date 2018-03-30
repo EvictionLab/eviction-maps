@@ -31,10 +31,11 @@
         >
           {{ prop.name }}
         </span>
-        <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
+        <div *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
-        </span>
+          <app-ui-hint *ngIf="isPropFlagged(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
+        </div>
         <span *ngIf="prop.id === 'divider'" class="card-stat-label">{{ 'STATS.DEMOGRAPHICS' | translate }}</span>
       </li>
     </ul>

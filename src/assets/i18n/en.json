@@ -99,7 +99,8 @@
     "AUTO": "auto",
     "UNSUPPORTED_TITLE": "Unsupported Browser",
     "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
-    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview"
+    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview",
+    "FLAG_99TH": "This number is abnormally high and may be caused by... See the FAQ page for details."
   },
   "NAV": {
     "HOME": "Home",

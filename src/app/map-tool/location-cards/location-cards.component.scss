@@ -18,8 +18,8 @@
   text-transform: uppercase;
 }
 
-// Base Card Styles
-// ----
+// Location Card Base Styles
+// ---
 .location-card {
   pointer-events: all;
   background: $cardBg;
@@ -30,48 +30,6 @@
   &:nth-child(2) { z-index: 19; }
   &:nth-child(3) { z-index: 18; }
   &:nth-child(4) { z-index: 17; }
-  .card-header {
-    .marker { display: none; } // hide marker by default
-    position:relative;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
-    padding: $defaultPadding;
-    color: $cardHeaderBg1;
-    border-bottom: $cardBarHeight solid transparent;
-    height: $cardHeaderHeight + 20px; // boost height for data panel cards to allow 3 lines
-    padding-right: grid(5);
-    &.clickable { cursor: pointer; }
-    &.clickable:hover { 
-      background: $cardHoverBg; 
-    }
-    &:after {
-      content: "";
-      position: absolute;
-      bottom:-1*$cardBarHeight;
-      left:0;
-      height: $cardBarHeight;
-      width:100%;
-    }
-  }
-  .card-heading { 
-    width: 100%;
-    margin: 0; 
-    @include cardHeading(16px);
-  }
-  .card-subheading {
-    margin: grid(0.5) 0 0 0;     
-    @include smallCapsText(12px);
-  }
-  .card-dismiss { 
-    position:absolute;
-    top: 0px;
-    right: 0px;
-    color: $cardLabelText;
-    &:hover { color: $color1; }
-  }
-
   // set colors for cards
   &:nth-child(1) .card-header {
     border-bottom-color: $cardHeaderBg1;
@@ -96,34 +54,102 @@
     .marker  { fill: $cardHeaderBg4; }
     &:after { background: $gradient4; }
   }
-  .card-content {
-    padding: $defaultPadding;
-    .card-stats { 
-      margin:0; 
-      padding:0; 
-      list-style:none; 
+}
+
+// Card Headers
+// ---
+.card-header {
+  .marker { display: none; } // hide marker by default
+  position:relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: $defaultPadding;
+  color: $cardHeaderBg1;
+  border-bottom: $cardBarHeight solid transparent;
+  height: $cardHeaderHeight + 20px; // boost height for data panel cards to allow 3 lines
+  padding-right: grid(5);
+  &.clickable { cursor: pointer; }
+  &.clickable:hover { 
+    background: $cardHoverBg; 
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    bottom:-1*$cardBarHeight;
+    left:0;
+    height: $cardBarHeight;
+    width:100%;
+  }
+}
+.card-heading { 
+  width: 100%;
+  margin: 0; 
+  @include cardHeading(16px);
+}
+.card-subheading {
+  margin: grid(0.5) 0 0 0;     
+  @include smallCapsText(12px);
+}
+.card-dismiss { 
+  position:absolute;
+  top: 0px;
+  right: 0px;
+  color: $cardLabelText;
+  &:hover { color: $color1; }
+}
+
+
+// Card Content
+// ---
+.card-content {
+  padding: $defaultPadding;
+  app-ui-hint, 
+  ::ng-deep .icon {
+    display:block;
+    width:grid(2);
+    height:grid(2);
+  }
+  app-ui-hint {
+    margin-left: grid(1);
+  }
+  ::ng-deep .hint-button {
+    display:block;
+    transform: rotate(180deg);
+    svg { fill:$color1; }
+  }
+  .card-stats { 
+    margin:0; 
+    padding:0; 
+    list-style:none; 
+  }
+  .card-stats li { margin-bottom: grid(1); }
+  .card-stats li:last-child { margin-bottom: 0;}
+  // attribute labels
+  .card-stat-label {
+    display:block;       
+    color: $cardLabelText;
+    font-size: 12px;
+    position:relative;
+  }
+  // add dotted border for hints
+  .card-stats li.has-hint .card-stat-label {
+    border-bottom: $tooltipTriggerBorder;
+  }
+  // attribute values
+  .card-stat-value {
+    display:flex;
+    align-items: center;
+    justify-content: flex-start;
+    @include numberFont(14px);
+    color: $cardValueText;
+    &.unavailable {
+      @include defaultFont(14px);
+      color: $black;
     }
-    .card-stats li { margin-bottom: grid(1); }
-    .card-stats li:last-child { margin-bottom: 0;}
-    // attribute labels
-    .card-stat-label {
-      display:block;       
-      color: $cardLabelText;
-      font-size: 12px;
-      position:relative;
-    }
-    // add dotted border for hints
-    .card-stats li.has-hint .card-stat-label {
-      border-bottom: $tooltipTriggerBorder;
-    }
-    // attribute values
-    .card-stat-value {
-      @include numberFont(14px);
-      color: $cardValueText;
-      &.unavailable {
-        @include defaultFont(14px);
-        color: $black;
-      }
+    span {
+      width: auto;
     }
   }
 }
@@ -134,50 +160,48 @@
   // location cards fill most of the viewport width
   .location-card {
     min-width: 75vw;
-    // align location text at top of card header
-    .card-header {
-      height: $cardHeaderHeight;
-      justify-content: flex-start;
-    }
-    // overlay the card content at the bottom of the header
-    .card-content { 
-      position:absolute;
-      bottom:0;
-      left:0;
-      width:100%;
-      padding: grid(1) 0 grid(1) grid(2);
-      li { 
-        float:left; 
-        padding-right: grid(2); 
-        max-width: 50%;
-        span {
-          display:block;
-          width:100%;
-          white-space: nowrap;
-          overflow:hidden; 
-          text-overflow: ellipsis;
-        }
+  }
+  // align location text at top of card header
+  .card-header {
+    height: $cardHeaderHeight;
+    justify-content: flex-start;
+  }
+  // overlay the card content at the bottom of the header
+  .card-content { 
+    position:absolute;
+    bottom:0;
+    left:0;
+    width:100%;
+    padding: grid(1) 0 grid(1) grid(2);
+    li { 
+      float:left; 
+      padding-right: grid(2); 
+      max-width: 50%;
+      > span {
+        display:block;
+        width:100%;
+        white-space: nowrap;
+        overflow:hidden; 
+        text-overflow: ellipsis;
       }
-      li:last-child { margin-right: 0; }
-      // hide the second stat (raw evictions) when there is a selected choropleth
-      li:nth-child(2) { display:none; }
-      // show the second stat if there is no selected choropleth
-      li:nth-child(2):last-child { display: block; }
-      // On smaller screens, float the latter of two displayed stats to the right
-      li:nth-child(2):last-child, li:nth-child(3) { float: right; }
     }
+    li:last-child { margin-right: 0; }
+    // hide the second stat (raw evictions) when there is a selected choropleth
+    li:nth-child(2) { display:none; }
+    // show the second stat if there is no selected choropleth
+    li:nth-child(2):last-child { display: block; }
+    // On smaller screens, float the latter of two displayed stats to the right
+    li:nth-child(2):last-child, li:nth-child(3) { float: right; }
   }
 }
 
 // display all three data attributes in card when space permits
 @media(min-width: 540px) {
   :host-context(.map-ui-wrapper) {
-    .location-card {
-      .card-content { 
-        li { max-width: 40%; }
-        li:nth-child(2) { display: block; }
-        li:nth-child(2):last-child, li:nth-child(3) { float: left; }
-      }
+    .card-content { 
+      li { max-width: 40%; }
+      li:nth-child(2) { display: block; }
+      li:nth-child(2):last-child, li:nth-child(3) { float: left; }
     }
   }
 }
@@ -186,10 +210,10 @@
   :host-context(.map-ui-wrapper) {
     .location-card { 
       width: 100%; 
-      min-width: grid(35); 
-      .card-content li { 
-        max-width: 30%;
-      }
+      min-width: grid(35);
+    }
+    .card-content li { 
+      max-width: 30%;
     }
   }
 } 
@@ -201,56 +225,56 @@
     .location-card {
       width: $cardWidth;
       min-width: $cardWidth;
-      // align header text at the bottom of the header
-      .card-header {
-        justify-content: flex-end; 
-      }
-      // increase font sizes
-      .card-heading { 
-        @include cardHeading($cardHeadingSize);
-      }
-      .card-subheading {
-        margin: grid(1) 0 0 0;     
-        @include smallCapsText($cardSubheadingSize);
-        width:100%;
-      }
-      // stacked statistics
-      .card-content {
-        position: static;
-        padding: $defaultPadding;
-        li {
-          max-width: none;
-          float: none;
-          margin-right: 0;
-          padding-right: 0;
-          &:nth-child(2):last-child,
-          &:nth-child(3) { float: none; }
-          span {
-            overflow: visible;
-            white-space: normal;
-          }
+    }
+    // align header text at the bottom of the header
+    .card-header {
+      justify-content: flex-end; 
+    }
+    // increase font sizes
+    .card-heading { 
+      @include cardHeading($cardHeadingSize);
+    }
+    .card-subheading {
+      margin: grid(1) 0 0 0;     
+      @include smallCapsText($cardSubheadingSize);
+      width:100%;
+    }
+    // stacked statistics
+    .card-content {
+      position: static;
+      padding: $defaultPadding;
+      li {
+        max-width: none;
+        float: none;
+        margin-right: 0;
+        padding-right: 0;
+        &:nth-child(2):last-child,
+        &:nth-child(3) { float: none; }
+        span {
+          overflow: visible;
+          white-space: normal;
         }
-        .card-stat-label {
-          font-size: $cardLabelTextSize;
-          // align hint button with text
-          .attribute-hint ::ng-deep .hint-button svg {
-            margin-top:2px;
-          }
+      }
+      .card-stat-label {
+        font-size: $cardLabelTextSize;
+        // align hint button with text
+        .attribute-hint ::ng-deep .hint-button svg {
+          margin-top:2px;
         }
-        .card-stat-value {
-          @include numberFont($cardValueTextSize);
-          &.unavailable {
-            @include defaultFont($cardValueTextSize);
-          }
+      }
+      .card-stat-value {
+        @include numberFont($cardValueTextSize);
+        &.unavailable {
+          @include defaultFont($cardValueTextSize);
         }
-        // override for eviction rate to place the hint button after text
-        li.has-hint .card-stat-label {
-          width:auto;
-          display: inline-block;
-          .attribute-hint {
-            width: auto;
-            right: 0;
-          }
+      }
+      // override for eviction rate to place the hint button after text
+      li.has-hint .card-stat-label {
+        width:auto;
+        display: inline-block;
+        .attribute-hint {
+          width: auto;
+          right: 0;
         }
       }
     }
@@ -278,152 +302,151 @@
     &:last-child { margin-right: 0; }
     .card-stat-comparison { color: $grey1a; }
     .card-stat-comparison.bad { color: $red; }
-
-    // marker icon
-    .card-header .marker { 
-        display:block; 
-        width: 28px; 
-        height: 40px;
-        position:absolute;
-        top:12px;
-        bottom:0;
-        left:0;
-        margin:auto;
-    }
-    .card-heading { 
-      @include panelCardHeading($panelCardHeadingSize);
-      margin-left: grid(4);
-      width: auto;
-    }
-    .card-subheading { 
-      font-size: $panelCardSubheadingSize;
-      margin-left: grid(4);
-      margin-bottom: grid(1);
-    }
-    .card-content { 
-      position:relative; 
-      border: 1px solid $panelCardBorder;
-      padding:0;
-    }
-    .card-dismiss {
-      top: auto;
-      bottom: grid(5);
-    }
-    .card-stats { padding-top: grid(14); }
-    .card-stats li {
-      .card-stat-value { 
-        color: $panelCardValueText;
-        &.unavailable {
-          color: $grey3;
-        }
-      }
-      .card-stat-label { color: $panelCardLabelText; }
-      // first two stats have a more prominent layout
-      &:nth-child(1), &:nth-child(2) {
-        position:absolute;
-        width:50%;
-        top:0;
-        left:0;
-        height: grid(14);
-        border-bottom:1px solid $panelCardBorder;
-        text-align:center;
-        display:flex;
-        flex-direction: column-reverse;
-        justify-content: center;
-        align-items: center;
-        .card-stat-label {
-          @include defaultFontBold($panelCardLabelTextLg);
-          text-transform: uppercase;
-          letter-spacing:0.5px;
-        }
-        // drop the hint icon to save space, but still show a hint if they hover
-        &.has-hint .card-stat-label { 
-          padding-right: 0;
-          .attribute-hint ::ng-deep .hint-button svg { display: none; }
-        }
-        .card-stat-value {
-          @include numberFont($panelCardLabelValueLg);
-          &.unavailable {
-            @include defaultFont($panelCardLabelValueLg);
-          }
-        }
-        .card-stat-comparison {
-          font-size: 13px;
-          display: block;
-          position: absolute;
-          bottom: grid(1.5);
-          right: 0;
-          left: 0;
-        }
-      }
-      &:nth-child(2) {
-        right:0;
-        left:auto;
-        border-left: 1px solid $panelCardBorder;
-      }
-      // all other stats
-      &:nth-child(n+3) {
-        text-align:left;
-        padding: grid(1) $defaultPadding;
-        margin-bottom:0;
-        display: flex;
-        align-items: stretch;
-        justify-content: space-between;
-        &:nth-child(odd) { 
-          background: $secondaryBackground;
-        }
-        .card-stat-label { 
-          width: 60%;
-          font-size: $panelCardStatTextSize;
-          display:inline-block;
-          width:auto;
-        }
-        .card-stat-value {
-          width: 33.333%;
-          text-align:left;
-          font-size: $panelCardStatTextSize;
-        }
-      }
-      &.divider {
-        background: $defaultBackground!important; // divider is always the same color
-        padding: grid(3) 0 grid(2) 0;
-        @include smallCapsText(12px);
-        .card-stat-label { 
-          width:100%; 
-          color: $grey2; 
-          text-align:center; 
-        }
-      }
-    }
-    &.location-add {
-      position:relative;
-      .card-header { border-bottom-color: $secondaryBackground; }
-      .card-content {
-        border:none;
-        position:absolute;
-        top: $cardHeaderHeight;
-        bottom:0;
-        left:0;
-        right:0;
-        width:100%;
-        padding: $defaultPadding*2;
-        background: $secondaryBackground;
-        display:flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        p {
-          @include altSmallCapsText($cardAddLocationTextSize);
-          margin: 0 0 $defaultPadding 0;
-          color: $black;
-          letter-spacing: 0.65px;
-          text-align: center;
-          line-height: 1;
-        }
-      }
-      app-location-search { width: 100%;}
-    } 
   }
+  // marker icon
+  .card-header .marker { 
+      display:block; 
+      width: 28px; 
+      height: 40px;
+      position:absolute;
+      top:12px;
+      bottom:0;
+      left:0;
+      margin:auto;
+  }
+  .card-heading { 
+    @include panelCardHeading($panelCardHeadingSize);
+    margin-left: grid(4);
+    width: auto;
+  }
+  .card-subheading { 
+    font-size: $panelCardSubheadingSize;
+    margin-left: grid(4);
+    margin-bottom: grid(1);
+  }
+  .card-content { 
+    position:relative; 
+    border: 1px solid $panelCardBorder;
+    padding:0;
+  }
+  .card-dismiss {
+    top: auto;
+    bottom: grid(5);
+  }
+  .card-stats { padding-top: grid(14); }
+  .card-stats li {
+    .card-stat-value { 
+      color: $panelCardValueText;
+      &.unavailable {
+        color: $grey3;
+      }
+    }
+    .card-stat-label { color: $panelCardLabelText; }
+    // first two stats have a more prominent layout
+    &:nth-child(1), &:nth-child(2) {
+      position:absolute;
+      width:50%;
+      top:0;
+      left:0;
+      height: grid(14);
+      border-bottom:1px solid $panelCardBorder;
+      text-align:center;
+      display:flex;
+      flex-direction: column-reverse;
+      justify-content: center;
+      align-items: center;
+      .card-stat-label {
+        @include defaultFontBold($panelCardLabelTextLg);
+        text-transform: uppercase;
+        letter-spacing:0.5px;
+      }
+      // drop the hint icon to save space, but still show a hint if they hover
+      &.has-hint .card-stat-label { 
+        padding-right: 0;
+        .attribute-hint ::ng-deep .hint-button svg { display: none; }
+      }
+      .card-stat-value {
+        @include numberFont($panelCardLabelValueLg);
+        &.unavailable {
+          @include defaultFont($panelCardLabelValueLg);
+        }
+      }
+      .card-stat-comparison {
+        font-size: 13px;
+        display: block;
+        position: absolute;
+        bottom: grid(1.5);
+        right: 0;
+        left: 0;
+      }
+    }
+    &:nth-child(2) {
+      right:0;
+      left:auto;
+      border-left: 1px solid $panelCardBorder;
+    }
+    // all other stats
+    &:nth-child(n+3) {
+      text-align:left;
+      padding: grid(1) $defaultPadding;
+      margin-bottom:0;
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      &:nth-child(odd) { 
+        background: $secondaryBackground;
+      }
+      .card-stat-label { 
+        width: 60%;
+        font-size: $panelCardStatTextSize;
+        display:inline-block;
+        width:auto;
+      }
+      .card-stat-value {
+        width: 33.333%;
+        text-align:left;
+        font-size: $panelCardStatTextSize;
+      }
+    }
+    &.divider {
+      background: $defaultBackground!important; // divider is always the same color
+      padding: grid(3) 0 grid(2) 0;
+      @include smallCapsText(12px);
+      .card-stat-label { 
+        width:100%; 
+        color: $grey2; 
+        text-align:center; 
+      }
+    }
+  }
+  .location-card.location-add {
+    position:relative;
+    .card-header { border-bottom-color: $secondaryBackground; }
+    .card-content {
+      border:none;
+      position:absolute;
+      top: $cardHeaderHeight;
+      bottom:0;
+      left:0;
+      right:0;
+      width:100%;
+      padding: $defaultPadding*2;
+      background: $secondaryBackground;
+      display:flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      p {
+        @include altSmallCapsText($cardAddLocationTextSize);
+        margin: 0 0 $defaultPadding 0;
+        color: $black;
+        letter-spacing: 0.65px;
+        text-align: center;
+        line-height: 1;
+      }
+    }
+    app-location-search { width: 100%;}
+  } 
 }
 
 // Larger than tablet in data panel
@@ -442,43 +465,43 @@
       min-width: grid(39);
       flex:1;
       &:last-child { margin-right: 0; }
-      .card-header .marker {
-        top:0;
-        width: 40px; 
-        height: 58px;
+    }
+    .card-header .marker {
+      top:0;
+      width: 40px; 
+      height: 58px;
+    }
+    .card-heading { 
+      font-size: 26px; 
+      margin-left: grid(6);
+    }
+    .card-subheading { 
+      margin-left: grid(6); 
+    }
+    .card-dismiss {
+      bottom: grid(4.5);
+    }
+    .card-stats { 
+      padding-top: grid(15); 
+      li:nth-child(1),
+      li:nth-child(2) {
+        height: grid(15);
+        .card-stat-label { font-size: $panelCardLabelTextLg_t; }
+        .card-stat-value { font-size: $panelCardLabelValueLg_t; }
       }
-      .card-heading { 
-        font-size: 26px; 
-        margin-left: grid(6);
+      li:nth-child(n+3) { 
+        padding: grid(1.5) $defaultPadding; 
+        .card-stat-label,
+        .card-stat-value { font-size: $panelCardStatTextSize_t; }
       }
-      .card-subheading { 
-        margin-left: grid(6); 
+      li.divider .card-stat-label {
+        font-size:14px;
       }
-      .card-dismiss {
-        bottom: grid(4.5);
-      }
-      .card-stats { 
-        padding-top: grid(15); 
-        li:nth-child(1),
-        li:nth-child(2) {
-          height: grid(15);
-          .card-stat-label { font-size: $panelCardLabelTextLg_t; }
-          .card-stat-value { font-size: $panelCardLabelValueLg_t; }
-        }
-        li:nth-child(n+3) { 
-          padding: grid(1.5) $defaultPadding; 
-          .card-stat-label,
-          .card-stat-value { font-size: $panelCardStatTextSize_t; }
-        }
-        li.divider .card-stat-label {
-          font-size:14px;
-        }
-      }
-      &.location-add .card-content p {
-        font-size: $cardAddLocationTextSize_t;
-        letter-spacing: 0.9px;
-        margin: grid(1) 0 grid(4) 0;
-      }
+    }
+    .location-card.location-add .card-content p {
+      font-size: $cardAddLocationTextSize_t;
+      letter-spacing: 0.9px;
+      margin: grid(1) 0 grid(4) 0;
     }
   }
 }

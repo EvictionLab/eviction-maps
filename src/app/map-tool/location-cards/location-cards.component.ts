@@ -128,6 +128,11 @@ export class LocationCardsComponent implements OnInit {
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
+    setInterval(() => {
+      if (this.features.length) {
+        console.log(this.features[0]);
+      }
+    }, 1000);
   }
 
   /** Expand cards on mouse enter */
@@ -138,6 +143,12 @@ export class LocationCardsComponent implements OnInit {
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
     this.expanded = this.collapsible ? false : true;
+  }
+
+  /** Checks if the property name exists in the feature's flagged properties */
+  isPropFlagged(feature, prop: string) {
+    if (!feature['flagProps']) { return false; }
+    return feature['flagProps'].indexOf(prop) > -1;
   }
 
   getAbbrYear() {
