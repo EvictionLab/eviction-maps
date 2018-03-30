@@ -154,9 +154,9 @@
   },
   "RANKINGS": {
     "TITLE": "Eviction Lab - Eviction Rankings",
-    "CITIES": "Cities",
-    "MID_SIZED_AREAS": "Mid-sized Areas",
-    "RURAL_AREAS": "Rural Areas",
+    "CITIES": "Large Cities",
+    "MID_SIZED_AREAS": "Mid-Size Cities",
+    "RURAL_AREAS": "Small Cities and Rural Areas",
     "SEARCH_HINT": "Search for places",
     "FILTER": "Show rankings for",
     "REGION": "Region",
