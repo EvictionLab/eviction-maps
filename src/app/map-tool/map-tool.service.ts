@@ -43,7 +43,6 @@ export class MapToolService {
   usAverage;
   usAverageLoaded = new EventEmitter<any>();
   flagValues = new BehaviorSubject<any>(null);
-  flagValuesLoaded = false;
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -246,7 +245,6 @@ export class MapToolService {
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       // Add flag properties
-
       this.addFlaggedProps(feature);
       this.activeFeatures = [...this.activeFeatures, feature];
       // track comparissons added

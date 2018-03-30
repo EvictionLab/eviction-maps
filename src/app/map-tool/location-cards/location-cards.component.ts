@@ -128,11 +128,6 @@ export class LocationCardsComponent implements OnInit {
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
-    setInterval(() => {
-      if (this.features.length) {
-        console.log(this.features[0]);
-      }
-    }, 1000);
   }
 
   /** Expand cards on mouse enter */
