@@ -66,9 +66,7 @@ describe('RankingService', () => {
       const locationsArray = service.parseEvictionsData(csvString);
       expect(locationsArray[4].geoId).toEqual('0274830');
       expect(locationsArray[4].evictions).toEqual(23);
-      expect(locationsArray[4].filings).toEqual(248);
       expect(locationsArray[4].evictionRate).toEqual(15.75);
-      expect(locationsArray[4].filingRate).toEqual(169.86);
       expect(locationsArray[4].name).toEqual('Talkeetna');
       expect(locationsArray[4].displayName).toEqual('Talkeetna, AK');
       expect(locationsArray[4].parentLocation).toEqual('Alaska');
