@@ -38,16 +38,18 @@ export class ScrollService {
     @Inject(DOCUMENT) private document: any,
     private platform: PlatformService
   ) {
-    // kill overscroll, primarily for safari so the map is zoomable with
+    // kill overscroll on safari so the map is zoomable with
     // mousewheel / trackpad.
-    this.platform.nativeWindow.addEventListener('mousewheel', (e) => {
-      if (e && e.deltaY < 0) {
-        if (this.getVerticalOffset() === 0) {
-          e.preventDefault();
-          return false;
+    if (this.platform.isSafari) {
+      this.platform.nativeWindow.addEventListener('mousewheel', (e) => {
+        if (e && e.deltaY < 0) {
+          if (this.getVerticalOffset() === 0) {
+            e.preventDefault();
+            return false;
+          }
         }
-      }
-    });
+      });
+    }
     // provide observable with top vertical offset
     this.verticalOffset$ = Observable
       .fromEvent(this.platform.nativeWindow, 'scroll')
