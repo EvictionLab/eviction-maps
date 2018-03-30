@@ -159,12 +159,20 @@ export class UiMapLegendComponent implements OnChanges {
    */
   private bubbleValue(radius: number, zoom: number, steps: any[]) {
     const minZoom = steps[0];
-    const minVal = this.interpolateSteps(radius, steps[1].slice(5, -2));
     const maxZoom = steps[steps.length - 2];
-    const maxVal = this.interpolateSteps(radius, steps[steps.length - 1].slice(5, -2));
 
-    // Don't return less than 0
-    return Math.max(0, this.interpolateSteps(zoom, [minVal, minZoom, maxVal, maxZoom]));
+    const difference = maxZoom - minZoom;
+    const progress = zoom - minZoom;
+    const t = difference === 0 ? 0 : progress / difference;
+
+    const lowerSteps = steps[1].slice(5, -2);
+    const upperSteps = steps[steps.length - 1].slice(5, -2);
+    const interpSteps = lowerSteps.map((lower, i) => {
+      const upper = upperSteps[i];
+      return (lower * (1 - t)) + (upper * t);
+    });
+
+    return Math.max(0, this.interpolateSteps(radius, interpSteps));
   }
 
   /**
