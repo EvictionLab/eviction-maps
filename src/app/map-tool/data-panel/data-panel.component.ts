@@ -161,7 +161,7 @@ export class DataPanelComponent implements OnInit {
       tweetParams['place1'] = feat.n;
       tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
       tweetParams['total'] = this.decimal.transform(feat[`${action.slice(0, -1)}-${yearSuffix}`]);
-      tweetParams['rate'] = this.decimal.transform(feat[`${action}-${yearSuffix}`]);
+      tweetParams['rate'] = this.cappedRateValue(feat[`${action}-${yearSuffix}`]);
 
       if (featLength === 1) {
         actionTrans = action === 'efr' ? 'DATA.TWEET_EVICTION_FILINGS' : 'DATA.TWEET_EVICTIONS';
@@ -203,5 +203,10 @@ export class DataPanelComponent implements OnInit {
       const splitUrl = url.split('/map/');
       return [splitUrl[0], '/map/embed/', ...splitUrl.slice(1)].join('');
     }
+  }
+
+  /** Returns the formatted rate number, with >100 instead of values over */
+  private cappedRateValue(val: number): string {
+    return val > 100 ? '>100' : this.decimal.transform(val, '1.1-2');
   }
 }

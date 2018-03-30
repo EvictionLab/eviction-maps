@@ -22,15 +22,15 @@
         >
           {{ location.name }} <span>{{ location.displayParentLocation }}</span>
         </h2>
-        <span class="rank-value">{{dataProperty.name}} {{location[dataProperty.value]}}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
+        <span class="rank-value">{{dataProperty.name}} {{dataProperty.value.includes('Rate') && location[dataProperty.value] > 100 ? '>100' : (location[dataProperty.value] | number:'1.0-2') }}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
         <!-- COMING SOON
           <a href="#" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
         -->
       </div>
     </div>
     <div class="panel-summary-content">
-      <p *ngIf="location.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
-      <p *ngIf="location.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': location.evictions, 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.2-2'), 'evictionRate': location.evictionRate} }}</p>
+      <p *ngIf="location.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (location.evictions | number: '1.0-2'), 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.0-2'), 'evictionRate': location.evictionRate} }}</p>
+      <p *ngIf="location.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (location.evictions | number: '1.0-2'), 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.0-2'), 'evictionRate': location.evictionRate} }}</p>
     </div>
   </div>
   <button class="btn btn-icon panel-arrow panel-next"
