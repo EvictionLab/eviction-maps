@@ -3,21 +3,21 @@
   @if $position == 'top' {
     top: 0;
     left: calc(50% - #{$tooltipArrowSize / 2});
-    margin-left: -1 * $tooltipArrowSize / 2;
+    margin-left: -1 * $tooltipArrowSize;
     border-width: 0 $tooltipArrowSize $tooltipArrowSize;
     border-bottom-color: $tooltipBackground;
     transform: scale(0.75, 1);
   } @else if $position == 'right' {
     top: calc(50% - #{$tooltipArrowSize / 2});
     right: 0;
-    margin-top: -1 * $tooltipArrowSize / 2;
+    margin-top: -1 * $tooltipArrowSize;
     border-width: $tooltipArrowSize 0 $tooltipArrowSize $tooltipArrowSize;
     border-left-color: $tooltipBackground;
     transform: scale(1, 0.75);
   } @else if $position == 'left' {
     top: calc(50% - #{$tooltipArrowSize / 2});
     left: 0;
-    margin-top: -1 * $tooltipArrowSize / 2;
+    margin-top: -1 * $tooltipArrowSize;
     border-width: $tooltipArrowSize $tooltipArrowSize $tooltipArrowSize 0;
     border-right-color: $tooltipBackground;
     transform: scale(1, 0.75);
@@ -25,7 +25,7 @@
     // bottom placement by default
     bottom: 0;
     left: calc(50% - #{$tooltipArrowSize / 2});
-    margin-left: -1 * $tooltipArrowSize / 2;
+    margin-left: -1 * $tooltipArrowSize;
     border-width: $tooltipArrowSize $tooltipArrowSize 0;
     border-top-color: $tooltipBackground;
     transform: scale(0.75, 1);
