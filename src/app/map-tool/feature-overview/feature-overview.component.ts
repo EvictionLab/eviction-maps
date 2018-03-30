@@ -99,7 +99,7 @@ export class FeatureOverviewComponent implements OnInit, AfterViewInit, AppDialo
     Object.assign(svg.style, {
       position: 'absolute', top: 0, left: 0, width: '8px', height: '8px', zIndex: 99999
     });
-    svg.innerHTML = 
+    svg.innerHTML =
       '<rect width="4" height="4" fill="#fff" style="transform: translate(4px, 4px)"/>';
     document.body.appendChild(svg);
     const result = document.elementFromPoint(6, 6) !== svg;
