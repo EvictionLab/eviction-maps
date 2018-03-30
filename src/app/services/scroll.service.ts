@@ -44,10 +44,9 @@ export class ScrollService {
       this.platform.nativeWindow.addEventListener('mousewheel', (e) => {
         if (e && e.deltaY < 0) {
           if (
-            this.getVerticalOffset() === 0 && 
+            this.getVerticalOffset() === 0 &&
             e.target.className.indexOf('dropdown-item') === -1
           ) {
-            console.log(e, e.target.className);
             e.preventDefault();
             return false;
           }
