@@ -16,6 +16,7 @@ export const environment = {
     downloadBaseUrl: 'https://exports-dev.evictionlab.org',
     minYear: 2000,
     maxYear: 2016,
+    rankingsYear: 2015,
     appVersion: version + '-staging',
     siteNav: [
       { url: 'https://staging.evictionlab.org/', langKey: 'NAV.HOME' },
