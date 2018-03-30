@@ -16,7 +16,7 @@
       [selectedValue]="selectedRegion"
       (change)="selectedRegionChange.emit($event)"
     ></app-ui-select>
-    <app-ui-hint *ngIf="areaTypes" [hint]="'RANKINGS.AREA_HINT' | translate"></app-ui-hint>
+    <app-ui-hint *ngIf="areaTypes" [hint]="'RANKINGS.AREA_HINT' | translate" placement="right"></app-ui-hint>
     <app-ui-select class="area-select hint-select z0"
       *ngIf="areaTypes"
       label="{{ 'RANKINGS.AREA' | translate }}"
@@ -25,7 +25,7 @@
       [selectedValue]="selectedAreaType"
       (change)="selectedAreaTypeChange.emit($event)"
     ></app-ui-select>
-    <app-ui-hint *ngIf="dataProperties" [hint]="'RANKINGS.DATA_HINT' | translate"></app-ui-hint>
+    <app-ui-hint *ngIf="dataProperties" [hint]="'RANKINGS.DATA_HINT' | translate" placement="right"></app-ui-hint>
     <app-ui-select class="prop-select hint-select z0"
       *ngIf="dataProperties"
       label="{{ 'RANKINGS.RANKING_BY' | translate }}"
