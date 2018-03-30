@@ -103,7 +103,8 @@
     "UNSUPPORTED_TITLE": "Unsupported Browser",
     "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
     "FEATURE_OVERVIEW_LABEL": "Show the map feature overview",
-    "FLAG_99TH": "This number is abnormally high and may be caused by... See the FAQ page for details."
+    "FLAG_99TH": "This area has an eviction/filing rate in the top 1%. Please see our FAQ section to better understand why.",
+    "FLAG_LOW": "This area's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why."
   },
   "NAV": {
     "HOME": "Home",
