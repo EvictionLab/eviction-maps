@@ -22,9 +22,14 @@
         >
           {{ getAverageOffset(f.properties[prop.yearAttr], usAverage[prop.yearAttr])}} {{ 'DATA.US_AVERAGE' | translate }}
         </span>
-        <span *ngIf="prop.id !== 'divider'" class="card-stat-label">
+        <span class="card-stat-label"
+          *ngIf="prop.id !== 'divider'"
+          [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
+           placement="right"
+           container="body"
+           triggers="hover touchend focus"
+        >
           {{ prop.name }}
-          <app-ui-hint *ngIf="prop.hintKey" class="attribute-hint" [hint]="prop.hintKey | translate" placement="right" triggers="hover touchend focus"></app-ui-hint>
         </span>
         <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
