@@ -417,7 +417,6 @@ export class MapToolService {
   addFlaggedProps(feature: MapFeature) {
     this.getOutliers().take(1).subscribe(flagValues => {
       if (!flagValues || !feature.properties.layerId) { return; }
-      console.log('get flagged', feature, flagValues, feature.properties.layerId);
       const percentileVals = flagValues[feature.properties.layerId];
       const flaggedProps = Object.keys(percentileVals);
       feature['flagProps'] = flaggedProps
