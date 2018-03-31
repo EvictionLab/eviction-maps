@@ -28,7 +28,7 @@ export class EvictionGraphsComponent implements OnInit {
   @Output() barYearChange = new EventEmitter();
 
   /** Allow double-binding of graph attribute */
-  private _graphAttribute;
+  private _graphAttribute = { id: '', langKey: ''};
   @Input() set graphAttribute(attr: MapDataAttribute) {
     if (!attr || !this._graphAttribute) { return; }
     if (attr.id !== this._graphAttribute.id) {
