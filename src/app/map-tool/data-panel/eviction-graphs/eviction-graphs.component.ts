@@ -27,13 +27,18 @@ export class EvictionGraphsComponent implements OnInit {
   get barYear() { return this._barYear; }
   @Output() barYearChange = new EventEmitter();
 
+  /** Store currently selected map graph attribute */
+  private _mapGraphAttribute = { id: '', langKey: '' };
   /** Allow double-binding of graph attribute */
   private _graphAttribute = { id: '', langKey: ''};
   @Input() set graphAttribute(attr: MapDataAttribute) {
     if (!attr || !this._graphAttribute) { return; }
+    this._mapGraphAttribute = attr;
     if (attr.id !== this._graphAttribute.id) {
       this._graphAttribute = attr.id === 'none' ? this.dataAttributes[0] : attr;
-      this.graphAttributeChange.emit(this._graphAttribute);
+      if (attr.id !== 'none') {
+        this.graphAttributeChange.emit(this._graphAttribute);
+      }
       this.setGraphData();
     }
   }
@@ -193,8 +198,13 @@ export class EvictionGraphsComponent implements OnInit {
    * Toggles the graph between judgments / filings
    */
   changeGraphProperty(filings: boolean) {
-    this.graphAttribute = filings ? this.dataAttributes[1] : this.dataAttributes[0];
-    this.setGraphData();
+    const attr = filings ? this.dataAttributes[1] : this.dataAttributes[0];
+    if (this._mapGraphAttribute.id !== 'none') {
+      this.graphAttribute = attr;
+    } else {
+      this._graphAttribute = attr;
+      this.setGraphData();
+    }
   }
 
   /** Gets config for bar graph */
