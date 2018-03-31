@@ -306,6 +306,10 @@ export class EvictionGraphsComponent implements OnInit {
     return `${valStr}${this.graphAttribute.format === 'percent' ? '%' : ''}`;
   }
 
+  barTopValue(top: number): number {
+    return Math.max(this.graphSettings.margin.top, top);
+  }
+
   /** Returns the Y axis label name with % added if they are percent values */
   private getAxisLabel() {
     return this.graphAttribute.name +
