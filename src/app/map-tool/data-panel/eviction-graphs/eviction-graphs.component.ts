@@ -173,14 +173,14 @@ export class EvictionGraphsComponent implements OnInit {
     if (this.graphType === 'bar') {
       const value = l.properties[this.attrYear(this.barYear)];
       return value >= 0 ?
-        this.barYear + ': ' + value + '%' :
+        this.barYear + ': ' + this.tooltipValue(value) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
       if (!tooltip) { return ''; }
       const value = l.properties[this.attrYear(tooltip.x)];
       return value >= 0 ?
-        tooltip.x + ': ' + value + '%' :
+        tooltip.x + ': ' + this.tooltipValue(value) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     }
     return '';
@@ -219,7 +219,8 @@ export class EvictionGraphsComponent implements OnInit {
           label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
-          tickPadding: 5
+          tickPadding: 5,
+          maxVal: 100
         }
       },
       margin: { left: 65, right: 16, bottom: 32, top: 16 }
@@ -249,7 +250,8 @@ export class EvictionGraphsComponent implements OnInit {
           label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
-          tickPadding: 5
+          tickPadding: 5,
+          maxVal: 100
         }
       },
       margin: { left: 65, right: 16, bottom: 48, top: 16 }
@@ -305,6 +307,18 @@ export class EvictionGraphsComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  tooltipValue(val: number): string {
+    let valStr = val.toString();
+    if (this.graphSettings.axis.y.maxVal > 0 && val > this.graphSettings.axis.y.maxVal) {
+      valStr = '>' + this.graphSettings.axis.y.maxVal;
+    }
+    return `${valStr}${this.graphAttribute.format === 'percent' ? '%' : ''}`;
+  }
+
+  barTopValue(top: number): number {
+    return Math.max(this.graphSettings.margin.top, top);
   }
 
   /** Returns the Y axis label name with % added if they are percent values */

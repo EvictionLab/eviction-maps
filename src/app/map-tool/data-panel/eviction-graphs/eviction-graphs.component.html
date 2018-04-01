@@ -51,14 +51,14 @@
           >
             <div class="tooltip-wrapper">
               <div class="tooltip-arrow"></div>
-              <div class="tooltip-inner line-tooltip-value">{{tooltip.y}}{{graphAttribute.format === 'percent' ? '%' : ''}}</div>
+              <div class="tooltip-inner line-tooltip-value">{{tooltipValue(tooltip.y)}}</div>
             </div>
           </div>
         </div>
         <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-          <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + tooltip.top + 'px)'">
+          <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
             <div class="tooltip-arrow"></div>
-            <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltip.data[0].y : ('DATA.UNAVAILABLE' | translate) }}{{graphAttribute.format === 'percent' && tooltip.data[0].y >= 0 ? '%' : ''}}</div>
+            <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0].y) : ('DATA.UNAVAILABLE' | translate) }}</div>
           </div>
         </div>
       </app-graph>
