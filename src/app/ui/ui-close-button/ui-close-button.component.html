@@ -1,4 +1,9 @@
-<button class="btn btn-icon" (click)="onPress.emit()" [attr.aria-label]="ariaLabel">
+<button class="btn btn-icon" 
+  (click)="onPress.emit()" 
+  (focus)="onFocus.emit()"
+  (blur)="onBlur.emit()"
+  [attr.aria-label]="ariaLabel"
+>
   <app-ui-icon icon="close"></app-ui-icon>
   <span *ngIf="label">{{ label }}</span>
 </button>
