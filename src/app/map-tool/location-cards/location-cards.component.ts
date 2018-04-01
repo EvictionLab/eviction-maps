@@ -135,19 +135,9 @@ export class LocationCardsComponent implements OnInit {
     this.expanded = true;
   }
 
-  /** Expand card on focus */
-  @HostListener('focus', ['$event']) onfocus(e) {
-    this.expanded = true;
-  }
-
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
     this.expanded = this.collapsible ? false : true;
-  }
-
-  /** Expand card on focus */
-  @HostListener('blur', ['$event']) onBlur(e) {
-    this.expanded = false;
   }
 
   /** Checks if the property name exists in the feature's flagged properties */
