@@ -1,4 +1,4 @@
-{
+const data = {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
     "DATE_RANGE": "Range",

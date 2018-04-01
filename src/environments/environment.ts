@@ -34,5 +34,18 @@ export const environment = {
     { url: '/methods', langKey: 'NAV.METHODS' },
     { url: '/help-faq', langKey: 'NAV.HELP' },
     { url: '/updates', langKey: 'NAV.UPDATES' }
+  ],
+  footerNav: [
+    { url: '/', langKey: 'NAV.HOME' },
+    { url: '/map', langKey: 'NAV.MAP' },
+    { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
+    { url: '/about', langKey: 'NAV.ABOUT' },
+    { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
+    { url: '/methods', langKey: 'NAV.METHODS' },
+    { url: '/help-faq', langKey: 'NAV.HELP' },
+    { url: '/updates', langKey: 'NAV.UPDATES' },
+    { url: '/contact-us', langKey: 'NAV.CONTACT_US' },
+    { url: '/get-the-data', langKey: 'NAV.GET_DATA' },
+    { url: '/data-merge', langKey: 'NAV.DATA_MERGE' }
   ]
 };
