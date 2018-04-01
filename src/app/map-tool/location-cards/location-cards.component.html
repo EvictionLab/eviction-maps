@@ -10,7 +10,12 @@
       [placement]="collapsible ? 'top' : 'bottom'"
     >{{ getLocationName(f.properties['n']) }}</h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
-    <app-ui-close-button class="card-dismiss" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" (onPress)="dismissedCard.emit(f)"></app-ui-close-button>
+    <app-ui-close-button class="card-dismiss" 
+      [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
+      (onPress)="dismissedCard.emit(f)"
+      (onFocus)="expanded = true"
+      (onBlur)="expanded = false"
+    ></app-ui-close-button>
   </div>
   <div class="card-content">
     <ul class="card-stats">
@@ -25,9 +30,12 @@
         <span class="card-stat-label"
           *ngIf="prop.id !== 'divider'"
           [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
+          [attr.tabindex]="prop.hintKey ? 0 : -1"
            placement="right"
            container="body"
            triggers="hover touchend focus"
+           (focus)="expanded = true"
+           (blur)="expanded = false"
         >
           {{ prop.name }}
         </span>

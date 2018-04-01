@@ -132,6 +132,9 @@
     color: $cardLabelText;
     font-size: 12px;
     position:relative;
+    &:focus {
+      @include focusState();
+    }
   }
   // add dotted border for hints
   .card-stats li.has-hint .card-stat-label {
@@ -403,7 +406,7 @@
         width:auto;
       }
       .card-stat-value {
-        width: 33.333%;
+        min-width: 33.333%;
         text-align:left;
         font-size: $panelCardStatTextSize;
       }
