@@ -27,7 +27,7 @@ export const environment = {
   appVersion: version + '-dev',
   siteNav: [
     { url: '/', langKey: 'NAV.HOME' },
-    { url: '/map', langKey: 'NAV.MAP' },
+    { url: '/', langKey: 'NAV.MAP' },
     { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
     { url: '/about', langKey: 'NAV.ABOUT' },
     { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
@@ -37,7 +37,7 @@ export const environment = {
   ],
   footerNav: [
     { url: '/', langKey: 'NAV.HOME' },
-    { url: '/map', langKey: 'NAV.MAP' },
+    { url: '/', langKey: 'NAV.MAP' },
     { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
     { url: '/about', langKey: 'NAV.ABOUT' },
     { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
