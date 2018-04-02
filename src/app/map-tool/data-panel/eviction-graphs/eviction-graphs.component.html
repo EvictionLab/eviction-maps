@@ -51,7 +51,7 @@
           >
             <div class="tooltip-wrapper">
               <div class="tooltip-arrow"></div>
-              <div class="tooltip-inner line-tooltip-value">{{tooltipValue(tooltip.y)}}</div>
+              <div class="tooltip-inner line-tooltip-value">{{ tooltip.y >= 0 ? tooltipValue(tooltip.y) : null }}</div>
             </div>
           </div>
         </div>
