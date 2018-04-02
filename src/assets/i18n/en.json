@@ -112,6 +112,9 @@
     "METHODS": "Methods",
     "HELP": "Help & FAQ",
     "UPDATES": "Updates",
+    "CONTACT_US": "Contact Us",
+    "GET_DATA": "Get the Data",
+    "DATA_MERGE": "Data Merge Application",
     "FACEBOOK": "Eviction Lab on Facebook",
     "TWITTER": "Eviction Lab on Twitter",
     "GITHUB": "Eviction Lab on Github",
@@ -208,8 +211,10 @@
     "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share Link",
     "CONNECT": "Connect With Us",
-    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>",
+    "COPYRIGHT": "<p>All content &copy; 2018 Eviction Lab. All rights reserved.</p><p>Map made possible by Mapbox</p>",
     "EMAIL_SIGNUP": "Sign up to receive news about events and new features from Eviction Lab.",
-    "EMAIL_SUBSCRIBE": "Subscribe"
+    "EMAIL_SUBSCRIBE": "Subscribe",
+    "OUR_FUNDERS": "Our Funders",
+    "CREDITS": "Photo by John Appleseed"
   }
 }
