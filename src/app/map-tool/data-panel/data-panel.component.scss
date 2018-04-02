@@ -1,5 +1,10 @@
 @import '../../../theme';
 
+:host {
+  transform: translate3d(0,0,0);
+  & > * { transform: translate3d(0,0,0); }
+}
+
 // Data panel header text
 // ----
 .data-header {
@@ -22,8 +27,10 @@
   width:100%;
   box-sizing: border-box;
   overflow:auto;
+  transform: translate3d(0,0,0);
   // padding at the bottom to leave space for "back to map" button
   padding: 0 $defaultPadding grid(15); 
+
   .data-content-inner {
     max-width: $maxContentWidth;
     padding: $defaultPadding;
