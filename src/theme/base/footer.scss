@@ -98,14 +98,14 @@ footer {
 // boost height / margin on tablet+
 @media(min-width: $gtMobile) {
   footer {
-    height: grid(43);
-    padding: grid(5) $pageMarginLg;
+    height: 500px;
+    padding: 0;
   }
 }
-// boost height for small desktop+
-@media(min-width: $gtTablet) {
+// boost height for desktop+
+@media(min-width: $gtLaptop) {
   footer {
-    height: grid(62);
+    height: 550px;
   }
 }
 
@@ -120,73 +120,42 @@ footer {
   justify-content: center;
   flex-wrap: wrap;
   // padding on immediate children
-  > * {
-    padding: grid(2) 0;
-  }
-  .footer-logo {
-    width:100%;
-    order:1;
-    text-align:center;
-    svg { margin: auto; }
-  }
-  .footer-navigation {
-    order:2;
-  }
-  .footer-copyright {
-    order:3;
-  }
-  .footer-princeton {
-    order:4;
-    img { width: grid(10); }
-  }
-  .footer-social {
-    order:5;
-  }
-  .footer-funders {
-    order:6;
-  }
-  .footer-credits {
-    order:7;
-  }
+  > * { padding: grid(2) 0; }
+  .footer-logo { order:1; }
+  .footer-navigation { order:2; }
+  .footer-copyright { order:3; }
+  .footer-princeton { order:4; }
+  .footer-social { order:5; }
+  .footer-funders { order:6; }
+  .footer-credits { order:7; }
 }
 @media(min-width: $gtMobile) {
   .footer-content {
     @include fill-parent();
     margin:auto;
-    height: grid(30); // 240px;
-    width: grid(86); // 688px
+    height: grid(37);
+    width: grid(88);;
+    flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    .footer-logo {
-      order: 1;
-      margin-right: grid(8); // push links to the right
-    }
-    .footer-copyright {
-      order: 2;
-    }
-    .footer-navigation {
-      order: 3;
-    }
-    .footer-social {
-      order: 4;
-    }
+    justify-content: flex-start;
+    .footer-logo { order: 1; }
+    .footer-copyright { order: 2; }
+    .footer-princeton { order: 3; }
+    .footer-funders { order: 4; }
+    .footer-navigation { order: 5; }
+    .footer-social { order: 6; }
+    .footer-credits { order: 7; }
   }
 }
 @media(min-width: $gtTablet) {
   .footer-content {
-    width: grid(115); // 920px
-    .footer-logo {
-      margin-right: grid(25); // push links even more to the right
-    }
+    width: grid(107);
+    height:310px;
   }
 }
 @media(min-width: $gtLaptop) {
   .footer-content {
-    width: grid(115); // 920px
-    .footer-logo {
-      margin-right: grid(25); // push links even more to the right
-    }
+    width: grid(137);
   }
 }
 
@@ -194,11 +163,12 @@ footer {
 // EVICTION LAB LOGO
 // ---
 .footer-logo {
-  .horizontal-logo {
-    display: none;
-  }
+  width:100%;
+  text-align:center;
   svg {
-    width: grid(10);
+    width: 196px;
+    height: 14px;
+    margin: auto;
     // logo colours
     .logo-letters { fill: $white; }
     .logo-shapes { fill: $color1; }
@@ -206,20 +176,20 @@ footer {
 }
 @media(min-width: $gtMobile) {
   .footer-logo {
-    .horizontal-logo {
+    width:50%;
+    text-align: left;
+    svg {
       display: block;
-      width: grid(31);
+      width: 250px;
       height: 18px;
-    }
-    .vertical-logo {
-      display: none;
+      margin: 0;
     }
   }
 }
 @media(min-width: $gtTablet) {
   .footer-logo {
-    .horizontal-logo {
-      width: grid(38);
+    svg {
+      width: 300px;
       height: 22px;
     }
   }
@@ -228,6 +198,7 @@ footer {
 // SITE LINKS
 // --- 
 .footer-navigation {
+  width:100%;
   ul {
     width:100%;
     padding:0;
@@ -241,17 +212,18 @@ footer {
 }
 @media(min-width: $gtMobile) {
   .footer-navigation {
+    width:50%;
     ul {
       font-size: 13px;
       width: grid(40);
       display:flex;
       flex-direction: column;
       flex-wrap:wrap;
-      height: grid(17.5);
+      height: grid(19);
       text-align:left;
       li { 
         width: grid(20);
-        height: grid(4);
+        height: grid(3);
       }
     }
   }
@@ -266,6 +238,31 @@ footer {
     }
   }
 }
+@media(min-width: $gtLaptop) {
+  .footer-navigation ul li {
+    width: grid(36); // 288px columns for links
+  }
+}
+
+// PRINCETON LOGO
+// ---
+.footer-princeton {
+  padding: 0 grid(2) grid(1) 0;
+  img { width: grid(10); }
+}
+@media(min-width: $gtMobile) {
+  .footer-princeton img { 
+    width: 110px; 
+    height: 31px; 
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-princeton img { 
+    width: 125px; 
+    height: 36px; 
+  }
+}
+
 
 // SOCIAL ICONS
 // ---
@@ -313,27 +310,26 @@ footer {
   .footer-social {
     margin:0;
     padding:0;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     p, ul { width: auto; margin:0; }
+    ul { margin-left: -1*grid(2); }
     p {
-      font-size: 11px;
+      color: $footerCopyrightColor;
+      display:block;
+      font-size: 12px;
       margin-right: grid(4); 
     }
   }
 }
 @media(min-width: $gtTablet) {
-  .footer-social {
-    p {
-      font-size: 13px;
-    }
+  .footer-social p {
+    font-size: 13px;
   }
 }
 
 // COPYRIGHT MESSAGE / PRINCETON LOGO
 // ---
 .footer-copyright {
+  width:100%;
   margin-top: grid(1);
   color: $footerCopyrightColor;
   text-align:center;
@@ -347,39 +343,56 @@ footer {
 @media(min-width: $gtMobile) {
   .footer-copyright {
     text-align: left;
-    font-size: 11px;
-    img { 
-      width: grid(14); // 112px
-      margin-top: grid(8); 
-    }
+    font-size: 12px;
+    line-height: 24px;
+    width: 50%;
+    .copyright-text p { margin: 0; }
   }
 }
 @media(min-width: $gtTablet) {
   .footer-copyright {
     font-size: 13px;
-    padding-top: 0;
-    .copyright-text p { margin: 0 0 grid(1) 0; }
-    img { 
-      width: grid(15.5); // 124px
-      margin-top: grid(7); 
-    }
+    line-height: 25px;
   }
 }
 
+// FUNDERS PARAGRAPH BLOCK
+// ---
 .footer-funders {
+  width:100%;
   text-align:center;
   @include defaultFont(10px);
   color: $footerCopyrightColor;
-  max-width: grid(35);
   line-height: 17px;
-  margin:auto;
+  p { 
+    max-width: grid(35); 
+    margin:auto;
+  }
   strong {
-    @include defaultFontBold(10px);
+    font-family: $boldFontStack;
     display: block;
+  }
+}
+@media(min-width: $gtMobile) {
+  .footer-funders {
+    width:50%;
+    text-align: left;
+    line-height: 24px;
+    font-size: 12px;
+    padding-bottom:0;
+    p { margin: 0; }
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-funders {
+    line-height: 25px;
+    font-size: 13px;
   }
 }
 
 
+// CREDITS FOR PHOTOS
+// ---
 .footer-credits {
   text-align:center;
   @include defaultFont(10px);
@@ -387,4 +400,23 @@ footer {
   max-width: grid(35);
   line-height: 17px;
   margin:auto;
+}
+@media(min-width: $gtMobile) {
+  .footer-credits {
+    font-size:12px;
+    width:auto;
+    margin: -1*grid(10) 0 0 grid(20);
+  }
+}
+@media(min-width: $gtTablet) {
+  .footer-credits {
+    font-size:13px;
+    margin-left: grid(30); 
+    margin-top: -1*grid(10) - 2px; // shift to account for font difference
+  }
+}
+@media(min-width: $gtLaptop) {
+  .footer-credits {
+    margin-left: grid(36); 
+  }
 }
