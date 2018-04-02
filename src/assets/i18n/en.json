@@ -26,7 +26,7 @@
     "MAP_LINK": "Back To Map",
     "SHARE_LINK": "Share a Link",
     "SHARE_HINT": "Copy the link below:",
-    "EMBED_SHARE_HINT": "Copy this embed code into your website. <a href='#' target='_blank'>More information here.</a>",
+    "EMBED_SHARE_HINT": "Copy this embed code into your website. <a href='https://evictionlab.org/help-faq/#map-embed' target='_blank'>More information here.</a>",
     "COPY_SUCCESS": "Copied!",
     "DOWNLOAD_TITLE": "Download",
     "EXPORT_ONE_FEATURE_DESCRIPTION": "Generate a file export for <b>{{feature1}}</b> between {{startYear}} and {{endYear}}",

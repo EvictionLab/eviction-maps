@@ -119,7 +119,7 @@ export class RoutingService {
   updatePymSearch() {
     const location = this.platform.nativeWindow.location;
     if (location.hash) {
-      const newUrl = location.origin + this.pymSearchStr + location.hash;
+      const newUrl = `${location.origin}${location.pathname}${this.pymSearchStr}${location.hash}`;
       this.platform.nativeWindow.history.replaceState(
         {}, this.platform.nativeWindow.document.title, newUrl
       );
