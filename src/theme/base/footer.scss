@@ -232,8 +232,10 @@ footer {
   .footer-navigation {
     ul {
       font-size: 14px;
+      height: grid(22);
       li {
         width: grid(30); // 240px columns for links
+        height: grid(3.5);
       }
     }
   }
@@ -262,7 +264,6 @@ footer {
     height: 36px; 
   }
 }
-
 
 // SOCIAL ICONS
 // ---
@@ -387,6 +388,14 @@ footer {
   .footer-funders {
     line-height: 25px;
     font-size: 13px;
+    p { 
+      max-width: grid(42); 
+    }
+  }
+}
+@media(min-width: $gtLaptop) {
+  .footer-funders p { 
+    max-width: grid(49); 
   }
 }
 
