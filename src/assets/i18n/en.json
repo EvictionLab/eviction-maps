@@ -213,6 +213,8 @@
     "CONNECT": "Connect With Us",
     "COPYRIGHT": "<p>All content &copy; 2018 Eviction Lab. All rights reserved.</p><p>Map made possible by Mapbox</p>",
     "EMAIL_SIGNUP": "Sign up to receive news about events and new features from Eviction Lab.",
-    "EMAIL_SUBSCRIBE": "Subscribe"
+    "EMAIL_SUBSCRIBE": "Subscribe",
+    "OUR_FUNDERS": "Our Funders",
+    "CREDITS": "Photo by John Appleseed"
   }
 }
