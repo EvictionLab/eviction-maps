@@ -95,7 +95,7 @@ $panelHeightLg: 194px;
   .nav-bar {
     position: relative;
     z-index:998;
-    top: 0; // fix 1px showing through
+    top: 0;
     height: grid(8);
     ul {
       flex-direction: row;
