@@ -5,21 +5,6 @@
 */
 body { padding-right: 0 !important; }
 
-/*
-  Something about the production deployment is causing SVG linear gradients to fail on iOS browsers.
-  This replaces the fill of any element using a linear gradient with a flat color.
-*/
-.ios, .safari {
-  .fallback-gradient { fill: $color1 !important; }
-  .app-graph {
-    .bar-0 { fill: $color1 !important; }
-    .bar-1 { fill: $color2 !important; }
-    .bar-2 { fill: $color3 !important; }
-  }
-  .graph-area app-graph.average-shown .app-graph rect.bar:last-of-type { fill: $color4 !important; }
-}
-
-
 // IE: set some alternate styles for the navbar because sticky is not supported
 @media(min-width: $gtMobile) {
   .ie .nav-bar {
