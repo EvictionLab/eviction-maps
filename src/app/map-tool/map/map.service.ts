@@ -33,7 +33,6 @@ export class MapService {
   private _mapHighlights = [];
   private _mapHover = [];
   private _hoverEnabled = true;
-  private addBeforeLayer = 'city_extra_small_labels';
 
   constructor(private loader: LoadingService) { }
 
@@ -316,7 +315,8 @@ export class MapService {
       })
       // add the new layer w/ updated source
       .forEach(l => {
-        this.map.addLayer(l, this.addBeforeLayer);
+        this.debug('adding layer', l);
+        this.map.addLayer(l, this.getBeforeLayer(l.id));
       });
   }
 
@@ -373,6 +373,17 @@ export class MapService {
       [box[0], box[1]],
       [box[2], box[3]]
     ], { padding: 50 });
+  }
+
+  /**
+    * Given a layer id, this will return the layer it should be inserted before
+    * in the map style. Bubbles are below labels, labels return null so they will
+    * be added at the top level.  All others will be inserted before 'roads'.
+    */
+  private getBeforeLayer(layerId: string) {
+    if (layerId.includes('text')) { return null; }
+    if (layerId.includes('bubbles')) { return 'city_extra_small_labels'; }
+    return 'roads';
   }
 
   /**
