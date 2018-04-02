@@ -119,6 +119,9 @@
     transform: rotate(180deg);
     svg { fill:$color1; }
   }
+  .low-flag ::ng-deep .hint-button svg {
+    fill: $grey1a;
+  }
   .card-stats { 
     margin:0; 
     padding:0; 
