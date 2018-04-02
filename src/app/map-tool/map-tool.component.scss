@@ -62,7 +62,7 @@
   pointer-events:none;
   height: 100%;
   transition: background-color 0.2s ease;
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(198, 204, 207, 0);
   display:flex;
   flex-direction: column;
   align-items: flex-start;
@@ -70,7 +70,7 @@
   z-index: 50;
   &.active { 
     pointer-events:all; 
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(198, 204, 207, 0.5);
     .btn-map { display:block; }
   }
   .btn-compare { display:none; }
@@ -114,6 +114,13 @@
   &.visible {
     transform: translateY(0px);
     opacity:1;
+  }
+}
+
+// keep map button aligned with the view more button
+@media(min-width: $gtTablet) {
+  .btn-map {
+    bottom: $pageMarginLg;
   }
 }
 
