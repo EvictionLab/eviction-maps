@@ -27,6 +27,24 @@ export class EvictionGraphsComponent implements OnInit {
   get barYear() { return this._barYear; }
   @Output() barYearChange = new EventEmitter();
 
+  /** Store currently selected map graph attribute */
+  private _mapGraphAttribute = { id: '', langKey: '' };
+  /** Allow double-binding of graph attribute */
+  private _graphAttribute = { id: '', langKey: ''};
+  @Input() set graphAttribute(attr: MapDataAttribute) {
+    if (!attr || !this._graphAttribute) { return; }
+    this._mapGraphAttribute = attr;
+    if (attr.id !== this._graphAttribute.id) {
+      this._graphAttribute = attr.id === 'none' ? this.dataAttributes[0] : attr;
+      if (attr.id !== 'none') {
+        this.graphAttributeChange.emit(this._graphAttribute);
+      }
+      this.setGraphData();
+    }
+  }
+  get graphAttribute(): MapDataAttribute { return this._graphAttribute; }
+  @Output() graphAttributeChange = new EventEmitter();
+
   /** Line graph year start input / output (allows double binding) */
   private _lineStartYear;
   @Input() set lineStartYear(value: number) {
@@ -109,7 +127,6 @@ export class EvictionGraphsComponent implements OnInit {
   averageActive = true; // tracks if the average is active on the graph
   tooltips = []; // attribute for holding tooltip data
   graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
-  graphAttribute: MapDataAttribute; // current graph property (sync with map?)
   graphData; // graph data that is passed to the graph component
   graphSettings; // attribute for passing graph settings to graph component
   startSelect: Array<number>; // array of years for the "start year" select for line graph
@@ -128,7 +145,6 @@ export class EvictionGraphsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.graphAttribute = this.dataAttributes[0];
     this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
@@ -162,14 +178,14 @@ export class EvictionGraphsComponent implements OnInit {
     if (this.graphType === 'bar') {
       const value = l.properties[this.attrYear(this.barYear)];
       return value >= 0 ?
-        this.barYear + ': ' + value + '%' :
+        this.barYear + ': ' + this.tooltipValue(value) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
       if (!tooltip) { return ''; }
       const value = l.properties[this.attrYear(tooltip.x)];
       return value >= 0 ?
-        tooltip.x + ': ' + value + '%' :
+        tooltip.x + ': ' + this.tooltipValue(value) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     }
     return '';
@@ -182,8 +198,13 @@ export class EvictionGraphsComponent implements OnInit {
    * Toggles the graph between judgments / filings
    */
   changeGraphProperty(filings: boolean) {
-    this.graphAttribute = filings ? this.dataAttributes[1] : this.dataAttributes[0];
-    this.setGraphData();
+    const attr = filings ? this.dataAttributes[1] : this.dataAttributes[0];
+    if (this._mapGraphAttribute.id !== 'none') {
+      this.graphAttribute = attr;
+    } else {
+      this._graphAttribute = attr;
+      this.setGraphData();
+    }
   }
 
   /** Gets config for bar graph */
@@ -208,7 +229,8 @@ export class EvictionGraphsComponent implements OnInit {
           label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
-          tickPadding: 5
+          tickPadding: 5,
+          maxVal: 100
         }
       },
       margin: { left: 65, right: 16, bottom: 32, top: 16 }
@@ -238,7 +260,8 @@ export class EvictionGraphsComponent implements OnInit {
           label: this.getAxisLabel(),
           tickSize: '-100%',
           ticks: 5,
-          tickPadding: 5
+          tickPadding: 5,
+          maxVal: 100
         }
       },
       margin: { left: 65, right: 16, bottom: 48, top: 16 }
@@ -294,6 +317,18 @@ export class EvictionGraphsComponent implements OnInit {
       }
     }
     return null;
+  }
+
+  tooltipValue(val: number): string {
+    let valStr = val.toString();
+    if (this.graphSettings.axis.y.maxVal > 0 && val > this.graphSettings.axis.y.maxVal) {
+      valStr = '>' + this.graphSettings.axis.y.maxVal;
+    }
+    return `${valStr}${this.graphAttribute.format === 'percent' ? '%' : ''}`;
+  }
+
+  barTopValue(top: number): number {
+    return Math.max(this.graphSettings.margin.top, top);
   }
 
   /** Returns the Y axis label name with % added if they are percent values */

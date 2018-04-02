@@ -58,7 +58,9 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'order': 5,
     'default': 'rgba(0, 0, 0, 0)',
     'stops': {
-      'default': getScale([0, 5, 10, 15, 20])
+      'default': getScale([0, 10, 20, 30, 40]),
+      'states': getScale([0, 5, 10, 15, 20]),
+      'counties': getScale([0, 7.5, 15, 22.5, 30])
     }
   },
   {
@@ -255,12 +257,12 @@ export const DataAttributes: Array<MapDataAttribute> = [
             30, 60,
             500, 60
           ],
-          6, [
+          8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2.5,
-            30, 90,
-            500, 90
+            30, 160,
+            500, 160
           ]
         ]
       ],
@@ -272,15 +274,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1.5,
             0, 1,
-            30, 7.5,
-            500, 7.5
+            30, 7,
+            500, 7
           ],
           8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            30, 30,
-            500, 30
+            30, 35,
+            500, 35
           ]
         ]
       ],
@@ -292,15 +294,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1,
             0, 1,
-            60, 7.5,
+            40, 7.5,
             500, 7.5
           ],
-          10, [
+          12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 1,
-            60, 15,
-            500, 15
+            40, 25,
+            500, 25
           ]
         ]
       ],
@@ -312,15 +314,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1.5,
             0, 1,
-            50, 12.5,
-            500, 12.5
+            50, 10,
+            500, 10
           ],
           12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2,
-            30, 30,
-            500, 30
+            50, 50,
+            500, 50
           ]
         ]
       ],
@@ -330,16 +332,16 @@ export const DataAttributes: Array<MapDataAttribute> = [
           'interpolate', ['linear'], ['zoom'],
           8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
-            -1, 2,
-            0, 1,
-            30, 7.5,
+            -1, 1,
+            0, 0.5,
+            40, 7.5,
             500, 7.5
           ],
           12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
-            -1, 4,
+            -1, 2,
             0, 2,
-            30, 30,
+            40, 30,
             500, 30
           ]
         ]
@@ -373,12 +375,12 @@ export const DataAttributes: Array<MapDataAttribute> = [
             40, 40,
             500, 40
           ],
-          6, [
+          8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2.5,
-            40, 80,
-            500, 80
+            40, 120,
+            500, 120
           ]
         ]
       ],
@@ -390,15 +392,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1.5,
             0, 1,
-            60, 7.5,
-            500, 7.5
+            60, 7,
+            500, 7
           ],
           8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 4,
             0, 2,
-            60, 30,
-            500, 30
+            60, 35,
+            500, 35
           ]
         ]
       ],
@@ -410,15 +412,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1,
             0, 1,
-            100, 7.5,
-            500, 7.5
+            60, 5,
+            500, 5
           ],
-          10, [
+          12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 2,
             0, 1,
-            100, 15,
-            500, 15
+            60, 25,
+            500, 25
           ]
         ]
       ],
@@ -430,15 +432,15 @@ export const DataAttributes: Array<MapDataAttribute> = [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 1.5,
             0, 1,
-            50, 12.5,
-            500, 12.5
+            60, 7,
+            500, 7
           ],
           12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
             -1, 3,
             0, 2,
-            60, 30,
-            500, 30
+            60, 35,
+            500, 35
           ]
         ]
       ],
@@ -448,17 +450,17 @@ export const DataAttributes: Array<MapDataAttribute> = [
           'interpolate', ['linear'], ['zoom'],
           8, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
-            -1, 2,
-            0, 1,
-            60, 7.5,
-            500, 7.5
+            -1, 1,
+            0, 0.5,
+            60, 5,
+            500, 5
           ],
           12, [
             'interpolate', ['linear'], ['number', ['var', 'data_prop']],
-            -1, 4,
+            -1, 2,
             0, 2,
-            60, 30,
-            500, 30
+            60, 25,
+            500, 25
           ]
         ]
       ]

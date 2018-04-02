@@ -11,6 +11,8 @@ export class UiCloseButtonComponent implements OnInit {
   @Input() label;
   @Input() ariaLabel;
   @Output() onPress = new EventEmitter();
+  @Output() onFocus = new EventEmitter();
+  @Output() onBlur = new EventEmitter();
 
   constructor(private translatePipe: TranslatePipe) {}
 

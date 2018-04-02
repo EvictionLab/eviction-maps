@@ -64,7 +64,7 @@ export const DataLevels: Array<MapLayerGroup> = [
       'block-groups_bubbles',
       'block-groups_null'
     ],
-    'minzoom': 8,
+    'minzoom': 9,
     'zoom': [13, 16]
   }
 ];

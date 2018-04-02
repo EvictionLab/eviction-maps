@@ -5,9 +5,17 @@
 >
   <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">
     <app-ui-icon class="marker" icon="marker"></app-ui-icon>
-    <h1 class="card-heading">{{f.properties['n']}}</h1>
+    <h1 class="card-heading" 
+      [tooltip]="f.properties['n'].length > maxLocationLength ? f.properties['n'] : null" 
+      [placement]="collapsible ? 'top' : 'bottom'"
+    >{{ getLocationName(f.properties['n']) }}</h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
-    <app-ui-close-button class="card-dismiss" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" (onPress)="dismissedCard.emit(f)"></app-ui-close-button>
+    <app-ui-close-button class="card-dismiss" 
+      [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
+      (onPress)="dismissedCard.emit(f)"
+      (onFocus)="expanded = true"
+      (onBlur)="expanded = false"
+    ></app-ui-close-button>
   </div>
   <div class="card-content">
     <ul class="card-stats">
@@ -19,14 +27,24 @@
         >
           {{ getAverageOffset(f.properties[prop.yearAttr], usAverage[prop.yearAttr])}} {{ 'DATA.US_AVERAGE' | translate }}
         </span>
-        <span *ngIf="prop.id !== 'divider'" class="card-stat-label">
+        <span class="card-stat-label"
+          *ngIf="prop.id !== 'divider'"
+          [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
+          [attr.tabindex]="prop.hintKey ? 0 : -1"
+           placement="right"
+           container="body"
+           triggers="hover touchend focus"
+           (focus)="expanded = true"
+           (blur)="expanded = false"
+        >
           {{ prop.name }}
-          <app-ui-hint *ngIf="prop.hintKey" class="attribute-hint" [hint]="prop.hintKey | translate" placement="right" triggers="hover touchend focus"></app-ui-hint>
         </span>
-        <span *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
-          <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ (f.properties[prop.yearAttr] | number) }}{{ suffix(prop.id) }}</span>
+        <div *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
+          <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
-        </span>
+          <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
+          <app-ui-hint *ngIf="isLowProp(f, prop.id)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_LOW' | translate"></app-ui-hint>
+        </div>
         <span *ngIf="prop.id === 'divider'" class="card-stat-label">{{ 'STATS.DEMOGRAPHICS' | translate }}</span>
       </li>
     </ul>

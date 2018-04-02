@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
   currentMenuItem: string;
   menuActive = false;
   siteNav = environment.siteNav;
+  footerNav = environment.footerNav;
   languageOptions = [
     { id: 'en', name: '', langKey: 'HEADER.EN' },
     { id: 'es', name: '', langKey: 'HEADER.ES' }
@@ -212,6 +213,10 @@ export class AppComponent implements OnInit {
     if (translations.hasOwnProperty('NAV')) {
       const nav = translations['NAV'];
       this.siteNav = this.siteNav.map(l => {
+        if (l.langKey) { l['name'] = nav[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+      this.footerNav = this.footerNav.map(l => {
         if (l.langKey) { l['name'] = nav[ l.langKey.split('.')[1] ]; }
         return l;
       });

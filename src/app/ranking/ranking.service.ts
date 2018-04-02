@@ -21,14 +21,12 @@ export class RankingEvictor {
 
 @Injectable()
 export class RankingService {
-  year = environment.maxYear;
+  year = environment.rankingsYear;
   regions: Object = REGIONS;
   regionList: Array<string> = Object.keys(REGIONS);
   sortProps = [
     { value: 'evictionRate', langKey: 'STATS.JUDGMENT_RATE' },
-    { value: 'evictions', langKey: 'STATS.JUDGMENTS' },
-    { value: 'filingRate', langKey: 'STATS.FILING_RATE' },
-    { value: 'filings', langKey: 'STATS.FILINGS'}
+    { value: 'evictions', langKey: 'STATS.JUDGMENTS' }
   ];
   areaTypes = [
     { value: 0, langKey: 'RANKINGS.CITIES' },
@@ -174,9 +172,7 @@ export class RankingService {
       return {
         geoId: d.GEOID,
         evictions: parseFloat(d.evictions),
-        filings: parseFloat(d['eviction-filings']),
         evictionRate: parseFloat(d['eviction-rate']),
-        filingRate: parseFloat(d['eviction-filing-rate']),
         name: d['name'],
         displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],
@@ -243,8 +239,8 @@ export class RankingService {
     return (a, b) => {
       const item1 = invert ? a : b;
       const item2 = invert ? b : a;
-      if (!item1[prop] || isNaN(item1[prop])) { return -1; }
-      if (!item2[prop] || isNaN(item2[prop])) { return 1; }
+      if (!(prop in item1) || isNaN(item1[prop])) { return -1; }
+      if (!(prop in item2) || isNaN(item2[prop])) { return 1; }
       return item1[prop] - item2[prop];
     };
   }

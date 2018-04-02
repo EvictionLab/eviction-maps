@@ -42,6 +42,13 @@ export class MapToolService {
   mapConfig;
   usAverage;
   usAverageLoaded = new EventEmitter<any>();
+  flagValues = new BehaviorSubject<any>(null);
+  /** FIPS codes for states that should have 'low' flags */
+  lowFlags = {
+    'er': [
+      '15', '24', '50', '56', '06', '09', '53', '33', '11', '36', '22', '04', '21', '16', '47', '48'
+    ]
+  };
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -243,6 +250,8 @@ export class MapToolService {
     }
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
+      // Add flag properties
+      this.addFlaggedProps(feature);
       this.activeFeatures = [...this.activeFeatures, feature];
       // track comparissons added
       if (this.activeFeatures.length === 2) {
@@ -276,6 +285,7 @@ export class MapToolService {
       if (feature.properties.GEOID === f.properties.GEOID) {
         f.properties = feature.properties;
         f.geometry = feature.geometry;
+        this.addFlaggedProps(f);
       }
       return f;
     });
@@ -370,6 +380,7 @@ export class MapToolService {
     } else if (feature['layer']) {
       feature.properties.layerId = feature['layer']['id'];
     }
+    // Add bounding box
     feature.bbox = [
       +feature.properties['west'],
       +feature.properties['south'],
@@ -406,6 +417,34 @@ export class MapToolService {
   /** Gets a string with all of the active locations, separated by a semicolon */
   getActiveLocationNames() {
     return this.activeFeatures.map(f => this.getFullLocationName(f)).join(';');
+  }
+
+  /** Adds a string of property names that are in the 99th percentile for the feature */
+  addFlaggedProps(feature: MapFeature) {
+    this.getOutliers().take(1).subscribe(flagValues => {
+      if (!flagValues || !feature.properties.layerId) { return; }
+      const percentileVals = flagValues[feature.properties.layerId];
+      const flaggedProps = Object.keys(percentileVals);
+      feature['highProps'] = flaggedProps
+        .filter((p: string) => feature.properties[p] >= percentileVals[p])
+        .join(',');
+    });
+    feature['lowProps'] = Object.keys(this.lowFlags)
+      .filter((p: string) => this.lowFlags[p].indexOf(feature.properties['GEOID']) > -1);
+  }
+
+  /**
+   * Gets an observable of the 99th percentile data.
+   * Stashes the 99th percentil data in a local BeviorSubject for future
+   * requests.
+   */
+  private getOutliers() {
+    if (!this.flagValues.getValue()) {
+      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+      return this.http.get(environment.outliersDataUrl, { headers: headers })
+        .do((data) => { this.flagValues.next(data); });
+    }
+    return this.flagValues.asObservable();
   }
 
   private stripYearFromAttr(attr: string) {
@@ -480,16 +519,24 @@ export class MapToolService {
         }
       } else {
         const featName = (feat.properties['label'] as string)
-          .replace(',', '').split(' ')[0].toLowerCase();
-        const nameFilter = (f) => f.properties['n'].toLowerCase().startsWith(featName);
+          .replace(',', '').toLowerCase();
+        const featFirstWord = featName.split(' ')[0];
+        const nameFilter = (f) => f.properties['n'].toLowerCase().includes(featName);
+        const firstWordFilter = (f) => f.properties['n'].toLowerCase().includes(featFirstWord);
 
-        const containsMatchName = containsPoint.filter(nameFilter);
-        const matchesName = features.filter(nameFilter);
+        const containsMatchName = containsPoint.find(nameFilter);
+        const containsMatchFirst = containsPoint.find(firstWordFilter);
+        const matchName = features.find(nameFilter);
+        const matchFirst = features.find(firstWordFilter);
 
-        if (containsMatchName.length > 0) {
-          matchFeat = containsMatchName[0];
-        } else if (matchesName.length > 0) {
-          matchFeat = matchesName[0];
+        if (containsMatchName) {
+          matchFeat = containsMatchName;
+        } else if (matchName) {
+          matchFeat = matchName;
+        } else if (containsMatchFirst) {
+          matchFeat = containsMatchFirst;
+        } else if (matchFirst) {
+          matchFeat = matchFirst;
         }
       }
 
@@ -580,7 +627,7 @@ export class MapToolService {
       case 'cities':
         return 8;
       default:
-        return 10;
+        return 9;
     }
   }
 

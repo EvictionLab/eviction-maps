@@ -21,6 +21,7 @@
     [locations]="displayLocations"
     (locationRemoved)="locationRemoved.emit($event)"
     [(barYear)]="mapToolService.activeYear"
+    [(graphAttribute)]="mapToolService.activeBubbleHighlight"
     [(lineStartYear)]="mapToolService.activeLineYearStart"
     [(lineEndYear)]="mapToolService.activeLineYearEnd"
     [(showAverage)]="mapToolService.activeShowGraphAvg"
@@ -86,11 +87,9 @@
           </svg>
           <h2>{{ 'DATA.GET_DATA_HEADING' | translate }}</h2>
           <span>{{ 'DATA.GET_DATA_HINT' | translate }}</span>
-          <button class="btn btn-border"
-            (click)="showDataSignupDialog($event)"
-          >
+          <a class="btn btn-border" href="https://evictionlab.org/get-the-data" target="_blank">
             {{ 'DATA.GET_DATA' | translate }}
-          </button>
+          </a>
         </div>
       </div>
     </div>

@@ -37,6 +37,8 @@ import { MapFeature } from '../../map-tool/map/map-feature';
       transition('card-e-2-2 => void', [
         animate('0.4s ease-out', style({ opacity: '0', transform: 'translate3d(100%, 50%, 0)' }))
       ]),
+      transition('void => card', []),
+      transition('card => void', []),
       transition(':enter', [
         style({ opacity: '0', transform: 'translate3d(-100%,0,0)' }),
         animate('0.2s ease-in', style({ opacity: '1', transform: 'translate3d(0,0,0)' }))
@@ -113,14 +115,16 @@ export class LocationCardsComponent implements OnInit {
   @HostBinding('class.no-cards') get noCards() {
     return this.features.length === 0;
   }
+  /** determines if cards are expanded (map view) */
   expanded = true;
-  clickHeader = false;
+  /** Maximum number of characters for location name */
+  maxLocationLength = 24;
+  /** Stores which properties should be % formatted */
   private percentProps;
+  /** Stores which properties should be $ formatted */
   private dollarProps;
 
-  constructor(private decimal: DecimalPipe) {
-
-  }
+  constructor(private decimal: DecimalPipe) {}
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
@@ -136,9 +140,27 @@ export class LocationCardsComponent implements OnInit {
     this.expanded = this.collapsible ? false : true;
   }
 
+  /** Checks if the property name exists in the feature's high flagged properties */
+  isHighProp(feature, prop: string) {
+    if (!feature['highProps']) { return false; }
+    return feature['highProps'].indexOf(prop) > -1;
+  }
+
+  /** Checks if the property name exists in the feature's low flagged properties */
+  isLowProp(feature, prop: string) {
+    if (!feature['lowProps']) { return false; }
+    return feature['lowProps'].indexOf(prop) > -1;
+  }
+
   getAbbrYear() {
     if (!this.year) { return; }
     return this.year.toString().slice(-2);
+  }
+
+  /** Get location name and truncate if it's too long */
+  getLocationName(name: string) {
+    const max = this.maxLocationLength;
+    return name.length > max ? name.substring(0, max) + '...' : name;
   }
 
 
@@ -179,6 +201,14 @@ export class LocationCardsComponent implements OnInit {
    */
   suffix(prop: string) {
     return (this.percentProps.indexOf(prop) !== -1) ? '%' : null;
+  }
+
+  /** Handle capping rate values at >100 */
+  processValue(feat: MapFeature, prop: MapDataAttribute) {
+    if (prop.type === 'bubble' && feat.properties[prop.yearAttr] > 100) {
+      return '>100';
+    }
+    return this.decimal.transform(feat.properties[prop.yearAttr], '1.0-2');
   }
 
   /** Add a reference to the current year property name for each data attribute */

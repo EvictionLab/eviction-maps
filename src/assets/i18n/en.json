@@ -17,7 +17,7 @@
     "DOWNLOAD_ERROR": "There was an error completing your download. Please try again.",
     "DOWNLOAD_DISABLED": "Select at least one location to download reports.",
     "GET_DATA_HEADING": "Get More Data",
-    "GET_DATA": "Select Data Set(s)",
+    "GET_DATA": "Get the data",
     "GET_DATA_HINT": "Access spreadsheets of full data sets from across the U.S.",
     "SOCIAL_HEADING": "Share",
     "SOCIAL_HINT": "Share a link to this map and data, or embed the map on your website",
@@ -26,7 +26,7 @@
     "MAP_LINK": "Back To Map",
     "SHARE_LINK": "Share a Link",
     "SHARE_HINT": "Copy the link below:",
-    "EMBED_SHARE_HINT": "Copy this embed code into your website. <a href='#' target='_blank'>More information here.</a>",
+    "EMBED_SHARE_HINT": "Copy this embed code into your website. <a href='https://evictionlab.org/help-faq/#map-embed' target='_blank'>More information here.</a>",
     "COPY_SUCCESS": "Copied!",
     "DOWNLOAD_TITLE": "Download",
     "EXPORT_ONE_FEATURE_DESCRIPTION": "Generate a file export for <b>{{feature1}}</b> between {{startYear}} and {{endYear}}",
@@ -56,7 +56,8 @@
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
-    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select."
+    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select.",
+    "LOADING": "Loading"
   },
   "HEADER": {
     "HOME": "Home",
@@ -99,7 +100,9 @@
     "AUTO": "auto",
     "UNSUPPORTED_TITLE": "Unsupported Browser",
     "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
-    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview"
+    "FEATURE_OVERVIEW_LABEL": "Show the map feature overview",
+    "FLAG_99TH": "This area has an eviction/filing rate in the top 1%. Please see our FAQ section to better understand why.",
+    "FLAG_LOW": "This area's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why."
   },
   "NAV": {
     "HOME": "Home",
@@ -110,6 +113,9 @@
     "METHODS": "Methods",
     "HELP": "Help & FAQ",
     "UPDATES": "Updates",
+    "CONTACT_US": "Contact Us",
+    "GET_DATA": "Get the Data",
+    "DATA_MERGE": "Data Merge Application",
     "FACEBOOK": "Eviction Lab on Facebook",
     "TWITTER": "Eviction Lab on Twitter",
     "GITHUB": "Eviction Lab on Github",
@@ -154,9 +160,9 @@
   },
   "RANKINGS": {
     "TITLE": "Eviction Lab - Eviction Rankings",
-    "CITIES": "Cities",
-    "MID_SIZED_AREAS": "Mid-sized Areas",
-    "RURAL_AREAS": "Rural Areas",
+    "CITIES": "Large Cities",
+    "MID_SIZED_AREAS": "Mid-Size Cities",
+    "RURAL_AREAS": "Small Cities and Rural Areas",
     "SEARCH_HINT": "Search for places",
     "FILTER": "Show rankings for",
     "REGION": "Region",
@@ -169,7 +175,7 @@
     "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "PANEL_SUMMARY_SINGULAR": "There was {{evictions}} eviction in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
-    "LIST_INTRO": "View {{year}} eviction rankings for locations across America. To refine your selection, choose either a city, mid-sized areas, or rural areas, and data type (eviction rate or raw eviction number).",
+    "LIST_INTRO": "View {{year}} eviction rankings for locations across America. Scroll through the list or use the search bar to find a place. To refine your results, choose an area type and a data type. You can also search within states using the Region menu.",
     "SEARCH_FILTER": "Search & Filter",
     "TOP_EVICTORS_LINK": "View Top Evictors",
     "SHARE_VIA": "Share via",
@@ -191,12 +197,13 @@
     "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}}'s {{areaType}}. Find out where your city ranks at {{link}}",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
-    "DATA_HINT": "Lorem ipsum",
-    "AREA_HINT": "Lorem ipsum",
+    "DATA_HINT": "\"Rates\" represent number of evictions or eviction filings per 100 renter homes. Evictions and Eviction Filings represent raw numbers.",
+    "AREA_HINT": "Large Cities have 100,000+ people. Mid-Size Cities have 20,000-99,999 people. Small cities and Rural Areas have under 20,000 people.",
     "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable.",
     "LOCATION_DESCRIPTION": "Rank {{rank}}: {{location}} with {{value}} {{dataType}}",
     "NEXT_LOCATION": "Next",
-    "PREV_LOCATION": "Previous"
+    "PREV_LOCATION": "Previous",
+    "NO_RANKINGS": "There are no rankings available for the area and region you have selected."
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
@@ -206,8 +213,10 @@
     "SHARE_EMAIL_ERROR_MESSAGE": "Please set a default mail client in your browser to use the email link.",
     "SHARE_LINK": "Share Link",
     "CONNECT": "Connect With Us",
-    "COPYRIGHT": "<p>All content &copy; 2017 Eviction Lab. All rights reserved.</p><p>Made possible by Princeton University</p>",
+    "COPYRIGHT": "<p>All content &copy; 2018 Eviction Lab. All rights reserved.</p><p>Map made possible by Mapbox</p>",
     "EMAIL_SIGNUP": "Sign up to receive news about events and new features from Eviction Lab.",
-    "EMAIL_SUBSCRIBE": "Subscribe"
+    "EMAIL_SUBSCRIBE": "Subscribe",
+    "OUR_FUNDERS": "Our Funders",
+    "CREDITS": "Photo by John Appleseed"
   }
 }

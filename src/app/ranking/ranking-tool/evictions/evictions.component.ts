@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, OnDestroy, ViewChild, Inject, AfterViewInit, ChangeDetectorRef,
-  HostListener
+  HostListener, Output, EventEmitter
 } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap, RouterLink } from '@angular/router';
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
@@ -63,7 +63,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
   get dataProperty() { return this.store.dataProperty; }
-
   /** the index of the selected location for the data panel */
   @Input()
   set selectedIndex(value: number) {
@@ -150,6 +149,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** load data once the view has been initialized */
   ngAfterViewInit() {
     this.rankings.loadEvictionsData();
+    // list takes a bit to render, so setup page scroll in a timeout instead
+    setTimeout(() => { this.setupPageScroll(); }, 500);
   }
 
   /** clear any subscriptions on destroy */
@@ -277,6 +278,29 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.debug('updated tweet: ', this.tweet);
   }
 
+  scrollToTop() {
+    this.scroll.scrollTo(this.rankingList.el.nativeElement);
+    // set focus to an element at the top of the page for keyboard nav
+    const focusableEl = this.rankingList.el.nativeElement.querySelector('app-ranking-list button');
+    setTimeout(() => {
+      if (focusableEl.length) {
+        focusableEl[0].focus();
+        focusableEl[0].blur();
+      }
+    }, this.scroll.defaultDuration);
+  }
+
+  private setupPageScroll() {
+    this.scroll.defaultScrollOffset = 0;
+    this.scroll.verticalOffset$
+      .map(offset => offset > 600)
+      .distinctUntilChanged()
+      .subscribe(showButton => {
+        this.debug('show scroll to top button:', showButton);
+        this.showScrollButton = showButton;
+      });
+  }
+
   /** Shows a toast message indicating the data is not available */
   private showUnavailableToast() {
     this.toast.error(
@@ -320,7 +344,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 0);
     // format number based on if it's a rate or not
     amount = this.isRateValue() ?
-      this.decimal.transform(amount / 10, '1.1-2') : this.decimal.transform(amount);
+      this.cappedRateValue(amount / 10) : this.decimal.transform(amount);
     // add average text if the number is an average rate
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_AVERAGE', { amount }) : amount;
@@ -339,7 +363,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getLocationTweet() {
     const location = this.listData[this.selectedIndex];
     let amount = this.isRateValue() ?
-      this.decimal.transform(location[this.dataProperty.value], '1.1-2') :
+      this.cappedRateValue(location[this.dataProperty.value]) :
       this.decimal.transform(location[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
@@ -374,7 +398,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_FILING');
     const state = this.rankings.stateData.find(s => s.name === this.region);
     let amount = this.isRateValue() ?
-      this.decimal.transform(state[this.dataProperty.value], '1.1-2') :
+      this.cappedRateValue(state[this.dataProperty.value]) :
       this.decimal.transform(state[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
@@ -440,6 +464,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Returns true if the data property is a rate instead of a count */
   private isRateValue(): boolean {
     return this.dataProperty.value.endsWith('Rate');
+  }
+
+  /** Returns the formatted rate number, with >100 instead of values over */
+  private cappedRateValue(val: number): string {
+    return val > 100 ? '>100' : this.decimal.transform(val, '1.1-2');
   }
 
     /**

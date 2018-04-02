@@ -226,12 +226,13 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mapToolService.getSearchTileData(feature).subscribe(data => {
         if (!data.properties.n) {
           this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+          this.map.mapService.zoomToFeature(feature);
         } else {
           this.mapToolService.addLocation(data);
         }
         const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
         if (updateMap) {
-          this.map.mapService.zoomToFeature(feature);
+          this.map.mapService.zoomToFeature(data);
           // Wait for map to be done zooming, then set data layer
           this.map.mapService.zoom$
             .distinctUntilChanged()
@@ -242,6 +243,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loader.end('search');
       }, err => {
         this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
+        this.map.mapService.zoomToFeature(feature);
         this.loader.end('search');
       });
     }
@@ -322,7 +324,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       .throttleTime(50)
       // only fire when wheel event hasn't been triggered yet
       .filter(() => !this.wheelEvent)
-      .subscribe(e => this.wheelEvent = true);
+      .subscribe(e => {
+        // only set wheel scroll flag when we're scrolling from a non-top position
+        if (this.verticalOffset > 0) { this.wheelEvent = true; }
+      });
     this.scroll.verticalOffset$.subscribe(this.onScroll.bind(this));
   }
 
@@ -334,7 +339,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private onWheel() {
     this.verticalOffset = this.scroll.getVerticalOffset();
     this.wheelEvent = false;
-    this.enableZoom = (this.verticalOffset === 0);
+    this.enableZoom = (this.verticalOffset <= 0);
   }
 
   /**
@@ -344,7 +349,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   private onScroll(yOffset: number) {
     this.verticalOffset = yOffset;
     if (!this.wheelEvent) {
-      this.enableZoom = (this.verticalOffset === 0);
+      this.enableZoom = (this.verticalOffset <= 0);
     } else {
       this.enableZoom = false;
     }
