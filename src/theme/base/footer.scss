@@ -331,7 +331,7 @@ footer {
 // ---
 .footer-copyright {
   width:100%;
-  margin-top: grid(1);
+  margin-bottom: grid(1);
   color: $footerCopyrightColor;
   text-align:center;
   @include defaultFont(10px);
