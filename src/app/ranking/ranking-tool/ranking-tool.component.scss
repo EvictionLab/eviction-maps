@@ -93,9 +93,9 @@ $panelHeightLg: 194px;
 // nav bar is sticky on tablet+
 @media(min-width: $gtMobile) {
   .nav-bar {
-    position: sticky;
+    position: relative;
     z-index:998;
-    top: $headerHeightSm - 1px; // fix 1px showing through
+    top: 0; // fix 1px showing through
     height: grid(8);
     ul {
       flex-direction: row;
@@ -117,6 +117,12 @@ $panelHeightLg: 194px;
           border-bottom: grid(0.5) solid $color1;
         }
       }
+    }
+  }
+  @supports(position: sticky) {
+    .nav-bar {
+      position: sticky;
+      top: $headerHeightSm - 1px; // fix 1px showing through
     }
   }
 }
