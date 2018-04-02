@@ -13,11 +13,15 @@
 @import './theme/base/popovers';
 @import './theme/base/tooltips';
 @import './theme/base/inputs';
-@import './theme/base/hero';
-@import './theme/base/menu';
-@import './theme/base/header';
-@import './theme/base/footer';
-@import './theme/base/hacks';
+
+@media screen {
+  @import './theme/base/hacks';
+  @import './theme/base/hero';
+  @import './theme/base/menu';
+  @import './theme/base/header';
+  @import './theme/base/footer';
+}
+
 
 // PAGE STYLES
 
@@ -52,20 +56,6 @@ a:focus {
 }
 a:focus {
   @include focusState();
-}
-
-
-.footer {
-  padding: 64px 0;
-  background: rgb(43,43,43);
-  height:400px;
-  margin: 24px 0 0 0;
-  width:100%;
-  .placeholder {
-    max-width: 840px;
-    margin:auto;
-    img { width:100%; }
-  }
 }
 
 // page content max dimensions
@@ -210,3 +200,124 @@ a:focus {
   display: none;
 }
 
+
+/** Override styles for print */
+@media print {
+  body {
+    app-progress-bar, 
+    .header-search, 
+    .header-icons,
+    .menu-copyright,
+    .menu-close,
+    .close-button,
+    .panel-arrow,
+    .social-media-links,
+    .language-select,
+    .ranking-ui-container,
+    .navigation-wrapper,
+    .nav-bar,
+    .newsletter-signup,
+    .footer-navigation,
+    .footer-social,
+    .footer-logo {
+      display: none!important;
+    }
+    app-header-bar { position: relative!important; }
+    .header-wrapper { height: 50px; position: relative; }
+    .header-logo { display: block!important; }
+    .header-logo img { width: 200px;}
+    .site-navigation { margin-top: 50px; }
+    .hero { background-image: none!important; }
+    h1 {
+      font-size: 20px;
+      font-family: $altFontStack;
+    }
+    .page-content .ranking-component > .content-inner { padding:0; }
+    .ranking-page { margin: 0!important; }
+    .ranking-body { min-height: 1px; margin: 0!important;}
+    .ranking-body > h3 { font-size: 14px; }
+    .ranking-bar { -webkit-print-color-adjust: exact; }
+    .page-fixed-bottom {
+      position:relative;
+      box-shadow:none;
+      .content-inner { display: block; padding:0; }
+      .panel-top,
+      .panel-summary-heading,
+      .rank-location,
+      .panel-summary-content {
+        background: none;
+        text-align: left;
+        margin: 8px 0;
+        padding:0!important;
+      }
+      .rank-number {
+        float:left;
+        min-width: 40px;
+        height: 40px;
+        font-size: 20px;
+        line-height: 40px;
+        margin-right: 16px;
+        -webkit-print-color-adjust: exact; 
+      }
+      .rank-location {
+        font-size:16px;
+      }
+      .rank-value {
+        font-size:14px;
+      }
+      .panel-summary-content p {
+        max-width: none!important;
+        text-align:left;
+        margin:0!important;
+        padding:0!important;
+        font-size:14px;
+      }
+    }
+    app-ranking-panel { padding: 24px 0!important;}
+    footer .footer-funders strong { display: block!important; }
+    footer .footer-copyright p { margin:0!important;}
+    .map-overlay { display: none!important;}
+    app-map {
+
+      margin:0!important;
+      .map-wrapper {position:relative!important;}
+      
+      .mapboxgl-control-container { display: none!important; }
+      app-location-cards { display: none!important;}
+      .year-slider-container { display: none!important;}
+    }
+    .mobile-scroll-indicator { display: none!important;}
+    .location-card.location-add { display:none!important; }
+    .graph-header { display:none!important;}
+    .map-ui-wrapper app-ui-select {display: none!important; }
+    app-ui-map-legend { -webkit-print-color-adjust: exact; }
+    app-location-cards { padding:0!important;}
+    .graph-area app-graph {
+      padding-top:0!important;
+      .app-graph-container, .app-graph {
+        position: static!important;
+      }
+    }
+    .graph-legend { max-width: none!important; padding:0!important; }
+    .graph-legend ul { flex-direction: row!important; }
+    .data-panel-footer { display:none!important;}
+    .btn-map { display:none!important; }
+    app-ui-close-button { display: none!important; }
+    .location-card { min-width:224px!important; }
+    app-eviction-graphs + .data-content { display:none!important; }
+    .hint-button {
+      position:absolute!important;
+      width:100%!important;left:0;top:0;
+    }
+    .hint-button app-ui-icon {display: none;}
+    .hint-button:after {
+      content: attr(aria-label);
+      position:absolute;
+      width:100%;
+      top: 56px;
+      left:0;
+      right:0;
+      font-size:14px;
+    }
+  }
+}
