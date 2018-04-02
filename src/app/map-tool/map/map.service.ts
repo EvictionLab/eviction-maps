@@ -315,6 +315,7 @@ export class MapService {
       })
       // add the new layer w/ updated source
       .forEach(l => {
+        this.debug('adding layer', l);
         this.map.addLayer(l, this.getBeforeLayer(l.id));
       });
   }
@@ -375,12 +376,13 @@ export class MapService {
   }
 
   /**
-   * Given a layer id, this will return the layer it should be inserted before
-   * in the map style. Bubbles / text layers return null, so those layers will
-   * be added at the top level.  All others will be inserted before 'roads'.
-   */
+    * Given a layer id, this will return the layer it should be inserted before
+    * in the map style. Bubbles are below labels, labels return null so they will
+    * be added at the top level.  All others will be inserted before 'roads'.
+    */
   private getBeforeLayer(layerId: string) {
-    if (layerId.includes('bubbles') || layerId.includes('text')) { return null; }
+    if (layerId.includes('text')) { return null; }
+    if (layerId.includes('bubbles')) { return 'city_extra_small_labels'; }
     return 'roads';
   }
 
