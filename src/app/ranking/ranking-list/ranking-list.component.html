@@ -1,6 +1,9 @@
-<h4 *ngIf="!list">
-  Loading...
-</h4>
+<p class="loading-message" *ngIf="!list">
+  {{ 'DATA.LOADING' | translate }}...
+</p>
+<p class="no-rankings" *ngIf="list && list.length === 0">
+  {{ 'RANKINGS.NO_RANKINGS' | translate }}
+</p>
 <ul *ngIf="dataProperty && list && maxValue" class="ranking-list">
   <li 
     *ngFor="let listItem of list; let i = index" 

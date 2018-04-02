@@ -56,7 +56,8 @@
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
-    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select."
+    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select.",
+    "LOADING": "Loading"
   },
   "HEADER": {
     "HOME": "Home",
@@ -201,7 +202,8 @@
     "LOCATION_DATA_UNAVAILABLE": "The data for this location is unavailable.",
     "LOCATION_DESCRIPTION": "Rank {{rank}}: {{location}} with {{value}} {{dataType}}",
     "NEXT_LOCATION": "Next",
-    "PREV_LOCATION": "Previous"
+    "PREV_LOCATION": "Previous",
+    "NO_RANKINGS": "There are no rankings available for the area and region you have selected."
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",
