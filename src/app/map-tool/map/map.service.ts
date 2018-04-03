@@ -397,7 +397,7 @@ export class MapService {
     (this.map.getSource(sourceId) as mapboxgl.GeoJSONSource).setData({
       'type': 'FeatureCollection',
       'features': features ? features : []
-    });
+    } as GeoJSON.FeatureCollection<any>);
   }
 
   /** Get the area of a provided bbox */
