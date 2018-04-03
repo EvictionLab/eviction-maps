@@ -4,10 +4,11 @@ import { timer } from 'rxjs/observable/timer';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import 'rxjs/add/observable/forkJoin';
 import 'rxjs/add/observable/race';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class LoadingService {
+  isLoading = false;
   get isLoading$() {
     return this.keysLoading$
       .map(keys => {
@@ -29,6 +30,9 @@ export class LoadingService {
   private _loadingKeys = [];
 
   constructor() {
+    this.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
+    });
     this.debugLoadTimes();
   }
 
@@ -38,7 +42,7 @@ export class LoadingService {
   start(id: string, done$?: Observable<any>) {
     const timeout$ = timer(this._timeout);
     const itemLoading$ = done$ ? Observable.race(done$, timeout$) : timeout$;
-    this.debug('loading start', id);
+    this.debug('start', id);
     if (this.loadingStore[id]) {
       this.subscriptionStore[id].unsubscribe();
     }
@@ -52,7 +56,7 @@ export class LoadingService {
    * no more items are left to load.
    */
   end(id: string) {
-    this.debug('loading end', id);
+    this.debug('end', id);
     if (this.subscriptionStore[id]) { this.subscriptionStore[id].unsubscribe(); }
     if (this.loadingStore[id]) { delete this.loadingStore[id]; }
     this.updateKeysLoading();
@@ -77,7 +81,7 @@ export class LoadingService {
         Object.keys(this.timeStore).forEach(k => {
           if (keys.indexOf(k) === -1) {
             const totalTime = window.performance.now() - this.timeStore[k];
-            this.debug('loading time for ' + k, totalTime);
+            this.debug('time for ' + k, totalTime);
             delete this.timeStore[k];
           }
         });
@@ -92,7 +96,7 @@ export class LoadingService {
 
   private debug(...args) {
     // tslint:disable-next-line
-    environment.production || !this._debug ? null : console.debug.apply(console, args);
+    environment.production || !this._debug ? null : console.debug.apply(console, ['loading: ', ...args]);
   }
 
 }

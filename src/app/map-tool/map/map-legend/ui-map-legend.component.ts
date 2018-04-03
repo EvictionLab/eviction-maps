@@ -75,7 +75,6 @@ export class UiMapLegendComponent implements OnChanges {
   }
 
   setBubbleValues() {
-    console.log(this.bubbles);
     if (this.bubbles && this.bubbles.id !== 'none') {
       this.hasBubbles = true;
       const expr = this.layer.id in this.bubbles['expressions'] ?
@@ -90,7 +89,6 @@ export class UiMapLegendComponent implements OnChanges {
   }
 
   setChoroplethValues() {
-    console.log(this.choropleth);
     if (!this.choropleth || !this.layer) { return; }
     if (this.choropleth && this.choropleth.id !== 'none') {
       this.hasChoropleth = true;

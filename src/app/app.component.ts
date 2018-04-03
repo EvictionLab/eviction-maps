@@ -71,7 +71,7 @@ export class AppComponent implements OnInit {
     private cd: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: any
   ) {
-      this.toastr.setRootViewContainerRef(vRef);
+    this.toastr.setRootViewContainerRef(vRef);
   }
 
   /** Sets the language and size relevant classes on init */
@@ -81,7 +81,6 @@ export class AppComponent implements OnInit {
       rankings: RankingToolComponent,
       embed: EmbedComponent
     };
-
     this.loader.isLoading$.subscribe(loading => {
       this.isLoading = loading;
       this.cd.detectChanges();

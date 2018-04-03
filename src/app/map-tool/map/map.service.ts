@@ -441,6 +441,6 @@ export class MapService {
 
   private debug(...args) {
     // tslint:disable-next-line
-    environment.production || !this._debug ?  null : console.debug.apply(console, args);
+    environment.production || !this._debug ?  null : console.debug.apply(console, [ 'map: ', ...args]);
   }
 }

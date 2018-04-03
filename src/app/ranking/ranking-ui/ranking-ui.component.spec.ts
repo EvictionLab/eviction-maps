@@ -6,6 +6,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { UiSelectComponent } from '../../ui/ui-select/ui-select.component';
 
 import { Pipe, PipeTransform } from '@angular/core';
+import { ServicesModule } from '../../services/services.module';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -21,7 +22,9 @@ describe('RankingUiComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RankingUiComponent ],
-      imports: [ BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot() ],
+      imports: [ 
+        BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot(), ServicesModule.forRoot() 
+      ],
       providers: [ { provide: TranslatePipe, useClass: TranslatePipeMock }]
     })
     .compileComponents();

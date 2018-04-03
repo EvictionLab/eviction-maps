@@ -1,9 +1,10 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener
+  Component, OnInit, Input, Output, EventEmitter, ElementRef, HostListener, SimpleChanges
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { NgModel } from '@angular/forms';
 import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-predictive-search',
@@ -20,6 +21,7 @@ export class PredictiveSearchComponent implements OnInit {
   @Output() initialInput = new EventEmitter();
   @Output() selectedChange = new EventEmitter();
   @Output() selectionChange: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() noMatches = new EventEmitter<string>();
   ariaOwns = 'results';
   ariaActiveDescendant: string;
   ariaExpanded = false;
@@ -29,7 +31,7 @@ export class PredictiveSearchComponent implements OnInit {
   private _enteredText;
   private _keyboardSelected;
 
-  constructor(public el: ElementRef) { }
+  constructor(public el: ElementRef, private analytics: AnalyticsService) { }
 
   ngOnInit() { }
 
@@ -145,6 +147,18 @@ export class PredictiveSearchComponent implements OnInit {
   setupInputListener() {
     Observable.fromEvent(this.el.nativeElement, 'keydown')
       .take(1).subscribe(() => this.initialInput.emit());
+  }
+
+  /** Emits no matches if there are no results */
+  onNoResults(noResults: boolean) {
+    if (noResults) {
+      this.noMatches.emit(this.selected);
+      this.trackEmptyResults(this.selected);
+    }
+  }
+
+  private trackEmptyResults(query: string) {
+    this.analytics.trackEvent('zeroResults', { locationSearchTerm: query });
   }
 
   /**

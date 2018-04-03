@@ -8,6 +8,7 @@ import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
 
 import { SearchService } from '../../services/search.service';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ServicesModule } from '../../services/services.module';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -25,7 +26,7 @@ describe('LocationSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule ]
+      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule, ServicesModule.forRoot() ]
     });
     TestBed.overrideComponent(LocationSearchComponent, {
       set: {
