@@ -49,6 +49,7 @@ export class AppComponent implements OnInit {
   ];
   selectedLanguage;
   isAtTop = true;
+  activeComponentId: string;
   private activeMenuItem;
 
   constructor(
@@ -101,6 +102,7 @@ export class AppComponent implements OnInit {
 
   /** Fired when a route is activated */
   onActivate(component: any) {
+    this.activeComponentId = component.id;
     let title;
     if (component.id === 'map-tool') {
       this.mapComponent = component;
