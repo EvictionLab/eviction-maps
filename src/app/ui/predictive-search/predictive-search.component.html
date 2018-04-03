@@ -8,6 +8,7 @@
          [typeaheadOptionsLimit]="optionsLimit"
          (typeaheadOnSelect)="updateSelection($event)"
          (typeaheadOnBlur)="clearSelection($event)"
+         (typeaheadNoResults)="onNoResults($event)"
          [typeaheadWaitMs]="waitMs"
          [placeholder]="placeholder"
          [attr.id]="inputId"

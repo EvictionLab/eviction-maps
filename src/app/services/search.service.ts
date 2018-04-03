@@ -26,12 +26,7 @@ export class SearchService {
    */
   queryGeocoder(query: string): Observable<Object[]> {
     return this.http.get(this.source.query(query))
-      .map(res => this.source.results(res, query))
-      .do(res => (res && res.length === 0) ? this.trackEmptyResults(query) : null);
-  }
-
-  private trackEmptyResults(query: string) {
-    this.analytics.trackEvent('zeroResults', { locationSearchTerm: query });
+      .map(res => this.source.results(res, query));
   }
 
   /**

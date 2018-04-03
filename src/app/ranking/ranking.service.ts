@@ -38,6 +38,7 @@ export class RankingService {
   evictors: Array<RankingEvictor>;
   get isReady() { return this.ready.asObservable(); }
   private ready = new BehaviorSubject<boolean>(false);
+  private _debug = true;
 
   constructor(
     private http: HttpClient,
@@ -45,7 +46,7 @@ export class RankingService {
     @Inject('config') private config: any
   ) {
     this.translate.onLangChange.subscribe(lang => {
-      console.log('lang change', lang);
+      this.debug('lang change', lang);
       this.updateLanguage(lang.translations);
     });
   }
@@ -56,14 +57,10 @@ export class RankingService {
    */
   loadEvictionsData() {
     if (this.evictions) { this.setReady(true); return; }
-    console.time('load evictions data');
     this.loadStateData();
     return this.http.get(this.config.cityUrl, { responseType: 'text' })
       .map((csvString) => {
-        console.timeEnd('load evictions data');
-        console.time('parse csv');
         const parsedCsv = this.parseEvictionsData(csvString);
-        console.timeEnd('parse csv');
         return parsedCsv;
       })
       .subscribe(locations => {
@@ -80,13 +77,9 @@ export class RankingService {
    */
   loadEvictorsData() {
     if (this.evictors) { this.setReady(true); return; }
-    console.time('load evictors');
     return this.http.get(this.config.evictorsUrl, { responseType: 'text' })
       .map((csvString) => {
-        console.timeEnd('load evictors');
-        console.time('parse csv');
         const parsedCsv = this.parseEvictorsData(csvString);
-        console.timeEnd('parse csv');
         return parsedCsv;
       })
       .subscribe(locations => {
@@ -137,13 +130,11 @@ export class RankingService {
   getFilteredEvictions(
     region: string, areaType: number, sortProperty: string, invert?: boolean
   ): Array<RankingLocation> {
-    console.time('sort rankings');
     let data = region !== 'United States' ?
       this.evictions.filter(l => l.parentLocation === region && l.areaType === areaType) :
       this.evictions.filter(l => l.areaType === areaType);
     data = data.sort(this.getComparator(sortProperty, invert))
       .map((d) => this.handleNaN(d, sortProperty));
-    console.timeEnd('sort rankings');
     return data;
   }
 
@@ -155,11 +146,9 @@ export class RankingService {
   getFilteredEvictors(
     place: string, sortProperty: string, invert?: boolean
   ): Array<RankingEvictor> {
-    console.time('sort evictors');
     let data = place ?
       this.evictors.filter(l => l.placeName === place) : this.evictors;
     data = data.sort(this.getComparator(sortProperty, invert));
-    console.timeEnd('sort evictors');
     return data;
   }
 
@@ -246,7 +235,6 @@ export class RankingService {
   }
 
   private updateLanguage(translations) {
-    // console.log('updating language', translations);
     if (translations.hasOwnProperty('STATS')) {
       const stats = translations['STATS'];
       this.sortProps = this.sortProps.map(p => {
@@ -263,4 +251,8 @@ export class RankingService {
     }
   }
 
+  private debug(...args) {
+    // tslint:disable-next-line
+    environment.production || !this._debug ? null : console.debug.apply(console, [ 'rankings: ', ...args]);
+  }
 }

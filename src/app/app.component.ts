@@ -1,6 +1,7 @@
 import {
   Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
-  ElementRef
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { DOCUMENT } from '@angular/common';
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   @HostBinding('class.ie') ie = false;
+  isLoading = false;
   currentMenuItem: string;
   menuActive = false;
   siteNav = environment.siteNav;
@@ -67,9 +69,10 @@ export class AppComponent implements OnInit {
     private analytics: AnalyticsService,
     private pageScroll: PageScrollService,
     private scroll: ScrollService,
+    private cd: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: any
   ) {
-      this.toastr.setRootViewContainerRef(vRef);
+    this.toastr.setRootViewContainerRef(vRef);
   }
 
   /** Sets the language and size relevant classes on init */
@@ -79,6 +82,10 @@ export class AppComponent implements OnInit {
       rankings: RankingToolComponent,
       embed: EmbedComponent
     };
+    this.loader.isLoading$.subscribe(loading => {
+      this.isLoading = loading;
+      this.cd.detectChanges();
+    });
     this.routing.setupRoutes(components);
     this.scroll.setupScroll(this.pageScroll);
     this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);

@@ -33,7 +33,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set region(regionValue) {
     if (!regionValue) { return; }
     if (regionValue !== this.store.region) {
-      console.log('set region', regionValue, this.store.region);
+      this.debug('set region', regionValue, this.store.region);
       this.store.region = regionValue;
       this.updateEvictionList();
     }
@@ -45,7 +45,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set areaType(newType) {
     if (!newType) { return; }
     if ((!this.store.areaType || newType.value !== this.store.areaType.value) && newType) {
-      console.log('set areaType', newType, this.store.areaType);
+      this.debug('set areaType', newType, this.store.areaType);
       this.store.areaType = newType;
       this.updateEvictionList();
     }
@@ -57,7 +57,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set dataProperty(newProp) {
     if (!newProp) { return; }
     if ((!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) && newProp) {
-      console.log('set dataProp', newProp, this.store.dataProperty);
+      this.debug('set dataProp', newProp, this.store.dataProperty);
       this.store.dataProperty = newProp;
       this.updateEvictionList();
     }
@@ -131,11 +131,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.areaType = this.rankings.areaTypes[0];
     this.store.dataProperty = this.rankings.sortProps[0];
     this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
+    this.debug('init');
   }
 
   /** subscribe to when the rankings data is ready, show loading */
   ngOnInit() {
-    this.loader.start('evictions');
     this.rankings.isReady.takeUntil(this.destroy)
       .subscribe((ready) => {
         this.isDataReady = ready;
@@ -148,6 +148,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   /** load data once the view has been initialized */
   ngAfterViewInit() {
+    this.loader.start('evictions');
     this.rankings.loadEvictionsData();
     // list takes a bit to render, so setup page scroll in a timeout instead
     setTimeout(() => { this.setupPageScroll(); }, 500);
@@ -221,7 +222,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    * the location
    * @param location
    */
-  onSearchSelectLocation(location: RankingLocation | null) {
+  onSearchSelectLocation(e: { selection: RankingLocation, queryTerm: string } | null) {
+    let location: RankingLocation = null;
+    if (e.selection) { location = e.selection; }
     if (location === null) { return this.setCurrentLocation(null); }
     this.showUiPanel = false;
     let listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
@@ -235,11 +238,13 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
       this.setCurrentLocation(listIndex);
     }
+    this.trackSearchSelection(location, e.queryTerm);
   }
 
   /** handles the click on a specific location */
   onClickLocation(index: number) {
     this.setCurrentLocation(index);
+    this.trackLocationSelection(this.listData[index]);
   }
 
   /** Switch the selected location to the next one in the list */
@@ -275,7 +280,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.canNavigate || !this.listData) { return ''; }
     this.tweet = this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
-    this.debug('updated tweet: ', this.tweet);
+    this.debug('updated tweet - ', this.tweet);
   }
 
   scrollToTop() {
@@ -288,6 +293,30 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         focusableEl[0].blur();
       }
     }, this.scroll.defaultDuration);
+  }
+
+  /** Get location selected data for analytics tracking */
+  private getSelectedData(location: RankingLocation): any {
+    return {
+      locationSelected: location.displayName,
+      locatonSelectedLevel: this.rankings.areaTypes[location.areaType].langKey,
+    };
+  }
+
+  /** Track when a location is selected */
+  private trackLocationSelection(location: RankingLocation, method = 'list') {
+    const selectedEvent: any = this.getSelectedData(location);
+    selectedEvent.locationFindingMethod = method;
+    this.analytics.trackEvent('locationSelection', selectedEvent);
+  }
+
+  /** Track when an option in search is selected. */
+  private trackSearchSelection(location: RankingLocation, term: string) {
+    this.trackLocationSelection(location, 'search');
+    const searchEvent = {
+      locationSearchTerm: term, ...this.getSelectedData(location), locationFindingMethod: 'search'
+    };
+    this.analytics.trackEvent('searchSelection', searchEvent);
   }
 
   private setupPageScroll() {
@@ -494,6 +523,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private debug(...args) {
     // tslint:disable-next-line
-    environment.production || !this._debug ? null : console.debug.apply(console, args);
+    environment.production || !this._debug ? null : console.debug.apply(console, [ 'evictions: ', ...args]);
   }
 }

@@ -8,6 +8,7 @@ import { PredictiveSearchComponent } from './predictive-search.component';
 import { UiModule } from '../../ui/ui.module';
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
+import { ServicesModule } from '../../services/services.module';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -35,7 +36,7 @@ describe('PredictiveSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ ],
-      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule ],
+      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule, ServicesModule.forRoot() ],
       providers: [ { provide: TranslatePipe, useClass: TranslatePipeMock }]
     })
     .compileComponents();
