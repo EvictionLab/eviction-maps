@@ -426,15 +426,19 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_JUDGMENT') :
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_FILING');
     const state = this.rankings.stateData.find(s => s.name === this.region);
+    if (state[this.dataProperty.value] < 0) {
+      return this.getFallbackTweet();
+    }
     let amount = this.isRateValue() ?
       this.cappedRateValue(state[this.dataProperty.value]) :
       this.decimal.transform(state[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
       amount;
+    const areaType = this.translatePipe.transform(this.areaType.langKey).toLowerCase();
     const hadAmount = this.isRateValue() ?
-      this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE') :
-      this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
+      this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE', { areaType }) :
+      this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT', { areaType });
     const topArea = this.listData.length > 0 ?
       this.translatePipe.transform(
         'RANKINGS.SHARE_REGION_TOP_AREA', { topArea: this.listData[0].name, hadAmount }
@@ -448,6 +452,15 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_REGION_UNAVAILABLE', regionParams);
     return this.translatePipe.transform('RANKINGS.SHARE_REGION_NO_SELECTION', {
       regionAmount, topArea, link: this.platform.currentUrl()
+    });
+  }
+
+  /**
+   * Creates fallback tweet for states where data is unavailable
+   */
+  private getFallbackTweet() {
+    return this.translatePipe.transform('RANKINGS.SHARE_FALLBACK', {
+      link: this.platform.currentUrl()
     });
   }
 
