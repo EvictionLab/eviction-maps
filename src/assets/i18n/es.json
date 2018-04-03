@@ -2,6 +2,7 @@
   "DATA": {
     "CARD_HEADING": "<span>{{year}}</span>",
     "DATE_RANGE": "Range",
+    "GRAPH_YEAR": "Year",
     "JUDGMENTS": "Sentencias",
     "FILINGS": "Presentaciones",
     "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",
