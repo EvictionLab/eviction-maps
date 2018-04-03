@@ -203,7 +203,8 @@
     "LOCATION_DESCRIPTION": "Rank {{rank}}: {{location}} with {{value}} {{dataType}}",
     "NEXT_LOCATION": "Next",
     "PREV_LOCATION": "Previous",
-    "NO_RANKINGS": "There are no rankings available for the area and region you have selected."
+    "NO_RANKINGS": "There are no rankings available for the area and region you have selected.",
+    "NA_RANK": "N/A"
   },
   "FOOTER": {
     "SHARE_TWITTER": "Share on Twitter",

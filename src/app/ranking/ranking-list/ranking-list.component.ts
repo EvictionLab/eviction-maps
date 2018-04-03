@@ -30,11 +30,14 @@ export class RankingListComponent {
     if (this.propertyMap.primary === 'name') {
       // location ranking
       return this.translatePipe.transform('RANKINGS.LOCATION_DESCRIPTION', {
-        rank: rank,
+        rank: listItem[this.dataProperty.value] >= 0 ?
+          rank : this.translatePipe.transform('RANKINGS.NA_RANK'),
         location: listItem[this.propertyMap['primary']] + ', '
                 + listItem[this.propertyMap['secondary']],
         dataType: this.dataProperty.name,
-        value: listItem[this.dataProperty.value] + (this.isRate ? '%' : '')
+        value: listItem[this.dataProperty.value] >= 0 ?
+          listItem[this.dataProperty.value] + (this.isRate ? '%' : '') :
+          this.translatePipe.transform('DATA.UNAVAILABLE')
       });
     }
   }
