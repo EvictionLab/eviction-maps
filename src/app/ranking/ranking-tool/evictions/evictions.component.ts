@@ -48,6 +48,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.debug('set areaType', newType, this.store.areaType);
       this.store.areaType = newType;
       this.updateEvictionList();
+      this.trackAreaChange();
     }
   }
   get areaType() { return this.store.areaType; }
@@ -60,6 +61,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.debug('set dataProp', newProp, this.store.dataProperty);
       this.store.dataProperty = newProp;
       this.updateEvictionList();
+      this.trackRankByChange();
     }
   }
   get dataProperty() { return this.store.dataProperty; }
@@ -304,6 +306,23 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       locationSelected: location.displayName,
       locatonSelectedLevel: this.rankings.areaTypes[location.areaType].langKey,
     };
+  }
+
+  /** Gets the selected filters for analytics tracking */
+  private getSelectedFilters() {
+    return {
+      area: this.areaType.langKey,
+      rankBy: this.dataProperty.langKey,
+      region: this.region
+    };
+  }
+
+  private trackAreaChange() {
+    this.analytics.trackEvent('rankingsAreaSelection', this.getSelectedFilters());
+  }
+
+  private trackRankByChange() {
+    this.analytics.trackEvent('rankingsRankBySelection', this.getSelectedFilters());
   }
 
   /** Track when a location is selected */
