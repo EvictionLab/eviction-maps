@@ -30,12 +30,13 @@
         <span class="card-stat-label"
           *ngIf="prop.id !== 'divider'"
           [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
-          [attr.tabindex]="prop.hintKey ? 0 : -1"
-           placement="right"
-           container="body"
-           triggers="hover touchend focus"
-           (focus)="expanded = true"
-           (blur)="expanded = false"
+          [attr.tabindex]="prop.hintKey ? 0 : null"
+          placement="right"
+          container="body"
+          triggers="hover touchend focus"
+          (focus)="expanded = true"
+          (blur)="expanded = false"
+          (onShown)="onTooltipShown($event)"
         >
           {{ prop.name }}
         </span>

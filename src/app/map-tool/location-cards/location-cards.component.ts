@@ -1,10 +1,14 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener
+  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener, ViewChildren,
+  QueryList, Inject
 } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { DOCUMENT } from '@angular/common';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DecimalPipe } from '@angular/common';
 import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 
 @Component({
   selector: 'app-location-cards',
@@ -115,6 +119,8 @@ export class LocationCardsComponent implements OnInit {
   @HostBinding('class.no-cards') get noCards() {
     return this.features.length === 0;
   }
+  /** Used for hiding all tooltips on touchstart */
+  @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** determines if cards are expanded (map view) */
   expanded = true;
   /** Maximum number of characters for location name */
@@ -124,7 +130,7 @@ export class LocationCardsComponent implements OnInit {
   /** Stores which properties should be $ formatted */
   private dollarProps;
 
-  constructor(private decimal: DecimalPipe) {}
+  constructor(private decimal: DecimalPipe, @Inject(DOCUMENT) private document: any) {}
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
@@ -209,6 +215,16 @@ export class LocationCardsComponent implements OnInit {
       return '>100';
     }
     return this.decimal.transform(feat.properties[prop.yearAttr], '1.0-2');
+  }
+
+  /**
+   * Hide all tooltips on touchstart
+   * @param event
+   */
+  onTooltipShown(event: any) {
+    Observable.fromEvent(this.document, 'touchstart')
+      .take(1)
+      .subscribe(e => this.tooltips.forEach(t => t.hide()));
   }
 
   /** Add a reference to the current year property name for each data attribute */
