@@ -75,7 +75,7 @@ export class RankingToolComponent implements OnInit, OnDestroy {
       this.areaType =
         this.rankings.areaTypes.find(a => a.value === parseInt(params['a'], 10));
       this.dataProperty = this.rankings.sortProps.find(p => p.value === params['d']);
-      this.selectedIndex = params['selectedIndex'] ? parseInt(params['l'], 10) : null;
+      this.selectedIndex = params['l'] ? parseInt(params['l'], 10) : null;
     } else if (this.activeTab === 'evictors') {
       this.dataProperty = this.rankings.sortProps.find(p => p.value === params['d']);
     }
