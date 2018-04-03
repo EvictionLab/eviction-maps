@@ -22,8 +22,8 @@ describe('RankingUiComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ RankingUiComponent ],
-      imports: [ 
-        BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot(), ServicesModule.forRoot() 
+      imports: [
+        BsDropdownModule.forRoot(), UiModule, TranslateModule.forRoot(), ServicesModule.forRoot()
       ],
       providers: [ { provide: TranslatePipe, useClass: TranslatePipeMock }]
     })
