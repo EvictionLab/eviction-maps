@@ -23,6 +23,7 @@
     left:0;
     bottom: 0;
     right: 0;
+    &.map-dropdowns { z-index: 60; } // bring dropdowns above other map UI
 }
 // Map UI maxes out at the max content width
 .map-ui {
