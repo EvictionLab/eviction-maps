@@ -172,7 +172,7 @@ export class RankingService {
       return {
         geoId: d.GEOID,
         evictions: parseFloat(d.evictions),
-        evictionRate: parseFloat(d['eviction-rate']),
+        evictionRate: parseFloat(d['eviction-rate']) <= 100 ? parseFloat(d['eviction-rate']) : -1,
         name: d['name'],
         displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],
