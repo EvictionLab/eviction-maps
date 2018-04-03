@@ -22,6 +22,16 @@ export class RankingListComponent {
   constructor(public el: ElementRef, private translatePipe: TranslatePipe) {}
 
   /**
+   * Get bar width for a given location, returning 0 if data is unavailable
+   * @param location
+   */
+  barWidth(location: RankingLocation): string {
+    const value = location[this.dataProperty.value];
+    if (value < 0) { return '0%'; }
+    return `${100 * (value / this.maxValue)}%`;
+  }
+
+  /**
    * Gets a readable string for the provided list item
    * @param rank
    * @param listItem
