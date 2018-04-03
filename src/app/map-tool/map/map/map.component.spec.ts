@@ -23,6 +23,9 @@ export class TranslatePipeMock implements PipeTransform {
   }
 }
 
+// needed so analytics service has somewhere to dump data
+window['dataLayer'] = [];
+
 class MapServiceStub {
   zoom$ = new BehaviorSubject<number>(null);
   updateCensusSource() {}

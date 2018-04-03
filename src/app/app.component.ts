@@ -167,6 +167,7 @@ export class AppComponent implements OnInit {
    * TODO: Make sure the route parameter is updated when changed
    */
   onLanguageSelect(lang) {
+    if (this.translate.currentLang === lang.id) { return; }
     this.translate.use(lang.id);
     this.analytics.trackEvent('languageSelection', { language: lang.id });
   }
