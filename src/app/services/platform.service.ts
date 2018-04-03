@@ -78,7 +78,7 @@ export class PlatformService {
 
   /** Returns true if browser is Safari */
   get isSafari(): boolean {
-    return this.userAgent.includes('safari');
+    return this.userAgent.includes('safari') && !this.userAgent.includes('chrome');
   }
 
   /** Returns true if device is iOS */
