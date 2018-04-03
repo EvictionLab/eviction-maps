@@ -17,6 +17,7 @@ import { MapboxComponent } from '../mapbox/mapbox.component';
 import { MapService } from '../map.service';
 import { LoadingService } from '../../../services/loading.service';
 import { PlatformService } from '../../../services/platform.service';
+import { AnalyticsService } from '../../../services/analytics.service';
 
 @Component({
   selector: 'app-map',
@@ -226,7 +227,8 @@ export class MapComponent implements OnInit, OnChanges {
     private loader: LoadingService,
     private platform: PlatformService,
     private translate: TranslateService,
-    private translatePipe: TranslatePipe
+    private translatePipe: TranslatePipe,
+    private analytics: AnalyticsService
   ) {
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
     this.mapService.zoom$.skip(1)
@@ -328,6 +330,7 @@ export class MapComponent implements OnInit, OnChanges {
       if (visibleGroups.length > 0) {
         if (this.selectedLayer !== visibleGroups[0]) {
           this.selectedLayer = visibleGroups[0];
+          this.trackAutoSwitch(visibleGroups[0]);
         }
       }
     }
@@ -361,6 +364,11 @@ export class MapComponent implements OnInit, OnChanges {
     if (feature && feature.properties) {
       this.featureClick.emit(feature);
     }
+  }
+
+  /** Tracks anytime the map auto switches based on zoom level */
+  private trackAutoSwitch(mapLayer: any) {
+    this.analytics.trackEvent('zoomUse', { zoomLevel: mapLayer.id });
   }
 
   /**
