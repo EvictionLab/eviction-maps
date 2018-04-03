@@ -22,6 +22,7 @@ $bubbleColor: rgba(255,4,0,0.65);
   position:relative;
   margin: (grid(2)+2px) grid(1) 0;
   height: grid(2);
+  width: grid(3);
   padding:0;
   color: $legendTextColor;
   text-align:center;
@@ -113,6 +114,7 @@ $bubbleColor: rgba(255,4,0,0.65);
     @include numberFont(11px);
     margin: grid(3) grid(1) 0;
     height: grid(3);
+    width: grid(4);
     span {
       margin-top: (-1*grid(5)) - 4px; // shift text up so it is flush with top margin
     }
