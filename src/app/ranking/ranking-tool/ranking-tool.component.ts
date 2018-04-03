@@ -67,15 +67,17 @@ export class RankingToolComponent implements OnInit, OnDestroy {
    * @param params
    */
   onQueryParamChange(params) {
-    this.translate.use(params['lang'] || 'en');
+    if (params['lang'] && this.translate.currentLang !== params['lang']) {
+      this.translate.use(params['lang']);
+    }
     if (this.activeTab === 'evictions') {
-      this.region = params['region'];
+      this.region = params['r'];
       this.areaType =
-        this.rankings.areaTypes.find(a => a.value === parseInt(params['areaType'], 10));
-      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['dataProperty']);
-      this.selectedIndex = params['selectedIndex'] ? parseInt(params['selectedIndex'], 10) : null;
+        this.rankings.areaTypes.find(a => a.value === parseInt(params['a'], 10));
+      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['d']);
+      this.selectedIndex = params['selectedIndex'] ? parseInt(params['l'], 10) : null;
     } else if (this.activeTab === 'evictors') {
-      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['dataProperty']);
+      this.dataProperty = this.rankings.sortProps.find(p => p.value === params['d']);
     }
   }
 

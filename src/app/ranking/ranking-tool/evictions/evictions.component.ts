@@ -144,6 +144,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loader.end('evictions');
         }
       });
+    this.translate.onLangChange.subscribe((l) => {
+      this.updateQueryParam('lang', l.lang);
+    });
   }
 
   /** load data once the view has been initialized */
@@ -179,7 +182,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Updates one of the query parameters and updates the route */
   updateQueryParam(paramName: string, value: any) {
     if (!this.canNavigate) { return; }
-    if (paramName === 'region' || paramName === 'areaType' || paramName === 'dataProperty') {
+    if (paramName === 'r' || paramName === 'a' || paramName === 'd') {
       this.selectedIndex = null;
     }
     const params = this.getQueryParams();
@@ -190,19 +193,19 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
     if (newRegion === this.region) { return; }
-    this.updateQueryParam('region', newRegion);
+    this.updateQueryParam('r', newRegion);
   }
 
   /** Update the route when the area type changes */
   onAreaTypeChange(areaType: { name: string, value: number }) {
     if (this.areaType && areaType.value === this.areaType.value) { return; }
-    this.updateQueryParam('areaType', areaType.value);
+    this.updateQueryParam('a', areaType.value);
   }
 
   /** Update the sort property when the area type changes */
   onDataPropertyChange(dataProp: { name: string, value: string }) {
     if (this.dataProperty && dataProp.value === this.dataProperty.value) { return; }
-    this.updateQueryParam('dataProperty', dataProp.value);
+    this.updateQueryParam('d', dataProp.value);
   }
 
   /** Update current location, shows toast if data unavailable */
@@ -213,7 +216,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     const value = (locationIndex || locationIndex === 0) ? locationIndex : null;
-    this.updateQueryParam('selectedIndex', value);
+    this.updateQueryParam('l', value);
   }
 
   /**
@@ -343,13 +346,15 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getQueryParams() {
     // this.selectedIndex
     const params = {
-      lang: this.translate.currentLang,
-      region: this.region,
-      areaType: this.areaType.value,
-      dataProperty: this.dataProperty.value
+      r: this.region,
+      a: this.areaType.value,
+      d: this.dataProperty.value
     };
+    if (this.translate.currentLang !== 'en') {
+      params['lang'] = this.translate.currentLang;
+    }
     if (this.selectedIndex || this.selectedIndex === 0) {
-      params['selectedIndex'] = this.selectedIndex;
+      params['l'] = this.selectedIndex;
     }
     return params;
   }
