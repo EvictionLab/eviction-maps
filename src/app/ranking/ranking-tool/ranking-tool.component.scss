@@ -10,6 +10,7 @@ $panelHeightLg: 194px;
 .ranking-page {
   margin-top: $headerHeightSm;
   margin-bottom: 0;
+  overflow:hidden;
 }
 
 @media(min-width: $gtMobile) {
