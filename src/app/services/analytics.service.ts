@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PlatformService } from './platform.service';
-
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AnalyticsService {
   dataLayer;
+  private _debug = true;
 
   constructor(
     private platform: PlatformService
@@ -21,9 +22,18 @@ export class AnalyticsService {
    */
   trackEvent(id: string, data: any = {}) {
     if (!this.dataLayer) { throw Error('dataLayer does not exist'); }
-    console.log(`tracking ${id}:`, data);
+    if (!environment.production) {
+
+    }
+    this.debug(`tracking ${id}`, data);
     const event = { event: id, ...data };
     this.dataLayer.push(event);
+  }
+
+
+  private debug(...args) {
+    // tslint:disable-next-line
+    environment.production || !this._debug ?  null : console.debug.apply(console, [ 'analytics: ', ...args]);
   }
 
 }

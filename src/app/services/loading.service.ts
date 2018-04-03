@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment.prod';
 
 @Injectable()
 export class LoadingService {
-  isLoading = false;
   get isLoading$() {
     return this.keysLoading$
       .map(keys => {
@@ -30,9 +29,6 @@ export class LoadingService {
   private _loadingKeys = [];
 
   constructor() {
-    this.isLoading$.subscribe(loading => {
-      this.isLoading = loading;
-    });
     this.debugLoadTimes();
   }
 
