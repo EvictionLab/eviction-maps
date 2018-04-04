@@ -19,7 +19,8 @@
           (selectedValueChanged)="graphType = $event"
         ></app-ui-toggle>
         <div class="graph-year-select">
-          <span class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
+          <span *ngIf="graphType === 'line'" class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
+          <span *ngIf="graphType === 'bar'" class="graph-year-label"> {{ 'DATA.GRAPH_YEAR' | translate }}</span>
           <div class="graph-select" [style.display]="graphType !== 'line' ? 'none' : null">
             <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="lineStartYear = $event"></app-ui-select>
             <span>to</span>

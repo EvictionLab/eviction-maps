@@ -2,6 +2,7 @@
   "DATA": {
     "CARD_HEADING": "<span>{{year}}</span>",
     "DATE_RANGE": "Range",
+    "GRAPH_YEAR": "Year",
     "JUDGMENTS": "Sentencias",
     "FILINGS": "Presentaciones",
     "BAR_GRAPH_TITLE": "{{type}} for {{locations}} in {{year}}",
@@ -194,7 +195,7 @@
     "SHARE_REGION_AMOUNT": "{{amount}} renter homes {{action}} in {{region}} in {{year}}.",
     "SHARE_REGION_TOP_AREA": " {{topArea}} {{hadAmount}}.",
     "SHARE_REGION_NO_SELECTION": "{{regionAmount}}{{topArea}} Find out where your city ranks at {{link}}",
-    "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}}'s {{areaType}}. Find out where your city ranks at {{link}}",
+    "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
     "SHARE_FALLBACK": "Eviction Rankings: Find out how your city compares at {{link}}",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",
