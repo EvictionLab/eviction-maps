@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener, ViewChildren,
-  QueryList, Inject
+  QueryList, Inject, ElementRef
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { DOCUMENT } from '@angular/common';
@@ -130,7 +130,11 @@ export class LocationCardsComponent implements OnInit {
   /** Stores which properties should be $ formatted */
   private dollarProps;
 
-  constructor(private decimal: DecimalPipe, @Inject(DOCUMENT) private document: any) {}
+  constructor(
+    public el: ElementRef,
+    private decimal: DecimalPipe,
+    @Inject(DOCUMENT) private document: any
+  ) {}
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
@@ -144,6 +148,12 @@ export class LocationCardsComponent implements OnInit {
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
     this.expanded = this.collapsible ? false : true;
+  }
+
+  removeCard(feature) {
+    this.dismissedCard.emit(feature);
+    // focus element, use set timeout to give the DOM time to update
+    setTimeout(() => { this.setFocusElement(); }, 750);
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
@@ -225,6 +235,19 @@ export class LocationCardsComponent implements OnInit {
     Observable.fromEvent(this.document, 'touchstart')
       .take(1)
       .subscribe(e => this.tooltips.forEach(t => t.hide()));
+  }
+
+  /** Sets focus to the appropriate element in the cards */
+  private setFocusElement() {
+    if (this.allowAddLocation) {
+      // focus to first input to add another location
+      const focusInput = this.el.nativeElement.getElementsByTagName('input');
+      if (focusInput.length) { focusInput[0].focus(); }
+    } else {
+      // focus to last close button
+      const focusButton = this.el.nativeElement.getElementsByClassName('btn-icon');
+      if (focusButton.length) { focusButton[focusButton.length - 1].focus(); }
+    }
   }
 
   /** Add a reference to the current year property name for each data attribute */
