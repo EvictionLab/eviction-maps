@@ -1,7 +1,7 @@
 <button class="btn btn-icon" 
-  (click)="onPress.emit()" 
-  (focus)="onFocus.emit()"
-  (blur)="onBlur.emit()"
+  (click)="onPress.emit($event)" 
+  (focus)="onFocus.emit($event)"
+  (blur)="onBlur.emit($event)"
   [attr.aria-label]="ariaLabel"
 >
   <app-ui-icon icon="close"></app-ui-icon>

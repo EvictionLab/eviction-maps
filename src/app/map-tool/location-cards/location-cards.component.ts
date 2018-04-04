@@ -150,10 +150,9 @@ export class LocationCardsComponent implements OnInit {
     this.expanded = this.collapsible ? false : true;
   }
 
-  removeCard(feature) {
+  removeCard(e, feature) {
     this.dismissedCard.emit(feature);
-    // focus element, use set timeout to give the DOM time to update
-    setTimeout(() => { this.setFocusElement(); }, 750);
+    this.setFocusElement(e);
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
@@ -238,16 +237,27 @@ export class LocationCardsComponent implements OnInit {
   }
 
   /** Sets focus to the appropriate element in the cards */
-  private setFocusElement() {
+  private setFocusElement(e) {
     if (this.allowAddLocation) {
-      // focus to first input to add another location
+      // focus input to add another location if it exists
       const focusInput = this.el.nativeElement.getElementsByTagName('input');
       if (focusInput.length) { focusInput[0].focus(); }
-    } else {
-      // focus to last close button
-      const focusButton = this.el.nativeElement.getElementsByClassName('btn-icon');
-      if (focusButton.length) { focusButton[focusButton.length - 1].focus(); }
+      return;
     }
+    // focus button element if no input
+    // card 3 closed focus card 2, card 2 closed focus card 1, card 1 closed focus card 2
+    const focusButtons = this.el.nativeElement.getElementsByClassName('btn-icon');
+    let focusButton;
+    let next = false;
+    for (let i = focusButtons.length - 1; i > -1; i--) {
+      if (focusButtons[i] !== e.target) {
+        focusButton = focusButtons[i];
+        if (next) { break; }
+      } else {
+        next = true; // flag to use the next element in the loop
+      }
+    }
+    if (focusButton) { focusButton.focus(); }
   }
 
   /** Add a reference to the current year property name for each data attribute */
