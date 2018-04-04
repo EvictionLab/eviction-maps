@@ -38,7 +38,7 @@ export const environment = {
       { url: 'https://staging.evictionlab.org/methods', langKey: 'NAV.METHODS' },
       { url: 'https://staging.evictionlab.org/help-faq', langKey: 'NAV.HELP' },
       { url: 'https://staging.evictionlab.org/updates', langKey: 'NAV.UPDATES' },
-      { url: 'https://staging.evictionlab.org/contact-us', langKey: 'NAV.CONTACT_US' },
+      { url: 'https://staging.evictionlab.org/contact', langKey: 'NAV.CONTACT_US' },
       { url: 'https://staging.evictionlab.org/get-the-data', langKey: 'NAV.GET_DATA' },
       { url: 'https://staging.evictionlab.org/data-merge', langKey: 'NAV.DATA_MERGE' }
     ]
