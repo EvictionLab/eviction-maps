@@ -44,7 +44,7 @@ export const environment = {
     { url: '/methods', langKey: 'NAV.METHODS' },
     { url: '/help-faq', langKey: 'NAV.HELP' },
     { url: '/updates', langKey: 'NAV.UPDATES' },
-    { url: '/contact-us', langKey: 'NAV.CONTACT_US' },
+    { url: '/contact', langKey: 'NAV.CONTACT_US' },
     { url: '/get-the-data', langKey: 'NAV.GET_DATA' },
     { url: '/data-merge', langKey: 'NAV.DATA_MERGE' }
   ]

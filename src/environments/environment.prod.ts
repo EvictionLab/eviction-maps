@@ -38,7 +38,7 @@ export const environment = {
     { url: 'https://beta.evictionlab.org/methods', langKey: 'NAV.METHODS' },
     { url: 'https://beta.evictionlab.org/help-faq', langKey: 'NAV.HELP' },
     { url: 'https://beta.evictionlab.org/updates', langKey: 'NAV.UPDATES' },
-    { url: 'https://beta.evictionlab.org/contact-us', langKey: 'NAV.CONTACT_US' },
+    { url: 'https://beta.evictionlab.org/contact', langKey: 'NAV.CONTACT_US' },
     { url: 'https://beta.evictionlab.org/get-the-data', langKey: 'NAV.GET_DATA' },
     { url: 'https://beta.evictionlab.org/data-merge', langKey: 'NAV.DATA_MERGE' }
   ]
