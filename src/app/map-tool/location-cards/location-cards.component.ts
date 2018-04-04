@@ -153,7 +153,7 @@ export class LocationCardsComponent implements OnInit {
   removeCard(feature) {
     this.dismissedCard.emit(feature);
     // focus element, use set timeout to give the DOM time to update
-    setTimeout(() => { this.setFocusElement(); }, 500);
+    setTimeout(() => { this.setFocusElement(); }, 750);
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
