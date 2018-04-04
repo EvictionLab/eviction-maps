@@ -12,7 +12,7 @@
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
     <app-ui-close-button class="card-dismiss" 
       [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
-      (onPress)="removeCard(f)"
+      (onPress)="removeCard($event, f)"
       (onFocus)="expanded = true"
       (onBlur)="expanded = false"
     ></app-ui-close-button>
