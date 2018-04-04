@@ -11,6 +11,7 @@ import { RankingLocation } from '../ranking-location';
   providers: [DecimalPipe]
 })
 export class RankingPanelComponent {
+  @Input() year: number;
   @Input() rank: number;
   @Input() topCount: number;
   @Input() location: RankingLocation;

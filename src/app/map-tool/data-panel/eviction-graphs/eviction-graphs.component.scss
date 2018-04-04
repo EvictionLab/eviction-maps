@@ -436,7 +436,7 @@ $graphTooltipCircleSize: 10px;
   height: calc(100% - #{grid(5)});
   width:1px;
   border-left: 1px dashed rgba(0,0,0,0.35);
-  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);
+  transition: transform 0.1s cubic-bezier(0, 0.66, 0.66, 1);
   span {
     position:absolute;
     bottom: -1*grid(3);
@@ -449,7 +449,7 @@ $graphTooltipCircleSize: 10px;
 }
 // tooltip transitions
 .tooltip {
-  transition: transform 0.4s cubic-bezier(0, 0.66, 0.66, 1);  
+  transition: transform 0.1s cubic-bezier(0, 0.66, 0.66, 1);  
 }
 // tooltip container classes
 .line-tooltips, .bar-tooltips {
@@ -478,6 +478,7 @@ $graphTooltipCircleSize: 10px;
   // nudge arrow outside of wrapper 
   &.right {
     .tooltip-wrapper .tooltip-arrow {
+      top:50%;
       left: -1*$tooltipArrowSize;
     }
   }
@@ -487,6 +488,7 @@ $graphTooltipCircleSize: 10px;
       transform: translateX(-74px);
       transform: translateX(calc(-100% - #{grid(3)}));
       .tooltip-arrow {
+        top:50%;
         right: -1*$tooltipArrowSize;
       }
     }

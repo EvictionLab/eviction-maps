@@ -13,11 +13,15 @@
 @import './theme/base/popovers';
 @import './theme/base/tooltips';
 @import './theme/base/inputs';
-@import './theme/base/hero';
-@import './theme/base/menu';
-@import './theme/base/header';
-@import './theme/base/footer';
-@import './theme/base/hacks';
+
+@media screen {
+  @import './theme/base/hacks';
+  @import './theme/base/hero';
+  @import './theme/base/menu';
+  @import './theme/base/header';
+  @import './theme/base/footer';
+}
+
 
 // PAGE STYLES
 
@@ -52,20 +56,6 @@ a:focus {
 }
 a:focus {
   @include focusState();
-}
-
-
-.footer {
-  padding: 64px 0;
-  background: rgb(43,43,43);
-  height:400px;
-  margin: 24px 0 0 0;
-  width:100%;
-  .placeholder {
-    max-width: 840px;
-    margin:auto;
-    img { width:100%; }
-  }
 }
 
 // page content max dimensions
@@ -210,3 +200,8 @@ a:focus {
   display: none;
 }
 
+
+/** Override styles for print */
+@media print {
+  @import './theme/print.scss';
+}

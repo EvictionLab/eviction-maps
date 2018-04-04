@@ -1,10 +1,14 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener
+  Component, OnInit, Input, Output, EventEmitter, HostBinding, HostListener, ViewChildren,
+  QueryList, Inject, ElementRef
 } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { DOCUMENT } from '@angular/common';
 import { trigger, transition, style, animate, state } from '@angular/animations';
 import { DecimalPipe } from '@angular/common';
 import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
+import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 
 @Component({
   selector: 'app-location-cards',
@@ -115,6 +119,8 @@ export class LocationCardsComponent implements OnInit {
   @HostBinding('class.no-cards') get noCards() {
     return this.features.length === 0;
   }
+  /** Used for hiding all tooltips on touchstart */
+  @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** determines if cards are expanded (map view) */
   expanded = true;
   /** Maximum number of characters for location name */
@@ -124,7 +130,11 @@ export class LocationCardsComponent implements OnInit {
   /** Stores which properties should be $ formatted */
   private dollarProps;
 
-  constructor(private decimal: DecimalPipe) {}
+  constructor(
+    public el: ElementRef,
+    private decimal: DecimalPipe,
+    @Inject(DOCUMENT) private document: any
+  ) {}
 
   ngOnInit() {
     if (this.collapsible) { this.expanded = false; }
@@ -138,6 +148,11 @@ export class LocationCardsComponent implements OnInit {
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
     this.expanded = this.collapsible ? false : true;
+  }
+
+  removeCard(e, feature) {
+    this.dismissedCard.emit(feature);
+    this.setFocusElement(e);
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
@@ -209,6 +224,40 @@ export class LocationCardsComponent implements OnInit {
       return '>100';
     }
     return this.decimal.transform(feat.properties[prop.yearAttr], '1.0-2');
+  }
+
+  /**
+   * Hide all tooltips on touchstart
+   * @param event
+   */
+  onTooltipShown(event: any) {
+    Observable.fromEvent(this.document, 'touchstart')
+      .take(1)
+      .subscribe(e => this.tooltips.forEach(t => t.hide()));
+  }
+
+  /** Sets focus to the appropriate element in the cards */
+  private setFocusElement(e) {
+    if (this.allowAddLocation) {
+      // focus input to add another location if it exists
+      const focusInput = this.el.nativeElement.getElementsByTagName('input');
+      if (focusInput.length) { focusInput[0].focus(); }
+      return;
+    }
+    // focus button element if no input
+    // card 3 closed focus card 2, card 2 closed focus card 1, card 1 closed focus card 2
+    const focusButtons = this.el.nativeElement.getElementsByClassName('btn-icon');
+    let focusButton;
+    let next = false;
+    for (let i = focusButtons.length - 1; i > -1; i--) {
+      if (focusButtons[i] !== e.target) {
+        focusButton = focusButtons[i];
+        if (next) { break; }
+      } else {
+        next = true; // flag to use the next element in the loop
+      }
+    }
+    if (focusButton) { focusButton.focus(); }
   }
 
   /** Add a reference to the current year property name for each data attribute */

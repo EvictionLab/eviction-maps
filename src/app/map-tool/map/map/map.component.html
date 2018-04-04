@@ -1,4 +1,4 @@
-<div class="map-ui-wrapper">
+<div class="map-ui-wrapper map-dropdowns">
   <div class="map-ui" [class.active]="activeMenuItem === 'map'">
     <app-ui-select
       class="eviction-select"
@@ -27,7 +27,7 @@
       labelProperty="name"
       [selectedValue]="selectedLayer"
       [values]="selectDataLevels" 
-      [bottomLabel]="selectDataLevels.length < layerOptions.length ? ('MAP.ZOOM_HINT' | translate) : false"
+      [bottomLabel]="selectDataLevels.length < (layerOptions.length + 1) ? ('MAP.ZOOM_HINT' | translate) : false"
       (change)="setGroupVisibility($event, 'dropdown')">
     </app-ui-select>
     <button class="btn btn-icon overview z1" (click)="helpClick.emit()" [attr.aria-label]="'MAP.FEATURE_OVERVIEW_LABEL' | translate">

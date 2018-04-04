@@ -19,6 +19,7 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
   }
   get activeMenuItem() { return this.state.menuItem; }
   @Input() languageOptions = [];
+  @Input() activeComponentId: string;
 
   @Output() activeMenuItemChange = new EventEmitter();
   @Output() selectLocation = new EventEmitter();

@@ -38,6 +38,9 @@ export class UiSelectComponent implements OnInit {
   private scrollMax = 0;
   private listEls = [];
   private listTimeout = null;
+  private toggleEl;
+
+  constructor(public el: ElementRef) {}
 
   /**
    * set the selected value to the first item if no selected value is given
@@ -52,6 +55,7 @@ export class UiSelectComponent implements OnInit {
         (this._selectedValue.id && this._selectedValue.id === 'none');
     }
   }
+
 
   /**
    * Gets the value from `labelProperty` on the value object, or
@@ -68,11 +72,16 @@ export class UiSelectComponent implements OnInit {
    * Set open status, reset scrollTop in dropdown
    */
   onIsOpenChange() {
+    if (!this.toggleEl) {
+      this.toggleEl = this.el.nativeElement.getElementsByClassName('dropdown-toggle')[0];
+    }
     this.open = this.dropdown.isOpen;
     if (this.dropdownList) {
       this.dropdownList.nativeElement.scrollTop = 0;
       this.setScrollMax();
     }
+    // restore focus to toggle button
+    if (!this.open && this.toggleEl) { this.toggleEl.focus(); }
   }
 
   /**

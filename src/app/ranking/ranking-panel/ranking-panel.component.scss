@@ -313,6 +313,8 @@
   right: $pageMargin;
   top: -1*$pageMargin;
   transform: translate3d(0,-100%,0);
+  // So it shows on top of scroll to top button
+  z-index: 20;
   .icon {
     height: grid(2.5);
     width: grid(2.5);

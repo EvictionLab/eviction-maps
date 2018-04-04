@@ -422,7 +422,11 @@ export class MapToolService {
   /** Adds a string of property names that are in the 99th percentile for the feature */
   addFlaggedProps(feature: MapFeature) {
     this.getOutliers().take(1).subscribe(flagValues => {
-      if (!flagValues || !feature.properties.layerId) { return; }
+      if (
+        !flagValues ||
+        !feature.properties.layerId ||
+        !(feature.properties.layerId in flagValues)
+      ) { return; }
       const percentileVals = flagValues[feature.properties.layerId];
       const flaggedProps = Object.keys(percentileVals);
       feature['highProps'] = flaggedProps

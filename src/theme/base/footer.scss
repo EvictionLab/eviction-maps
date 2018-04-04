@@ -429,3 +429,8 @@ footer {
     margin-left: grid(36); 
   }
 }
+
+// No credits on map tool
+.map-tool .footer-credits {
+  display: none;
+}

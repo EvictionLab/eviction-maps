@@ -13,8 +13,8 @@
       (click)="locationSelected.emit(i)"
       [attr.aria-label]="getAriaLabel(i+1, listItem)"
     >
-      <span class="ranking-number">{{ i + 1 }}</span>
-      <div class="ranking-bar" [style.width]="''+(100*(listItem[dataProperty.value]/maxValue))+'%'"></div>
+      <span class="ranking-number">{{ listItem[dataProperty.value] >= 0 ? i + 1 : ('RANKINGS.NA_RANK' | translate) }}</span>
+      <div class="ranking-bar" [style.width]="barWidth(listItem)"></div>
       <div class="ranking-content">
         <span class="ranking-name">{{ listItem[propertyMap.primary] }}</span><span class="place-separator">,</span>
         <span class="ranking-parent">{{listItem[propertyMap.secondary]}}</span>

@@ -33,7 +33,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set region(regionValue) {
     if (!regionValue) { return; }
     if (regionValue !== this.store.region) {
-      console.log('set region', regionValue, this.store.region);
+      this.debug('set region', regionValue, this.store.region);
       this.store.region = regionValue;
       this.updateEvictionList();
     }
@@ -45,9 +45,10 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set areaType(newType) {
     if (!newType) { return; }
     if ((!this.store.areaType || newType.value !== this.store.areaType.value) && newType) {
-      console.log('set areaType', newType, this.store.areaType);
+      this.debug('set areaType', newType, this.store.areaType);
       this.store.areaType = newType;
       this.updateEvictionList();
+      this.trackAreaChange();
     }
   }
   get areaType() { return this.store.areaType; }
@@ -57,9 +58,10 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   set dataProperty(newProp) {
     if (!newProp) { return; }
     if ((!this.store.dataProperty || newProp.value !== this.store.dataProperty.value) && newProp) {
-      console.log('set dataProp', newProp, this.store.dataProperty);
+      this.debug('set dataProp', newProp, this.store.dataProperty);
       this.store.dataProperty = newProp;
       this.updateEvictionList();
+      this.trackRankByChange();
     }
   }
   get dataProperty() { return this.store.dataProperty; }
@@ -131,11 +133,11 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.store.areaType = this.rankings.areaTypes[0];
     this.store.dataProperty = this.rankings.sortProps[0];
     this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
+    this.debug('init');
   }
 
   /** subscribe to when the rankings data is ready, show loading */
   ngOnInit() {
-    this.loader.start('evictions');
     this.rankings.isReady.takeUntil(this.destroy)
       .subscribe((ready) => {
         this.isDataReady = ready;
@@ -144,10 +146,14 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
           this.loader.end('evictions');
         }
       });
+    this.translate.onLangChange.subscribe((l) => {
+      this.updateQueryParam('lang', l.lang);
+    });
   }
 
   /** load data once the view has been initialized */
   ngAfterViewInit() {
+    this.loader.start('evictions');
     this.rankings.loadEvictionsData();
     // list takes a bit to render, so setup page scroll in a timeout instead
     setTimeout(() => { this.setupPageScroll(); }, 500);
@@ -178,7 +184,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Updates one of the query parameters and updates the route */
   updateQueryParam(paramName: string, value: any) {
     if (!this.canNavigate) { return; }
-    if (paramName === 'region' || paramName === 'areaType' || paramName === 'dataProperty') {
+    if (paramName === 'r' || paramName === 'a' || paramName === 'd') {
       this.selectedIndex = null;
     }
     const params = this.getQueryParams();
@@ -189,19 +195,19 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Update the route when the region changes */
   onRegionChange(newRegion: string) {
     if (newRegion === this.region) { return; }
-    this.updateQueryParam('region', newRegion);
+    this.updateQueryParam('r', newRegion);
   }
 
   /** Update the route when the area type changes */
   onAreaTypeChange(areaType: { name: string, value: number }) {
     if (this.areaType && areaType.value === this.areaType.value) { return; }
-    this.updateQueryParam('areaType', areaType.value);
+    this.updateQueryParam('a', areaType.value);
   }
 
   /** Update the sort property when the area type changes */
   onDataPropertyChange(dataProp: { name: string, value: string }) {
     if (this.dataProperty && dataProp.value === this.dataProperty.value) { return; }
-    this.updateQueryParam('dataProperty', dataProp.value);
+    this.updateQueryParam('d', dataProp.value);
   }
 
   /** Update current location, shows toast if data unavailable */
@@ -212,7 +218,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     const value = (locationIndex || locationIndex === 0) ? locationIndex : null;
-    this.updateQueryParam('selectedIndex', value);
+    this.updateQueryParam('l', value);
   }
 
   /**
@@ -221,7 +227,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    * the location
    * @param location
    */
-  onSearchSelectLocation(location: RankingLocation | null) {
+  onSearchSelectLocation(e: { selection: RankingLocation, queryTerm: string } | null) {
+    let location: RankingLocation = null;
+    if (e.selection) { location = e.selection; }
     if (location === null) { return this.setCurrentLocation(null); }
     this.showUiPanel = false;
     let listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
@@ -235,11 +243,13 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
       this.setCurrentLocation(listIndex);
     }
+    this.trackSearchSelection(location, e.queryTerm);
   }
 
   /** handles the click on a specific location */
   onClickLocation(index: number) {
     this.setCurrentLocation(index);
+    this.trackLocationSelection(this.listData[index]);
   }
 
   /** Switch the selected location to the next one in the list */
@@ -275,7 +285,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.canNavigate || !this.listData) { return ''; }
     this.tweet = this.isDefaultSelection() ? this.getDefaultTweet() :
       (this.isLocationSelected() ? this.getLocationTweet() : this.getRegionTweet());
-    this.debug('updated tweet: ', this.tweet);
+    this.debug('updated tweet - ', this.tweet);
   }
 
   scrollToTop() {
@@ -288,6 +298,47 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         focusableEl[0].blur();
       }
     }, this.scroll.defaultDuration);
+  }
+
+  /** Get location selected data for analytics tracking */
+  private getSelectedData(location: RankingLocation): any {
+    return {
+      locationSelected: location.displayName,
+      locatonSelectedLevel: this.rankings.areaTypes[location.areaType].langKey,
+    };
+  }
+
+  /** Gets the selected filters for analytics tracking */
+  private getSelectedFilters() {
+    return {
+      area: this.areaType.langKey,
+      rankBy: this.dataProperty.langKey,
+      region: this.region
+    };
+  }
+
+  private trackAreaChange() {
+    this.analytics.trackEvent('rankingsAreaSelection', this.getSelectedFilters());
+  }
+
+  private trackRankByChange() {
+    this.analytics.trackEvent('rankingsRankBySelection', this.getSelectedFilters());
+  }
+
+  /** Track when a location is selected */
+  private trackLocationSelection(location: RankingLocation, method = 'list') {
+    const selectedEvent: any = this.getSelectedData(location);
+    selectedEvent.locationFindingMethod = method;
+    this.analytics.trackEvent('locationSelection', selectedEvent);
+  }
+
+  /** Track when an option in search is selected. */
+  private trackSearchSelection(location: RankingLocation, term: string) {
+    this.trackLocationSelection(location, 'search');
+    const searchEvent = {
+      locationSearchTerm: term, ...this.getSelectedData(location), locationFindingMethod: 'search'
+    };
+    this.analytics.trackEvent('searchSelection', searchEvent);
   }
 
   private setupPageScroll() {
@@ -314,13 +365,15 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   private getQueryParams() {
     // this.selectedIndex
     const params = {
-      lang: this.translate.currentLang,
-      region: this.region,
-      areaType: this.areaType.value,
-      dataProperty: this.dataProperty.value
+      r: this.region,
+      a: this.areaType.value,
+      d: this.dataProperty.value
     };
+    if (this.translate.currentLang !== 'en') {
+      params['lang'] = this.translate.currentLang;
+    }
     if (this.selectedIndex || this.selectedIndex === 0) {
-      params['selectedIndex'] = this.selectedIndex;
+      params['l'] = this.selectedIndex;
     }
     return params;
   }
@@ -397,15 +450,19 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_JUDGMENT') :
       this.translatePipe.transform('RANKINGS.SHARE_PASSIVE_FILING');
     const state = this.rankings.stateData.find(s => s.name === this.region);
+    if (state[this.dataProperty.value] < 0) {
+      return this.getFallbackTweet();
+    }
     let amount = this.isRateValue() ?
       this.cappedRateValue(state[this.dataProperty.value]) :
       this.decimal.transform(state[this.dataProperty.value]);
     amount = this.isRateValue() ?
       this.translatePipe.transform('RANKINGS.SHARE_PERCENT_OF', { amount }) :
       amount;
+    const areaType = this.translatePipe.transform(this.areaType.langKey).toLowerCase();
     const hadAmount = this.isRateValue() ?
-      this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE') :
-      this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT');
+      this.translatePipe.transform('RANKINGS.SHARE_HAD_RATE', { areaType }) :
+      this.translatePipe.transform('RANKINGS.SHARE_HAD_COUNT', { areaType });
     const topArea = this.listData.length > 0 ?
       this.translatePipe.transform(
         'RANKINGS.SHARE_REGION_TOP_AREA', { topArea: this.listData[0].name, hadAmount }
@@ -419,6 +476,15 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_REGION_UNAVAILABLE', regionParams);
     return this.translatePipe.transform('RANKINGS.SHARE_REGION_NO_SELECTION', {
       regionAmount, topArea, link: this.platform.currentUrl()
+    });
+  }
+
+  /**
+   * Creates fallback tweet for states where data is unavailable
+   */
+  private getFallbackTweet() {
+    return this.translatePipe.transform('RANKINGS.SHARE_FALLBACK', {
+      link: this.platform.currentUrl()
     });
   }
 
@@ -494,6 +560,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private debug(...args) {
     // tslint:disable-next-line
-    environment.production || !this._debug ? null : console.debug.apply(console, args);
+    environment.production || !this._debug ? null : console.debug.apply(console, [ 'evictions: ', ...args]);
   }
 }

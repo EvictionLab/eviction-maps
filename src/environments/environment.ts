@@ -23,7 +23,7 @@ export const environment = {
   downloadBaseUrl: 'https://exports-dev.evictionlab.org',
   minYear: 2000,
   maxYear: 2016,
-  rankingsYear: 2015,
+  rankingsYear: 2016,
   appVersion: version + '-dev',
   siteNav: [
     { url: '/', langKey: 'NAV.HOME' },
@@ -44,7 +44,7 @@ export const environment = {
     { url: '/methods', langKey: 'NAV.METHODS' },
     { url: '/help-faq', langKey: 'NAV.HELP' },
     { url: '/updates', langKey: 'NAV.UPDATES' },
-    { url: '/contact-us', langKey: 'NAV.CONTACT_US' },
+    { url: '/contact', langKey: 'NAV.CONTACT_US' },
     { url: '/get-the-data', langKey: 'NAV.GET_DATA' },
     { url: '/data-merge', langKey: 'NAV.DATA_MERGE' }
   ]

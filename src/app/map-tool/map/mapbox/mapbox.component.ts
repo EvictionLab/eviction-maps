@@ -114,9 +114,7 @@ export class MapboxComponent implements AfterViewInit {
       return;
     }
     this.activeFeature = feature;
-    console.time('time: union feature');
     const union = this.mapService.getUnionFeature(this.selectedLayer.id, feature);
-    console.timeEnd('time: union feature');
     if (union !== null) {
       union.properties['color'] = this.hoverColors[this.featureCount];
       if (this.featureCount < 3) {

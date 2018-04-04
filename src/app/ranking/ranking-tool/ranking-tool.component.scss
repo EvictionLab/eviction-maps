@@ -93,9 +93,9 @@ $panelHeightLg: 194px;
 // nav bar is sticky on tablet+
 @media(min-width: $gtMobile) {
   .nav-bar {
-    position: sticky;
+    position: relative;
     z-index:998;
-    top: $headerHeightSm - 1px; // fix 1px showing through
+    top: 0;
     height: grid(8);
     ul {
       flex-direction: row;
@@ -117,6 +117,12 @@ $panelHeightLg: 194px;
           border-bottom: grid(0.5) solid $color1;
         }
       }
+    }
+  }
+  @supports(position: sticky) {
+    .nav-bar {
+      position: sticky;
+      top: $headerHeightSm - 1px; // fix 1px showing through
     }
   }
 }
@@ -322,12 +328,12 @@ app-ranking-ui.ranking-ui-panel {
   bottom:0;
   left:0;
   right:0;
-  background: $white;
   z-index:21;
-  box-shadow: $z1shadow;
   transition: transform 0.4s ease;
   transform: translate3d(0, 100%, 0);
   &.visible {
+    background: $white;
+    box-shadow: $z1shadow;
     transform: translate3d(0,0,0);
   }
   app-ranking-panel {
@@ -349,7 +355,8 @@ app-ranking-ui.ranking-ui-panel {
   z-index: 20;
   border-radius:0;
   transition: transform 0.2s ease-in-out;
-  transform: translate3d(250%, 0, 0);
+  // Disappear vertically instead of horizontally
+  transform: translate3d(0, 150%, 0);
   .icon {
     width: 13px;
     height: 13px;
@@ -364,9 +371,13 @@ app-ranking-ui.ranking-ui-panel {
     .icon { fill: $white; }
   }
 }
+
 // shift to the left of the close button when panel is open
-.visible .btn.btn-icon.scroll-to-top-button.visible {
-  transform: translate3d((-1*grid(6)), 0, 0);
+.visible .btn.btn-icon.scroll-to-top-button {
+  transform: translate3d(0, 0, 0);
+  &.visible {
+    transform: translate3d((-1*grid(6)), 0, 0);
+  }
 }
 
 @media(min-width: $gtMobile) {

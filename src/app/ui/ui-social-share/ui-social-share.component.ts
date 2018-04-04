@@ -49,7 +49,7 @@ export class UiSocialShareComponent {
 
   shareTwitter() {
     this.trackShare('twitter');
-    const href = 'http://twitter.com/intent/tweet?status=' + this.platform.urlEncode(this.tweet);
+    const href = 'https://twitter.com/intent/tweet?text=' + this.platform.urlEncode(this.tweet);
     this.openWindow(href);
   }
 

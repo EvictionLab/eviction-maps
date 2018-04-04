@@ -1,9 +1,10 @@
-<app-progress-bar [indeterminate]="loader.isLoading"></app-progress-bar>
+<app-progress-bar [indeterminate]="isLoading"></app-progress-bar>
 <app-header-bar
   role="banner"
   [class.condensed]="!isAtTop"
   [activeMenuItem]="currentMenuItem"
   [languageOptions]="languageOptions"
+  [activeComponentId]="activeComponentId"
   (activeMenuItemChange)="onMenuSelect($event)"
   (selectLocation)="onSearchSelect($event)"
   (initialInput)="onInitialSearchInput()"
