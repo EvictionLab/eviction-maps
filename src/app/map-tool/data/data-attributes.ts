@@ -145,6 +145,7 @@ export const DataAttributes: Array<MapDataAttribute> = [
     'id': 'ph',
     'type': 'choropleth',
     'langKey': 'STATS.PCT_HISPANIC',
+    'hintKey': 'HINTS.HISPANIC',
     'order': 14,
     'default': 'rgba(0, 0, 0, 0)',
     'format': 'percent',
