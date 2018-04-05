@@ -328,12 +328,12 @@ app-ranking-ui.ranking-ui-panel {
   bottom:0;
   left:0;
   right:0;
-  background: $white;
   z-index:21;
-  box-shadow: $z1shadow;
   transition: transform 0.4s ease;
   transform: translate3d(0, 100%, 0);
   &.visible {
+    background: $white;
+    box-shadow: $z1shadow;
     transform: translate3d(0,0,0);
   }
   app-ranking-panel {

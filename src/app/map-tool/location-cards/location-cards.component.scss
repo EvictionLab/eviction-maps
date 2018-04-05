@@ -419,9 +419,10 @@
       padding: grid(3) 0 grid(2) 0;
       @include smallCapsText(12px);
       .card-stat-label { 
-        width:100%; 
         color: $grey_wcag; 
+        margin: auto;
         text-align:center; 
+        border-bottom: $tooltipTriggerBorder;
       }
     }
   }
