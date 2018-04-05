@@ -77,7 +77,7 @@
     "EVICTION_FILING_RATE": "Represents the number of eviction filings per 100 renter homes.",
     "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more.",
     "HISPANIC": "Represents the % of the population of Hispanic or Latino origin and any race according to the Census.",
-    "DEMOGRAPHICS": "Race/ethnicity breakdown of the area's overall population."
+    "DEMOGRAPHICS": "Population estimates of the area's overall population."
   },
   "LAYERS": {
     "STATES": "States",
