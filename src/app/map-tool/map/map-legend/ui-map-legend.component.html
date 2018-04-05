@@ -1,6 +1,6 @@
 <div class="map-legend">
   <div class="legend-item small-bubble bubble-no-data" *ngIf="hasBubbles">
-    <span>No Data</span>
+    <span>{{ noData }}</span>
     <div class="legend-circle"></div>
   </div>
   <div class="legend-item small-bubble" *ngIf="hasBubbles">
@@ -13,7 +13,7 @@
   </div>
   <div class="legend-divider" *ngIf="hasBubbles && hasChoropleth"></div>
   <div class="legend-item choropleth-no-data" *ngIf="hasChoropleth">
-    <span>No Data</span>
+    <span>{{ noData }}</span>
     <div class="no-data-square"></div>
   </div>
   <div class="legend-item choropleth-legend" *ngIf="hasChoropleth" [style.background]="legendGradient">
