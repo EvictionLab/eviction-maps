@@ -52,6 +52,14 @@ html.embedded {
   // fix disappearing legend
   .map-ui-wrapper { height: 100vh!important; }
 }
+
+// Shrink legend tooltip to make sure it fits
+.tooltip-inner {
+  padding: 4px;
+  font-size: 11px;
+  max-width: 360px;
+}
+
 @media(min-width: $gtMobile) {
   .embed app-ui-map-legend { bottom: $pageMarginLg!important; }
 }
