@@ -9,6 +9,7 @@ import { DecimalPipe } from '@angular/common';
 import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
 import { TooltipDirective } from 'ngx-bootstrap/tooltip';
+import { PlatformService } from '../../services/platform.service';
 
 @Component({
   selector: 'app-location-cards',
@@ -133,6 +134,7 @@ export class LocationCardsComponent implements OnInit {
   constructor(
     public el: ElementRef,
     private decimal: DecimalPipe,
+    private platform: PlatformService,
     @Inject(DOCUMENT) private document: any
   ) {}
 
@@ -224,6 +226,25 @@ export class LocationCardsComponent implements OnInit {
       return '>100';
     }
     return this.decimal.transform(feat.properties[prop.yearAttr], '1.0-2');
+  }
+
+  /**
+   * Sets the tooltip position based on the card and property index, screen size,
+   * and the number of properties for the location cards.
+   * @param cardIdx
+   * @param propIdx
+   */
+  tooltipPos(cardIdx: number, propIdx: number): string {
+    if (this.platform.isLargerThanTablet) {
+      return 'right';
+    }
+    // If there are fewer than 4 props, it's the map cards
+    if (this._cardProps.length < 4) {
+      // The last displayed property should have position top
+      return propIdx < this._cardProps.length - 1 ? 'right' : 'top';
+    }
+    // If it's the data panel, return top for all items on the 3rd card
+    return cardIdx < 2 ? 'right' : 'top';
   }
 
   /**

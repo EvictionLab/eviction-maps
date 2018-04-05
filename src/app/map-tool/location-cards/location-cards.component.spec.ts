@@ -4,6 +4,7 @@ import { TypeaheadModule, TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 import { LocationCardsComponent } from './location-cards.component';
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsModule } from './location-cards.module';
+import { PlatformService } from '../../services/platform.service';
 
 describe('LocationCardsComponent', () => {
   let component: LocationCardsComponent;
@@ -11,7 +12,8 @@ describe('LocationCardsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule, LocationCardsModule ]
+      imports: [ FormsModule, TypeaheadModule.forRoot(), UiModule, LocationCardsModule ],
+      providers: [ PlatformService ]
     })
     .compileComponents();
   }));
