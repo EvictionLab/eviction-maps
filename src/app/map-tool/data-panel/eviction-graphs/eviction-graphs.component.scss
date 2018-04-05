@@ -224,7 +224,7 @@
         width:grid(6);
         text-align:center; 
         @include altSmallCapsTextMedium(16px);
-        color: $graphAxisLabels;
+        color: $offTextColor;
       }
       &.selected span {
         @include altSmallCapsText(16px);

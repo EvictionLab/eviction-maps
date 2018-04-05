@@ -12,6 +12,7 @@
   text-align: center;  
   padding: grid(3) grid(4) 0;
   p { margin:0; }
+  > p { color: $grey_wcag; }
 }
 // increase header spacing for devices larger than mobile
 @media(min-width: $gtMobile) {
@@ -92,7 +93,7 @@ app-location-cards {
   .btn { 
     @include altSmallCapsText(13px);
     border: 5px solid $grey5;
-    color: $grey1a;
+    color: $grey_wcag;
     text-align: center;
     display:block;
     line-height:32px;
@@ -110,7 +111,7 @@ app-location-cards {
     display: block;
     margin: grid(2) auto grid(2);
     @include defaultFont(14px);
-    color: $grey1; 
+    color: $grey_wcag; 
   }
 }
 // move icon to the left on tablet
@@ -164,7 +165,7 @@ app-location-cards {
   .btn .icon {
     width: grid(2.5);
     height: grid(2.5);
-    fill: $grey1;
+    fill: $grey_wcag;
   }
   .btn:hover .icon {
     fill: $black;

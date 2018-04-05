@@ -395,7 +395,7 @@ app-ranking-ui.ranking-ui-panel {
   justify-content: flex-start;
   .share-intro {
     @include altSmallCapsText(12px);
-    color: $grey1a;
+    color: $grey_wcag;
     margin-right: grid(1);
   }
   app-ui-social-share {
