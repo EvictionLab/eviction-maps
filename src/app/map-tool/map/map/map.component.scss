@@ -68,9 +68,12 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: center;
-  margin: grid(1) grid(4);
+  margin: grid(1);
   opacity: 1;
   transition: opacity 0.6s;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 :host-context(.cards-active) .mobile-scroll-indicator {
