@@ -169,6 +169,11 @@ export class LocationCardsComponent implements OnInit {
     return feature['lowProps'].indexOf(prop) > -1;
   }
 
+  /** Special case to check for the Maryland eviction filing rate */
+  isMarylandFiling(feature, prop: string) {
+    return feature.properties['GEOID'] === '24' && prop === 'efr';
+  }
+
   getAbbrYear() {
     if (!this.year) { return; }
     return this.year.toString().slice(-2);
