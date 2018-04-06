@@ -108,11 +108,12 @@ $panelHeightLg: 194px;
     position: relative;
     z-index:998;
     top: 0;
-    height: grid(6);
+    height: grid(8);
     ul li { 
       @include altFont(16px);
       text-transform: none;
       height: 100%;
+      padding: grid(1) 0;
       a { line-height: grid(6); }
       &:first-child { margin-right: grid(4); }
       &.active {
