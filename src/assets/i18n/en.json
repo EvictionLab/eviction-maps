@@ -61,7 +61,7 @@
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
-    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select.",
+    "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
     "LOADING": "Loading"
   },
   "HEADER": {
@@ -97,6 +97,7 @@
     "LAYER_SELECT": "Map Level",
     "ZOOM_HINT": "Zoom for More",
     "CHORO_LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
+    "CHORO_LEGEND_HINT_ALT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
     "BUBBLE_LEGEND_HINT": "The bubbles represent the {{attribute}}.",
     "DATA_LINK_SINGLE": "View More Data",
     "DATA_LINK_MULTIPLE": "View Full Comparison",
@@ -141,6 +142,7 @@
   },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
+    "NO_DATA": "No data",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",
     "JUDGMENT_RATE": "Eviction Rate",
@@ -179,7 +181,6 @@
     "TOP_EVICTING_AREAS": "Top Evicting Areas",
     "TOP_EVICTORS": "Top Evictors",
     "COMING_SOON": "Coming Soon",
-    "HIGHEST": "Highest",
     "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area in {{year}}.  That amounts to {{evictionsPerDay}} households evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "PANEL_SUMMARY_SINGULAR": "There was {{evictions}} eviction in the {{name}} area in {{year}}.  That amounts to {{evictionsPerDay}} households evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. Scroll through the list or use the search bar to find a place. To refine your results, choose an area type and a data type. You can also search within states using the Region menu.",
@@ -201,7 +202,8 @@
     "SHARE_REGION_AMOUNT": "{{amount}} renter homes {{action}} in {{region}} in {{year}}.",
     "SHARE_REGION_TOP_AREA": " {{topArea}} {{hadAmount}}.",
     "SHARE_REGION_NO_SELECTION": "{{regionAmount}}{{topArea}} Find out where your city ranks at {{link}}",
-    "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
+    "SHARE_SELECTION_RATE": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
+    "SHARE_SELECTION_TOTAL": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
     "SHARE_FALLBACK": "Eviction Rankings: Find out how your city compares at {{link}}",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",

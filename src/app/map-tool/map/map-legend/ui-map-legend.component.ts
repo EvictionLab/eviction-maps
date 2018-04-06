@@ -27,6 +27,7 @@ export class UiMapLegendComponent implements OnChanges {
   maxBubbleValue: number;
   hasBubbles = false;
   hasChoropleth = false;
+  noData: string;
   hintData;
   legendGradient;
 
@@ -58,12 +59,16 @@ export class UiMapLegendComponent implements OnChanges {
   setHintData() {
     if ((!this.choropleth.name || !this.bubbles.name) || !this.layer.name) { return; }
     const legendText = [];
+    this.noData = this.translatePipe.transform('STATS.NO_DATA');
     if (this.hasChoropleth) {
-      legendText.push(this.translatePipe.transform('MAP.CHORO_LEGEND_HINT', {
+      // Cities and tracts need alt version for Spanish, identical in English
+      const hint = ['cities', 'tracts'].indexOf(this.layer.id) !== -1 ?
+        'MAP.CHORO_LEGEND_HINT' : 'MAP.CHORO_LEGEND_HINT_ALT';
+      legendText.push(this.translatePipe.transform(hint, {
         geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
         attribute: this.choropleth['name'].toLowerCase(),
-        min: this.formatType(this.stops[2]),
-        max: this.formatType(this.stops[this.stops.length - 2])
+        min: this.formatValue(this.stops[2]),
+        max: this.formatValue(this.stops[this.stops.length - 2])
       }));
     }
     if (this.hasBubbles) {
