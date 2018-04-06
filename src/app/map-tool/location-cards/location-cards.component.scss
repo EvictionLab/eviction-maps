@@ -378,12 +378,13 @@
         }
       }
       .card-stat-comparison {
-        font-size: 13px;
+        font-size: 11px;
         display: block;
         position: absolute;
         bottom: grid(1.5);
         right: 0;
         left: 0;
+        white-space: nowrap;
       }
     }
     &:nth-child(2) {
@@ -495,6 +496,7 @@
         height: grid(15);
         .card-stat-label { font-size: $panelCardLabelTextLg_t; }
         .card-stat-value { font-size: $panelCardLabelValueLg_t; }
+        .card-stat-comparison { font-size: 13px; }
       }
       li:nth-child(n+3) { 
         padding: grid(1.5) $defaultPadding; 
