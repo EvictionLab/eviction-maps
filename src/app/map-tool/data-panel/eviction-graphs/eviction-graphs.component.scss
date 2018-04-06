@@ -288,7 +288,8 @@
       // hide the path that creates the edge tick lines
       .axis-x path.domain { display: none; }
       .label-y {
-        @include smallCapsText(10px);
+        @include smallCapsText(12px);
+        text-transform: none;
         fill: $graphAxisLabels;
       }
     }
@@ -310,7 +311,7 @@
 @media(min-width: $gtMobile) {
   .graph-area app-graph {
     ::ng-deep {
-      .label-y { font-size: 12px; }
+      .label-y { text-transform: uppercase; }
     }
   }
 }
