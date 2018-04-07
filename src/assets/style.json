@@ -18,7 +18,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-block-groups-10": {
       "type": "vector",
@@ -26,7 +26,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-tracts-00": {
       "type": "vector",
@@ -34,7 +34,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-tracts-00/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-tracts-10": {
       "type": "vector",
@@ -42,7 +42,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-tracts-10/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-cities-00": {
       "type": "vector",
@@ -50,7 +50,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-cities-00/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-cities-10": {
       "type": "vector",
@@ -58,7 +58,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-cities-10/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-counties-00": {
       "type": "vector",
@@ -66,7 +66,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-counties-00/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-counties-10": {
       "type": "vector",
@@ -74,7 +74,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-counties-10/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-states-00": {
       "type": "vector",
@@ -82,7 +82,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-states-00/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "us-states-10": {
       "type": "vector",
@@ -90,7 +90,7 @@
       "tiles": [
         "https://tiles.evictionlab.org/evictions-states-10/{z}/{x}/{y}.pbf"
       ],
-      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a>"
+      "attribution": "<a href=\"https://evictionlab.org/\" target=\"_blank\">Eviction Lab at Princeton University</a> | <a href=\"https://www.mapbox.com/about/maps/\" target=\"_blank\">© Mapbox</a>"
     },
     "highlight": {
       "type": "geojson",
