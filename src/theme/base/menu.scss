@@ -86,6 +86,8 @@ $menuMargin: grid(5);
       color: $white;
       border-bottom-color: $white;
       text-decoration: none;
+      box-shadow:none;
+      outline: 0;
     }
   }
 }
