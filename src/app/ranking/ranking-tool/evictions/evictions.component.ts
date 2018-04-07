@@ -214,7 +214,6 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Update current location, shows toast if data unavailable */
   setCurrentLocation(locationIndex: number) {
     if (this.selectedIndex === locationIndex) { return; }
-    console.log(this.listData[locationIndex]);
     if (this.isLocationInvalid(locationIndex)) {
       this.showUnavailableToast();
       return;
