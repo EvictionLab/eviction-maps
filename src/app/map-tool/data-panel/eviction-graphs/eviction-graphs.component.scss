@@ -289,6 +289,7 @@
       .axis-x path.domain { display: none; }
       .label-y {
         @include smallCapsText(12px);
+        text-transform: none;
         fill: $graphAxisLabels;
       }
     }
@@ -306,6 +307,15 @@
     }
   }
 }
+
+@media(min-width: $gtMobile) {
+  .graph-area app-graph {
+    ::ng-deep {
+      .label-y { text-transform: uppercase; }
+    }
+  }
+}
+
 .graph-legend {
   max-width: grid(40); // 320px
   margin:auto;

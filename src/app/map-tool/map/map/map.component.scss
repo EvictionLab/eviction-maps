@@ -64,13 +64,17 @@
 }
 
 .mobile-scroll-indicator p {
-  @include defaultFont(14px);
+  @include defaultFont(12px);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-align: center;
   margin: grid(1) grid(4);
   opacity: 1;
   transition: opacity 0.6s;
+}
+
+@media(min-width: $gtMobile) {
+  font-size: 14px;
 }
 
 :host-context(.cards-active) .mobile-scroll-indicator {
