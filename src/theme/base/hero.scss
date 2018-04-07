@@ -3,7 +3,7 @@
 @mixin heroText($size) {
   @include altSmallCapsText($size);
   letter-spacing: 0.11667em;
-  text-shadow: 0 3px 6px rgba(0,0,0,0.16);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.6);
 }
 
 .hero {
