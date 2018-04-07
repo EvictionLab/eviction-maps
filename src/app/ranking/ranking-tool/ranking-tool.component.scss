@@ -92,17 +92,7 @@ $panelHeightLg: 194px;
     }
   }
 }
-@media(min-width: 413px) {
-  .nav-bar {
-    ul { 
-      padding: 0; 
-      flex-direction: row; 
-      justify-content:center; 
-      align-items: center;
-    }
-    ul li { padding: 0 grid(1); }
-  }
-}
+
 // nav bar is sticky on tablet+
 @media(min-width: $gtMobile) {
   .nav-bar {
@@ -110,6 +100,12 @@ $panelHeightLg: 194px;
     z-index:998;
     top: 0;
     height: grid(8);
+    ul { 
+      padding: 0; 
+      flex-direction: row; 
+      justify-content:center; 
+      align-items: center;
+    }
     ul li { 
       @include altFont(16px);
       text-transform: none;
