@@ -49,6 +49,8 @@
     padding: 0 $pageMarginLg;    
   }
 }
+// no shadow on rankings
+.ranking-tool .header-wrapper { box-shadow: none; }
 
 // Search
 // ---
