@@ -1,7 +1,7 @@
 <div 
-  [@cards]="getCardState(i+1)" 
-  *ngFor="let f of features; let i = index; trackBy: trackCards" 
-  [class]="'location-card card card-' + i"
+  [@cards]="getCardState(idx+1)" 
+  *ngFor="let f of features; let idx = index; trackBy: trackCards" 
+  [class]="'location-card card card-' + idx"
 >
   <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">
     <app-ui-icon class="marker" icon="marker"></app-ui-icon>
@@ -31,7 +31,7 @@
           *ngIf="prop.id !== 'divider'"
           [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
           [attr.tabindex]="prop.hintKey ? 0 : null"
-          placement="right"
+          [placement]="tooltipPos(idx, i)"
           container="body"
           triggers="hover touchend focus"
           (focus)="expanded = true"
@@ -45,8 +45,19 @@
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
           <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
           <app-ui-hint *ngIf="isLowProp(f, prop.id)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_LOW' | translate"></app-ui-hint>
+          <app-ui-hint *ngIf="isMarylandFiling(f, prop.id)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>
         </div>
-        <span *ngIf="prop.id === 'divider'" class="card-stat-label">{{ 'STATS.DEMOGRAPHICS' | translate }}</span>
+        <span *ngIf="prop.id === 'divider'"
+          class="card-stat-label"
+          [tooltip]="'HINTS.DEMOGRAPHICS' | translate"
+          [attr.tabindex]="0"
+          placement="top"
+          container="body"
+          triggers="hover touchend focus"
+          (onShown)="onTooltipShown($event)"
+        >
+          {{ 'STATS.DEMOGRAPHICS' | translate }}
+        </span>
       </li>
     </ul>
   </div>

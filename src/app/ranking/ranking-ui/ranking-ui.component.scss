@@ -33,7 +33,7 @@ app-ui-close-button {
     @include altSmallCapsText(12px);
     line-height:1;
     margin:grid(2) 0 grid(2) 0;
-    color: $grey1a;
+    color: $grey_wcag;
   }
 }
 @media(min-width: $gtMobile) {
@@ -70,7 +70,7 @@ app-ui-hint {
       .icon { 
         width: grid(2); 
         height: grid(2);
-        svg { fill: $grey2; }
+        svg { fill: $grey_wcag; }
       }
     }
   }

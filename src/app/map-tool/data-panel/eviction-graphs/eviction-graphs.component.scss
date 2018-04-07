@@ -224,7 +224,7 @@
         width:grid(6);
         text-align:center; 
         @include altSmallCapsTextMedium(16px);
-        color: $graphAxisLabels;
+        color: $offTextColor;
       }
       &.selected span {
         @include altSmallCapsText(16px);
@@ -285,6 +285,8 @@
       .axis-x .tick {
         line { display:none; }
       }
+      // hide the path that creates the edge tick lines
+      .axis-x path.domain { display: none; }
       .label-y {
         @include smallCapsText(12px);
         fill: $graphAxisLabels;

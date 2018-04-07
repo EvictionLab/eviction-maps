@@ -148,6 +148,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     this.translate.onLangChange.subscribe((l) => {
       this.updateQueryParam('lang', l.lang);
+      this.updateTweet();
     });
   }
 
@@ -428,8 +429,13 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translatePipe.transform('RANKINGS.SHARE_RATE') :
       this.translatePipe.transform('RANKINGS.SHARE_TOTAL');
     const ranking =
-      `${this.selectedIndex + 1}${this.rankings.ordinalSuffix(this.selectedIndex + 1)}`;
-    return this.translatePipe.transform('RANKINGS.SHARE_SELECTION', {
+      `${this.selectedIndex + 1}${this.rankings.ordinalSuffix(
+        this.selectedIndex + 1, this.isRateValue()
+      )}`;
+    // Needs to be split because of gender in Spanish
+    const translationKey = this.isRateValue() ?
+      'RANKINGS.SHARE_SELECTION_RATE' : 'RANKINGS.SHARE_SELECTION_TOTAL';
+    return this.translatePipe.transform(translationKey, {
       areaType: this.translatePipe.transform(this.areaType.langKey).toLowerCase(),
       region: this.region,
       year: this.rankings.year,

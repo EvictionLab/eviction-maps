@@ -42,9 +42,13 @@
     "TWEET_EVICTION_FILINGS": "eviction filings",
     "TWEET_NO_FEATURES": "View the landscape of American housing insecurity with the Eviction Lab's map tool. See eviction rates in your community and across the country, compare locations in charts and graphs, download custom reports, and more here {{link}}",
     "TWEET_ONE_FEATURE_PER_DAY": "{{place1}} had {{units}} {{action}} per day in {{year}}. That's {{total}} total {{action}}, or {{rate}}% of renter homes. Find eviction rates for your area at {{link}}",
+    "TWEET_ONE_FEATURE_PER_DAY_FILINGS": "{{place1}} had {{units}} eviction filings per day in {{year}}. That's {{total}} total. Find eviction filing totals for your area at {{link}}",
     "TWEET_ONE_FEATURE": "{{place1}} had {{total}} {{action}} in {{year}}. That's {{rate}}% of renter homes, or {{perDay}} per day. Find eviction rates for your area at {{link}}",
+    "TWEET_ONE_FEATURE_FILINGS": "{{place1}} had {{total}} eviction filings in {{year}}. That's {{perDay}} per day. Find eviction filing totals for your area at {{link}}",
     "TWEET_TWO_FEATURES": "{{place1}} {{action}} {{rate}}% of renter homes in {{year}}, more than {{place2}}. Find eviction rates for your area at {{link}}",
+    "TWEET_TWO_FEATURES_FILINGS": "{{place1}} had {{total}} eviction filings in {{year}}, more than {{place2}}. Find eviction filing totals for your area at {{link}}",
     "TWEET_THREE_FEATURES": "{{place1}} {{action}} {{rate}}% of renter homes in {{year}}, more than {{place2}} and {{place3}}. Find eviction rates for your area at {{link}}",
+    "TWEET_THREE_FEATURES_FILINGS": "{{place1}} had {{total}} eviction filings in {{year}}, more than {{place2}} and {{place3}}. Find eviction filing totals for your area at {{link}}",
     "GRAPH_TYPE_LABEL": "Graph type",
     "GRAPH_BAR_LABEL": "Bar",
     "GRAPH_LINE_LABEL": "Line",
@@ -57,7 +61,7 @@
     "SIGNUP_EMAIL_LABEL": "Email Address", 
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
-    "AUTOCOMPLETE_HINT": "When autocomplete results are available use up and down arrows to review and enter to select.",
+    "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
     "LOADING": "Loading"
   },
   "HEADER": {
@@ -75,7 +79,9 @@
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
     "EVICTION_FILING_RATE": "Represents the number of eviction filings per 100 renter homes.",
-    "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more."
+    "RENT_BURDEN": "The percentage of household income spent on rent. The maximum value is 50%, representing 50% or more.",
+    "HISPANIC": "Represents the % of the population of Hispanic or Latino origin and any race according to the Census.",
+    "DEMOGRAPHICS": "Population estimates of the area's overall population."
   },
   "LAYERS": {
     "STATES": "States",
@@ -91,6 +97,7 @@
     "LAYER_SELECT": "Map Level",
     "ZOOM_HINT": "Zoom for More",
     "CHORO_LEGEND_HINT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
+    "CHORO_LEGEND_HINT_ALT": "The colored {{geography}} on the map represent {{attribute}} from {{min}} to {{max}}.",
     "BUBBLE_LEGEND_HINT": "The bubbles represent the {{attribute}}.",
     "DATA_LINK_SINGLE": "View More Data",
     "DATA_LINK_MULTIPLE": "View Full Comparison",
@@ -103,7 +110,8 @@
     "UNSUPPORTED_MESSAGE": "This page uses features that your browser does not support.  View the FAQ to see our supported browsers.",
     "FEATURE_OVERVIEW_LABEL": "Show the map feature overview",
     "FLAG_99TH": "This area has an eviction/filing rate in the top 1%. Please see our FAQ section to better understand why.",
-    "FLAG_LOW": "This area's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why."
+    "FLAG_LOW": "This area's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
+    "FLAG_MARYLAND_FILING": "Although Maryland appears to have a high filing rate, we actually still believe it's low. Please see our FAQ section to better understand why."
   },
   "NAV": {
     "HOME": "Home",
@@ -135,6 +143,7 @@
   },
   "STATS": {
     "DEMOGRAPHICS": "Demographic Breakdown",
+    "NO_DATA": "No data",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",
     "JUDGMENT_RATE": "Eviction Rate",
@@ -173,9 +182,8 @@
     "TOP_EVICTING_AREAS": "Top Evicting Areas",
     "TOP_EVICTORS": "Top Evictors",
     "COMING_SOON": "Coming Soon",
-    "HIGHEST": "Highest",
-    "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
-    "PANEL_SUMMARY_SINGULAR": "There was {{evictions}} eviction in the {{name}} area last year.  That amounts to {{evictionsPerDay}} people evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
+    "PANEL_SUMMARY": "There were {{evictions}} evictions in the {{name}} area in {{year}}.  That amounts to {{evictionsPerDay}} households evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
+    "PANEL_SUMMARY_SINGULAR": "There was {{evictions}} eviction in the {{name}} area in {{year}}.  That amounts to {{evictionsPerDay}} households evicted every day.  {{evictionRate}} in 100 renter homes are evicted each year.",
     "LIST_INTRO": "View {{year}} eviction rankings for locations across America. Scroll through the list or use the search bar to find a place. To refine your results, choose an area type and a data type. You can also search within states using the Region menu.",
     "SEARCH_FILTER": "Search & Filter",
     "TOP_EVICTORS_LINK": "View Top Evictors",
@@ -195,7 +203,8 @@
     "SHARE_REGION_AMOUNT": "{{amount}} renter homes {{action}} in {{region}} in {{year}}.",
     "SHARE_REGION_TOP_AREA": " {{topArea}} {{hadAmount}}.",
     "SHARE_REGION_NO_SELECTION": "{{regionAmount}}{{topArea}} Find out where your city ranks at {{link}}",
-    "SHARE_SELECTION": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
+    "SHARE_SELECTION_RATE": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
+    "SHARE_SELECTION_TOTAL": "{{amount}} renter homes {{action}} in {{area}} in {{year}}. That's the {{ranking}} highest {{category}} among {{region}} {{areaType}}. Find out where your city ranks at {{link}}",
     "SHARE_FALLBACK": "Eviction Rankings: Find out how your city compares at {{link}}",
     "LIST_HEADING": "Top Evicting {{area}} in {{region}}",
     "LIST_SUBHEADING": "Ranked by {{dataProperty}}",

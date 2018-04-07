@@ -22,6 +22,7 @@
     (locationRemoved)="locationRemoved.emit($event)"
     [(barYear)]="mapToolService.activeYear"
     [(graphAttribute)]="mapToolService.activeBubbleHighlight"
+    (graphAttributeChange)="updateTwitterText()"
     [(lineStartYear)]="mapToolService.activeLineYearStart"
     [(lineEndYear)]="mapToolService.activeLineYearEnd"
     [(showAverage)]="mapToolService.activeShowGraphAvg"

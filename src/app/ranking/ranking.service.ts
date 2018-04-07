@@ -195,7 +195,7 @@ export class RankingService {
    * Returns ordinal suffix for rank
    * @param rank
    */
-  ordinalSuffix(rank: number): string {
+  ordinalSuffix(rank: number, isRate?: boolean): string {
     const digit = rank % 10;
     if (this.translate.currentLang === 'en') {
       if (rank >= 10 && rank <= 20) {
@@ -209,8 +209,7 @@ export class RankingService {
       }
     } else if (this.translate.currentLang === 'es') {
       // Spanish depends on gender of word being described
-      // TODO: Check if this is right
-      return 'a';
+      return isRate ? 'a' : 'o';
     }
     // Default to empty string
     return '';
