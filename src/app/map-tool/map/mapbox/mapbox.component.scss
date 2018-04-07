@@ -136,6 +136,7 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 }
 .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact {
   margin: grid(1);
+  .mapboxgl-ctrl-logo { display: none; }
 }
 .mapboxgl-ctrl-top-left .mapboxgl-ctrl-attrib.mapboxgl-compact::after {
   top: 0;
@@ -155,6 +156,13 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
     bottom: 0;
     left: 0;
     right: auto;
+    .mapboxgl-ctrl-attrib {
+      position: relative;
+      .mapboxgl-ctrl-logo {
+        position: absolute;
+        top: -26px;
+      }
+    }
   }
   .slider-active {
     .mapboxgl-ctrl-bottom-left {
