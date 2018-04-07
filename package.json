@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "node ./build/pre-build.js && ng build",
-    "build-prod": "node ./build/pre-build.js && ng build --prod --env=prod --deploy-url=https://beta.evictionlab.org/tool/",
+    "build-prod": "node ./build/pre-build.js && ng build --prod --env=prod --deploy-url=https://evictionlab.org/tool/",
     "build-dev": "node ./build/pre-build.js && ng build --prod --env=staging --deploy-url=https://staging.evictionlab.org/tool/",
     "test": "ng test",
     "lint": "ng lint",
