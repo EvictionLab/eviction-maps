@@ -45,7 +45,7 @@
     "intl": "^1.2.5",
     "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
-    "mapbox-gl": "0.44.1",
+    "mapbox-gl": "0.44.2",
     "ng2-page-scroll": "^4.0.0-beta.11",
     "ng2-toastr": "^4.1.2",
     "ngx-bootstrap": "^2.0.2",
