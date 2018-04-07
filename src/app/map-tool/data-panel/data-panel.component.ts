@@ -142,35 +142,40 @@ export class DataPanelComponent implements OnInit {
     const action = this.mapToolService.activeBubbleHighlight.id.startsWith('ef') ? 'efr' : 'er';
     let tweetParams: any = { year: this.year, link: this.platform.currentUrl() };
     let tweetTranslation = 'DATA.TWEET_NO_FEATURES';
-    let feat, features, actionTrans;
+    let feat, features;
 
     if (featLength === 0) {
       tweetTranslation = 'DATA.TWEET_NO_FEATURES';
     } else {
-      const sortProp = `${action}-${yearSuffix}`;
+      // Sort by eviction rate if selected or total eviction filings
+      const sortProp = `${action === 'er' ? action : 'ef'}-${yearSuffix}`;
       features = [ ...this.locations ].sort((a, b) =>
         a.properties[sortProp] > b.properties[sortProp] ? -1 : 1);
 
       // TODO: Potentially pull state abbreviation into place name
       feat = features[0].properties;
       tweetParams['place1'] = feat.n;
-      tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
+      // Set per day based off of property
+      if (action === 'er') {
+        tweetParams['perDay'] = feat[`epd-${yearSuffix}`];
+      } else {
+        const daysInYear = this.year % 4 === 0 ? 366 : 365;
+        tweetParams['perDay'] = feat[`ef-${yearSuffix}`] > 0 ?
+          +(feat[`ef-${yearSuffix}`] / daysInYear).toFixed(2) : -1;
+      }
       tweetParams['total'] = this.decimal.transform(feat[`${action.slice(0, -1)}-${yearSuffix}`]);
       tweetParams['rate'] = this.cappedRateValue(feat[`${action}-${yearSuffix}`]);
 
       if (featLength === 1) {
-        actionTrans = action === 'efr' ? 'DATA.TWEET_EVICTION_FILINGS' : 'DATA.TWEET_EVICTIONS';
-        tweetParams['action'] = this.translatePipe.transform(actionTrans);
-
-        if (feat[`epd-${yearSuffix}`] >= 50) {
+        tweetParams['action'] = this.translatePipe.transform('DATA.TWEET_EVICTIONS');
+        if (tweetParams['perDay'] >= 50) {
           tweetTranslation = 'DATA.TWEET_ONE_FEATURE_PER_DAY';
           tweetParams = { ...tweetParams, units: tweetParams['perDay'] };
         } else {
           tweetTranslation = 'DATA.TWEET_ONE_FEATURE';
         }
       } else if (featLength > 1) {
-        actionTrans = action === 'efr' ? 'DATA.TWEET_FILING' : 'DATA.TWEET_EVICTED';
-        tweetParams['action'] = this.translatePipe.transform(actionTrans);
+        tweetParams['action'] = this.translatePipe.transform('DATA.TWEET_EVICTED');
         if (featLength === 2) {
           tweetTranslation = 'DATA.TWEET_TWO_FEATURES';
           tweetParams = {
@@ -184,6 +189,10 @@ export class DataPanelComponent implements OnInit {
             place3: features[2].properties.n
           };
         }
+      }
+      // Adding separate filings suffix because they use different rules
+      if (action === 'efr') {
+        tweetTranslation += '_FILINGS';
       }
     }
     this.tweet = this.translatePipe.transform(tweetTranslation, tweetParams);

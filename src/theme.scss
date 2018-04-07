@@ -111,6 +111,7 @@ $grey4: #efefef;
 $grey4a: #EEF2F5;
 $grey5: #F4F7F9;
 $grey5a: #F9FAFB;
+$grey_wcag: #737373;
 $white: #fff;
 $red: #f00;
 $color1: #e24000;
@@ -126,13 +127,15 @@ $gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
 $gradient4: linear-gradient(180deg, #C6D5E0, #94AABD);
 $shadingColor: $grey4;
 $textColor: $black;
+
 $secondaryTextColor: $grey2;
 $altTextColor: $white; // text on dark backgrounds
+$labelColor: $grey_wcag;
 $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
 $focusBgColor: #FFE8DE;
-$iconColor: #666;
+$iconColor: $grey_wcag;
 
 // Shadows
 // ----
@@ -159,7 +162,7 @@ $headerActiveButtonColor: $color1; // color for active mobile icon button
 $searchTextColor: $textColor;
 $searchHighlightTextColor: $defaultBackground;
 $searchHighlightBackgroundColor: $color1;
-$searchPlaceholderColor: $secondaryTextColor;
+$searchPlaceholderColor: $grey_wcag;
 $searchHeight: grid(7);
 
 // MENU
@@ -219,7 +222,7 @@ $toggleHoverForeground: #000;
 // UI Switch
 // ----
 $onTextColor: $black;
-$offTextColor: $grey1a;
+$offTextColor: $grey_wcag;
 $switchBorder: 5px solid $color1;
 $switchTextSize: 14px;
 $switchTrackColor: $grey3;
@@ -228,14 +231,14 @@ $switchTrackColor: $grey3;
 $sliderText: $altTextColor;
 $sliderBackground: #000;
 $sliderTrack: $grey3;
-$sliderLabel: $grey2;
+$sliderLabel: $labelColor;
 $timeSliderHeight: grid(5); // 40px
 $timeSliderLg: grid(10); // 88px
 $timeSliderBackground: $defaultBackground;
 
 // Select Dropdowns
 $selectText: $textColor;
-$selectLabelText: $secondaryTextColor;
+$selectLabelText: $labelColor;
 $selectBackground: #fff;
 $selectHighlightText: $textColor;
 $selectHighlightBackground: #eee;
@@ -260,9 +263,11 @@ $cardHeaderBg2: $color2;
 $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
-$cardLabelText: $grey1a;
+$cardLabelText: $labelColor;
 $cardValueText: $black;;
 $cardHoverBg: linear-gradient(180deg, #fff 20%, $color6);
+$cardComparisonLess: $grey_wcag;
+$cardComparisonMore: $red;
 
 // colors - cards in data panel
 $panelCardLabelText: $black;;
@@ -290,10 +295,10 @@ $cardAddLocationTextSize_t: 16px;
 // Legend
 $legendHeight: grid(5);
 $legendBackground: #fff;
-$legendIconColor: #666;
+$legendIconColor: $iconColor;
 $legendIconBackground: $defaultBackground;
 $legendFontSize: 9px;
-$legendTextColor: $grey1;
+$legendTextColor: $grey_wcag;
 
 // Tooltips
 $tooltipBackground: $black;;
@@ -322,7 +327,7 @@ $graphColor2: $color2;
 $graphColor3: $color3;
 $graphColor4: $color4;
 $graphAxisLines: #fff;
-$graphAxisLabels: $grey1a;
+$graphAxisLabels: $labelColor;
 
 // Footer
 // ----

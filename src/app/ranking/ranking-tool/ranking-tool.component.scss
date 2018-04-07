@@ -43,9 +43,10 @@ $panelHeightLg: 194px;
 }
 
 .hero {
-  background-image: url('/assets/images/hero-rankings.jpg');
+  background: linear-gradient(rgba(0,0,0,0.15),rgba(0,0,0,0.1)),url('/assets/images/rankings-hero-bg-alt.jpg') #000;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position:center;
+  background-position-x: center;
 }
 
 // subpage navigation (tabs)
@@ -68,6 +69,7 @@ $panelHeightLg: 194px;
     li {
       @include altSmallCapsText(12px);
       height:grid(5);
+      
       a {
         text-align: center;
         color: $grey1a;
@@ -90,6 +92,17 @@ $panelHeightLg: 194px;
     }
   }
 }
+@media(min-width: 413px) {
+  .nav-bar {
+    ul { 
+      padding: 0; 
+      flex-direction: row; 
+      justify-content:center; 
+      align-items: center;
+    }
+    ul li { padding: 0 grid(1); }
+  }
+}
 // nav bar is sticky on tablet+
 @media(min-width: $gtMobile) {
   .nav-bar {
@@ -97,15 +110,11 @@ $panelHeightLg: 194px;
     z-index:998;
     top: 0;
     height: grid(8);
-    ul {
-      flex-direction: row;
-      align-items: center;
-      justify-content:center;
-    }
     ul li { 
       @include altFont(16px);
       text-transform: none;
       height: 100%;
+      padding: grid(1) 0;
       a { line-height: grid(6); }
       &:first-child { margin-right: grid(4); }
       &.active {
@@ -395,7 +404,7 @@ app-ranking-ui.ranking-ui-panel {
   justify-content: flex-start;
   .share-intro {
     @include altSmallCapsText(12px);
-    color: $grey1a;
+    color: $grey_wcag;
     margin-right: grid(1);
   }
   app-ui-social-share {
