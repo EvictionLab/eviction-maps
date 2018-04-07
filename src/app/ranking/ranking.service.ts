@@ -160,8 +160,10 @@ export class RankingService {
     return csvParse(csv, (d) => {
       return {
         geoId: d.GEOID,
-        evictions: parseFloat(d.evictions),
-        evictionRate: parseFloat(d['eviction-rate']) <= 100 ? parseFloat(d['eviction-rate']) : -1,
+        evictions: !isNaN(parseFloat(d.evictions)) ? parseFloat(d.evictions) : -1,
+        evictionRate:
+          !isNaN(parseFloat(d['eviction-rate'])) && parseFloat(d['eviction-rate']) <= 100 ?
+            parseFloat(d['eviction-rate']) : -1,
         name: d['name'],
         displayName: `${d['name']}, ${this.regions[d['parent-location']]}`,
         parentLocation: d['parent-location'],

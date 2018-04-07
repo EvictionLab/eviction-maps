@@ -214,7 +214,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   /** Update current location, shows toast if data unavailable */
   setCurrentLocation(locationIndex: number) {
     if (this.selectedIndex === locationIndex) { return; }
-    if (locationIndex !== null && this.listData[locationIndex][this.dataProperty.value] < 0) {
+    if (this.isLocationInvalid(locationIndex)) {
       this.showUnavailableToast();
       return;
     }
@@ -299,6 +299,13 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         focusableEl[0].blur();
       }
     }, this.scroll.defaultDuration);
+  }
+
+  private isLocationInvalid(locationIndex: number) {
+    return locationIndex !== null && (
+      this.listData[locationIndex][this.dataProperty.value] < 0 ||
+      this.listData[locationIndex]['evictions'] < 0
+    );
   }
 
   /** Get location selected data for analytics tracking */
