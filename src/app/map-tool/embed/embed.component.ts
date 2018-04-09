@@ -44,6 +44,9 @@ export class EmbedComponent implements OnInit, AfterViewInit {
     this.routing.setActivatedRoute(route);
     this.mapToolService.embed = true;
     this.mapConfig = this.defaultMapConfig;
+    if (environment.useMapbox) {
+      this.defaultMapConfig.style = `${environment.deployUrl}assets/style-mapbox.json`;
+    }
   }
 
   ngOnInit() {
