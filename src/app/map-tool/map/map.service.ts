@@ -53,6 +53,9 @@ export class MapService {
   createMap(options: Object) {
     const _tmpStyle = options['style'];
     options['style'] = {version: 8, sources: {}, layers: []};
+    if (environment.useMapbox) {
+      mapboxgl.accessToken = environment.mapboxApiKey;
+    }
     const map = new mapboxgl.Map(options);
     map.setStyle(_tmpStyle);
     map.dragRotate.disable();
