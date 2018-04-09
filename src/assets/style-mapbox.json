@@ -522,7 +522,9 @@
         "class",
         "motorway",
         "primary",
-        "secondary"
+        "secondary",
+        "tertiary",
+        "trunk"
       ],
       "layout": {
         "text-size": 13,
