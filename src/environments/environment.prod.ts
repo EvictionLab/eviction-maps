@@ -3,7 +3,7 @@ import { version } from './version';
 
 export const environment = {
   production: true,
-  useMapbox: false,
+  useMapbox: true,
   deployUrl: 'https://evictionlab.org/tool/',
   tileBaseUrl: 'https://tiles.evictionlab.org/',
   evictorsRankingDataUrl: 'https://evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
