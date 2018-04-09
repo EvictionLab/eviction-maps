@@ -305,6 +305,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.platform.isMobile && this.defaultMapConfig) {
       this.defaultMapConfig.zoom = 2;
     }
+    if (environment.useMapbox) {
+      this.defaultMapConfig.style = `${environment.deployUrl}assets/style-mapbox.json`;
+    }
     this.mapToolService.mapConfig = this.defaultMapConfig;
     if (environment.hasOwnProperty('maxYear')) {
       this.mapToolService.activeYear = environment.maxYear;
