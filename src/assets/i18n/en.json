@@ -103,7 +103,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
-    "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
+    "MAX_LOCATIONS_ERROR": "Only three locations may be viewed at once. Remove one of the location cards to add another location.",
     "NO_DATA_ERROR": "Could not find data for location.",
     "AUTO": "auto",
     "UNSUPPORTED_TITLE": "Unsupported Browser",

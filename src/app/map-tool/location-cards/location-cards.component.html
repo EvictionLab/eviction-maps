@@ -13,8 +13,8 @@
     <app-ui-close-button class="card-dismiss" 
       [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
       (onPress)="removeCard($event, f)"
-      (onFocus)="expanded = true"
-      (onBlur)="expanded = false"
+      (onFocus)="collapsed = false"
+      (onBlur)="collapsed = true"
     ></app-ui-close-button>
   </div>
   <div class="card-content">
@@ -34,8 +34,8 @@
           [placement]="tooltipPos(idx, i)"
           container="body"
           triggers="hover touchend focus"
-          (focus)="expanded = true"
-          (blur)="expanded = false"
+          (focus)="collapsed = false"
+          (blur)="collapsed = true"
           (onShown)="onTooltipShown($event)"
         >
           {{ prop.name }}

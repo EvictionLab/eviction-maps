@@ -37,6 +37,7 @@ export class MapToolService {
   activeLineYearStart = environment.minYear;
   activeLineYearEnd = environment.maxYear;
   activeShowGraphAvg = true;
+  cardsCollapsed = false;
   embed = false;
   activeMapView;
   mapConfig;
