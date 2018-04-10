@@ -187,6 +187,10 @@
       letter-spacing: 0.5px;
       text-transform: uppercase;
     }
+    .card-stat-value {
+      margin-top: grid(0.5);
+      font-size:15px;
+    }
     li { 
       float:left; 
       padding-right: grid(2); 
@@ -302,6 +306,7 @@
       }
       .card-stat-value {
         @include numberFont($cardValueTextSize);
+        margin:0;
         &.unavailable {
           @include defaultFont($cardValueTextSize);
         }
