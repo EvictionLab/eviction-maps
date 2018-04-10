@@ -4,13 +4,9 @@
   "name": "Eviction Lab",
   "sprite": "https://tiles.evictionlab.org/sprites",
   "sources": {
-    "openmaptiles": {
-      "type": "vector",
-      "maxzoom": 13,
-      "tiles": [
-        "https://openmaptiles.evictionlab.org/{z}/{x}/{y}.pbf"
-      ],
-      "attribution": "<a href=\"http://www.openmaptiles.org/\" target=\"_blank\">&copy; OpenMapTiles</a> <a href=\"http://www.openstreetmap.org/about/\" target=\"_blank\">&copy; OpenStreetMap contributors</a>"
+    "composite": {
+      "url": "mapbox://mapbox.mapbox-streets-v7",
+      "type": "vector"
     },
     "us-block-groups-00": {
       "type": "vector",
@@ -120,7 +116,7 @@
     {
       "id": "water",
       "type": "fill",
-      "source": "openmaptiles",
+      "source": "composite",
       "source-layer": "water",
       "filter": [
         "==",
@@ -133,129 +129,6 @@
       "paint": {
         "fill-color": "#ececef",
         "fill-outline-color": "#e3e3e7"
-      }
-    },
-    {
-      "id": "landcover_ice_shelf",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "landcover",
-      "maxzoom": 8,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Polygon"
-        ],
-        [
-          "==",
-          "subclass",
-          "ice_shelf"
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-color": "hsl(0, 0%, 98%)",
-        "fill-opacity": 0.7
-      }
-    },
-    {
-      "id": "landcover_glacier",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "landcover",
-      "maxzoom": 8,
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Polygon"
-        ],
-        [
-          "==",
-          "subclass",
-          "glacier"
-        ]
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "fill-color": "hsl(0, 0%, 98%)",
-        "fill-opacity": {
-          "base": 1,
-          "stops": [
-            [
-              0,
-              1
-            ],
-            [
-              8,
-              0.5
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "landuse_residential",
-      "type": "fill",
-      "source": "openmaptiles",
-      "source-layer": "landuse",
-      "filter": [
-        "all",
-        [
-          "==",
-          "$type",
-          "Polygon"
-        ],
-        [
-          "==",
-          "class",
-          "residential"
-        ]
-      ],
-      "layout": {
-        "visibility": "none"
-      },
-      "paint": {
-        "fill-color": "rgb(234, 234, 230)",
-        "fill-opacity": {
-          "base": 0.6,
-          "stops": [
-            [
-              8,
-              0.8
-            ],
-            [
-              9,
-              0.6
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "id": "waterway",
-      "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "waterway",
-      "minzoom": 9,
-      "filter": [
-        "==",
-        "$type",
-        "LineString"
-      ],
-      "layout": {
-        "visibility": "visible"
-      },
-      "paint": {
-        "line-color": "rgba(209, 213, 215, 1)",
-        "line-width": 3
       }
     },
     {
@@ -496,8 +369,8 @@
     {
       "id": "roads",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
+      "source": "composite",
+      "source-layer": "road",
       "minzoom": 10,
       "filter": [
         "all",
@@ -528,8 +401,8 @@
     {
       "id": "highways",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
+      "source": "composite",
+      "source-layer": "road",
       "minzoom": 7,
       "filter": [
         "all",
@@ -641,11 +514,17 @@
     {
       "id": "roads-highways_text",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "transportation_name",
+      "source": "composite",
+      "source-layer": "road_label",
       "minzoom": 11,
       "filter": [
-        "all"
+        "in",
+        "class",
+        "motorway",
+        "primary",
+        "secondary",
+        "tertiary",
+        "trunk"
       ],
       "layout": {
         "text-size": 13,

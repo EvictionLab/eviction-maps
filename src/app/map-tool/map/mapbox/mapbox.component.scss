@@ -156,13 +156,16 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
     bottom: 0;
     left: 0;
     right: auto;
-    .mapboxgl-ctrl-attrib {
-      position: relative;
-      .mapboxgl-ctrl-logo {
-        position: absolute;
-        top: -26px;
-      }
+    // logo container
+    .mapboxgl-ctrl {
+      position: absolute;
+      top: -26px;
     }
+    .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+      position: relative;
+      top:auto
+    }
+
   }
   .slider-active {
     .mapboxgl-ctrl-bottom-left {

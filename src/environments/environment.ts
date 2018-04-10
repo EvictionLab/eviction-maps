@@ -8,6 +8,7 @@ import { version } from './version';
 export const environment = {
   production: false,
   deployUrl: './',
+  useMapbox: true,
   tileBaseUrl: 'https://tiles.evictionlab.org/',
   evictorsRankingDataUrl: './assets/MOCK_EVICTORS.csv',
   // tslint:disable-next-line:max-line-length

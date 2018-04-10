@@ -53,7 +53,17 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     center: [-98.5795, 39.8283],
     zoom: 3,
     minZoom: 2,
-    maxZoom: 15
+    maxZoom: 15,
+    maxBounds: [
+      [
+        -190.671875,
+        -12.897489183755892
+      ],
+      [
+        -44.6484375,
+        79.56054626376367
+      ]
+    ]
   };
 
   constructor(
@@ -304,6 +314,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // Set default zoom to 2 on mobile
     if (this.platform.isMobile && this.defaultMapConfig) {
       this.defaultMapConfig.zoom = 2;
+    }
+    if (environment.useMapbox) {
+      this.defaultMapConfig.style = `${environment.deployUrl}assets/style-mapbox.json`;
     }
     this.mapToolService.mapConfig = this.defaultMapConfig;
     if (environment.hasOwnProperty('maxYear')) {
