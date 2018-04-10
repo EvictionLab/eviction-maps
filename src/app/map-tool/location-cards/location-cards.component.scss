@@ -86,7 +86,7 @@
 .card-heading { 
   width: 100%;
   margin: 0; 
-  @include cardHeading(18px);
+  @include cardHeading(15px);
   letter-spacing: 0.7px;
 }
 .card-subheading {
