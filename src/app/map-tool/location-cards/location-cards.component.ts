@@ -10,8 +10,6 @@ import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
 import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 import { PlatformService } from '../../services/platform.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-location-cards',
@@ -141,9 +139,7 @@ export class LocationCardsComponent implements OnInit {
   private percentProps;
   /** Stores which properties should be $ formatted */
   private dollarProps;
-  /** Subject that emits value on destroy */
-  private destroy = new Subject<boolean>();
-  
+
   constructor(
     public el: ElementRef,
     private decimal: DecimalPipe,
