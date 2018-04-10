@@ -446,7 +446,7 @@ export class MapToolService {
 
   /** Get location name and truncate if it's too long */
   private addDisplayName(feature: MapFeature) {
-    const max = 24;
+    const max = 21;
     const layerId = feature['properties']['layerId'];
     const name = feature['properties']['n'] as string;
     const displayName = name.length > max ? name.substring(0, max) + '...' : name;

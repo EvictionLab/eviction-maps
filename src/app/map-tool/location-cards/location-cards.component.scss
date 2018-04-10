@@ -143,6 +143,7 @@
   }
   // add dotted border for hints
   .card-stats li.has-hint .card-stat-label {
+    margin-bottom: -2px; // offset the border so alignment isn't changed
     border-bottom: $tooltipTriggerBorder;
   }
   // attribute values
@@ -167,7 +168,7 @@
   box-shadow: $z1shadow;
   // location cards fill most of the viewport width
   .location-card {
-    min-width: 75vw;
+    min-width:grid(37);
   }
   // align location text at top of card header
   .card-header {
@@ -181,10 +182,16 @@
     left:0;
     width:100%;
     padding: grid(1) 0 grid(1) grid(2);
+    .card-stat-label {
+      font-family: $boldFontStack;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
     li { 
       float:left; 
       padding-right: grid(2); 
       max-width: 50%;
+      
       > span {
         display:block;
         width:100%;
@@ -207,7 +214,16 @@
 @media(min-width: 540px) {
   :host-context(.map-ui-wrapper) {
     .card-content { 
-      li { max-width: 40%; }
+      /* two items */
+      li:first-child:nth-last-child(2),
+      li:first-child:nth-last-child(2) ~ li {
+          max-width: 50%;
+      }
+      /* three items */
+      li:first-child:nth-last-child(3),
+      li:first-child:nth-last-child(3) ~ li {
+          max-width: 33.3333%;
+      }
       li:nth-child(2) { display: block; }
       li:nth-child(2):last-child, li:nth-child(3) { float: left; }
     }
@@ -218,10 +234,6 @@
   :host-context(.map-ui-wrapper) {
     .location-card { 
       width: 100%; 
-      min-width: grid(42);
-    }
-    .card-content li { 
-      max-width: 30%;
     }
   }
 } 
@@ -259,13 +271,16 @@
       line-height: 17px;
       width:100%;
     }
+    // increase specificity to override max width and floats
+    .location-card .card-content ul li {
+      max-width:none;
+      float: none;
+    }
     // stacked statistics
     .card-content {
       position: static;
       padding: $defaultPadding;
       li {
-        max-width: none;
-        float: none;
         margin-right: 0;
         padding-right: 0;
         &:nth-child(2):last-child,
@@ -277,6 +292,9 @@
       }
       .card-stat-label {
         font-size: $cardLabelTextSize;
+        font-family: $fontStack;
+        letter-spacing: 0;
+        text-transform: none;
         // align hint button with text
         .attribute-hint ::ng-deep .hint-button svg {
           margin-top:2px;
