@@ -27,6 +27,7 @@
   position:relative;
   width: 100%;
   z-index: 20;
+  .card-heading small { display: block; }
   &:nth-child(2) { z-index: 19; }
   &:nth-child(3) { z-index: 18; }
   &:nth-child(4) { z-index: 17; }
