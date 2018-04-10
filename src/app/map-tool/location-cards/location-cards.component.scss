@@ -27,7 +27,6 @@
   position:relative;
   width: 100%;
   z-index: 20;
-  .card-heading small { display: block; }
   &:nth-child(2) { z-index: 19; }
   &:nth-child(3) { z-index: 18; }
   &:nth-child(4) { z-index: 17; }
@@ -87,11 +86,13 @@
 .card-heading { 
   width: 100%;
   margin: 0; 
-  @include cardHeading(16px);
+  @include cardHeading(18px);
+  letter-spacing: 0.7px;
 }
 .card-subheading {
   margin: grid(0.5) 0 0 0;     
-  @include smallCapsText(12px);
+  @include smallCapsText(13px);
+  letter-spacing: 0.3px;
 }
 .card-dismiss { 
   position:absolute;
@@ -217,7 +218,7 @@
   :host-context(.map-ui-wrapper) {
     .location-card { 
       width: 100%; 
-      min-width: grid(35);
+      min-width: grid(42);
     }
     .card-content li { 
       max-width: 30%;
@@ -235,15 +236,27 @@
     }
     // align header text at the bottom of the header
     .card-header {
-      justify-content: flex-end; 
+      height: grid(15.5);
+      justify-content: flex-end;
+      padding: grid(1.5) grid(2); // 1.5 padding to account for line height
+      span {
+        display: block;
+        margin: 0 0 grid(1) 0; 
+        @include smallCapsText($cardSubheadingSize);
+        letter-spacing: 0.3px;
+        width:100%;
+      }
     }
     // increase font sizes
     .card-heading { 
       @include cardHeading($cardHeadingSize);
+      letter-spacing: 0.7px;
     }
     .card-subheading {
       margin: grid(1) 0 0 0;     
       @include smallCapsText($cardSubheadingSize);
+      letter-spacing: 0.3px;
+      line-height: 17px;
       width:100%;
     }
     // stacked statistics

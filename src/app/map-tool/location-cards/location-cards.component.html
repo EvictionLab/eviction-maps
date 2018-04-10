@@ -9,10 +9,10 @@
       [tooltip]="isTruncated(f['displayName']) ? f.properties['n'] : null" 
       [placement]="collapsible ? 'top' : 'bottom'"
     >
-      <small *ngIf="f.properties['layerId'] === 'tracts' || f.properties['layerId'] === 'block-groups'">
+      <span *ngIf="f.properties['layerId'] === 'tracts' || f.properties['layerId'] === 'block-groups'">
         {{ f.properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
         {{ f.properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
-      </small>
+      </span>
       {{f['displayName']}}
     </h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
