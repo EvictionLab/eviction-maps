@@ -62,7 +62,9 @@
     "NEWSLETTER_OPT_IN": "Subscribirse al boletín de Eviction Lab",
     "SEND_DATA": "Enviar datos",
     "AUTOCOMPLETE_HINT": "Cuando esté disponible, use las flechas hacia arriba y hacia abajo para revisar e ingresar para seleccionar.",
-    "LOADING": "Cargando"
+    "LOADING": "Cargando",
+    "TRACT_SINGULAR": "Sección Censales",
+    "BLOCK_GROUP_SINGULAR": "Grupo de Cuadras"
   },
   "HEADER": {
     "HOME": "Inicio",

@@ -10,6 +10,8 @@ import { MapDataAttribute } from '../../map-tool/data/map-data-attribute';
 import { MapFeature } from '../../map-tool/map/map-feature';
 import { TooltipDirective } from 'ngx-bootstrap/tooltip';
 import { PlatformService } from '../../services/platform.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs/Subject';
 
 @Component({
   selector: 'app-location-cards',
@@ -134,13 +136,14 @@ export class LocationCardsComponent implements OnInit {
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** determines if cards are expanded (map view) */
   private expanded = true;
-  /** Maximum number of characters for location name */
-  maxLocationLength = 24;
+
   /** Stores which properties should be % formatted */
   private percentProps;
   /** Stores which properties should be $ formatted */
   private dollarProps;
-
+  /** Subject that emits value on destroy */
+  private destroy = new Subject<boolean>();
+  
   constructor(
     public el: ElementRef,
     private decimal: DecimalPipe,
@@ -189,12 +192,9 @@ export class LocationCardsComponent implements OnInit {
     return this.year.toString().slice(-2);
   }
 
-  /** Get location name and truncate if it's too long */
-  getLocationName(name: string) {
-    const max = this.maxLocationLength;
-    return name.length > max ? name.substring(0, max) + '...' : name;
+  isTruncated(value: string) {
+    return value.substr(value.length - 3) === '...';
   }
-
 
   /** gets an animation state for the card number */
   getCardState(cardNum: number) {

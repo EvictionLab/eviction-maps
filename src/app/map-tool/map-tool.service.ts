@@ -257,6 +257,7 @@ export class MapToolService {
     const maxLocations = (this.activeFeatures.length >= 3);
     if (!maxLocations) {
       // Add flag properties
+      this.addDisplayName(feature);
       this.addFlaggedProps(feature);
       this.activeFeatures = [...this.activeFeatures, feature];
       // track comparissons added
@@ -441,6 +442,15 @@ export class MapToolService {
     });
     feature['lowProps'] = Object.keys(this.lowFlags)
       .filter((p: string) => this.lowFlags[p].indexOf(feature.properties['GEOID']) > -1);
+  }
+
+  /** Get location name and truncate if it's too long */
+  private addDisplayName(feature: MapFeature) {
+    const max = 24;
+    const layerId = feature['properties']['layerId'];
+    const name = feature['properties']['n'] as string;
+    const displayName = name.length > max ? name.substring(0, max) + '...' : name;
+    feature['displayName'] = displayName;
   }
 
   /**

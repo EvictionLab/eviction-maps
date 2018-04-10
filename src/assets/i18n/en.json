@@ -62,7 +62,9 @@
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
     "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
-    "LOADING": "Loading"
+    "LOADING": "Loading",
+    "TRACT_SINGULAR": "Census Tract",
+    "BLOCK_GROUP_SINGULAR": "Block Group"
   },
   "HEADER": {
     "HOME": "Home",
