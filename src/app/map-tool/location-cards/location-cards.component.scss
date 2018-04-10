@@ -253,7 +253,7 @@
       letter-spacing: 0.7px;
     }
     .card-subheading {
-      margin: grid(1) 0 0 0;     
+      margin: (grid(1)-2px) 0 0 0; // offset subheading margin by 2px to account for line height  
       @include smallCapsText($cardSubheadingSize);
       letter-spacing: 0.3px;
       line-height: 17px;
