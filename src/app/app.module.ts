@@ -31,6 +31,7 @@ export class CustomOption extends ToastOptions {
   showCloseButton = true;
   positionClass = 'toast-bottom-left';
   maxShown = 1;
+  newestOnTop = false;
 }
 
 @NgModule({

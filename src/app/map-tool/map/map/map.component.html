@@ -76,6 +76,7 @@
       [features]="activeFeatures"
       [cardProperties]="cardProps"
       [year]="year"
+      [(collapsed)]="mapToolService.cardsCollapsed"
       (clickedHeader)="clickedCardHeader.emit($event)"
       (dismissedCard)="dismissedCard.emit($event)"
     ></app-location-cards>

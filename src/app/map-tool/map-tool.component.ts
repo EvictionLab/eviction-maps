@@ -154,7 +154,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const maxLocations = this.mapToolService.addLocation(feature);
     if (maxLocations) {
       this.loader.end('feature');
-      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+      this.showMaxLocationsError();
     }
     // track event
     const selectEvent = {
@@ -226,7 +226,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (feature) {
       if (maxLocations) {
-        this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+        this.showMaxLocationsError();
         this.map.mapService.zoomToFeature(feature);
         return;
       }
@@ -264,7 +264,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onInitialSearchInput() {
     if (this.mapToolService.activeFeatures.length >= 3) {
-      this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+      this.showMaxLocationsError();
     }
   }
 
@@ -305,6 +305,12 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.dialogService.showDialog(
       { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
     );
+  }
+
+  /** Show the toast for maximum locations, and expand the cards as a visual cue */
+  private showMaxLocationsError() {
+    this.toast.error(this.translatePipe.transform('MAP.MAX_LOCATIONS_ERROR'));
+    this.mapToolService.cardsCollapsed = false;
   }
 
   /**

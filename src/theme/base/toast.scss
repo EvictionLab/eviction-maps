@@ -37,6 +37,10 @@
   background-color: $black;
   pointer-events: auto;
 }
+// prevent toast messages from stacking
+.toast + .toast {
+  display:none;
+}
 
 // Toast message text
 // ---
