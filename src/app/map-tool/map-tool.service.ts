@@ -65,9 +65,6 @@ export class MapToolService {
   get cardAttributes() {
     return this.dataAttributes.filter(d => d.id !== 'none');
   }
-  get atMaxLocations() {
-    return this.activeFeatures.length >= 3;
-  }
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
