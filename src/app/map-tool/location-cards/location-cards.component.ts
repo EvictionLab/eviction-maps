@@ -159,7 +159,6 @@ export class LocationCardsComponent implements OnInit {
 
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
-    console.log('MOUSE LEAVE');
     this.collapsed = this.collapsible;
   }
 
