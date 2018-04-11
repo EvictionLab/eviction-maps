@@ -100,10 +100,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // Check device support for map once language has loaded
     this.translate.getTranslation(this.translate.currentLang)
       .take(1).subscribe(() => { this.checkSupport(); });
-    // Reset VH transition only on width changes
-    this.platform.dimensions$.distinctUntilChanged((prev, next) => {
-      return prev.width === next.width;
-    }).skip(1).subscribe(this.resetVhTransition.bind(this));
+    // set map height on dimension changes
+    this.platform.dimensions$.subscribe(this.setMapSize.bind(this));
     this.cdRef.detectChanges();
   }
 
@@ -117,6 +115,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   ngAfterViewInit() {
     this.panelOffset = this.dividerEl.nativeElement.getBoundingClientRect().bottom;
+    setTimeout(() => { this.setMapSize(); }, 1000);
   }
 
   /**
@@ -374,16 +373,10 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  /**
-   * Toggle mobile vh transition to force a height change on resize
-   */
-  private resetVhTransition() {
-    this.map.el.nativeElement.style.transition = 'none';
-    this.map.el.nativeElement.style.height = '100vh';
-    setTimeout(() => {
-      this.map.el.nativeElement.style.height = null;
-      setTimeout(() => this.map.el.nativeElement.style.transition = null);
-    }, 350);
+  private setMapSize() {
+    const newHeight =
+      (this.platform.nativeWindow.innerHeight - this.map.el.nativeElement.offsetTop);
+    this.map.el.nativeElement.style.height = newHeight + 'px';
   }
 
 }
