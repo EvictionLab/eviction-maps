@@ -892,6 +892,7 @@
       "type": "symbol",
       "source": "us-counties-10",
       "source-layer": "counties-centers",
+      "minzoom": 9,
       "layout": {
         "text-size": {
           "stops": [
