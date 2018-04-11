@@ -3,6 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { csvParse } from 'd3-dsv';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/observable/of';
 
 import { SearchSource, MapboxSource } from './search-sources';
 import { MapFeature } from '../map-tool/map/map-feature';
@@ -25,6 +26,7 @@ export class SearchService {
    * @param query string to be sent to API
    */
   queryGeocoder(query: string): Observable<Object[]> {
+    if (!query || query === '') { return Observable.of([]); }
     return this.http.get(this.source.query(query))
       .map(res => this.source.results(res, query));
   }
