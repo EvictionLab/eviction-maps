@@ -980,8 +980,7 @@
         "text-field": "{n}",
         "text-padding": 0,
         "text-letter-spacing": 0.12,
-        "icon-allow-overlap": true,
-        "icon-ignore-placement": true,
+
         "text-offset": [
           "interpolate", ["linear"], ["zoom"],
           6, ["literal", [-1, -0.5]],
@@ -1013,6 +1012,7 @@
       "type": "symbol",
       "source": "us-counties-10",
       "source-layer": "counties-centers",
+      "minzoom": 9,
       "layout": {
         "text-size": {
           "stops": [
