@@ -104,3 +104,27 @@ export const OSMNamesSource: SearchSource = {
         });
     }
 };
+
+export const StaticSource: SearchSource = {
+    key: '',
+    baseUrl: '',
+    csvUrl: environment.staticSearchUrl,
+    featureList: [],
+    query: function (text: string) { return ''; },
+    results: function (results: Object, text?: string): MapFeature[] {
+        return this.featureList.filter(f =>
+            f.properties.label.toLowerCase().includes(text.toLowerCase())
+        ).sort((a, b) => {
+            // Sort states before counties
+            if (a.properties.layerId === 'states' && b.properties.layerId === 'states') {
+                return 0;
+            } else if (a.properties.layerId === 'states') {
+                return -1;
+            } else if (b.properties.layerId === 'states') {
+                return 1;
+            } else {
+                return 0;
+            }
+        }).map(f => { f.center = f.geometry.coordinates; return f; });
+    }
+};
