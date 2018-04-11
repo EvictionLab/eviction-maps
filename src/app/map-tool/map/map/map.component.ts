@@ -217,6 +217,7 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth.id.indexOf('none') < 0;
   }
 
+  private blockMapClick = false;
   private _debug = true;
 
   constructor(
@@ -266,6 +267,11 @@ export class MapComponent implements OnInit, OnChanges {
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
     this.tooltipEnabled = false;
+  }
+
+  /** Block map clicks on touch device if the cards are expanded */
+  @HostListener('document:touchstart', ['$event']) onTouchStart() {
+    this.blockMapClick = !this.mapToolService.cardsCollapsed;
   }
 
   /**
@@ -360,9 +366,16 @@ export class MapComponent implements OnInit, OnChanges {
    * @param feature the map feature
    */
   onFeatureClick(feature) {
-    if (feature && feature.properties) {
+    // collapse cards if they are not collapsed
+    if (!this.mapToolService.cardsCollapsed) {
+      this.mapToolService.cardsCollapsed = true;
+    }
+    // emit feature click if not event blocking
+    if (feature && feature.properties && !this.blockMapClick) {
       this.featureClick.emit(feature);
     }
+    // turn off event blocking so future clicks work
+    this.blockMapClick = false;
   }
 
   /** Tracks anytime the map auto switches based on zoom level */

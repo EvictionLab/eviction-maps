@@ -179,6 +179,10 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
   }
 }
 
+// shift the mapbox wordmark so button doesn't overlap it on tablet portrait
+@media(min-width: $gtTablet) and (max-width: 1200px) {
+}
+
 @media(min-width: $gtTablet) {
   .slider-active,
   .slider-active.cards-active {
