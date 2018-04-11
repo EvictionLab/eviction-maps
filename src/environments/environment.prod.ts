@@ -15,6 +15,7 @@ export const environment = {
     'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqY20zamVpcTBwb3gzM28yb292YzM3dXoifQ.' +
     'uKgAjsMd4qkJNqEtr3XyPQ',
   mapboxCountyUrl: 'https://evictionlab.org/data/search/counties.csv',
+  staticSearchUrl: 'https://evictionlab.org/data/search/locations.csv',
   downloadBaseUrl: 'https://exports.evictionlab.org',
   minYear: 2000,
   maxYear: 2016,
