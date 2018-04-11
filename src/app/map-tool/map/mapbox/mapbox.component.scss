@@ -181,6 +181,22 @@ $infoIcon: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox
 
 // shift the mapbox wordmark so button doesn't overlap it on tablet portrait
 @media(min-width: $gtTablet) and (max-width: 1200px) {
+  .mapboxgl-ctrl-bottom-left {
+    // logo container
+    .mapboxgl-ctrl {
+      position: absolute;
+      top: -1px;
+      left:auto;
+      right:-88px;
+    }
+    // text container
+    .mapboxgl-ctrl.mapboxgl-ctrl-attrib {
+      position: relative;
+      top:auto;
+      left:auto;
+      right:auto;
+    }
+  }
 }
 
 @media(min-width: $gtTablet) {
