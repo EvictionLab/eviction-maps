@@ -381,7 +381,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const newHeight =
       (this.platform.nativeWindow.innerHeight - this.map.el.nativeElement.offsetTop);
     this.map.el.nativeElement.style.height = newHeight + 'px';
-    console.log('setting new map height', newHeight);
   }
 
 }
