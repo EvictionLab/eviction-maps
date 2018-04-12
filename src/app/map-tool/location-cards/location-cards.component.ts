@@ -134,8 +134,7 @@ export class LocationCardsComponent implements OnInit {
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** determines if cards are expanded (map view) */
   private expanded = true;
-  /** Maximum number of characters for location name */
-  maxLocationLength = 24;
+
   /** Stores which properties should be % formatted */
   private percentProps;
   /** Stores which properties should be $ formatted */
@@ -189,12 +188,9 @@ export class LocationCardsComponent implements OnInit {
     return this.year.toString().slice(-2);
   }
 
-  /** Get location name and truncate if it's too long */
-  getLocationName(name: string) {
-    const max = this.maxLocationLength;
-    return name.length > max ? name.substring(0, max) + '...' : name;
+  isTruncated(value: string) {
+    return value.substr(value.length - 3) === '...';
   }
-
 
   /** gets an animation state for the card number */
   getCardState(cardNum: number) {
