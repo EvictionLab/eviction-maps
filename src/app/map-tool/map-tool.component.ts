@@ -101,7 +101,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.translate.getTranslation(this.translate.currentLang)
       .take(1).subscribe(() => { this.checkSupport(); });
     // set map height on dimension changes
-    this.platform.dimensions$.subscribe(this.setMapSize.bind(this));
+    this.platform.dimensions$
+    .distinctUntilChanged((prev, next) => prev.width === next.width)
+    .subscribe(this.setMapSize.bind(this));
     this.cdRef.detectChanges();
   }
 
@@ -379,6 +381,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     const newHeight =
       (this.platform.nativeWindow.innerHeight - this.map.el.nativeElement.offsetTop);
     this.map.el.nativeElement.style.height = newHeight + 'px';
+    console.log('setting new map height', newHeight);
   }
 
 }
