@@ -21,8 +21,12 @@ export class AnalyticsService {
    * @param data object of event data
    */
   trackEvent(id: string, data: any = {}) {
+    // do not track unless in production
+    if (!environment.production) {
+      this.debug(`tracking ${id}`, data);
+      return;
+    }
     if (!this.dataLayer) { throw Error('dataLayer does not exist'); }
-    this.debug(`tracking ${id}`, data);
     const event = { event: id, ...data };
     this.dataLayer.push(event);
   }
