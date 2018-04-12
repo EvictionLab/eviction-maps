@@ -36,22 +36,6 @@
   }
 }
 
-// Larger than tablet:
-//    Adjust height of map / location cards to reflect large header.
-@media(min-width: $gtTablet) {
-  .app-wrapper {
-    app-map, 
-    app-map.legend-active, 
-    app-map.slider-active,
-    app-map.legend-active.slider-active, 
-    app-map.cards-active {
-      margin-top: $headerHeightLg;
-      height: calc(100vh - #{$headerHeightLg});
-      transition: none;
-    }
-  }
-}
-
 // Map Overlay
 .map-overlay {
   @include fill-parent();

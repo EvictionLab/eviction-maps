@@ -145,7 +145,7 @@ app-location-cards {
       top:0;
       bottom: auto;
       margin:auto;
-      height: calc(100% - #{$headerHeightLg} - #{$timeSliderLg});
+      height: calc(100% - #{$timeSliderLg});
     }
   }
 }
