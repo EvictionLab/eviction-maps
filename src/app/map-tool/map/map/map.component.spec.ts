@@ -15,6 +15,7 @@ import { UiMapLegendComponent } from '../map-legend/ui-map-legend.component';
 import { LocationCardsModule } from '../../location-cards/location-cards.module';
 import { ServicesModule } from '../../../services/services.module';
 import { Pipe, PipeTransform } from '@angular/core';
+import { MapToolService } from '../../map-tool.service';
 
 @Pipe({ name: 'translate' })
 export class TranslatePipeMock implements PipeTransform {
@@ -44,6 +45,10 @@ class MapServiceStub {
   updateHighlightFeatures(...args) { return this; }
 }
 
+class MapToolServiceStub {
+  cardsCollapsed = true;
+}
+
 describe('MapComponent', () => {
   let component: MapComponent;
   let fixture: ComponentFixture<MapComponent>;
@@ -63,7 +68,8 @@ describe('MapComponent', () => {
       set: {
         providers: [
           { provide: MapService, useValue: new MapServiceStub() },
-          { provide: TranslatePipe, useClass: TranslatePipeMock }
+          { provide: TranslatePipe, useClass: TranslatePipeMock },
+          { provide: MapToolService, useValue: new MapToolServiceStub() }
         ],
       }
     })

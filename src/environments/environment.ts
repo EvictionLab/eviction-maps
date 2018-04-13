@@ -21,32 +21,109 @@ export const environment = {
     'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
     '4et5d5nstXWM5P0JG67XEQ',
   mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/search/counties.csv',
+  staticSearchUrl: 'https://staging.evictionlab.org/data/search/locations.csv',
   downloadBaseUrl: 'https://exports-dev.evictionlab.org',
   minYear: 2000,
   maxYear: 2016,
   rankingsYear: 2016,
   appVersion: version + '-dev',
   siteNav: [
-    { url: '/', langKey: 'NAV.HOME' },
-    { url: '/', langKey: 'NAV.MAP' },
-    { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
-    { url: '/about', langKey: 'NAV.ABOUT' },
-    { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
-    { url: '/methods', langKey: 'NAV.METHODS' },
-    { url: '/help-faq', langKey: 'NAV.HELP' },
-    { url: '/updates', langKey: 'NAV.UPDATES' }
+    {
+      defaultUrl: '/',
+      langKey: 'NAV.HOME',
+      langUrls: { 'es': '/es' }
+    },
+    {
+      defaultUrl: '/',
+      langKey: 'NAV.MAP',
+      langUrls: { 'es': '/#/2016?lang=es' }
+    },
+    {
+      defaultUrl: '/#/evictions',
+      langKey: 'NAV.RANKINGS',
+      langUrls: { 'es': '/#/evictions?lang=es' }
+    },
+    {
+      defaultUrl: '/about',
+      langKey: 'NAV.ABOUT',
+      langUrls: { 'es': '/es/about' }
+    },
+    {
+      defaultUrl: '/why-eviction-matters',
+      langKey: 'NAV.PROBLEM',
+      langUrls: { 'es': '/es/why-eviction-matters' }
+    },
+    {
+      defaultUrl: '/methods',
+      langKey: 'NAV.METHODS',
+      langUrls: { 'es': '/es/methods' }
+    },
+    {
+      defaultUrl: '/help-faq',
+      langKey: 'NAV.HELP',
+      langUrls: { 'es': '/es/help-faq' }
+    },
+    {
+      defaultUrl: '/updates',
+      langKey: 'NAV.UPDATES',
+      langUrls: { 'es': '/es/updates' }
+    }
   ],
   footerNav: [
-    { url: '/', langKey: 'NAV.HOME' },
-    { url: '/', langKey: 'NAV.MAP' },
-    { url: '/#/evictions', langKey: 'NAV.RANKINGS' },
-    { url: '/about', langKey: 'NAV.ABOUT' },
-    { url: '/why-eviction-matters', langKey: 'NAV.PROBLEM' },
-    { url: '/methods', langKey: 'NAV.METHODS' },
-    { url: '/help-faq', langKey: 'NAV.HELP' },
-    { url: '/updates', langKey: 'NAV.UPDATES' },
-    { url: '/contact', langKey: 'NAV.CONTACT_US' },
-    { url: '/get-the-data', langKey: 'NAV.GET_DATA' },
-    { url: '/data-merge', langKey: 'NAV.DATA_MERGE' }
+    {
+      defaultUrl: '/',
+      langKey: 'NAV.HOME',
+      langUrls: { 'es': '/es' }
+    },
+    {
+      defaultUrl: '/',
+      langKey: 'NAV.MAP',
+      langUrls: { 'es': '/#/2016?lang=es' }
+    },
+    {
+      defaultUrl: '/#/evictions',
+      langKey: 'NAV.RANKINGS',
+      langUrls: { 'es': '/#/evictions?lang=es' }
+    },
+    {
+      defaultUrl: '/about',
+      langKey: 'NAV.ABOUT',
+      langUrls: { 'es': '/es/about' }
+    },
+    {
+      defaultUrl: '/why-eviction-matters',
+      langKey: 'NAV.PROBLEM',
+      langUrls: { 'es': '/es/why-eviction-matters' }
+    },
+    {
+      defaultUrl: '/methods',
+      langKey: 'NAV.METHODS',
+      langUrls: { 'es': '/es/methods' }
+    },
+    {
+      defaultUrl: '/help-faq',
+      langKey: 'NAV.HELP',
+      langUrls: { 'es': '/es/help-faq' }
+    },
+    {
+      defaultUrl: '/updates',
+      langKey: 'NAV.UPDATES',
+      langUrls: { 'es': '/es/updates' }
+    },
+    {
+      defaultUrl: '/contact',
+      langKey: 'NAV.CONTACT_US',
+      langUrls: { 'es': '/es/contact' }
+    },
+    {
+      defaultUrl: '/get-the-data',
+      langKey: 'NAV.GET_DATA',
+      langUrls: { 'es': '/es/get-the-data' }
+    },
+    {
+      defaultUrl: '/data-merge',
+      langKey: 'NAV.DATA_MERGE',
+      langUrls: { 'es': '/es/data-merge' }
+    }
   ]
 };

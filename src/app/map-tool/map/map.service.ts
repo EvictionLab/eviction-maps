@@ -193,6 +193,8 @@ export class MapService {
       layers: [ (layerId === 'states' ? 'boundary_state' : layerId) ],
       filter: ['==', 'GEOID', feature.properties['GEOID']]
     });
+    // return early if there are no queried features
+    if (!queryFeatures || queryFeatures.length === 0) { return null; }
     // Combine features, ignoring any TopologyExceptions
     try {
       const feats = queryFeatures.reduce((currFeat, nextFeat) => {

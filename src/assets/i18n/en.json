@@ -62,7 +62,9 @@
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
     "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
-    "LOADING": "Loading"
+    "LOADING": "Loading",
+    "TRACT_SINGULAR": "Census Tract",
+    "BLOCK_GROUP_SINGULAR": "Block Group"
   },
   "HEADER": {
     "HOME": "Home",
@@ -103,7 +105,7 @@
     "DATA_LINK_MULTIPLE": "View Full Comparison",
     "SCROLL_DATA_SINGLE": "Scroll for More Data",
     "SCROLL_DATA_MULTIPLE": "Scroll for Full Comparison",
-    "MAX_LOCATIONS_ERROR": "Maximum limit reached. Please remove a location to add another.",
+    "MAX_LOCATIONS_ERROR": "Only three locations may be viewed at once. Remove one of the location cards to add another location.",
     "NO_DATA_ERROR": "Could not find data for location.",
     "AUTO": "auto",
     "UNSUPPORTED_TITLE": "Unsupported Browser",
@@ -142,7 +144,7 @@
     "PREV": "Previous"
   },
   "STATS": {
-    "DEMOGRAPHICS": "Demographic Breakdown",
+    "DEMOGRAPHICS": "Census Demographics",
     "NO_DATA": "No data",
     "NONE": "None",
     "JUDGMENTS_PER_DAY": "Evictions Per Day",

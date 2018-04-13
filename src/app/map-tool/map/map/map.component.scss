@@ -123,7 +123,7 @@ app-location-cards {
     background: none;
     pointer-events: none;
     align-items: center;
-    height: calc(100vh - #{$headerHeightLg});
+    height: calc(100% - #{$headerHeightLg});
     ::ng-deep {
       .location-card {
         transition: transform 0.2s ease;
@@ -145,7 +145,7 @@ app-location-cards {
       top:0;
       bottom: auto;
       margin:auto;
-      height: calc(100vh - #{$headerHeightLg} - #{$timeSliderLg});
+      height: calc(100% - #{$timeSliderLg});
     }
   }
 }
@@ -391,83 +391,3 @@ app-ui-map-legend {
   }
 }
 // - End Year Slider
-
-
-// TODO: Move device specific styles to separate overrides file
-// Device-specific adjustments
-
-// iPhones w/ safari
-@media(max-width: $gtMobile) {
-  .ios-safari :host-context(.slider-active) {
-    .year-slider-container { height: $timeSliderHeight + $iosSafariPadding; }
-  }
-  .ios-safari :host-context(.legend-active) {
-    app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderHeight; }
-  }
-  .ios-safari :host-context(.cards-active) {
-    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-    app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-    .year-slider-container {
-      height: $timeSliderHeight;
-      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding;
-    }
-    app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding; }
-  }
-}
-// iPads w/ Safari
-@media(min-width: $gtMobile) and (max-width: $gtTablet) {
-  .ios-safari :host-context(.slider-active) {
-    .year-slider-container { height: $timeSliderLg + $iosSafariPadding; }
-  }
-  .ios-safari :host-context(.legend-active) {
-    app-ui-map-legend { bottom: $iosSafariPadding + $timeSliderLg; }
-  }
-  .ios-safari :host-context(.cards-active) {
-    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-    app-location-cards { bottom: $mobileScrollIndicatorHeight + $iosSafariPadding; }
-    .year-slider-container {
-      height: $timeSliderLg;
-      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding;
-    }
-    app-ui-map-legend { bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight + $iosSafariPadding; }
-  }
-}
-// Android - Mobile
-@media(max-width: $gtMobile) {
-  .android :host-context(.slider-active) {
-    .year-slider-container { height: $timeSliderHeight + $androidPadding; }
-  }
-  .android :host-context(.legend-active) {
-    app-ui-map-legend { bottom: $androidPadding + $timeSliderHeight; }
-  }
-  .android :host-context(.cards-active) {
-    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
-    app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
-    .year-slider-container {
-      height: $timeSliderHeight;
-      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding;
-    }
-    app-ui-map-legend { bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding; }
-  }
-}
-// Android - Tablet
-@media(min-width: $gtMobile) and (max-width: $gtTablet) {
-  .android :host-context(.slider-active) {
-    .year-slider-container { height: $timeSliderLg + $androidPadding; }
-  }
-  .android :host-context(.legend-active) {
-    app-ui-map-legend { bottom: $androidPadding + $timeSliderLg; }
-  }
-  .android :host-context(.cards-active) {
-    .mobile-scroll-indicator { height: $mobileScrollIndicatorHeight + $androidPadding; }
-    app-location-cards { bottom: $mobileScrollIndicatorHeight + $androidPadding; }
-    .year-slider-container {
-      height: $timeSliderLg;
-      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding;
-    }
-    app-ui-map-legend { bottom: $timeSliderLg + $cardHeaderHeight + $mobileScrollIndicatorHeight + $androidPadding; }
-  }
-}
-
-
-// - End of device adjustments

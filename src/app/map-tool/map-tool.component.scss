@@ -8,10 +8,6 @@
 .app-wrapper {
   min-height:100%;
   min-width: 100%;
-  &.map-active {
-    height: 100vh;
-    overflow: hidden;
-  }
   app-map {
     position:relative;
     display:block;
@@ -19,7 +15,6 @@
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
     z-index:10;
-    transition: $mobileVhTransition;
   }
   app-data-panel {
     display:block;
@@ -37,21 +32,6 @@
     app-map {
       margin-top: $headerHeightLg;
       height: calc(100vh - #{$headerHeightLg});
-    }
-  }
-}
-
-// Larger than tablet:
-//    Adjust height of map / location cards to reflect large header.
-@media(min-width: $gtTablet) {
-  .app-wrapper {
-    &.map-active { transition: none; }
-
-    app-map, app-map.legend-active, app-map.slider-active,
-    app-map.legend-active.slider-active, app-map.cards-active {
-      margin-top: $headerHeightLg;
-      height: calc(100vh - #{$headerHeightLg});
-      transition: none;
     }
   }
 }

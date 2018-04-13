@@ -114,6 +114,16 @@ export class LocationCardsComponent implements OnInit {
   @Input() allowAddLocation = false;
   /** US Average data used to show how a location compares (eviction rate only) */
   @Input() usAverage: Object;
+  @Input()
+  set collapsed(isCollapsed: boolean) {
+    if (!this.collapsible) { return; }
+    if (!isCollapsed !== this.expanded) {
+      this.expanded = !isCollapsed;
+      this.collapsedChange.emit(isCollapsed);
+    }
+  }
+  get collapsed(): boolean { return !this.expanded; }
+  @Output() collapsedChange: EventEmitter<boolean> = new EventEmitter();
   @Output() dismissedCard = new EventEmitter();
   @Output() locationAdded = new EventEmitter();
   @Output() clickedHeader = new EventEmitter();
@@ -123,9 +133,8 @@ export class LocationCardsComponent implements OnInit {
   /** Used for hiding all tooltips on touchstart */
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** determines if cards are expanded (map view) */
-  expanded = true;
-  /** Maximum number of characters for location name */
-  maxLocationLength = 24;
+  private expanded = true;
+
   /** Stores which properties should be % formatted */
   private percentProps;
   /** Stores which properties should be $ formatted */
@@ -139,17 +148,17 @@ export class LocationCardsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    if (this.collapsible) { this.expanded = false; }
+    this.collapsed = this.collapsible;
   }
 
   /** Expand cards on mouse enter */
   @HostListener('mouseenter', ['$event']) onmouseenter(e) {
-    this.expanded = true;
+    this.collapsed = false;
   }
 
   /** Collapse cards on mouse leave, if enabled */
   @HostListener('mouseleave', ['$event']) onmouseleave(e) {
-    this.expanded = this.collapsible ? false : true;
+    this.collapsed = this.collapsible;
   }
 
   removeCard(e, feature) {
@@ -179,12 +188,9 @@ export class LocationCardsComponent implements OnInit {
     return this.year.toString().slice(-2);
   }
 
-  /** Get location name and truncate if it's too long */
-  getLocationName(name: string) {
-    const max = this.maxLocationLength;
-    return name.length > max ? name.substring(0, max) + '...' : name;
+  isTruncated(value: string) {
+    return value.substr(value.length - 3) === '...';
   }
-
 
   /** gets an animation state for the card number */
   getCardState(cardNum: number) {

@@ -84,8 +84,8 @@ export class DataPanelComponent implements OnInit {
     const cardProps = this._dataAttributes
       .filter(d => typeof d.order === 'number')
       .sort((a, b) => a.order > b.order ? 1 : -1);
-    // index where the divider is inserted, right before "percent white" (pw)
-    const dividerIndex = cardProps.findIndex(p => p.id === 'pw');
+    // index where the divider is inserted, right before "poverty rate" (pr)
+    const dividerIndex = cardProps.findIndex(p => p.id === 'pr');
     const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
     // add the divider
     this.cardAttributes = [

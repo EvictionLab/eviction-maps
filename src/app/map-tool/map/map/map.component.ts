@@ -18,6 +18,7 @@ import { MapService } from '../map.service';
 import { LoadingService } from '../../../services/loading.service';
 import { PlatformService } from '../../../services/platform.service';
 import { AnalyticsService } from '../../../services/analytics.service';
+import { MapToolService } from '../../map-tool.service';
 
 @Component({
   selector: 'app-map',
@@ -31,7 +32,7 @@ export class MapComponent implements OnInit, OnChanges {
   maxYear = environment.maxYear;
   mapEventLayers: Array<string>;
   cardProps;
-  private zoom = 3;
+  zoom = 3;
   private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
   private _store = {
     layer: null,
@@ -63,8 +64,6 @@ export class MapComponent implements OnInit, OnChanges {
   get boundingBox() { return this._store.bounds; }
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
 
-
-
   /** Sets and gets the bubble attribute to display on the map */
   @Input()
   set selectedBubble(newBubble: MapDataAttribute) {
@@ -77,7 +76,6 @@ export class MapComponent implements OnInit, OnChanges {
   }
   get selectedBubble(): MapDataAttribute { return this._store.bubble; }
   @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
-
 
   /** Sets and gets the choropleth attribute to display on the map */
   @Input()
@@ -219,10 +217,12 @@ export class MapComponent implements OnInit, OnChanges {
       this.selectedChoropleth.id.indexOf('none') < 0;
   }
 
+  private blockMapClick = false;
   private _debug = true;
 
   constructor(
     public el: ElementRef,
+    public mapToolService: MapToolService,
     private mapService: MapService,
     private loader: LoadingService,
     private platform: PlatformService,
@@ -267,6 +267,11 @@ export class MapComponent implements OnInit, OnChanges {
   @HostListener('document:click', ['$event']) dismissTooltip() {
     this.mapTooltip.hide();
     this.tooltipEnabled = false;
+  }
+
+  /** Block map clicks on touch device if the cards are expanded */
+  @HostListener('document:touchstart', ['$event']) onTouchStart() {
+    this.blockMapClick = !this.mapToolService.cardsCollapsed;
   }
 
   /**
@@ -361,9 +366,16 @@ export class MapComponent implements OnInit, OnChanges {
    * @param feature the map feature
    */
   onFeatureClick(feature) {
-    if (feature && feature.properties) {
+    // collapse cards if they are not collapsed
+    if (!this.mapToolService.cardsCollapsed) {
+      this.mapToolService.cardsCollapsed = true;
+    }
+    // emit feature click if not event blocking
+    if (feature && feature.properties && !this.blockMapClick) {
       this.featureClick.emit(feature);
     }
+    // turn off event blocking so future clicks work
+    this.blockMapClick = false;
   }
 
   /** Tracks anytime the map auto switches based on zoom level */

@@ -6,15 +6,21 @@
   <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">
     <app-ui-icon class="marker" icon="marker"></app-ui-icon>
     <h1 class="card-heading" 
-      [tooltip]="f.properties['n'].length > maxLocationLength ? f.properties['n'] : null" 
+      [tooltip]="isTruncated(f['displayName']) ? f.properties['n'] : null" 
       [placement]="collapsible ? 'top' : 'bottom'"
-    >{{ getLocationName(f.properties['n']) }}</h1>
+    >
+      <span *ngIf="f.properties['layerId'] === 'tracts' || f.properties['layerId'] === 'block-groups'">
+        {{ f.properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
+        {{ f.properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+      </span>
+      {{f['displayName']}}
+    </h1>
     <h2 class="card-subheading">{{f.properties['pl']}}</h2>
     <app-ui-close-button class="card-dismiss" 
       [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
       (onPress)="removeCard($event, f)"
-      (onFocus)="expanded = true"
-      (onBlur)="expanded = false"
+      (onFocus)="collapsed = false"
+      (onBlur)="collapsed = true"
     ></app-ui-close-button>
   </div>
   <div class="card-content">
@@ -34,8 +40,8 @@
           [placement]="tooltipPos(idx, i)"
           container="body"
           triggers="hover touchend focus"
-          (focus)="expanded = true"
-          (blur)="expanded = false"
+          (focus)="collapsed = false"
+          (blur)="collapsed = true"
           (onShown)="onTooltipShown($event)"
         >
           {{ prop.name }}

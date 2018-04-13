@@ -199,6 +199,23 @@ export class AppComponent implements OnInit {
     this.mapComponent.onInitialSearchInput.apply(this.mapComponent, arguments);
   }
 
+  /** Updates the URLs and link names for site navigation */
+  private updateNavigationLanguage(translations) {
+    const lang = this.translate.currentLang;
+    this.siteNav = this.siteNav.map(l => {
+      if (l.langKey) { l['name'] = translations[ l.langKey.split('.')[1] ]; }
+      l['url'] = (l['langUrls'] && l['langUrls'].hasOwnProperty(lang)) ?
+        l['langUrls'][lang] : l['defaultUrl'];
+      return l;
+    });
+    this.footerNav = this.footerNav.map(l => {
+      if (l.langKey) { l['name'] = translations[ l.langKey.split('.')[1] ]; }
+      l['url'] = (l['langUrls'] && l['langUrls'].hasOwnProperty(lang)) ?
+        l['langUrls'][lang] : l['defaultUrl'];
+      return l;
+    });
+  }
+
   /**
    * Update the lang attribute on the html element
    * Based on https://github.com/ngx-translate/core/issues/565
@@ -221,15 +238,7 @@ export class AppComponent implements OnInit {
     }
     // update site navigation language
     if (translations.hasOwnProperty('NAV')) {
-      const nav = translations['NAV'];
-      this.siteNav = this.siteNav.map(l => {
-        if (l.langKey) { l['name'] = nav[ l.langKey.split('.')[1] ]; }
-        return l;
-      });
-      this.footerNav = this.footerNav.map(l => {
-        if (l.langKey) { l['name'] = nav[ l.langKey.split('.')[1] ]; }
-        return l;
-      });
+      this.updateNavigationLanguage(translations['NAV']);
     }
   }
 }
