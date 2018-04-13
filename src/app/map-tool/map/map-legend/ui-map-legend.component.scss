@@ -169,3 +169,37 @@ app-ui-hint.legend-hint {
     margin-top: grid(1);
   }
 }
+
+.label {
+  display: none;
+  position: absolute;
+  top: 0;
+  height: grid(2);
+  color: $grey_wcag;
+  text-align: center;
+  @include numberFont(12px);
+
+  span { width: 100%; padding: grid(0.25); }
+
+  &.bubble {
+    left: 0;
+    width: grid(16.5);
+  }
+  &.choropleth {
+    width: calc(100% - #{grid(16.5)});
+    right: 0;
+  }
+}
+
+@media(min-width: $gtMobile) {
+  .label {
+    &.bubble { width: grid(20); }
+    &.choropleth { width: calc(100% - #{grid(16.5)}); }
+  }
+}
+
+:host-context(.embed) {
+  .label { display: inherit; }
+  .legend-item { margin: grid(5) grid(1) 0; }
+  .legend-hint { display: none; }
+}

@@ -41,7 +41,10 @@ html.embedded {
   app-map .map-ui-wrapper app-location-cards,
   app-map .year-slider-container { display: none !important; }
   // force legend to the bottom
-  app-ui-map-legend { bottom: 0!important; }
+  app-ui-map-legend {
+    bottom: 0!important;
+    height: grid(9) !important;
+  }
   // hide scroll indicator
   .cards-active .mobile-scroll-indicator,
   .slider-active .mobile-scroll-indicator,
@@ -61,6 +64,8 @@ html.embedded {
 }
 
 @media(min-width: $gtMobile) {
-  .embed app-ui-map-legend { bottom: $pageMarginLg!important; }
+  .embed app-ui-map-legend {
+    bottom: $pageMarginLg!important;
+  }
 }
 
