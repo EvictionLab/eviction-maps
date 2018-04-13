@@ -103,6 +103,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     // set map height on dimension changes
     this.platform.dimensions$
       .distinctUntilChanged((prev, next) => prev.width === next.width)
+      .skip(1)
       .subscribe(this.setMapSize.bind(this));
     this.cdRef.detectChanges();
   }
