@@ -177,6 +177,8 @@ app-ui-hint.legend-hint {
   height: grid(2);
   color: $grey_wcag;
   text-align: center;
+  text-transform: uppercase;
+  line-height: 1;
   @include defaultFontBold(12px);
 
   span { width: 100%; padding: grid(0.25); }
@@ -194,7 +196,7 @@ app-ui-hint.legend-hint {
 @media(min-width: $gtMobile) {
   .label {
     &.bubble { width: grid(20); }
-    &.choropleth { width: calc(100% - #{grid(16.5)}); }
+    &.choropleth { width: calc(100% - #{grid(20)}); }
   }
 }
 
