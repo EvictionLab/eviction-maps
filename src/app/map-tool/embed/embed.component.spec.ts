@@ -9,6 +9,7 @@ import { MapModule } from '../map/map.module';
 import { ServicesModule } from '../../services/services.module';
 import { ScrollService } from '../../services/scroll.service';
 import { MapToolService } from '../map-tool.service';
+import { PlatformService } from '../../services/platform.service';
 import { LocationCardsComponent } from '../location-cards/location-cards.component';
 
 describe('EmbedComponent', () => {
@@ -25,7 +26,7 @@ describe('EmbedComponent', () => {
         TranslateModule.forRoot()
       ],
       providers: [
-        MapToolService
+        MapToolService, PlatformService
       ]
     })
     .compileComponents();

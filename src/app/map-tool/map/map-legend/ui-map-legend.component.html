@@ -1,4 +1,7 @@
 <div class="map-legend">
+  <div class="label bubble" [class.both-labels]="hasChoropleth" *ngIf="hasBubbles">
+    <span>{{ bubbleLabel }}</span>
+  </div>
   <div class="legend-item small-bubble bubble-no-data" *ngIf="hasBubbles">
     <span>{{ noData }}</span>
     <div class="legend-circle"></div>
@@ -12,6 +15,9 @@
     <div class="legend-circle"></div>
   </div>
   <div class="legend-divider" *ngIf="hasBubbles && hasChoropleth"></div>
+  <div class="label choropleth" [class.both-labels]="hasBubbles" *ngIf="hasChoropleth">
+    <span>{{ choroplethLabel }}</span>
+  </div>
   <div class="legend-item choropleth-no-data" *ngIf="hasChoropleth">
     <span>{{ noData }}</span>
     <div class="no-data-square"></div>

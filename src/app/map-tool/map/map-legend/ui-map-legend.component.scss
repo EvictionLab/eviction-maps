@@ -61,7 +61,7 @@ $bubbleColor: rgba(255,4,0,0.65);
     background: $bubbleColor;
   }
 }
-.bubble-no-data {
+.legend-item.bubble-no-data {
   font-family: $boldFontStack;
   .legend-circle {
     background: #fff;
@@ -77,7 +77,7 @@ $bubbleColor: rgba(255,4,0,0.65);
 }
 
 // choropleth no data
-.choropleth-no-data {
+.legend-item.choropleth-no-data {
   font-family: $boldFontStack;
   .no-data-square {
     position: absolute;
@@ -168,4 +168,40 @@ app-ui-hint.legend-hint {
   app-ui-hint.legend-hint {
     margin-top: grid(1);
   }
+}
+
+.label {
+  display: none;
+  position: absolute;
+  top: 0;
+  height: grid(2);
+  color: $grey_wcag;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1;
+  @include defaultFontBold(12px);
+
+  span { width: 100%; padding: grid(0.25); }
+
+  &.bubble {
+    left: 0;
+    width: grid(16.5);
+  }
+  &.choropleth {
+    width: calc(100% - #{grid(16.5)});
+    right: 0;
+  }
+}
+
+@media(min-width: $gtMobile) {
+  .label {
+    &.bubble { width: grid(20); }
+    &.choropleth { width: calc(100% - #{grid(20)}); }
+  }
+}
+
+:host-context(.embed) {
+  .label { display: inherit; }
+  .legend-item { margin: grid(5) grid(1) 0; }
+  .legend-hint { display: none; }
 }

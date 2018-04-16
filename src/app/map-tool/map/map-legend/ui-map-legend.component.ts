@@ -27,6 +27,8 @@ export class UiMapLegendComponent implements OnChanges {
   maxBubbleValue: number;
   hasBubbles = false;
   hasChoropleth = false;
+  bubbleLabel: string;
+  choroplethLabel: string;
   noData: string;
   hintData;
   legendGradient;
@@ -70,11 +72,13 @@ export class UiMapLegendComponent implements OnChanges {
         min: this.formatValue(this.stops[2]),
         max: this.formatValue(this.stops[this.stops.length - 2])
       }));
+      this.choroplethLabel = this.translatePipe.transform(this.choropleth.langKey);
     }
     if (this.hasBubbles) {
       legendText.push(this.translatePipe.transform('MAP.BUBBLE_LEGEND_HINT', {
         attribute: this.bubbles.name.toLowerCase()
       }));
+      this.bubbleLabel = this.translatePipe.transform(this.bubbles.langKey);
     }
     this.hintData = legendText.join(' ');
   }

@@ -8,6 +8,7 @@ import { environment } from '../../../environments/environment';
 import { MapToolService } from '../map-tool.service';
 import { MapService } from '../map/map.service';
 import { RoutingService } from '../../services/routing.service';
+import { PlatformService } from '../../services/platform.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute } from '@angular/router';
 
@@ -21,6 +22,7 @@ export class EmbedComponent implements OnInit, AfterViewInit {
   id = 'embed-map';
   deployUrl = environment.deployUrl;
   @ViewChild(MapComponent) map;
+  mapUrl = '/';
 
   private defaultMapConfig = {
     style: `${environment.deployUrl}assets/style.json`,
@@ -39,7 +41,8 @@ export class EmbedComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
-    private el: ElementRef
+    private el: ElementRef,
+    private platform: PlatformService
   ) {
     this.routing.setActivatedRoute(route);
     this.mapToolService.embed = true;
@@ -63,6 +66,8 @@ export class EmbedComponent implements OnInit, AfterViewInit {
         this.mapConfig['year'] = data['year'];
         this.mapToolService.setCurrentData(mapData);
         this.mapConfig = { ...this.mapConfig, ...this.mapToolService.mapConfig };
+        // Naive replacement of embed in route for map link
+        this.mapUrl = this.platform.nativeWindow.location.href.replace('/embed', '');
         this.routing.updatePymSearch();
       });
     this.cdRef.detectChanges();
