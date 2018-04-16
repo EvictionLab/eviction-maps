@@ -61,7 +61,7 @@ $bubbleColor: rgba(255,4,0,0.65);
     background: $bubbleColor;
   }
 }
-.bubble-no-data {
+.legend-item.bubble-no-data {
   font-family: $boldFontStack;
   .legend-circle {
     background: #fff;
@@ -77,7 +77,7 @@ $bubbleColor: rgba(255,4,0,0.65);
 }
 
 // choropleth no data
-.choropleth-no-data {
+.legend-item.choropleth-no-data {
   font-family: $boldFontStack;
   .no-data-square {
     position: absolute;
@@ -177,7 +177,7 @@ app-ui-hint.legend-hint {
   height: grid(2);
   color: $grey_wcag;
   text-align: center;
-  @include numberFont(12px);
+  @include defaultFontBold(12px);
 
   span { width: 100%; padding: grid(0.25); }
 
