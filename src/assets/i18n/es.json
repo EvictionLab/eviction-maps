@@ -109,7 +109,7 @@
     "DATA_LINK_MULTIPLE": "Ver comparación completa",
     "SCROLL_DATA_SINGLE": "Desplácese para ver más datos",
     "SCROLL_DATA_MULTIPLE": "Desplácese para la comparación completa",
-    "MAX_LOCATIONS_ERROR": "Límite máximo alcanzado. Por favor, elimine un lugar para agregar otro.",
+    "MAX_LOCATIONS_ERROR": "Solo se pueden ver tres lugares a la vez. Elimine una de las tarjetas de lugar para agregar otro.",
     "NO_DATA_ERROR": "No pudimos encontrar datos para este lugar.",
     "AUTO": "automático",
     "UNSUPPORTED_TITLE": "Navegador no compatible",
@@ -148,7 +148,7 @@
     "PREV": "Anterior"
   },
   "STATS": {
-    "DEMOGRAPHICS": "Desglose Demográfico",
+    "DEMOGRAPHICS": "Datos demográficos del censo",
     "NO_DATA": "Sin datos",
     "NONE": "No hay",
     "JUDGMENTS_PER_DAY": "Desalojos por día",
@@ -188,8 +188,8 @@
     "TOP_EVICTING_AREAS": "Áreas principales de desalojo",
     "TOP_EVICTORS": "Desalojadores principales",
     "COMING_SOON": "Próximamente",
-    "PANEL_SUMMARY": "Hubo {{evictions}} desalojos en el área de {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
-    "PANEL_SUMMARY_SINGULAR": "Hubo {{evictions}} desalojo en el área de {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
+    "PANEL_SUMMARY": "Hubo {{evictions}} desalojos en {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
+    "PANEL_SUMMARY_SINGULAR": "Hubo {{evictions}} desalojo en {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
     "LIST_INTRO": "Ver los rankings de desalojos en el {{year}} para lugares en todo Estados Unidos. Desplácese por la lista o use la barra de búsqueda para encontrar un lugar. Para refinar sus resultados, elija un tipo de área y un tipo de datos. También se puede buscar dentro de estados usando el menú de Región.",
     "SEARCH_FILTER": "Buscar y filtrar",
     "TOP_EVICTORS_LINK": "Ver los desalojadores principales",
