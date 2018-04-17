@@ -441,7 +441,8 @@ export class MapToolService {
         .join(',');
     });
     feature['lowProps'] = Object.keys(this.lowFlags)
-      .filter((p: string) => this.lowFlags[p].indexOf(feature.properties['GEOID']) > -1);
+      .filter((p: string) =>
+        this.lowFlags[p].indexOf((feature.properties['GEOID'] as string).slice(0, 2)) > -1);
   }
 
   /** Get location name and truncate if it's too long */
