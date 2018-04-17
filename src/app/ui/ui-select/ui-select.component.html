@@ -22,6 +22,8 @@
         {{getLabel(value)}}
       </a>
     </li>
-    <li *ngIf="bottomLabel" class="bottom-label"><a class="dropdown-item">{{bottomLabel}}</a></li>
+    <li *ngIf="bottomLabel">
+      <p class="bottom-label">{{bottomLabel}}</p>
+    </li>
   </ul>
 </div>
