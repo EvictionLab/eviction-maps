@@ -68,7 +68,7 @@ export class UiMapLegendComponent implements OnChanges {
         'MAP.CHORO_LEGEND_HINT' : 'MAP.CHORO_LEGEND_HINT_ALT';
       legendText.push(this.translatePipe.transform(hint, {
         geography: this.stripHtmlFromString(this.layer['name']).toLowerCase(),
-        attribute: this.choropleth['name'].toLowerCase(),
+        attribute: this.transformChoroplethLabel(this.choropleth['name']),
         min: this.formatValue(this.stops[2]),
         max: this.formatValue(this.stops[this.stops.length - 2])
       }));
@@ -151,6 +151,14 @@ export class UiMapLegendComponent implements OnChanges {
       }
     }
     return value;
+  }
+
+  /** Transforms the string to lower case if it does not contain upper case keywords */
+  private transformChoroplethLabel(label: string) {
+    const noLowerCase = [ 'African', 'Asian', 'Hispanic', 'Native', 'White' ];
+    const isLowerCase =
+      noLowerCase.reduce((acc, cur) => acc ? label.indexOf(cur) === -1 : false, true);
+    return isLowerCase ? label.toLowerCase() : label;
   }
 
   private stripHtmlFromString(htmlString: string) {
