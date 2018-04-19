@@ -124,6 +124,11 @@ export const environment = {
       defaultUrl: '/data-merge',
       langKey: 'NAV.DATA_MERGE',
       langUrls: { 'es': '/es/data-merge' }
+    },
+    {
+      defaultUrl: '/media-guide/',
+      langKey: 'NAV.MEDIA_GUIDE',
+      langUrls: { 'es': '/es/media-guide/' }
     }
   ]
 };
