@@ -341,7 +341,7 @@
       margin: auto;
     }
     .legend-label {
-      margin: 0 grid(6) 2px grid(5);
+      margin: 0 grid(6) 6px grid(5);
       display:block;
       line-height: 24px;
       @include defaultFontBold(18px);
@@ -351,15 +351,15 @@
         line-height:21px;
         letter-spacing: 0.3px;
         color: $grey_wcag;
-        margin-bottom:0;
+        margin-bottom:4px;
       }
     }
     .legend-data {
       color: $grey_wcag;
       margin: 0 0 0 grid(5);
       @include numberFont(14px);
-      line-height:24px;
-      height: 24px;
+      line-height:21px;
+      height: 21px;
     }
     .clear-location { 
       position:absolute;
@@ -430,7 +430,7 @@
     }
     li { 
       width:100%; 
-      margin: grid(1.5) 0 grid(3);
+      margin: grid(1.5) 0 grid(1.5);
       .clear-location { position: absolute; right:0; }
       .legend-label { 
         font-size: 21px; 
