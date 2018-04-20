@@ -376,7 +376,7 @@ export class EvictionGraphsComponent implements OnInit {
       return {
         id: 'sample' + i,
         data: [{
-          x: f.properties.n,
+          x: f.properties.n + ', ' + f.properties.pl,
           y: yVal ? yVal : 0
         }]
       };
