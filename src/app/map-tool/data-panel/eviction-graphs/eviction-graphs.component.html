@@ -68,7 +68,12 @@
       <ul>
         <li *ngFor="let location of locations; let i = index;">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
-          <span class="legend-label">{{ location.properties["n"] }}</span>
+          <span class="legend-label">
+            {{ location.properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
+            {{ location.properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+            {{ location.properties["n"] }}
+          </span>
+          <span class="legend-label legend-sub">{{ location.properties["pl"] }}</span>
           <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
             <span>{{ getLegendValue(location, i) }}</span>
