@@ -167,25 +167,20 @@ export class LocationCardsComponent implements OnInit {
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
-  isHighProp(feature, yearProp: string) {
+  isHighProp(feature, prop: string) {
     if (!feature['highProps']) { return false; }
-    return feature['highProps'].indexOf(yearProp) > -1 &&
-      !this.isMarylandFiling(feature, yearProp);
+    return feature['highProps'].indexOf(prop) > -1;
   }
 
   /** Checks if the property name exists in the feature's low flagged properties */
-  isLowProp(feature, yearProp: string) {
+  isLowProp(feature, prop: string) {
     if (!feature['lowProps']) { return false; }
-    const prop = yearProp.split('-')[0];
-    return feature['lowProps'].indexOf(prop) > -1 &&
-      !this.isHighProp(feature, yearProp) &&
-      !this.isMarylandFiling(feature, yearProp);
+    return feature['lowProps'].indexOf(prop) > -1;
   }
 
   /** Special case to check for the Maryland eviction filing rate */
-  isMarylandFiling(feature, yearProp: string) {
-    const prop = yearProp.split('-')[0];
-    return feature.properties['GEOID'].slice(0, 2) === '24' && prop === 'efr';
+  isMarylandFiling(feature, prop: string) {
+    return feature.properties['GEOID'] === '24' && prop === 'efr';
   }
 
   getAbbrYear() {
