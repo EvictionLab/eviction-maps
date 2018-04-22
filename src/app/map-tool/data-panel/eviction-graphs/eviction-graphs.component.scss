@@ -333,7 +333,6 @@
     position:relative;
     width:100%;
     margin: grid(1.5) 0;
-    height: grid(5);
     .legend-marker {
       height: grid(4);
       width: grid(3);
@@ -342,16 +341,25 @@
       margin: auto;
     }
     .legend-label {
-      margin-left: grid(5);
-      margin-right: grid(6);
+      margin: 0 grid(6) 6px grid(5);
       display:block;
       line-height: 24px;
       @include defaultFontBold(18px);
+      &.legend-sub {
+        text-transform: uppercase;
+        font-size:14px;
+        line-height:21px;
+        letter-spacing: 0.3px;
+        color: $grey_wcag;
+        margin-bottom:4px;
+      }
     }
     .legend-data {
-      margin-left: grid(5);
-      margin-top: grid(1);
+      color: $grey_wcag;
+      margin: 0 0 0 grid(5);
       @include numberFont(14px);
+      line-height:21px;
+      height: 21px;
     }
     .clear-location { 
       position:absolute;
@@ -422,9 +430,12 @@
     }
     li { 
       width:100%; 
-      margin: grid(1.5) 0 grid(3);
+      margin: grid(1.5) 0 grid(1.5);
       .clear-location { position: absolute; right:0; }
-      .legend-label { font-size: 21px; }
+      .legend-label { 
+        font-size: 21px; 
+        margin-right: grid(5);
+      }
     }
   }
 }

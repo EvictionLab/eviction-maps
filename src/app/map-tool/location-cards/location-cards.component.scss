@@ -454,12 +454,15 @@
     }
     &.divider {
       background: $defaultBackground!important; // divider is always the same color
-      padding: grid(3) 0 grid(2) 0;
+      padding: grid(3) grid(1) grid(2);
       @include smallCapsText(12px);
+      display:block;
+      text-align:center;
       .card-stat-label { 
         color: $grey_wcag; 
         margin: auto;
         text-align:center; 
+        display:inline;
         border-bottom: $tooltipTriggerBorder;
       }
     }

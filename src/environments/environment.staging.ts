@@ -116,6 +116,10 @@ export const environment = {
         defaultUrl: 'https://staging.evictionlab.org/data-merge',
         langKey: 'NAV.DATA_MERGE',
         langUrls : { 'es': 'https://staging.evictionlab.org/es/data-merge' }
+      },
+      {
+        defaultUrl: 'https://staging.evictionlab.org/updates/media/media-guide',
+        langKey: 'NAV.MEDIA_GUIDE'
       }
     ]
 };

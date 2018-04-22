@@ -320,6 +320,7 @@ export class EvictionGraphsComponent implements OnInit {
   }
 
   tooltipValue(val: number): string {
+    if (!this.graphSettings) { return ''; }
     let valStr = val.toString();
     if (this.graphSettings.axis.y.maxVal > 0 && val > this.graphSettings.axis.y.maxVal) {
       valStr = '>' + this.graphSettings.axis.y.maxVal;
@@ -376,7 +377,7 @@ export class EvictionGraphsComponent implements OnInit {
       return {
         id: 'sample' + i,
         data: [{
-          x: f.properties.n,
+          x: f.properties.n + ', ' + f.properties.pl,
           y: yVal ? yVal : 0
         }]
       };

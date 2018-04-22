@@ -22,6 +22,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
+import { WebpackTranslateLoader } from './webpack-translate-loader';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, `${environment.deployUrl}assets/i18n/`, '.json');
@@ -50,8 +51,7 @@ export class CustomOption extends ToastOptions {
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
-        deps: [HttpClient]
+        useClass: WebpackTranslateLoader
       }
     }),
     ServicesModule.forRoot(),
