@@ -133,7 +133,7 @@ footer {
   .footer-content {
     @include fill-parent();
     margin:auto;
-    height: grid(40);
+    height: grid(43);
     width: grid(88);
     flex-direction: column;
     align-items: flex-start;
