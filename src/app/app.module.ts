@@ -1,6 +1,7 @@
+import * as Raven from 'raven-js';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
@@ -24,8 +25,14 @@ import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
 import { WebpackTranslateLoader } from './webpack-translate-loader';
 
-export function createTranslateLoader(http: HttpClient) {
-  return new TranslateHttpLoader(http, `${environment.deployUrl}assets/i18n/`, '.json');
+Raven
+  .config('https://415ec06453064044bac03fcdab3d2882@sentry.io/1193815')
+  .install();
+
+export class RavenErrorHandler implements ErrorHandler {
+  handleError(err: any): void {
+    Raven.captureException(err);
+  }
 }
 
 export class CustomOption extends ToastOptions {
@@ -61,7 +68,8 @@ export class CustomOption extends ToastOptions {
     Ng2PageScrollModule.forRoot()
   ],
   providers: [
-    {provide: ToastOptions, useClass: CustomOption},
+    { provide: ToastOptions, useClass: CustomOption },
+    { provide: ErrorHandler, useClass: RavenErrorHandler },
     Title
   ],
   bootstrap: [AppComponent],
