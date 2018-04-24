@@ -16,6 +16,7 @@ import 'rxjs/add/observable/combineLatest';
 import {scaleLinear} from 'd3-scale';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { ToastsManager, ToastOptions } from 'ng2-toastr';
+import * as _debounce from 'lodash.debounce';
 
 import { LoadingService } from '../services/loading.service';
 import { MapFeature } from './map/map-feature';
@@ -48,6 +49,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
   helpData: string; // translated title / content for help dialog.
+  updateRoute = _debounce(() => {
+    this.routing.updateRouteData(this.mapToolService.getCurrentData());
+  }, 400);
   private defaultMapConfig = {
     style: `${environment.deployUrl}assets/style.json`,
     center: [-98.5795, 39.8283],
@@ -178,11 +182,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loader.end('feature');
         console.error(err.message);
       });
-  }
-
-  /** Updates the map tool route */
-  updateRoute() {
-    this.routing.updateRouteData(this.mapToolService.getCurrentData());
   }
 
   onBubbleChange(bubble: any) {
