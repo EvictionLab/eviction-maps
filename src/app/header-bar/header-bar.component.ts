@@ -20,7 +20,6 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
   get activeMenuItem() { return this.state.menuItem; }
   @Input() languageOptions = [];
   @Input() activeComponentId: string;
-
   @Output() activeMenuItemChange = new EventEmitter();
   @Output() selectLocation = new EventEmitter();
   @Output() initialInput = new EventEmitter();
@@ -28,6 +27,7 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
   @ViewChild('pop') mapTooltip;
   tooltipEnabled = true;
   deployUrl = environment.deployUrl;
+  lang = {};
   private state = { menuItem: null };
   get selectedLanguage() {
     return this.languageOptions.filter(l => l.id === this.translate.currentLang)[0];
@@ -35,7 +35,11 @@ export class HeaderBarComponent implements OnInit, AfterViewInit {
 
   constructor(private translate: TranslateService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.translate.onLangChange.subscribe((lang) => {
+      this.lang = lang.translations['HEADER'];
+    });
+  }
 
   ngAfterViewInit() {
     setTimeout(() => { this.mapTooltip.show(); }, 1000);
