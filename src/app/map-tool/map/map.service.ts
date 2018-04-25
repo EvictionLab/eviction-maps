@@ -279,7 +279,10 @@ export class MapService {
    */
   updateHighlightFeatures(features: MapFeature[]) {
     if (this.embedded) { return; }
-    if (features.length === 0) { return this.setHighlightedFeatures([]); }
+    if (features.length === 0) {
+      this.setHighlightedFeatures([]);
+      return features;
+    }
     const highlightFeatures = features
       .map((f, i) => {
         // make sure feature has a geo depth value so geometry is cached
