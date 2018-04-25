@@ -31,7 +31,11 @@ Raven
 
 export class RavenErrorHandler implements ErrorHandler {
   handleError(err: any): void {
-    Raven.captureException(err);
+    if (environment.production) {
+      Raven.captureException(err);
+    } else {
+      console.error(err);
+    }
   }
 }
 

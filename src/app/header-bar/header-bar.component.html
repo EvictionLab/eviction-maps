@@ -10,7 +10,7 @@
         *ngIf="activeComponentId === 'map-tool'"
         role="search"
         class="search"
-        [placeholder]="'HEADER.SEARCH_HINT' | translate"
+        [placeholder]="lang['SEARCH_HINT']"
         (locationSelected)="selectLocation.emit($event)"
         (initialInput)="initialInput.emit($event)"
       ></app-location-search>
@@ -25,23 +25,23 @@
     <div class="header-icons">
       <a href="/" class="btn btn-icon el-button-home">
         <app-ui-icon icon="home" class="home-icon"></app-ui-icon>
-        <span>{{ 'HEADER.HOME' | translate }}</span>
+        <span>{{ lang['HOME'] }}</span>
       </a>
       <button [class.active]="activeMenuItem === 'search'" class="btn btn-icon el-button-search" (click)="onMenuSelect('search')">
         <app-ui-icon icon="search"></app-ui-icon>
-        <span>{{ 'HEADER.SEARCH' | translate }}</span>
+        <span>{{ lang['SEARCH'] }}</span>
       </button>
-      <button #pop="bs-tooltip" containerClass="map-hint-mobile" [isDisabled]="!tooltipEnabled" placement="bottom" [tooltip]="'HEADER.MAP_HINT' | translate" [class.active]="activeMenuItem === 'map'" class="btn btn-icon el-button-map" (click)="onMenuSelect('map')">
+      <button #pop="bs-tooltip" containerClass="map-hint-mobile" [isDisabled]="!tooltipEnabled" placement="bottom" [tooltip]="lang['MAP_HINT']" [class.active]="activeMenuItem === 'map'" class="btn btn-icon el-button-map" (click)="onMenuSelect('map')">
         <app-ui-icon icon="map"></app-ui-icon>
-        <span>{{ 'HEADER.MAP' | translate }}</span>
+        <span>{{ lang['MAP'] }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'help'" class="btn btn-icon el-button-help" (click)="onMenuSelect('help')">
         <app-ui-icon icon="help"></app-ui-icon>
-        <span>{{ 'HEADER.HELP' | translate }}</span>
+        <span>{{ lang['HELP'] }}</span>
       </button>
       <button [class.active]="activeMenuItem === 'menu'" class="btn btn-icon el-button-menu" (click)="onMenuSelect('menu')">
         <app-ui-icon icon="menu"></app-ui-icon>
-        <span>{{ 'HEADER.MENU' | translate }}</span>
+        <span>{{ lang['MENU'] }}</span>
       </button>
     </div>
   </div>
