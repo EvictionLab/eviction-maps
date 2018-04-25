@@ -200,8 +200,20 @@ app-ui-hint.legend-hint {
   }
 }
 
+
 :host-context(.embed) {
   .label { display: inherit; }
   .legend-item { margin: grid(5) grid(1) 0; }
   .legend-hint { display: none; }
+  .map-legend .label span { padding: 8px 2px 0; }
 }
+
+@media(max-width: $gtMobile) {
+  :host-context(.embed) {
+    width:auto;
+    left: auto;
+    .map-legend { padding-top: 8px; }
+    
+  }
+}
+
