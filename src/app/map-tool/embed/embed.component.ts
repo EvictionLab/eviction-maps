@@ -23,6 +23,7 @@ export class EmbedComponent implements OnInit, AfterViewInit {
   deployUrl = environment.deployUrl;
   @ViewChild(MapComponent) map;
   mapUrl = '/';
+  mapSupported = mapboxgl.supported();
 
   private defaultMapConfig = {
     style: `${environment.deployUrl}assets/style.json`,
@@ -72,7 +73,9 @@ export class EmbedComponent implements OnInit, AfterViewInit {
       });
     this.cdRef.detectChanges();
     // Turn off auto-switching so locked into initial layer
-    this.map.autoSwitch = false;
+    if (this.map) {
+      this.map.autoSwitch = false;
+    }
   }
 
   ngAfterViewInit() {
