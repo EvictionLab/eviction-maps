@@ -191,7 +191,7 @@
     "COMING_SOON": "Próximamente",
     "PANEL_SUMMARY": "Hubo {{evictions}} desalojos en {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
     "PANEL_SUMMARY_SINGULAR": "Hubo {{evictions}} desalojo en {{name}} en {{year}}. Eso equivale a {{evictionsPerDay}} hogares desalojados todos los días. {{evictionRate}} en 100 casas de inquilinos son desalojadas cada año.",
-    "LIST_INTRO": "Ver los rankings de desalojos en el {{year}} para lugares en todo Estados Unidos. Desplácese por la lista o use la barra de búsqueda para encontrar un lugar. Para refinar sus resultados, elija un tipo de área y un tipo de datos. También se puede buscar dentro de estados usando el menú de Región.",
+    "LIST_INTRO": "Ver los rankings de desalojos en el {{year}} para lugares en todo Estados Unidos. Desplácese por la lista o use la barra de búsqueda para encontrar un lugar. Para refinar sus resultados, elija un tipo de área y un tipo de datos. También se puede buscar dentro de estados usando el menú de Región. (Para obtener más información sobre los lugares clasificados aquí, <a href='https://evictionlab.org/es/help-faq/#rankings-locations'>consulte nuestras Preguntas frecuentes</a>).",
     "SEARCH_FILTER": "Buscar y filtrar",
     "TOP_EVICTORS_LINK": "Ver los desalojadores principales",
     "SHARE_VIA": "Compartir por",
