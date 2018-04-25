@@ -423,6 +423,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private getLocationTweet() {
     const location = this.listData[this.selectedIndex];
+    // if there is no location, exit early
+    if (!location) { return; }
     let amount = this.isRateValue() ?
       this.cappedRateValue(location[this.dataProperty.value]) :
       this.decimal.transform(location[this.dataProperty.value]);
