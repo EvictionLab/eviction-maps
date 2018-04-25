@@ -114,6 +114,7 @@
     "AUTO": "automático",
     "UNSUPPORTED_TITLE": "Navegador no compatible",
     "UNSUPPORTED_MESSAGE": "Esta página utiliza características que su navegador no admite. Vea las preguntas frecuentes para ver nuestros navegadores compatibles.",
+    "UNSUPPORTED_EMBED": "Esta página utiliza características que su navegador no admite. Vea las preguntas frecuentes para ver nuestros navegadores compatibles.",
     "FEATURE_OVERVIEW_LABEL": "Mostrar la descripción de las herramientas del mapa",
     "FLAG_99TH": "Esta área tiene una tasa de desalojo/presentaciones en el 1% superior. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
     "FLAG_LOW": "La estimación de la tasa de desalojo/presentaciones de esta área es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",

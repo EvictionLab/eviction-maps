@@ -1,5 +1,6 @@
 <div id="top" role="main" class="app-wrapper">
   <app-map
+    *ngIf="mapSupported"
     [mapConfig]="mapToolService.mapConfig"
     [dataAttributes]="mapToolService.dataAttributes"
     [layerOptions]="mapToolService.dataLevels"
