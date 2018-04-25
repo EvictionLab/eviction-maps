@@ -10,6 +10,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { environment } from '../environments/environment';
+import { version } from '../environments/version';
 
 // local imports
 import { AppComponent } from './app.component';
@@ -26,7 +27,9 @@ import { EmbedComponent } from './map-tool/embed/embed.component';
 import { WebpackTranslateLoader } from './webpack-translate-loader';
 
 Raven
-  .config('https://415ec06453064044bac03fcdab3d2882@sentry.io/1193815')
+  .config('https://415ec06453064044bac03fcdab3d2882@sentry.io/1193815', {
+    release: version
+  })
   .install();
 
 export class RavenErrorHandler implements ErrorHandler {
