@@ -212,8 +212,7 @@ app-ui-hint.legend-hint {
   :host-context(.embed) {
     width:auto;
     left: auto;
+    border-right: 1px solid $shadingColor;
     .map-legend { padding-top: 8px; }
-    
   }
 }
-
