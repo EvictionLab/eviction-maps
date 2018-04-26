@@ -1,0 +1,21 @@
+<div class="line-tooltips" *ngIf="graphType === 'line'">
+  <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
+  <div class="tooltip tooltip-number" role="tooltip" 
+    *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+    [class.right]="tooltipPos === 'right'"
+    [class.left]="tooltipPos === 'left'"
+    [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+    [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+  >
+    <div class="tooltip-wrapper">
+      <div class="tooltip-arrow"></div>
+      <div class="tooltip-inner line-tooltip-value">{{ tooltip.y >= 0 ? tooltipValue(tooltip.y) : null }}</div>
+    </div>
+  </div>
+</div>
+<div class="bar-tooltips" *ngIf="graphType === 'bar'">
+  <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
+    <div class="tooltip-arrow"></div>
+    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0].y) : ('DATA.UNAVAILABLE' | translate) }}</div>
+  </div>
+</div>

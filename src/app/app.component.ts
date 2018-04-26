@@ -23,6 +23,7 @@ import { LoadingService } from './services/loading.service';
 import { AnalyticsService } from './services/analytics.service';
 import { RoutingService } from './services/routing.service';
 import { ScrollService } from './services/scroll.service';
+import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
 
 @Component({
   selector: 'app-root',
@@ -80,7 +81,8 @@ export class AppComponent implements OnInit {
     const components = {
       map: MapToolComponent,
       rankings: RankingToolComponent,
-      embed: EmbedComponent
+      embed: EmbedComponent,
+      graph: EvictionGraphsComponent
     };
     this.loader.isLoading$.subscribe(loading => {
       this.isLoading = loading;

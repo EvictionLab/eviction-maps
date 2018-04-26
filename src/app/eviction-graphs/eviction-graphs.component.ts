@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { environment } from '../../../../environments/environment';
-import { MapDataAttribute } from '../../data/map-data-attribute';
+import { environment } from '../../environments/environment';
+import { MapDataAttribute } from '../map-tool/data/map-data-attribute';
 
 @Component({
   selector: 'app-eviction-graphs',
@@ -191,9 +191,6 @@ export class EvictionGraphsComponent implements OnInit {
     return '';
   }
 
-  /** track tooltips by ID so they are animated properly */
-  trackTooltips(index, item) { return item.id; }
-
   /**
    * Toggles the graph between judgments / filings
    */
@@ -326,10 +323,6 @@ export class EvictionGraphsComponent implements OnInit {
       valStr = '>' + this.graphSettings.axis.y.maxVal;
     }
     return `${valStr}${this.graphAttribute.format === 'percent' ? '%' : ''}`;
-  }
-
-  barTopValue(top: number): number {
-    return Math.max(this.graphSettings.margin.top, top);
   }
 
   /** Returns the Y axis label name with % added if they are percent values */

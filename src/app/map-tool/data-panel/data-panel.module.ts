@@ -11,7 +11,7 @@ import { LocationCardsModule } from '../location-cards/location-cards.module';
 import { DataPanelComponent } from './data-panel.component';
 import { DownloadFormComponent } from './download-form/download-form.component';
 
-import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.component';
+import { EvictionGraphsModule } from '../../eviction-graphs/eviction-graphs.module';
 
 
 @NgModule({
@@ -24,12 +24,12 @@ import { EvictionGraphsComponent } from './eviction-graphs/eviction-graphs.compo
     GraphModule.forRoot(),
     TranslateModule,
     PopoverModule.forRoot(),
-    TooltipModule.forRoot()
+    TooltipModule.forRoot(),
+    EvictionGraphsModule
   ],
   declarations: [
     DataPanelComponent,
-    DownloadFormComponent,
-    EvictionGraphsComponent
+    DownloadFormComponent
   ],
   entryComponents: [ DataPanelComponent, DownloadFormComponent ]
 })
