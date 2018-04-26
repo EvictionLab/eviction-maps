@@ -286,12 +286,18 @@ export class MapService {
     const highlightFeatures = features
       .map((f, i) => {
         // make sure feature has a geo depth value so geometry is cached
-        const geoDepth = f['properties']['geoDepth'];
-        if (!geoDepth) { f['properties']['geoDepth'] = 0.1; }
+        if (f && f.hasOwnProperty('properties')) {
+          const geoDepth = f['properties']['geoDepth'];
+          if (!geoDepth) { f['properties']['geoDepth'] = 0.1; }
+        }
         f = this.getUpdatedFeature(f);
-        f['properties']['color'] = this.colors[i];
+        if (f && f.hasOwnProperty('properties')) {
+          f['properties']['color'] = this.colors[i];
+        }
         return f;
-      });
+      })
+      // filter any null features
+      .filter(f => !!f);
     this.setHighlightedFeatures(highlightFeatures);
     return highlightFeatures;
   }
