@@ -1,0 +1,18 @@
+<div class="graph-area" [class.line-graph]="graphType === 'line'" [class.bar-graph]="graphType === 'bar'">
+  <app-graph *ngIf="data" 
+    [data]="data" 
+    [settings]="settings" 
+    [hoverAll]="true" 
+    (activeValuesChanged)="tooltips = $event"
+  >
+    <app-graph-tooltips 
+      [graphType]="type" 
+      [tooltips]="tooltips"
+      [format]="graphAttribute.format"
+    >
+    </app-graph-tooltips>
+  </app-graph>
+  <div class="graph-legend">
+
+  </div>
+</div>

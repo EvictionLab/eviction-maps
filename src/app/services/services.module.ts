@@ -10,6 +10,7 @@ import { AnalyticsService } from './analytics.service';
 import { RoutingService } from './routing.service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { SearchService } from './search.service';
+import { DataService } from './data.service';
 
 @NgModule({
   imports: [
@@ -26,7 +27,8 @@ export class ServicesModule {
         LoadingService,
         AnalyticsService,
         RoutingService,
-        SearchService
+        SearchService,
+        DataService
       ]
     };
   }
