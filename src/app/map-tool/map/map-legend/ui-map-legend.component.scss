@@ -214,5 +214,6 @@ app-ui-hint.legend-hint {
     left: auto;
     border-right: 1px solid $shadingColor;
     .map-legend { padding-top: 8px; }
+    .map-legend .legend-item.choropleth-legend { min-width: grid(12); }
   }
 }
