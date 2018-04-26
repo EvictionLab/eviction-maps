@@ -31,7 +31,11 @@
   </app-ranking-ui>
   </div>
   <div class="ranking-body">
-    <h2 *ngIf="areaType && region">{{ 'RANKINGS.LIST_HEADING' | translate:{'area': areaType.name, 'region': region } }}</h2>
+    <h2 *ngIf="areaType && region">
+      {{ 'RANKINGS.LIST_HEADING' | translate:{'area': areaType.name } }}
+      {{ currentLang === 'en' && region === 'United States' ? 'the' : '' }}
+      {{ region }}
+    </h2>
     <h3 *ngIf="dataProperty">{{ 'RANKINGS.LIST_SUBHEADING' | translate:{'dataProperty': dataProperty.name } }}</h3>
     <p [innerHTML]="'RANKINGS.LIST_INTRO' | translate:{'year': rankings.year}"></p>
     <app-ranking-list *ngIf="areaType && dataProperty"

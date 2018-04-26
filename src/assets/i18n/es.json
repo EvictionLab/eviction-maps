@@ -213,7 +213,7 @@
     "SHARE_SELECTION_RATE": "{{amount}} viviendas alquiladas {{action}} en {{area}} en {{year}}. Ese es la {{ranking}} {{category}} más alta entre {{region}} {{areaType}}. Descubra dónde se clasifica su ciudad en {{link}}",
     "SHARE_SELECTION_TOTAL": "{{amount}} viviendas alquiladas {{action}} en {{area}} en {{year}}. Ese es el {{ranking}} {{category}} más alto entre {{region}} {{areaType}}. Descubra dónde se clasifica su ciudad en {{link}}",
     "SHARE_FALLBACK": "Rankings de desalojo: Descubra cómo se compara su ciudad en {{link}}",
-    "LIST_HEADING": "{{area}} principales de desalojos en {{region}}",
+    "LIST_HEADING": "{{area}} principales de desalojos en",
     "LIST_SUBHEADING": "Clasificado por {{dataProperty}}",
     "DATA_HINT": "Las \"tasas\" representan el número de desalojos por cada 100 viviendas de alquiler. Los desalojos representan números brutos.",
     "AREA_HINT": "Las grandes ciudades tienen más de 100.000 personas. Las ciudades medianas tienen entre 20.000 y 99.999 personas. Las ciudades pequeñas y las áreas rurales tienen menos de 20.000 personas.",
