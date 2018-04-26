@@ -49,6 +49,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   offsetToTranslate; // function that maps vertical offset to the
   activeMenuItem; // tracks the active menu item on mobile
   helpData: string; // translated title / content for help dialog.
+  mapSupported = mapboxgl.supported();
   updateRoute = _debounce(() => {
     this.routing.updateRouteData(this.mapToolService.getCurrentData());
   }, 400);
@@ -137,7 +138,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /** Checks if the map features are supported (currently just WebGL) and shows a dialog if not */
   checkSupport() {
-    if (!mapboxgl.supported()) {
+    if (!this.mapSupported) {
       const title = this.translatePipe.transform('MAP.UNSUPPORTED_TITLE');
       const data = this.translatePipe.transform('MAP.UNSUPPORTED_MESSAGE');
       return this.dialogService.showDialog({
@@ -230,7 +231,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     if (feature) {
       if (maxLocations) {
         this.showMaxLocationsError();
-        this.map.mapService.zoomToFeature(feature);
+        this.mapZoomToFeature(feature);
         return;
       }
 
@@ -239,13 +240,13 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mapToolService.getSearchTileData(feature).subscribe(data => {
         if (!data.properties.n) {
           this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
-          this.map.mapService.zoomToFeature(feature);
+          this.mapZoomToFeature(feature);
         } else {
           this.mapToolService.addLocation(data);
         }
         const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
-        if (updateMap) {
-          this.map.mapService.zoomToFeature(data);
+        if (updateMap && this.map) {
+          this.mapZoomToFeature(data);
           // Wait for map to be done zooming, then set data layer
           this.map.mapService.zoom$
             .distinctUntilChanged()
@@ -256,7 +257,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loader.end('search');
       }, err => {
         this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
-        this.map.mapService.zoomToFeature(feature);
+        this.mapZoomToFeature(feature);
         this.loader.end('search');
       });
     }
@@ -276,6 +277,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param feature clicked feature from card
    */
   onCardHeaderClick(feature: MapFeature) {
+    if (!this.map) { return; }
     const layerId = feature.properties['layerId'];
     const dataLevel = this.mapToolService.dataLevels.filter(l => l.id === layerId)[0];
     this.map.setGroupVisibility(dataLevel);
@@ -308,6 +310,12 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.dialogService.showDialog(
       { options: { class: 'feature-overview-dialog' } }, FeatureOverviewComponent
     );
+  }
+
+
+  private mapZoomToFeature(feature: any) {
+    if (!this.map) { return; }
+    this.map.mapService.zoomToFeature(feature);
   }
 
   /** Show the toast for maximum locations, and expand the cards as a visual cue */
@@ -377,7 +385,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  /** Set the map component height, if the map is available */
   private setMapSize() {
+    if (!this.map) { return; }
     const newHeight =
       (this.platform.nativeWindow.innerHeight - this.map.el.nativeElement.offsetTop);
     this.map.el.nativeElement.style.height = newHeight + 'px';

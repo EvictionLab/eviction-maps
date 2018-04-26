@@ -97,6 +97,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   topCount = 100;
   /** Tweet text */
   tweet: string;
+  /** Stores the current language */
+  currentLang = 'en';
   private store = {
     region: 'United States',
     areaType: this.rankings.areaTypes[0],
@@ -147,6 +149,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
     this.translate.onLangChange.subscribe((l) => {
+      this.currentLang = l.lang;
       this.updateQueryParam('lang', l.lang);
       this.updateTweet();
     });
