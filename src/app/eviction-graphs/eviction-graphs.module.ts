@@ -9,9 +9,10 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { UiModule } from '../ui/ui.module';
 import { EvictionGraphsComponent } from './eviction-graphs.component';
 import { GraphTooltipsComponent } from './graph-tooltips/graph-tooltips.component';
+import { GraphEmbedComponent } from './graph-embed/graph-embed.component';
 
 @NgModule({
-  exports: [ EvictionGraphsComponent, GraphTooltipsComponent ],
+  exports: [ EvictionGraphsComponent, GraphTooltipsComponent, GraphEmbedComponent ],
   imports: [
     CommonModule,
     UiModule,
@@ -21,7 +22,8 @@ import { GraphTooltipsComponent } from './graph-tooltips/graph-tooltips.componen
     TooltipModule.forRoot()
   ],
   declarations: [
-    EvictionGraphsComponent, GraphTooltipsComponent
-  ]
+    EvictionGraphsComponent, GraphTooltipsComponent, GraphEmbedComponent
+  ],
+  entryComponents: [ GraphEmbedComponent ]
 })
 export class EvictionGraphsModule { }

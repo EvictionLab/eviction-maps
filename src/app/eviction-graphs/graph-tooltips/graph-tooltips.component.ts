@@ -1,11 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-graph-tooltips',
   templateUrl: './graph-tooltips.component.html',
-  styleUrls: ['./graph-tooltips.component.scss']
+  styleUrls: ['./graph-tooltips.component.scss'],
+  providers: [ DecimalPipe ]
 })
 export class GraphTooltipsComponent implements OnInit {
 
@@ -20,6 +22,8 @@ export class GraphTooltipsComponent implements OnInit {
   /** Determines which side the tooltips show on */
   tooltipPos = 'left';
 
+  constructor(private decimal: DecimalPipe) {}
+
   ngOnInit() {}
 
   /** Determines if the tooltip is on the left or right side of the graph */
@@ -30,12 +34,12 @@ export class GraphTooltipsComponent implements OnInit {
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
 
-  tooltipValue(val: number): string {
-    let valStr = val.toString();
-    if (this.maxVal > 0 && val > this.maxVal) {
+  tooltipValue(tooltip): string {
+    let valStr = this.decimal.transform(tooltip.y);
+    if (this.maxVal > 0 && tooltip.y > this.maxVal) {
       valStr = '>' + this.maxVal;
     }
-    return `${valStr}${this.format === 'percent' ? '%' : ''}`;
+    return `${valStr}${tooltip.format === 'percent' ? '%' : ''}`;
   }
 
   barTopValue(top: number): number {

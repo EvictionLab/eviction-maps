@@ -1,0 +1,55 @@
+@import '../../../theme';
+
+:host {
+  @include fill-parent();
+  background: $secondaryBackground;
+  .graph-area {
+    padding: 0;
+    text-align: left;
+  }
+}
+
+h1 {
+  @include altFont(18px);
+  text-align: center;
+  margin: grid(3) auto 0;
+  padding: 0 grid(3);
+}
+
+@media(min-width: $gtMobile) {
+  h1 { @include altFont(21px); }
+}
+
+.graph-embed-legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .graph-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:grid(1) grid(2);
+    &:nth-child(1) .line-label { background: $graphColor1 }
+    &:nth-child(2) .line-label { background: $graphColor2 }
+    &:nth-child(3) .line-label { background: $graphColor3 }
+    &:nth-child(4) .line-label { background: $graphColor4 }
+  }
+  .line-label {
+    display: block;
+    margin: grid(1) grid(2) grid(1) 0;
+    height: 5px;
+    width: grid(3);
+  }
+  .graph-item-labels span {
+    display:block;
+    @include defaultFontBold(14px);
+    &:nth-child(2) { font-size: 12px; color: $grey_wcag; }
+  }
+}
+
+@media(min-width: $gtMobile) {
+  .graph-embed-legend .graph-item-labels span { 
+    @include defaultFontBold(16px);
+    &:nth-child(2) { font-size: 14px; }
+  }
+}

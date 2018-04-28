@@ -18,19 +18,16 @@ import { PlatformService } from '../services/platform.service';
 import { MapDataAttribute } from './data/map-data-attribute';
 import { MapLayerGroup } from './data/map-layer-group';
 import { MapFeature } from './map/map-feature';
-import { DataAttributes } from './data/data-attributes';
-import { DataLevels } from './data/data-levels';
+
 import { AnalyticsService } from '../services/analytics.service';
 import { DataService } from '../services/data.service';
 
 @Injectable()
 export class MapToolService {
-  dataLevels = DataLevels;
-  dataAttributes = DataAttributes;
   /** Attributes to track the current state */
   activeYear;
   activeFeatures: MapFeature[] = [];
-  activeDataLevel: MapLayerGroup = DataLevels[0];
+  activeDataLevel: MapLayerGroup = this.dataLevels[0];
   activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
   activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
   activeGraphType = 'line';
@@ -65,6 +62,12 @@ export class MapToolService {
   get cardAttributes() {
     return this.dataAttributes.filter(d => d.id !== 'none');
   }
+  get dataAttributes() {
+    return this.dataService.dataAttributes;
+  }
+  get dataLevels() {
+    return this.dataService.dataLevels;
+  }
 
   constructor(
     private translate: TranslateService,
@@ -72,33 +75,11 @@ export class MapToolService {
     private platform: PlatformService,
     private dataService: DataService
   ) {
-    translate.onLangChange.subscribe((lang) => {
-      this.updateLanguage(lang.translations);
-    });
     this.dataService.getUSAverage().take(1)
       .subscribe(data => {
         this.usAverage = data;
         this.usAverageLoaded.emit();
       });
-  }
-
-  updateLanguage(translations) {
-    // translate census attribute names
-    if (translations.hasOwnProperty('STATS')) {
-      const stats = translations['STATS'];
-      this.dataAttributes = this.dataAttributes.map((a) => {
-        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
-        return a;
-      });
-    }
-    // translate geography layers
-    if (translations.hasOwnProperty('LAYERS')) {
-      const layers = translations['LAYERS'];
-      this.dataLevels = this.dataLevels.map((l) => {
-        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
-        return l;
-      });
-    }
   }
 
   /**

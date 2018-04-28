@@ -13,6 +13,10 @@ import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';
 import * as geoViewport from '@mapbox/geo-viewport';
+import { csvParse } from 'd3-dsv';
+
+import { DataAttributes } from '../map-tool/data/data-attributes';
+import { DataLevels } from '../map-tool/data/data-levels';
 
 import { environment } from '../../environments/environment';
 import { PlatformService } from '../services/platform.service';
@@ -21,6 +25,8 @@ import { AnalyticsService } from '../services/analytics.service';
 
 @Injectable()
 export class DataService {
+  dataLevels = DataLevels;
+  dataAttributes = DataAttributes;
 
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
@@ -30,7 +36,15 @@ export class DataService {
   // Maps the length of GEOIDs to their respective layers
   private flagValues = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private translate: TranslateService) {
+    translate.onLangChange.subscribe((lang) => {
+      this.updateLanguage(lang.translations);
+    });
+  }
+
+  getDataAttribute(id: string) {
+    return this.dataAttributes.find(attr => attr.id === id);
+  }
 
   /**
    * Takes the GEOID and coordinates for an object, determines which
@@ -45,6 +59,7 @@ export class DataService {
     const layerId = this.getLayerFromGEOID(geoid);
     const queryZoom = this.getQueryZoom(layerId, lonLat);
     const coords = this.getXYFromLonLat(lonLat, queryZoom);
+    console.log('get tile data', geoid, lonLat, layerId, queryZoom, coords);
     const parseTile = this.getParser(geoid, layerId, lonLat, queryZoom, coords);
 
     if (multiYear) {
@@ -69,6 +84,30 @@ export class DataService {
   getUSAverage() {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.get(environment.usAverageDataUrl, { headers: headers });
+  }
+
+  /**
+   * Gets the national data and transforms it into an object with attributes
+   * for each year. (e.g. `{ 'e-00': 324, 'e-01': 350, ... }`)
+   */
+  getNationalData() {
+    const columnMap = {
+      'eviction-filings': 'ef',
+      'evictions': 'e',
+      'eviction-filing-rate': 'efr',
+      'eviction-rate': 'er'
+    };
+    return this.http.get(environment.nationalDataUrl, { responseType: 'text' })
+      .map(csvString => {
+        const csvData = csvParse(csvString);
+        return csvData.reduce((acc: any, cur) => {
+          Object.keys(columnMap).forEach(c => {
+            const newKey = columnMap[c] + '-' + cur['year'].toString().slice(-2);
+            acc[newKey] = parseFloat(cur[c]);
+          });
+          return acc;
+        }, {});
+      });
   }
 
   /**
@@ -134,6 +173,26 @@ export class DataService {
         feature.properties[`epd-${yearSuffix}`] = evictionsPerDay;
       });
     return feature;
+  }
+
+  /** Updates the languge used in data attributes and levels */
+  private updateLanguage(translations) {
+    // translate census attribute names
+    if (translations.hasOwnProperty('STATS')) {
+      const stats = translations['STATS'];
+      this.dataAttributes = this.dataAttributes.map((a) => {
+        if (a.langKey) { a.name = stats[ a.langKey.split('.')[1] ]; }
+        return a;
+      });
+    }
+    // translate geography layers
+    if (translations.hasOwnProperty('LAYERS')) {
+      const layers = translations['LAYERS'];
+      this.dataLevels = this.dataLevels.map((l) => {
+        if (l.langKey) { l.name = layers[ l.langKey.split('.')[1] ]; }
+        return l;
+      });
+    }
   }
 
   /**
@@ -292,6 +351,7 @@ export class DataService {
   private getParser(geoid, layerId, lonLat, queryZoom, coords) {
     return (res: ArrayBuffer): MapFeature => {
       const tile = new vt.VectorTile(new Protobuf(res));
+      console.log(tile, res);
       const layer = tile.layers[layerId];
       const centerLayer = tile.layers[`${layerId}-centers`];
 

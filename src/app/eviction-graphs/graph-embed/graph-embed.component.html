@@ -1,18 +1,27 @@
-<div class="graph-area" [class.line-graph]="graphType === 'line'" [class.bar-graph]="graphType === 'bar'">
+<div class="graph-area">
+  <h1>
+    {places.length, plural, =1 {{{places[0]}}} other { {{humanizeArray(places)}}}}:
+    {properties.length, plural, =1 { {{ properties[0] }} } other { {{ humanizeArray(properties) }} }}    
+  </h1>
   <app-graph *ngIf="data" 
     [data]="data" 
     [settings]="settings" 
     [hoverAll]="true" 
-    (activeValuesChanged)="tooltips = $event"
+    (activeValuesChanged)="updateTooltips($event)"
   >
     <app-graph-tooltips 
       [graphType]="type" 
       [tooltips]="tooltips"
-      [format]="graphAttribute.format"
     >
     </app-graph-tooltips>
   </app-graph>
-  <div class="graph-legend">
-
+  <div class="graph-embed-legend">
+    <div class="graph-item" *ngFor="let item of items">
+      <div class="line-label"></div>
+      <div class="graph-item-labels">
+        <span *ngIf="places.length > 1">{{ item.name }}</span>
+        <span *ngIf="properties.length > 1"> {{ item.prop['name'] }}</span>
+      </div>
+    </div>
   </div>
 </div>
