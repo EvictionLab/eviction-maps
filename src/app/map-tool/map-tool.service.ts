@@ -270,7 +270,7 @@ export class MapToolService {
       }
       if (this.activeFeatures.length === 3) {
         this.analytics.trackEvent('tertiaryLocationSelection', {
-          tertiaryLocationSelection: this.getFullLocationName(this.activeFeatures[2]),
+          tertiaryLocation: this.getFullLocationName(this.activeFeatures[2]),
           locationSelectedLevel: this.activeFeatures[2].properties.layerId,
           combinedSelections: this.getCurrentDataString()
         });
