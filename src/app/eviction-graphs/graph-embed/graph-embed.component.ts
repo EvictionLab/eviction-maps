@@ -33,7 +33,8 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private graphService: GraphService,
-    private dataService: DataService
+    private dataService: DataService,
+    private cd: ChangeDetectorRef
   ) { }
 
   /** Listen for when the data is ready and for route changes */
@@ -121,6 +122,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
       this.properties = Array.from(new Set(data.map(d => d.prop['name'])));
       this.places = Array.from(new Set(data.map(d => d.name)));
       this.settings = this.getGraphSettings(this.startYear, this.endYear);
+      this.cd.detectChanges();
     });
   }
 
