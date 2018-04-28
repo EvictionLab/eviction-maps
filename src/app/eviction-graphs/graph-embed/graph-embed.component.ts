@@ -53,7 +53,6 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   }
 
   updateTooltips(data) {
-    console.log('tooltips', data);
     this.tooltips = data ? data : [];
   }
 
@@ -80,10 +79,6 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
       });
   }
 
-  getGraphTitle(data: Array<GraphItem>) {
-
-  }
-
   /**
    * Processes the `items` query param, and fetches graph items for the
    * provided locations.
@@ -107,10 +102,17 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     return Observable.forkJoin(itemData);
   }
 
+  /** Gets the Y axis label for the graph, no label if more than one property */
   private getLabelY() {
     return this.properties.length === 1 ? { label: this.properties[0] } : {};
   }
 
+  private getTickFormatY() {
+    const formats = Array.from(new Set(this.items.map(d => d.prop['format'])));
+    return formats.length === 1 && formats[0] === 'percent' ? '.0f' : '.0s';
+  }
+
+  /** Creats the graph based on query parameters */
   private onQueryParamChange(params) {
     if (!params['items']) { return; }
     this.getGraphData(params['items']).subscribe(data => {
@@ -119,16 +121,16 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
       this.properties = Array.from(new Set(data.map(d => d.prop['name'])));
       this.places = Array.from(new Set(data.map(d => d.name)));
       this.settings = this.getGraphSettings(this.startYear, this.endYear);
-      console.log('got data', data, this.properties, this.settings);
     });
   }
 
+  /** Returns the settings for the graph */
   private getGraphSettings(startYear: number, endYear: number) {
     const xAxis = this.graphService.getAxis(
       { ticks: Math.min(5, endYear - startYear) }
     );
     const yAxis = this.graphService.getAxis(
-      { tickSize: '-100%', tickPadding: 5, tickFormat: '.0s', ...this.getLabelY() }
+      { tickSize: '-100%', tickPadding: 5, tickFormat: this.getTickFormatY(), ...this.getLabelY() }
     );
     return {
       axis: { x: xAxis, y: yAxis },

@@ -1,5 +1,5 @@
 <div class="graph-area">
-  <h1>
+  <h1 *ngIf="places.length > 0 && properties.length > 0">
     {places.length, plural, =1 {{{places[0]}}} other { {{humanizeArray(places)}}}}:
     {properties.length, plural, =1 { {{ properties[0] }} } other { {{ humanizeArray(properties) }} }}    
   </h1>

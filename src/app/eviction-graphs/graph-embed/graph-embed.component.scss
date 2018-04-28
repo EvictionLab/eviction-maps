@@ -6,6 +6,8 @@
   .graph-area {
     padding: 0;
     text-align: left;
+    max-width:grid(110);
+    margin:auto;
   }
 }
 
@@ -14,6 +16,7 @@ h1 {
   text-align: center;
   margin: grid(3) auto 0;
   padding: 0 grid(3);
+  max-width:grid(70);
 }
 
 @media(min-width: $gtMobile) {
