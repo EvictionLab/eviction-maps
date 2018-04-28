@@ -2,6 +2,7 @@ import {
   Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, OnDestroy
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/switchMap';
 import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
@@ -39,7 +40,9 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
 
   /** Listen for when the data is ready and for route changes */
   ngOnInit() {
-    this.route.queryParams.takeUntil(this.destroy)
+    this.dataService.ready
+      .switchMap(r => this.route.queryParams)
+      .takeUntil(this.destroy)
       .subscribe(this.onQueryParamChange.bind(this));
   }
 
@@ -57,7 +60,8 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     this.tooltips = data ? data : [];
   }
 
-  getLocationGraphItem(geoid, lonLat, prop) {
+  /** Maps the tile data into `GraphItem` format */
+  getLocationGraphItem(geoid, lonLat, prop): Observable<GraphItem> {
     return this.dataService.getTileData(geoid, lonLat, true)
       .map(data => {
         return {
@@ -69,7 +73,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   }
 
   /** Maps the CSV data into a format for the graph */
-  getNationalGraphItem(prop: string): Observable<any> {
+  getNationalGraphItem(prop: string): Observable<GraphItem> {
     return this.dataService.getNationalData()
       .map(data => {
         return {
@@ -108,6 +112,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     return this.properties.length === 1 ? { label: this.properties[0] } : {};
   }
 
+  /** Formats percents and floats and all others as abbreviated */
   private getTickFormatY() {
     const formats = Array.from(new Set(this.items.map(d => d.prop['format'])));
     return formats.length === 1 && formats[0] === 'percent' ? '.0f' : '.0s';
@@ -122,6 +127,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
       this.properties = Array.from(new Set(data.map(d => d.prop['name'])));
       this.places = Array.from(new Set(data.map(d => d.name)));
       this.settings = this.getGraphSettings(this.startYear, this.endYear);
+      console.log(this.items);
       this.cd.detectChanges();
     });
   }

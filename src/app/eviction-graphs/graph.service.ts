@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { PlatformService } from '../services/platform.service';
 import { MapFeature } from '../map-tool/map/map-feature';
 import { AnalyticsService } from '../services/analytics.service';
+import { MapDataAttribute } from '../map-tool/data/map-data-attribute';
 
 export class GraphItemData {
   [attr: string]: number;
@@ -13,8 +14,8 @@ export class GraphItemData {
 
 export class GraphItem {
   name: string;
-  prop: string;
-  data: { [attr: string]: number; };
+  prop: MapDataAttribute;
+  data: any;
 }
 
 @Injectable()
@@ -52,7 +53,6 @@ export class GraphService {
       const yVal = (item.data[this.attrYear(item.prop['id'], year)]);
       return {
         id: 'item' + i,
-        format: item.prop,
         data: [{
           x: item.name,
           y: yVal ? yVal : 0

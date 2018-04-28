@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 // local imports
 import { PlatformService } from './platform.service';
 import { LoadingService } from './loading.service';

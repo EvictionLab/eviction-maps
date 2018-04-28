@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import * as SphericalMercator from '@mapbox/sphericalmercator';
 import * as vt from '@mapbox/vector-tile';
 import * as Protobuf from 'pbf';
@@ -17,7 +17,6 @@ import { csvParse } from 'd3-dsv';
 
 import { DataAttributes } from '../map-tool/data/data-attributes';
 import { DataLevels } from '../map-tool/data/data-levels';
-
 import { environment } from '../../environments/environment';
 import { PlatformService } from '../services/platform.service';
 import { MapFeature } from '../map-tool/map/map-feature';
@@ -27,7 +26,10 @@ import { AnalyticsService } from '../services/analytics.service';
 export class DataService {
   dataLevels = DataLevels;
   dataAttributes = DataAttributes;
+  /** Observable that emits when ready status is true */
+  get ready() { return this._ready.asObservable().filter(r => !!r); }
 
+  private _ready = new BehaviorSubject<boolean>(false);
   private mercator = new SphericalMercator({ size: 256 });
   private tileBase = environment.tileBaseUrl;
   private tilePrefix = 'evictions-';
@@ -36,14 +38,21 @@ export class DataService {
   // Maps the length of GEOIDs to their respective layers
   private flagValues = new BehaviorSubject<any>(null);
 
-  constructor(private http: HttpClient, private translate: TranslateService) {
+  constructor(
+    private http: HttpClient,
+    private translate: TranslateService
+  ) {
     translate.onLangChange.subscribe((lang) => {
       this.updateLanguage(lang.translations);
+      if (!this._ready.getValue()) {
+        this._ready.next(true);
+      }
     });
   }
 
   getDataAttribute(id: string) {
-    return this.dataAttributes.find(attr => attr.id === id);
+    const index = this.dataAttributes.findIndex(attr => attr.id === id);
+    return this.dataAttributes[index];
   }
 
   /**
@@ -59,7 +68,6 @@ export class DataService {
     const layerId = this.getLayerFromGEOID(geoid);
     const queryZoom = this.getQueryZoom(layerId, lonLat);
     const coords = this.getXYFromLonLat(lonLat, queryZoom);
-    console.log('get tile data', geoid, lonLat, layerId, queryZoom, coords);
     const parseTile = this.getParser(geoid, layerId, lonLat, queryZoom, coords);
 
     if (multiYear) {
