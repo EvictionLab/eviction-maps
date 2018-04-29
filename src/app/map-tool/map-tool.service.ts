@@ -75,7 +75,7 @@ export class MapToolService {
     private platform: PlatformService,
     private dataService: DataService
   ) {
-    this.dataService.getUSAverage().take(1)
+    this.dataService.getNationalData().take(1)
       .subscribe(data => {
         this.usAverage = data;
         this.usAverageLoaded.emit();

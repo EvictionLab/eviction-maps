@@ -68,8 +68,8 @@
         <!-- Average -->
         <li *ngIf="average" class="us-average" [class.active]="showAverage">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
-          <span class="legend-label">{{ average.properties["n"] }}</span>
-          <app-ui-close-button class="clear-location"  [ariaLabel]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.properties.n}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
+          <span class="legend-label">{{ average.name }}</span>
+          <app-ui-close-button class="clear-location"  [ariaLabel]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.name}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
           <p class="legend-data">
               <span>{{ getLegendValue(average, this.locations.length) }}</span>
           </p>

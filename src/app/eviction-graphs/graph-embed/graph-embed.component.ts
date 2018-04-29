@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { GraphService, GraphItem } from '../graph.service';
-import { DataService } from '../../services/data.service';
+import { MapFeature } from '../../map-tool/map/map-feature';
 
 @Component({
   selector: 'app-graph-embed',
@@ -34,13 +34,12 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     private router: Router,
     private translate: TranslateService,
     private graphService: GraphService,
-    private dataService: DataService,
     private cd: ChangeDetectorRef
   ) { }
 
   /** Listen for when the data is ready and for route changes */
   ngOnInit() {
-    this.dataService.ready
+    this.graphService.ready
       .switchMap(r => this.route.queryParams)
       .takeUntil(this.destroy)
       .subscribe(this.onQueryParamChange.bind(this));
@@ -60,30 +59,6 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     this.tooltips = data ? data : [];
   }
 
-  /** Maps the tile data into `GraphItem` format */
-  getLocationGraphItem(geoid, lonLat, prop): Observable<GraphItem> {
-    return this.dataService.getTileData(geoid, lonLat, true)
-      .map(data => {
-        return {
-          'name': data['properties']['n'] + ', ' + data['properties']['pl'],
-          'prop': this.dataService.getDataAttribute(prop),
-          'data': data['properties']
-        };
-      });
-  }
-
-  /** Maps the CSV data into a format for the graph */
-  getNationalGraphItem(prop: string): Observable<GraphItem> {
-    return this.dataService.getNationalData()
-      .map(data => {
-        return {
-          'name': 'United States',
-          'prop': this.dataService.getDataAttribute(prop),
-          'data': data
-        };
-      });
-  }
-
   /**
    * Processes the `items` query param, and fetches graph items for the
    * provided locations.
@@ -95,12 +70,12 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     const itemData = items.map(item => {
       const [ location, prop ] = item.split('|');
       if (location === 'nationwide') {
-        return this.getNationalGraphItem(prop);
+        return this.graphService.getNationalGraphItem(prop);
       }
       if (location.split(',').length === 3) {
         const [ geoid, lon, lat ] = location.split(',');
         const lonLat = [ parseFloat(lon), parseFloat(lat) ];
-        return this.getLocationGraphItem(geoid, lonLat, prop);
+        return this.graphService.getLocationGraphItem(geoid, lonLat, prop);
       }
       return null;
     }).filter(i => !!i);

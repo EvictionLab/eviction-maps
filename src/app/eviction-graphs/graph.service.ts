@@ -7,6 +7,7 @@ import { PlatformService } from '../services/platform.service';
 import { MapFeature } from '../map-tool/map/map-feature';
 import { AnalyticsService } from '../services/analytics.service';
 import { MapDataAttribute } from '../map-tool/data/map-data-attribute';
+import { DataService } from '../services/data.service';
 
 export class GraphItemData {
   [attr: string]: number;
@@ -21,7 +22,10 @@ export class GraphItem {
 @Injectable()
 export class GraphService {
 
-  constructor() {}
+  /** Graph service is ready when the data service is ready */
+  get ready(): Observable<boolean> { return this.dataService.ready; }
+
+  constructor(private dataService: DataService) {}
 
   /**
    * Creates an array with number values from `start` to `end`
@@ -61,6 +65,25 @@ export class GraphService {
     });
   }
 
+  /** Gets the data for a location and maps the data into a `GraphItem` */
+  getLocationGraphItem(geoid, lonLat, prop): Observable<GraphItem> {
+    return this.dataService.getTileData(geoid, lonLat, true)
+      .map((data: MapFeature) => this.featureToGraphItem(data, prop));
+  }
+
+  /** Gets the data for the nation and maps it into a `GraphItem` */
+  getNationalGraphItem(prop: string): Observable<GraphItem> {
+    return this.dataService.getNationalData()
+      .map(data => {
+        return {
+          'name': 'United States',
+          'prop': this.dataService.getDataAttribute(prop),
+          'data': data
+        };
+      });
+  }
+
+  /** Returns an axis configuation base on defaults */
   getAxis(axisConfig) {
     const defaultAxis = {
       label: '',
@@ -72,6 +95,18 @@ export class GraphService {
       maxVal: null
     };
     return Object.assign(defaultAxis, axisConfig);
+  }
+
+  /**
+   * Converts a feature to a graph item
+   */
+  featureToGraphItem(feature: MapFeature, prop: MapDataAttribute | string): GraphItem {
+    if (typeof prop === 'string') { prop = this.dataService.getDataAttribute(prop); }
+    return {
+      name: (feature['properties']['n'] + ', ' + feature['properties']['pl']) as string,
+      prop: prop,
+      data: feature['properties']
+    };
   }
 
   /**
