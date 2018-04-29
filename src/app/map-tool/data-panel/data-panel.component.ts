@@ -21,7 +21,7 @@ import { AnalyticsService } from '../../services/analytics.service';
 export class DataPanelComponent implements OnInit {
 
   /** Year input and output (allows double binding) */
-  private _year: number;
+  private _year = 2016;
   @Input() set year(newYear: number) {
     if (newYear !== this._year) {
       this.yearChange.emit(newYear);
@@ -136,6 +136,7 @@ export class DataPanelComponent implements OnInit {
    * Update Twitter share text
    */
   updateTwitterText() {
+    if (!this.mapToolService.activeBubbleHighlight) { return; }
     const featLength = this.locations.length;
     const yearSuffix = this.year.toString().slice(2);
     // Default to eviction rate if no highlight is set, sort by that property for share text

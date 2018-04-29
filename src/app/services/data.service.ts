@@ -88,12 +88,6 @@ export class DataService {
     return geoidLayerMap[geoid.length];
   }
 
-  /** Gets the US average data */
-  getUSAverage() {
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.get(environment.usAverageDataUrl, { headers: headers });
-  }
-
   /**
    * Gets the national data and transforms it into an object with attributes
    * for each year. (e.g. `{ 'e-00': 324, 'e-01': 350, ... }`)
