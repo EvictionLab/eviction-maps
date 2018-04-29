@@ -149,12 +149,13 @@ export class EvictionGraphsComponent implements OnInit {
   barYearSelect: Array<number>;
   /** event emitter for when user hovers the graph */
   graphHover = new EventEmitter();
+  /** Graph item for the national average */
+  average: GraphItem;
   /** tracks if a timeout is set to update graph settings */
   private graphTimeout;
   /** tracks timeout when setting average so it can be cancelled */
   private averageTimeout;
-  /** Graph item for the national average */
-  private average: GraphItem;
+
 
   constructor(
     private translatePipe: TranslatePipe,
