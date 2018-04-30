@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { GraphService, GraphItem } from '../graph.service';
 import { MapFeature } from '../../map-tool/map/map-feature';
+import { SSL_OP_COOKIE_EXCHANGE } from 'constants';
 
 @Component({
   selector: 'app-graph-embed',
@@ -17,17 +18,27 @@ import { MapFeature } from '../../map-tool/map/map-feature';
 })
 export class GraphEmbedComponent implements OnInit, OnDestroy {
   id = 'embed-graph';
+  /** Type of graph to show (line only for now) */
   type = 'line';
+  /** Graph items that are displayed on the graph */
   items: Array<GraphItem> = [];
+  /** Data that is passed to the graph component */
   data;
+  /** Graph config that is passed to the graph component */
   settings;
+  /** An array of all of the data properties that are on the graph */
   properties: Array<string> = [];
+  /** An array of all the places on the graph */
   places: Array<string> = [];
+  /** Start year for the graph */
   startYear = 2000;
+  /** End year for the graph */
   endYear = 2016;
+  /** An array of values to show tooltips for */
   tooltips = [];
+  /** the query param value of items */
+  private itemsStr: string;
   private destroy = new Subject<boolean>();
-
 
   constructor(
     private route: ActivatedRoute,
@@ -44,8 +55,14 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
       .switchMap(r => this.route.queryParams)
       .takeUntil(this.destroy)
       .subscribe(this.onQueryParamChange.bind(this));
+    this.translate.onLangChange
+      .takeUntil(this.destroy)
+      .subscribe(lang => {
+        if (this.itemsStr) { this.updateGraph(this.itemsStr); }
+      });
   }
 
+  /** Takes an array and returns a human readable list */
   humanizeArray(a) {
     return a.length === 2 ?
       this.translatePipe.transform('DATA.LIST_TWO', {
@@ -63,7 +80,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
-
+  /** Sets the tooltip data when the graph is hovered */
   updateTooltips(data) {
     this.tooltips = data ? data : [];
   }
@@ -81,14 +98,17 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
 
   /** Creats the graph based on query parameters */
   private onQueryParamChange(params) {
-    if (params['items']) { this.updateGraph(params['items']); }
     if (params['lang'] && params['lang'] !== this.translate.currentLang) {
       this.translate.use(params['lang']);
+    }
+    if (params['items']) {
+      this.itemsStr = params['items'];
+      this.updateGraph(params['items']);
     }
   }
 
   /** Updates the graph based on item query parameters */
-  private updateGraph(items) {
+  private updateGraph(items: string) {
     this.getGraphData(items).subscribe(data => {
       this.items = data;
       this.data = this.graphService.createLineGraphData(data, this.startYear, this.endYear);
@@ -102,8 +122,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   /**
    * Processes the `items` query param, and fetches graph items for the
    * provided locations.
-   * ?items=nationwide|er+56,-107.562,43.004|er
-   * @param param
+   * @param param string with the locations (e.g. `nationwide|er+56,-107.562,43.004|er`)
    */
   private getGraphData(param: string) {
     const items = param.split('+');

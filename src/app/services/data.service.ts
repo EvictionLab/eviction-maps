@@ -353,7 +353,6 @@ export class DataService {
   private getParser(geoid, layerId, lonLat, queryZoom, coords) {
     return (res: ArrayBuffer): MapFeature => {
       const tile = new vt.VectorTile(new Protobuf(res));
-      console.log(tile, res);
       const layer = tile.layers[layerId];
       const centerLayer = tile.layers[`${layerId}-centers`];
 
