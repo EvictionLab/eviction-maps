@@ -8,6 +8,9 @@
     text-align: left;
     max-width:grid(110);
     margin:auto;
+    ::ng-deep .axis-y .tick text {
+      transform: translate(-1*grid(1), 0); // add some extra space from the axis
+    }
   }
 }
 
