@@ -23,6 +23,7 @@
           {{ location.name }} <span>{{ location.displayParentLocation }}</span>
         </h2>
         <span class="rank-value">{{dataProperty.name}} {{dataProperty.value.includes('Rate') && location[dataProperty.value] > 100 ? '>100' : (location[dataProperty.value] | number:'1.0-2') }}{{dataProperty.value.includes('Rate') ? '%' : '' }}</span>
+        <a [attr.href]="mapLink" target="_blank" class="rank-link">{{ 'RANKINGS.MAP_LINK' | translate }}</a>
         <!-- COMING SOON
           <a href="#" class="rank-link">{{ 'RANKINGS.TOP_EVICTORS_LINK' | translate }}</a>
         --> 
