@@ -223,6 +223,9 @@ export class EvictionGraphsComponent implements OnInit {
 
   /** Formats the value with the provided format */
   formatValue(value, format: string) {
+    if (this.graphSettings && value > this.graphSettings.axis.y.maxVal) {
+      value = '>' + this.graphSettings.axis.y.maxVal;
+    }
     if (format === 'percent') { return value + '%'; }
     return value;
   }
@@ -258,6 +261,7 @@ export class EvictionGraphsComponent implements OnInit {
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5,
+          minVal: 0,
           maxVal: 100
         }
       },
