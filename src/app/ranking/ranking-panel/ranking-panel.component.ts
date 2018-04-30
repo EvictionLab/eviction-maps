@@ -26,13 +26,26 @@ export class RankingPanelComponent implements OnChanges {
   constructor(public el: ElementRef) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if ('location' in changes) {
+    if ('location' in changes && this.location) {
       let baseUrl = environment.siteNav.find(l => l.langKey === 'NAV.MAP').defaultUrl;
       if (!baseUrl.endsWith('/')) { baseUrl += '/'; }
 
-      this.mapLink = `${baseUrl}#/${environment.rankingsYear}?geography=cities&type=er&locations=${
-        this.location.geoId},${this.location.latLon[1]},${this.location.latLon[0]}`;
+      this.mapLink = `${baseUrl}#/${environment.rankingsYear}?geography=cities&type=er&bounds=${
+        this.centerBounds(this.location.latLon)}&locations=${this.location.geoId},${
+        this.location.latLon[1]},${this.location.latLon[0]}`;
     }
+  }
+
+  /**
+   * Return an approximate bounding box string for a given center point
+   * @param latLon
+   */
+  private centerBounds(latLon: number[]): string {
+    const lon = latLon[1];
+    const lat = latLon[0];
+    const lonPad = 0.5;
+    const latPad = 0.25;
+    return `${lon - lonPad},${lat - latPad},${lon + lonPad},${lat + latPad}`;
   }
 
 }
