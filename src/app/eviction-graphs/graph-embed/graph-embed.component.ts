@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs/Subject';
 import { GraphService, GraphItem } from '../graph.service';
@@ -33,6 +33,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private translate: TranslateService,
+    private translatePipe: TranslatePipe,
     private graphService: GraphService,
     private cd: ChangeDetectorRef
   ) { }
@@ -46,8 +47,15 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   }
 
   humanizeArray(a) {
-    return a.length === 1 ?
-      a[0] : [ a.slice(0, a.length - 1).join(', '), a[a.length - 1] ].join(' and ');
+    return a.length === 2 ?
+      this.translatePipe.transform('DATA.LIST_TWO', {
+        firstItem: a[0],
+        lastItem: a[1]
+      }) :
+      this.translatePipe.transform('DATA.LIST_MANY', {
+        firstItems: a.slice(0, a.length - 1).join(', '),
+        lastItem: a[a.length - 1]
+      });
   }
 
   ngOnDestroy() {
@@ -55,31 +63,9 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
     this.destroy.complete();
   }
 
+
   updateTooltips(data) {
     this.tooltips = data ? data : [];
-  }
-
-  /**
-   * Processes the `items` query param, and fetches graph items for the
-   * provided locations.
-   * ?items=nationwide|er+56,-107.562,43.004|er
-   * @param param
-   */
-  getGraphData(param: string) {
-    const items = param.split('+');
-    const itemData = items.map(item => {
-      const [ location, prop ] = item.split('|');
-      if (location === 'nationwide') {
-        return this.graphService.getNationalGraphItem(prop);
-      }
-      if (location.split(',').length === 3) {
-        const [ geoid, lon, lat ] = location.split(',');
-        const lonLat = [ parseFloat(lon), parseFloat(lat) ];
-        return this.graphService.getLocationGraphItem(geoid, lonLat, prop);
-      }
-      return null;
-    }).filter(i => !!i);
-    return Observable.forkJoin(itemData);
   }
 
   /** Gets the Y axis label for the graph, no label if more than one property */
@@ -95,16 +81,45 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
 
   /** Creats the graph based on query parameters */
   private onQueryParamChange(params) {
-    if (!params['items']) { return; }
-    this.getGraphData(params['items']).subscribe(data => {
+    if (params['items']) { this.updateGraph(params['items']); }
+    if (params['lang'] && params['lang'] !== this.translate.currentLang) {
+      this.translate.use(params['lang']);
+    }
+  }
+
+  /** Updates the graph based on item query parameters */
+  private updateGraph(items) {
+    this.getGraphData(items).subscribe(data => {
       this.items = data;
       this.data = this.graphService.createLineGraphData(data, this.startYear, this.endYear);
       this.properties = Array.from(new Set(data.map(d => d.prop['name'])));
       this.places = Array.from(new Set(data.map(d => d.name)));
       this.settings = this.getGraphSettings(this.startYear, this.endYear);
-      console.log(this.items);
       this.cd.detectChanges();
     });
+  }
+
+  /**
+   * Processes the `items` query param, and fetches graph items for the
+   * provided locations.
+   * ?items=nationwide|er+56,-107.562,43.004|er
+   * @param param
+   */
+  private getGraphData(param: string) {
+    const items = param.split('+');
+    const itemData = items.map(item => {
+      const [ location, prop ] = item.split('|');
+      if (location === 'nationwide') {
+        return this.graphService.getNationalGraphItem(prop);
+      }
+      if (location.split(',').length === 3) {
+        const [ geoid, lon, lat ] = location.split(',');
+        const lonLat = [ parseFloat(lon), parseFloat(lat) ];
+        return this.graphService.getLocationGraphItem(geoid, lonLat, prop);
+      }
+      return null;
+    }).filter(i => !!i);
+    return Observable.forkJoin(itemData);
   }
 
   /** Returns the settings for the graph */
