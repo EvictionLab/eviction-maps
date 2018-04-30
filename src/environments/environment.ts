@@ -14,7 +14,7 @@ export const environment = {
   // tslint:disable-next-line:max-line-length
   cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/cities-rankings.csv',
   stateRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/states-rankings.csv',
-  usAverageDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/avg/us.json',
+  nationalDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/us/national.csv',
   // tslint:disable-next-line:max-line-length
   outliersDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/cutoffs/99-percentile.json',
   mapboxApiKey: 'pk.' +

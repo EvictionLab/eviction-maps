@@ -1,5 +1,6 @@
 <app-progress-bar [indeterminate]="isLoading"></app-progress-bar>
 <app-header-bar
+  *ngIf="!embed"
   role="banner"
   [class.condensed]="!isAtTop"
   [activeMenuItem]="currentMenuItem"
@@ -11,6 +12,7 @@
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
 <app-menu class="app-menu" tabindex="-1" 
+  *ngIf="!embed"
   [navigation]="siteNav"
   [expanded]="menuActive" 
   (onClose)="closeMenu()"
@@ -24,4 +26,4 @@
   ></app-ui-select>
 </app-menu>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
-<app-footer [navigation]="footerNav" role="contentinfo"></app-footer>
+<app-footer   *ngIf="!embed" [navigation]="footerNav" role="contentinfo"></app-footer>

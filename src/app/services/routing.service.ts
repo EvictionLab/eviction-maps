@@ -102,6 +102,7 @@ export class RoutingService {
     // all routes for the app
     const appRoutes: Routes = [
       { path: 'embed/:year', component: components.embed },
+      { path: 'graph', component: components.graph },
       { path: 'evictions', component: components.rankings  },
       { path: 'evictors', component: components.rankings },
       { path: ':year', component: components.map },

@@ -64,7 +64,9 @@
     "AUTOCOMPLETE_HINT": "Cuando esté disponible, use las flechas hacia arriba y hacia abajo para revisar e ingresar para seleccionar.",
     "LOADING": "Cargando",
     "TRACT_SINGULAR": "Sección Censal",
-    "BLOCK_GROUP_SINGULAR": "Grupo de Cuadras"
+    "BLOCK_GROUP_SINGULAR": "Grupo de Cuadras",
+    "LIST_TWO": "{{firstItem}} y {{lastItem}}",
+    "LIST_MANY": "{{firstItems}} y {{lastItem}}"
   },
   "HEADER": {
     "HOME": "Inicio",

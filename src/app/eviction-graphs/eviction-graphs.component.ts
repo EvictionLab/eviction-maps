@@ -1,13 +1,16 @@
 import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslatePipe } from '@ngx-translate/core';
-import { environment } from '../../../../environments/environment';
-import { MapDataAttribute } from '../../data/map-data-attribute';
+import { environment } from '../../environments/environment';
+import { MapDataAttribute } from '../map-tool/data/map-data-attribute';
+import { GraphService, GraphItem } from './graph.service';
+import { MapFeature } from '../map-tool/map/map-feature';
 
 @Component({
   selector: 'app-eviction-graphs',
   templateUrl: './eviction-graphs.component.html',
-  styleUrls: ['./eviction-graphs.component.scss']
+  styleUrls: ['./eviction-graphs.component.scss'],
+  providers: [ GraphService ]
 })
 export class EvictionGraphsComponent implements OnInit {
 
@@ -27,22 +30,25 @@ export class EvictionGraphsComponent implements OnInit {
   get barYear() { return this._barYear; }
   @Output() barYearChange = new EventEmitter();
 
-  /** Store currently selected map graph attribute */
-  private _mapGraphAttribute = { id: '', langKey: '' };
-  /** Allow double-binding of graph attribute */
-  private _graphAttribute = { id: '', langKey: ''};
+  /** The `MapDataAttribute` to show on the graph */
+  private _graphAttribute = { id: 'none', langKey: ''};
   @Input() set graphAttribute(attr: MapDataAttribute) {
     if (!attr || !this._graphAttribute) { return; }
-    this._mapGraphAttribute = attr;
-    if (attr.id !== this._graphAttribute.id) {
-      this._graphAttribute = attr.id === 'none' ? this.dataAttributes[0] : attr;
-      if (attr.id !== 'none') {
-        this.graphAttributeChange.emit(this._graphAttribute);
-      }
-      this.setGraphData();
+    if (attr.id === this._graphAttribute.id) { return; }
+    this._graphAttribute = attr;
+    if (this.graphAttribute) {
+      this.graphAttributeChange.emit(this.graphAttribute);
+      this.graphService.getNationalGraphItem(this.graphAttribute.id)
+        .takeUntil(this.graphAttributeChange)
+        .subscribe(data => {
+          this.average = data;
+          this.setGraphData();
+        });
     }
   }
-  get graphAttribute(): MapDataAttribute { return this._graphAttribute; }
+  get graphAttribute(): MapDataAttribute {
+    return this._graphAttribute.id === 'none' ? this.dataAttributes[0] : this._graphAttribute;
+  }
   @Output() graphAttributeChange = new EventEmitter();
 
   /** Line graph year start input / output (allows double binding) */
@@ -51,8 +57,8 @@ export class EvictionGraphsComponent implements OnInit {
     if (value !== this._lineStartYear) {
       this._lineStartYear = value;
       this.lineStartYearChange.emit(this._lineStartYear);
-      this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
+      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
+      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
@@ -67,8 +73,8 @@ export class EvictionGraphsComponent implements OnInit {
     if (value !== this._lineEndYear) {
       this._lineEndYear = value;
       this.lineEndYearChange.emit(this._lineEndYear);
-      this.startSelect = this.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.generateYearArray(this.lineStartYear + 1, this.maxYear);
+      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
+      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
@@ -77,7 +83,7 @@ export class EvictionGraphsComponent implements OnInit {
   get lineEndYear() { return this._lineEndYear; }
   @Output() lineEndYearChange = new EventEmitter();
 
-  /** Locations */
+  /** Locations to show on the graph */
   private _locations = [];
   @Input() set locations(value) {
     this._locations = value;
@@ -99,18 +105,6 @@ export class EvictionGraphsComponent implements OnInit {
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
-  /** Data for averages on graph */
-  private _average;
-  @Input() set average(value) {
-    this._average = {
-      type: 'Feature',
-      properties: { n: 'United States', ...value },
-      geometry: { type: 'Point', coordinates: [] }
-    };
-    this.setGraphData();
-  }
-  get average() { return this._average; }
-
   /** Tracks if average is shown */
   private _showAverage = true;
   @Input() set showAverage(value: boolean) {
@@ -124,28 +118,63 @@ export class EvictionGraphsComponent implements OnInit {
   get showAverage() { return this._showAverage; }
   @Output() showAverageChange = new EventEmitter();
 
-  averageActive = true; // tracks if the average is active on the graph
-  tooltips = []; // attribute for holding tooltip data
-  graphTypeOptions = this.createGraphTypeOptions(); // attribute w/ object of graph options
-  graphData; // graph data that is passed to the graph component
-  graphSettings; // attribute for passing graph settings to graph component
-  startSelect: Array<number>; // array of years for the "start year" select for line graph
-  endSelect: Array<number>; // array of years for the "end year" select for line graph
-  minYear = environment.minYear; // minimum allowed year for year selects
-  maxYear = environment.maxYear; // maximum allowed year for year selects
-  barYearSelect: Array<number>; // array of years for bar graph select
-  graphHover = new EventEmitter(); // event emitter for when user hovers the graph
-  private graphTimeout; // tracks if a timeout is set to update graph settings
-  private averageTimeout; // tracks timeout when setting average so it can be cancelled
+  /** Graph items currently shown on the graph */
+  get graphItems(): Array<GraphItem> {
+    if (!this.locations || !this.graphAttribute) { return; }
+    const locationGraphItems = this.locations
+      .map(f => this.graphService.featureToGraphItem(f, this.graphAttribute));
+    return this.showAverage && this.average ?
+      [ ...locationGraphItems, this.average ] : locationGraphItems;
+  }
+
+  /** tracks if the average is active on the graph */
+  averageActive = true;
+  /** attribute for holding tooltip data */
+  tooltips = [];
+  /** attribute w/ object of graph options */
+  graphTypeOptions = this.createGraphTypeOptions();
+  /** graph data that is passed to the graph component */
+  graphData;
+  /** attribute for passing graph settings to graph component */
+  graphSettings;
+  /** array of years for the "start year" select for line graph */
+  startSelect: Array<number>;
+  /** array of years for the "end year" select for line graph */
+  endSelect: Array<number>;
+  /** minimum allowed year for year selects */
+  minYear = environment.minYear;
+  /** maximum allowed year for year selects */
+  maxYear = environment.maxYear;
+  /** array of years for bar graph select */
+  barYearSelect: Array<number>;
+  /** event emitter for when user hovers the graph */
+  graphHover = new EventEmitter();
+  /** Graph item for the national average */
+  average: GraphItem;
+  /** tracks if a timeout is set to update graph settings */
+  private graphTimeout;
+  /** tracks timeout when setting average so it can be cancelled */
+  private averageTimeout;
+
 
   constructor(
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private graphService: GraphService
   ) { }
 
   ngOnInit() {
-    this.barYearSelect = this.generateYearArray(this.minYear, this.maxYear);
+    // national average graph item
+    if (this.graphAttribute) {
+      this.graphService.getNationalGraphItem(this.graphAttribute.id)
+      .takeUntil(this.graphAttributeChange)
+      .subscribe(data => {
+        this.average = data;
+        this.setGraphData();
+      });
+    }
+    this.barYearSelect = this.graphService.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
       this.graphSettings = this.graphType === 'bar' ?
@@ -174,37 +203,36 @@ export class EvictionGraphsComponent implements OnInit {
   /** Generates text for the value label under the location in the legend */
   getLegendValue(location, locationIndex: number): string {
     if (!location) { return ''; }
-    const l = location;
+    // average is GraphItem so use `data` if `properties` is not available
+    const l = location.properties || location.data;
     if (this.graphType === 'bar') {
-      const value = l.properties[this.attrYear(this.barYear)];
+      const value = l[this.attrYear(this.barYear)];
       return value >= 0 ?
-        this.barYear + ': ' + this.tooltipValue(value) :
+        this.barYear + ': ' + this.formatValue(value, this.graphAttribute.format) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
       if (!tooltip) { return ''; }
-      const value = l.properties[this.attrYear(tooltip.x)];
+      const value = l[this.attrYear(tooltip.x)];
       return value >= 0 ?
-        tooltip.x + ': ' + this.tooltipValue(value) :
+        tooltip.x + ': ' + this.formatValue(value, this.graphAttribute.format) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
     }
     return '';
   }
 
-  /** track tooltips by ID so they are animated properly */
-  trackTooltips(index, item) { return item.id; }
+  /** Formats the value with the provided format */
+  formatValue(value, format: string) {
+    if (format === 'percent') { return value + '%'; }
+    return value;
+  }
 
   /**
    * Toggles the graph between judgments / filings
    */
   changeGraphProperty(filings: boolean) {
     const attr = filings ? this.dataAttributes[1] : this.dataAttributes[0];
-    if (this._mapGraphAttribute.id !== 'none') {
-      this.graphAttribute = attr;
-    } else {
-      this._graphAttribute = attr;
-      this.setGraphData();
-    }
+    this.graphAttribute = attr;
   }
 
   /** Gets config for bar graph */
@@ -261,6 +289,7 @@ export class EvictionGraphsComponent implements OnInit {
           tickSize: '-100%',
           ticks: 5,
           tickPadding: 5,
+          minVal: 0,
           maxVal: 100
         }
       },
@@ -273,7 +302,7 @@ export class EvictionGraphsComponent implements OnInit {
    * Sets the data for the graph, and any settings specific to the type
    */
   setGraphData() {
-    if (!this.locations || this.locations.length === 0) { return; }
+    if (!this.locations || this.locations.length === 0 || !this.graphAttribute) { return; }
     this.tooltips = [];
     if (this.graphType === 'line') {
       this.graphSettings = this.getLineGraphConfig();
@@ -300,38 +329,6 @@ export class EvictionGraphsComponent implements OnInit {
     }, 1250);
   }
 
-  /**
-   * Creates an array with number values from `start` to `end`
-   */
-  generateYearArray(start: number, end: number): Array<number> {
-    const arr = [];
-    for (let i = start; i <= end; i++) { arr.push(i); }
-    if (arr.length === 0) { arr.push(end); }
-    return arr;
-  }
-
-  getTooltipsYear(tooltips: Object[]) {
-    for (let i = 0; i < tooltips.length; ++i) {
-      if (tooltips[i]['x'] !== null) {
-        return tooltips[i]['x'];
-      }
-    }
-    return null;
-  }
-
-  tooltipValue(val: number): string {
-    if (!this.graphSettings) { return ''; }
-    let valStr = val.toString();
-    if (this.graphSettings.axis.y.maxVal > 0 && val > this.graphSettings.axis.y.maxVal) {
-      valStr = '>' + this.graphSettings.axis.y.maxVal;
-    }
-    return `${valStr}${this.graphAttribute.format === 'percent' ? '%' : ''}`;
-  }
-
-  barTopValue(top: number): number {
-    return Math.max(this.graphSettings.margin.top, top);
-  }
-
   /** Returns the Y axis label name with % added if they are percent values */
   private getAxisLabel() {
     return this.graphAttribute.name +
@@ -343,7 +340,6 @@ export class EvictionGraphsComponent implements OnInit {
    * immediately change color
    */
   private toggleAverageClass() {
-
     if (this.showAverage) {
       if (this.averageTimeout) { clearTimeout(this.averageTimeout); }
       this.averageActive = true;
@@ -356,41 +352,18 @@ export class EvictionGraphsComponent implements OnInit {
   }
 
   /**
-   * Genrates line graph data from the features in `locations`
+   * Generates line graph data from the features in `locations`
    */
   private createLineGraphData() {
-    const locations = this.showAverage && this.average ?
-      [...this.locations, this.average] : this.locations;
-    return locations.map((f, i) => {
-      return { id: 'sample' + i, data: this.generateLineData(f) };
-    });
+    return this.graphService
+      .createLineGraphData(this.graphItems, this.lineStartYear, this.lineEndYear);
   }
 
   /**
-   * Generate bar graph data from the features in `locations
+   * Generate bar graph data from the features
    */
   private createBarGraphData() {
-    const locations = this.showAverage && this.average ?
-      [...this.locations, this.average] : this.locations;
-    return locations.map((f, i) => {
-      const yVal = (f.properties[this.attrYear(this.barYear)]);
-      return {
-        id: 'sample' + i,
-        data: [{
-          x: f.properties.n + ', ' + f.properties.pl,
-          y: yVal ? yVal : 0
-        }]
-      };
-    });
-  }
-
-  private generateLineData(feature) {
-    return this.generateYearArray(this.lineStartYear, this.lineEndYear)
-      .map((year) => {
-        // create points
-        const yVal = feature.properties[this.attrYear(year)];
-        return { x: year, y: yVal !== -1 && yVal !== null ? yVal : undefined };
-      });
+    return this.graphService.createBarGraphData(this.graphItems, this.barYear);
   }
 
   private createGraphTypeOptions() {

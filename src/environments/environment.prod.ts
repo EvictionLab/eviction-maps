@@ -9,7 +9,7 @@ export const environment = {
   evictorsRankingDataUrl: 'https://evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
   cityRankingDataUrl: 'https://evictionlab.org/data/rankings/cities-rankings.csv',
   stateRankingDataUrl: 'https://evictionlab.org/data/rankings/states-rankings.csv',
-  usAverageDataUrl: 'https://evictionlab.org/data/avg/us.json',
+  nationalDataUrl: 'https://evictionlab.org/data/us/national.csv',
   outliersDataUrl: 'https://evictionlab.org/data/cutoffs/99-percentile.json',
   mapboxApiKey: 'pk.' +
     'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqY20zamVpcTBwb3gzM28yb292YzM3dXoifQ.' +

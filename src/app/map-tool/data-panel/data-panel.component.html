@@ -17,7 +17,6 @@
   <app-eviction-graphs
     [style.display]="displayLocations.length > 0 ? '' : 'none'"
     [dataAttributes]="graphAttributes"
-    [average]="mapToolService.usAverage"
     [locations]="displayLocations"
     (locationRemoved)="locationRemoved.emit($event)"
     [(barYear)]="mapToolService.activeYear"

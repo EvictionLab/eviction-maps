@@ -23,6 +23,7 @@ import { LoadingService } from './services/loading.service';
 import { AnalyticsService } from './services/analytics.service';
 import { RoutingService } from './services/routing.service';
 import { ScrollService } from './services/scroll.service';
+import { GraphEmbedComponent } from './eviction-graphs/graph-embed/graph-embed.component';
 
 @Component({
   selector: 'app-root',
@@ -80,7 +81,8 @@ export class AppComponent implements OnInit {
     const components = {
       map: MapToolComponent,
       rankings: RankingToolComponent,
-      embed: EmbedComponent
+      embed: EmbedComponent,
+      graph: GraphEmbedComponent
     };
     this.loader.isLoading$.subscribe(loading => {
       this.isLoading = loading;
@@ -136,7 +138,7 @@ export class AppComponent implements OnInit {
   updateClassAttributes(id: string) {
     this.isRankingTool = (id === 'ranking-tool');
     this.isMapTool = (id === 'map-tool');
-    this.embed = (id === 'embed-map');
+    this.embed = (id === 'embed-map' || id === 'embed-graph');
   }
 
   onMenuSelect(itemId: string) {
