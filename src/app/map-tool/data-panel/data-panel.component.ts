@@ -1,6 +1,7 @@
 import {
   Component, OnInit, Input, Output, EventEmitter, SimpleChanges, OnChanges, ChangeDetectorRef
 } from '@angular/core';
+import Debounce from 'debounce-decorator';
 import { environment } from '../../../environments/environment';
 import { DownloadFormComponent } from './download-form/download-form.component';
 import { UiDialogService } from '../../ui/ui-dialog/ui-dialog.service';
@@ -134,7 +135,10 @@ export class DataPanelComponent implements OnInit {
 
   /**
    * Update Twitter share text
+   * Note: This function must be debounced so that `this.platform.currentUrl`
+   *  is accurate when called.
    */
+  @Debounce(1000)
   updateTwitterText() {
     if (!this.mapToolService.activeBubbleHighlight) { return; }
     const featLength = this.locations.length;
