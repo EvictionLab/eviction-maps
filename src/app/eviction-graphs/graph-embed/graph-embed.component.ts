@@ -93,7 +93,7 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   /** Formats percents and floats and all others as abbreviated */
   private getTickFormatY() {
     const formats = Array.from(new Set(this.items.map(d => d.prop['format'])));
-    return formats.length === 1 && formats[0] === 'percent' ? '.0f' : '.0s';
+    return formats.length === 1 && formats[0] === 'percent' ? '.0f' : '.2s';
   }
 
   /** Creats the graph based on query parameters */
