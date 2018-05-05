@@ -64,7 +64,9 @@
     "AUTOCOMPLETE_HINT": "Cuando esté disponible, use las flechas hacia arriba y hacia abajo para revisar e ingresar para seleccionar.",
     "LOADING": "Cargando",
     "TRACT_SINGULAR": "Sección Censal",
-    "BLOCK_GROUP_SINGULAR": "Grupo de Cuadras"
+    "BLOCK_GROUP_SINGULAR": "Grupo de Cuadras",
+    "LIST_TWO": "{{firstItem}} y {{lastItem}}",
+    "LIST_MANY": "{{firstItems}} y {{lastItem}}"
   },
   "HEADER": {
     "HOME": "Inicio",
@@ -195,6 +197,7 @@
     "LIST_INTRO": "Ver los rankings de desalojos en el {{year}} para lugares en todo Estados Unidos. Desplácese por la lista o use la barra de búsqueda para encontrar un lugar. Para refinar sus resultados, elija un tipo de área y un tipo de datos. También se puede buscar dentro de estados usando el menú de Región. (Para obtener más información sobre los lugares clasificados aquí, <a href='https://evictionlab.org/es/help-faq/#rankings-locations'>consulte nuestras Preguntas frecuentes</a>).",
     "SEARCH_FILTER": "Buscar y filtrar",
     "TOP_EVICTORS_LINK": "Ver los desalojadores principales",
+    "MAP_LINK": "Ver en el mapa",
     "SHARE_VIA": "Compartir por",
     "SHARE_JUDGMENT": "desalojó",
     "SHARE_PASSIVE_JUDGMENT": "fueron desalojados",

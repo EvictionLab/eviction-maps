@@ -64,7 +64,9 @@
     "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
     "LOADING": "Loading",
     "TRACT_SINGULAR": "Census Tract",
-    "BLOCK_GROUP_SINGULAR": "Block Group"
+    "BLOCK_GROUP_SINGULAR": "Block Group",
+    "LIST_TWO": "{{firstItem}} and {{lastItem}}",
+    "LIST_MANY": "{{firstItems}}, and {{lastItem}}"
   },
   "HEADER": {
     "HOME": "Home",
@@ -191,6 +193,7 @@
     "LIST_INTRO": "Viewing {{year}} eviction rankings for locations across America. Scroll through the list or use the search bar to find a place. To refine your results, choose an area type and a data type. You can also search within states using the Region menu. (For more about the locations ranked here, <a href='https://evictionlab.org/help-faq/#rankings-locations'>see our FAQ</a>.)",
     "SEARCH_FILTER": "Search & Filter",
     "TOP_EVICTORS_LINK": "View Top Evictors",
+    "MAP_LINK": "View in Map",
     "SHARE_VIA": "Share via",
     "SHARE_JUDGMENT": "evicted",
     "SHARE_PASSIVE_JUDGMENT": "were evicted",

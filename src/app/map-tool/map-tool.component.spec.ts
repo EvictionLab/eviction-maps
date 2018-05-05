@@ -44,7 +44,6 @@ export class MapToolServiceStub {
   usAverageLoaded = new EventEmitter<any>();
   getQueryParameters() { return []; }
   getRouteArray() { return []; }
-  loadUSAverage() { }
   setCurrentData(...args) { return; }
   getCurrentData() { return {}; }
 }

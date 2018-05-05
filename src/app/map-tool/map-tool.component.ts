@@ -29,6 +29,7 @@ import { environment } from '../../environments/environment';
 import { AnalyticsService } from '../services/analytics.service';
 import { ScrollService } from '../services/scroll.service';
 import { FeatureOverviewComponent } from './feature-overview/feature-overview.component';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-map-tool',
@@ -84,13 +85,13 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     private platform: PlatformService,
     private dialogService: UiDialogService,
     private analytics: AnalyticsService,
+    private dataService: DataService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.initMapToolData();
     this.routing.setActivatedRoute(route);
     // Add click to dimiss to all toast messages
     this.toast.onClickToast().subscribe(t => this.toast.dismissToast(t));
-    this.mapToolService.loadUSAverage();
   }
 
   ngOnInit() {
@@ -174,7 +175,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     };
     this.analytics.trackEvent('locationSelection', selectEvent);
     // pull full data for the location
-    this.mapToolService.getTileData(feature.properties['GEOID'] as string, featureLonLat, true)
+    this.dataService.getTileData(feature.properties['GEOID'] as string, featureLonLat, true)
       .subscribe(data => {
         this.mapToolService.updateLocation(data);
         this.updateRoute();
@@ -237,7 +238,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
 
       this.loader.start('search');
       const layerId = feature.properties['layerId'] as string;
-      this.mapToolService.getSearchTileData(feature).subscribe(data => {
+      this.dataService.getSearchTileData(feature).subscribe(data => {
         if (!data.properties.n) {
           this.toast.error(this.translatePipe.transform('MAP.NO_DATA_ERROR'));
           this.mapZoomToFeature(feature);

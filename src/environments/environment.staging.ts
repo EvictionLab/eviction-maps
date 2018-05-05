@@ -9,7 +9,7 @@ export const environment = {
     evictorsRankingDataUrl: 'https://staging.evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
     cityRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/cities-rankings.csv',
     stateRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/states-rankings.csv',
-    usAverageDataUrl: 'https://staging.evictionlab.org/data/avg/us.json',
+    nationalDataUrl: 'https://staging.evictionlab.org/data/us/national.csv',
     outliersDataUrl: 'https://staging.evictionlab.org/data/cutoffs/99-percentile.json',
     mapboxApiKey: 'pk.' +
         'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
@@ -118,7 +118,7 @@ export const environment = {
         langUrls : { 'es': 'https://staging.evictionlab.org/es/data-merge' }
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/updates/media/media-guide',
+        defaultUrl: 'https://staging.evictionlab.org/media-guide',
         langKey: 'NAV.MEDIA_GUIDE'
       }
     ]

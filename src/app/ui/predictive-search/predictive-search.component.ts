@@ -40,7 +40,7 @@ export class PredictiveSearchComponent implements OnInit {
     const items: Element[] = Array.from(
       this.el.nativeElement.querySelectorAll('.dropdown-menu li')
     );
-    if (!items) { return; }
+    if (!items || items.length === 0) { return; }
     if (e.keyCode === keys['DOWN']) {
       this.selectedIndex++;
       if (this.selectedIndex === this.optionsLimit) { this.selectedIndex = 0; }

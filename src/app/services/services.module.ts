@@ -2,6 +2,7 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 
+
 // local imports
 import { PlatformService } from './platform.service';
 import { LoadingService } from './loading.service';
@@ -10,6 +11,7 @@ import { AnalyticsService } from './analytics.service';
 import { RoutingService } from './routing.service';
 import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { SearchService } from './search.service';
+import { DataService } from './data.service';
 
 @NgModule({
   imports: [
@@ -26,7 +28,8 @@ export class ServicesModule {
         LoadingService,
         AnalyticsService,
         RoutingService,
-        SearchService
+        SearchService,
+        DataService
       ]
     };
   }
