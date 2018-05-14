@@ -177,7 +177,7 @@ export class MapService {
   }
 
   /**
-   * Queries a layer for all features matching the name and parent-location of
+   * Queries a layer for all features matching the GEOID of
    * a supplied feature, returns a GeoJSON feature combining the geographies of
    * all matching features. Used to consolidate GeoJSON features split by tiling
    *
@@ -233,23 +233,37 @@ export class MapService {
   setHoveredFeature(feature) {
     if (!this.hoverEnabled || this.getActiveFeature(feature)) { return false; }
     const newFeature = feature ? [ feature ] : [];
-    if (this.areFeaturesEqual(newFeature, this._mapHover)) { return; }
+    if (this.areFeatureGeometriesEqual(newFeature, this._mapHover)) { return; }
     this._mapHover = newFeature;
     this.setSourceData('hover', newFeature);
   }
 
   /** Checks if the geometry of two feature arrays are equal */
-  areFeaturesEqual(f1: MapFeature[], f2: MapFeature[]) {
+  areFeatureGeometriesEqual(f1: MapFeature[], f2: MapFeature[]): boolean {
     if (f1.length !== f2.length) { return false; }
     if (f1.length === 0) { return true; }
     return f1
-      .map((f, i) => _isEqual(f['geometry'], f2[i]['geometry']))
+      .map((f, i) => !!f && !!f2[i] && _isEqual(f['geometry'], f2[i]['geometry']))
+      .reduce((acc, curr) => acc ? curr : false);
+  }
+
+  /** Checks if two MapFeature arrays contain the same features based on GEOID */
+  areSameFeatures(features1: MapFeature[], features2: MapFeature[]): boolean {
+    // return false if no features or lengths dont match
+    if (!features1 || !features2 || features1.length !== features2.length) { return false; }
+    // return true if two empty arrays
+    if (features1.length === 0) { return true; }
+    return features1
+      .map((f, i) => {
+        return (f && f.properties && features2[i] && features2[i].properties) ?
+          f.properties['GEOID'] === features2[i].properties['GEOID'] : false;
+      })
       .reduce((acc, curr) => acc ? curr : false);
   }
 
   /** Sets the highlighted features to the given feature array */
   setHighlightedFeatures(features: MapFeature[]) {
-    if (this.areFeaturesEqual(features, this._mapHighlights)) { return; }
+    if (this.areFeatureGeometriesEqual(features, this._mapHighlights)) { return; }
     this._mapHighlights = features;
     this.setSourceData('highlight', features);
   }

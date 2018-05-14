@@ -112,18 +112,53 @@ describe('MapService', () => {
     })
   );
 
-  // Note: Should not be possible to get a null feature from `updateFeature`
-  //  so this test is not needed. (03/23/2018)
-  //
-  // it('highlight features should not add null feature',
-  //   inject([MapService], (service: MapService) => {
-  //     service.setMapInstance(mapboxStub);
-  //     spyOn(service, 'getActiveFeature').and.returnValue(undefined);
-  //     spyOn(service, 'isHighlightVisible').and.returnValue(true);
-  //     spyOn(service, 'getUnionFeature').and.returnValue(null);
-  //     spyOn(service, 'setHighlightedFeatures');
-  //     service.updateHighlightFeatures([mapFeatureStub]);
-  //     expect(service.setHighlightedFeatures).toHaveBeenCalledWith('highlight', []);
-  //   })
-  // );
+  it('should detect if the same features are in an array based on GEOID',
+    inject([MapService], (service: MapService) => {
+      const f1 = {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[]]},
+        properties: { 'GEOID' : '01243' }
+      } as MapFeature;
+      const f2 = {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[]]},
+        properties: { 'GEOID' : '01243345' }
+      } as MapFeature;
+      expect(service.areSameFeatures([ f1 ], [ { ...f1 } ])).toBe(true);
+      expect(
+        service.areSameFeatures([ f1 ], [ { ...f1, geometry: { type: 'Point', coordinates: [] } } ])
+      ).toBe(true);
+      expect(service.areSameFeatures([ f1 ], [ f2 ])).toBe(false);
+      expect(service.areSameFeatures([ f1 ], [ undefined ])).toBe(false);
+      expect(service.areSameFeatures([ f1, f2 ], [ f1 ])).toBe(false);
+    })
+  );
+
+  it('should detect if the same features are in an array based on Geometry',
+    inject([MapService], (service: MapService) => {
+      const f1 = {
+        type: 'Feature',
+        geometry: { type: 'Polygon', coordinates: [[[1, 2], [2, 2], [2, 1], [1, 1], [1, 2]]]},
+        properties: { 'GEOID' : '01243' }
+      } as MapFeature;
+      expect(service.areFeatureGeometriesEqual([ f1 ], [ { ...f1 } ])).toBe(true);
+      expect(
+        service.areFeatureGeometriesEqual([ f1, mapFeatureStub ], [ { ...f1 }, mapFeatureStub ])
+      ).toBe(true);
+      expect(service.areFeatureGeometriesEqual([ f1 ], [ undefined ])).toBe(false);
+      expect(service.areFeatureGeometriesEqual([ f1 ], [ f1, mapFeatureStub ])).toBe(false);
+    })
+  );
+
+  it('highlight features should not add null feature',
+    inject([MapService], (service: MapService) => {
+      service.setMapInstance(mapboxStub);
+      spyOn(service, 'getActiveFeature').and.returnValue(undefined);
+      spyOn(service, 'isHighlightVisible').and.returnValue(true);
+      spyOn(service, 'getUnionFeature').and.returnValue(null);
+      spyOn(service, 'setHighlightedFeatures');
+      service.updateHighlightFeatures([mapFeatureStub]);
+      expect(service.setHighlightedFeatures).toHaveBeenCalledWith([]);
+    })
+  );
 });

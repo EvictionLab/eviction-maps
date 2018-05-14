@@ -391,7 +391,8 @@ export class MapComponent implements OnInit, OnChanges {
     const updatedFeatures =
       this.mapService.updateHighlightFeatures(this.activeFeatures);
     // do not update if active features / updated features are unavailable (issue #1139)
-    if (!this.activeFeatures || !updatedFeatures) { return; }
+    // or if the updated features are not the same as the highlighted features (issue #1174)
+    if (!this.mapService.areSameFeatures(this.activeFeatures, updatedFeatures)) { return; }
     // update geometries in place if higher detail
     for (let i = 0; i < this.activeFeatures.length; i++) {
       const f1 = this.activeFeatures[i];
