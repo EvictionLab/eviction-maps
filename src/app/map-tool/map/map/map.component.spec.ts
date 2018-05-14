@@ -43,6 +43,7 @@ class MapServiceStub {
     }];
   }
   updateHighlightFeatures(...args) { return this; }
+  areSameFeatures(...args) { return this; }
 }
 
 class MapToolServiceStub {

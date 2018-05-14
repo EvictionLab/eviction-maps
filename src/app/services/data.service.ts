@@ -336,7 +336,7 @@ export class DataService {
       case 'counties':
         return 7;
       case 'cities':
-        return 8;
+        return 7;
       default:
         return 9;
     }
