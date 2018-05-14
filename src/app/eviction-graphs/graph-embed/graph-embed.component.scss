@@ -12,6 +12,9 @@
       transform: translate(-1*grid(1), 0); // add some extra space from the axis
     }
   }
+  ::ng-deep .line-tooltips {
+    overflow:hidden; // prevents tooltips from expanding width on iOS
+  }
 }
 
 h1 {
