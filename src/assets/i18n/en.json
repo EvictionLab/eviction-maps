@@ -199,7 +199,7 @@
     "SHARE_PASSIVE_JUDGMENT": "were evicted",
     "SHARE_FILING": "filed for eviction against",
     "SHARE_PASSIVE_FILING": "had eviction filings against them",
-    "SHARE_AVERAGE": "an average of {{amount}}% of",
+    "SHARE_AVERAGE": "an average of {{amount}}% of their",
     "SHARE_PERCENT_OF": "{{amount}}% of",
     "SHARE_HAD_COUNT": "had the most among {{areaType}}",
     "SHARE_HAD_RATE": "had the highest rate among {{areaType}}",
