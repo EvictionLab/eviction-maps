@@ -90,7 +90,7 @@
   "LAYERS": {
     "STATES": "States",
     "COUNTIES": "Counties",
-    "CITIES": "Cities",
+    "CITIES": "Cities/Places",
     "TRACTS": "Census Tracts",
     "BLOCK_GROUPS": "Block Groups"
   },
@@ -115,7 +115,9 @@
     "UNSUPPORTED_EMBED": "The Eviction Lab maps are not compatible with your browser.  View our FAQ page to <a href='https://evictionlab.org/help-faq/#browsers' target='_blank'>see our supported browsers</a>.",
     "FEATURE_OVERVIEW_LABEL": "Show the map feature overview",
     "FLAG_99TH": "This area has an eviction/filing rate in the top 1%. Please see our FAQ section to better understand why.",
-    "FLAG_LOW": "This area's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
+    "FLAG_LOW_STATES": "This state's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
+    "FLAG_LOW_COUNTIES": "This county's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
+    "FLAG_LOW_PLACES": "This place's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
     "FLAG_MARYLAND_FILING": "Because of the way Maryland records eviction notices, it has a much higher filing rate than everywhere else. Please see our FAQ section to better understand why."
   },
   "NAV": {

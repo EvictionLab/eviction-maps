@@ -41,18 +41,6 @@ export class MapToolService {
   usAverage;
   usAverageLoaded = new EventEmitter<any>();
 
-  /** FIPS codes for states that should have 'low' flags */
-  lowFlags = {
-    'er': [
-      '15', '24', '50', '56', '06', '09', '53', '33', '34',
-      '11', '36', '22', '04', '21', '16', '47', '48'
-    ],
-    'efr': [
-      '15', '50', '56', '06', '09', '53', '33', '34',
-      '11', '36', '22', '04', '21', '16', '47', '48'
-    ]
-  };
-
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === 'choropleth');
   }
@@ -307,8 +295,6 @@ export class MapToolService {
           .filter((p: string) => feature.properties[p] >= percentileVals[p])
           .join(',');
       });
-    feature['lowProps'] = Object.keys(this.lowFlags)
-      .filter((p: string) => this.lowFlags[p].indexOf(feature.properties['GEOID']) > -1);
   }
 
   /** Get location name and truncate if it's too long */

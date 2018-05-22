@@ -132,6 +132,8 @@ export class LocationCardsComponent implements OnInit {
   }
   /** Used for hiding all tooltips on touchstart */
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
+  /** properties to flag with low-flag */
+  private lowFlagProps = ['e', 'er', 'ef', 'efr', 'epd'];
   /** determines if cards are expanded (map view) */
   private expanded = true;
 
@@ -167,20 +169,36 @@ export class LocationCardsComponent implements OnInit {
   }
 
   /** Checks if the property name exists in the feature's high flagged properties */
-  isHighProp(feature, prop: string) {
+  isHighProp(feature, yearProp: string) {
     if (!feature['highProps']) { return false; }
-    return feature['highProps'].indexOf(prop) > -1;
+    return feature['highProps'].indexOf(yearProp) > -1 &&
+      !this.isMarylandFiling(feature, yearProp);
   }
 
   /** Checks if the property name exists in the feature's low flagged properties */
-  isLowProp(feature, prop: string) {
-    if (!feature['lowProps']) { return false; }
-    return feature['lowProps'].indexOf(prop) > -1;
+  isLowProp(feature, yearProp: string) {
+    const propSplit = yearProp.split('-');
+    const prop = propSplit[0];
+    const yearSuffix = propSplit[1];
+    return (this.lowFlagProps.indexOf(prop) >= 0 && feature.properties[`lf-${yearSuffix}`] > 0) &&
+      !this.isHighProp(feature, yearProp) &&
+      !this.isMarylandFiling(feature, yearProp);
   }
 
   /** Special case to check for the Maryland eviction filing rate */
-  isMarylandFiling(feature, prop: string) {
-    return feature.properties['GEOID'] === '24' && prop === 'efr';
+  isMarylandFiling(feature, yearProp: string) {
+    const prop = yearProp.split('-')[0];
+    return feature.properties['GEOID'].slice(0, 2) === '24' && prop === 'efr';
+  }
+
+  lowPropFlag(feature) {
+    if (feature.properties['layerId'] === 'states') {
+      return 'MAP.FLAG_LOW_STATES';
+    } else if (feature.properties['layerId'] === 'cities') {
+      return 'MAP.FLAG_LOW_PLACES';
+    } else {
+      return 'MAP.FLAG_LOW_COUNTIES';
+    }
   }
 
   getAbbrYear() {
