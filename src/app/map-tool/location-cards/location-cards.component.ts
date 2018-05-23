@@ -133,7 +133,7 @@ export class LocationCardsComponent implements OnInit {
   /** Used for hiding all tooltips on touchstart */
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** properties to flag with low-flag */
-  private lowFlagProps = ['e', 'er', 'ef', 'efr', 'epd'];
+  private lowFlagProps = ['er', 'efr'];
   /** determines if cards are expanded (map view) */
   private expanded = true;
 
