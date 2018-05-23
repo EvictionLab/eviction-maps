@@ -94,7 +94,7 @@
   "LAYERS": {
     "STATES": "Estados",
     "COUNTIES": "Condados",
-    "CITIES": "Ciudades",
+    "CITIES": "Ciudades/Lugares ",
     "TRACTS": "Secciones Censales",
     "BLOCK_GROUPS": "Grupos de Cuadras"
   },
@@ -119,7 +119,9 @@
     "UNSUPPORTED_EMBED": "Esta página utiliza características que su navegador no admite. Vea las preguntas frecuentes para ver nuestros navegadores compatibles.",
     "FEATURE_OVERVIEW_LABEL": "Mostrar la descripción de las herramientas del mapa",
     "FLAG_99TH": "Esta área tiene una tasa de desalojo/presentaciones en el 1% superior. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
-    "FLAG_LOW": "La estimación de la tasa de desalojo/presentaciones de esta área es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
+    "FLAG_LOW_STATES": "La estimación de la tasa de desalojo/presentaciones de este estado es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
+    "FLAG_LOW_COUNTIES": "La estimación de la tasa de desalojo/presentaciones de este condado es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
+    "FLAG_LOW_PLACES": "La estimación de la tasa de desalojo/presentaciones de este lugar es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
     "FLAG_MARYLAND_FILING": "Debido a la forma en que Maryland registra los avisos de desalojo, tiene una tasa de presentación mucho más alta que en cualquier otro lugar. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué."
   },
   "NAV": {

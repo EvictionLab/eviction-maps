@@ -30,7 +30,7 @@ export const DataLevels: Array<MapLayerGroup> = [
   },
   {
     'id': 'cities',
-    'name': ' Cities',
+    'name': ' Cities/Places',
     'langKey': 'LAYERS.CITIES',
     'layerIds': [
       'cities',

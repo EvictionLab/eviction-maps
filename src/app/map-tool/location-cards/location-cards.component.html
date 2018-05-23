@@ -50,8 +50,8 @@
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
           <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
-          <app-ui-hint *ngIf="isLowProp(f, prop.id)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_LOW' | translate"></app-ui-hint>
-          <app-ui-hint *ngIf="isMarylandFiling(f, prop.id)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>
+          <app-ui-hint *ngIf="isLowProp(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="lowPropFlag(f) | translate"></app-ui-hint>
+          <app-ui-hint *ngIf="isMarylandFiling(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>
         </div>
         <span *ngIf="prop.id === 'divider'"
           class="card-stat-label"
