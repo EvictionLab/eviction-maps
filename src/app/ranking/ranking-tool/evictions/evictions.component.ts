@@ -400,7 +400,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private getDefaultTweet(): string {
     // action text
-    let action = this.isPropJudgments() ? 'RANKINGS.SHARE_JUDGMENT' : 'RANKINGS.SHARE_FILING';
+    let action = this.isPropJudgments() ?
+      'RANKINGS.SHARE_JUDGMENT_PLURAL' : 'RANKINGS.SHARE_FILING_PLURAL';
     action = this.translatePipe.transform(action);
     // add together top 10 for amount
     let amount = this.listData.slice(0, 10).reduce((a, b) => {
