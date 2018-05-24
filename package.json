@@ -64,6 +64,7 @@
     "@angular/cli": "1.5.6",
     "@angular/compiler-cli": "^5.0.3",
     "@angular/language-service": "^4.2.4",
+    "@types/d3-dsv": "^1.0.32",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
