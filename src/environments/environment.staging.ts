@@ -113,9 +113,9 @@ export const environment = {
         langUrls : { 'es': 'https://staging.evictionlab.org/es/get-the-data' }
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/data-merge',
+        defaultUrl: 'https://staging.evictionlab.org/data-request',
         langKey: 'NAV.DATA_MERGE',
-        langUrls : { 'es': 'https://staging.evictionlab.org/es/data-merge' }
+        langUrls : { 'es': 'https://staging.evictionlab.org/es/data-request' }
       },
       {
         defaultUrl: 'https://staging.evictionlab.org/media-guide',
