@@ -121,9 +121,9 @@ export const environment = {
       langUrls: { 'es': '/es/get-the-data' }
     },
     {
-      defaultUrl: '/data-merge',
+      defaultUrl: '/data-request',
       langKey: 'NAV.DATA_MERGE',
-      langUrls: { 'es': '/es/data-merge' }
+      langUrls: { 'es': '/es/data-request' }
     },
     {
       defaultUrl: '/media-guide/',
