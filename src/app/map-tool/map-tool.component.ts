@@ -221,12 +221,28 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
+   * Returns feature with center point based on bbox if it has been flagged as an override.
+   * Place names should be added to `overrides` if the center point returned by the geocoder
+   * does not correspond to the correct location in the Eviction Lab tilesets.
+   */
+  checkCenterOverrides(feature) {
+    const overrides = [ 'Milwaukee, Wisconsin, United States' ];
+    if (feature.hasOwnProperty('place_name') && overrides.indexOf(feature['place_name']) > -1) {
+      feature['center'] = [
+        (feature['bbox'][0] + feature['bbox'][2]) / 2,
+        (feature['bbox'][1] + feature['bbox'][3]) / 2
+      ];
+    }
+    return feature;
+  }
+
+  /**
    * Sets auto changing of layers to false, and zooms the map the selected features
    * @param feature map feature returned from select
    * @param updateMap moves the map to the selected location if true
    */
   onSearchSelect(searchData: any, updateMap = true) {
-    const feature: MapFeature = searchData.feature;
+    const feature: MapFeature = this.checkCenterOverrides(searchData.feature);
     const maxLocations = this.mapToolService.activeFeatures.length >= 3;
 
     if (feature) {
