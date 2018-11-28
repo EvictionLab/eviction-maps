@@ -1,13 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { TranslateService } from '@ngx-translate/core';
-import * as SphericalMercator from '@mapbox/sphericalmercator';
-import * as vt from '@mapbox/vector-tile';
-import * as Protobuf from 'pbf';
-import inside from '@turf/inside';
-import { point } from '@turf/helpers';
-import * as bbox from '@turf/bbox';
 import 'rxjs/add/observable/forkJoin';
 import * as _isEqual from 'lodash.isequal';
 import * as polylabel from 'polylabel';

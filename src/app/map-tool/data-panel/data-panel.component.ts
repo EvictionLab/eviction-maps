@@ -101,6 +101,18 @@ export class DataPanelComponent implements OnInit {
       .filter(d => d.type === 'bubble' && d.id !== 'none');
   }
 
+  /**
+   * Update the eviction type (filing vs raw) for the app globally.
+   * Triggered when the eviction type is changed in the graph and only
+   * updates the type if "none" has not been specified on the map.
+   */
+  updateEvictionType(newType) {
+    if (this.mapToolService.activeBubbleHighlight.id !== 'none') {
+      this.mapToolService.setBubbleHighlight(newType.id);
+    }
+    this.updateTwitterText();
+  }
+
   showDownloadDialog(e) {
     // Don't fire if no features
     if (this.displayLocations.length === 0) { return; }
