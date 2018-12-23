@@ -9,7 +9,7 @@ export const environment = {
   production: false,
   deployUrl: './',
   useMapbox: true,
-  tileBaseUrl: 'https://tiles.evictionlab.org/',
+  tileBaseUrl: 'https://staging-tiles.evictionlab.org/2018-12-07/',
   evictorsRankingDataUrl: './assets/MOCK_EVICTORS.csv',
   // tslint:disable-next-line:max-line-length
   cityRankingDataUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/cities-rankings.csv',
