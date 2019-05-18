@@ -1,0 +1,36 @@
+.card-embed {
+  position: absolute;
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  width:100%;
+  height:100%;
+  overflow: auto;
+
+  .data-wrapper .card-table {
+    padding: 0 16px!important;
+  }
+
+  .data-wrapper .card-header .marker.icon { display: none!important; }
+
+  .data-wrapper .card-header .card-heading,
+  .data-wrapper .card-header .card-subheading { margin-left:-16px!important; }
+  .data-wrapper .card-header { height: 96px!important;}
+  .card-table {
+    margin: 16px;
+    display: flex;
+    flex-wrap: none;
+    overflow:visible;
+  }
+
+  .data-wrapper .location-card {
+    width: 288px!important;
+    flex-grow: 0;
+  }
+
+  .card-dismiss {
+    display: none;
+  }
+
+}

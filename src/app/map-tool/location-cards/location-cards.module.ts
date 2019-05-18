@@ -7,9 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UiModule } from '../../ui/ui.module';
 import { LocationCardsComponent } from './location-cards.component';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { CardEmbedComponent } from './embed/card-embed.component';
 
 @NgModule({
-  exports: [ LocationCardsComponent ],
+  exports: [ LocationCardsComponent, CardEmbedComponent ],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,7 +18,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     TranslateModule,
     TooltipModule
   ],
-  declarations: [ LocationCardsComponent ],
+  declarations: [ LocationCardsComponent, CardEmbedComponent ],
   entryComponents: [ LocationCardsComponent ]
 })
 export class LocationCardsModule { }
