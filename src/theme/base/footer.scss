@@ -312,13 +312,15 @@ footer {
     margin:0;
     padding:0;
     p, ul { width: auto; margin:0; }
-    ul { margin-left: -1*grid(2); }
+    ul { margin-left: -1*grid(1.5); text-align: left; }
     p {
       color: $footerCopyrightColor;
       display:block;
       font-size: 12px;
       margin-right: grid(4); 
+      text-align:left;
     }
+    li { margin-right: 0; }
   }
 }
 @media(min-width: $gtTablet) {

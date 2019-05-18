@@ -12,7 +12,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-block-groups-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-block-groups-00/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -20,7 +20,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-block-groups-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-block-groups-10/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -28,7 +28,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-tracts-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-tracts-00/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -36,7 +36,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-tracts-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-tracts-10/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -44,7 +44,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-cities-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-cities-00/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -52,7 +52,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-cities-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-cities-10/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -60,7 +60,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-counties-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-counties-00/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -68,7 +68,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-counties-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-counties-10/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -76,7 +76,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-states-00/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-states-00/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
@@ -84,7 +84,7 @@
       "type": "vector",
       "maxzoom": 10,
       "tiles": [
-        "https://tiles.evictionlab.org/evictions-states-10/{z}/{x}/{y}.pbf"
+        "https://tiles.evictionlab.org/2018-12-14/evictions-states-10/{z}/{x}/{y}.pbf"
       ],
       "attribution": ""
     },
