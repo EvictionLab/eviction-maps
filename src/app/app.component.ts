@@ -141,8 +141,8 @@ export class AppComponent implements OnInit {
   updateClassAttributes(id: string) {
     this.isRankingTool = (id === 'ranking-tool');
     this.isMapTool = (id === 'map-tool');
-    this.embed = (id === 'embed-map' || id === 'embed-graph' || id==='card-embed');
-    this.cardEmbed = (id==='card-embed');
+    this.embed = (id === 'embed-map' || id === 'embed-graph' || id === 'card-embed');
+    this.cardEmbed = (id === 'card-embed');
   }
 
   onMenuSelect(itemId: string) {

@@ -37,12 +37,10 @@ export class CardEmbedComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.routing.getMapRouteData().take(1)
       .subscribe((data) => {
-        console.log(data)
         this.mapToolService.setCurrentData(data);
         // Naive replacement of embed in route for map link
         this.mapUrl = this.platform.nativeWindow.location.href.replace('/cards', '');
         this.routing.updatePymSearch();
-        console.log(this.mapToolService.activeFeatures)
       });
     this.cdRef.detectChanges();
   }
@@ -51,5 +49,4 @@ export class CardEmbedComponent implements OnInit, AfterViewInit {
     const pymChild = new pym.Child();
     pymChild.sendHeight();
   }
-
 }

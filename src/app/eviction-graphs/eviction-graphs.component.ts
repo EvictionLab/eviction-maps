@@ -16,11 +16,11 @@ export class EvictionGraphsComponent implements OnInit {
 
   private _dataAttributes: MapDataAttribute[] = [];
   @Input() set dataAttributes(value: MapDataAttribute[]) {
-    if (!value) { return }
-    this._dataAttributes = 
+    if (!value) { return; }
+    this._dataAttributes =
       value.filter(d => d.type === 'bubble' && d.id !== 'none');
   }
-  get dataAttributes() { return this._dataAttributes }
+  get dataAttributes() { return this._dataAttributes; }
 
   /** Bar graph year input / output (allows double binding) */
   private _barYear;
