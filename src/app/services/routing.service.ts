@@ -96,12 +96,14 @@ export class RoutingService {
   setupRoutes(components: any) {
     // sets the default route based on the page URL
     const url = this.platform.nativeWindow.location.pathname;
+    console.log('setting up component', url, components)
     const defaultRoute = url.includes('rankings') ?
         (url.includes('evictors') ? this.defaultViews.evictors : this.defaultViews.rankings ) :
         this.defaultViews.map;
     // all routes for the app
     const appRoutes: Routes = [
       { path: 'embed/:year', component: components.embed },
+      { path: 'cards', component: components.cards },
       { path: 'graph', component: components.graph },
       { path: 'evictions', component: components.rankings  },
       { path: 'evictors', component: components.rankings },

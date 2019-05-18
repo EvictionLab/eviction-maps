@@ -24,6 +24,8 @@ import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
+import { CardEmbedComponent } from './map-tool/embed/card-embed.component';
+
 import { WebpackTranslateLoader } from './webpack-translate-loader';
 
 Raven
@@ -80,6 +82,6 @@ export class CustomOption extends ToastOptions {
     Title
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent ]
+  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent, CardEmbedComponent ]
 })
 export class AppModule { }

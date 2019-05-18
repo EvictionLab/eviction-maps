@@ -15,6 +15,7 @@ import { PageScrollService } from 'ng2-page-scroll';
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';
 import { EmbedComponent } from './map-tool/embed/embed.component';
+import { CardEmbedComponent } from './map-tool/embed/card-embed.component';
 import { RankingConfig } from './ranking/ranking.module';
 import { MapFeature } from './map-tool/map/map-feature';
 import { ToastsManager } from 'ng2-toastr';
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ranking-tool') isRankingTool: boolean;
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
+  @HostBinding('class.card-embed') cardEmbed: boolean;
   @HostBinding('class.ios') ios = false;
   @HostBinding('class.safari') safari = false;
   @HostBinding('class.ios-safari') iosSafari = false;
@@ -73,6 +75,7 @@ export class AppComponent implements OnInit {
     private cd: ChangeDetectorRef,
     @Inject(DOCUMENT) private document: any
   ) {
+    console.log('constructor')
     this.toastr.setRootViewContainerRef(vRef);
   }
 
@@ -80,6 +83,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const components = {
       map: MapToolComponent,
+      cards: CardEmbedComponent, 
       rankings: RankingToolComponent,
       embed: EmbedComponent,
       graph: GraphEmbedComponent
@@ -88,6 +92,7 @@ export class AppComponent implements OnInit {
       this.isLoading = loading;
       this.cd.detectChanges();
     });
+    console.log('on init', components)
     this.routing.setupRoutes(components);
     this.scroll.setupScroll(this.pageScroll);
     this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
@@ -139,6 +144,7 @@ export class AppComponent implements OnInit {
     this.isRankingTool = (id === 'ranking-tool');
     this.isMapTool = (id === 'map-tool');
     this.embed = (id === 'embed-map' || id === 'embed-graph');
+    this.cardEmbed = (id === 'card-embed');
   }
 
   onMenuSelect(itemId: string) {

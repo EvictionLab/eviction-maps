@@ -101,9 +101,19 @@ export class LocationCardsComponent implements OnInit {
   private _cardProps: MapDataAttribute[] = [];
   @Input() set cardProperties(value) {
     if (!value) { return; }
-    this._cardProps = value;
-    this.percentProps = value.filter(p => p.format === 'percent').map(p => p.id);
-    this.dollarProps = value.filter(p => p.format === 'dollar').map(p => p.id);
+    // put the props in the correct order
+    const cardProps = value
+      .filter(d => typeof d.order === 'number')
+      .sort((a, b) => a.order > b.order ? 1 : -1);
+    // index where the divider is inserted, right before "poverty rate" (pr)
+    const dividerIndex = cardProps.findIndex(p => p.id === 'pr');
+    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
+    // add the divider
+    this._cardProps = [
+      ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
+    ];
+    this.percentProps = this._cardProps.filter(p => p.format === 'percent').map(p => p.id);
+    this.dollarProps = this._cardProps.filter(p => p.format === 'dollar').map(p => p.id);
     this.addYearAttrToProps();
   }
   get cardProperties(): MapDataAttribute[] { return this._cardProps; }
