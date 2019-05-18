@@ -14,7 +14,13 @@ import { MapFeature } from '../map-tool/map/map-feature';
 })
 export class EvictionGraphsComponent implements OnInit {
 
-  @Input() dataAttributes: MapDataAttribute[] = [];
+  private _dataAttributes: MapDataAttribute[] = [];
+  @Input() set dataAttributes(value: MapDataAttribute[]) {
+    if (!value) { return }
+    this._dataAttributes = 
+      value.filter(d => d.type === 'bubble' && d.id !== 'none');
+  }
+  get dataAttributes() { return this._dataAttributes }
 
   /** Bar graph year input / output (allows double binding) */
   private _barYear;

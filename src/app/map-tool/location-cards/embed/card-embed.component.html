@@ -1,0 +1,13 @@
+<div class="data-wrapper">
+  <div class="panel-cards">
+    <app-location-cards
+      class="card-table"
+      [allowAddLocation]="false"
+      [features]="mapToolService.activeFeatures"
+      [usAverage]="mapToolService.usAverage"
+      [year]="mapToolService.activeYear"
+      [cardProperties]="mapToolService.dataAttributes"
+      (locationAdded)="locationAdded.emit($event)"
+    ></app-location-cards>
+  </div>
+</div>

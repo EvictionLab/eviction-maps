@@ -24,7 +24,9 @@ import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
+
 import { WebpackTranslateLoader } from './webpack-translate-loader';
+import { CardEmbedComponent } from './map-tool/location-cards/embed/card-embed.component';
 
 Raven
   .config('https://415ec06453064044bac03fcdab3d2882@sentry.io/1193815', {
@@ -80,6 +82,6 @@ export class CustomOption extends ToastOptions {
     Title
   ],
   bootstrap: [AppComponent],
-  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent ]
+  entryComponents: [ MapToolComponent, RankingToolComponent, EmbedComponent, CardEmbedComponent ]
 })
 export class AppModule { }
