@@ -271,6 +271,8 @@ export class CardEmbedComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     const pymChild = new pym.Child();
-    pymChild.sendHeight();
+    setInterval(() => {
+      pymChild.sendHeight();
+    }, 1000);
   }
 }
