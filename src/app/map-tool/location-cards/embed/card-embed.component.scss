@@ -14,23 +14,33 @@
 
   .data-wrapper .card-header .marker.icon { display: none!important; }
 
-  .data-wrapper .card-header .card-heading,
-  .data-wrapper .card-header .card-subheading { margin-left:-16px!important; }
-  .data-wrapper .card-header { height: 96px!important;}
+  .data-wrapper .card-header .card-heading { margin-left:-16px!important; }
+  .data-wrapper .card-header .card-subheading { display:none!important; }
+  .data-wrapper .card-header { height: 80px!important;}
   .card-table {
     margin: 16px;
     display: flex;
+    justify-content: center;
     flex-wrap: none;
     overflow:visible;
   }
 
   .data-wrapper .location-card {
     width: 288px!important;
+    max-width: 312px;
     flex-grow: 0;
   }
 
+
   .card-dismiss {
     display: none;
+  }
+
+  .data-wrapper__error {
+    background: #fee;
+    padding: 16px;
+    margin: 24px;
+    border: 1px solid #f99;
   }
 
 }
