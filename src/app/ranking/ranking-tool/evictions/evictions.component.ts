@@ -95,6 +95,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   showScrollButton = false;
   /** number of items to show in the list */
   topCount = 100;
+  /** true if in kiosk mode */
+  kiosk = false;
   /** Tweet text */
   tweet: string;
   /** Stores the current language */
@@ -153,6 +155,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateQueryParam('lang', l.lang);
       this.updateTweet();
     });
+    // set kiosk mode if kiosk url
+    this.kiosk = this.platform.nativeWindow.location.hostname.includes('kiosk');
   }
 
   /** load data once the view has been initialized */

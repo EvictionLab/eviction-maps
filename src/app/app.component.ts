@@ -1,6 +1,6 @@
 import {
-  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
-  ElementRef,
+  Component, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef,
+  Inject, HostListener, HostBinding, ComponentRef, ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -24,11 +24,13 @@ import { AnalyticsService } from './services/analytics.service';
 import { RoutingService } from './services/routing.service';
 import { ScrollService } from './services/scroll.service';
 import { GraphEmbedComponent } from './eviction-graphs/graph-embed/graph-embed.component';
+import { CardEmbedComponent } from './map-tool/location-cards/embed/card-embed.component';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [ TranslatePipe ]
 })
 export class AppComponent implements OnInit {
@@ -36,11 +38,13 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ranking-tool') isRankingTool: boolean;
   @HostBinding('class.map-tool') isMapTool: boolean;
   @HostBinding('class.embed') embed: boolean;
+  @HostBinding('class.card-embed') cardEmbed: boolean;
   @HostBinding('class.ios') ios = false;
   @HostBinding('class.safari') safari = false;
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   @HostBinding('class.ie') ie = false;
+  @HostBinding('class.kiosk') kiosk = false;
   isLoading = false;
   currentMenuItem: string;
   menuActive = false;
@@ -80,15 +84,18 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     const components = {
       map: MapToolComponent,
+      cards: CardEmbedComponent,
       rankings: RankingToolComponent,
       embed: EmbedComponent,
-      graph: GraphEmbedComponent
+      graph: GraphEmbedComponent,
+      kiosk: MapToolComponent
     };
     this.loader.isLoading$.subscribe(loading => {
       this.isLoading = loading;
       this.cd.detectChanges();
     });
     this.routing.setupRoutes(components);
+    this.kiosk = this.routing.kiosk;
     this.scroll.setupScroll(this.pageScroll);
     this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
     this.translate.setDefaultLang('en');
@@ -138,7 +145,8 @@ export class AppComponent implements OnInit {
   updateClassAttributes(id: string) {
     this.isRankingTool = (id === 'ranking-tool');
     this.isMapTool = (id === 'map-tool');
-    this.embed = (id === 'embed-map' || id === 'embed-graph');
+    this.embed = (id === 'embed-map' || id === 'embed-graph' || id === 'card-embed');
+    this.cardEmbed = (id === 'card-embed');
   }
 
   onMenuSelect(itemId: string) {

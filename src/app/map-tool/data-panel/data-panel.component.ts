@@ -43,15 +43,7 @@ export class DataPanelComponent implements OnInit {
   @Output() locationAdded = new EventEmitter();
 
   /** Data attributes for location cards and graph */
-  private _dataAttributes = [];
-  @Input() set dataAttributes(attr: MapDataAttribute[]) {
-    this._dataAttributes = attr;
-    this.updateCardAttributes();
-    this.updateGraphAttributes();
-  }
-  get dataAttributes() { return this._dataAttributes; }
-  graphAttributes: MapDataAttribute[] = [];
-  cardAttributes: MapDataAttribute[] = [];
+  @Input() dataAttributes: MapDataAttribute[] = [];
 
   // Used to inform map tool when graph type changes
   @Output() graphTypeChange = new EventEmitter();
@@ -77,28 +69,6 @@ export class DataPanelComponent implements OnInit {
     this.mapToolService.usAverageLoaded.take(1).subscribe(() => this.updateTwitterText());
     // Needed to prevent ExpressionChangedAfterItHasBeenCheckedError
     this.cd.detectChanges();
-  }
-
-  /** Builds the array of card attributes from the array of data attributes */
-  updateCardAttributes() {
-    // put the props in the correct order
-    const cardProps = this._dataAttributes
-      .filter(d => typeof d.order === 'number')
-      .sort((a, b) => a.order > b.order ? 1 : -1);
-    // index where the divider is inserted, right before "poverty rate" (pr)
-    const dividerIndex = cardProps.findIndex(p => p.id === 'pr');
-    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
-    // add the divider
-    this.cardAttributes = [
-      ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
-    ];
-  }
-
-  /** Builds the array of attributes available for the graph */
-  updateGraphAttributes() {
-    // only graphing the bubble attributes
-    this.graphAttributes = this.dataAttributes
-      .filter(d => d.type === 'bubble' && d.id !== 'none');
   }
 
   /**

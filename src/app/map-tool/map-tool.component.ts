@@ -156,7 +156,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onFeatureSelect(feature: MapFeature) {
     // Exit function if currently embedded
-    if (this.mapToolService.embed) { return; }
+    // if (this.mapToolService.embed) { return; }
     const featureLonLat = this.mapToolService.getFeatureLonLat(feature);
     this.loader.start('feature');
     const maxLocations = this.mapToolService.addLocation(feature);

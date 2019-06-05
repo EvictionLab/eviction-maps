@@ -9,14 +9,14 @@
       [features]="displayLocations"
       [usAverage]="mapToolService.usAverage"
       [year]="year"
-      [cardProperties]="cardAttributes"
+      [cardProperties]="mapToolService.dataAttributes"
       (dismissedCard)="locationRemoved.emit($event)"
       (locationAdded)="locationAdded.emit($event)"
     ></app-location-cards>
   </div>
   <app-eviction-graphs
     [style.display]="displayLocations.length > 0 ? '' : 'none'"
-    [dataAttributes]="graphAttributes"
+    [dataAttributes]="mapToolService.dataAttributes"
     [locations]="displayLocations"
     (locationRemoved)="locationRemoved.emit($event)"
     [(barYear)]="mapToolService.activeYear"

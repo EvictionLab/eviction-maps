@@ -1,0 +1,15 @@
+<div class="data-wrapper">
+  <div class="panel-cards" *ngIf="mapToolService.activeFeatures && mapToolService.activeFeatures.length > 0">
+    <app-location-cards
+      class="card-table"
+      [allowAddLocation]="false"
+      [features]="mapToolService.activeFeatures"
+      [usAverage]="mapToolService.usAverage"
+      [year]="mapToolService.activeYear"
+      [cardProperties]="mapToolService.dataAttributes"
+    ></app-location-cards>
+  </div>
+  <div class="data-wrapper__error" *ngIf="parseError">
+    {{parseError}}
+  </div>
+</div>
