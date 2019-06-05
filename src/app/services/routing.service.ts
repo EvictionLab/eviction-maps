@@ -97,7 +97,6 @@ export class RoutingService {
   setupRoutes(components: any) {
     // sets the default route based on the page URL
     const url = this.platform.nativeWindow.location.pathname;
-    console.log('setupRoutes:', url);
     const defaultRoute = url.includes('rankings') ?
         (url.includes('evictors') ? this.defaultViews.evictors : this.defaultViews.rankings ) :
         this.defaultViews.map;

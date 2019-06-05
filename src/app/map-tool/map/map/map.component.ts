@@ -128,7 +128,6 @@ export class MapComponent implements OnInit, OnChanges {
 
   /** Data attributes for bubbles, choropleths, and cards */
   @Input() set dataAttributes(value) {
-    console.log('set map dataAttributes', value)
     this._store.attributes = value;
     this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
     this.choroplethOptions = this.dataAttributes.filter(d => d.type === 'choropleth');
@@ -487,7 +486,6 @@ export class MapComponent implements OnInit, OnChanges {
     const cardProps = (bubbleAttr === 'er' || bubbleAttr === 'none') ? ['er', 'e'] : ['efr', 'ef'];
     if (choroStat) { cardProps.push(choroStat.id.split('-')[0]); }
     this.cardProps = cardProps.map(p => this.dataAttributes.find(p2 => p === p2.id));
-    console.log('updateCardProperties', this.cardProps)
   }
 
   /**
