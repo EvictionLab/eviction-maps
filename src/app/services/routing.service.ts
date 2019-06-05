@@ -30,7 +30,7 @@ export class RoutingService {
     geography: 'auto',
     bounds: '-136.80,20.68,-57.60,52.06'
   });
-  kiosk = true;
+  kiosk;
   private pymSearchStr: string;
   private mapRouteKeys = ['year' ]; // keys mandatory for map route
 
@@ -45,6 +45,7 @@ export class RoutingService {
     private platform: PlatformService
   ) {
     this.pymSearchStr = this.platform.nativeWindow.location.search;
+    this.kiosk = this.platform.nativeWindow.location.hostname.includes('kiosk');
   }
 
   /** Gets route data for the map component */
@@ -100,8 +101,6 @@ export class RoutingService {
     const defaultRoute = url.includes('rankings') ?
         (url.includes('evictors') ? this.defaultViews.evictors : this.defaultViews.rankings ) :
         this.defaultViews.map;
-    // set kiosk if on a kiosk mode domain name
-    this.kiosk = true || this.platform.nativeWindow.location.hostname.includes('kiosk');
     // all routes for the app
     const appRoutes: Routes = [
       { path: 'embed/:year', component: components.embed },
