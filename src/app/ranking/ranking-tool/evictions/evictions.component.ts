@@ -156,7 +156,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       this.updateTweet();
     });
     // set kiosk mode if kiosk url
-    this.kiosk = this.platform.nativeWindow.location.hostname.includes('kiosk')
+    this.kiosk = this.platform.nativeWindow.location.hostname.includes('kiosk');
   }
 
   /** load data once the view has been initialized */

@@ -1,6 +1,6 @@
 import {
-  Component, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
-  ElementRef,
+  Component, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef,
+  Inject, HostListener, HostBinding, ComponentRef, ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';

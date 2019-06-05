@@ -117,7 +117,6 @@ export class LocationCardsComponent implements OnInit {
     } else {
       this._cardProps = cardProps;
     }
-    
     this.percentProps = this._cardProps.filter(p => p.format === 'percent').map(p => p.id);
     this.dollarProps = this._cardProps.filter(p => p.format === 'dollar').map(p => p.id);
     this.addYearAttrToProps();

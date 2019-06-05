@@ -30,7 +30,7 @@ export class RoutingService {
     geography: 'auto',
     bounds: '-136.80,20.68,-57.60,52.06'
   });
-  kiosk: boolean = true;
+  kiosk = true;
   private pymSearchStr: string;
   private mapRouteKeys = ['year' ]; // keys mandatory for map route
 
