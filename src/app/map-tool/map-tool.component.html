@@ -1,4 +1,4 @@
-<div id="top" role="main" class="app-wrapper">
+<div id="top" role="main" class="app-wrapper" [class.kiosk]="mapToolService.kiosk">
   <app-map
     *ngIf="mapSupported"
     [mapConfig]="mapToolService.mapConfig"

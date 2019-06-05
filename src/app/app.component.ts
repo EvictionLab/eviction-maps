@@ -1,6 +1,6 @@
 import {
-  Component, OnInit, ViewChild, ViewContainerRef, Inject, HostListener, HostBinding, ComponentRef,
-  ElementRef,
+  Component, OnInit, ViewChild, ViewEncapsulation, ViewContainerRef,
+  Inject, HostListener, HostBinding, ComponentRef, ElementRef,
   ChangeDetectorRef
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -30,6 +30,7 @@ import { CardEmbedComponent } from './map-tool/location-cards/embed/card-embed.c
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None,
   providers: [ TranslatePipe ]
 })
 export class AppComponent implements OnInit {
@@ -43,6 +44,7 @@ export class AppComponent implements OnInit {
   @HostBinding('class.ios-safari') iosSafari = false;
   @HostBinding('class.android') android = false;
   @HostBinding('class.ie') ie = false;
+  @HostBinding('class.kiosk') kiosk = false;
   isLoading = false;
   currentMenuItem: string;
   menuActive = false;
@@ -85,13 +87,15 @@ export class AppComponent implements OnInit {
       cards: CardEmbedComponent,
       rankings: RankingToolComponent,
       embed: EmbedComponent,
-      graph: GraphEmbedComponent
+      graph: GraphEmbedComponent,
+      kiosk: MapToolComponent
     };
     this.loader.isLoading$.subscribe(loading => {
       this.isLoading = loading;
       this.cd.detectChanges();
     });
     this.routing.setupRoutes(components);
+    this.kiosk = this.routing.kiosk;
     this.scroll.setupScroll(this.pageScroll);
     this.scroll.scrolledToTop$.subscribe(top => this.isAtTop = top);
     this.translate.setDefaultLang('en');

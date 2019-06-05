@@ -14,3 +14,23 @@ app-footer {
   position:relative;
   z-index:990;
 }
+
+
+.kiosk {
+  // app-footer { display: none; }
+  a[href*='http'] { display: none; }
+  a[href*='https://kiosk.evictionlab.org'] { display: inline; }
+  .social-media-links { display: none; }
+  .site-navigation li { display: none; }
+  .site-navigation li:nth-child(1) { display: block;}
+  .site-navigation li:nth-child(2) { display: block;}
+  .data-panel-footer { display: none!important; }
+  .newsletter-signup { display: none; }
+  .footer-navigation li { display: none; }
+  .footer-navigation li:nth-child(1),
+  .footer-navigation li:nth-child(2) { display: block; }
+  .footer-social { display: none; }
+  .footer-copyright p { display:none; }
+  .footer-copyright p:first-child { display:block; }
+  .share-wrapper { display: none; }
+}

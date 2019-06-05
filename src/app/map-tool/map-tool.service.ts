@@ -28,6 +28,7 @@ export class MapToolService {
   activeShowGraphAvg = true;
   cardsCollapsed = false;
   embed = false;
+  kiosk = false;
   activeMapView;
   mapConfig;
   usAverage;
@@ -55,6 +56,7 @@ export class MapToolService {
     private platform: PlatformService,
     private dataService: DataService
   ) {
+    this.kiosk = this.platform.nativeWindow.location.hostname.includes('kiosk');
     this.dataService.getNationalData().take(1)
       .subscribe(data => {
         this.usAverage = data;
