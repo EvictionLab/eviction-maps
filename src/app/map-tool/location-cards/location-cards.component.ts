@@ -105,13 +105,19 @@ export class LocationCardsComponent implements OnInit {
     const cardProps = value
       .filter(d => typeof d.order === 'number')
       .sort((a, b) => a.order > b.order ? 1 : -1);
+    // if props are the full list, add the divider
+    if (cardProps.length > 3) {
     // index where the divider is inserted, right before "poverty rate" (pr)
-    const dividerIndex = cardProps.findIndex(p => p.id === 'pr');
-    const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
-    // add the divider
-    this._cardProps = [
-      ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
-    ];
+      const dividerIndex = cardProps.findIndex(p => p.id === 'pr');
+      const divider = { id: 'divider', langKey: 'STATS.DEMOGRAPHICS' };
+      // add the divider
+      this._cardProps = [
+        ...cardProps.slice(0, dividerIndex), divider, ...cardProps.slice(dividerIndex)
+      ];
+    } else {
+      this._cardProps = cardProps;
+    }
+    
     this.percentProps = this._cardProps.filter(p => p.format === 'percent').map(p => p.id);
     this.dollarProps = this._cardProps.filter(p => p.format === 'dollar').map(p => p.id);
     this.addYearAttrToProps();

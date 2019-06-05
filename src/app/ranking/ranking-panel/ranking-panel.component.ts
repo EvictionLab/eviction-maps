@@ -17,6 +17,7 @@ export class RankingPanelComponent implements OnChanges {
   @Input() topCount: number;
   @Input() location: RankingLocation;
   @Input() dataProperty: { name: string, value: string };
+  @Input() kiosk: boolean = false;
   @Output() goToPrevious = new EventEmitter();
   @Output() goToNext = new EventEmitter();
   @Output() close = new EventEmitter();
