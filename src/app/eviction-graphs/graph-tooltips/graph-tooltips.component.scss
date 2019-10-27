@@ -38,6 +38,10 @@ $graphTooltipCircleSize: 10px;
   margin-left: -1*grid(3);
   text-align:center;
   margin-top: -1.5*$graphTooltipHeight;
+  .tooltip-cis {
+    width: 100%;
+    display: block;
+  }
 }
 // wrapper for line graph tooltip (so we can switch orientation)
 .tooltip-wrapper {

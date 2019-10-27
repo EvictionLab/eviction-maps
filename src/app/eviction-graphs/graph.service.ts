@@ -53,13 +53,19 @@ export class GraphService {
    * Generate bar graph data from the features in `locations
    */
   createBarGraphData(items: Array<GraphItem>, year: number) {
+    console.log('createBarGraphData()');
+    console.log(items);
     return items.map((item, i) => {
       const yVal = (item.data[this.attrYear(item.prop['id'], year)]);
+      const ciH = (item.data[this.ciHandle(item.prop.id, year, 'h')]);
+      const ciL = (item.data[this.ciHandle(item.prop.id, year, 'l')]);
       return {
         id: 'item' + i,
         data: [{
           x: item.name,
-          y: yVal ? yVal : 0
+          y: yVal ? yVal : 0,
+          ciH: ciH ? ciH : 0, // Upper CI
+          ciL: ciL ? ciL : 0 // Lower CI
         }]
       };
     });
@@ -115,6 +121,13 @@ export class GraphService {
   private attrYear(attr: string, year: number) {
     return attr + '-' + year.toString().slice(-2);
   }
+  
+  /**
+   * Get the provided attribute with the two digit year
+   */
+  private ciHandle(attr: string, year: number, suffix: string) {
+    return attr + suffix + '-' + year.toString().slice(-2);
+  }
 
   /**
    * Generate points for the line
@@ -123,6 +136,8 @@ export class GraphService {
     return this.generateYearArray(startYear, endYear)
       .map((year) => {
         const yVal = item.data[this.attrYear(item.prop['id'], year)];
+        // const ciH = ; // CI high end of range.
+        // const ciL = ; // CI low end of range.
         return {
           format: item.prop['format'],
           x: year,

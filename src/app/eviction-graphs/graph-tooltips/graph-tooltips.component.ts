@@ -34,6 +34,24 @@ export class GraphTooltipsComponent implements OnInit {
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
 
+  tooltipValueCIs(tooltip): string {
+    let _return = '';
+    if (tooltip.ciH || tooltip.ciL) {
+      _return += '\n\n(';
+      if (tooltip.ciH) {
+        _return += '+' + Number(tooltip.ciH).toFixed(2);
+      }
+      if (tooltip.ciH && tooltip.ciL) {
+        _return += '/';
+      }
+      if (tooltip.ciL) {
+        _return += '-' + Number(tooltip.ciL).toFixed(2);
+      }
+      _return += ')';
+    }
+    return _return;
+  }
+
   tooltipValue(tooltip): string {
     let valStr = this.decimal.transform(tooltip.y);
     if (this.maxVal > 0 && tooltip.y > this.maxVal) {

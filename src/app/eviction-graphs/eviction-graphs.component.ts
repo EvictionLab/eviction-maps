@@ -246,6 +246,8 @@ export class EvictionGraphsComponent implements OnInit {
 
   /** Gets config for bar graph */
   getBarGraphConfig() {
+    // console.log('getBarGraphConfig()')
+    // console.log(this.graphAttribute);
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
         type: this.graphAttribute.name,
@@ -271,7 +273,8 @@ export class EvictionGraphsComponent implements OnInit {
           maxVal: 100
         }
       },
-      margin: { left: 65, right: 16, bottom: 32, top: 16 }
+      margin: { left: 65, right: 16, bottom: 32, top: 16 },
+      ci: { display: true, format: this.graphAttribute.id }
     };
   }
 
