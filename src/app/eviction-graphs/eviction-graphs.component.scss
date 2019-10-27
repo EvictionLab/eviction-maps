@@ -126,6 +126,17 @@
   }
 }
 
+// confidence interval toggle
+.ci-toggle {
+  margin-left: 56px;
+  display: flex;
+  span.ci-toggle-label {
+    margin-top: 5px;
+    @include altSmallCapsTextMedium(16px);
+  }
+}
+
+
 // year selects
 .graph-year-label { display: none; }
 .graph-select { 
@@ -221,7 +232,7 @@
   }
 }
 // increase page margin for toggle on tablet+
-@media(min-width: $gtMobile) { 
+@media(min-width: $gtMobile) {
   // show labels
   .graph-type-toggle ::ng-deep button span { display: block; }
 }

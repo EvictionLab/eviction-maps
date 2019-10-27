@@ -111,6 +111,18 @@ export class EvictionGraphsComponent implements OnInit {
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
+  /** Graph type input and output (allows double binding) */
+  private _displayCI = true;
+  @Input() set displayCI(val: boolean) {
+    if (this._displayCI !== val) {
+      this._displayCI = val;
+      this.displayCIChange.emit(val);
+      this.setGraphData();
+    }
+  }
+  get displayCI() { return this._displayCI; }
+  @Output() displayCIChange = new EventEmitter();
+
   /** Tracks if average is shown */
   private _showAverage = true;
   @Input() set showAverage(value: boolean) {
@@ -196,6 +208,11 @@ export class EvictionGraphsComponent implements OnInit {
     return this.graphAttribute.id + '-' + year.toString().slice(-2);
   }
 
+  /** Get the current graph attribute with year */
+  attrCIYear(year: number, ci: string) {
+    return this.graphAttribute.id + ci + '-' + year.toString().slice(-2);
+  }
+
   /**
    * Sets the tooltip data on graph hover, or empty array if none
    * @param hoverItems the currently hovered item(s)
@@ -227,6 +244,50 @@ export class EvictionGraphsComponent implements OnInit {
     return '';
   }
 
+  tooltipValueCIs(tooltip): string {
+    let _return = '';
+    const high = this.translatePipe.transform('DATA.CI_HIGH');
+    const low = this.translatePipe.transform('DATA.CI_LOW');
+    if (tooltip.ciH && tooltip.ciL) {
+      _return += '(';
+      if (tooltip.ciH) {
+        _return += high + Number(tooltip.ciH).toFixed(2);
+      }
+      if (tooltip.ciH && tooltip.ciL) {
+        _return += '%/';
+      }
+      if (tooltip.ciL) {
+        _return += low + Math.abs(Number(Number(tooltip.ciL).toFixed(2)));
+      }
+      _return += '%)';
+    }
+    return _return;
+  }
+
+  /** Generates text for the value label under the location in the legend */
+  getLegendCI(location, locationIndex: number, high: string, low: string): string {
+    // console.log('getLegendCI()');
+    if (!location) { return ''; }
+    if (!this.graphSettings.ci.display) { return ''; }
+    const _high = this.translatePipe.transform('DATA.CI_HIGH');
+    const _low = this.translatePipe.transform('DATA.CI_LOW');
+    // average is GraphItem so use `data` if `properties` is not available
+    const l = location.properties || location.data;
+    if (this.graphType === 'bar') {
+      const ciH = l[this.attrCIYear(this.barYear, 'h')];
+      const ciL = l[this.attrCIYear(this.barYear, 'l')];
+      return (ciH > 0 && ciL > 0) ?
+        `(${_high}${Number(ciH).toFixed(2)}%/${_low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
+        : '';
+    } else if (this.graphType === 'line') {
+      const tooltip = this.tooltips[locationIndex];
+      if (!tooltip) { return ''; }
+      return (tooltip.ciH > 0 && tooltip.ciL > 0) ?
+        this.tooltipValueCIs(tooltip) : '';
+    }
+    return '';
+  }
+
   /** Formats the value with the provided format */
   formatValue(value, format: string) {
     if (this.graphSettings && value > this.graphSettings.axis.y.maxVal) {
@@ -246,6 +307,8 @@ export class EvictionGraphsComponent implements OnInit {
 
   /** Gets config for bar graph */
   getBarGraphConfig() {
+    // console.log('getBarGraphConfig()')
+    // console.log(this.graphAttribute);
     return {
       title: this.translatePipe.transform('DATA.BAR_GRAPH_TITLE', {
         type: this.graphAttribute.name,
@@ -271,7 +334,8 @@ export class EvictionGraphsComponent implements OnInit {
           maxVal: 100
         }
       },
-      margin: { left: 65, right: 16, bottom: 32, top: 16 }
+      margin: { left: 65, right: 16, bottom: 32, top: 16 },
+      ci: { display: this.displayCI, format: this.graphAttribute.id }
     };
   }
 
@@ -303,7 +367,8 @@ export class EvictionGraphsComponent implements OnInit {
           maxVal: 100
         }
       },
-      margin: { left: 65, right: 16, bottom: 48, top: 16 }
+      margin: { left: 65, right: 16, bottom: 48, top: 16 },
+      ci: { display: this.displayCI, format: this.graphAttribute.id }
     };
   }
 

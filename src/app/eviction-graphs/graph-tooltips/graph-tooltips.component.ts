@@ -19,6 +19,8 @@ export class GraphTooltipsComponent implements OnInit {
   @Input() format: string;
   /** Maximum y value */
   @Input() maxVal: number;
+  /** Display CI Boolean */
+  @Input() displayCI: boolean;
   /** Determines which side the tooltips show on */
   tooltipPos = 'left';
 
@@ -34,7 +36,12 @@ export class GraphTooltipsComponent implements OnInit {
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
 
+  getTooltipCI(num) {
+    return Math.abs(Number(Number(num).toFixed(2)));
+  }
+
   tooltipValue(tooltip): string {
+    // console.log('tooltipValue()');
     let valStr = this.decimal.transform(tooltip.y);
     if (this.maxVal > 0 && tooltip.y > this.maxVal) {
       valStr = '>' + this.maxVal;

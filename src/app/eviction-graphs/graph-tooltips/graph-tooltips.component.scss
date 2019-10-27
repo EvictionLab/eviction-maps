@@ -34,10 +34,18 @@ $graphTooltipCircleSize: 10px;
 }
 // bar tooltip defaults
 .bar-tooltips .tooltip {
-  min-width: grid(6);
+  min-width: grid(3);
   margin-left: -1*grid(3);
   text-align:center;
   margin-top: -1.5*$graphTooltipHeight;
+  &.tooltip-with-ci {
+    min-width: grid(6);
+    margin-left: -1*grid(5);
+  }
+  .tooltip-cis {
+    width: 100%;
+    display: block;
+  }
 }
 // wrapper for line graph tooltip (so we can switch orientation)
 .tooltip-wrapper {
@@ -51,6 +59,12 @@ $graphTooltipCircleSize: 10px;
   line-height: 17px;
   margin-top: -1*$graphTooltipHeight/2;
   margin-left: $graphTooltipCircleSize/2;
+  .tooltip-wrapper {
+    .tooltip-cis {
+      width: auto;
+      display: inline-block;
+    }
+  }
   // nudge arrow outside of wrapper 
   &.right {
     .tooltip-wrapper .tooltip-arrow {

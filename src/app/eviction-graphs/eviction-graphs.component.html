@@ -46,9 +46,22 @@
           [tooltips]="tooltips"
           [format]="graphAttribute.format"
           [maxVal]="graphSettings.axis.y.maxVal"
+          [displayCI]="graphSettings.ci.display"
         >
         </app-graph-tooltips>
       </app-graph>
+      <div class="ci-toggle">
+        <span class="ci-toggle-label">
+          {{ 'DATA.CI_LABEL'| translate }}
+        </span>
+        <app-ui-switch
+          class="graph-ci-toggle"
+          [leftLabel]="'DATA.CI_OFF_LABEL'| translate"
+          [rightLabel]="'DATA.CI_ON_LABEL'| translate"
+          [on]="true"
+          (switched)="displayCI = $event"
+        ></app-ui-switch>
+      </div>
     </div>
     <div class="graph-legend">
       <ul>
@@ -62,7 +75,8 @@
           <span class="legend-label legend-sub">{{ location.properties["pl"] }}</span>
           <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
-            <span>{{ getLegendValue(location, i) }}</span>
+            <span class="value">{{ getLegendValue(location, i) }}</span>
+            <span class="ci">{{ getLegendCI(location, i, 'DATA.CI_HIGH'| translate, 'DATA.CI_LOW'| translate) }}</span>
           </p>
         </li>
         <!-- Average -->

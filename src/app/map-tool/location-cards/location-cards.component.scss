@@ -106,7 +106,7 @@
 // Card Content
 // ---
 .card-content {
-  padding: $defaultPadding;
+  padding: $defaultPadding grid(1.2);
   app-ui-hint, 
   ::ng-deep .icon {
     display:block;
@@ -149,7 +149,7 @@
   // attribute values
   .card-stat-value {
     display:flex;
-    align-items: center;
+    align-items: left;
     justify-content: flex-start;
     @include numberFont(14px);
     color: $cardValueText;
@@ -159,6 +159,39 @@
     }
     span {
       width: auto;
+    }
+    .ci-card {
+      margin-left: grid(0.25);
+      margin-top: -0.3rem;
+      color: $grey_wcag;
+      @include defaultFont(11px);
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: grid(0.5);
+      display: flex;
+      width: 100%;
+      .ci-value {
+        font-weight: 700;
+      }
+      .ci-parent {
+        flex: 0 0 auto;
+      }
+      .ci-tip {
+        flex: 0 1 16px;
+        position: relative;
+        fill: $grey_wcag;
+        .icon {
+          position: absolute;
+          bottom: 1px;
+          svg {
+            fill: $grey_wcag;
+          }
+        }
+      }
+      .ci-tip {
+        margin-left: grid(0.4);
+        margin-top: grid(0.6);
+      }
     }
   }
 }
@@ -174,6 +207,20 @@
   .card-header {
     height: $cardHeaderHeight;
     justify-content: flex-start;
+    @media (max-width: $gtTablet) {
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      align-items: flex-start;
+      .card-heading {
+        width: auto;
+        align-self: left;
+      }
+      .card-subheading {
+        margin: 4px 0 0 3px;
+        font-size: 10px;
+      }
+    }
   }
   // overlay the card content at the bottom of the header
   .card-content { 
@@ -189,6 +236,7 @@
     }
     .card-stat-value {
       margin-top: grid(0.5);
+      padding-top: grid(0.8);
       font-size:15px;
     }
     li { 
@@ -211,6 +259,11 @@
     li:nth-child(2):last-child { display: block; }
     // On smaller screens, float the latter of two displayed stats to the right
     li:nth-child(2):last-child, li:nth-child(3) { float: right; }
+    @media (max-width: $gtTablet) {
+      .ci-tip {
+        display: none;
+      }
+    }
   }
 }
 
@@ -240,7 +293,7 @@
       width: 100%; 
     }
   }
-} 
+}
 // tablet and larger displays:
 @media(min-width: $gtTablet) {
   :host-context(.map-ui-wrapper) {
@@ -254,7 +307,7 @@
     .card-header {
       height: grid(15.5);
       justify-content: flex-end;
-      padding: grid(1.5) grid(2); // 1.5 padding to account for line height
+      padding: grid(1.5) grid(1.3); // grid(1.5) grid(2); // 1.5 padding to account for line height
       span {
         display: block;
         margin: 0 0 grid(1) 0; 
@@ -283,7 +336,7 @@
     // stacked statistics
     .card-content {
       position: static;
-      padding: $defaultPadding;
+      padding: $defaultPadding grid(1.2);
       li {
         margin-right: 0;
         padding-right: 0;
@@ -393,15 +446,21 @@
       left:0;
       height: grid(14);
       border-bottom:1px solid $panelCardBorder;
-      text-align:center;
+      text-align: left;
       display:flex;
       flex-direction: column-reverse;
-      justify-content: center;
-      align-items: center;
+      justify-content: flex-end;
+      align-items: left;
+      padding-left: 1rem;
+      padding-top: 20px;
       .card-stat-label {
         @include defaultFontBold($panelCardLabelTextLg);
         text-transform: uppercase;
         letter-spacing:0.5px;
+        display: table;
+        width: max-content;
+        margin-bottom: 1rem;
+        margin-bottom: 0.7rem;
       }
       // drop the hint icon to save space, but still show a hint if they hover
       &.has-hint .card-stat-label { 
@@ -416,12 +475,19 @@
       }
       .card-stat-comparison {
         font-size: 11px;
-        display: block;
-        position: absolute;
-        bottom: grid(1.5);
-        right: 0;
-        left: 0;
         white-space: nowrap;
+        display: inline-block;
+      }
+    }
+    &.e {
+      max-height: 5rem;
+      .card-stat-label,
+      .card-stat-value {
+        position: relative;
+        .card-ci {
+          position: relative;
+          margin-top: -0.6rem;
+        }
       }
     }
     &:nth-child(2) {
@@ -551,6 +617,44 @@
       font-size: $cardAddLocationTextSize_t;
       letter-spacing: 0.9px;
       margin: grid(1) 0 grid(4) 0;
+    }
+  }
+}
+
+// Alter width of first two data items for mobile and tablet view
+// to accommodate the addition of min and max vals to second column
+@media (max-width: $gtTablet) {
+  ::ng-deep .data-wrapper .location-card {
+    .card-stats {
+      li.epd,
+      li:nth-child(1) {
+        width: 35% !important;
+        .card-stat-label {
+          width: auto !important;
+        }
+      }
+      li.er {
+        width: 65% !important;
+      }
+    }
+  }
+  ::ng-deep .map-ui-wrapper .location-card {
+    .card-content {
+      .card-stats {
+        // TODO: Adjust map card display to accommodate max and min
+      }
+    }
+  }
+}
+
+@media (min-width: $gtMobile) and (max-width: $gtTablet) {
+  ::ng-deep .data-wrapper .graph-container .graph-legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      flex-basis: 25%;
+      flex-grow: 1;
+      flex-shrink: 0;
     }
   }
 }

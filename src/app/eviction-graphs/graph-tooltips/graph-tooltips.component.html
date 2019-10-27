@@ -9,13 +9,22 @@
   >
     <div class="tooltip-wrapper">
       <div class="tooltip-arrow"></div>
-      <div class="tooltip-inner line-tooltip-value">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}</div>
+      <div class="tooltip-inner line-tooltip-value {{ (tooltip.ciH && tooltip.ciL) ? 'tooltip-with-ci' : null }}">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+        <span class="tooltip-cis" *ngIf="tooltip.ciH > 0 && displayCI">
+          ({{('DATA.CI_HIGH' | translate)}} {{getTooltipCI(tooltip.ciH)}}%/{{('DATA.CI_LOW' | translate)}} {{getTooltipCI(tooltip.ciL)}}%)
+        </span>
+      </div>
     </div>
   </div>
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-  <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
+  <div class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
     <div class="tooltip-arrow"></div>
-    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) : ('DATA.UNAVAILABLE' | translate) }}</div>
+    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) + '%' : ('DATA.UNAVAILABLE' | translate) }}
+      <span class="tooltip-cis" *ngIf="tooltip.data[0].ciH > 0 && displayCI">
+        {{('DATA.CI_HIGH' | translate) }} {{ getTooltipCI(tooltip.data[0].ciH) }}%
+        <br>{{('DATA.CI_LOW' | translate)}}{{ getTooltipCI(tooltip.data[0].ciL) }}%
+      </span>
+    </div>
   </div>
 </div>
