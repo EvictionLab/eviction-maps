@@ -36,7 +36,7 @@ export class GraphTooltipsComponent implements OnInit {
 
   tooltipValueCIs(tooltip): string {
     let _return = '';
-    if (tooltip.ciH || tooltip.ciL) {
+    if (tooltip.ciH && tooltip.ciL) {
       _return += '\n\n(';
       if (tooltip.ciH) {
         _return += '+' + Number(tooltip.ciH).toFixed(2);
@@ -45,7 +45,7 @@ export class GraphTooltipsComponent implements OnInit {
         _return += '/';
       }
       if (tooltip.ciL) {
-        _return += '-' + Number(tooltip.ciL).toFixed(2);
+        _return += '-' + Math.abs(Number(Number(tooltip.ciL).toFixed(2)));
       }
       _return += ')';
     }
@@ -53,6 +53,7 @@ export class GraphTooltipsComponent implements OnInit {
   }
 
   tooltipValue(tooltip): string {
+    // console.log('tooltipValue()');
     let valStr = this.decimal.transform(tooltip.y);
     if (this.maxVal > 0 && tooltip.y > this.maxVal) {
       valStr = '>' + this.maxVal;

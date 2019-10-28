@@ -53,8 +53,8 @@ export class GraphService {
    * Generate bar graph data from the features in `locations
    */
   createBarGraphData(items: Array<GraphItem>, year: number) {
-    console.log('createBarGraphData()');
-    console.log(items);
+    // console.log('createBarGraphData()');
+    // console.log(items);
     return items.map((item, i) => {
       const yVal = (item.data[this.attrYear(item.prop['id'], year)]);
       const ciH = (item.data[this.ciHandle(item.prop.id, year, 'h')]);
@@ -121,7 +121,7 @@ export class GraphService {
   private attrYear(attr: string, year: number) {
     return attr + '-' + year.toString().slice(-2);
   }
-  
+
   /**
    * Get the provided attribute with the two digit year
    */
@@ -136,12 +136,14 @@ export class GraphService {
     return this.generateYearArray(startYear, endYear)
       .map((year) => {
         const yVal = item.data[this.attrYear(item.prop['id'], year)];
-        // const ciH = ; // CI high end of range.
-        // const ciL = ; // CI low end of range.
+        const ciH = (item.data[this.ciHandle(item.prop.id, year, 'h')]);
+        const ciL = (item.data[this.ciHandle(item.prop.id, year, 'l')]);
         return {
           format: item.prop['format'],
           x: year,
-          y: yVal !== -1 && yVal !== null ? yVal : undefined
+          y: yVal !== -1 && yVal !== null ? yVal : undefined,
+          ciH: ciH ? ciH : 0, // Upper CI
+          ciL: ciL ? ciL : 0 // Lower CI
         };
       });
   }

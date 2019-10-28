@@ -29,6 +29,25 @@
       circle { fill: $c4; }
     }
     circle { stroke-width: 0 }
+    .area-0 {
+      fill: $c1; stroke-width: $strokeWidth;
+    }
+    .area-1 {
+      fill: $c2; stroke-width: $strokeWidth;
+    }
+    .area-2 {
+      fill: $c3; stroke-width: $strokeWidth;
+    }
+    .area-3 {
+      fill: $c4; stroke-width: $strokeWidth;
+    }
+    .area-0,
+    .area-1,
+    .area-2,
+    .area-3 {
+      fill-opacity: 0.5;
+      stroke-width: 6px;
+    }
   }
 }
 

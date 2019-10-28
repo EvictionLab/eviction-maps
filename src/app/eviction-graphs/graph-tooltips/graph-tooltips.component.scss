@@ -55,6 +55,12 @@ $graphTooltipCircleSize: 10px;
   line-height: 17px;
   margin-top: -1*$graphTooltipHeight/2;
   margin-left: $graphTooltipCircleSize/2;
+  .tooltip-wrapper {
+    .tooltip-cis {
+      width: 100%;
+      display: block;
+    }
+  }
   // nudge arrow outside of wrapper 
   &.right {
     .tooltip-wrapper .tooltip-arrow {

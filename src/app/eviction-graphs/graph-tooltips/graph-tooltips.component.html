@@ -9,7 +9,11 @@
   >
     <div class="tooltip-wrapper">
       <div class="tooltip-arrow"></div>
-      <div class="tooltip-inner line-tooltip-value">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}</div>
+      <div class="tooltip-inner line-tooltip-value {{ (tooltip.ciH && tooltip.ciL) ? 'tooltip-with-ci' : null }}">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+        <span class="tooltip-cis">
+          {{ tooltip.y >= 0 ? tooltipValueCIs(tooltip) : null }}
+        </span>
+      </div>
     </div>
   </div>
 </div>
@@ -18,7 +22,7 @@
     <div class="tooltip-arrow"></div>
     <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) : ('DATA.UNAVAILABLE' | translate) }}
       <span class="tooltip-cis">
-        {{ tooltipValueCIs(tooltip.data[0]) }}
+        {{ tooltip.y >= 0 ? tooltipValueCIs(tooltip.data[0]) : null }}
       </span>
     </div>
   </div>
