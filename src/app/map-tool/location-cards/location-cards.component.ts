@@ -343,24 +343,24 @@ export class LocationCardsComponent implements OnInit {
   private getCIHigh(feature, yearAttr) {
     const i = yearAttr.indexOf('-');
     const propID = yearAttr.slice(0, i);
-    const yearAbbrev = yearAttr.slice(i+1, yearAttr.length);
+    const yearAbbrev = yearAttr.slice(i + 1, yearAttr.length);
     return propID + 'h-' + yearAbbrev;
   }
 
   private getCILow(feature, yearAttr) {
     const i = yearAttr.indexOf('-');
     const propID = yearAttr.slice(0, i);
-    const yearAbbrev = yearAttr.slice(i+1, yearAttr.length);
+    const yearAbbrev = yearAttr.slice(i + 1, yearAttr.length);
     return propID + 'l-' + yearAbbrev;
   }
 
   private formatCI(type, val, increment) {
     // console.log('formatCI()');
-    switch(type) {
-      case "card": {
+    switch (type) {
+      case 'card': {
         return increment + parseFloat(val).toFixed(0);
       }
-      case "bubble": {
+      case 'bubble': {
         return increment + parseFloat(val).toFixed(2) + '%';
       }
       default: {
@@ -381,8 +381,12 @@ export class LocationCardsComponent implements OnInit {
     // Check that the prop is one that displays ci,
     // and that ci exists on the feature for the prop.
     const propID = yearAttr.slice(0, this.getDashIndex(yearAttr));
-    const cIHigh = feature.properties[this.getCIHigh(feature, yearAttr)] ? feature.properties[this.getCIHigh(feature, yearAttr)] : -1;
-    const cILow = feature.properties[this.getCILow(feature, yearAttr)] ? feature.properties[this.getCILow(feature, yearAttr)] : -1;
+    const cIHigh =
+      feature.properties[this.getCIHigh(feature, yearAttr)] ?
+      feature.properties[this.getCIHigh(feature, yearAttr)] : -1;
+    const cILow =
+      feature.properties[this.getCILow(feature, yearAttr)] ?
+      feature.properties[this.getCILow(feature, yearAttr)] : -1;
     const addCI = (this.addCIProps.indexOf(propID) >= 0) ? true : false;
     if (addCI) {
       if (cIHigh >= 0 && cILow >= 0) {
