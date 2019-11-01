@@ -111,6 +111,18 @@ export class EvictionGraphsComponent implements OnInit {
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
+  /** Graph type input and output (allows double binding) */
+  private _displayCI = true;
+  @Input() set displayCI(val: boolean) {
+    if (this._displayCI !== val) {
+      this._displayCI = val;
+      this.displayCIChange.emit(val);
+      this.setGraphData();
+    }
+  }
+  get displayCI() { return this._displayCI; }
+  @Output() displayCIChange = new EventEmitter();
+
   /** Tracks if average is shown */
   private _showAverage = true;
   @Input() set showAverage(value: boolean) {
@@ -274,7 +286,7 @@ export class EvictionGraphsComponent implements OnInit {
         }
       },
       margin: { left: 65, right: 16, bottom: 32, top: 16 },
-      ci: { display: true, format: this.graphAttribute.id }
+      ci: { display: this.displayCI, format: this.graphAttribute.id }
     };
   }
 
@@ -307,7 +319,7 @@ export class EvictionGraphsComponent implements OnInit {
         }
       },
       margin: { left: 65, right: 16, bottom: 48, top: 16 },
-      ci: { display: true, format: this.graphAttribute.id }
+      ci: { display: this.displayCI, format: this.graphAttribute.id }
     };
   }
 

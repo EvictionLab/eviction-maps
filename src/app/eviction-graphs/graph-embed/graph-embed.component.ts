@@ -34,8 +34,6 @@ export class GraphEmbedComponent implements OnInit, OnDestroy {
   startYear = 2000;
   /** End year for the graph */
   endYear = 2016;
-  /** Display ci, boolean */
-  displayCI = true;
   /** An array of values to show tooltips for */
   tooltips = [];
   /** the query param value of items */

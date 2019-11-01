@@ -120,6 +120,7 @@ export class LocationCardsComponent implements OnInit {
     this.percentProps = this._cardProps.filter(p => p.format === 'percent').map(p => p.id);
     this.dollarProps = this._cardProps.filter(p => p.format === 'dollar').map(p => p.id);
     this.addYearAttrToProps();
+    // console.log(this._cardProps);
   }
   get cardProperties(): MapDataAttribute[] { return this._cardProps; }
 
@@ -149,6 +150,8 @@ export class LocationCardsComponent implements OnInit {
   @ViewChildren(TooltipDirective) tooltips: QueryList<TooltipDirective>;
   /** properties to flag with low-flag */
   private lowFlagProps = ['er', 'efr'];
+  /** properties to flag with low-flag */
+  private addCIProps = ['e', 'er'];
   /** determines if cards are expanded (map view) */
   private expanded = true;
 
@@ -331,6 +334,65 @@ export class LocationCardsComponent implements OnInit {
       p.yearAttr = p.id + '-' + this.getAbbrYear();
       return p;
     });
+  }
+
+  private getDashIndex(str) {
+    return str.indexOf('-');
+  }
+
+  private getCIHigh(feature, yearAttr) {
+    const i = yearAttr.indexOf('-');
+    const propID = yearAttr.slice(0, i);
+    const yearAbbrev = yearAttr.slice(i+1, yearAttr.length);
+    return propID + 'h-' + yearAbbrev;
+  }
+
+  private getCILow(feature, yearAttr) {
+    const i = yearAttr.indexOf('-');
+    const propID = yearAttr.slice(0, i);
+    const yearAbbrev = yearAttr.slice(i+1, yearAttr.length);
+    return propID + 'l-' + yearAbbrev;
+  }
+
+  private formatCI(type, val, increment) {
+    // console.log('formatCI()');
+    switch(type) {
+      case "card": {
+        return increment + parseFloat(val).toFixed(0);
+      }
+      case "bubble": {
+        return increment + parseFloat(val).toFixed(2) + '%';
+      }
+      default: {
+        return increment + parseFloat(val).toFixed(2) + '%';
+      }
+    }
+  }
+
+  /**
+   * Check that the prop is one that displays ci,
+   * and that ci exists on the feature for the prop.
+   * @param  feature Object
+   * @param  yearAttr String Combination of prop id and year abbrev
+   * @return         Boolean
+   */
+  private isCIProp(feature, yearAttr) {
+    // console.log('isCIProp()');
+    // Check that the prop is one that displays ci,
+    // and that ci exists on the feature for the prop.
+    const propID = yearAttr.slice(0, this.getDashIndex(yearAttr));
+    const cIHigh = feature.properties[this.getCIHigh(feature, yearAttr)] ? feature.properties[this.getCIHigh(feature, yearAttr)] : -1;
+    const cILow = feature.properties[this.getCILow(feature, yearAttr)] ? feature.properties[this.getCILow(feature, yearAttr)] : -1;
+    const addCI = (this.addCIProps.indexOf(propID) >= 0) ? true : false;
+    if (addCI) {
+      if (cIHigh >= 0 && cILow >= 0) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      return false;
+    }
   }
 
 }

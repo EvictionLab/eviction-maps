@@ -1,6 +1,11 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
+    "CI_HIGH": "High:",
+    "CI_LOW": "Low:",
+    "CI_OFF_LABEL": "Off",
+    "CI_ON_LABEL": "On",
+    "CI_LABEL": "Confidence Interval",
     "DATE_RANGE": "Range",
     "GRAPH_YEAR": "Year",
     "JUDGMENTS": "Eviction Rate",

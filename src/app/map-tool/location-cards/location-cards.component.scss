@@ -149,7 +149,7 @@
   // attribute values
   .card-stat-value {
     display:flex;
-    align-items: center;
+    align-items: left;
     justify-content: flex-start;
     @include numberFont(14px);
     color: $cardValueText;
@@ -159,6 +159,18 @@
     }
     span {
       width: auto;
+    }
+    .card-ci {
+      margin-left: 1rem;
+      margin-top: -0.3rem;
+      color: #737373;
+      @include defaultFont(11px);
+      font-weight: 400;
+      text-transform: uppercase;
+      padding: .5rem;
+      .ci-value {
+        font-weight: 700;
+      }
     }
   }
 }
@@ -393,15 +405,21 @@
       left:0;
       height: grid(14);
       border-bottom:1px solid $panelCardBorder;
-      text-align:center;
+      text-align: left;
       display:flex;
       flex-direction: column-reverse;
-      justify-content: center;
-      align-items: center;
+      justify-content: flex-end;
+      align-items: left;
+      padding-left: 1rem;
+      padding-top: 20px;
       .card-stat-label {
         @include defaultFontBold($panelCardLabelTextLg);
         text-transform: uppercase;
         letter-spacing:0.5px;
+        display: table;
+        width: max-content;
+        margin-bottom: 1rem;
+        margin-bottom: 0.7rem;
       }
       // drop the hint icon to save space, but still show a hint if they hover
       &.has-hint .card-stat-label { 
@@ -416,12 +434,19 @@
       }
       .card-stat-comparison {
         font-size: 11px;
-        display: block;
-        position: absolute;
-        bottom: grid(1.5);
-        right: 0;
-        left: 0;
         white-space: nowrap;
+        display: inline-block;
+      }
+    }
+    &.e {
+      max-height: 5rem;
+      .card-stat-label,
+      .card-stat-value {
+        position: relative;
+        .card-ci {
+          position: relative;
+          margin-top: -0.6rem;
+        }
       }
     }
     &:nth-child(2) {
