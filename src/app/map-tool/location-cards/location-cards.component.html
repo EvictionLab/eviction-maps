@@ -50,13 +50,13 @@
         <div *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
-          <div *ngIf="isCIProp(f, prop.yearAttr) && cardProperties.length > 2" class="ci card-ci ci-id-{{prop.id}}">
+          <div *ngIf="isCIProp(f, prop.yearAttr)" class="ci card-ci ci-id-{{prop.id}}">
             <div class="ci-high">
               <span class="ci-label ci-high">
                 {{ 'DATA.CI_HIGH' | translate }}
               </span>
               <span class="ci-value ci-high">
-                {{ formatCI(prop.type, f.properties[getCIHigh(f, prop.yearAttr)], '+') }}
+                {{ formatCI(prop.type, f.properties[getCIHigh(f, prop.yearAttr)], '') }}
               </span>
             </div>
             <div class="ci-low">
@@ -64,8 +64,11 @@
                 {{ 'DATA.CI_LOW' | translate }}
               </span>
               <span class="ci-value ci-low">
-                {{ formatCI(prop.type, f.properties[getCILow(f, prop.yearAttr)], '-') }}
+                {{ formatCI(prop.type, f.properties[getCILow(f, prop.yearAttr)], '') }}
               </span>
+            </div>
+            <div *ngIf="f.properties.length <= 2 " class="ci-tip">
+              <app-ui-icon icon="info" [tooltip]="'HINTS.CI' | translate"></app-ui-icon>
             </div>
           </div>
           <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>

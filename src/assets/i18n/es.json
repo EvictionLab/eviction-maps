@@ -92,7 +92,8 @@
     "EVICTION_FILING_RATE": "Representa el número de presentaciones de desalojo por cada 100 viviendas alquiladas.",
     "RENT_BURDEN": "El porcentaje del ingreso familiar gastado en el alquiler. El valor máximo es del 50%, representando el 50% o más.",
     "HISPANIC": "Representa el % de la población de origen hispano o latino y cualquier raza según el censo.",
-    "DEMOGRAPHICS": "Estimaciones de población de la población total del área."
+    "DEMOGRAPHICS": "Estimaciones de población de la población total del área.",
+    "CI": "Dolorem cupiditate modi quibusdam ipsum accusamus dignissimos eius."
   },
   "LAYERS": {
     "STATES": "Estados",
