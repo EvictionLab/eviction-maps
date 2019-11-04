@@ -147,5 +147,4 @@ export class GraphService {
         };
       });
   }
-
 }

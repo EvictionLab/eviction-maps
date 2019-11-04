@@ -336,6 +336,15 @@ export class LocationCardsComponent implements OnInit {
     });
   }
 
+  /**
+   * Return a locale string for the provided number
+   * @param  num Number
+   * @return     String
+   */
+  private getLocaleString(num) {
+    return Number(num).toLocaleString();
+  }
+
   private getDashIndex(str) {
     return str.indexOf('-');
   }
@@ -358,7 +367,7 @@ export class LocationCardsComponent implements OnInit {
     // console.log('formatCI()');
     switch (type) {
       case 'card': {
-        return increment + parseFloat(val).toFixed(0);
+        return increment + this.getLocaleString(parseFloat(val).toFixed(0));
       }
       case 'bubble': {
         return increment + parseFloat(val).toFixed(2) + '%';

@@ -1,8 +1,8 @@
 {
   "DATA": {
     "CARD_HEADING": "Displaying eviction statistics for <span>{{year}}</span>",
-    "CI_HIGH": "High:",
-    "CI_LOW": "Low:",
+    "CI_HIGH": "MAX:",
+    "CI_LOW": "MIN:",
     "CI_OFF_LABEL": "Off",
     "CI_ON_LABEL": "On",
     "CI_LABEL": "Confidence Interval",

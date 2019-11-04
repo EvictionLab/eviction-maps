@@ -106,7 +106,7 @@
 // Card Content
 // ---
 .card-content {
-  padding: $defaultPadding;
+  padding: $defaultPadding grid(1.2);
   app-ui-hint, 
   ::ng-deep .icon {
     display:block;
@@ -160,16 +160,37 @@
     span {
       width: auto;
     }
-    .card-ci {
-      margin-left: 1rem;
+    .ci-card {
+      margin-left: grid(0.25);
       margin-top: -0.3rem;
-      color: #737373;
+      color: $grey_wcag;
       @include defaultFont(11px);
       font-weight: 400;
       text-transform: uppercase;
-      padding: .5rem;
+      padding: grid(0.5);
+      display: flex;
+      width: 100%;
       .ci-value {
         font-weight: 700;
+      }
+      .ci-parent {
+        flex: 0 0 auto;
+      }
+      .ci-tip {
+        flex: 0 1 16px;
+        position: relative;
+        fill: $grey_wcag;
+        .icon {
+          position: absolute;
+          bottom: 1px;
+          svg {
+            fill: $grey_wcag;
+          }
+        }
+      }
+      .ci-tip {
+        margin-left: grid(0.4);
+        margin-top: grid(0.6);
       }
     }
   }
@@ -201,6 +222,7 @@
     }
     .card-stat-value {
       margin-top: grid(0.5);
+      padding-top: grid(0.8);
       font-size:15px;
     }
     li { 
@@ -252,7 +274,7 @@
       width: 100%; 
     }
   }
-} 
+}
 // tablet and larger displays:
 @media(min-width: $gtTablet) {
   :host-context(.map-ui-wrapper) {
@@ -266,7 +288,7 @@
     .card-header {
       height: grid(15.5);
       justify-content: flex-end;
-      padding: grid(1.5) grid(2); // 1.5 padding to account for line height
+      padding: grid(1.5) grid(1.3); // grid(1.5) grid(2); // 1.5 padding to account for line height
       span {
         display: block;
         margin: 0 0 grid(1) 0; 
@@ -295,7 +317,7 @@
     // stacked statistics
     .card-content {
       position: static;
-      padding: $defaultPadding;
+      padding: $defaultPadding grid(1.2);
       li {
         margin-right: 0;
         padding-right: 0;
