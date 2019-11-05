@@ -18,11 +18,11 @@
   </div>
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-  <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
+  <div class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL) ? 'tooltip-with-ci' : null }}" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
     <div class="tooltip-arrow"></div>
     <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) : ('DATA.UNAVAILABLE' | translate) }}
       <span class="tooltip-cis">
-        {{ tooltip.y >= 0 ? tooltipValueCIs(tooltip.data[0]) : null }}
+        {{ tooltip.data[0].y >= 0 ? tooltipValueCIs(tooltip.data[0]) : null }}
       </span>
     </div>
   </div>

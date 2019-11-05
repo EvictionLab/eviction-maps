@@ -19,6 +19,8 @@ export class GraphTooltipsComponent implements OnInit {
   @Input() format: string;
   /** Maximum y value */
   @Input() maxVal: number;
+  /** Display CI Boolean */
+  @Input() displayCI: boolean;
   /** Determines which side the tooltips show on */
   tooltipPos = 'left';
 
@@ -36,6 +38,7 @@ export class GraphTooltipsComponent implements OnInit {
 
   tooltipValueCIs(tooltip): string {
     let _return = '';
+    if (!this.displayCI) { return _return; }
     if (tooltip.ciH && tooltip.ciL) {
       _return += '(';
       if (tooltip.ciH) {

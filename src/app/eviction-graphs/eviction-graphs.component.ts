@@ -266,6 +266,7 @@ export class EvictionGraphsComponent implements OnInit {
   getLegendCI(location, locationIndex: number): string {
     // console.log('getLegendCI()');
     if (!location) { return ''; }
+    if (!this.graphSettings.ci.display) { return ''; }
     // average is GraphItem so use `data` if `properties` is not available
     const l = location.properties || location.data;
     if (this.graphType === 'bar') {
