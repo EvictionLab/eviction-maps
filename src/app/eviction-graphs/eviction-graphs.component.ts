@@ -208,6 +208,11 @@ export class EvictionGraphsComponent implements OnInit {
     return this.graphAttribute.id + '-' + year.toString().slice(-2);
   }
 
+  /** Get the current graph attribute with year */
+  attrCIYear(year: number, ci: string) {
+    return this.graphAttribute.id + ci + '-' + year.toString().slice(-2);
+  }
+
   /**
    * Sets the tooltip data on graph hover, or empty array if none
    * @param hoverItems the currently hovered item(s)
@@ -235,6 +240,44 @@ export class EvictionGraphsComponent implements OnInit {
       return value >= 0 ?
         tooltip.x + ': ' + this.formatValue(value, this.graphAttribute.format) :
         this.translatePipe.transform('DATA.UNAVAILABLE');
+    }
+    return '';
+  }
+
+  tooltipValueCIs(tooltip): string {
+    let _return = '';
+    if (tooltip.ciH && tooltip.ciL) {
+      _return += '(';
+      if (tooltip.ciH) {
+        _return += '+' + Number(tooltip.ciH).toFixed(2);
+      }
+      if (tooltip.ciH && tooltip.ciL) {
+        _return += '/';
+      }
+      if (tooltip.ciL) {
+        _return += '-' + Math.abs(Number(Number(tooltip.ciL).toFixed(2)));
+      }
+      _return += ')';
+    }
+    return _return;
+  }
+
+  /** Generates text for the value label under the location in the legend */
+  getLegendCI(location, locationIndex: number): string {
+    // console.log('getLegendCI()');
+    if (!location) { return ''; }
+    // average is GraphItem so use `data` if `properties` is not available
+    const l = location.properties || location.data;
+    if (this.graphType === 'bar') {
+      const ciH = l[this.attrCIYear(this.barYear, 'h')];
+      const ciL = l[this.attrCIYear(this.barYear, 'l')];
+      return (ciH !== -1 && ciL !== -1) ?
+        `(+${Number(ciH).toFixed(2)}/-${Math.abs(Number(Number(ciL).toFixed(2)))})` : '';
+    } else if (this.graphType === 'line') {
+      const tooltip = this.tooltips[locationIndex];
+      if (!tooltip) { return ''; }
+      return (tooltip.ciH !== -1 && tooltip.ciL !== -1) ?
+        this.tooltipValueCIs(tooltip) : '';
     }
     return '';
   }

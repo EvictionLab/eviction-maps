@@ -39,8 +39,8 @@ $graphTooltipCircleSize: 10px;
   text-align:center;
   margin-top: -1.5*$graphTooltipHeight;
   .tooltip-cis {
-    width: 100%;
-    display: block;
+    width: auto;
+    display: inline-block;
   }
 }
 // wrapper for line graph tooltip (so we can switch orientation)
@@ -57,8 +57,8 @@ $graphTooltipCircleSize: 10px;
   margin-left: $graphTooltipCircleSize/2;
   .tooltip-wrapper {
     .tooltip-cis {
-      width: 100%;
-      display: block;
+      width: auto;
+      display: inline-block;
     }
   }
   // nudge arrow outside of wrapper 

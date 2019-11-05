@@ -74,7 +74,8 @@
           <span class="legend-label legend-sub">{{ location.properties["pl"] }}</span>
           <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
-            <span>{{ getLegendValue(location, i) }}</span>
+            <span class="value">{{ getLegendValue(location, i) }}</span>
+            <span class="ci">{{ getLegendCI(location, i) }}</span>
           </p>
         </li>
         <!-- Average -->

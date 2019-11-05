@@ -37,7 +37,7 @@ export class GraphTooltipsComponent implements OnInit {
   tooltipValueCIs(tooltip): string {
     let _return = '';
     if (tooltip.ciH && tooltip.ciL) {
-      _return += '\n\n(';
+      _return += '(';
       if (tooltip.ciH) {
         _return += '+' + Number(tooltip.ciH).toFixed(2);
       }
