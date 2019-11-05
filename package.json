@@ -37,7 +37,7 @@
     "@turf/union": "^4.7.3",
     "@types/geojson": "^1.0.3",
     "@types/mapbox-gl": "0.44.1",
-    "angular-d3-graph": "^2.0.18",
+    "angular-d3-graph": "^2.0.21",
     "clipboard": "^1.7.1",
     "core-js": "^2.4.1",
     "d3-array": "^2.3.3",
