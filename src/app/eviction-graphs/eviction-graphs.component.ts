@@ -269,15 +269,15 @@ export class EvictionGraphsComponent implements OnInit {
     // console.log('getLegendCI()');
     if (!location) { return ''; }
     if (!this.graphSettings.ci.display) { return ''; }
-    const high = this.translatePipe.transform('DATA.CI_HIGH');
-    const low = this.translatePipe.transform('DATA.CI_LOW');
+    const _high = this.translatePipe.transform('DATA.CI_HIGH');
+    const _low = this.translatePipe.transform('DATA.CI_LOW');
     // average is GraphItem so use `data` if `properties` is not available
     const l = location.properties || location.data;
     if (this.graphType === 'bar') {
       const ciH = l[this.attrCIYear(this.barYear, 'h')];
       const ciL = l[this.attrCIYear(this.barYear, 'l')];
       return (ciH !== -1 && ciL !== -1) ?
-        `(${high}${Number(ciH).toFixed(2)}%/${low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
+        `(${_high}${Number(ciH).toFixed(2)}%/${_low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
         : '';
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
