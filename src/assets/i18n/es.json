@@ -1,8 +1,8 @@
 {
   "DATA": {
     "CARD_HEADING": "Mostrando las estadísticas de desalojo para <span>{{year}}</span>",
-    "CI_HIGH": "Máx.:",
-    "CI_LOW": "Mín.:",
+    "CI_HIGH": "MÁX:",
+    "CI_LOW": "MÍN:",
     "CI_LABEL": "Intervalo de confianza",
     "DATE_RANGE": "Rango",
     "GRAPH_YEAR": "Año",

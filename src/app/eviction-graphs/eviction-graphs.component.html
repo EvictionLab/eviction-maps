@@ -76,7 +76,7 @@
           <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
           <p class="legend-data">
             <span class="value">{{ getLegendValue(location, i) }}</span>
-            <span class="ci">{{ getLegendCI(location, i) }}</span>
+            <span class="ci">{{ getLegendCI(location, i, 'DATA.CI_HIGH'| translate, 'DATA.CI_LOW'| translate) }}</span>
           </p>
         </li>
         <!-- Average -->

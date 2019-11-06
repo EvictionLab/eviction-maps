@@ -246,34 +246,39 @@ export class EvictionGraphsComponent implements OnInit {
 
   tooltipValueCIs(tooltip): string {
     let _return = '';
+    const high = this.translatePipe.transform('DATA.CI_HIGH');
+    const low = this.translatePipe.transform('DATA.CI_LOW');
     if (tooltip.ciH && tooltip.ciL) {
       _return += '(';
       if (tooltip.ciH) {
-        _return += '+' + Number(tooltip.ciH).toFixed(2);
+        _return += high + Number(tooltip.ciH).toFixed(2);
       }
       if (tooltip.ciH && tooltip.ciL) {
-        _return += '/';
+        _return += '%/';
       }
       if (tooltip.ciL) {
-        _return += '-' + Math.abs(Number(Number(tooltip.ciL).toFixed(2)));
+        _return += low + Math.abs(Number(Number(tooltip.ciL).toFixed(2)));
       }
-      _return += ')';
+      _return += '%)';
     }
     return _return;
   }
 
   /** Generates text for the value label under the location in the legend */
-  getLegendCI(location, locationIndex: number): string {
+  getLegendCI(location, locationIndex: number, high: string, low: string): string {
     // console.log('getLegendCI()');
     if (!location) { return ''; }
     if (!this.graphSettings.ci.display) { return ''; }
+    const high = this.translatePipe.transform('DATA.CI_HIGH');
+    const low = this.translatePipe.transform('DATA.CI_LOW');
     // average is GraphItem so use `data` if `properties` is not available
     const l = location.properties || location.data;
     if (this.graphType === 'bar') {
       const ciH = l[this.attrCIYear(this.barYear, 'h')];
       const ciL = l[this.attrCIYear(this.barYear, 'l')];
       return (ciH !== -1 && ciL !== -1) ?
-        `(+${Number(ciH).toFixed(2)}/-${Math.abs(Number(Number(ciL).toFixed(2)))})` : '';
+        `(${high}${Number(ciH).toFixed(2)}%/${low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
+        : '';
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
       if (!tooltip) { return ''; }
