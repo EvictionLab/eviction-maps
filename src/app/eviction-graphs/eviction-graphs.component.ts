@@ -276,13 +276,13 @@ export class EvictionGraphsComponent implements OnInit {
     if (this.graphType === 'bar') {
       const ciH = l[this.attrCIYear(this.barYear, 'h')];
       const ciL = l[this.attrCIYear(this.barYear, 'l')];
-      return (ciH !== -1 && ciL !== -1) ?
+      return (ciH > 0 && ciL > 0) ?
         `(${_high}${Number(ciH).toFixed(2)}%/${_low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
         : '';
     } else if (this.graphType === 'line') {
       const tooltip = this.tooltips[locationIndex];
       if (!tooltip) { return ''; }
-      return (tooltip.ciH !== -1 && tooltip.ciL !== -1) ?
+      return (tooltip.ciH > 0 && tooltip.ciL > 0) ?
         this.tooltipValueCIs(tooltip) : '';
     }
     return '';

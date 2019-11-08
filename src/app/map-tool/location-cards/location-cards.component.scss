@@ -601,3 +601,49 @@
     }
   }
 }
+
+// Alter width of first two data items for mobile and tablet view
+// to accommodate the addition of min and max vals to second column
+@media (max-width: $gtTablet) {
+  ::ng-deep .data-wrapper .location-card {
+    .card-stats {
+      li.epd,
+      li:nth-child(1) {
+        width: 35% !important;
+        .card-stat-label {
+          width: auto !important;
+        }
+      }
+      li.er {
+        width: 65% !important;
+      }
+    }
+  }
+  ::ng-deep .map-ui-wrapper .location-card {
+    .card-content {
+      .card-stats {
+        .card-stat-value {
+          padding-top: 3px;
+        }
+        li.er {
+
+        }
+        li.e {
+          
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: $gtMobile) and (max-width: $gtTablet) {
+  ::ng-deep .data-wrapper .graph-container .graph-legend ul {
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      flex-basis: 25%;
+      flex-grow: 1;
+      flex-shrink: 0;
+    }
+  }
+}

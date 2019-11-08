@@ -232,7 +232,7 @@
   }
 }
 // increase page margin for toggle on tablet+
-@media(min-width: $gtMobile) { 
+@media(min-width: $gtMobile) {
   // show labels
   .graph-type-toggle ::ng-deep button span { display: block; }
 }
