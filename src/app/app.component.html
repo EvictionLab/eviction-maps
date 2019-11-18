@@ -25,5 +25,7 @@
     (change)="onLanguageSelect($event)"
   ></app-ui-select>
 </app-menu>
+<app-tour></app-tour>
+<ngx-bootstrap-product-tour></ngx-bootstrap-product-tour>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
 <app-footer   *ngIf="!embed" [navigation]="footerNav" role="contentinfo"></app-footer>

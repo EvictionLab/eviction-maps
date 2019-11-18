@@ -11,6 +11,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ToastModule, ToastOptions } from 'ng2-toastr';
 import { environment } from '../environments/environment';
 import { version } from '../environments/version';
+import { NgxBootstrapProductTourModule } from 'ngx-bootstrap-product-tour';
 
 // local imports
 import { AppComponent } from './app.component';
@@ -24,6 +25,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MenuComponent } from './menu/menu.component';
 import { ServicesModule } from './services/services.module';
 import { EmbedComponent } from './map-tool/embed/embed.component';
+import { TourComponent } from './tour/tour.component';
 
 import { WebpackTranslateLoader } from './webpack-translate-loader';
 import { CardEmbedComponent } from './map-tool/location-cards/embed/card-embed.component';
@@ -52,7 +54,7 @@ export class CustomOption extends ToastOptions {
 }
 
 @NgModule({
-  declarations: [ AppComponent, HeaderBarComponent, FooterComponent, MenuComponent ],
+  declarations: [ AppComponent, HeaderBarComponent, FooterComponent, MenuComponent, TourComponent ],
   imports: [
     UiModule,
     MapToolModule,
@@ -71,10 +73,14 @@ export class CustomOption extends ToastOptions {
       }
     }),
     ServicesModule.forRoot(),
-    RouterModule.forRoot([], { useHash: true }),
+    RouterModule.forRoot([{
+      component: TourComponent,
+      path: '',
+    }], { useHash: true }),
     TooltipModule.forRoot(),
     ToastModule.forRoot(),
-    Ng2PageScrollModule.forRoot()
+    Ng2PageScrollModule.forRoot(),
+    NgxBootstrapProductTourModule.forRoot()
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },
