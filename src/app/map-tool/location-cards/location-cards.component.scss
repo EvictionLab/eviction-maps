@@ -207,6 +207,20 @@
   .card-header {
     height: $cardHeaderHeight;
     justify-content: flex-start;
+    @media (max-width: $gtTablet) {
+      display: flex;
+      flex-direction: row;
+      justify-content: left;
+      align-items: flex-start;
+      .card-heading {
+        width: auto;
+        align-self: left;
+      }
+      .card-subheading {
+        margin: 4px 0 0 3px;
+        font-size: 10px;
+      }
+    }
   }
   // overlay the card content at the bottom of the header
   .card-content { 
@@ -245,6 +259,11 @@
     li:nth-child(2):last-child { display: block; }
     // On smaller screens, float the latter of two displayed stats to the right
     li:nth-child(2):last-child, li:nth-child(3) { float: right; }
+    @media (max-width: $gtTablet) {
+      .ci-tip {
+        display: none;
+      }
+    }
   }
 }
 
