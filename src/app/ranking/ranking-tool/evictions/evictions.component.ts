@@ -529,7 +529,8 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     // set focus back to the list item
     const listItems = this.rankingList.el.nativeElement.getElementsByTagName('button');
     if (listItems.length > index) {
-      this.scroll.scrollTo(listItems[index]);
+      // timeout to allow item to expand first
+      setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
       if (focus) { listItems[index].focus(); }
     }
   }
@@ -569,11 +570,12 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.region, this.areaType.value, this.dataProperty.value
       );
       this.truncatedList = this.listData.slice(0, this.topCount);
+      // TODO: find highest value including CIs, remove 1.1
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
         })
-      );
+      ) * 1.1;
       this.updateTweet();
       this.changeDetectorRef.detectChanges();
     } else {

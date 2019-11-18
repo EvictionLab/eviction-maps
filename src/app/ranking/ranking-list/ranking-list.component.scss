@@ -1,11 +1,13 @@
 @import '../../../theme';
 
-$rankNumberSpace: grid(3);
+$rankLocationHeight: grid(8);
 $rankBarHeight: grid(4);
-$rankNumberSpace_gtm: grid(6);
 $rankBarHeight_gtm: grid(5);
+$rankLocationHeight_gtm: grid(8);
 
-$barGradient1: linear-gradient(180deg, #F8E7E3, #F9D4CC);
+$barGradient1: linear-gradient(180deg, #F1BBAC, #F46229);
+$barGradient1a: linear-gradient(180deg, #F6D3CA, #F89A75);
+$barGradient1b: linear-gradient(180deg, #FBE9E4, #FCCCB9);
 $barGradient2: linear-gradient(180deg, #DEE1F5, #CFD1EB);
 $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
 
@@ -17,139 +19,340 @@ $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
   font-family: $boldFontStack;
 }
 
-.ranking-bar {
-  position:absolute;
-  top:0;
-  left:0;
-  bottom:0;
-  height:100%;
+.place-separator {
+  margin-right: 4px;
 }
 
-.ranking-content {
-  position: relative;
-  padding: 0 grid(2);
-  z-index:2;
-  white-space: nowrap;
-  .ranking-value {
-    margin-left: grid(1);
+@media(min-width: $gtMobile) {
+  .place-separator {
+    color: #fff;
   }
 }
+
+
 
 .ranking-list {
   list-style:none;
   margin:0;
   padding:0;
-  li {
-    position:relative;
-    height: $rankBarHeight;
-    margin-left: $rankNumberSpace;
-    margin-bottom: grid(1);
-    display:block;
-    &:hover, &.active {
-      cursor:pointer;
+}
+
+/** Ranking Location */
+
+$locationHeadingHeight: grid(3.5);
+$locationHeadingHeight_gtm: grid(5);
+
+.location {
+  margin-bottom: grid(3);
+  position: relative;
+}
+
+.location__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.location__button {
+  position: absolute;
+  top:-8px;left:-8px;right:-8px;bottom:-8px;
+  background: rgba(0,0,0,0.1);
+  z-index: 100;
+  min-width: calc(100% + 16px);
+  min-height: 100%;
+  padding:0;
+  margin:0;
+  background: none;
+  border: none;
+}
+
+/** Location Heading */
+
+.location__container.location__container--heading {
+  background: none;
+  border: none;
+  padding:0 0 grid(1) 0;
+  margin:0;
+  height: grid(3.5);
+  align-items: flex-end;
+  line-height: 1;
+}
+@media(min-width: $gtMobile) {
+  // boost height of heading row
+  .location__container.location__container--heading {
+    height: grid(5);
+  }
+}
+
+/** Location Heading alignment guide */
+// .location__container.location__container--heading:after {
+//   content: " ";
+//   display: block;
+//   position:absolute;
+//   top:27px;
+//   height: 1px;
+//   background:#ccc;
+//   left:0;
+//   right:0;
+// }
+
+  /** Location Number */
+  .location__number {
+    @include altSmallCapsText(12px);
+    margin-right: grid(1);
+  }
+  @media(min-width: $gtMobile) {
+    .location__number {
+      @include altSmallCapsText(21px);
     }
+  }
+
+  /** Location Name */
+  .location__name,
+  .location__state {
+    @include altSmallCapsText(12px);
+  }
+  .location__state {
+    margin-right: grid(1);
+  }
+  @media(min-width: $gtMobile) {
+    // boost font sizes, adjust state name color
+    .location__name {
+      @include altSmallCapsText(21px);
+    }
+    .location__state {
+      @include altSmallCapsText(16px);
+      color: #737373;
+      // fix vertical alignment
+      position: relative;
+      top: -1px;
+    }
+  }
+  .location:hover .location__name,
+  .location:hover .location__state {
+    color: $color1;
+  }
+
+  /** Location Value */
+  .location__value {
+    @include smallCapsText(14px);
+    &.location__value--unavailable {
+      color: #737373;
+    }
+  }
+  @media(min-width: $gtMobile) {
+    // fix vertical alignment for header value
+    .location__container--heading .location__value {
+      position: relative;
+      top: -2px;
+    }
+  }
+
+/** Location Bar */
+
+.location__container.location__container--bar {
+  position: relative;
+  height: grid(3);
+  line-height: 1;
+  margin-right: grid(4);
+}
+
+  /** Bar Defaults */
+  .location__bar {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    background: $barGradient1a;
+    z-index:11;
+    &.location__bar--low {
+      background: $barGradient1;
+      z-index: 12;
+    }
+    &.location__bar--high {
+      background: $barGradient1b;
+      z-index: 10;
+    }
+  }
+
+  /** Bar Value Labels */
+  .location__bar {
+    // main bar value
+    .location__value {
+      position:absolute;
+      right:0;
+      line-height: 1;
+      bottom: grid(4);
+      transform: translate(50%, 0);
+    } 
+    // low bar value
+    &.location__bar--low .location__value {
+      transform: translate(0%, 0);
+      top: grid(4);
+      bottom:auto;
+      color: #737373;
+      @include smallCapsText(12px);
+    }
+    // high bar value 
+    &.location__bar--high .location__value {
+      transform: translate(100%, 0);
+      top: grid(4);
+      bottom:auto;
+      color: #737373;
+      @include smallCapsText(12px);
+    }
+  }
+  @media(min-width: $gtMobile) {
+    .location__bar .location__value {
+      bottom: grid(4.5);
+      margin-bottom: -2px; // fix vertical alignment
+    }
+  }
+
+  /** Location Summary */
+  .location__container.location__container--summary {
+    margin-top: grid(4);
+    @include defaultFont(14px);
+  }
+
+
+// .ranking-bar {
+//   position:absolute;
+//   top:auto;
+//   left:0;
+//   bottom:0;
+//   height:$rankBarHeight;
+//   z-index:20;
+// }
+// .ranking-bar.ranking-bar--low {
+//   z-index: 30;
+// }
+// .ranking-bar.ranking-bar--high {
+//   z-index:10;
+// }
+
+// .ranking-location__heading {
+//   position: relative;
+//   padding: 0;
+//   z-index:2;
+//   white-space: nowrap;
+//   .ranking-value {
+//     margin-left: grid(1);
+//   }
+// }
+
+// .ranking-list {
+//   list-style:none;
+//   margin:0;
+//   padding:0;
+//   li {
+//     position:relative;
+//     height: $rankLocationHeight;
+//     margin-bottom: grid(1);
+//     display:block;
+//     &:hover, &.active {
+//       cursor:pointer;
+//     }
     
-  }
-  li button {
-    background: none;
-    border:none;
-    padding:0;
-    margin:0;
-    display: block;
-    width:100%;
-    text-align: left;
-    &:focus {
-      color: $color1;
-      @include focusState();
-    }
-  }
-  .ranking-bar {
-    background: $barGradient1;
-  }
+//   }
+//   li button {
+//     background: none;
+//     border:none;
+//     padding:0;
+//     margin:0;
+//     display: block;
+//     width:100%;
+//     text-align: left;
+//     &:focus {
+//       color: $color1;
+//       @include focusState();
+//     }
+//   }
+//   .ranking-bar {
+//     background: $barGradient1;
+//     background: rgba(0,0,0,0.2);
+//   }
+//   .ranking-bar.ranking-bar--high {
+//     background: rgba(0,0,0,0.2);
+//   }
+//   .ranking-bar.ranking-bar--high {
+//     background: rgba(0,0,0,0.2);
+//   }
   
-}
-@media(min-width: $gtMobile) {
-  .ranking-list li {
-    height: $rankBarHeight_gtm;
-    margin-left: $rankNumberSpace_gtm;
-  }
-}
+// }
+// @media(min-width: $gtMobile) {
+//   .ranking-list li {
+//     height: $rankLocationHeight_gtm;
+//   }
+// }
 
-.ranking-number {
-  position:absolute;
-  left: -1*$rankNumberSpace;
-  top:0;
-  line-height: $rankBarHeight;
-  width: $rankNumberSpace;
-  @include numberFont(13px);
-}
-@media(min-width: $gtMobile) {
-  .ranking-number {
-    left: -1*$rankNumberSpace_gtm;
-    line-height: $rankBarHeight_gtm;
-    width: $rankNumberSpace_gtm;
-    @include numberFont(18px);
-  }
-}
+// .ranking-number {
+//   @include numberFont(13px);
+// }
+// @media(min-width: $gtMobile) {
+//   .ranking-number {
+//     @include numberFont(18px);
+//   }
+// }
 
-.ranking-content {
-  line-height: $rankBarHeight;
-  @include altSmallCapsText(12px);
-  .ranking-value {
-    @include smallCapsText(10px);
-  }
-}
-@media(min-width: $gtMobile) {
-  .ranking-content {
-    line-height: $rankBarHeight_gtm;
-    @include altSmallCapsText(18px);
-    .ranking-parent {
-      @include smallCapsText(14px);
-    }
-    .ranking-value {
-      @include smallCapsText(14px);
-    }
-    .place-separator { display: none; }
-  }
-}
+// .ranking-location__heading {
+//   line-height: $rankBarHeight;
+//   @include altSmallCapsText(12px);
+//   .ranking-value {
+//     @include smallCapsText(10px);
+//   }
+// }
+// @media(min-width: $gtMobile) {
+//   .ranking-location__heading {
+//     @include altSmallCapsText(18px);
+//     .ranking-parent {
+//       @include smallCapsText(14px);
+//     }
+//     .ranking-value {
+//       @include smallCapsText(14px);
+//     }
+//     .place-separator { display: none; }
+//   }
+// }
 
-// BAR COLORS 
-:host-context(.area-0) {
-  .ranking-list {
-    li {
-      .ranking-bar {
-        background: $barGradient1;
-      }
-      &:hover, &.active {
-        .ranking-content { color: $color1; }
-      }
-    }
-  }
-}
+// // BAR COLORS 
+// :host-context(.area-0) {
+//   .ranking-list {
+//     li {
+//       .ranking-bar {
+//         background: $barGradient1;
+//       }
+//       &:hover, &.active {
+//         .ranking-location__heading { color: $color1; }
+//       }
+//     }
+//   }
+// }
 
-:host-context(.area-1) {
-  .ranking-list {
-    li {
-      .ranking-bar {
-        background: $barGradient2;
-      }
-      &:hover, &.active {
-        .ranking-content { color: $color2; }
-      }
-    }
-  }
-}
+// :host-context(.area-1) {
+//   .ranking-list {
+//     li {
+//       .ranking-bar {
+//         background: $barGradient2;
+//       }
+//       &:hover, &.active {
+//         .ranking-location__heading { color: $color2; }
+//       }
+//     }
+//   }
+// }
 
-:host-context(.area-2) {
-  .ranking-list {
-    li {
-      .ranking-bar {
-        background: $barGradient3;
-      }
-      &:hover, &.active {
-        .ranking-content { color: $color3; }
-      }
-    }
-  }
-}
+// :host-context(.area-2) {
+//   .ranking-list {
+//     li {
+//       .ranking-bar {
+//         background: $barGradient3;
+//       }
+//       &:hover, &.active {
+//         .ranking-location__heading { color: $color3; }
+//       }
+//     }
+//   }
+// }
 

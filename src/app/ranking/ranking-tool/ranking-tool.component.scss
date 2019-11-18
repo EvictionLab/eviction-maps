@@ -34,7 +34,7 @@ $panelHeightLg: 194px;
 }
 @media(min-width: $gtTablet) {
   .page-content .ranking-component > .content-inner {
-    padding: grid(6) $pageMarginLg;
+    padding: grid(6) grid(6);
   }
 }
 

@@ -6,21 +6,37 @@
 </p>
 <ul *ngIf="dataProperty && list && maxValue" class="ranking-list">
   <li 
-    *ngFor="let listItem of list; let i = index" 
+    *ngFor="let listItem of list; let i = index"
+    class="location"
     [class.active]="selectedIndex === i"
   >
     <button
+      class="location__button"
       (click)="locationSelected.emit(i)"
       [attr.aria-label]="getAriaLabel(i+1, listItem)"
-    >
-      <span class="ranking-number">{{ listItem[dataProperty.value] >= 0 ? i + 1 : ('RANKINGS.NA_RANK' | translate) }}</span>
-      <div class="ranking-bar" [style.width]="barWidth(listItem)"></div>
-      <div class="ranking-content">
-        <span class="ranking-name">{{ listItem[propertyMap.primary] }}</span><span class="place-separator">,</span>
-        <span class="ranking-parent">{{listItem[propertyMap.secondary]}}</span>
-        <span *ngIf="listItem[dataProperty.value] >= 0" class="ranking-value">{{ listItem[dataProperty.value] > 100 && isRate ? '>100' : (listItem[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
-        <span *ngIf="listItem[dataProperty.value] < 0" class="ranking-value unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+    ></button>
+    <div class="location__container location__container--heading">
+        <span class="location__number">{{ listItem[dataProperty.value] >= 0 ? i + 1 : ('RANKINGS.NA_RANK' | translate) }}. </span>
+        <span class="location__name">{{ listItem[propertyMap.primary] }}</span>
+        <span class="place-separator">,</span>
+        <span class="location__state">{{listItem[propertyMap.secondary]}}</span>
+        <span *ngIf="listItem[dataProperty.value] >= 0 && !showValueOnBar(listItem)" class="location__value">{{ listItem[dataProperty.value] > 100 && isRate ? '>100' : (listItem[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
+        <span *ngIf="listItem[dataProperty.value] < 0" class="location__value location__value--unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+    </div>
+    <div class="location__container location__container--bar">
+      <div class="location__bar location__bar--low" [style.width]="barWidth(listItem, 'low')">
+        <span class="location__value">{{ getValueForLocation(listItem, 'low') }}</span>
       </div>
-    </button>
+      <div class="location__bar" [style.width]="barWidth(listItem)">
+          <span class="location__value" *ngIf="showValueOnBar(listItem)">{{ getValueForLocation(listItem) }}</span>
+      </div>
+      <div class="location__bar location__bar--high" [style.width]="barWidth(listItem, 'high')">
+        <span class="location__value">{{ getValueForLocation(listItem, 'high') }}</span>
+      </div>
+    </div>
+    <div class="location__container location__container--summary" *ngIf="selectedIndex === i">
+      <p *ngIf="listItem.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year } }}</p>
+      <p *ngIf="listItem.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year} }}</p>
+    </div>
   </li>
 </ul>

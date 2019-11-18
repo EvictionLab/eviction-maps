@@ -2,6 +2,10 @@ import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/cor
 import { RankingLocation } from '../ranking-location';
 import { TranslatePipe } from '@ngx-translate/core';
 
+const roundValue = (value) => {
+  return Math.round(value * 100) / 100;
+}
+
 @Component({
   selector: 'app-ranking-list',
   templateUrl: './ranking-list.component.html',
@@ -12,11 +16,13 @@ export class RankingListComponent {
   @Input() dataProperty: { value: string, name: string };
   @Input() maxValue: number;
   @Input() selectedIndex: number;
+  @Input() year = 2016;
   @Input() propertyMap = {
     'primary': 'name',
     'secondary': 'displayParentLocation'
   };
   @Output() locationSelected = new EventEmitter<number>();
+
   get isRate() { return this.dataProperty.value.indexOf('Rate') > -1; }
 
   constructor(public el: ElementRef, private translatePipe: TranslatePipe) {}
@@ -25,10 +31,32 @@ export class RankingListComponent {
    * Get bar width for a given location, returning 0 if data is unavailable
    * @param location
    */
-  barWidth(location: RankingLocation): string {
+  barWidth(location: RankingLocation, type: string): string {
     const value = location[this.dataProperty.value];
     if (value < 0) { return '0%'; }
-    return `${100 * (value / this.maxValue)}%`;
+    switch (type) {
+      case 'low':
+        return `${100 * ((value * 0.9) / this.maxValue)}%`;
+      case 'high':
+        return `${100 * ((value * 1.1) / this.maxValue)}%`;
+      default:
+        return `${100 * (value / this.maxValue)}%`;
+    }
+  }
+
+  /** Return true if label should appear on bar */
+  showValueOnBar(location: RankingLocation): boolean {
+    const value = location[this.dataProperty.value];
+    return value && ((value / this.maxValue) > 0.5);
+  }
+
+  getValueForLocation(location: RankingLocation, type: string): string {
+    let value = 
+      location[this.dataProperty.value] > 100 && this.isRate ?
+        '>100%' : location[this.dataProperty.value];
+    if (type === 'low') { value = roundValue(value * 0.9); }
+    if (type === 'high') { value = roundValue(value * 1.1); }
+    return this.isRate ? `${value}%` : value;
   }
 
   /**
