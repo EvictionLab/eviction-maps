@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ElementRef } from '@angular/core';
 import { RankingLocation } from '../ranking-location';
 import { TranslatePipe } from '@ngx-translate/core';
+import { environment } from '../../../environments/environment';
 
 const roundValue = (value) => {
   return Math.round(value * 100) / 100;
@@ -26,6 +27,27 @@ export class RankingListComponent {
   get isRate() { return this.dataProperty.value.indexOf('Rate') > -1; }
 
   constructor(public el: ElementRef, private translatePipe: TranslatePipe) {}
+
+  /**
+   * Return an approximate bounding box string for a given center point
+   * @param latLon
+   */
+  private centerBounds(latLon: number[]): string {
+    const lon = latLon[1];
+    const lat = latLon[0];
+    const lonPad = 0.5;
+    const latPad = 0.25;
+    return `${lon - lonPad},${lat - latPad},${lon + lonPad},${lat + latPad}`;
+  }
+
+  getMapLinkForLocation(location: RankingLocation): string {
+    let baseUrl = environment.siteNav.find(l => l.langKey === 'NAV.MAP').defaultUrl;
+    if (!baseUrl.endsWith('/')) { baseUrl += '/'; }
+
+    return `${baseUrl}#/${environment.rankingsYear}?geography=cities&type=er&bounds=${
+      this.centerBounds(location.latLon)}&locations=${location.geoId},${
+      location.latLon[1]},${location.latLon[0]}`;
+  }
 
   /**
    * Get bar width for a given location, returning 0 if data is unavailable

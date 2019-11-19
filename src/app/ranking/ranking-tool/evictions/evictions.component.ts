@@ -530,7 +530,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     const listItems = this.rankingList.el.nativeElement.getElementsByTagName('button');
     if (listItems.length > index) {
       // timeout to allow item to expand first
-      setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
+      // setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
       if (focus) { listItems[index].focus(); }
     }
   }

@@ -43,8 +43,20 @@ $locationHeadingHeight: grid(3.5);
 $locationHeadingHeight_gtm: grid(5);
 
 .location {
-  margin-bottom: grid(3);
+  padding-top: grid(1);
+  padding-bottom: grid(3);
   position: relative;
+}
+.location:after {
+  content: "";
+  display: block;
+  position:absolute;
+  top:0px;left:-16px;right:-16px;bottom:0px;
+  box-shadow: 0 0 0 rgba(0,0,0,0.1);
+  transition: box-shadow 0.2s ease-in-out;
+}
+.location.active:after {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 .location__container {
@@ -56,15 +68,20 @@ $locationHeadingHeight_gtm: grid(5);
 
 .location__button {
   position: absolute;
-  top:-8px;left:-8px;right:-8px;bottom:-8px;
+  top:0px;left:-16px;right:-16px;bottom:0px;
   background: rgba(0,0,0,0.1);
   z-index: 100;
-  min-width: calc(100% + 16px);
+  min-width: calc(100% + 32px);
   min-height: 100%;
   padding:0;
   margin:0;
   background: none;
   border: none;
+  opacity: 0.2;
+}
+.location__button:focus {
+  outline: none;
+  border: 2px solid $color1;
 }
 
 /** Location Heading */
@@ -214,6 +231,10 @@ $locationHeadingHeight_gtm: grid(5);
   .location__container.location__container--summary {
     margin-top: grid(4);
     @include defaultFont(14px);
+    z-index:101;
+  }
+  .location__container--summary p {
+    margin-bottom: grid(-1);
   }
 
 

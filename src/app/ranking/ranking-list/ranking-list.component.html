@@ -35,8 +35,14 @@
       </div>
     </div>
     <div class="location__container location__container--summary" *ngIf="selectedIndex === i">
-      <p *ngIf="listItem.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year } }}</p>
-      <p *ngIf="listItem.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year} }}</p>
+      <p *ngIf="listItem.evictions !== 1">
+        {{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year } }}
+        <a [attr.href]="getMapLinkForLocation(listItem)" [target]="kiosk ? '_self' : '_blank'" class="rank-link">{{ 'RANKINGS.MAP_LINK' | translate }}</a>
+      </p>
+      <p *ngIf="listItem.evictions === 1">
+        {{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (listItem.evictions | number: '1.0-2'), 'name': listItem.name, 'evictionsPerDay': ((listItem.evictions/365) | number: '1.0-2'), 'evictionRate': listItem.evictionRate, 'year': year} }}
+        <a [attr.href]="getMapLinkForLocation(listItem)" [target]="kiosk ? '_self' : '_blank'" class="rank-link">{{ 'RANKINGS.MAP_LINK' | translate }}</a>
+      </p>
     </div>
   </li>
 </ul>
