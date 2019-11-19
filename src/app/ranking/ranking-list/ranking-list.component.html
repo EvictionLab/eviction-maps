@@ -45,4 +45,39 @@
       </p>
     </div>
   </li>
+  <li 
+    *ngIf="currentLocation && selectedIndex > 99"
+    class="location location--last"
+    [class.active]="selectedIndex === i"
+  >
+    <div class="location__container location__container--heading">
+        <span class="location__number">{{ currentLocation[dataProperty.value] >= 0 ? selectedIndex + 1 : ('RANKINGS.NA_RANK' | translate) }}. </span>
+        <span class="location__name">{{ currentLocation[propertyMap.primary] }}</span>
+        <span class="place-separator">,</span>
+        <span class="location__state">{{currentLocation[propertyMap.secondary]}}</span>
+        <span *ngIf="currentLocation[dataProperty.value] >= 0 && !showValueOnBar(currentLocation)" class="location__value">{{ currentLocation[dataProperty.value] > 100 && isRate ? '>100' : (currentLocation[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
+        <span *ngIf="currentLocation[dataProperty.value] < 0" class="location__value location__value--unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+    </div>
+    <div class="location__container location__container--bar">
+      <div class="location__bar location__bar--low" [style.width]="barWidth(currentLocation, 'low')">
+        <span class="location__value">{{ getValueForLocation(currentLocation, 'low') }}</span>
+      </div>
+      <div class="location__bar" [style.width]="barWidth(currentLocation)">
+          <span class="location__value" *ngIf="showValueOnBar(currentLocation)">{{ getValueForLocation(currentLocation) }}</span>
+      </div>
+      <div class="location__bar location__bar--high" [style.width]="barWidth(currentLocation, 'high')">
+        <span class="location__value">{{ getValueForLocation(currentLocation, 'high') }}</span>
+      </div>
+    </div>
+    <div class="location__container location__container--summary">
+      <p *ngIf="currentLocation.evictions !== 1">
+        {{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (currentLocation.evictions | number: '1.0-2'), 'name': currentLocation.name, 'evictionsPerDay': ((currentLocation.evictions/365) | number: '1.0-2'), 'evictionRate': currentLocation.evictionRate, 'year': year } }}
+        <a [attr.href]="getMapLinkForLocation(currentLocation)" [target]="kiosk ? '_self' : '_blank'" class="rank-link">{{ 'RANKINGS.MAP_LINK' | translate }}</a>
+      </p>
+      <p *ngIf="currentLocation.evictions === 1">
+        {{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (currentLocation.evictions | number: '1.0-2'), 'name': currentLocation.name, 'evictionsPerDay': ((currentLocation.evictions/365) | number: '1.0-2'), 'evictionRate': currentLocation.evictionRate, 'year': year} }}
+        <a [attr.href]="getMapLinkForLocation(currentLocation)" [target]="kiosk ? '_self' : '_blank'" class="rank-link">{{ 'RANKINGS.MAP_LINK' | translate }}</a>
+      </p>
+    </div>
+  </li>
 </ul>

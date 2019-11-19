@@ -251,6 +251,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
       this.setCurrentLocation(listIndex);
     }
+    this.scrollToIndex(Math.min(99, listIndex));
     this.trackSearchSelection(location, e.queryTerm);
   }
 
@@ -530,9 +531,9 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     const listItems = this.rankingList.el.nativeElement.getElementsByTagName('button');
     if (listItems.length > index) {
       // timeout to allow item to expand first
-      // setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
       if (focus) { listItems[index].focus(); }
     }
+    setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
   }
 
   /** Returns true if the data property is eviction judgements */

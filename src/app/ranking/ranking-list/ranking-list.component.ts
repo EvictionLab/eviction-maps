@@ -17,6 +17,7 @@ export class RankingListComponent {
   @Input() dataProperty: { value: string, name: string };
   @Input() maxValue: number;
   @Input() selectedIndex: number;
+  @Input() currentLocation: RankingLocation;
   @Input() year = 2016;
   @Input() propertyMap = {
     'primary': 'name',
