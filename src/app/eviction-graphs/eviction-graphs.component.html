@@ -18,6 +18,13 @@
           [selectedValue]="graphType"
           (selectedValueChanged)="graphType = $event"
         ></app-ui-toggle>
+        <app-ui-checkbox
+          class="ci-checkbox"
+          [isChecked]="displayCI"
+          (changed)="displayCI = $event"
+          [inputLabel]="'DATA.CI_LABEL'| translate"
+          [index]=0
+        ></app-ui-checkbox>
         <div class="graph-year-select">
           <span *ngIf="graphType === 'line'" class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
           <span *ngIf="graphType === 'bar'" class="graph-year-label"> {{ 'DATA.GRAPH_YEAR' | translate }}</span>
@@ -50,18 +57,6 @@
         >
         </app-graph-tooltips>
       </app-graph>
-      <div class="ci-toggle">
-        <span class="ci-toggle-label">
-          {{ 'DATA.CI_LABEL'| translate }}
-        </span>
-        <app-ui-switch
-          class="graph-ci-toggle"
-          [leftLabel]="'DATA.CI_OFF_LABEL'| translate"
-          [rightLabel]="'DATA.CI_ON_LABEL'| translate"
-          [on]="true"
-          (switched)="displayCI = $event"
-        ></app-ui-switch>
-      </div>
     </div>
     <div class="graph-legend">
       <ul>

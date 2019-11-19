@@ -23,6 +23,7 @@ import { SocialSharePopupDirective } from './ui-social-share/social-share-popup.
 import { UiCloseButtonComponent } from './ui-close-button/ui-close-button.component';
 import { UiIconComponent } from './ui-icon/ui-icon.component';
 import { UiSocialShareComponent } from './ui-social-share/ui-social-share.component';
+import { UiCheckboxComponent } from './ui-checkbox/ui-checkbox.component';
 
 @NgModule({
   exports: [
@@ -38,7 +39,8 @@ import { UiSocialShareComponent } from './ui-social-share/ui-social-share.compon
     SocialSharePopupDirective,
     UiCloseButtonComponent,
     UiIconComponent,
-    UiSocialShareComponent
+    UiSocialShareComponent,
+    UiCheckboxComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { UiSocialShareComponent } from './ui-social-share/ui-social-share.compon
     SocialSharePopupDirective,
     UiCloseButtonComponent,
     UiIconComponent,
-    UiSocialShareComponent
+    UiSocialShareComponent,
+    UiCheckboxComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]

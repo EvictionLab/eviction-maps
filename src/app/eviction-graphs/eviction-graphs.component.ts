@@ -114,6 +114,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Graph type input and output (allows double binding) */
   private _displayCI = true;
   @Input() set displayCI(val: boolean) {
+    console.log('displayCI() = ' + val);
     if (this._displayCI !== val) {
       this._displayCI = val;
       this.displayCIChange.emit(val);

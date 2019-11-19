@@ -1,0 +1,25 @@
+@import '../../../theme';
+
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  &:focus {
+    outline:0;
+    .checkbox-input {
+      @include focusState();
+    }
+  }
+}
+
+.checkbox-label {
+  margin: 0 grid(2);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-align:center;
+  @include defaultFontBold(16px);
+  color: $onTextColor;
+}
+
+
+
