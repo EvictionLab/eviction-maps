@@ -2,14 +2,14 @@
   <div class="data-content-inner">
     <div class="graph-header">
       <div class="graph-header-inner">
-        <app-ui-switch 
-          tabindex="0"
-          class="graph-eviction-toggle"
-          [leftLabel]="'DATA.JUDGMENTS'| translate" 
-          [rightLabel]="'DATA.FILINGS' | translate" 
-          [on]="this.graphAttribute && this.dataAttributes.length > 0 && this.graphAttribute.id === this.dataAttributes[1].id"
-          (switched)="changeGraphProperty($event)"
-        ></app-ui-switch>
+        <app-ui-select
+          class="graph-eviction-select"
+          [label]="'MAP.EVICTION_SELECT' | translate"
+          labelProperty="name"
+          [selectedValue]="this.graphAttribute"
+          [values]="bubbleOptions"
+          (change)="changeGraphProperty($event)"
+        ></app-ui-select>
         <app-ui-toggle
           class="graph-type-toggle"
           [attr.aria-label]="'DATA.GRAPH_TYPE_LABEL' | translate"

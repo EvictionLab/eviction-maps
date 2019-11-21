@@ -174,7 +174,8 @@ export class EvictionGraphsComponent implements OnInit {
   private graphTimeout;
   /** tracks timeout when setting average so it can be cancelled */
   private averageTimeout;
-
+  /** Options available for bubbles */
+  bubbleOptions: MapDataAttribute[] = [];
 
   constructor(
     private translatePipe: TranslatePipe,
@@ -192,6 +193,8 @@ export class EvictionGraphsComponent implements OnInit {
         this.average = data;
         this.setGraphData();
       });
+      /** Set options to be passed to graph data select */
+      this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
     }
     this.barYearSelect = this.graphService.generateYearArray(this.minYear, this.maxYear);
     // Update graph axis settings on language change
@@ -301,8 +304,10 @@ export class EvictionGraphsComponent implements OnInit {
   /**
    * Toggles the graph between judgments / filings
    */
-  changeGraphProperty(filings: boolean) {
-    const attr = filings ? this.dataAttributes[1] : this.dataAttributes[0];
+  changeGraphProperty(event: any) {
+    const attr = (event.id === this.dataAttributes[0].id) ?
+      this.dataAttributes[0] :
+      this.dataAttributes[1];
     this.graphAttribute = attr;
   }
 
