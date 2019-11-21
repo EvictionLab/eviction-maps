@@ -67,10 +67,15 @@ export class RankingListComponent {
     }
   }
 
+  isSmallBar(location:RankingLocation): boolean {
+    const value = location[this.dataProperty.value];
+    return (value / this.maxValue) < 0.333; 
+  }
+
   /** Return true if label should appear on bar */
   showValueOnBar(location: RankingLocation): boolean {
     const value = location[this.dataProperty.value];
-    return value && ((value / this.maxValue) > 0.5);
+    return value && ((value / this.maxValue) > 0.49);
   }
 
   getValueForLocation(location: RankingLocation, type: string): string {

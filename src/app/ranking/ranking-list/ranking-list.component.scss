@@ -153,16 +153,21 @@ $locationHeadingHeight_gtm: grid(5);
 
   /** Location Value */
   .location__value {
-    @include smallCapsText(14px);
+    @include smallCapsText(12px);
     &.location__value--unavailable {
       color: #737373;
     }
+  }
+  .location__container--heading .location__value {
+    position: relative;
+    top: 1px;
   }
   @media(min-width: $gtMobile) {
     // fix vertical alignment for header value
     .location__container--heading .location__value {
       position: relative;
       top: -2px;
+      @include smallCapsText(14px);
     }
   }
 
@@ -172,7 +177,7 @@ $locationHeadingHeight_gtm: grid(5);
   position: relative;
   height: grid(3);
   line-height: 1;
-  margin-right: grid(4);
+  margin-right: grid(9);
 }
 
   /** Bar Defaults */
@@ -181,15 +186,21 @@ $locationHeadingHeight_gtm: grid(5);
     top:0;
     bottom:0;
     left:0;
-    background: $barGradient1a;
-    z-index:11;
+    background: $barGradient1;
+    z-index:10;
     &.location__bar--low {
       background: $barGradient1;
       z-index: 12;
     }
     &.location__bar--high {
-      background: $barGradient1b;
-      z-index: 10;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0) 3px,
+        #e2400066 3px,
+        #e2400066 6px
+      );
+      z-index: 11;
     }
   }
 
@@ -202,6 +213,7 @@ $locationHeadingHeight_gtm: grid(5);
       line-height: 1;
       bottom: grid(4);
       transform: translate(50%, 0);
+      
     } 
     // low bar value
     &.location__bar--low .location__value {
@@ -219,13 +231,42 @@ $locationHeadingHeight_gtm: grid(5);
       color: #737373;
       @include smallCapsText(12px);
     }
+    &.location__bar--label { display: none; }
   }
   @media(min-width: $gtMobile) {
     .location__bar .location__value {
       bottom: grid(4.5);
       margin-bottom: -2px; // fix vertical alignment
+      @include smallCapsText(14px);
     }
   }
+  /** Bar Inline min/max values */
+  @media(max-width: $gtMobile) {
+    .location__container.location__container--bar.inline {
+      .location__bar.location__bar--low .location__value {
+        display: none;
+      }
+      .location__bar.location__bar--high .location__value {
+        display: none;
+      }
+      .location__bar.location__bar--label {
+        background: none;
+        display: block;
+        width: 100%;
+        .location__value {
+          position:absolute;
+          right:auto;
+          left:0;
+          top: grid(4);
+          bottom:auto;
+          color: #737373;
+          white-space:nowrap;
+          transform: none;
+        }
+      }
+    }
+  }
+
 
   /** Location Summary */
   .location__container.location__container--summary {
@@ -236,144 +277,3 @@ $locationHeadingHeight_gtm: grid(5);
   .location__container--summary p {
     margin-bottom: grid(-1);
   }
-
-
-// .ranking-bar {
-//   position:absolute;
-//   top:auto;
-//   left:0;
-//   bottom:0;
-//   height:$rankBarHeight;
-//   z-index:20;
-// }
-// .ranking-bar.ranking-bar--low {
-//   z-index: 30;
-// }
-// .ranking-bar.ranking-bar--high {
-//   z-index:10;
-// }
-
-// .ranking-location__heading {
-//   position: relative;
-//   padding: 0;
-//   z-index:2;
-//   white-space: nowrap;
-//   .ranking-value {
-//     margin-left: grid(1);
-//   }
-// }
-
-// .ranking-list {
-//   list-style:none;
-//   margin:0;
-//   padding:0;
-//   li {
-//     position:relative;
-//     height: $rankLocationHeight;
-//     margin-bottom: grid(1);
-//     display:block;
-//     &:hover, &.active {
-//       cursor:pointer;
-//     }
-    
-//   }
-//   li button {
-//     background: none;
-//     border:none;
-//     padding:0;
-//     margin:0;
-//     display: block;
-//     width:100%;
-//     text-align: left;
-//     &:focus {
-//       color: $color1;
-//       @include focusState();
-//     }
-//   }
-//   .ranking-bar {
-//     background: $barGradient1;
-//     background: rgba(0,0,0,0.2);
-//   }
-//   .ranking-bar.ranking-bar--high {
-//     background: rgba(0,0,0,0.2);
-//   }
-//   .ranking-bar.ranking-bar--high {
-//     background: rgba(0,0,0,0.2);
-//   }
-  
-// }
-// @media(min-width: $gtMobile) {
-//   .ranking-list li {
-//     height: $rankLocationHeight_gtm;
-//   }
-// }
-
-// .ranking-number {
-//   @include numberFont(13px);
-// }
-// @media(min-width: $gtMobile) {
-//   .ranking-number {
-//     @include numberFont(18px);
-//   }
-// }
-
-// .ranking-location__heading {
-//   line-height: $rankBarHeight;
-//   @include altSmallCapsText(12px);
-//   .ranking-value {
-//     @include smallCapsText(10px);
-//   }
-// }
-// @media(min-width: $gtMobile) {
-//   .ranking-location__heading {
-//     @include altSmallCapsText(18px);
-//     .ranking-parent {
-//       @include smallCapsText(14px);
-//     }
-//     .ranking-value {
-//       @include smallCapsText(14px);
-//     }
-//     .place-separator { display: none; }
-//   }
-// }
-
-// // BAR COLORS 
-// :host-context(.area-0) {
-//   .ranking-list {
-//     li {
-//       .ranking-bar {
-//         background: $barGradient1;
-//       }
-//       &:hover, &.active {
-//         .ranking-location__heading { color: $color1; }
-//       }
-//     }
-//   }
-// }
-
-// :host-context(.area-1) {
-//   .ranking-list {
-//     li {
-//       .ranking-bar {
-//         background: $barGradient2;
-//       }
-//       &:hover, &.active {
-//         .ranking-location__heading { color: $color2; }
-//       }
-//     }
-//   }
-// }
-
-// :host-context(.area-2) {
-//   .ranking-list {
-//     li {
-//       .ranking-bar {
-//         background: $barGradient3;
-//       }
-//       &:hover, &.active {
-//         .ranking-location__heading { color: $color3; }
-//       }
-//     }
-//   }
-// }
-

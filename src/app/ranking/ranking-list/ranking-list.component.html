@@ -23,15 +23,18 @@
         <span *ngIf="listItem[dataProperty.value] >= 0 && !showValueOnBar(listItem)" class="location__value">{{ listItem[dataProperty.value] > 100 && isRate ? '>100' : (listItem[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
         <span *ngIf="listItem[dataProperty.value] < 0" class="location__value location__value--unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
     </div>
-    <div class="location__container location__container--bar">
+    <div class="location__container location__container--bar" [class.inline]="isSmallBar(listItem)">
       <div class="location__bar location__bar--low" [style.width]="barWidth(listItem, 'low')">
-        <span class="location__value">{{ getValueForLocation(listItem, 'low') }}</span>
+        <span class="location__value">MIN: {{ getValueForLocation(listItem, 'low') }}</span>
       </div>
       <div class="location__bar" [style.width]="barWidth(listItem)">
           <span class="location__value" *ngIf="showValueOnBar(listItem)">{{ getValueForLocation(listItem) }}</span>
       </div>
       <div class="location__bar location__bar--high" [style.width]="barWidth(listItem, 'high')">
-        <span class="location__value">{{ getValueForLocation(listItem, 'high') }}</span>
+        <span class="location__value">MAX: {{ getValueForLocation(listItem, 'high') }}</span>
+      </div>
+      <div class="location__bar location__bar--label">
+        <span class="location__value">MIN: {{ getValueForLocation(listItem, 'low') }} MAX: {{ getValueForLocation(listItem, 'high') }}</span>
       </div>
     </div>
     <div class="location__container location__container--summary" *ngIf="selectedIndex === i">
@@ -58,15 +61,15 @@
         <span *ngIf="currentLocation[dataProperty.value] >= 0 && !showValueOnBar(currentLocation)" class="location__value">{{ currentLocation[dataProperty.value] > 100 && isRate ? '>100' : (currentLocation[dataProperty.value] | number:'1.0-2') }}{{ isRate ? '%' : '' }}</span>
         <span *ngIf="currentLocation[dataProperty.value] < 0" class="location__value location__value--unavailable">{{ 'DATA.UNAVAILABLE' | translate }}</span>
     </div>
-    <div class="location__container location__container--bar">
+    <div class="location__container location__container--bar" [class.inline]="isSmallBar(currentLocation)">
       <div class="location__bar location__bar--low" [style.width]="barWidth(currentLocation, 'low')">
-        <span class="location__value">{{ getValueForLocation(currentLocation, 'low') }}</span>
+        <span class="location__value">MIN: {{ getValueForLocation(currentLocation, 'low') }}</span>
       </div>
       <div class="location__bar" [style.width]="barWidth(currentLocation)">
           <span class="location__value" *ngIf="showValueOnBar(currentLocation)">{{ getValueForLocation(currentLocation) }}</span>
       </div>
       <div class="location__bar location__bar--high" [style.width]="barWidth(currentLocation, 'high')">
-        <span class="location__value">{{ getValueForLocation(currentLocation, 'high') }}</span>
+        <span class="location__value">MAX: {{ getValueForLocation(currentLocation, 'high') }}</span>
       </div>
     </div>
     <div class="location__container location__container--summary">
