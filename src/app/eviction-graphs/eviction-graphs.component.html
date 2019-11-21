@@ -10,16 +10,17 @@
           [values]="bubbleOptions"
           (change)="changeGraphProperty($event)"
         ></app-ui-select>
-        <app-ui-toggle
-          class="graph-type-toggle"
+        <app-ui-select
+          class="graph-type-select selected-icon-{{graphType}}"
           [attr.aria-label]="'DATA.GRAPH_TYPE_LABEL' | translate"
+          [label]="'DATA.GRAPH_TYPE_LABEL' | translate"
           labelProperty="label"
+          [selectedValue]="graphTypeOptions[1]"
           [values]="graphTypeOptions"
-          [selectedValue]="graphType"
-          (selectedValueChanged)="graphType = $event"
-        ></app-ui-toggle>
+          (change)="graphType = $event.id"
+        ></app-ui-select>
         <app-ui-checkbox
-          class="ci-checkbox"
+          class="graph-ci-checkbox"
           [isChecked]="displayCI"
           (changed)="displayCI = $event"
           [inputLabel]="'DATA.CI_LABEL'| translate"

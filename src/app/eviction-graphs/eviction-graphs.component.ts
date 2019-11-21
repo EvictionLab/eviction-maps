@@ -101,6 +101,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Graph type input and output (allows double binding) */
   private _graphType = 'line';
   @Input() set graphType(type: string) {
+    console.log('changing graphtype: ', type);
     if (this._graphType !== type) {
       this._graphType = type;
       this.tooltips = [];
@@ -111,10 +112,9 @@ export class EvictionGraphsComponent implements OnInit {
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
-  /** Graph type input and output (allows double binding) */
+  /** Confidence interval input and output (allows double binding) */
   private _displayCI = true;
   @Input() set displayCI(val: boolean) {
-    console.log('displayCI() = ' + val);
     if (this._displayCI !== val) {
       this._displayCI = val;
       this.displayCIChange.emit(val);
@@ -176,6 +176,8 @@ export class EvictionGraphsComponent implements OnInit {
   private averageTimeout;
   /** Options available for bubbles */
   bubbleOptions: MapDataAttribute[] = [];
+  /** Graph type object container */
+  graphTypeObject = this.getGraphTypeObject();
 
   constructor(
     private translatePipe: TranslatePipe,
@@ -195,13 +197,17 @@ export class EvictionGraphsComponent implements OnInit {
       });
       /** Set options to be passed to graph data select */
       this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
+      console.log(this.bubbleOptions);
     }
     this.barYearSelect = this.graphService.generateYearArray(this.minYear, this.maxYear);
+    this.graphTypeOptions = this.createGraphTypeOptions();
+    this.graphTypeObject = this.getGraphTypeObject();
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
       this.graphSettings = this.graphType === 'bar' ?
         this.getBarGraphConfig() : this.getLineGraphConfig();
       this.graphTypeOptions = this.createGraphTypeOptions();
+      this.graphTypeObject = this.getGraphTypeObject();
     });
     this.graphHover.debounceTime(10).subscribe(e => this.onGraphHover(e));
     this.cd.detectChanges();
@@ -448,9 +454,40 @@ export class EvictionGraphsComponent implements OnInit {
   }
 
   private createGraphTypeOptions() {
+    const lineLabel = this.translatePipe.transform('DATA.GRAPH_LINE_LABEL');
+    const barLabel = this.translatePipe.transform('DATA.GRAPH_BAR_LABEL');
     return [
-      { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
-      { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
+      {
+        id: 'bar',
+        value: 'bar',
+        label: barLabel,
+        langKey: barLabel
+      },
+      {
+        id: 'line',
+        value: 'line',
+        label: lineLabel,
+        langKey: lineLabel
+      }
     ];
   }
+
+  getGraphTypeObject() {
+    console.log('getGraphTypeObject()');
+    console.log('this.graphType: ', this.graphType);
+    console.log('this.graphTypeOptions: ', this.graphTypeOptions);
+    console.log('this.graphTypeObject: ', this.graphTypeObject);
+    this.graphTypeOptions = this.createGraphTypeOptions();
+    console.log(this.graphTypeOptions.filter(
+      (item) => { return item.id === this.graphType; }
+    ));
+    return this.graphTypeOptions.filter(
+      (item) => { return item.id === this.graphType; }
+    );
+  }
+
+  // changeGraphType(event: any) {
+  //   console.log('changeGraphType(): ', event);
+  //   this.graphType = event.id ? event.id : this.graphTypeOptions[0].id;
+  // }
 }
