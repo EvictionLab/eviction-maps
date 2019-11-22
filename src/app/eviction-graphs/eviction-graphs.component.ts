@@ -62,32 +62,30 @@ export class EvictionGraphsComponent implements OnInit {
   @Input() set lineStartYear(value: number) {
     if (value !== this._lineStartYear) {
       this._lineStartYear = value;
-      this.lineStartYearChange.emit(this._lineStartYear);
-      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
     }
   }
   get lineStartYear() { return this._lineStartYear; }
-  @Output() lineStartYearChange = new EventEmitter();
 
   /** Line graph year end input / output (allows double binding) */
   private _lineEndYear;
   @Input() set lineEndYear(value: number) {
     if (value !== this._lineEndYear) {
       this._lineEndYear = value;
-      this.lineEndYearChange.emit(this._lineEndYear);
-      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
     }
   }
   get lineEndYear() { return this._lineEndYear; }
-  @Output() lineEndYearChange = new EventEmitter();
+
+
+  @Output() lineYearsChange = new EventEmitter();
+
+  /** Array of all available years  */
+  get lineYears() { return this.graphService.generateYearArray(this.minYear, this.maxYear); }
 
   /** Locations to show on the graph */
   private _locations = [];
@@ -156,10 +154,6 @@ export class EvictionGraphsComponent implements OnInit {
   graphData;
   /** attribute for passing graph settings to graph component */
   graphSettings;
-  /** array of years for the "start year" select for line graph */
-  startSelect: Array<number>;
-  /** array of years for the "end year" select for line graph */
-  endSelect: Array<number>;
   /** minimum allowed year for year selects */
   minYear = environment.minYear;
   /** maximum allowed year for year selects */
@@ -316,6 +310,7 @@ export class EvictionGraphsComponent implements OnInit {
       this.dataAttributes[1];
     this.graphAttribute = attr;
   }
+
 
   /** Gets config for bar graph */
   getBarGraphConfig() {

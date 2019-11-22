@@ -1,189 +1,123 @@
 import {
-  Component, OnInit, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding, ElementRef
+  Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit
 } from '@angular/core';
-import { BsDropdownDirective } from 'ngx-bootstrap/dropdown';
-import * as _isEqual from 'lodash.isequal';
+import { environment } from '../../../environments/environment';
+import { UiDropdownComponent } from '../ui-dropdown/ui-dropdown.component';
 
 @Component({
   selector: 'app-ui-select-date-range',
   templateUrl: './ui-select-date-range.component.html',
   styleUrls: ['./ui-select-date-range.component.scss']
 })
-export class UiSelectDateRangeComponent implements OnInit {
-  @Input() label: string; // optional label for the select dropdown
-  @Input() labelProperty: string; // only provided if values are an object
-  @Input() bottomLabel: string;
-  @Input()
-  set selectedValue(newValue) {
-    if (_isEqual(newValue, this._selectedValue)) { return; }
-    this._selectedValue = newValue;
-    this.noneSelected = !this._selectedValue ||
-      (this._selectedValue.id && this._selectedValue.id === 'none');
-    this.change.emit(newValue);
+export class UiSelectDateRangeComponent implements OnInit, AfterViewInit {
+
+  /** label for the dropdown  */
+  @Input() label: string;
+
+  /** start range value */
+  private _startValue: number;
+  @Input() set startValue(value: number) {
+    if (value !== this._startValue) {
+      this._startValue = value;
+    }
   }
-  get selectedValue() { return this._selectedValue; }
-  @Input() values: Array<any> = [];
+  get startValue() { return this._startValue; }
+
+  /** end range value */
+  private _endValue: number;
+  @Input() set endValue(value: number) {
+    if (value !== this._endValue) {
+      this._endValue = value;
+    }
+  }
+  get endValue() { return this._endValue; }
+
+  /** all available values */
+  @Input() values: Array<number> = [];
+
+  /** formatter function for value label that accepts startValue and endValue */
+  @Input() formatter: Function;
+
+  /** Dropdown directive */
+  @ViewChild(UiDropdownComponent) uiDropdown: UiDropdownComponent;
+
+  /** Event emitter on change */
   @Output() change: EventEmitter<any> = new EventEmitter<any>();
-  @ViewChild(BsDropdownDirective) dropdown;
-  @ViewChild('drDropdownList') dropdownList: ElementRef;
-  get selectedLabel(): string { return this.getLabel(this.selectedValue); }
-  focusIndex = 0;
-  private valuesArray = true; // true if `values` is an array of values instead of objects
-  @HostBinding('class.open') open = false;
-  /** Tracks if the "none" option is selected */
-  @HostBinding('class.none-selected') noneSelected = true;
-  private touchStartY: number;
-  private _selectedValue;
-  private scrollMax = 0;
-  private listEls = [];
-  private listTimeout = null;
-  private toggleEl;
+
+  private _debug = true;
+  private _initValueStart: number;
+  private _initValueEnd: number;
 
   constructor(public el: ElementRef) {}
 
-  /**
-   * set the selected value to the first item if no selected value is given
-   */
-  ngOnInit() {
-    if (this.values && this.values.length) {
-      this.valuesArray = (typeof this.values[0] === 'string' || typeof this.values[0] === 'number');
-      if (!this._selectedValue) {
-        this._selectedValue = this.values[0];
-      }
-      this.noneSelected = !this._selectedValue ||
-        (this._selectedValue.id && this._selectedValue.id === 'none');
-    }
+  ngOnInit() {}
+
+  ngAfterViewInit() {}
+
+  isValueInvalid(value: number) {
+    return !this._endValue && value < this._startValue;
   }
 
-
-  /**
-   * Gets the value from `labelProperty` on the value object, or
-   * returns the string value if `values` is a string array.
-   * @param value
-   */
-  getLabel(value) {
+  isValueHighlighted(value: number) {
     return (
-      this.valuesArray ? value : value[this.labelProperty]
+      this._startValue &&
+      this._endValue &&
+      value >= this._startValue &&
+      value <= this._endValue
+    ) || (
+      this._startValue &&
+      !this._endValue &&
+      this._startValue === value
     );
   }
 
-  /**
-   * Set open status, reset scrollTop in dropdown
-   */
-  onIsOpenChange() {
-    if (!this.toggleEl) {
-      this.toggleEl = this.el.nativeElement.getElementsByClassName('dropdown-toggle')[0];
-    }
-    this.open = this.dropdown.isOpen;
-    if (this.dropdownList) {
-      this.dropdownList.nativeElement.scrollTop = 0;
-      this.setScrollMax();
-    }
-    // restore focus to toggle button
-    if (!this.open && this.toggleEl) { this.toggleEl.focus(); }
+  isValueFirst(value: number) {
+    return this._startValue && value === this._startValue;
   }
 
-  /**
-   * Set the DOM elements in the list
-   * NOTE: There is a slight delay before the dropdown list element is in the DOM
-   *  so there is a timeout that gets called to try again in 200ms if it's not there yet
-   */
-  setListEls() {
-    if (this.dropdownList) {
-      const currentIndex = this.values.findIndex((v) => this.selectedValue === v);
-      this.focusIndex = currentIndex > -1 ? currentIndex : 0;
-      this.listEls = this.dropdownList.nativeElement.getElementsByClassName('dropdown-item');
-      // sometimes the menu toggle button steals focus when opening the menu
-      // this timeout ensures the currently selected item gets focus when the menu opens
-      setTimeout(() => { this.listEls[this.focusIndex].focus(); }, 10);
-    } else {
-      if (this.listTimeout) { clearTimeout(this.listTimeout); }
-      this.listTimeout = setTimeout(() => { this.setListEls(); }, 200);
-    }
+  isValueLast(value: number) {
+    return this._endValue && value === this._endValue;
   }
 
-  @HostListener('keydown', ['$event']) onKeyDown(e) {
-    const keys = { 'SPACE': 32, 'ENTER': 13, 'UP': 38, 'DOWN': 40, 'ESC': 27, 'TAB': 9 };
-    if (this.dropdown.isOpen) {
-      if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
-        // go to next item
-        this.switchFocus(e.keyCode === keys['UP']);
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      if (e.keyCode === keys['SPACE'] || e.keyCode === keys['ENTER']) {
-        // select item and close
-        this.selectedValue = this.values[this.focusIndex];
-        this.dropdown.hide();
-        e.preventDefault();
-        e.stopPropagation();
-      }
-      if (e.keyCode === keys['ESC'] || e.keyCode === keys['TAB']) {
-        // close without selecting item
-        this.dropdown.hide();
-      }
-    } else {
-      if (e.keyCode === keys['UP'] || e.keyCode === keys['DOWN']) {
-        // open the menu
-        this.dropdown.show();
-        e.preventDefault();
-        e.stopPropagation();
-      }
+  getValueLabel() {
+    if (this.formatter) {
+      return this.formatter(this.startValue, this.endValue);
+    }
+    return this.startValue + ' to ' + (this.endValue || '...');
+  }
+
+  handleOpenChange(isOpen: boolean) {
+    this._initValueStart = this._startValue;
+    this._initValueEnd = this._endValue;
+  }
+
+  handleClose(cancel: boolean) {
+    this.uiDropdown.dropdown.hide();
+    this.change.emit({start: this._startValue, end: this._endValue});
+  }
+
+  handleCancel(cancel: boolean) {
+    this._startValue = this._initValueStart;
+    this._endValue = this._initValueEnd;
+    this.uiDropdown.dropdown.hide();
+  }
+
+  handleYearSelect(value: number) {
+    this.debug('handleYearSelect', value);
+    // reselecting range
+    if (this._startValue && this._endValue) {
+      this._startValue = value;
+      this._endValue = null;
+    }
+    // selecting end year
+    if (this._startValue && !this._endValue && value > this._startValue) {
+      this._endValue = value;
     }
   }
 
-  onSelectScroll(e) {
-    this.onPageMove(e, e.deltaY);
-  }
-
-  onSelectTouchStart(e) {
-    this.touchStartY = e.touches[0].pageY;
-  }
-
-  onSelectTouchMove(e) {
-    this.onPageMove(e, this.touchStartY - e.touches[0].pageY);
-  }
-
-  /** Close the dropdown when the page starts scrolling */
-  @HostListener('document:scroll', ['$event'])
-  onDocumentScroll(e) {
-    if (this.dropdown.isOpen) { this.dropdown.hide(); }
-  }
-
-  /** Do not propagate any menu wheel events to parent elements */
-  private onPageMove(e: any, deltaY: number) {
-    if (!this.scrollMax) { this.setScrollMax(); }
-    if (deltaY > 0) {
-      if (this.dropdownList.nativeElement.scrollTop >= this.scrollMax) {
-        // scrolled to the bottom of the dropdown list, ignore wheel events
-        e.stopPropagation();
-        e.preventDefault();
-        e.returnValue = false;
-        return false;
-      }
-    } else if (deltaY < 0) {
-      if (this.dropdownList.nativeElement.scrollTop <= 0) {
-        // scrolled to the bottom of the dropdown list, ignore wheel events
-        e.stopPropagation();
-        e.preventDefault();
-        e.returnValue = false;
-        return false;
-      }
-    }
-  }
-
-  /** Switches focus to the previous or next list item */
-  private switchFocus(previous: boolean) {
-    const modulo = (n, m) => ((n % m) + m) % m;
-    const newIndex = (previous ? this.focusIndex - 1 : this.focusIndex + 1);
-    this.focusIndex = modulo(newIndex, this.listEls.length);
-    this.listEls[this.focusIndex].focus();
-  }
-
-  /** Sets the maximum amount the list is able to scroll */
-  private setScrollMax() {
-    this.scrollMax =
-      this.dropdownList.nativeElement.scrollHeight - this.dropdownList.nativeElement.clientHeight;
+  private debug(...args) {
+    // tslint:disable-next-line
+    environment.production || !this._debug ?  null : console.debug.apply(console, [ 'map: ', ...args]);
   }
 
 }

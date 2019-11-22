@@ -1,0 +1,15 @@
+<div 
+  class="el-select" 
+  dropdown
+  [autoClose]="false"
+  (isOpenChange)="onIsOpenChange()"
+>
+  <button dropdownToggle type="button" class="btn dropdown-toggle">
+    <span *ngIf="label" class="dropdown-label">{{label}} </span>
+    <span class="dropdown-value" [innerHTML]="value"></span>
+    <app-ui-icon icon="arrow-down"></app-ui-icon>
+  </button>
+  <div *dropdownMenu class="dropdown-menu">
+    <ng-content></ng-content>
+  </div>
+</div>

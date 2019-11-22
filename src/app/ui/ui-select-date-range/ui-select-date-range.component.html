@@ -1,31 +1,26 @@
-<div class="el-select" dropdown (onShown)="setListEls()" (isOpenChange)="onIsOpenChange()">
-  <button dropdownToggle type="button" class="btn dropdown-toggle">
-    <span *ngIf="label" class="dropdown-label">{{label}}</span>
-    <span class="dropdown-value" >{{selectedLabel}} - {{selectedLabel}}</span>
-    <app-ui-icon icon="arrow-down"></app-ui-icon>
-  </button>
-  <div #drDropdownList *dropdownMenu
-    class="dropdown-menu"
-    role="menu"
-    (wheel)="onSelectScroll($event)"
-    (touchstart)="onSelectTouchStart($event)"
-    (touchmove)="onSelectTouchMove($event)"
-  >
-    <ul class="nav nav-pills">
-      <li *ngFor="let value of values" class="nav-item">
-        <a 
-          tabindex="0"
-          role="menuitem"
-          aria-checked="selectedValue === value"
-          class="nav-link active" 
-          [class.highlighted]="selectedValue === value" 
-          (click)="selectedValue = value">
-          {{getLabel(value)}}
-        </a>
-      </li>
-      <li *ngIf="bottomLabel">
-        <p class="bottom-label">{{bottomLabel}}</p>
-      </li>
-    </ul>
-  </div>
-</div>
+<app-ui-dropdown
+  #uiDropdown
+  [label]="label"
+  [value]="getValueLabel()"
+  (onOpenChange)="handleOpenChange($event)"
+>
+  <p>Select a range of years below:</p>
+  <ul class="range-select">
+    <li 
+      class="range-select__item"
+      *ngFor="let value of values; let i = index">
+      <button
+        class="range-select__button"
+        [class.invalid]="isValueInvalid(value)"
+        [class.highlight]="isValueHighlighted(value)" 
+        [class.first]="isValueFirst(value)"
+        [class.last]="isValueLast(value)"
+        (click)="handleYearSelect(value)"
+      >
+        {{ value }}
+      </button>
+    </li>
+  </ul>
+  <button (click)="handleClose()">Apply</button>
+  <button (click)="handleCancel()">Cancel</button>
+</app-ui-dropdown>

@@ -25,6 +25,7 @@ import { UiIconComponent } from './ui-icon/ui-icon.component';
 import { UiSocialShareComponent } from './ui-social-share/ui-social-share.component';
 import { UiCheckboxComponent } from './ui-checkbox/ui-checkbox.component';
 import { UiSelectDateRangeComponent } from './ui-select-date-range/ui-select-date-range.component';
+import { UiDropdownComponent} from './ui-dropdown/ui-dropdown.component';
 
 @NgModule({
   exports: [
@@ -42,7 +43,8 @@ import { UiSelectDateRangeComponent } from './ui-select-date-range/ui-select-dat
     UiIconComponent,
     UiSocialShareComponent,
     UiCheckboxComponent,
-    UiSelectDateRangeComponent
+    UiSelectDateRangeComponent,
+    UiDropdownComponent
   ],
   imports: [
     CommonModule,
@@ -70,7 +72,8 @@ import { UiSelectDateRangeComponent } from './ui-select-date-range/ui-select-dat
     UiIconComponent,
     UiSocialShareComponent,
     UiCheckboxComponent,
-    UiSelectDateRangeComponent
+    UiSelectDateRangeComponent,
+    UiDropdownComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]

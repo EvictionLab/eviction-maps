@@ -1,4 +1,4 @@
-<div class="graph-container">
+ <div class="graph-container">
   <div class="data-content-inner">
     <div class="graph-header">
       <div class="graph-header-inner">
@@ -29,11 +29,11 @@
         <div class="graph-year-select">
           <div class="graph-select" [style.display]="graphType !== 'line' ? 'none' : null">
             <app-ui-select-date-range
-              class="z0"
               [label]="'DATA.DATE_RANGE' | translate"
-              [selectedValue]="barYear"
-              [values]="barYearSelect"
-              (change)="barYear = $event"
+              [startValue]="lineStartYear"
+              [endValue]="lineEndYear"
+              [values]="lineYears"
+              (change)="lineYearsChange.emit($event)"
             ></app-ui-select-date-range>
           </div>
           <div class="graph-select" [style.display]="graphType !== 'bar' ? 'none' : null">

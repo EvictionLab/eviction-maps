@@ -1,0 +1,47 @@
+@import '../../../theme';
+
+.range-select {
+  padding:0;
+  margin:0 0 grid(1) 0;
+  list-style:none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.range-select__item {
+  margin-bottom: 4px;
+}
+
+.range-select__button {
+  padding: grid(1);
+  border:none;
+  background:none;
+  margin:0;
+  &.highlight {
+    background: $color1;
+    color: #fff;
+  }
+  &.first {
+    border-radius: 4px 0 0 4px;
+  }
+  &.last {
+    border-radius: 0 4px 4px 0;
+  }
+  &.invalid {
+    color: $grey1;
+    background: $grey4;
+  }
+}
+
+::ng-deep .dropdown-menu {
+  min-width: 304px;
+  overflow:visible;
+  padding: grid(1);
+}
+
+@media(min-width: $gtTablet) {
+  ::ng-deep .dropdown-menu {
+    min-width: 320px;
+    padding: grid(2);
+  }
+}
