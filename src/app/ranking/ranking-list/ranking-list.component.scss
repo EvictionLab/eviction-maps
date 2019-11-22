@@ -44,7 +44,7 @@ $locationHeadingHeight_gtm: grid(5);
 
 .location {
   padding-top: grid(1);
-  padding-bottom: grid(3);
+  padding-bottom: grid(3.5);
   position: relative;
 }
 .location:after {
@@ -270,10 +270,15 @@ $locationHeadingHeight_gtm: grid(5);
 
   /** Location Summary */
   .location__container.location__container--summary {
-    margin-top: grid(4);
+    margin-top: grid(4.5);
     @include defaultFont(14px);
     z-index:101;
   }
   .location__container--summary p {
     margin-bottom: grid(-1);
+  }
+  @media(min-width: $gtLaptop) {
+    .location__container.location__container--summary {
+      @include defaultFont(15px);
+    }
   }
