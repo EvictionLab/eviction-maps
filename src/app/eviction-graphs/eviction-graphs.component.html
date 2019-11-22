@@ -28,12 +28,7 @@
         ></app-ui-checkbox>
         <div class="graph-year-select">
           <div class="graph-select" [style.display]="graphType !== 'line' ? 'none' : null">
-            <app-ui-select-date-range
-              class="z0"
-              [label]="'DATA.DATE_RANGE' | translate"
-              [selectedValues]="barYear"
-              [values]="barYearSelect"
-              (change)="barYear = $event"></app-ui-select-date-range>
+            <app-ui-select-date-range></app-ui-select-date-range>
           </div>
           <div class="graph-select" [style.display]="graphType !== 'bar' ? 'none' : null">
             <app-ui-select
