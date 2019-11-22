@@ -10,9 +10,6 @@
     <div class="tooltip-wrapper">
       <div class="tooltip-arrow"></div>
       <div class="tooltip-inner line-tooltip-value {{ (tooltip.ciH && tooltip.ciL) ? 'tooltip-with-ci' : null }}">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
-        <span class="tooltip-cis" *ngIf="tooltip.ciH > 0 && displayCI">
-          ({{('DATA.CI_HIGH' | translate)}} {{getTooltipCI(tooltip.ciH)}}%/{{('DATA.CI_LOW' | translate)}} {{getTooltipCI(tooltip.ciL)}}%)
-        </span>
       </div>
     </div>
   </div>
