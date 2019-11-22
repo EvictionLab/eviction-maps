@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 
 const roundValue = (value) => {
   return Math.round(value * 100) / 100;
-}
+};
 
 @Component({
   selector: 'app-ranking-list',
@@ -67,9 +67,10 @@ export class RankingListComponent {
     }
   }
 
-  isSmallBar(location:RankingLocation): boolean {
+  /** Return true if min / max should be displayed inline  */
+  isSmallBar(location: RankingLocation): boolean {
     const value = location[this.dataProperty.value];
-    return (value / this.maxValue) < 0.333; 
+    return (value / this.maxValue) < 0.333;
   }
 
   /** Return true if label should appear on bar */
@@ -78,8 +79,13 @@ export class RankingListComponent {
     return value && ((value / this.maxValue) > 0.49);
   }
 
+  /**
+   * Gets a label for the current display property for a location
+   * @param location
+   * @param type 'low' for min, 'high' for max, null for default
+   */
   getValueForLocation(location: RankingLocation, type: string): string {
-    let value = 
+    let value =
       location[this.dataProperty.value] > 100 && this.isRate ?
         '>100%' : location[this.dataProperty.value];
     if (type === 'low') { value = roundValue(value * 0.9); }

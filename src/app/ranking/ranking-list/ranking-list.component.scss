@@ -140,7 +140,7 @@ $locationHeadingHeight_gtm: grid(5);
     }
     .location__state {
       @include altSmallCapsText(16px);
-      color: #737373;
+      color: $grey_wcag;
       // fix vertical alignment
       position: relative;
       top: -1px;
@@ -155,7 +155,7 @@ $locationHeadingHeight_gtm: grid(5);
   .location__value {
     @include smallCapsText(12px);
     &.location__value--unavailable {
-      color: #737373;
+      color: $grey_wcag;
     }
   }
   .location__container--heading .location__value {
@@ -193,13 +193,8 @@ $locationHeadingHeight_gtm: grid(5);
       z-index: 12;
     }
     &.location__bar--high {
-      background: repeating-linear-gradient(
-        -45deg,
-        rgba(255,255,255,0),
-        rgba(255,255,255,0) 3px,
-        #e2400066 3px,
-        #e2400066 6px
-      );
+      background-image: url("/assets/images/ci-pattern.png");
+      background-size: 24px 24px;
       z-index: 11;
     }
   }
@@ -214,22 +209,25 @@ $locationHeadingHeight_gtm: grid(5);
       bottom: grid(4);
       transform: translate(50%, 0);
       
-    } 
-    // low bar value
+    }
+    // min / max values
+    &.location__bar--low .location__value,
+    &.location__bar--high .location__value,
+    &.location__bar--label .location__value {
+      top: grid(4);
+      bottom:auto;
+      color: $grey_wcag;
+      @include smallCapsText(12px);
+      font-family: $fontStack; // override bold font
+      letter-spacing: 0;
+    }
+    // position min value
     &.location__bar--low .location__value {
       transform: translate(0%, 0);
-      top: grid(4);
-      bottom:auto;
-      color: #737373;
-      @include smallCapsText(12px);
     }
-    // high bar value 
+    // position max value 
     &.location__bar--high .location__value {
       transform: translate(100%, 0);
-      top: grid(4);
-      bottom:auto;
-      color: #737373;
-      @include smallCapsText(12px);
     }
     &.location__bar--label { display: none; }
   }
@@ -257,9 +255,6 @@ $locationHeadingHeight_gtm: grid(5);
           position:absolute;
           right:auto;
           left:0;
-          top: grid(4);
-          bottom:auto;
-          color: #737373;
           white-space:nowrap;
           transform: none;
         }
