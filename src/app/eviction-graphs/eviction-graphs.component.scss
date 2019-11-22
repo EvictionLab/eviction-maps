@@ -44,6 +44,7 @@
 .graph-year-select {
   order: 3;
   margin: grid(1);
+  min-width: grid(32);
 }
 .graph-type-select {
   order: 2;
@@ -53,6 +54,21 @@
 .graph-ci-checkbox {
   order: 4;
   margin: grid(1);
+}
+
+:lang(es) {
+  .graph-eviction-select {
+    min-width: grid(49);
+  }
+  .graph-type-select {
+    min-width: grid(33);
+  }
+  .graph-year-select {
+    min-width: grid(42);
+  }
+  .graph-ci-checkbox {
+    min-width: grid(28);
+  }
 }
 
 @media(min-width: $gtMobile) {
@@ -186,7 +202,8 @@
     // Selected item show graph
     .dropdown-value::after {
       content:"";
-      display:inline-block;
+      position: absolute;
+      top: 6px;
       width:36px;
       height:36px;
       background-position: 50% 50%;
