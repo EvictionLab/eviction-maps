@@ -24,6 +24,7 @@ import { UiCloseButtonComponent } from './ui-close-button/ui-close-button.compon
 import { UiIconComponent } from './ui-icon/ui-icon.component';
 import { UiSocialShareComponent } from './ui-social-share/ui-social-share.component';
 import { UiCheckboxComponent } from './ui-checkbox/ui-checkbox.component';
+import { UiSelectDateRangeComponent } from './ui-select-date-range/ui-select-date-range.component';
 
 @NgModule({
   exports: [
@@ -40,7 +41,8 @@ import { UiCheckboxComponent } from './ui-checkbox/ui-checkbox.component';
     UiCloseButtonComponent,
     UiIconComponent,
     UiSocialShareComponent,
-    UiCheckboxComponent
+    UiCheckboxComponent,
+    UiSelectDateRangeComponent
   ],
   imports: [
     CommonModule,
@@ -67,7 +69,8 @@ import { UiCheckboxComponent } from './ui-checkbox/ui-checkbox.component';
     UiCloseButtonComponent,
     UiIconComponent,
     UiSocialShareComponent,
-    UiCheckboxComponent
+    UiCheckboxComponent,
+    UiSelectDateRangeComponent
   ],
   providers: [ UiDialogService ],
   entryComponents: [ UiDialogComponent ]

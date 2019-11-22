@@ -44,7 +44,7 @@
 .graph-year-select {
   order: 3;
   margin: grid(1);
-  min-width: grid(32);
+  min-width: grid(12);
 }
 .graph-type-select {
   order: 2;
@@ -64,7 +64,7 @@
     min-width: grid(33);
   }
   .graph-year-select {
-    min-width: grid(42);
+    min-width: grid(12);
   }
   .graph-ci-checkbox {
     min-width: grid(28);
@@ -88,9 +88,9 @@
     margin:0;
   }
   .graph-year-select {
-    min-width: 40%;
-    flex:1;
-    margin:0;
+    // min-width: 40%;
+    // flex:1;
+    // margin:0;
   }
   .graph-type-toggle {
     margin:grid(3) 0 0 0;
@@ -182,8 +182,8 @@
 @media(min-width: $gtMobile) {
   .graph-year-select {
     display:flex;
-    align-items:center;
-    justify-content: flex-end;
+    align-items:left;
+    justify-content: flex-start;
     .graph-year-label { 
       display: flex;
       align-items: center;
