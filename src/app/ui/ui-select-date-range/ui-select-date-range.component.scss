@@ -33,14 +33,14 @@
   }
 }
 
-::ng-deep .dropdown-menu {
+::ng-deep .el-dropdown .dropdown-menu {
   min-width: 304px;
   overflow:visible;
   padding: grid(1);
 }
 
 @media(min-width: $gtTablet) {
-  ::ng-deep .dropdown-menu {
+  ::ng-deep  .el-dropdown .dropdown-menu {
     min-width: 320px;
     padding: grid(2);
   }
