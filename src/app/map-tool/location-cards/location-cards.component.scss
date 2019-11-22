@@ -182,14 +182,14 @@
         fill: $grey_wcag;
         .icon {
           position: absolute;
-          bottom: 1px;
+          bottom: 7px;
           svg {
             fill: $grey_wcag;
           }
         }
       }
       .ci-tip {
-        margin-left: grid(0.4);
+        margin-left: grid(0.78);
         margin-top: grid(0.6);
       }
     }
