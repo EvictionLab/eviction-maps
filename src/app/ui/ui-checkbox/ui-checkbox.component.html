@@ -1,0 +1,13 @@
+<input
+  type="checkbox"
+  role="checkbox"
+  [id]="'checkbox_input_' + index"
+  [attr.aria-labelledby]="'checkbox_label_' + index"
+  class="checkbox-input"
+  [checked]="checked ? checked : isChecked"
+  (change)="checked = $event.target.checked"
+ />
+ <label
+  [id]="'checkbox_label_' + index"
+  class="checkbox-label"
+  >{{ inputLabel }}</label>

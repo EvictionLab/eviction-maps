@@ -1,0 +1,26 @@
+<app-ui-dropdown
+  #uiDropdown
+  [label]="label"
+  [value]="getValueLabel()"
+  (onOpenChange)="handleOpenChange($event)"
+>
+  <p>Select a range of years below:</p>
+  <ul class="range-select">
+    <li 
+      class="range-select__item"
+      *ngFor="let value of values; let i = index">
+      <button
+        class="range-select__button"
+        [class.invalid]="isValueInvalid(value)"
+        [class.highlight]="isValueHighlighted(value)" 
+        [class.first]="isValueFirst(value)"
+        [class.last]="isValueLast(value)"
+        (click)="handleYearSelect(value)"
+      >
+        {{ value }}
+      </button>
+    </li>
+  </ul>
+  <button (click)="handleClose()">Apply</button>
+  <button (click)="handleCancel()">Cancel</button>
+</app-ui-dropdown>

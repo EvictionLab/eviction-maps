@@ -251,6 +251,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
       listIndex = this.listData.findIndex(d => d.geoId === location.geoId);
       this.setCurrentLocation(listIndex);
     }
+    this.scrollToIndex(Math.min(99, listIndex));
     this.trackSearchSelection(location, e.queryTerm);
   }
 
@@ -529,9 +530,10 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
     // set focus back to the list item
     const listItems = this.rankingList.el.nativeElement.getElementsByTagName('button');
     if (listItems.length > index) {
-      this.scroll.scrollTo(listItems[index]);
+      // timeout to allow item to expand first
       if (focus) { listItems[index].focus(); }
     }
+    setTimeout(() => { this.scroll.scrollTo(listItems[index]); }, 100);
   }
 
   /** Returns true if the data property is eviction judgements */
@@ -569,11 +571,12 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
         this.region, this.areaType.value, this.dataProperty.value
       );
       this.truncatedList = this.listData.slice(0, this.topCount);
+      // TODO: find highest value including CIs, remove 1.1
       this.dataMax = Math.max.apply(
         Math, this.truncatedList.map(l => {
           return !isNaN(l[this.dataProperty.value]) ? l[this.dataProperty.value] : 0;
         })
-      );
+      ) * 1.1;
       this.updateTweet();
       this.changeDetectorRef.detectChanges();
     } else {
