@@ -479,15 +479,10 @@ export class EvictionGraphsComponent implements OnInit {
     console.log('this.graphTypeObject: ', this.graphTypeObject);
     this.graphTypeOptions = this.createGraphTypeOptions();
     console.log(this.graphTypeOptions.filter(
-      (item) => { return item.id === this.graphType; }
+      (item) => item.id === this.graphType
     ));
     return this.graphTypeOptions.filter(
-      (item) => { return item.id === this.graphType; }
+      (item) => item.id === this.graphType
     );
   }
-
-  // changeGraphType(event: any) {
-  //   console.log('changeGraphType(): ', event);
-  //   this.graphType = event.id ? event.id : this.graphTypeOptions[0].id;
-  // }
 }

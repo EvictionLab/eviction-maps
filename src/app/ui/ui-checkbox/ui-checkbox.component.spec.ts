@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UiSwitchComponent } from './ui-switch.component';
+import { UiCheckboxComponent } from './ui-checkbox.component';
 
-describe('UiSwitchComponent', () => {
-  let component: UiSwitchComponent;
-  let fixture: ComponentFixture<UiSwitchComponent>;
+describe('UiCheckboxComponent', () => {
+  let component: UiCheckboxComponent;
+  let fixture: ComponentFixture<UiCheckboxComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiSwitchComponent ]
+      declarations: [ UiCheckboxComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UiSwitchComponent);
+    fixture = TestBed.createComponent(UiCheckboxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
