@@ -12,8 +12,7 @@
   },
   "include": [
     "../src/**/*",
-    "../node_modules/angular-d3-graph/module.ts",
-    "/Users/lougro/repos/angular-d3-graph/module.ts"
+    "../node_modules/angular-d3-graph/module.ts"
   ],
   "exclude": [
     "test.ts",

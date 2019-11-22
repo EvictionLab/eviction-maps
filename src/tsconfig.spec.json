@@ -18,7 +18,6 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts",
-    "../node_modules/angular-d3-graph/module.ts",
-    "/Users/lougro/repos/angular-d3-graph/module.ts"
+    "../node_modules/angular-d3-graph/module.ts"
   ]
 }
