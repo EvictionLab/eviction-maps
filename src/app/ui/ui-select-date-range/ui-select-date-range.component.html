@@ -4,26 +4,28 @@
     <span class="dropdown-value" >{{selectedLabel}} - {{selectedLabel}}</span>
     <app-ui-icon icon="arrow-down"></app-ui-icon>
   </button>
-  <ul #drDropdownList *dropdownMenu
+  <div #drDropdownList *dropdownMenu
     class="dropdown-menu"
     role="menu"
     (wheel)="onSelectScroll($event)"
     (touchstart)="onSelectTouchStart($event)"
     (touchmove)="onSelectTouchMove($event)"
   >
-    <li *ngFor="let value of values">
-      <a 
-        tabindex="0"
-        role="menuitem"
-        aria-checked="selectedValue === value"
-        class="dropdown-item" 
-        [class.highlighted]="selectedValue === value" 
-        (click)="selectedValue = value">
-        {{getLabel(value)}}
-      </a>
-    </li>
-    <li *ngIf="bottomLabel">
-      <p class="bottom-label">{{bottomLabel}}</p>
-    </li>
-  </ul>
+    <ul class="nav nav-pills">
+      <li *ngFor="let value of values" class="nav-item">
+        <a 
+          tabindex="0"
+          role="menuitem"
+          aria-checked="selectedValue === value"
+          class="nav-link active" 
+          [class.highlighted]="selectedValue === value" 
+          (click)="selectedValue = value">
+          {{getLabel(value)}}
+        </a>
+      </li>
+      <li *ngIf="bottomLabel">
+        <p class="bottom-label">{{bottomLabel}}</p>
+      </li>
+    </ul>
+  </div>
 </div>
