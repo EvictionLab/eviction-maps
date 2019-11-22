@@ -91,12 +91,12 @@ export class UiSelectDateRangeComponent implements OnInit, AfterViewInit {
     this._initValueEnd = this._endValue;
   }
 
-  handleClose(cancel: boolean) {
+  handleClose() {
     this.uiDropdown.dropdown.hide();
     this.change.emit({start: this._startValue, end: this._endValue});
   }
 
-  handleCancel(cancel: boolean) {
+  handleCancel() {
     this._startValue = this._initValueStart;
     this._endValue = this._initValueEnd;
     this.uiDropdown.dropdown.hide();
