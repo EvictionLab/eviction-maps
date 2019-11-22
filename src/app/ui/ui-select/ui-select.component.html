@@ -1,6 +1,6 @@
 <div class="el-select" dropdown (onShown)="setListEls()" (isOpenChange)="onIsOpenChange()">
   <button dropdownToggle type="button" class="btn dropdown-toggle">
-    <span *ngIf="label" class="dropdown-label">{{label}} </span> 
+    <span *ngIf="label" class="dropdown-label">{{label}} </span>
     <span class="dropdown-value" [innerHTML]="selectedLabel"></span>
     <app-ui-icon icon="arrow-down"></app-ui-icon>
   </button>

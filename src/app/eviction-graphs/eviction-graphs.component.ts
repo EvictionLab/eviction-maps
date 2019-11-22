@@ -62,32 +62,30 @@ export class EvictionGraphsComponent implements OnInit {
   @Input() set lineStartYear(value: number) {
     if (value !== this._lineStartYear) {
       this._lineStartYear = value;
-      this.lineStartYearChange.emit(this._lineStartYear);
-      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
     }
   }
   get lineStartYear() { return this._lineStartYear; }
-  @Output() lineStartYearChange = new EventEmitter();
 
   /** Line graph year end input / output (allows double binding) */
   private _lineEndYear;
   @Input() set lineEndYear(value: number) {
     if (value !== this._lineEndYear) {
       this._lineEndYear = value;
-      this.lineEndYearChange.emit(this._lineEndYear);
-      this.startSelect = this.graphService.generateYearArray(this.minYear, this.lineEndYear - 1);
-      this.endSelect = this.graphService.generateYearArray(this.lineStartYear + 1, this.maxYear);
       if (this.graphType === 'line') {
         this.setGraphData();
       }
     }
   }
   get lineEndYear() { return this._lineEndYear; }
-  @Output() lineEndYearChange = new EventEmitter();
+
+
+  @Output() lineYearsChange = new EventEmitter();
+
+  /** Array of all available years  */
+  get lineYears() { return this.graphService.generateYearArray(this.minYear, this.maxYear); }
 
   /** Locations to show on the graph */
   private _locations = [];
@@ -101,6 +99,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Graph type input and output (allows double binding) */
   private _graphType = 'line';
   @Input() set graphType(type: string) {
+    console.log('changing graphtype: ', type);
     if (this._graphType !== type) {
       this._graphType = type;
       this.tooltips = [];
@@ -111,7 +110,7 @@ export class EvictionGraphsComponent implements OnInit {
   get graphType() { return this._graphType; }
   @Output() graphTypeChange = new EventEmitter();
 
-  /** Graph type input and output (allows double binding) */
+  /** Confidence interval input and output (allows double binding) */
   private _displayCI = true;
   @Input() set displayCI(val: boolean) {
     if (this._displayCI !== val) {
@@ -155,10 +154,6 @@ export class EvictionGraphsComponent implements OnInit {
   graphData;
   /** attribute for passing graph settings to graph component */
   graphSettings;
-  /** array of years for the "start year" select for line graph */
-  startSelect: Array<number>;
-  /** array of years for the "end year" select for line graph */
-  endSelect: Array<number>;
   /** minimum allowed year for year selects */
   minYear = environment.minYear;
   /** maximum allowed year for year selects */
@@ -173,7 +168,10 @@ export class EvictionGraphsComponent implements OnInit {
   private graphTimeout;
   /** tracks timeout when setting average so it can be cancelled */
   private averageTimeout;
-
+  /** Options available for bubbles */
+  bubbleOptions: MapDataAttribute[] = [];
+  /** Graph type object container */
+  graphTypeObject = this.getGraphTypeObject();
 
   constructor(
     private translatePipe: TranslatePipe,
@@ -191,13 +189,19 @@ export class EvictionGraphsComponent implements OnInit {
         this.average = data;
         this.setGraphData();
       });
+      /** Set options to be passed to graph data select */
+      this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
+      console.log(this.bubbleOptions);
     }
     this.barYearSelect = this.graphService.generateYearArray(this.minYear, this.maxYear);
+    this.graphTypeOptions = this.createGraphTypeOptions();
+    this.graphTypeObject = this.getGraphTypeObject();
     // Update graph axis settings on language change
     this.translate.onLangChange.subscribe(() => {
       this.graphSettings = this.graphType === 'bar' ?
         this.getBarGraphConfig() : this.getLineGraphConfig();
       this.graphTypeOptions = this.createGraphTypeOptions();
+      this.graphTypeObject = this.getGraphTypeObject();
     });
     this.graphHover.debounceTime(10).subscribe(e => this.onGraphHover(e));
     this.cd.detectChanges();
@@ -300,10 +304,13 @@ export class EvictionGraphsComponent implements OnInit {
   /**
    * Toggles the graph between judgments / filings
    */
-  changeGraphProperty(filings: boolean) {
-    const attr = filings ? this.dataAttributes[1] : this.dataAttributes[0];
+  changeGraphProperty(event: any) {
+    const attr = (event.id === this.dataAttributes[0].id) ?
+      this.dataAttributes[0] :
+      this.dataAttributes[1];
     this.graphAttribute = attr;
   }
+
 
   /** Gets config for bar graph */
   getBarGraphConfig() {
@@ -442,9 +449,35 @@ export class EvictionGraphsComponent implements OnInit {
   }
 
   private createGraphTypeOptions() {
+    const lineLabel = this.translatePipe.transform('DATA.GRAPH_LINE_LABEL');
+    const barLabel = this.translatePipe.transform('DATA.GRAPH_BAR_LABEL');
     return [
-      { value: 'bar', label: this.translatePipe.transform('DATA.GRAPH_BAR_LABEL') },
-      { value: 'line', label: this.translatePipe.transform('DATA.GRAPH_LINE_LABEL')}
+      {
+        id: 'bar',
+        value: 'bar',
+        label: barLabel,
+        langKey: barLabel
+      },
+      {
+        id: 'line',
+        value: 'line',
+        label: lineLabel,
+        langKey: lineLabel
+      }
     ];
+  }
+
+  getGraphTypeObject() {
+    console.log('getGraphTypeObject()');
+    console.log('this.graphType: ', this.graphType);
+    console.log('this.graphTypeOptions: ', this.graphTypeOptions);
+    console.log('this.graphTypeObject: ', this.graphTypeObject);
+    this.graphTypeOptions = this.createGraphTypeOptions();
+    console.log(this.graphTypeOptions.filter(
+      (item) => item.id === this.graphType
+    ));
+    return this.graphTypeOptions.filter(
+      (item) => item.id === this.graphType
+    );
   }
 }
