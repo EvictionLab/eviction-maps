@@ -2,13 +2,16 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiSelectDateRangeComponent } from './ui-select-date-range.component';
 
+import { UiModule } from '../ui.module';
+
 describe('UiSelectDateRangeComponent', () => {
   let component: UiSelectDateRangeComponent;
   let fixture: ComponentFixture<UiSelectDateRangeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UiSelectDateRangeComponent ]
+      imports: [UiModule],
+      declarations: [ ]
     })
     .compileComponents();
   }));
