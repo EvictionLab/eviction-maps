@@ -209,22 +209,6 @@ export const DataAttributes: Array<MapDataAttribute> = [
     }
   },
   {
-    'id': 'none',
-    'type': 'bubble',
-    'langKey': 'STATS.NONE',
-    'default': 0,
-    'expressions': {
-      'default': [
-        'let', 'data_prop', ['min', 20, ['get', 'PROP']],
-        [
-          'interpolate', ['linear'], ['zoom'],
-          0, ['/', ['var', 'data_prop'], 1],
-          1, ['/', ['var', 'data_prop'], 1]
-        ]
-      ]
-    }
-  },
-  {
     'id': 'epd',
     'type': 'card',
     'langKey': 'STATS.JUDGMENTS_PER_DAY',
