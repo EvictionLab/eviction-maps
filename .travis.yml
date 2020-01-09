@@ -26,17 +26,18 @@ deploy:
   provider: script
   script: ./build/deploy.sh
   on:
-    branch: master
+    branch: production
+- skip_cleanup: true
+  provider: script
+  script: ./build/deploy.sh
+  on:
+    branch: staging
 - skip_cleanup: true
   provider: script
   script: ./build/deploy.sh
   on:
     branch: development
-notifications:
-  slack:
-    template:
-      - "Build <%{build_url}|#%{build_number}> (<%{compare_url}|%{commit}>) of %{repository}@%{branch} by %{author} %{result} in %{duration}. <https://staging.evictionlab.org/|View Staging Site>"
-    secure: QKNsPr0rrXouVNjg2RSTZJcJMz7z9cyntRaVC+flt+pD0TgomkCasLU9OhszYEdon4QduU05sJsiNvBGICKBcv2guSg818l2DyxgYucuPC8hs4EP0EHlS6M1saafBGXqQT4YZLbSykXYbs9eKw708j9j5mjn77PRwyX/cFXfPGjFe2K5SOaAh0GD+iUwkzh4guhDZ/vJlQGmEFZ6ylrk0m8f1vkLIuglVg5PZaQaVXBIMO5VUKLSVNFXmLkx3oZiaaEgB/FaFLZZfBH+4CrYyic0s47YVuVip3cJmZYO2fqhUo4RnXcHtJiWb7hZk55g8ruyXqI1mFt/Hm0PmXMj0gIgYOod+Jm5KnPkPauXUGPeaqoJn/Nv14lnmZ71PEuJA6if1ZsUV9i7w6xACizW2K1t0QlX94AD08egtzGbDNE6gZljHPPVHGvwYJxm5hQIXiAE2/bt+636pQaBr08gPuZb047AksND8Uc74FFf89Fdgf/BgMEONO6vdTebXH4/gjHGahwpdHVIOZZyB06VPbEv66hNsrqAnCXDKA0Xs6kAo9AM1DZhm8MKawlFMRtuBy8nbZ6oKAwZWNMV2RqksbooKzdGZTAZuqpBXdkRv6p4AMAso0XWvNVO2Vax2V7mnOek14c8k2BWRTRY37ZTn3daEnAwjqpq7/u2njYHoc8=
+
 addons:
   browserstack:
     username: laneolson3
