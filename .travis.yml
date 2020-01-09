@@ -17,7 +17,8 @@ script:
 - ng test --watch=false --sourcemaps=false
 - ng lint
 - if [ "$TRAVIS_BRANCH" = "development" ]; then npm run build-dev; fi
-- if [ "$TRAVIS_BRANCH" = "master" ]; then npm run build-prod; fi
+- if [ "$TRAVIS_BRANCH" = "staging" ]; then npm run build-staging; fi
+- if [ "$TRAVIS_BRANCH" = "production" ]; then npm run build-prod; fi
 before_deploy:
 - pip install --user awscli
 - export PATH=$PATH:$HOME/.local/bin
