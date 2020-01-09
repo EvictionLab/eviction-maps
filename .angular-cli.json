@@ -28,6 +28,7 @@
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
+        "development": "environments/environment.development.ts",
         "staging": "environments/environment.staging.ts",
         "prod": "environments/environment.prod.ts",
         "kiosk": "environments/environment.kiosk.ts"
