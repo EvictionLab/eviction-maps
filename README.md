@@ -14,9 +14,7 @@ The app is deployed as a static site served over AWS S3 and CloudFront. Mapbox v
 
 ## Contributing
 
-If you run into anything that isn't working correctly, please report it as a bug here: https://github.com/EvictionLab/eviction-maps/issues
-
-If you're interested in contributing to the project check out our list of issues first, and then fork the repository and submit a pull request. All project participants are expected to abide by the project [code of conduct](docs/CODE_OF_CONDUCT.md).
+If you're interested in contributing to the project check out the [contributing](CONTRIBUTING.md) page.
 
 ## License
 
