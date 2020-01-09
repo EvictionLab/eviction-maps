@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { TranslateService, TranslatePipe, TranslateDirective } from '@ngx-translate/core';
 import { Routes, Router, ActivatedRoute } from '@angular/router';
-import { PageScrollService } from 'ng2-page-scroll';
+import { PageScrollService } from 'ngx-page-scroll-core';
 
 import { MapToolComponent } from './map-tool/map-tool.component';
 import { RankingToolComponent } from './ranking/ranking-tool/ranking-tool.component';

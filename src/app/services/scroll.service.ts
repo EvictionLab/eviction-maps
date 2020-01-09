@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
-import { PageScrollConfig, PageScrollService, PageScrollInstance } from 'ng2-page-scroll';
+import { PageScrollService, PageScrollInstance } from 'ngx-page-scroll-core';
 
 import { PlatformService } from './platform.service';
 
@@ -63,15 +63,15 @@ export class ScrollService {
       .distinctUntilChanged();
   }
 
+  setScrollOffset(offset: number) {
+    console.log('TODO: implement scroll offset');
+  }
 
   /**
    * Sets up PageScrollConfig with defaults
    */
   setupScroll(serviceInstance: PageScrollService) {
     this.pageScroll = serviceInstance;
-    PageScrollConfig.defaultScrollOffset = this.defaultScrollOffset;
-    PageScrollConfig.defaultDuration = this.defaultDuration;
-    PageScrollConfig.defaultEasingLogic = this.defaultEasingLogic;
   }
 
   /**
@@ -81,8 +81,7 @@ export class ScrollService {
    */
   scrollTo(selector: string, scrollOptions?: Object) {
     const options = { document: this.document, scrollTarget: selector, ...(scrollOptions || {}) };
-    const scrollInstance = PageScrollInstance.newInstance(options);
-    this.pageScroll.start(scrollInstance);
+    this.pageScroll.scroll(options);
   }
 
   getVerticalOffset() {

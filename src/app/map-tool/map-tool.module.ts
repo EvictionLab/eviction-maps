@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
@@ -25,7 +24,6 @@ import { FeatureOverviewComponent } from './feature-overview/feature-overview.co
     UiModule,
     DataPanelModule,
     MapModule,
-    Ng2PageScrollModule,
     TranslateModule
   ],
   providers: [MapToolService],

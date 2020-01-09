@@ -5,6 +5,8 @@
     "baseUrl": "./",
     "module": "commonjs",
     "target": "es5",
+    "experimentalDecorators": true,
+    "allowJs": true,
     "types": [
       "mapbox-gl",
       "geojson",

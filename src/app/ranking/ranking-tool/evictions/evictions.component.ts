@@ -358,7 +358,7 @@ export class EvictionsComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setupPageScroll() {
-    this.scroll.defaultScrollOffset = 0;
+    this.scroll.setScrollOffset(0);
     this.scroll.verticalOffset$
       .map(offset => offset > 600)
       .distinctUntilChanged()

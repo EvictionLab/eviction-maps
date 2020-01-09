@@ -5,6 +5,7 @@
     "baseUrl": "./",
     "module": "es2015",
     "experimentalDecorators": true,
+    "allowJs": true,
     "types": [
       "mapbox-gl",
       "geojson",

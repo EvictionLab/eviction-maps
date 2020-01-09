@@ -2,7 +2,6 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
 import { NO_ERRORS_SCHEMA, EventEmitter } from '@angular/core';
 import { DecimalPipe } from '@angular/common';
-import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { DataPanelComponent } from './data-panel.component';
@@ -66,7 +65,6 @@ describe('DataPanelComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         DataPanelModule,
-        HttpModule,
         HttpClientModule,
         TranslateModule.forRoot(),
         ServicesModule.forRoot()
