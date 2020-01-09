@@ -1,14 +1,20 @@
 #!/bin/bash
-TOOL_BUCKET=eviction-lab-tool-staging
-MAP_BUCKET=eviction-lab-map-staging
-RANKINGS_BUCKET=eviction-lab-rankings-staging
+TOOL_BUCKET=eviction-lab-dev
+MAP_BUCKET=eviction-lab-dev
+RANKINGS_BUCKET=eviction-lab-dev
 CLOUDFRONT_ID=$CLOUDFRONT_ID_DEV
 
-if [ "$TRAVIS_BRANCH" = "master" ]; then
+if [ "$TRAVIS_BRANCH" = "production" ]; then
     TOOL_BUCKET=eviction-lab-tool
     MAP_BUCKET=eviction-lab-map
     RANKINGS_BUCKET=eviction-lab-rankings
     CLOUDFRONT_ID=$CLOUDFRONT_ID_PROD
+fi
+if [ "$TRAVIS_BRANCH" = "staging" ]; then
+    TOOL_BUCKET=eviction-lab-tool-staging
+    MAP_BUCKET=eviction-lab-map-staging
+    RANKINGS_BUCKET=eviction-lab-rankings-staging
+    CLOUDFRONT_ID=$CLOUDFRONT_ID_STAGING
 fi
 
 aws s3 cp dist/ s3://$TOOL_BUCKET/tool --acl=public-read --recursive --cache-control max-age=604800
