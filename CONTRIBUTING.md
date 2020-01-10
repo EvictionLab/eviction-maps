@@ -40,13 +40,9 @@ The main libraries, frameworks, and services used in this project include:
   - [Mapbox](https://mapbox.com): provided map styles and vector tile hosting.
   - [MapboxGL](https://docs.mapbox.com/mapbox-gl-js/api/) (for map rendering)
 
-The graph functionality in the eviction maps is provided by a custom graph module created for this project.
-
-  - [angular-d3-graph](https://github.com/EvictionLab/angular-d3-graph): provides base functionality for rendering charts with SEDA data
-
 Other repositories associated with this project are:
   - [EvictionLab/eviction-lab-etl](https://github.com/EvictionLab/eviction-lab-etl): ETL pipeline to process census and eviction data into tilesets and static data files.
-  - [EvictionLab/angular-d3-graph](https://github.com/EvictionLab/angular-d3-graph): D3 graph used to render bar / line chart
+  - [EvictionLab/angular-d3-graph](https://github.com/EvictionLab/angular-d3-graph): **ARCHIVED** D3 graph used to render bar / line chart, this code has been moved into this repo at (`/src/app/graph`)
   - [EvictionLab/eviction-lab-exports](https://github.com/EvictionLab/eviction-lab-exports): serverless functions for file exports
   - [EvictionLab/lambda-utils](https://github.com/EvictionLab/lambda-utils): server side lambda functions used in the project
 
@@ -57,9 +53,13 @@ Other repositories associated with this project are:
 
 App modules contain a grouped set of functionality.  This project is split into the following modules:
 
+  * **Base Graph Module** (`/src/app/graph/`)
+
+    contains the base graph module that the eviction graphs are based on
+
   * **Eviction Graphs Module** (`/src/app/eviction-graphs/`)
 
-    contains the shared module used for graphs in the project, built using `angular-d3-graph` as a base.
+    contains the shared module used for graphs in the project, built using the base graph module.
 
   - **MapToolModule** (`/src/app/map-tool/`)
   
