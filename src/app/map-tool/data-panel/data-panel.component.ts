@@ -112,7 +112,12 @@ export class DataPanelComponent implements OnInit {
     const comparisonDownloadType = [
       this.mapToolService.getActiveLocationNames(), yearString, fileTypes
     ].join('|');
-    this.analytics.trackEvent('comparisonDataDownload', { comparisonDownloadType });
+    const downloadPDF = fileTypes.indexOf('pdf') > -1 ? 1 : 0;
+    const downloadPPT = fileTypes.indexOf('pptx') > -1 ? 1 : 0;
+    const downloadXLSX = fileTypes.indexOf('xlsx') > -1 ? 1 : 0;
+    this.analytics.trackEvent('comparisonDataDownload', {
+      comparisonDownloadType, downloadPDF, downloadPPT, downloadXLSX
+    });
   }
 
   /**
