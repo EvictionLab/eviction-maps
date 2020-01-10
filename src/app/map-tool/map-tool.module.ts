@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxCarouselModule } from 'ngx-carousel';
+// import { NgxCarouselModule } from 'ngx-carousel';
 import 'hammerjs';
 
 import { MapToolComponent } from './map-tool.component';
@@ -20,7 +20,7 @@ import { FeatureOverviewComponent } from './feature-overview/feature-overview.co
   imports: [
     CommonModule,
     HttpClientModule,
-    NgxCarouselModule,
+    // NgxCarouselModule,
     UiModule,
     DataPanelModule,
     MapModule,

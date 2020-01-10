@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ElementRef, AfterViewInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
-import { NgxCarousel } from 'ngx-carousel';
 import { AppDialog } from '../../ui/ui-dialog/ui-dialog.types';
 import { environment } from '../../../environments/environment';
 
@@ -12,7 +11,7 @@ import { environment } from '../../../environments/environment';
 export class FeatureOverviewComponent implements OnInit, AfterViewInit, AppDialog {
 
   deployUrl = environment.deployUrl;
-  carousel: NgxCarousel;
+  carousel: any;
   slideIndex: number;
   animationSupport;
   @Output() buttonClicked = new EventEmitter();

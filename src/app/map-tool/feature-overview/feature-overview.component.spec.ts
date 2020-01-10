@@ -1,7 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { FeatureOverviewComponent } from './feature-overview.component';
-import { NgxCarousel, NgxCarouselModule } from 'ngx-carousel';
 import { UiModule } from '../../ui/ui.module';
 import { ModalModule, BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { TranslateModule, TranslatePipe } from '@ngx-translate/core';
@@ -21,7 +20,6 @@ describe('FeatureOverviewComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
-        NgxCarouselModule,
         UiModule,
         TranslateModule.forRoot(),
         ModalModule.forRoot()

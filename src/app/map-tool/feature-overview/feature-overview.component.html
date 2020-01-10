@@ -2,7 +2,8 @@
   <app-ui-close-button class="close" (onPress)="onCancelClick($event)"></app-ui-close-button>
 </div>
 <div class="modal-body">
-  <ngx-carousel [inputs]="carousel" [moveToSlide]="0" (onMove)="slideActivated($event)">
+  <p>TODO: re-implement this carousel</p>
+  <!-- <ngx-carousel [inputs]="carousel" [moveToSlide]="0" (onMove)="slideActivated($event)">
     <ngx-item NgxCarouselItem>
       <div class="slide-animation">
         <img *ngIf="!animationSupport && slideIndex >= 0" src="{{deployUrl}}assets/images/overview/anim1-opt.gif" />
@@ -420,5 +421,5 @@
     <button [attr.aria-label]="'OVERVIEW.NEXT' | translate" NgxCarouselNext class='btn btn-icon rightRs'>
       <app-ui-icon icon="arrow-right"></app-ui-icon>
     </button>
-  </ngx-carousel>
+  </ngx-carousel> -->
 </div>
