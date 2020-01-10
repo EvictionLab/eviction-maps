@@ -179,7 +179,9 @@ export class GraphService {
     const barCIs = this.dataContainer.selectAll('.bar-ci').data(barData);
     const barCIsEnter = barCIs.enter().append('rect');
     const self = this;
-    const displayCI = this.settings && this.settings.ci && this.settings.ci &&   this.settings.ci.display;
+    const displayCI = this.settings &&
+      this.settings.ci &&
+      this.settings.ci.display;
 
     // transition out bars no longer present
     barCIs.exit()
@@ -204,11 +206,17 @@ export class GraphService {
         .attr('width', this.scales.x.bandwidth())
         .attr('height', (d) => {
           return displayCI ?
-          (this.height - Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH] - d.data[0][this.settings.props.ciL]))) : 0;
+            (this.height - Math.max(
+              0,
+              this.scales.y(
+                d.data[0][this.settings.props.ciH] - d.data[0][this.settings.props.ciL]
+              )
+            )) : 0;
         })
         .attr('y', (d) => {
           return displayCI ?
-          (Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH]))) : this.scales.y(d.data[0][this.settings.props.y]);
+            (Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH]))) :
+            this.scales.y(d.data[0][this.settings.props.y]);
         });
     };
 
@@ -232,12 +240,18 @@ export class GraphService {
         .duration(this.settings.transition.duration)
         .attr('height', (d) => {
           return displayCI ?
-          (this.height - Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH] - d.data[0][this.settings.props.ciL]))) : 0;
+          (this.height - Math.max(
+            0,
+            this.scales.y(
+              d.data[0][this.settings.props.ciH] - d.data[0][this.settings.props.ciL]
+            )
+          )) : 0;
         })
         .attr('y', (d) => {
           // return Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH]));
           return displayCI ?
-          (Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH]))) : this.scales.y(d.data[0][this.settings.props.y]);
+            (Math.max(0, this.scales.y(d.data[0][this.settings.props.ciH]))) :
+            this.scales.y(d.data[0][this.settings.props.y]);
         });
     }
   }
@@ -267,9 +281,14 @@ export class GraphService {
         .duration(this.settings.transition.duration)
         .attr('class', (d, i) => 'bar bar-' + i)
         .attr('height', (d) => Math.max(
-          0, this.height - this.scales.y(this.getBarDisplayVal(d.data[0][this.settings.props.y], this.scales.y))
+          0,
+          this.height - this.scales.y(
+            this.getBarDisplayVal(d.data[0][this.settings.props.y], this.scales.y)
+          )
         ))
-        .attr('y', (d) => this.scales.y(this.getBarDisplayVal(d.data[0][this.settings.props.y], this.scales.y)))
+        .attr('y', (d) => this.scales.y(
+          this.getBarDisplayVal(d.data[0][this.settings.props.y], this.scales.y)
+        ))
         .attr('x', (d) => this.scales.x(d.data[0][this.settings.props.x]))
         .attr('width', this.scales.x.bandwidth());
         // .on('end', this.renderBarCI());
@@ -282,16 +301,22 @@ export class GraphService {
       // add bars for new data
       bars.enter().append('rect')
         .attr('class', (d, i) => 'bar bar-enter bar-' + i)
-        .on('mouseover', function(d) { self.barHover.emit({...d, ...self.getBarRect(this), el: this }); })
+        .on('mouseover', function(d) {
+          self.barHover.emit({...d, ...self.getBarRect(this), el: this });
+        })
         .on('mouseout',  function(d) { self.barHover.emit(null); })
-        .on('click',  function(d) { self.barClick.emit({...d, ...self.getBarRect(this), el: this }); })
+        .on('click',  function(d) {
+          self.barClick.emit({...d, ...self.getBarRect(this), el: this });
+        })
         .attr('x', (d) => this.scales.x(d.data[0][this.settings.props.x]))
         .attr('y', this.height)
         .attr('width', this.scales.x.bandwidth())
         .attr('height', 0)
         .transition().ease(this.settings.transition.ease)
           .duration(this.settings.transition.duration)
-          .attr('height', (d) => Math.max(0, this.height - this.scales.y(d.data[0][this.settings.props.y])))
+          .attr('height', (d) =>
+            Math.max(0, this.height - this.scales.y(d.data[0][this.settings.props.y]))
+          )
           .attr('y', (d) => this.scales.y(d.data[0][this.settings.props.y]));
           // .on('end', this.renderBarCI());
     }
@@ -658,7 +683,12 @@ export class GraphService {
     // get the bar dimensions for the new index and return the data / position
     if (newIndex > -1) {
       const el = selectAll('.bar').filter((d0: any, i) => i === newIndex).node();
-      return [{ id: this.data[newIndex].id, ...this.data[newIndex].data[0], ...this.getBarRect(el), el: el }];
+      return [{
+        id: this.data[newIndex].id,
+        ...this.data[newIndex].data[0],
+        ...this.getBarRect(el),
+        el: el
+      }];
     }
     return null;
   }
@@ -685,7 +715,10 @@ export class GraphService {
     return {
       id: dataItem.id,
       ...dataItem.data[pointIndex],
-      xPos: (this.settings.margin.left + this.scales.x(dataItem.data[pointIndex][this.settings.props.x])),
+      xPos: (
+        this.settings.margin.left +
+        this.scales.x(dataItem.data[pointIndex][this.settings.props.x])
+      ),
       yPos: (this.settings.margin.top + this.scales.y(yVal)),
       el: el
     };
@@ -896,10 +929,14 @@ export class GraphService {
       }
       // Cap Y domain to maxVal without padding if present
       let yDomain;
-      if (this.settings.axis.y.hasOwnProperty('extent') && this.settings.axis.y.extent.length === 2) {
+      if (
+        this.settings.axis.y.hasOwnProperty('extent') &&
+        this.settings.axis.y.extent.length === 2
+      ) {
         yDomain = this.settings.axis.y.extent;
       } else {
-        yDomain = this.settings.axis.y.maxVal === maxY ? [0, maxY] : this.padExtent([0, maxY], 0.1, { top: true });
+        yDomain = this.settings.axis.y.maxVal === maxY ?
+          [0, maxY] : this.padExtent([0, maxY], 0.1, { top: true });
       }
       scales.x.domain(this.data.map((d) => d.data[0][this.settings.props.x]));
       scales.y.domain(yDomain);
