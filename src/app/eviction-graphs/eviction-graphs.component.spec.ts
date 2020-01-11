@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { GraphModule } from 'angular-d3-graph/module';
+import { GraphModule } from '../graph/graph.module';
 import { UiModule } from '../ui/ui.module';
 
 import { EvictionGraphsComponent } from './eviction-graphs.component';

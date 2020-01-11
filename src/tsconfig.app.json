@@ -12,8 +12,7 @@
     ]
   },
   "include": [
-    "../src/**/*",
-    "../node_modules/angular-d3-graph/module.ts"
+    "../src/**/*"
   ],
   "exclude": [
     "test.ts",

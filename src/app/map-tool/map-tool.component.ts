@@ -359,7 +359,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   /**
-   * Configures options for the `ng2-page-scroll` module, and setup scroll observables
+   * Configures options for the `ngx-page-scroll` module, and setup scroll observables
    * to enable / disable map zoom
    */
   private setupPageScroll() {

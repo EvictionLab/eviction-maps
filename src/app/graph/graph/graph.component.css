@@ -1,0 +1,88 @@
+.app-graph-container {
+    display:block;
+    position:absolute;
+    top:0;left:0;right:0;bottom:0;
+}
+.app-graph {
+    width:100%;
+    height:100%;
+    position:absolute;
+    top:0; left:0;
+}
+.app-graph .axis text {
+    fill: rgba(0,0,0,.9);
+}
+.app-graph .line {
+    stroke: #000;
+    stroke-width: 2;
+    fill: none;
+}
+.app-graph .axis [class*="label"] {
+    font-size:12px;
+}
+
+.g0-start { stop-color: #F27636; }
+.g0-end { stop-color: #E04119; }
+.g1-start { stop-color: #787EB0; }
+.g1-end { stop-color: #434878; }
+.g2-start { stop-color: #57BEB6; }
+.g2-end { stop-color: #2C897F; }
+.g3-start { stop-color: #C6D5E0; }
+.g3-end { stop-color: #94AABD; }
+
+.app-graph .line-1 {
+  stroke: #666;
+}
+.app-graph .line-2 {
+  stroke: #333;
+}
+.app-graph .line-3 {
+  stroke: #999;
+}
+.app-graph .line-4 {
+  stroke: #ccc;
+}
+
+.app-graph .area-2 {
+  /* stroke: #666; */
+  fill: #666;
+}
+.app-graph .area-2 {
+  /* stroke: #333; */
+  fill: #333;
+}
+.app-graph .area-3 {
+  /* stroke: #999; */
+  fill:  #999;
+}
+.app-graph .area-4 {
+  /* stroke: #ccc; */
+  fill: #ccc;
+}
+
+.app-graph .area-0,
+.app-graph .area-1,
+.app-graph .area-2,
+.app-graph .area-3 {
+  fill-opacity: 0.5;
+  stroke-width: 6px;
+}
+
+.app-graph .bar-0 { fill: url(#g0); }
+.app-graph .bar-1 { fill: url(#g1); }
+.app-graph .bar-2 { fill: url(#g2); }
+.app-graph .bar-3 { fill: url(#g3); }
+
+.app-graph .bar-ci-0 { fill: url(#g0); }
+.app-graph .bar-ci-1 { fill: url(#g1); }
+.app-graph .bar-ci-2 { fill: url(#g2); }
+.app-graph .bar-ci-3 { fill: url(#g3); }
+
+.app-graph .bar-ci {
+  fill-opacity: 0.5;
+}
+
+
+
+
+.app-graph .graph-rect { fill:none; stroke: none;  }
