@@ -23,6 +23,7 @@ export class MapToolService {
   activeDataHighlight: MapDataAttribute = this.choroplethAttributes[0];
   activeBubbleHighlight: MapDataAttribute = this.bubbleAttributes[0];
   activeGraphType = 'line';
+  graphDisplayCI = true;
   activeLineYearStart = environment.minYear;
   activeLineYearEnd = environment.maxYear;
   activeShowGraphAvg = true;
