@@ -104,14 +104,23 @@ export class UiSelectDateRangeComponent implements OnInit, AfterViewInit {
 
   handleYearSelect(value: number) {
     this.debug('handleYearSelect', value);
+    if (this._startValue && !this._endValue && value === this._startValue) {
+      return;
+    }
     // reselecting range
     if (this._startValue && this._endValue) {
       this._startValue = value;
       this._endValue = null;
     }
     // selecting end year
-    if (this._startValue && !this._endValue && value > this._startValue) {
-      this._endValue = value;
+    else if (this._startValue && !this._endValue) {
+      if (value < this._startValue) {
+        this._endValue = this._startValue;
+        this._startValue = value;
+      } else {
+        this._endValue = value;
+      }
+      
     }
   }
 
