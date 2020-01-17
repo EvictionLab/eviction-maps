@@ -14,6 +14,7 @@
     "BAR_GRAPH_DESC": "A bar graph showing {{type}} values for {{year}}: {{locations}}",
     "LINE_GRAPH_TITLE": "{{type}} for {{locations}} from {{year1}} to {{year2}}",
     "LINE_GRAPH_DESC": "A line graph showing {{type}} values for over time.",
+    "YEAR_SELECT_HINT": "Select a range of years below:",
     "REMOVE_BUTTON": "Remove",
     "CANCEL_BUTTON": "Cancel",
     "CLOSE_BUTTON": "Close",
