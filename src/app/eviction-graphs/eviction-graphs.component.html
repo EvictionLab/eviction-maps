@@ -56,11 +56,13 @@
         (activeValuesChanged)="graphHover.emit($event)"
       >
         <app-graph-tooltips 
-          [graphType]="graphType" 
+          [graphType]="graphType"
           [tooltips]="tooltips"
           [format]="graphAttribute.format"
           [maxVal]="graphSettings.axis.y.maxVal"
           [displayCI]="graphSettings.ci.display"
+          [locations]="locations"
+          [average]="average"
         >
         </app-graph-tooltips>
       </app-graph>

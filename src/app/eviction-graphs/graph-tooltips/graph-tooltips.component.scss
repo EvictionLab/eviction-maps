@@ -126,9 +126,9 @@ $graphTooltipCircleSize: 10px;
   flex-direction: column;
   justify-content: center;
 }
-.line-tooltips .tooltip-container > * > * {
-  width: 100px;
-}
+// .line-tooltips .tooltip-container > * > * {
+//   width: 100px;
+// }
 .line-tooltips .circles {
   // circles that overlay the line
   position: absolute;
@@ -203,7 +203,7 @@ $graphTooltipCircleSize: 10px;
   // height: $graphTooltipHeight;
   // line-height: 17px;
   // margin-top: -1*$graphTooltipHeight/2;
-  // margin-left: $graphTooltipCircleSize/2;
+  margin-left: $graphTooltipCircleSize * 2;
   .tooltip-wrapper {
     .tooltip-cis {
       width: auto;
@@ -234,6 +234,24 @@ $graphTooltipCircleSize: 10px;
 }
 .tooltip-inner {
   height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+  font-size: 12px !important;
+}
+.tooltip-inner > * {
+  margin-left: 7px;
+}
+.tooltip-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  width: 100%;
+  font-size: 16px !important;
+  margin-bottom: 7px;
 }
 
 .tooltip-inner-bubbles {
@@ -241,6 +259,7 @@ $graphTooltipCircleSize: 10px;
   width:$graphTooltipCircleSize;
   height:$graphTooltipCircleSize;
   border-radius:$graphTooltipCircleSize;
+  margin-right: 7px;
   &:before {
     content: "";
     display:block;
@@ -252,6 +271,24 @@ $graphTooltipCircleSize: 10px;
     left: -1*$graphTooltipCircleSize;
     z-index:1;
   }
+}
+.tooltip-body {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 14px;
+}
+.ci-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 10px;
+  font-weight: normal;
+  justify-content: center;
+  height: 100%;
+  margin-left: 10px;
 }
 // END NEW SCSS //////////
 //////////////////////////

@@ -10,16 +10,35 @@
   <!-- End circles on lines -->
   <div class='tooltip-container'>
     <div class="tooltip tooltip-number" role="tooltip"
-      *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-      [class.right]="tooltipPos === 'right'"
-      [class.left]="tooltipPos === 'left'"
+      *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
+      [class.right]="true"
+      [class.left]="false"
       [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"
       [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
     >
       <div class="tooltip-wrapper">
         <div class="tooltip-inner line-tooltip-value" >
-          <div class="tooltip-inner-bubbles"></div>
-          {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+          <span class="tooltip-header">
+            <div class="tooltip-inner-bubbles"></div>
+            <div *ngIf="locations[i]; then selectedLocation else usAverage" class="legend-label"></div>
+            <ng-template #selectedLocation>
+              {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
+              {{ locations[i].properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+              {{ locations[i].properties["n"] }}
+              {{ getLegendValue(location, i) }}
+              {{ getLegendCI(location, i, 'DATA.CI_HIGH'| translate, 'DATA.CI_LOW'| translate) }}
+            </ng-template>
+            <ng-template #usAverage>
+              {{ average.name }}
+            </ng-template>
+          </span>
+          <div class="tooltip-body">
+            {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+            <div class="ci-container">
+              <span class="max">{{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}</span>
+              <span class="min">{{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

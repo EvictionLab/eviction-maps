@@ -225,6 +225,7 @@ export class EvictionGraphsComponent implements OnInit {
     this.tooltips = hoverItems ?
       (this.graphType === 'bar' ? [ hoverItems ] : hoverItems) :
       [];
+    console.log('this.tooltips >>>>>>>>>', this.tooltips)
   }
 
   /** Generates text for the value label under the location in the legend */
