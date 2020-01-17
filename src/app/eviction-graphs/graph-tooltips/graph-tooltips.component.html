@@ -1,6 +1,33 @@
 <div class="line-tooltips" *ngIf="graphType === 'line'">
   <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
-  <div class="tooltip tooltip-number" role="tooltip" 
+  <!-- Start circles on lines -->
+  <div class="circles"
+    *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+    [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+    [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+  ></div>
+
+  <!-- End circles on lines -->
+  <div class='tooltip-container'>
+    <div class="tooltip tooltip-number" role="tooltip"
+      *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+      [class.right]="tooltipPos === 'right'"
+      [class.left]="tooltipPos === 'left'"
+      [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"
+      [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+    >
+      <div class="tooltip-wrapper">
+        <div class="tooltip-inner line-tooltip-value" >
+          <div class="tooltip-inner-bubbles"></div>
+          {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--
+  <div class="tooltip tooltip-number" role="tooltip"
     *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
     [class.right]="tooltipPos === 'right'"
     [class.left]="tooltipPos === 'left'"
@@ -13,6 +40,9 @@
       </div>
     </div>
   </div>
+  -->
+
+
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
   <div class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
