@@ -6,17 +6,9 @@ $rankBarHeight_gtm: grid(5);
 $rankLocationHeight_gtm: grid(8);
 
 $barGradient1: $gradient1;
-// linear-gradient(180deg, #F27636, #E04119)
-$barGradient1a: linear-gradient(180deg, #F6D3CA, #F89A75);
-$barGradient1b: linear-gradient(180deg, #FBE9E4, #FCCCB9);
 $barGradient2: $gradient2;
-// linear-gradient(180deg, #787EB0, #434878)
-$barGradient2a: linear-gradient(180deg, #DEE1F5, #CFD1EB);
-$barGradient2b: linear-gradient(180deg, #DEE1F5, #CFD1EB);
 $barGradient3: $gradient3;
-// linear-gradient(180deg, #57BEB6, #2C897F)
-$barGradient3a: linear-gradient(180deg, #DBF4F2, #BFE1DE);
-$barGradient3b: linear-gradient(180deg, #DBF4F2, #BFE1DE);
+
 .loading-message {
   color: $grey1a;
 }
