@@ -5,12 +5,18 @@ $rankBarHeight: grid(4);
 $rankBarHeight_gtm: grid(5);
 $rankLocationHeight_gtm: grid(8);
 
-$barGradient1: linear-gradient(180deg, #F1BBAC, #F46229);
+$barGradient1: $gradient1;
+// linear-gradient(180deg, #F27636, #E04119)
 $barGradient1a: linear-gradient(180deg, #F6D3CA, #F89A75);
 $barGradient1b: linear-gradient(180deg, #FBE9E4, #FCCCB9);
-$barGradient2: linear-gradient(180deg, #DEE1F5, #CFD1EB);
-$barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
-
+$barGradient2: $gradient2;
+// linear-gradient(180deg, #787EB0, #434878)
+$barGradient2a: linear-gradient(180deg, #DEE1F5, #CFD1EB);
+$barGradient2b: linear-gradient(180deg, #DEE1F5, #CFD1EB);
+$barGradient3: $gradient3;
+// linear-gradient(180deg, #57BEB6, #2C897F)
+$barGradient3a: linear-gradient(180deg, #DBF4F2, #BFE1DE);
+$barGradient3b: linear-gradient(180deg, #DBF4F2, #BFE1DE);
 .loading-message {
   color: $grey1a;
 }
@@ -28,8 +34,6 @@ $barGradient3: linear-gradient(180deg, #DBF4F2, #BFE1DE);
     color: #fff;
   }
 }
-
-
 
 .ranking-list {
   list-style:none;
@@ -186,15 +190,11 @@ $locationHeadingHeight_gtm: grid(5);
     top:0;
     bottom:0;
     left:0;
-    background: $barGradient1;
     z-index:10;
     &.location__bar--low {
-      background: $barGradient1;
       z-index: 12;
     }
     &.location__bar--high {
-      background-image: url("/assets/images/ci-pattern.png");
-      background-size: 24px 24px;
       z-index: 11;
     }
   }
@@ -276,4 +276,46 @@ $locationHeadingHeight_gtm: grid(5);
     .location__container.location__container--summary {
       @include defaultFont(15px);
     }
+  }
+
+
+/** BAR COLORS */
+
+  /** Large cities */
+  :host-context(.area-0) {
+      .location__bar {
+        background: $barGradient1;
+        &.location__bar--low {
+          background: $barGradient1;
+        }
+        &.location__bar--high {
+          background: $ciPattern1;
+        }
+      }
+  }
+
+  /** Mid-sized cities */
+  :host-context(.area-1) {
+      .location__bar {
+        background: $barGradient2;
+        &.location__bar--low {
+          background: $barGradient2;
+        }
+        &.location__bar--high {
+          background: $ciPattern2;
+        }
+      }
+  }
+
+  /** Small cities */
+  :host-context(.area-2) {
+      .location__bar {
+        background: $barGradient3;
+        &.location__bar--low {
+          background: $barGradient3;
+        }
+        &.location__bar--high {
+          background: $ciPattern3;
+        }
+      }
   }
