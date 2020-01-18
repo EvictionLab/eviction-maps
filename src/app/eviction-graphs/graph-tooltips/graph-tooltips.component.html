@@ -1,18 +1,21 @@
 <div class="line-tooltips" *ngIf="graphType === 'line'">
   <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
-  <!-- Start circles on lines -->
-  <div class="circles"
-    *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-    [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-    [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
-  ></div>
 
+  <!-- Start circles on lines -->
+  <div class="circles-container">
+    <div class="circles"
+      *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+      [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+      [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+    ></div>
+  </div>
   <!-- End circles on lines -->
+
   <div class='tooltip-container'>
     <div class="tooltip tooltip-number" role="tooltip"
       *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
-      [class.right]="true"
-      [class.left]="false"
+      [class.right]="tooltipPos === 'right'"
+      [class.left]="tooltipPos === 'left'"
       [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"
       [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
     >
@@ -25,8 +28,6 @@
               {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
               {{ locations[i].properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
               {{ locations[i].properties["n"] }}
-              {{ getLegendValue(location, i) }}
-              {{ getLegendCI(location, i, 'DATA.CI_HIGH'| translate, 'DATA.CI_LOW'| translate) }}
             </ng-template>
             <ng-template #usAverage>
               {{ average.name }}
@@ -34,7 +35,7 @@
           </span>
           <div class="tooltip-body">
             {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
-            <div class="ci-container">
+            <div *ngIf="displayCI" class="ci-container">
               <span class="max">{{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}</span>
               <span class="min">{{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}</span>
             </div>

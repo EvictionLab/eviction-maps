@@ -38,51 +38,6 @@ export class GraphTooltipsComponent implements OnInit {
     return true;
   }
 
-  /** Generates text for the value label under the location in the legend */
-  getLegendValue(location, locationIndex: number): string {
-    if (!location) { return ''; }
-    // average is GraphItem so use `data` if `properties` is not available
-    const l = location.properties || location.data;
-    if (this.graphType === 'bar') {
-      const value = l[this.attrYear(this.barYear)];
-      return value >= 0 ?
-        this.barYear + ': ' + this.formatValue(value, this.graphAttribute.format) :
-        this.translatePipe.transform('DATA.UNAVAILABLE');
-    } else if (this.graphType === 'line') {
-      const tooltip = this.tooltips[locationIndex];
-      if (!tooltip) { return ''; }
-      const value = l[this.attrYear(tooltip.x)];
-      return value >= 0 ?
-        tooltip.x + ': ' + this.formatValue(value, this.graphAttribute.format) :
-        this.translatePipe.transform('DATA.UNAVAILABLE');
-    }
-    return '';
-  }
-
-  /** Generates text for the value label under the location in the legend */
-  getLegendCI(location, locationIndex: number, high: string, low: string): string {
-    // console.log('getLegendCI()');
-    if (!location) { return ''; }
-    if (!this.graphSettings.ci.display) { return ''; }
-    const _high = this.translatePipe.transform('DATA.CI_HIGH');
-    const _low = this.translatePipe.transform('DATA.CI_LOW');
-    // average is GraphItem so use `data` if `properties` is not available
-    const l = location.properties || location.data;
-    if (this.graphType === 'bar') {
-      const ciH = l[this.attrCIYear(this.barYear, 'h')];
-      const ciL = l[this.attrCIYear(this.barYear, 'l')];
-      return (ciH > 0 && ciL > 0) ?
-        `(${_high}${Number(ciH).toFixed(2)}%/${_low}${Math.abs(Number(Number(ciL).toFixed(2)))}%)`
-        : '';
-    } else if (this.graphType === 'line') {
-      const tooltip = this.tooltips[locationIndex];
-      if (!tooltip) { return ''; }
-      return (tooltip.ciH > 0 && tooltip.ciL > 0) ?
-        this.tooltipValueCIs(tooltip) : '';
-    }
-    return '';
-  }
-
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
 
