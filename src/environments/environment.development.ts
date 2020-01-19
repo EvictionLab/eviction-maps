@@ -7,15 +7,19 @@ export const environment = {
     deployUrl: 'https://dev.evictionlab.org/tool/',
     tileBaseUrl: 'https://staging-tiles.evictionlab.org/2019-10-23/',
     evictorsRankingDataUrl: 'https://staging.evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
-    cityRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/cities-rankings.csv',
-    stateRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/states-rankings.csv',
-    nationalDataUrl: 'https://staging.evictionlab.org/data/us/national.csv',
-    outliersDataUrl: 'https://staging.evictionlab.org/data/cutoffs/99-percentile.json',
+    cityRankingDataUrl:
+      'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/cities-rankings.csv',
+    stateRankingDataUrl:
+      'https://s3.amazonaws.com/eviction-lab-tool-data/data/rankings/states-rankings.csv',
+    nationalDataUrl:
+      'https://s3.amazonaws.com/eviction-lab-tool-data/data/us/national.csv',
+    outliersDataUrl:
+      'https://s3.amazonaws.com/eviction-lab-tool-data/data/cutoffs/99-percentile.json',
     mapboxApiKey: 'pk.' +
         'eyJ1IjoiZXZpY3Rpb24tbGFiIiwiYSI6ImNqYzJoNzVxdzAwMTMzM255dmsxM2YwZWsifQ.' +
         '4et5d5nstXWM5P0JG67XEQ',
-    mapboxCountyUrl: 'https://staging.evictionlab.org/data/search/counties.csv',
-    staticSearchUrl: 'https://staging.evictionlab.org/data/search/locations.csv',
+    mapboxCountyUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/search/counties.csv',
+    staticSearchUrl: 'https://s3.amazonaws.com/eviction-lab-tool-data/data/search/locations.csv',
     downloadBaseUrl: 'https://exports-dev.evictionlab.org',
     minYear: 2000,
     maxYear: 2016,
