@@ -5,7 +5,7 @@ export const environment = {
     production: true,
     useMapbox: true,
     deployUrl: 'https://dev.evictionlab.org/tool/',
-    tileBaseUrl: 'https://staging-tiles.evictionlab.org/2018-12-14/',
+    tileBaseUrl: 'https://staging-tiles.evictionlab.org/2019-10-23/',
     evictorsRankingDataUrl: 'https://staging.evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
     cityRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/cities-rankings.csv',
     stateRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/states-rankings.csv',
