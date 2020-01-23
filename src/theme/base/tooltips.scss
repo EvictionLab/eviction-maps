@@ -34,9 +34,9 @@
 
 // Base class
 .tooltip {
-  // position: absolute;
-  // display: block;
-  // z-index:9999;
+  position: absolute;
+  display: block;
+  z-index:9999;
   &.top    { margin-top:  -3px; padding: $tooltipArrowSize 0; }
   &.right  { margin-left:  3px; padding: 0 $tooltipArrowSize; }
   &.bottom { margin-top:   3px; padding: $tooltipArrowSize 0; }

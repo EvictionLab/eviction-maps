@@ -14,8 +14,8 @@
   <div class='tooltip-container'>
     <div class="tooltip tooltip-number" role="tooltip"
       *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
-      [class.right]="tooltipPos === 'right'"
-      [class.left]="tooltipPos === 'left'"
+      [class.right]="tooltips[0].xPos <= 250"
+      [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 250"
       [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"
       [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
     >
@@ -65,13 +65,29 @@
 
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-  <div class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
+  <div
+    class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}"
+    role="tooltip"
+    *ngFor="let tooltip of tooltips; let i = index;"
+    [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'"
+  >
     <div class="tooltip-arrow"></div>
-    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) + '%' : ('DATA.UNAVAILABLE' | translate) }}
-      <span class="tooltip-cis" *ngIf="tooltip.data[0].ciH > 0 && displayCI">
-        {{('DATA.CI_HIGH' | translate) }} {{ getTooltipCI(tooltip.data[0].ciH) }}%
-        <br>{{('DATA.CI_LOW' | translate)}}{{ getTooltipCI(tooltip.data[0].ciL) }}%
+    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">
+      <span class="tooltip-header">
+        <div class="tooltip-inner-bubbles"></div>
+        {{ tooltip.data[0]['x'].split(',')[0] }}
       </span>
+      <div class="tooltip-body">
+        {{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) + '%' : ('DATA.UNAVAILABLE' | translate) }}
+        <div class="ci-container" *ngIf="tooltip.data[0].ciH > 0 && displayCI">
+          <span class="max">
+            {{('DATA.CI_HIGH' | translate) }} {{ getTooltipCI(tooltip.data[0].ciH) }}%
+          </span>
+          <span class="min">
+            {{('DATA.CI_LOW' | translate)}}{{ getTooltipCI(tooltip.data[0].ciL) }}%
+          </span>
+        </div>
+      </div>
     </div>
   </div>
 </div>

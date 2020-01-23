@@ -25,28 +25,40 @@ $graphTooltipCircleSize: 10px;
 }
 // tooltip transitions
 .tooltip {
-  transition: transform 0.1s cubic-bezier(0, 0.66, 0.66, 1);  
+  transition: transform 0.1s cubic-bezier(0, 0.66, 0.66, 1);
 }
 // tooltip container classes
 .line-tooltips, .bar-tooltips {
   @include fill-parent();
   pointer-events: none;
 }
-// bar tooltip defaults
-// .bar-tooltips .tooltip {
-//   min-width: grid(3);
-//   margin-left: -1*grid(3);
-//   text-align:center;
-//   margin-top: -1.5*$graphTooltipHeight;
-//   &.tooltip-with-ci {
-//     min-width: grid(6);
-//     margin-left: -1*grid(5);
-//   }
-//   .tooltip-cis {
-//     width: 100%;
-//     display: block;
-//   }
-// }
+
+
+// bar tooltip defaults ////
+////////////////////////////
+////////////////////////////
+.bar-tooltips .tooltip {
+  min-width: grid(3);
+  margin-left: -1*grid(3);
+  text-align:center;
+  margin-top: -1.5*$graphTooltipHeight;
+  &.tooltip-with-ci {
+    min-width: grid(6);
+    margin-left: -1*grid(5);
+  }
+  .tooltip-cis {
+    width: 100%;
+    display: block;
+  }
+}
+// END bar tooltip defaults //
+//////////////////////////////
+//////////////////////////////
+
+
+
+// START OLD LINE TOOLTIPS CSS ///
+//////////////////////////////////
 // wrapper for line graph tooltip (so we can switch orientation)
 // .tooltip-wrapper {
 //   position:relative;
@@ -109,8 +121,8 @@ $graphTooltipCircleSize: 10px;
 //     background:$color4;
 //   }
 // }
-
-
+// END OLD LINE TOOLTIPS CSS //
+//////////////////////////////
 
 
 
@@ -125,6 +137,7 @@ $graphTooltipCircleSize: 10px;
   height: 100%;
   flex-direction: column;
   justify-content: center;
+  transform: translateY(-18px);
 }
 
 .line-tooltips .circles-container .circles {
@@ -170,6 +183,9 @@ $graphTooltipCircleSize: 10px;
 }
 // line tooltip defaults
 .line-tooltips .tooltip {
+  // overwrite defauts
+  position: relative;
+  //end overwrite defaults
   margin-left: $graphTooltipCircleSize * 2;
   transition: height, .5s;
   .tooltip-wrapper {
@@ -181,7 +197,7 @@ $graphTooltipCircleSize: 10px;
   // shift the tooltip to the left
   &.left {
     .tooltip-wrapper {
-      transform: translateX(-74px);
+      // transform: translateX(-74px);
       transform: translateX(calc(-100% - #{grid(6)}));
     }
   }
