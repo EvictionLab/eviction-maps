@@ -72,6 +72,7 @@
 .app-graph .bar-1 { fill: url(#g1); }
 .app-graph .bar-2 { fill: url(#g2); }
 .app-graph .bar-3 { fill: url(#g3); }
+.app-graph .bar.isUSAverage { fill: url(#g3); }
 
 .app-graph .bar-ci-0 { fill: url(#g0); }
 .app-graph .bar-ci-1 { fill: url(#g1); }
@@ -86,3 +87,5 @@
 
 
 .app-graph .graph-rect { fill:none; stroke: none;  }
+::ng-deep .average-shown .app-graph .bar:last-of-type { fill: url(#g3)!important; }
+.app-graph .bar:last-of-type { fill: url(#g3)!important; }
