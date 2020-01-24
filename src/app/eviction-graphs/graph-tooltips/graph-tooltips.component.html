@@ -22,7 +22,7 @@
       <div class="tooltip-wrapper">
         <div class="tooltip-inner line-tooltip-value" >
           <span class="tooltip-header">
-            <div class="tooltip-inner-bubbles"></div>
+            <div class="tooltip-inner-circle"></div>
             <div *ngIf="locations[i]; then selectedLocation else usAverage" class="legend-label"></div>
             <ng-template #selectedLocation>
               {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
@@ -44,25 +44,6 @@
       </div>
     </div>
   </div>
-
-
-  <!--
-  <div class="tooltip tooltip-number" role="tooltip"
-    *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-    [class.right]="tooltipPos === 'right'"
-    [class.left]="tooltipPos === 'left'"
-    [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-    [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
-  >
-    <div class="tooltip-wrapper">
-      <div class="tooltip-arrow"></div>
-      <div class="tooltip-inner line-tooltip-value {{ (tooltip.ciH && tooltip.ciL) ? 'tooltip-with-ci' : null }}">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
-      </div>
-    </div>
-  </div>
-  -->
-
-
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
   <div
@@ -74,7 +55,10 @@
     <div class="tooltip-arrow"></div>
     <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">
       <span class="tooltip-header">
-        <div class="tooltip-inner-bubbles {{tooltip.id}}" [class.isUSAverage]="tooltip.data[0]['x']==='United States'"></div>
+        <div
+          class="tooltip-inner-circle {{tooltip.id}}"
+          [class.isUSAverage]="tooltip.data[0]['x']==='United States'"
+        ></div>
         {{ tooltip.data[0]['x'].split(',')[0] }}
       </span>
       <div class="tooltip-body">

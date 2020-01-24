@@ -281,7 +281,7 @@ export class GraphService {
         .duration(this.settings.transition.duration)
         .attr('class', (d, i) => {
           let className = 'bar bar-' + i
-          if (d.data[0]['x'] === 'United States') {
+          if (d.data && d.data[0] && d.data[0]['x'] === 'United States') {
            className += ' isUSAverage'
           }
           return className
