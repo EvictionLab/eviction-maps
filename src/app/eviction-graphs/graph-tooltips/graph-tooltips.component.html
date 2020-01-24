@@ -36,8 +36,12 @@
           <div class="tooltip-body">
             {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
             <div *ngIf="displayCI" class="ci-container">
-              <span class="max">{{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}</span>
-              <span class="min">{{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}</span>
+              <span class="max">
+                {{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}
+              </span>
+              <span class="min">
+                {{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}
+              </span>
             </div>
           </div>
         </div>
@@ -65,10 +69,10 @@
         {{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) + '%' : ('DATA.UNAVAILABLE' | translate) }}
         <div class="ci-container" *ngIf="tooltip.data[0].ciH > 0 && displayCI">
           <span class="max">
-            {{('DATA.CI_HIGH' | translate) }} {{ getTooltipCI(tooltip.data[0].ciH) }}%
+            MAX: {{ getTooltipCI(tooltip.data[0].ciH) }}%
           </span>
           <span class="min">
-            {{('DATA.CI_LOW' | translate)}}{{ getTooltipCI(tooltip.data[0].ciL) }}%
+            MIN: {{ getTooltipCI(tooltip.data[0].ciL) }}%
           </span>
         </div>
       </div>
