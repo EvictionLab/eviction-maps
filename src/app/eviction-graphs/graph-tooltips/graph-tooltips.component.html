@@ -68,7 +68,8 @@
   <div
     class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}"
     role="tooltip"
-    *ngFor="let tooltip of tooltips; let i = index;"
+
+    *ngFor="let tooltip of tooltips"
     [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'"
   >
     <div class="tooltip-arrow"></div>
