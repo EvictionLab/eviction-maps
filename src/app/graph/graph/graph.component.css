@@ -83,9 +83,4 @@
   fill-opacity: 0.5;
 }
 
-
-
-
 .app-graph .graph-rect { fill:none; stroke: none;  }
-::ng-deep .average-shown .app-graph .bar:last-of-type { fill: url(#g3)!important; }
-.app-graph .bar:last-of-type { fill: url(#g3)!important; }

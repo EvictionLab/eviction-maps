@@ -47,16 +47,16 @@ $graphTooltipCircleSize: 10px;
   }
 }
 .bar-tooltips .tooltip-inner-circle.item0 {
-  background: $color1!important;
+  background: $color1;
 }
 .bar-tooltips .tooltip-inner-circle.item1 {
-  background: $color2!important;
+  background: $color2;
 }
 .bar-tooltips .tooltip-inner-circle.item2 {
-  background: $color3!important;
+  background: $color3;
 }
 .bar-tooltips .tooltip-inner-circle.item3 {
-  background: $color4!important;
+  background: $color4;
 }
 // Line tooltips
 .line-tooltips .tooltip-container {
@@ -145,7 +145,7 @@ $graphTooltipCircleSize: 10px;
   justify-content: flex-start;
   align-content: flex-start;
   align-items: flex-start;
-  font-size: 12px !important;
+  font-size: 12px;
 }
 .tooltip-inner > * {
   margin-left: 7px;
