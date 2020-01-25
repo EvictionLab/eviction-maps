@@ -4,7 +4,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { environment } from '../../environments/environment';
 import { MapDataAttribute } from '../map-tool/data/map-data-attribute';
 import { GraphService, GraphItem } from './graph.service';
-import { MapFeature } from '../map-tool/map/map-feature';
+import { MapToolService } from '../map-tool/map-tool.service';
 
 @Component({
   selector: 'app-eviction-graphs',
@@ -111,11 +111,12 @@ export class EvictionGraphsComponent implements OnInit {
   @Output() graphTypeChange = new EventEmitter();
 
   /** Confidence interval input and output (allows double binding) */
-  private _displayCI = true;
+  private _displayCI = this.mapToolService.graphDisplayCI;
   @Input() set displayCI(val: boolean) {
     if (this._displayCI !== val) {
       this._displayCI = val;
       this.displayCIChange.emit(val);
+      this.mapToolService.graphDisplayCI = val;
       this.setGraphData();
     }
   }
@@ -177,7 +178,8 @@ export class EvictionGraphsComponent implements OnInit {
     private translatePipe: TranslatePipe,
     private translate: TranslateService,
     private cd: ChangeDetectorRef,
-    private graphService: GraphService
+    private graphService: GraphService,
+    private mapToolService: MapToolService
   ) { }
 
   ngOnInit() {
