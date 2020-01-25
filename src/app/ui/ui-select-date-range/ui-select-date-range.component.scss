@@ -1,5 +1,21 @@
 @import '../../../theme';
 
+// dropdown overrides
+::ng-deep .el-dropdown .dropdown-menu {
+  min-width: 304px;
+  overflow:visible;
+  padding: grid(1);
+}
+
+  @media(min-width: $gtTablet) {
+    ::ng-deep  .el-dropdown .dropdown-menu {
+      min-width: 320px;
+      padding: grid(2);
+    }
+  }
+
+
+// range selection
 .range-select {
   padding:0;
   margin:0 0 grid(1) 0;
@@ -8,40 +24,54 @@
   flex-wrap: wrap;
 }
 
-.range-select__item {
-  margin-bottom: 4px;
+  .range-select__item {
+    margin-bottom: 4px;
+  }
+
+  .range-select__button {
+    padding: grid(1);
+    border:none;
+    background:none;
+    margin:0;
+    color: $grey3;
+    @include defaultFontBold(14px);
+    &.first {
+      border-radius: 4px 0 0 4px;
+    }
+    &.last {
+      border-radius: 0 4px 4px 0;
+    }
+    &.preview {
+      color: $grey1;
+      background: #f6f6f6;
+    }
+    &.highlight {
+      color: $color1;
+      background: transparentize($color: $color1, $amount: 0.9);
+    }
+    &:focus {
+      box-shadow: inset 0 0 2px $color1;
+    }
+  }
+
+// actions row
+.button-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.range-select__button {
-  padding: grid(1);
-  border:none;
-  background:none;
-  margin:0;
-  &.highlight {
-    background: $color1;
-    color: #fff;
-  }
-  &.first {
-    border-radius: 4px 0 0 4px;
-  }
-  &.last {
-    border-radius: 0 4px 4px 0;
-  }
-  &.invalid {
-    color: $grey1;
-    background: $grey4;
+.button-row .btn {
+  height: grid(5);
+  width: auto;
+  padding: 0 grid(2);
+  margin-right: grid(1);
+  &[disabled] {
+    background: $grey5;
+    color: $grey2;
+    transition: none;
   }
 }
 
-::ng-deep .el-dropdown .dropdown-menu {
-  min-width: 304px;
-  overflow:visible;
-  padding: grid(1);
-}
 
-@media(min-width: $gtTablet) {
-  ::ng-deep  .el-dropdown .dropdown-menu {
-    min-width: 320px;
-    padding: grid(2);
-  }
-}
+

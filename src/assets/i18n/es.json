@@ -12,6 +12,7 @@
     "BAR_GRAPH_DESC": "Un gráfico de barras que muestra los valores de la {{type}} para {{year}}: {{locations}}",
     "LINE_GRAPH_TITLE": "La {{type}} para {{locations}} de {{year1}} a {{year2}}",
     "LINE_GRAPH_DESC": "Un gráfico de líneas que muestra los valores de {{type}} con el tiempo.",
+    "YEAR_SELECT_HINT": "Select a range of years below:",
     "REMOVE_BUTTON": "Eliminar",
     "CANCEL_BUTTON": "Cancelar",
     "CLOSE_BUTTON": "Cerrar",

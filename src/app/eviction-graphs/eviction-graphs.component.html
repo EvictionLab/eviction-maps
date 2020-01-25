@@ -30,6 +30,7 @@
           <div class="graph-select" [style.display]="graphType !== 'line' ? 'none' : null">
             <app-ui-select-date-range
               [label]="'DATA.DATE_RANGE' | translate"
+              [hint]="'DATA.YEAR_SELECT_HINT' | translate"
               [startValue]="lineStartYear"
               [endValue]="lineEndYear"
               [values]="lineYears"
