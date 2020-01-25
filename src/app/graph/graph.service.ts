@@ -280,11 +280,11 @@ export class GraphService {
       bars.transition().ease(this.settings.transition.ease)
         .duration(this.settings.transition.duration)
         .attr('class', (d, i) => {
-          let className = 'bar bar-' + i
+          let className = 'bar bar-' + i;
           if (d.data && d.data[0] && d.data[0]['x'] === 'United States') {
-           className += ' isUSAverage'
+           className += ' isUSAverage';
           }
-          return className
+          return className;
         })
         .attr('height', (d) => Math.max(
           0,
