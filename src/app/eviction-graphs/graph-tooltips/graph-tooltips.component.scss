@@ -34,16 +34,10 @@ $graphTooltipCircleSize: 10px;
 }
 // bar tooltip defaults
 .bar-tooltips .tooltip {
-  min-width: grid(3);
-  margin-left: -65px;
   text-align:center;
   margin-top: -78px;
   &.tooltip-with-ci {
     margin-top: -87px;
-  }
-  .tooltip-cis {
-    width: 100%;
-    display: block;
   }
 }
 .bar-tooltips .tooltip-inner-circle.item0 {

@@ -55,6 +55,8 @@
     role="tooltip"
     *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
     [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'"
+    [style.min-width]="(135 > tooltip.width ? 135 : (tooltip.width - 10)) + 'px'"
+    [style.margin-left]="'-' + ((65 > (tooltip.width/2 - 5)) ? 65 : (tooltip.width/2 - 5)) +'px'"
   >
     <div class="tooltip-arrow"></div>
     <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">
