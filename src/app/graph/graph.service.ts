@@ -177,7 +177,12 @@ export class GraphService {
     const barData = (this.type === 'bar' ? this.data : []);
     // Remove all existing bars
     const barCIs = this.dataContainer.selectAll('.bar-ci').data(barData);
-    const barCIsEnter = barCIs.enter().append('rect');
+    const barCIsEnter = barCIs.enter()
+      .append('rect')
+      .on('mouseover', function(d) {
+          self.barHover.emit({...d, ...self.getBarRect(this), el: this });
+        })
+      .on('mouseout',  function(d) { self.barHover.emit(null); });
     const self = this;
     const displayCI = this.settings &&
       this.settings.ci &&
