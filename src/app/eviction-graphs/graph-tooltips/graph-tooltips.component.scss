@@ -99,6 +99,7 @@ $graphTooltipCircleSize: 10px;
   position: relative;
   margin-left: $graphTooltipCircleSize * 2;
   transition: height, .5s;
+  margin-top: -2px;
   .tooltip-wrapper {
     position:relative;
     width: 200px;
