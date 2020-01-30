@@ -58,7 +58,7 @@ $graphTooltipCircleSize: 10px;
   height: 100%;
   flex-direction: column;
   justify-content: center;
-  transform: translateY(-18px);
+  margin-top: -18px;
 }
 .line-tooltips .circles-container .circles {
   // circles that overlay the line
