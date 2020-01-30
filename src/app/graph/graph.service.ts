@@ -177,7 +177,12 @@ export class GraphService {
     const barData = (this.type === 'bar' ? this.data : []);
     // Remove all existing bars
     const barCIs = this.dataContainer.selectAll('.bar-ci').data(barData);
-    const barCIsEnter = barCIs.enter().append('rect');
+    const barCIsEnter = barCIs.enter()
+      .append('rect')
+      .on('mouseover', function(d) {
+          self.barHover.emit({...d, ...self.getBarRect(this), el: this });
+        })
+      .on('mouseout',  function(d) { self.barHover.emit(null); });
     const self = this;
     const displayCI = this.settings &&
       this.settings.ci &&
@@ -279,7 +284,13 @@ export class GraphService {
       // console.log('bars update()');
       bars.transition().ease(this.settings.transition.ease)
         .duration(this.settings.transition.duration)
-        .attr('class', (d, i) => 'bar bar-' + i)
+        .attr('class', (d, i) => {
+          let className = 'bar bar-' + i;
+          if (d.data && d.data[0] && d.data[0]['x'] === 'United States') {
+           className += ' isUSAverage';
+          }
+          return className;
+        })
         .attr('height', (d) => Math.max(
           0,
           this.height - this.scales.y(
@@ -747,9 +758,24 @@ export class GraphService {
     // gradients
     for (let i = 0; i < 4; i++) {
       const g = this.defs.append('linearGradient').attr('id', 'g' + i)
-        .attr('x1', 0).attr('x2', 0).attr('y1', 0).attr('y2', 1);
+        .attr('x1', 0).attr('x2', '100%').attr('y1', 0).attr('y2', '100%');
       g.append('stop').attr('offset', '0%').attr('class', 'g' + i + '-start');
       g.append('stop').attr('offset', '100%').attr('class', 'g' + i + '-end');
+      const pattern = this.defs.append('pattern')
+        .attr('id', 'pattern' + i)
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('shapeRendering', 'crispEdges')
+        .attr('width', '12px')
+        .attr('height', '12px');
+      pattern.append('rect')
+        .attr('x', '0')
+        .attr('y', '0')
+        .attr('width', '12px')
+        .attr('height', '12px');
+      pattern.append('path')
+        .attr('class', 'path' + i)
+        .attr('d', 'M-3,3 l6,-6M0,12 l12,-12M9,15 l6,-6')
+        .style('stroke-width', '4px');
     }
     // clip area
     this.clip = this.defs

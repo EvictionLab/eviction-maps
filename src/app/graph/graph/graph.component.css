@@ -72,17 +72,40 @@
 .app-graph .bar-1 { fill: url(#g1); }
 .app-graph .bar-2 { fill: url(#g2); }
 .app-graph .bar-3 { fill: url(#g3); }
-
-.app-graph .bar-ci-0 { fill: url(#g0); }
-.app-graph .bar-ci-1 { fill: url(#g1); }
-.app-graph .bar-ci-2 { fill: url(#g2); }
-.app-graph .bar-ci-3 { fill: url(#g3); }
-
-.app-graph .bar-ci {
-  fill-opacity: 0.5;
-}
-
-
-
+.app-graph .bar.isUSAverage { fill: url(#g3); }
 
 .app-graph .graph-rect { fill:none; stroke: none;  }
+
+/* start cross hatching */
+.app-graph .bar-ci-0 { fill: url(#pattern0); }
+.app-graph .bar-ci-1 { fill: url(#pattern1); }
+.app-graph .bar-ci-2 { fill: url(#pattern2); }
+.app-graph .bar-ci-3 { fill: url(#pattern3); }
+
+#pattern0 path {
+  stroke: rgba(226, 64, 0, 40%);
+}
+#pattern0 rect {
+  fill: rgba(255, 255, 255, 0.4);
+}
+#pattern1 path {
+  stroke: rgba(68, 72, 120, 0.3);
+}
+#pattern1 rect {
+  fill: rgba(255, 255, 255, 0.3);
+}
+
+#pattern2 path {
+  stroke: rgba(44, 137, 127, 0.4);
+}
+#pattern2 rect {
+  fill: rgba(255, 255, 255, 0.4)
+}
+
+#pattern3 path {
+  stroke: rgba(226, 64, 0, 40)
+}
+#pattern3 rect {
+  fill: rgba(255, 255, 255, 0.4)
+ }
+/* end cross hatching */

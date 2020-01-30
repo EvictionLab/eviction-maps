@@ -23,6 +23,11 @@ export class GraphTooltipsComponent implements OnInit {
   @Input() displayCI: boolean;
   /** Determines which side the tooltips show on */
   tooltipPos = 'left';
+  /** Data to render location names */
+  @Input() locations;
+  /** Data to render US average */
+  @Input() average;
+
 
   constructor(private decimal: DecimalPipe) {}
 
