@@ -99,7 +99,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Graph type input and output (allows double binding) */
   private _graphType = 'line';
   @Input() set graphType(type: string) {
-    console.log('changing graphtype: ', type);
+    // console.log('changing graphtype: ', type);
     if (this._graphType !== type) {
       this._graphType = type;
       this.tooltips = [];
@@ -193,7 +193,7 @@ export class EvictionGraphsComponent implements OnInit {
       });
       /** Set options to be passed to graph data select */
       this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
-      console.log(this.bubbleOptions);
+      // console.log(this.bubbleOptions);
     }
     this.barYearSelect = this.graphService.generateYearArray(this.minYear, this.maxYear);
     this.graphTypeOptions = this.createGraphTypeOptions();
@@ -470,14 +470,14 @@ export class EvictionGraphsComponent implements OnInit {
   }
 
   getGraphTypeObject() {
-    console.log('getGraphTypeObject()');
-    console.log('this.graphType: ', this.graphType);
-    console.log('this.graphTypeOptions: ', this.graphTypeOptions);
-    console.log('this.graphTypeObject: ', this.graphTypeObject);
+    // console.log('getGraphTypeObject()');
+    // console.log('this.graphType: ', this.graphType);
+    // console.log('this.graphTypeOptions: ', this.graphTypeOptions);
+    // console.log('this.graphTypeObject: ', this.graphTypeObject);
     this.graphTypeOptions = this.createGraphTypeOptions();
-    console.log(this.graphTypeOptions.filter(
-      (item) => item.id === this.graphType
-    ));
+    // console.log(this.graphTypeOptions.filter(
+    //   (item) => item.id === this.graphType
+    // ));
     return this.graphTypeOptions.filter(
       (item) => item.id === this.graphType
     );
