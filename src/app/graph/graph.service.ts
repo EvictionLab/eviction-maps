@@ -907,6 +907,7 @@ export class GraphService {
    * @param prop either 'x' or 'y'
    */
   private getExtent(prop: string): Array<number> {
+    // console.log('getExtent()');
     const axis = this.settings.axis[prop];
     // return if extent is explicitly set
     if (axis.hasOwnProperty('extent') && axis['extent'].length === 2) {
@@ -933,6 +934,7 @@ export class GraphService {
    * Returns the scales based on the graph type
    */
   private getScales() {
+    // console.log('getScales()');
     if (this.type === 'line') {
       const ranges = this.getRange();
       const extents = this.getExtents();
@@ -974,22 +976,42 @@ export class GraphService {
    * Returns largest of max and min CI values to add to padding
    * @return Number
    */
-  private getMaxCI() {
+  private getMaxCI(type) {
     // console.log('getMaxCI()');
     const cis = [];
-    (this.data).forEach((d) => {
-      cis.push((d.data[0].ciH > d.data[0].ciL) ? d.data[0].ciH : d.data[0].ciL);
-    });
+    if (type === 'high') {
+      (this.data).forEach((d) => {
+        (d.data).forEach((el) => {
+          cis.push(el.ciH);
+        });
+      });
+    } else {
+      (this.data).forEach((d) => {
+        (d.data).forEach((el) => {
+          cis.push(el.ciL);
+        });
+      });
+    }
     return Math.max(...cis);
   }
 
   /** Pads the min / max of an extent array by the provided amount */
   private padExtent(extent: Array<number>, amount = 0.1, options: any = {}): Array<number> {
     // console.log('padExtent()');
-    // const maxCI = this.getMaxCI();
-    const padding = ((extent[1] - extent[0]) * amount);
-    const min = options.bottom ? extent[0] - padding : extent[0];
-    const max = options.top ? extent[1] + padding : extent[1];
+    let maxExtent;
+    let minExtent;
+    if (this.settings && this.settings.ci && !!this.settings.ci.display) {
+      const maxCIH = this.getMaxCI('high');
+      maxExtent = (extent[1] > maxCIH) ? extent[1] : maxCIH;
+      const maxCIL = this.getMaxCI('low');
+      minExtent = (extent[0] < maxCIL) ? extent[0] : maxCIL;
+    } else {
+      maxExtent = extent[1];
+      minExtent = extent[0];
+    }
+    const padding = (maxExtent - minExtent) * amount;
+    const min = options.bottom ? minExtent - padding : extent[0];
+    const max = options.top ? maxExtent + padding : extent[1];
     return [min, max];
   }
 
