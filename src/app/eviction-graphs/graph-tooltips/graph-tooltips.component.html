@@ -16,7 +16,7 @@
       *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
       [class.right]="tooltips[0].xPos <= 250"
       [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 250"
-      [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"
+      [style.transform]="'translate('+ tooltips[0].xPos +'px, ' + (tooltips[0].y < 1 ? (tooltips[0].y * 10) : (-tooltips[0].y * 10)) + 'px)'"
       [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
     >
       <div class="tooltip-wrapper">
