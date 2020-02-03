@@ -17,7 +17,6 @@
       [class.right]="tooltips[0].xPos <= 250"
       [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 250"
       [style.transform]="'translate('+ tooltips[0].xPos +'px, ' + tooltipYTranslate + 'px)'"
-      [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
     >
       <div class="tooltip-wrapper">
         <div class="tooltip-inner line-tooltip-value" >
@@ -35,13 +34,16 @@
           </span>
           <div class="tooltip-body">
             {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
-            <div *ngIf="displayCI" class="ci-container">
+            <div *ngIf="displayCI && tooltip.y" class="ci-container">
               <span class="max">
                 {{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}
               </span>
               <span class="min">
                 {{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}
               </span>
+            </div>
+            <div *ngIf="tooltip.y !== 0 && !tooltip.y" class='data-unavailable'>
+              Data unavailable
             </div>
           </div>
         </div>
