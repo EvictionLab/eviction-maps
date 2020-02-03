@@ -13,6 +13,8 @@ export class GraphTooltipsComponent implements OnInit {
 
   /** Data to render tooltips */
   @Input() tooltips;
+  /** Variable to determine vertical movement for tooltip on line chart */
+  @Input() tooltipYTranslate;
   /** Which type of graph to show tooltips for */
   @Input() graphType;
   /** Determines how the tooltips will be formatted */
