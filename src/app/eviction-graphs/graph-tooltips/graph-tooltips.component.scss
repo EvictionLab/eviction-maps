@@ -169,7 +169,7 @@ $graphTooltipCircleSize: 10px;
   justify-content: flex-start;
   font-size: 14px;
 }
-.ci-container {
+.ci-container, .data-unavailable {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -178,6 +178,9 @@ $graphTooltipCircleSize: 10px;
   justify-content: center;
   height: 100%;
   margin-left: 10px;
+}
+.data-unavailable {
+  margin-left: 0;
 }
 // force the average overlay-the-line circle to be $color4
 ::ng-deep .average-shown .circles:last-of-type:before {
