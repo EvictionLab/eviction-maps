@@ -150,7 +150,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** attribute for holding tooltip data */
   tooltips = [];
   /** attribute for determining yTranslate value of line chart tooltip */
-  tooltipYTranslate = 0
+  tooltipYTranslate = 0;
   /** attribute w/ object of graph options */
   graphTypeOptions = this.createGraphTypeOptions();
   /** graph data that is passed to the graph component */
@@ -224,7 +224,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Sets the vertical translation of the line chart tooltip */
   setTooltipYTranslate() {
     if (this.tooltips[0] && this.tooltips[0].y) {
-      let yPos = this.tooltips[0].y;
+      const yPos = this.tooltips[0].y;
       this.tooltipYTranslate = yPos < 1 ? (yPos * 10) : (-yPos * 10);
     } else {
       this.tooltipYTranslate = 0;
