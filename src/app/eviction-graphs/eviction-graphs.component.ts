@@ -224,7 +224,7 @@ export class EvictionGraphsComponent implements OnInit {
   /** Sets the vertical translation of the line chart tooltip */
   setTooltipYTranslate() {
     if (this.tooltips.length) {
-      this.tooltips.forEach((tip, i) => {
+      this.tooltips.forEach(tip => {
         if (tip.yPos) {
           const yPos = tip.yPos;
           const windowWidth = window.innerWidth;

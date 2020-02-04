@@ -109,7 +109,6 @@ $graphTooltipCircleSize: 10px;
 
 .line-tooltips .tooltip {
   position: static;
-  // margin-left: $graphTooltipCircleSize * 2;
   transition: height, .5s;
   margin-top: -2px;
   display: flex;
