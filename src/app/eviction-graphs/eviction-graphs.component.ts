@@ -223,11 +223,19 @@ export class EvictionGraphsComponent implements OnInit {
 
   /** Sets the vertical translation of the line chart tooltip */
   setTooltipYTranslate() {
-    if (this.tooltips[0] && this.tooltips[0].y) {
-      const yPos = this.tooltips[0].y;
-      this.tooltipYTranslate = yPos < 1 ? (yPos * 10) : (-yPos * 10);
+    if (this.tooltips.length) {
+      this.tooltips.forEach(tip => {
+        if (tip.yPos) {
+          const yPos = tip.yPos;
+          const windowWidth = window.innerWidth;
+          const graphCenter = windowWidth > 776 ? 160 : 80;
+          this.tooltipYTranslate = yPos <= graphCenter ?
+            (yPos) : (yPos + ((graphCenter - yPos) * .5) - (this.tooltips.length * 35));
+          return;
+        }
+      });
     } else {
-      this.tooltipYTranslate = 0;
+      this.tooltipYTranslate = 30;
     }
   }
 

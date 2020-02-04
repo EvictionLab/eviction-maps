@@ -11,40 +11,45 @@
   </div>
   <!-- End circles on lines -->
 
-  <div class='tooltip-container'>
-    <div class="tooltip tooltip-number" role="tooltip"
-      *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
-      [class.right]="tooltips[0].xPos <= 250"
-      [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 250"
-      [style.transform]="'translate('+ tooltips[0].xPos +'px, ' + tooltipYTranslate + 'px)'"
+  <div
+    class="tooltip-row-container"
+    *ngIf="tooltips.length"
+    [style.transform]="'translate('+ tooltips[0].xPos +'px, ' + tooltipYTranslate + 'px)'"
+    role="tooltip"
+  >
+    <div
+      class='tooltip-container'
+      [class.right]="tooltips[0].xPos <= 300"
+      [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 300"
     >
-      <div class="tooltip-wrapper">
-        <div class="tooltip-inner line-tooltip-value" >
-          <span class="tooltip-header">
-            <div class="tooltip-inner-circle"></div>
-            <div *ngIf="locations[i]; then selectedLocation else usAverage" class="legend-label"></div>
-            <ng-template #selectedLocation>
-              {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
-              {{ locations[i].properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
-              {{ locations[i].properties["n"] }}
-            </ng-template>
-            <ng-template #usAverage>
-              {{ average.name }}
-            </ng-template>
-          </span>
-          <div class="tooltip-body">
-            {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
-            <div *ngIf="displayCI && tooltip.y" class="ci-container">
-              <span class="max">
-                {{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}
-              </span>
-              <span class="min">
-                {{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}
-              </span>
-            </div>
-            <div *ngIf="tooltip.y !== 0 && !tooltip.y" class='data-unavailable'>
-              Data unavailable
-            </div>
+      <div
+        class="tooltip"
+        *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
+      >
+        <span class="tooltip-header">
+          <div class="tooltip-inner-circle"></div>
+          <div *ngIf="locations[i]; then selectedLocation else usAverage" class="legend-label"></div>
+          <ng-template #selectedLocation>
+            {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
+            {{ locations[i].properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+            {{ locations[i].properties["n"] }}
+          </ng-template>
+          <ng-template #usAverage>
+            {{ average.name }}
+          </ng-template>
+        </span>
+        <div class="tooltip-body">
+          {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+          <div *ngIf="displayCI && tooltip.y" class="ci-container">
+            <span class="max">
+              {{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}
+            </span>
+            <span class="min">
+              {{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}
+            </span>
+          </div>
+          <div *ngIf="tooltip.y !== 0 && !tooltip.y" class='data-unavailable'>
+            Data unavailable
           </div>
         </div>
       </div>

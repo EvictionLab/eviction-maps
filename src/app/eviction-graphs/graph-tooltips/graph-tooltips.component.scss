@@ -24,7 +24,7 @@ $graphTooltipCircleSize: 10px;
   }
 }
 // tooltip transitions
-.tooltip {
+.tooltip, .tooltip-container, .tooltip-row-container {
   transition: transform 0.1s cubic-bezier(0, 0.66, 0.66, 1);
 }
 // tooltip container classes
@@ -53,12 +53,24 @@ $graphTooltipCircleSize: 10px;
   background: $color4;
 }
 // Line tooltips
+.line-tooltips .tooltip-row-container {
+  display: flex;
+  margin-left: 20px;
+}
 .line-tooltips .tooltip-container {
   display: flex;
-  height: 100%;
+  flex-basis: auto;
   flex-direction: column;
   justify-content: center;
   margin-top: -18px;
+  padding: 10px 0 5px 0;
+  min-width: 220px;
+  background-color: black;
+  z-index:9999;
+  &.left {
+    transform: translateX(-260px) !important;
+    margin-right: 20px;
+  }
 }
 .line-tooltips .circles-container .circles {
   // circles that overlay the line
@@ -96,27 +108,18 @@ $graphTooltipCircleSize: 10px;
 }
 
 .line-tooltips .tooltip {
-  position: relative;
-  margin-left: $graphTooltipCircleSize * 2;
+  position: static;
   transition: height, .5s;
   margin-top: -2px;
-  .tooltip-wrapper {
-    position:relative;
-    width: 200px;
-    height:100%;
-    .tooltip-cis {
-      width: auto;
-      display: inline-block;
-    }
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 1;
+  color: white;
+  padding: 10px;
+  max-height: 70px;
+  .tooltip-cis {
+    flex-shrink: 1;
   }
-  // shift the tooltip to the left
-  &.left {
-    .tooltip-wrapper {
-      transform: translateX(calc(-100% - #{grid(6)}));
-    }
-  }
-}
-.line-tooltips .tooltip {
   // circles inside the tooltips
   &:nth-of-type(1) .tooltip-inner-circle{
     background: $color1;
@@ -131,28 +134,14 @@ $graphTooltipCircleSize: 10px;
     background:$color4;
   }
 }
-// line and bar chart tooltip styles
-.tooltip-inner {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-content: flex-start;
-  align-items: flex-start;
-  font-size: 12px;
-}
-.tooltip-inner > * {
-  margin-left: 7px;
-  margin-right: 7px;
-}
+
 .tooltip-header {
   display: flex;
   align-items: center;
   font-weight: bold;
-  width: 100%;
   font-size: 14px;
   margin-bottom: 7px;
+  flex-shrink: 1;
 }
 .tooltip-inner-circle {
   z-index: 9999;
@@ -168,6 +157,7 @@ $graphTooltipCircleSize: 10px;
   align-items: center;
   justify-content: flex-start;
   font-size: 14px;
+  flex-shrink: 1;
 }
 .ci-container, .data-unavailable {
   display: flex;
@@ -178,9 +168,11 @@ $graphTooltipCircleSize: 10px;
   justify-content: center;
   height: 100%;
   margin-left: 10px;
+  flex-shrink: 1;
 }
 .data-unavailable {
   margin-left: 0;
+  font-size: 14px;
 }
 // force the average overlay-the-line circle to be $color4
 ::ng-deep .average-shown .circles:last-of-type:before {
