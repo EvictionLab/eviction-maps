@@ -229,10 +229,11 @@ export class EvictionGraphsComponent implements OnInit {
           const yPos = tip.yPos;
           const windowWidth = window.innerWidth;
           const graphCenter = windowWidth > 776 ? 160 : 80;
-          this.tooltipYTranslate = yPos <= graphCenter ? (yPos) : (yPos + ((graphCenter - yPos) * .5) - (this.tooltips.length * 35));
+          this.tooltipYTranslate = yPos <= graphCenter ?
+            (yPos) : (yPos + ((graphCenter - yPos) * .5) - (this.tooltips.length * 35));
           return;
         }
-      })
+      });
     } else {
       this.tooltipYTranslate = 30;
     }
