@@ -1,37 +1,37 @@
 /* You can add global styles to this file, and also import other style files */
 
 // Theme Mixins and Variables
-@import 'theme';
+@import "theme";
 
 // Base Styles
-@import './theme/base/normalize';
-@import './theme/base/typography';
-@import './theme/base/buttons';
-@import './theme/base/toast';
-@import './theme/base/dropdown';
-@import './theme/base/dialogs';
-@import './theme/base/popovers';
-@import './theme/base/tooltips';
-@import './theme/base/inputs';
-@import './theme/base/graph';
+@import "./theme/base/normalize";
+@import "./theme/base/typography";
+@import "./theme/base/buttons";
+@import "./theme/base/toast";
+@import "./theme/base/dropdown";
+@import "./theme/base/dialogs";
+@import "./theme/base/popovers";
+@import "./theme/base/tooltips";
+@import "./theme/base/inputs";
+@import "./theme/base/graph";
+@import "./theme/base/group";
 
 @media screen {
-  @import './theme/base/hacks';
-  @import './theme/base/hero';
-  @import './theme/base/menu';
-  @import './theme/base/header';
-  @import './theme/base/footer';
+  @import "./theme/base/hacks";
+  @import "./theme/base/hero";
+  @import "./theme/base/menu";
+  @import "./theme/base/header";
+  @import "./theme/base/footer";
 }
-
 
 // PAGE STYLES
 
-
-html, body {
-  margin:0;
-  padding:0;
-  width:100%;
-  height:100%;
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
 }
 
 body {
@@ -40,8 +40,8 @@ body {
   line-height: 1.42857143;
   color: $black;
   background-color: $defaultBackground;
-  height:auto;
-  overflow-x:hidden;
+  height: auto;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -62,7 +62,7 @@ a:focus {
 // page content max dimensions
 .content-inner {
   max-width: $maxContentWidth;
-  margin:auto;
+  margin: auto;
 }
 
 // HELPER CLASSES
@@ -88,7 +88,7 @@ a:focus {
 }
 .fade {
   opacity: 0;
-  transition: opacity .15s linear;
+  transition: opacity 0.15s linear;
 }
 .fade.in {
   opacity: 1;
@@ -116,7 +116,8 @@ a:focus {
   border: 0;
 }
 
-.sr-only-focusable:active, .sr-only-focusable:focus {
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
   position: static;
   width: auto;
   height: auto;
@@ -130,79 +131,88 @@ a:focus {
 // STYLE OVERRIDES
 
 // no mobile "map button" hint on tablet+
-@media(min-width: $gtMobile) {
-  .tooltip.map-hint-mobile { display:none!important;}
+@media (min-width: $gtMobile) {
+  .tooltip.map-hint-mobile {
+    display: none !important;
+  }
 }
 // no desktop "map button" hint on mobile
-@media(max-width: $gtMobile) {
-  .tooltip.map-hint-desktop { display:none!important;}
+@media (max-width: $gtMobile) {
+  .tooltip.map-hint-desktop {
+    display: none !important;
+  }
 }
 
 // hide the track on the year slider so it's not confused for range
 .app-wrapper app-ui-slider .el-slider .track.track-value {
-  background:none!important;
+  background: none !important;
 }
 
 // make cards in the data panel fill the width
 .data-content .location-card {
-  flex:1;
+  flex: 1;
   // no button for data panel cards
-  .card-footer { display: none;}
+  .card-footer {
+    display: none;
+  }
 }
 
 // override mapbox popup styles
-.app-wrapper, app-embed {
-  .mapboxgl-popup-close-button { display: none; }
+.app-wrapper,
+app-embed {
+  .mapboxgl-popup-close-button {
+    display: none;
+  }
 }
 
 // override modal styles
 .modal .modal-dialog .modal-content {
-  border-radius:0;
+  border-radius: 0;
 }
 
 .card-header .tooltip {
-  max-width:grid(21);
+  max-width: grid(21);
 }
 
 .feature-overview-dialog {
-  margin:grid(2);
+  margin: grid(2);
   width: grid(36);
   .modal-content {
-    padding:0;
+    padding: 0;
   }
 }
 // boost modal width on tablet+
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .feature-overview-dialog {
     width: grid(45);
   }
 }
 
-
 // copy link tooltip override
-@media(max-width: $gtMobile) {
+@media (max-width: $gtMobile) {
   .popover.in.bs-popover-top {
-    left:0!important;
-    right:0!important;
-    margin:auto;
+    left: 0 !important;
+    right: 0 !important;
+    margin: auto;
     width: grid(35);
     .popover-arrow.arrow {
-      left:auto!important;
+      left: auto !important;
       right: grid(3);
     }
   }
 }
 
 // force hide tooltip in header on ranking tool
-.ranking-tool .header-icons .tooltip { display: none; }
+.ranking-tool .header-icons .tooltip {
+  display: none;
+}
 
 /* IE10+ hide clear button on inputs */
 ::-ms-clear {
   display: none;
 }
 
-
 /** Override styles for print */
 @media print {
-  @import './theme/print.scss';
+  @import "./theme/print.scss";
 }
