@@ -202,11 +202,6 @@ app-embed {
   }
 }
 
-// force hide tooltip in header on ranking tool
-.ranking-tool .header-icons .tooltip {
-  display: none;
-}
-
 /* IE10+ hide clear button on inputs */
 ::-ms-clear {
   display: none;

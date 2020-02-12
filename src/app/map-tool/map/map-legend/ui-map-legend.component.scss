@@ -15,7 +15,7 @@ $bubbleColor: rgba(255, 4, 0, 0.65);
   padding: grid(1.5);
   & > .map-legend__section {
     &.bubbles {
-      min-width: grid(14);
+      min-width: grid(16);
       &.horizontal {
         align-items: center;
         justify-content: space-between;
@@ -64,7 +64,7 @@ $bubbleColor: rgba(255, 4, 0, 0.65);
 
 // base for each map legend item
 .map-legend__item {
-  @include numberFont($legendFontSize);
+  @include defaultFont($legendFontSize);
   position: relative;
   height: grid(4);
   margin: 0 grid(2) 0 0;
@@ -109,7 +109,7 @@ $bubbleColor: rgba(255, 4, 0, 0.65);
 
 // map legend item for bubble representing no data
 .map-legend__item.bubble-no-data {
-  font-family: $boldFontStack;
+  font-family: $fontStack;
   .legend-circle {
     background: #fff;
     border: 1px solid $grey3;
@@ -119,7 +119,7 @@ $bubbleColor: rgba(255, 4, 0, 0.65);
 
 // map legend item to label choropleths w/ no data
 .map-legend__item.choropleth-no-data {
-  font-family: $boldFontStack;
+  font-family: $fontStack;
   .no-data-square {
     width: grid(2);
     height: grid(2);
@@ -167,14 +167,13 @@ $bubbleColor: rgba(255, 4, 0, 0.65);
 @media (min-width: $gtMobile) {
   // boost font size
   .map-legend__item {
-    @include numberFont(11px);
+    @include defaultFont(11px);
   }
   // boost square size
   .map-legend__item.choropleth-no-data .no-data-square {
     width: grid(3);
   }
   .map-legend__item.choropleth-legend {
-    min-width: grid(22);
     .legend-middle {
       display: block;
     }

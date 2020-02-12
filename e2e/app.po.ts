@@ -1,16 +1,16 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element } from "protractor";
 
 export class AppPage {
-  navigateTo(path = '/') {
+  navigateTo(path = "/") {
     return browser.get(path);
   }
 
   mapElement() {
-    return element(by.css('app-root app-mapbox'));
+    return element(by.css("app-root app-mapbox"));
   }
 
   searchHeaderElement() {
-    return element(by.css('.header-search app-predictive-search'));
+    return element(by.css(".header__search app-predictive-search"));
   }
 
   fullPath() {
@@ -18,11 +18,11 @@ export class AppPage {
   }
 
   toastElement() {
-    return element(by.css('#toast-container .toast'));
+    return element(by.css("#toast-container .toast"));
   }
 
   updateLanguage(langIdx: number) {
-    element(by.css('.language-select')).click();
+    element(by.css(".language-select")).click();
     element(by.css(`.language-select li:nth-child(${langIdx})`)).click();
   }
 

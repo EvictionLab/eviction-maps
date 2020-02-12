@@ -171,83 +171,78 @@ app-location-cards {
 //    hide labels and adjust width so the select menus
 //    span the full width of the window.
 @media (max-width: $gtMobile) {
-  .map-ui app-ui-select {
+  .map-ui {
+    display: block;
+    background: #fff;
     position: absolute;
-    width: 33.3333%;
-    top: 0;
-    z-index: 100;
-    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease,
-      z-index 0.1s ease 0.2s;
-    // position the dropwdowns
-    &:nth-of-type(1) {
-      left: 0;
+    top: 48px;
+    left: 16px;
+    right: 16px;
+    padding: 0;
+    height: auto;
+    width: auto;
+    margin: auto;
+    max-width: grid(50);
+    @include vGroup(center);
+    box-shadow: $z1shadow;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    z-index: 0;
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 10;
     }
-    &:nth-of-type(2) {
-      left: 33.33333%;
-    }
-    &:nth-of-type(3) {
-      left: 66.66666%;
-      right: 0;
-    }
-    // span full width when open
-    &.open {
-      left: 0;
-      right: 0;
+    app-ui-select {
       width: 100%;
-      z-index: 101;
-      transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
-      ::ng-deep .el-select .el-select-label {
-        display: inherit;
-      }
-    }
-    // when nothing is selected show the label only
-    &.none-selected {
-      ::ng-deep .el-select {
-        .dropdown-toggle {
-          overflow: visible;
-          text-overflow: none;
-          white-space: normal;
+      display: block;
+      border-bottom: 1px solid $grey4;
+      ::ng-deep {
+        .dropdown-toggle.btn {
+          box-shadow: none;
+          display: flex;
+          align-items: center;
+          .icon {
+            right: 16px;
+          }
         }
         .dropdown-label {
-          display: block;
+          display: inline-block;
+          width: 50%;
         }
         .dropdown-value {
-          display: none;
+          display: inline-block;
+          width: calc(50% - #{grid(1)});
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
     }
-    ::ng-deep {
-      .el-select .dropdown-label,
-      .el-select .dropdown-value {
-        display: block;
-        overflow: hidden;
-        @include ellipsis-overflow();
-        span {
-          display: inline;
-          margin-left: grid(0.5);
-        }
-      }
-      .el-select .dropdown-toggle.btn {
-        height: grid(7);
-        padding-right: grid(3);
-      }
+    .select--year {
+      border-bottom: none;
     }
   }
 }
 // dropdowns span the entire viewport
 @media (min-width: $gtMobile) {
   // label inline with selected value
-  .map-ui app-ui-select {
-    float: left;
-    width: 28.9%;
-    margin: 0 16px 0 0;
-    position: relative;
-    &:nth-of-type(3) {
-      margin-right: 0;
-    }
-    ::ng-deep {
-      .el-select .dropdown-toggle.btn {
-        @include ellipsis-overflow();
+  .map-ui {
+    app-ui-select {
+      float: left;
+      width: 28.9%;
+      margin: 0 16px 0 0;
+      position: relative;
+      &:nth-of-type(3) {
+        margin-right: 0;
+      }
+      &.select--year {
+        display: none;
+      }
+      ::ng-deep {
+        .el-select .dropdown-toggle.btn {
+          @include ellipsis-overflow();
+        }
       }
     }
   }
@@ -330,7 +325,7 @@ app-ui-map-legend {
 //    move legend to bottom right of the map
 @media (min-width: $gtMobile) {
   app-ui-map-legend {
-    width: auto;
+    width: grid(50);
     margin: auto;
     top: auto;
     left: auto;

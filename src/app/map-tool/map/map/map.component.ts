@@ -1,37 +1,52 @@
 import {
-  Component, OnInit, OnChanges, HostBinding, Input, Output, EventEmitter, SimpleChanges, ViewChild,
-  HostListener, ElementRef
-} from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
-import 'rxjs/add/operator/distinctUntilChanged';
-import * as _isEqual from 'lodash.isequal';
-import * as _debounce from 'lodash.debounce';
+  Component,
+  OnInit,
+  OnChanges,
+  HostBinding,
+  Input,
+  Output,
+  EventEmitter,
+  SimpleChanges,
+  ViewChild,
+  HostListener,
+  ElementRef
+} from "@angular/core";
+import { environment } from "../../../../environments/environment";
+import { TranslateService, TranslatePipe } from "@ngx-translate/core";
+import "rxjs/add/operator/distinctUntilChanged";
+import * as _isEqual from "lodash.isequal";
+import * as _debounce from "lodash.debounce";
 
-import { MapDataAttribute } from '../../data/map-data-attribute';
-import { MapLayerGroup } from '../../data/map-layer-group';
-import { MapDataObject } from '../../data/map-data-object';
-import { MapFeature } from '../map-feature';
-import { MapService } from '../map.service';
-import { LoadingService } from '../../../services/loading.service';
-import { PlatformService } from '../../../services/platform.service';
-import { AnalyticsService } from '../../../services/analytics.service';
-import { MapToolService } from '../../map-tool.service';
+import { MapDataAttribute } from "../../data/map-data-attribute";
+import { MapLayerGroup } from "../../data/map-layer-group";
+import { MapDataObject } from "../../data/map-data-object";
+import { MapFeature } from "../map-feature";
+import { MapService } from "../map.service";
+import { LoadingService } from "../../../services/loading.service";
+import { PlatformService } from "../../../services/platform.service";
+import { AnalyticsService } from "../../../services/analytics.service";
+import { MapToolService } from "../../map-tool.service";
 
 @Component({
-  selector: 'app-map',
-  templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
-  providers: [ TranslatePipe ]
+  selector: "app-map",
+  templateUrl: "./map.component.html",
+  styleUrls: ["./map.component.scss"],
+  providers: [TranslatePipe]
 })
 export class MapComponent implements OnInit, OnChanges {
   censusYear = 2010;
   minYear = environment.minYear;
   maxYear = environment.maxYear;
+  yearsArray: Array<number>;
   mapEventLayers: Array<string>;
   cardProps;
   zoom = 3;
-  private autoSelect = { id: 'auto', name: 'Auto', langKey: 'LAYERS.AUTO', minzoom: 0 };
+  private autoSelect = {
+    id: "auto",
+    name: "Auto",
+    langKey: "LAYERS.AUTO",
+    minzoom: 0
+  };
   private _store = {
     layer: null,
     bubble: null,
@@ -49,7 +64,9 @@ export class MapComponent implements OnInit, OnChanges {
   /** Sets and gets the bounds for the map */
   @Input()
   set boundingBox(val) {
-    if (!val) { return; }
+    if (!val) {
+      return;
+    }
     const roundedVal = val.map(v => Math.round(v * 1000) / 1000); // round bounds to 3 decimals
     if (!_isEqual(roundedVal, this._store.bounds) && val.length === 4) {
       this._store.bounds = roundedVal;
@@ -59,7 +76,9 @@ export class MapComponent implements OnInit, OnChanges {
       this.boundingBoxChange.emit(this._store.bounds);
     }
   }
-  get boundingBox() { return this._store.bounds; }
+  get boundingBox() {
+    return this._store.bounds;
+  }
   @Output() boundingBoxChange: EventEmitter<Array<number>> = new EventEmitter();
 
   /** Sets and gets the bubble attribute to display on the map */
@@ -72,8 +91,12 @@ export class MapComponent implements OnInit, OnChanges {
       this.updateCardProperties();
     }
   }
-  get selectedBubble(): MapDataAttribute { return this._store.bubble; }
-  @Output() selectedBubbleChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  get selectedBubble(): MapDataAttribute {
+    return this._store.bubble;
+  }
+  @Output() selectedBubbleChange: EventEmitter<
+    MapDataAttribute
+  > = new EventEmitter();
 
   /** Sets and gets the choropleth attribute to display on the map */
   @Input()
@@ -85,14 +108,18 @@ export class MapComponent implements OnInit, OnChanges {
       this.updateCardProperties();
     }
   }
-  get selectedChoropleth(): MapDataAttribute { return this._store.choropleth; }
-  @Output() selectedChoroplethChange: EventEmitter<MapDataAttribute> = new EventEmitter();
+  get selectedChoropleth(): MapDataAttribute {
+    return this._store.choropleth;
+  }
+  @Output() selectedChoroplethChange: EventEmitter<
+    MapDataAttribute
+  > = new EventEmitter();
 
   /** Sets and gets the layer to display on the map */
   @Input()
   set selectedLayer(newLayer: MapLayerGroup) {
     // if "auto" option is selected, turn on auto switch and return
-    if (newLayer.id === 'auto') {
+    if (newLayer.id === "auto") {
       this.autoSwitch = true;
       return;
     }
@@ -108,32 +135,43 @@ export class MapComponent implements OnInit, OnChanges {
       // if there is no value yet, set it, and turn off auto-switch
       // if layer zoom range is outside the current zoom
       this._store.layer = newLayer;
-      this.autoSwitch = newLayer.zoom[0] <= this.zoom && newLayer.zoom[1] >= this.zoom;
+      this.autoSwitch =
+        newLayer.zoom[0] <= this.zoom && newLayer.zoom[1] >= this.zoom;
     }
   }
-  get selectedLayer(): MapLayerGroup { return this._store.layer; }
-  @Output() selectedLayerChange: EventEmitter<MapLayerGroup> = new EventEmitter();
-
+  get selectedLayer(): MapLayerGroup {
+    return this._store.layer;
+  }
+  @Output() selectedLayerChange: EventEmitter<
+    MapLayerGroup
+  > = new EventEmitter();
 
   /** Sets and gets the year to display data on the map */
   @Input()
   set year(newYear: number) {
     if (newYear !== this._store.year) {
       this._store.year = newYear;
-      if (newYear) { this.updateMapYear(); }
+      if (newYear) {
+        this.updateMapYear();
+      }
     }
   }
-  get year() { return this._store.year; }
+  get year() {
+    return this._store.year;
+  }
   @Output() yearChange: EventEmitter<number> = new EventEmitter();
 
   /** Data attributes for bubbles, choropleths, and cards */
   @Input() set dataAttributes(value) {
     this._store.attributes = value;
-    this.bubbleOptions = this.dataAttributes.filter(d => d.type === 'bubble');
-    this.choroplethOptions = this.dataAttributes.filter(d => d.type === 'choropleth');
+    this.bubbleOptions = this.dataAttributes.filter(d => d.type === "bubble");
+    this.choroplethOptions = this.dataAttributes.filter(
+      d => d.type === "choropleth"
+    );
   }
-  get dataAttributes() { return this._store.attributes; }
-
+  get dataAttributes() {
+    return this._store.attributes;
+  }
 
   /** Mapboxgl map configuration */
   @Input() mapConfig;
@@ -153,25 +191,28 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() layerChangedFromDropdown = new EventEmitter();
   // emits when help button is clicked
   @Output() helpClick = new EventEmitter();
-  @HostBinding('class.cards-active') get cardsActive() {
+  @HostBinding("class.cards-active") get cardsActive() {
     return this.activeFeatures.length;
   }
-  @HostBinding('class.slider-active') get sliderActive() {
-    return (this.selectedBubble && !this.selectedBubble.id.includes('none')) ||
-      (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
-      this.cardsActive;
+  @HostBinding("class.slider-active") get sliderActive() {
+    return (
+      (this.selectedBubble && !this.selectedBubble.id.includes("none")) ||
+      (this.selectedChoropleth &&
+        !this.selectedChoropleth.id.includes("none")) ||
+      this.cardsActive
+    );
   }
-   /** Gets if the legend should be shown or not */
-  @HostBinding('class.legend-active') get showLegend(): boolean {
-    return this.selectedLayer &&
-      (
-        (this.selectedChoropleth && !this.selectedChoropleth.id.includes('none')) ||
-        (this.selectedBubble && !this.selectedBubble.id.includes('none'))
-      );
-
+  /** Gets if the legend should be shown or not */
+  @HostBinding("class.legend-active") get showLegend(): boolean {
+    return (
+      this.selectedLayer &&
+      ((this.selectedChoropleth &&
+        !this.selectedChoropleth.id.includes("none")) ||
+        (this.selectedBubble && !this.selectedBubble.id.includes("none")))
+    );
   }
-  @ViewChild('pop') mapTooltip;
-  @ViewChild('mapEl') mapEl: ElementRef;
+  @ViewChild("pop") mapTooltip;
+  @ViewChild("mapEl") mapEl: ElementRef;
   /** Tracks if the "start here" tooltip is enabled */
   tooltipEnabled = true;
   /** Tracks if the current resolution is greater than mobile */
@@ -188,31 +229,41 @@ export class MapComponent implements OnInit, OnChanges {
     this._store.autoSwitch = on;
     this.updateSelectedLayerName();
   }
-  get autoSwitch(): boolean { return this._store.autoSwitch; }
+  get autoSwitch(): boolean {
+    return this._store.autoSwitch;
+  }
 
   /** Gets the layers available at the current zoom */
   get selectDataLevels(): Array<MapLayerGroup> {
-    const selectOptions = (this.layerOptions.filter((l) => l.minzoom <= this.zoom) || []);
-    return [ this.autoSelect, ...selectOptions ];
+    const selectOptions =
+      this.layerOptions.filter(l => l.minzoom <= this.zoom) || [];
+    return [this.autoSelect, ...selectOptions];
   }
   /** Debounced function for year change */
   private updateMapYear = _debounce(() => {
-      this.yearChange.emit(this.year);
-      if (this._mapInstance) {
-        this.updateCensusYear();
-        // Don't update highlight features on year change
-        this.updateMapBubbles();
-        this.updateMapChoropleths();
-      }
-    }, 400
-  );
+    this.yearChange.emit(this.year);
+    if (this._mapInstance) {
+      this.updateCensusYear();
+      // Don't update highlight features on year change
+      this.updateMapBubbles();
+      this.updateMapChoropleths();
+    }
+  }, 400);
 
   // returns true if there is data being shown that changes by year
   get isYearDataShown() {
-    if (!this.activeFeatures || !this.selectedBubble || !this.selectedChoropleth) { return false; }
-    return this.activeFeatures.length > 0 ||
-      this.selectedBubble.id.indexOf('none') < 0 ||
-      this.selectedChoropleth.id.indexOf('none') < 0;
+    if (
+      !this.activeFeatures ||
+      !this.selectedBubble ||
+      !this.selectedChoropleth
+    ) {
+      return false;
+    }
+    return (
+      this.activeFeatures.length > 0 ||
+      this.selectedBubble.id.indexOf("none") < 0 ||
+      this.selectedChoropleth.id.indexOf("none") < 0
+    );
   }
 
   private blockMapClick = false;
@@ -228,19 +279,26 @@ export class MapComponent implements OnInit, OnChanges {
     private translatePipe: TranslatePipe,
     private analytics: AnalyticsService
   ) {
+    // create array with all years
+    this.yearsArray = new Array(this.maxYear - this.minYear + 1)
+      .fill(this.maxYear)
+      .map((n, i) => n - i);
     translate.onLangChange.subscribe(l => this.updateSelectedLayerName());
-    this.mapService.zoom$.skip(1)
+    this.mapService.zoom$
+      .skip(1)
       .filter(zoom => zoom !== null)
-      .subscribe((zoom) => this.onMapZoomEnd(zoom));
+      .subscribe(zoom => this.onMapZoomEnd(zoom));
   }
 
   ngOnInit() {
     this.gtMobile = this.platform.isLargerThanMobile;
     this.gtTablet = this.platform.isLargerThanTablet;
-    this.mapEventLayers = this.layerOptions.map((layer) => layer.id);
+    this.mapEventLayers = this.layerOptions.map(layer => layer.id);
     this.updateCardProperties();
     // Show tooltip 1 second after init
-    setTimeout(() => { this.mapTooltip.show(); }, 1000);
+    setTimeout(() => {
+      this.mapTooltip.show();
+    }, 1000);
     // Update the animation on an interval
     // NOTE: Parallax is disabled on the map for performance, uncomment to re-enable.
     // setInterval(this.parallaxMap.bind(this), 10);
@@ -256,19 +314,19 @@ export class MapComponent implements OnInit, OnChanges {
   }
 
   /** Update if the resolution is larger than tablet on resize */
-  @HostListener('window:resize', ['$event']) onWindowResize() {
+  @HostListener("window:resize", ["$event"]) onWindowResize() {
     this.gtMobile = this.platform.isLargerThanMobile;
     this.gtTablet = this.platform.isLargerThanTablet;
   }
 
   /** Hide "start here" tooltip on first click */
-  @HostListener('document:click', ['$event']) dismissTooltip() {
+  @HostListener("document:click", ["$event"]) dismissTooltip() {
     this.mapTooltip.hide();
     this.tooltipEnabled = false;
   }
 
   /** Block map clicks on touch device if the cards are expanded */
-  @HostListener('document:touchstart', ['$event']) onTouchStart() {
+  @HostListener("document:touchstart", ["$event"]) onTouchStart() {
     this.blockMapClick = !this.mapToolService.cardsCollapsed;
   }
 
@@ -278,7 +336,10 @@ export class MapComponent implements OnInit, OnChanges {
    * @param sourceId where the layer group is being set from
    */
   setGroupVisibility(layerGroup: MapLayerGroup, sourceId?: string) {
-    if (layerGroup && layerGroup.id === 'auto') { this.autoSwitch = true; return; }
+    if (layerGroup && layerGroup.id === "auto") {
+      this.autoSwitch = true;
+      return;
+    }
     if (this._mapInstance) {
       // Only change data level and turn off auto switch if wasn't already
       // changed by the onMapZoom event handler
@@ -286,12 +347,15 @@ export class MapComponent implements OnInit, OnChanges {
         this.selectedLayer = layerGroup;
         this.autoSwitch = false;
         this.restoreAutoSwitch = false;
-        if (sourceId && sourceId === 'dropdown') {
+        if (sourceId && sourceId === "dropdown") {
           this.layerChangedFromDropdown.emit(this.selectedLayer);
         }
       }
       this.layerOptions.forEach((group: MapLayerGroup) => {
-        this.mapService.setLayerGroupVisibility(group, (group.id === layerGroup.id));
+        this.mapService.setLayerGroupVisibility(
+          group,
+          group.id === layerGroup.id
+        );
       });
       // Reset the hover layer
       this.mapService.setHoveredFeature(null);
@@ -329,7 +393,10 @@ export class MapComponent implements OnInit, OnChanges {
       this.autoSwitch = true;
     }
     if (this.autoSwitch) {
-      const visibleGroups = this.mapService.filterLayerGroupsByZoom(this.layerOptions, zoom);
+      const visibleGroups = this.mapService.filterLayerGroupsByZoom(
+        this.layerOptions,
+        zoom
+      );
       if (visibleGroups.length > 0) {
         if (this.selectedLayer !== visibleGroups[0]) {
           this.selectedLayer = visibleGroups[0];
@@ -339,20 +406,27 @@ export class MapComponent implements OnInit, OnChanges {
     }
   }
 
-  enableZoom() { return this.mapService.enableZoom(); }
-  disableZoom() { return this.mapService.disableZoom(); }
+  enableZoom() {
+    return this.mapService.enableZoom();
+  }
+  disableZoom() {
+    return this.mapService.disableZoom();
+  }
 
   /**
    * Emits the new bounds of the current map view anytime the map finishes moving
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
-    this._store.bounds = this.mapService.getBoundsArray()
+    this._store.bounds = this.mapService
+      .getBoundsArray()
       .reduce((a, b) => a.concat(b))
       .map(v => Math.round(v * 1000) / 1000);
     if (this.scrollZoom) {
       this.boundingBoxChange.emit(this._store.bounds);
-      if (this.restoreAutoSwitch) { this.autoSwitch = true; }
+      if (this.restoreAutoSwitch) {
+        this.autoSwitch = true;
+      }
       this.updateHighlights();
     }
   }
@@ -378,7 +452,7 @@ export class MapComponent implements OnInit, OnChanges {
 
   /** Tracks anytime the map auto switches based on zoom level */
   private trackAutoSwitch(mapLayer: any) {
-    this.analytics.trackEvent('zoomUse', { zoomLevel: mapLayer.id });
+    this.analytics.trackEvent("zoomUse", { zoomLevel: mapLayer.id });
   }
 
   /**
@@ -386,20 +460,25 @@ export class MapComponent implements OnInit, OnChanges {
    * a higher detail level.
    */
   private updateHighlights() {
-    const updatedFeatures =
-      this.mapService.updateHighlightFeatures(this.activeFeatures);
+    const updatedFeatures = this.mapService.updateHighlightFeatures(
+      this.activeFeatures
+    );
     // do not update if active features / updated features are unavailable (issue #1139)
     // or if the updated features are not the same as the highlighted features (issue #1174)
-    if (!this.mapService.areSameFeatures(this.activeFeatures, updatedFeatures)) { return; }
+    if (
+      !this.mapService.areSameFeatures(this.activeFeatures, updatedFeatures)
+    ) {
+      return;
+    }
     // update geometries in place if higher detail
     for (let i = 0; i < this.activeFeatures.length; i++) {
       const f1 = this.activeFeatures[i];
       const f2 = updatedFeatures[i];
       if (
-        !f1.properties['geoDepth'] ||
-        f1.properties['geoDepth'] < f2.properties['geoDepth']
+        !f1.properties["geoDepth"] ||
+        f1.properties["geoDepth"] < f2.properties["geoDepth"]
       ) {
-        f1.properties['geoDepth'] = f2.properties['geoDepth'];
+        f1.properties["geoDepth"] = f2.properties["geoDepth"];
         f1.geometry = f2.geometry;
       }
     }
@@ -410,7 +489,8 @@ export class MapComponent implements OnInit, OnChanges {
    * @param type either 'choropleth' or 'bubble'
    */
   private getAttributeWithYear(type: string) {
-    const data = (type === 'choropleth') ? this.selectedChoropleth : this.selectedBubble;
+    const data =
+      type === "choropleth" ? this.selectedChoropleth : this.selectedBubble;
     return this.addYearToObject(data, this.year);
   }
 
@@ -420,13 +500,18 @@ export class MapComponent implements OnInit, OnChanges {
    * @param dataObject
    * @param year
    */
-  private addYearToObject(dataObject: MapDataObject, year: number): MapDataObject {
-    if (!dataObject) { return null; }
+  private addYearToObject(
+    dataObject: MapDataObject,
+    year: number
+  ): MapDataObject {
+    if (!dataObject) {
+      return null;
+    }
     const newObj = { ...dataObject };
     if (/.*\d{2}.*/g.test(newObj.id)) {
-      newObj.id = newObj.id.replace(/\d{2}/g, ('' + year).slice(2));
+      newObj.id = newObj.id.replace(/\d{2}/g, ("" + year).slice(2));
     } else {
-      newObj.id += '-' + ('' + year).slice(2);
+      newObj.id += "-" + ("" + year).slice(2);
     }
     return newObj;
   }
@@ -440,7 +525,10 @@ export class MapComponent implements OnInit, OnChanges {
     const censusYear = this.yearToCensusYear(this.year);
     if (this.censusYear !== censusYear) {
       this.censusYear = censusYear;
-      this.mapService.updateCensusSource(this.layerOptions, ('' + this.censusYear).slice(2));
+      this.mapService.updateCensusSource(
+        this.layerOptions,
+        ("" + this.censusYear).slice(2)
+      );
     }
   }
 
@@ -457,16 +545,19 @@ export class MapComponent implements OnInit, OnChanges {
    * auto switch is enabled
    */
   private updateSelectedLayerName() {
-    const autoLabel = `<span>(${this.translatePipe.transform('MAP.AUTO')})</span>`;
+    const autoLabel = `<span>(${this.translatePipe.transform(
+      "MAP.AUTO"
+    )})</span>`;
     if (this._store.layer) {
       const layerId = this._store.layer.id;
       const layerOptions = this.layerOptions.filter(l => l.id === layerId);
       // Use updated layer option if available since it will be translated
-      const layer = layerOptions.length > 0 ? layerOptions[0] : this._store.layer;
-      const strippedName = layer.name.replace(autoLabel, '');
-      this._store.layer = this.autoSwitch ?
-        { ...layer, name: strippedName + autoLabel } :
-        { ...layer, name: strippedName };
+      const layer =
+        layerOptions.length > 0 ? layerOptions[0] : this._store.layer;
+      const strippedName = layer.name.replace(autoLabel, "");
+      this._store.layer = this.autoSwitch
+        ? { ...layer, name: strippedName + autoLabel }
+        : { ...layer, name: strippedName };
     }
   }
 
@@ -475,17 +566,31 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private updateCardProperties() {
     if (
-      this.bubbleOptions.length === 0 || this.choroplethOptions.length === 0 ||
-      !this.selectedBubble || !this.selectedChoropleth
-    ) { return; }
-    const bubbleStat = (this.selectedBubble.id.includes('none')) ?
-      this.bubbleOptions[1] : this.selectedBubble;
-    const choroStat = (!this.selectedChoropleth || this.selectedChoropleth.id.includes('none')) ?
-      null : this.selectedChoropleth;
-    const bubbleAttr = bubbleStat.id.split('-')[0];
-    const cardProps = (bubbleAttr === 'er' || bubbleAttr === 'none') ? ['er', 'e'] : ['efr', 'ef'];
-    if (choroStat) { cardProps.push(choroStat.id.split('-')[0]); }
-    this.cardProps = cardProps.map(p => this.dataAttributes.find(p2 => p === p2.id));
+      this.bubbleOptions.length === 0 ||
+      this.choroplethOptions.length === 0 ||
+      !this.selectedBubble ||
+      !this.selectedChoropleth
+    ) {
+      return;
+    }
+    const bubbleStat = this.selectedBubble.id.includes("none")
+      ? this.bubbleOptions[1]
+      : this.selectedBubble;
+    const choroStat =
+      !this.selectedChoropleth || this.selectedChoropleth.id.includes("none")
+        ? null
+        : this.selectedChoropleth;
+    const bubbleAttr = bubbleStat.id.split("-")[0];
+    const cardProps =
+      bubbleAttr === "er" || bubbleAttr === "none"
+        ? ["er", "e"]
+        : ["efr", "ef"];
+    if (choroStat) {
+      cardProps.push(choroStat.id.split("-")[0]);
+    }
+    this.cardProps = cardProps.map(p =>
+      this.dataAttributes.find(p2 => p === p2.id)
+    );
   }
 
   /**
@@ -494,26 +599,49 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private updateMapBubbles() {
     if (this._mapInstance) {
-      const bubble = this.addYearToObject(this.selectedBubble, this.year) as MapDataAttribute;
+      const bubble = this.addYearToObject(
+        this.selectedBubble,
+        this.year
+      ) as MapDataAttribute;
       if (bubble) {
-        this.mapEventLayers.forEach((layerId) => {
-          const expression: any = (bubble.expressions[layerId] ?
-            bubble.expressions[layerId] : bubble.expressions['default']);
+        this.mapEventLayers.forEach(layerId => {
+          const expression: any = bubble.expressions[layerId]
+            ? bubble.expressions[layerId]
+            : bubble.expressions["default"];
 
-          if (!bubble.id.startsWith('none')) {
+          if (!bubble.id.startsWith("none")) {
             this.mapService.setLayerFilter(`${layerId}_bubbles`, undefined);
             expression[2][1] = bubble.id;
-            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-radius', expression);
-            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-color', [
-              'case', ['<', ['number', ['get', bubble.id]], 0],
-              'rgba(255,255,255,0.65)', 'rgba(255,4,0,0.65)'
-            ]);
-            this.mapService.setLayerStyle(`${layerId}_bubbles`, 'circle-stroke-color', [
-              'case', ['<', ['number', ['get', bubble.id]], 0],
-              'rgba(128,128,128,1)', 'rgba(255,255,255,1)'
-            ]);
+            this.mapService.setLayerStyle(
+              `${layerId}_bubbles`,
+              "circle-radius",
+              expression
+            );
+            this.mapService.setLayerStyle(
+              `${layerId}_bubbles`,
+              "circle-color",
+              [
+                "case",
+                ["<", ["number", ["get", bubble.id]], 0],
+                "rgba(255,255,255,0.65)",
+                "rgba(255,4,0,0.65)"
+              ]
+            );
+            this.mapService.setLayerStyle(
+              `${layerId}_bubbles`,
+              "circle-stroke-color",
+              [
+                "case",
+                ["<", ["number", ["get", bubble.id]], 0],
+                "rgba(128,128,128,1)",
+                "rgba(255,255,255,1)"
+              ]
+            );
           } else {
-            this.mapService.setLayerFilter(`${layerId}_bubbles`, ['has', bubble.id]);
+            this.mapService.setLayerFilter(`${layerId}_bubbles`, [
+              "has",
+              bubble.id
+            ]);
           }
         });
       }
@@ -526,19 +654,34 @@ export class MapComponent implements OnInit, OnChanges {
    */
   private updateMapChoropleths() {
     if (this._mapInstance) {
-      const choropleth =
-        this.addYearToObject(this.selectedChoropleth, this.year) as MapDataAttribute;
+      const choropleth = this.addYearToObject(
+        this.selectedChoropleth,
+        this.year
+      ) as MapDataAttribute;
       if (choropleth) {
-        this.mapEventLayers.forEach((layerId) => {
-            const stops = choropleth.stops[layerId] ?
-              choropleth.stops[layerId] : choropleth.stops['default'];
-            if (!choropleth.id.startsWith('none')) {
-              const newFill = ['interpolate', ['linear'], ['get', choropleth.id], ...stops];
-              this.mapService.setLayerStyle(layerId, 'fill-color', newFill);
-            } else {
-              this.mapService.setLayerStyle(layerId, 'fill-color', choropleth.default);
-            }
-            this.mapService.setLayerFilterProperty(`${layerId}_null`, choropleth.id);
+        this.mapEventLayers.forEach(layerId => {
+          const stops = choropleth.stops[layerId]
+            ? choropleth.stops[layerId]
+            : choropleth.stops["default"];
+          if (!choropleth.id.startsWith("none")) {
+            const newFill = [
+              "interpolate",
+              ["linear"],
+              ["get", choropleth.id],
+              ...stops
+            ];
+            this.mapService.setLayerStyle(layerId, "fill-color", newFill);
+          } else {
+            this.mapService.setLayerStyle(
+              layerId,
+              "fill-color",
+              choropleth.default
+            );
+          }
+          this.mapService.setLayerFilterProperty(
+            `${layerId}_null`,
+            choropleth.id
+          );
         });
       }
     }
@@ -553,5 +696,4 @@ export class MapComponent implements OnInit, OnChanges {
     this.updateMapChoropleths();
     this.updateHighlights();
   }
-
 }
