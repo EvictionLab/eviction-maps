@@ -4,12 +4,13 @@
 @import "theme/mixins/ui-dialog.theme";
 @import "theme/mixins/progress-bar.theme";
 
-
 // Layout
 // ----
 
 // shortcut function for sizing based on grid
-@function grid($n) { @return $n * $gridSize; }
+@function grid($n) {
+  @return $n * $gridSize;
+}
 
 $gridSize: 8px; // base grid value used for margins and element sizing
 $defaultPadding: grid(2); // default padding for containers
@@ -20,14 +21,13 @@ $gtMobile: 767px; // greater than mobile device breakpoint
 $gtTablet: 1023px; // greater than tablet device breakpoint
 $gtLaptop: 1439px; // greater than laptop device breakpoint
 
-
 // Typography
 // ----
 $fontStack: Akkurat-Regular, sans-serif;
 $boldFontStack: Akkurat-Bold, sans-serif;
 $altFontStackMedium: GT-Eesti-Text-Medium, sans-serif;
 $altFontStack: GT-Eesti-Text-Bold, sans-serif;
-$numberFontStack:  "Gotham A", "Gotham B", sans-serif;
+$numberFontStack: "Gotham A", "Gotham B", sans-serif;
 
 @mixin defaultFont($size) {
   font-family: $fontStack;
@@ -57,7 +57,6 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
   letter-spacing: $letterSpacingRatio * $size;
 }
 
-
 @mixin numberFont($size) {
   font-family: $numberFontStack;
   font-size: $size;
@@ -68,21 +67,21 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
   $letterSpacingRatio: 0.066666666666667;
   @include defaultFontBold($size);
   text-transform: uppercase;
-  letter-spacing: $size*$letterSpacingRatio;
+  letter-spacing: $size * $letterSpacingRatio;
 }
 
 @mixin altSmallCapsText($size) {
   $letterSpacingRatio: (0.9 / 16);
   @include altFont($size);
   text-transform: uppercase;
-  letter-spacing: $size*$letterSpacingRatio;
+  letter-spacing: $size * $letterSpacingRatio;
 }
 
 @mixin altSmallCapsTextMedium($size) {
   $letterSpacingRatio: (0.9 / 16);
   @include altFontMedium($size);
   text-transform: uppercase;
-  letter-spacing: $size*$letterSpacingRatio;
+  letter-spacing: $size * $letterSpacingRatio;
 }
 
 @mixin dataPanelHeader($size) {
@@ -102,32 +101,32 @@ $numberFontStack:  "Gotham A", "Gotham B", sans-serif;
 // ----
 $black: #050403;
 $grey0: #666;
-$grey1: #7F7F7F;
+$grey1: #7f7f7f;
 $grey1a: #919191;
-$grey2: #A3A7A8;
-$grey2a: #B2B5B7;
-$grey3: #C6CCCF;
-$grey4: #efefef; 
-$grey4a: #EEF2F5;
-$grey5: #F4F7F9;
-$grey5a: #F9FAFB;
+$grey2: #a3a7a8;
+$grey2a: #b2b5b7;
+$grey3: #c6cccf;
+$grey4: #efefef;
+$grey4a: #eef2f5;
+$grey5: #f4f7f9;
+$grey5a: #f9fafb;
 $grey_wcag: #737373;
 $white: #fff;
 $red: #f00;
 $color1: #e24000;
 $color2: #434878;
 $color3: #2c897f;
-$color4: #94AABD;
+$color4: #94aabd;
 $color5: #b5c2b7;
-$color6: #EEF2F5;
+$color6: #eef2f5;
 
-$gradient1: linear-gradient(180deg, #F27636, #E04119);
-$gradient2: linear-gradient(180deg, #787EB0, #434878);
-$gradient3: linear-gradient(180deg, #57BEB6, #2C897F);
-$gradient4: linear-gradient(180deg, #C6D5E0, #94AABD);
+$gradient1: linear-gradient(180deg, #f27636, #e04119);
+$gradient2: linear-gradient(180deg, #787eb0, #434878);
+$gradient3: linear-gradient(180deg, #57beb6, #2c897f);
+$gradient4: linear-gradient(180deg, #c6d5e0, #94aabd);
 $ciPattern1: url(/assets/images/ci-pattern-1.svg) 24px 24px;
-$ciPattern2: url(/assets/images/ci-pattern-2.svg) 24px 24px;;
-$ciPattern3: url(/assets/images/ci-pattern-3.svg) 24px 24px;;
+$ciPattern2: url(/assets/images/ci-pattern-2.svg) 24px 24px;
+$ciPattern3: url(/assets/images/ci-pattern-3.svg) 24px 24px;
 $shadingColor: $grey4;
 $textColor: $black;
 
@@ -137,20 +136,20 @@ $labelColor: $grey_wcag;
 $defaultBackground: $white;
 $linkColor: $color1;
 $secondaryBackground: $grey5;
-$focusBgColor: #FFE8DE;
+$focusBgColor: #ffe8de;
 $iconColor: $grey_wcag;
 
 // Shadows
 // ----
-$z1shadow: 0 3px 6px 0 rgba(145,145,145,0.23);
-$z2shadow: 0 6px 6px 0 rgba(145,145,145,0.26);
-$z3shadow: 0 10px 10px 0 rgba(145,145,145,0.26);
-$z4shadow: 0 15px 12px 0 rgba(145,145,145,0.22);
+$z1shadow: 0 3px 6px 0 rgba(145, 145, 145, 0.23);
+$z2shadow: 0 6px 6px 0 rgba(145, 145, 145, 0.26);
+$z3shadow: 0 10px 10px 0 rgba(145, 145, 145, 0.26);
+$z4shadow: 0 15px 12px 0 rgba(145, 145, 145, 0.22);
 
 @mixin focusState() {
   outline: 0;
-  box-shadow: 0 0 5px 1px $color1;
-  border-color: $color1;
+  box-shadow: inset 0 0 0px 2px transparentize($color1, 0.8);
+  // border-color: $color1;
 }
 
 // Header Bar
@@ -172,7 +171,7 @@ $searchHeight: grid(7);
 // ----
 $menuBg: $color2;
 $menuShadow: $z4shadow;
-$menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device 
+$menuWidth: grid(37); // 296px, leaves 24px gutter on 320px device
 $menuWidthLg: grid(52); // 416px
 $menuGrey: $grey2;
 
@@ -185,8 +184,8 @@ $buttonHeightSm: grid(5);
 $buttonColor: $shadingColor;
 $buttonHoverColor: darken($buttonColor, 5%);
 $primaryButtonColor: $color1;
-$primaryButtonHoverColor: #F9471A;
-$closeButtonColor: rgba(0,0,0,0.5);
+$primaryButtonHoverColor: #f9471a;
+$closeButtonColor: rgba(0, 0, 0, 0.5);
 $altCloseButtonColor: #fff;
 // fonts
 $buttonTextSize: 14px;
@@ -204,14 +203,12 @@ $lightCloseButtonBg: transparent;
 $lightCloseButtonHover: $grey2;
 $lightCloseButtonHoverBg: transparent;
 
-
 // Toast messages
 // ----
 $toastBackground: $black;
 $toastColor: $white;
 $toastText: 12px;
 $toastText_lptp: 14px;
-
 
 // UI Toggle
 // ----
@@ -267,13 +264,13 @@ $cardHeaderBg3: $color3;
 $cardHeaderBg4: $color4;
 $cardHeaderText: $altTextColor;
 $cardLabelText: $labelColor;
-$cardValueText: $black;;
+$cardValueText: $black;
 $cardHoverBg: linear-gradient(180deg, #fff 20%, $color6);
 $cardComparisonLess: $grey_wcag;
 $cardComparisonMore: $red;
 
 // colors - cards in data panel
-$panelCardLabelText: $black;;
+$panelCardLabelText: $black;
 $panelCardValueText: #434878;
 $panelCardBorder: $shadingColor;
 // font sizes
@@ -292,8 +289,8 @@ $panelCardLabelTextLg_t: 13px;
 $panelCardLabelValueLg_t: 24px;
 $panelCardStatTextSize_t: 18px;
 // font sizes - add location
-$cardAddLocationTextSize: 12px; 
-$cardAddLocationTextSize_t: 16px; 
+$cardAddLocationTextSize: 12px;
+$cardAddLocationTextSize_t: 16px;
 
 // Legend
 $legendHeight: grid(5);
@@ -304,20 +301,19 @@ $legendFontSize: 9px;
 $legendTextColor: $grey_wcag;
 
 // Tooltips
-$tooltipBackground: $black;;
+$tooltipBackground: $black;
 $tooltipFontColor: $white;
 $tooltipArrowSize: grid(1);
 $tooltipTriggerBorder: 2px dotted $grey3;
 
 @mixin tooltip() {
   @include defaultFont(12px);
-  border-radius:0;
+  border-radius: 0;
   padding: grid(1);
   background: $tooltipBackground;
   color: $tooltipFontColor;
   max-width: grid(30);
 }
-
 
 // Map tool component heights, software button
 $iosSafariPadding: grid(9);
@@ -335,11 +331,10 @@ $graphAxisLabels: $labelColor;
 // Footer
 // ----
 $footerGradientFrom: #282828;
-$footerGradientTo: #2F2D2B;
+$footerGradientTo: #2f2d2b;
 $footerIconBorder: #333;
 $footerHoverIconBorder: $white;
 $footerCopyrightColor: $grey2a;
-
 
 // Rankings
 $rankingsBg1: $color6;
@@ -349,5 +344,5 @@ $rankingsBg1: $color6;
 // Idea from: https://abdus.co/blog/preventing-vh-jump-on-mobile-browsers
 $mobileVhTransition: height 3600s steps(1);
 
-// TODO: 
+// TODO:
 // - type definitions / sizes

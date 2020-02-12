@@ -64,7 +64,7 @@
     "US_AVERAGE": "U.S. average",
     "SIGNUP_TITLE": "Get Raw Data",
     "SIGNUP_DESCRIPTION": "Enter your email address below to recieve the raw eviction data for the Unites States.",
-    "SIGNUP_EMAIL_LABEL": "Email Address", 
+    "SIGNUP_EMAIL_LABEL": "Email Address",
     "NEWSLETTER_OPT_IN": "Subscribe to the Eviction Lab newsletter",
     "SEND_DATA": "Send Data",
     "AUTOCOMPLETE_HINT": "When available, use up and down arrows to review and enter to select.",
@@ -84,7 +84,11 @@
     "ES": "Español",
     "SEARCH_HINT": "Search for places",
     "MAP_HINT": "Start Here",
-    "SEARCH_CLEAR": "Clear entered text"
+    "SEARCH_CLEAR": "Clear entered text",
+    "MAP_TITLE": "{{stat1}} and {{stat2}}",
+    "MAP_SUBTITLE": "For U.S. {{region}} in {{year}}",
+    "MAP_SHOW_OPTS": "Edit Map Data",
+    "MAP_CLOSE_OPTS": "Close Map Options"
   },
   "HINTS": {
     "EVICTION_RATE": "Represents the number of evictions per 100 renter homes.",
