@@ -1,0 +1,71 @@
+@import "../../../../theme";
+
+@mixin buttonText() {
+  @include altSmallCapsText(14px);
+}
+
+@mixin linkButtonText() {
+  @include defaultFont(14px);
+  color: $color1;
+  text-decoration: underline;
+  text-transform: none;
+  letter-spacing: 0;
+  padding: 0;
+}
+
+@mixin titleText() {
+  @include altFont(21px);
+}
+
+:host {
+  position: absolute;
+  z-index: 1001;
+  background: $tooltipBackground;
+  color: #fff;
+  padding: grid(2);
+  max-width: grid(50);
+  pointer-events: all;
+  .btn {
+    height: grid(5);
+  }
+  .btn--secondary {
+    background: $color2;
+    @include buttonText();
+  }
+  .btn--primary {
+    background: $color2;
+    @include buttonText();
+  }
+  .btn--link {
+    background: none;
+    @include linkButtonText();
+    padding: 0 grid(1);
+  }
+}
+
+.guide-step__top {
+  @include hGroup(space-between, center);
+  margin-top: grid(-2);
+  app-ui-close-button {
+    margin-right: grid(-1.5);
+  }
+}
+
+.guide-step__title {
+  margin: 0;
+  @include titleText();
+}
+
+.guide-step__content {
+  margin: grid(1) 0 grid(2);
+}
+
+.guide-step__actions {
+  @include hGroup(stretch, center);
+  .btn {
+    margin-right: grid(1);
+  }
+  span {
+    margin-left: auto;
+  }
+}

@@ -1,0 +1,12 @@
+<app-guide-step
+  *ngIf="currentStep"
+  [title]="currentStep.title"
+  [content]="currentStep.content"
+  [step]="currentStep.order"
+  [total]="steps.length"
+  (onDismiss)="onDismiss()"
+  (onNext)="onNext()"
+  (onPrevious)="onPrevious()"
+  (onEnd)="onEnd()"
+  (onStop)="onStop()"
+></app-guide-step>

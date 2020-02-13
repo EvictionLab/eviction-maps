@@ -1,34 +1,35 @@
-import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
-import { NgxPageScrollModule } from 'ngx-page-scroll';
-import { TranslateModule } from '@ngx-translate/core';
-import { NgxCarouselModule } from 'ngx-carousel';
-import 'hammerjs';
+import { NgModule } from "@angular/core";
+import { HttpClientModule } from "@angular/common/http";
+import { CommonModule } from "@angular/common";
+import { NgxPageScrollModule } from "ngx-page-scroll";
+import { TranslateModule } from "@ngx-translate/core";
+import { NgxCarouselModule } from "ngx-carousel";
+import "hammerjs";
 
-import { MapToolComponent } from './map-tool.component';
-import { MapModule } from './map/map.module';
-import { UiModule } from '../ui/ui.module';
-import { DataPanelModule } from './data-panel/data-panel.module';
-import { MapToolService } from './map-tool.service';
-import { EmbedComponent } from './embed/embed.component';
-import { FeatureOverviewComponent } from './feature-overview/feature-overview.component';
-
+import { MapToolComponent } from "./map-tool.component";
+import { MapModule } from "./map/map.module";
+import { UiModule } from "../ui/ui.module";
+import { GuideModule } from "./guide/guide.module";
+import { DataPanelModule } from "./data-panel/data-panel.module";
+import { MapToolService } from "./map-tool.service";
+import { EmbedComponent } from "./embed/embed.component";
+import { FeatureOverviewComponent } from "./feature-overview/feature-overview.component";
 
 @NgModule({
-  declarations: [ MapToolComponent, EmbedComponent, FeatureOverviewComponent ],
-  exports: [ MapToolComponent ],
+  declarations: [MapToolComponent, EmbedComponent, FeatureOverviewComponent],
+  exports: [MapToolComponent],
   imports: [
     CommonModule,
     HttpClientModule,
     NgxCarouselModule,
     UiModule,
+    GuideModule,
     DataPanelModule,
     MapModule,
     NgxPageScrollModule,
     TranslateModule
   ],
   providers: [MapToolService],
-  entryComponents: [ FeatureOverviewComponent ]
+  entryComponents: [FeatureOverviewComponent]
 })
-export class MapToolModule { }
+export class MapToolModule {}

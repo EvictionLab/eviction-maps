@@ -4,6 +4,7 @@
   class="app-wrapper"
   [class.kiosk]="mapToolService.kiosk"
 >
+  <app-guide></app-guide>
   <app-map
     *ngIf="mapSupported"
     [mapConfig]="mapToolService.mapConfig"
