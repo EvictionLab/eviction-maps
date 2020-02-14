@@ -7,11 +7,7 @@
       [selectedValue]="selectedBubble"
       [values]="bubbleOptions"
       (change)="selectedBubble = $event"
-      #pop="bs-tooltip"
-      containerClass="map-hint-desktop"
-      [isDisabled]="!tooltipEnabled"
-      placement="bottom"
-      [tooltip]="'HEADER.MAP_HINT' | translate"
+      (onClose)="onSelectClosed.emit('bubble')"
     ></app-ui-select>
     <app-ui-select
       class="select--choro"
@@ -20,6 +16,7 @@
       [selectedValue]="selectedChoropleth"
       [values]="choroplethOptions"
       (change)="selectedChoropleth = $event"
+      (onClose)="onSelectClosed.emit('choro')"
     >
     </app-ui-select>
     <app-ui-select
@@ -34,6 +31,7 @@
           : false
       "
       (change)="setGroupVisibility($event, 'dropdown')"
+      (onClose)="onSelectClosed.emit('layer')"
     >
     </app-ui-select>
     <app-ui-select
@@ -42,6 +40,7 @@
       [selectedValue]="year"
       [values]="yearsArray"
       (change)="year = $event"
+      (onClose)="onSelectClosed.emit('year')"
     >
     </app-ui-select>
     <button
@@ -70,6 +69,7 @@
     (ready)="onMapReady($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
+    (onFeatureHover)="onMapInteraction.emit()"
   ></app-mapbox>
 </div>
 <div class="year-slider-container">

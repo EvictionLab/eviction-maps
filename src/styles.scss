@@ -211,3 +211,11 @@ app-embed {
 @media print {
   @import "./theme/print.scss";
 }
+
+.guide-step ul {
+  margin: grid(1) 0 0 0;
+  padding: 0 0 0 grid(1.5);
+  li {
+    margin-bottom: grid(0.5);
+  }
+}

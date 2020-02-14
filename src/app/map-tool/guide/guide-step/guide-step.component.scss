@@ -23,8 +23,11 @@
   background: $tooltipBackground;
   color: #fff;
   padding: grid(2);
-  max-width: grid(50);
+  max-width: grid(46);
   pointer-events: all;
+  transition: transform 0.2s ease-out;
+  margin: 0;
+  // button style overrides
   .btn {
     height: grid(5);
   }
@@ -33,13 +36,46 @@
     @include buttonText();
   }
   .btn--primary {
-    background: $color2;
+    background: $color1;
     @include buttonText();
   }
   .btn--link {
     background: none;
     @include linkButtonText();
     padding: 0 grid(1);
+  }
+  // arrows
+  &:before {
+    content: "";
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-color: transparent;
+  }
+  &.arrow--top {
+    margin-top: grid(1);
+    &:before {
+      @include tooltip-arrow("top", grid(1.5));
+      top: grid(-1.5);
+    }
+  }
+  &.arrow--bottom {
+    margin-top: grid(-1);
+    &:before {
+      @include tooltip-arrow("bottom", grid(1.5));
+      bottom: grid(-1.5);
+    }
+  }
+  &.arrow--top.arrow--left:before,
+  &.arrow--bottom.arrow--left:before {
+    left: grid(3);
+  }
+  &.arrow--top.arrow--right:before,
+  &.arrow--bottom.arrow--right:before {
+    left: auto;
+    right: grid(3);
   }
 }
 
@@ -57,7 +93,8 @@
 }
 
 .guide-step__content {
-  margin: grid(1) 0 grid(2);
+  margin: 0 0 grid(2);
+  font-size: 13px;
 }
 
 .guide-step__actions {

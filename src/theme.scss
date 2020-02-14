@@ -315,6 +315,39 @@ $tooltipTriggerBorder: 2px dotted $grey3;
   max-width: grid(30);
 }
 
+@mixin tooltip-arrow($position, $arrowSize: $tooltipArrowSize) {
+  @if $position == "top" {
+    top: 0;
+    left: calc(50% - #{$arrowSize / 2});
+    margin-left: -1 * $arrowSize;
+    border-width: 0 $arrowSize $arrowSize;
+    border-bottom-color: $tooltipBackground;
+    transform: scale(0.75, 1);
+  } @else if $position == "right" {
+    top: calc(50% - #{$arrowSize / 2});
+    right: 0;
+    margin-top: -1 * $arrowSize;
+    border-width: $arrowSize 0 $arrowSize $arrowSize;
+    border-left-color: $tooltipBackground;
+    transform: scale(1, 0.75);
+  } @else if $position == "left" {
+    top: calc(50% - #{$arrowSize / 2});
+    left: 0;
+    margin-top: -1 * $arrowSize;
+    border-width: $arrowSize $arrowSize $arrowSize 0;
+    border-right-color: $tooltipBackground;
+    transform: scale(1, 0.75);
+  } @else {
+    // bottom placement by default
+    bottom: 0;
+    left: calc(50% - #{$arrowSize / 2});
+    margin-left: -1 * $arrowSize;
+    border-width: $arrowSize $arrowSize 0;
+    border-top-color: $tooltipBackground;
+    transform: scale(0.75, 1);
+  }
+}
+
 // Map tool component heights, software button
 $iosSafariPadding: grid(9);
 $androidPadding: grid(7);

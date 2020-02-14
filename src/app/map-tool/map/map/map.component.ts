@@ -191,6 +191,8 @@ export class MapComponent implements OnInit, OnChanges {
   @Output() layerChangedFromDropdown = new EventEmitter();
   // emits when help button is clicked
   @Output() helpClick = new EventEmitter();
+  @Output() onSelectClosed = new EventEmitter<string>();
+  @Output() onMapInteraction = new EventEmitter();
   @HostBinding("class.cards-active") get cardsActive() {
     return this.activeFeatures.length;
   }
@@ -211,7 +213,6 @@ export class MapComponent implements OnInit, OnChanges {
         (this.selectedBubble && !this.selectedBubble.id.includes("none")))
     );
   }
-  @ViewChild("pop") mapTooltip;
   @ViewChild("mapEl") mapEl: ElementRef;
   /** Tracks if the "start here" tooltip is enabled */
   tooltipEnabled = true;
@@ -295,10 +296,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.gtTablet = this.platform.isLargerThanTablet;
     this.mapEventLayers = this.layerOptions.map(layer => layer.id);
     this.updateCardProperties();
-    // Show tooltip 1 second after init
-    setTimeout(() => {
-      this.mapTooltip.show();
-    }, 1000);
     // Update the animation on an interval
     // NOTE: Parallax is disabled on the map for performance, uncomment to re-enable.
     // setInterval(this.parallaxMap.bind(this), 10);
@@ -319,15 +316,20 @@ export class MapComponent implements OnInit, OnChanges {
     this.gtTablet = this.platform.isLargerThanTablet;
   }
 
-  /** Hide "start here" tooltip on first click */
-  @HostListener("document:click", ["$event"]) dismissTooltip() {
-    this.mapTooltip.hide();
-    this.tooltipEnabled = false;
-  }
-
   /** Block map clicks on touch device if the cards are expanded */
   @HostListener("document:touchstart", ["$event"]) onTouchStart() {
     this.blockMapClick = !this.mapToolService.cardsCollapsed;
+  }
+
+  makeSelection(type: string, data: any) {
+    console.log("selection:", type, data);
+    switch (type) {
+      case "bubble":
+        this.selectedBubble = data;
+        break;
+      default:
+        return;
+    }
   }
 
   /**
@@ -418,6 +420,7 @@ export class MapComponent implements OnInit, OnChanges {
    * @param e the moveend event
    */
   onMapMoveEnd(e) {
+    this.onMapInteraction.emit();
     this._store.bounds = this.mapService
       .getBoundsArray()
       .reduce((a, b) => a.concat(b))

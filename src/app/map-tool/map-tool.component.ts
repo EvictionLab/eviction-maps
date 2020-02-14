@@ -28,6 +28,7 @@ import {
 } from "@ngx-translate/core";
 import { ToastsManager, ToastOptions } from "ng2-toastr";
 import * as _debounce from "lodash.debounce";
+import { SELECTION_GUIDE, LOCATION_GUIDE, DATA_GUIDE } from "./data/guides";
 
 import { LoadingService } from "../services/loading.service";
 import { MapFeature } from "./map/map-feature";
@@ -41,6 +42,8 @@ import { AnalyticsService } from "../services/analytics.service";
 import { ScrollService } from "../services/scroll.service";
 import { FeatureOverviewComponent } from "./feature-overview/feature-overview.component";
 import { DataService } from "../services/data.service";
+import { Guide } from "./guide/guide";
+import { GuideService } from "./guide/guide.service";
 
 @Component({
   selector: "app-map-tool",
@@ -65,6 +68,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   updateRoute = _debounce(() => {
     this.routing.updateRouteData(this.mapToolService.getCurrentData());
   }, 400);
+  currentGuide: Guide = SELECTION_GUIDE;
   private defaultMapConfig = {
     style: `${environment.deployUrl}assets/style.json`,
     center: [-98.5795, 39.8283],
@@ -80,6 +84,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public loader: LoadingService,
     public mapToolService: MapToolService,
+    public guide: GuideService,
     private cdRef: ChangeDetectorRef,
     private route: ActivatedRoute,
     private routing: RoutingService,
@@ -122,6 +127,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       .distinctUntilChanged((prev, next) => prev.width === next.width)
       .skip(1)
       .subscribe(this.setMapSize.bind(this));
+    this.mapToolService.bindFeatureChange(f =>
+      setTimeout(this.updateFeatureGuide.bind(this), 2000)
+    );
     this.cdRef.detectChanges();
   }
 
@@ -239,6 +247,100 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.mapToolService.setGeographyLevel(geography.id);
       this.updateRoute();
     }
+  }
+
+  /**
+   * Progress the guide as select menus close
+   * @param selectId
+   */
+  updateSelectionGuide(selectId: string) {
+    // make sure conditions are met before showing guide
+    if (this.guide.isGuideOff() || this.guide.isVisibleStep()) return;
+    switch (selectId) {
+      case "bubble":
+        if (
+          this.guide.currentGuideId === "selections" &&
+          this.guide.stepNum === 0 &&
+          !this.guide.isStepNumberViewed(1)
+        )
+          this.guide.resume(1);
+        break;
+      case "choro":
+        if (
+          this.guide.currentGuideId === "selections" &&
+          this.guide.stepNum === 1 &&
+          !this.guide.isStepNumberViewed(2)
+        )
+          this.guide.resume(2);
+        break;
+      case "layer":
+        if (
+          this.guide.currentGuideId === "selections" &&
+          this.guide.stepNum === 2
+        )
+          this.guide.end();
+        break;
+    }
+  }
+
+  updateLocationGuide(e) {
+    // make sure conditions are met before showing guide
+    if (
+      this.guide.isGuideOff() ||
+      this.guide.isVisibleStep() ||
+      !this.guide.hasGuideStarted("selections") ||
+      this.guide.isGuideComplete("location") ||
+      this.guide.isGuideComplete("data")
+    )
+      return;
+    // skip location selection guide if location
+    // is already selected
+    if (
+      this.mapToolService.activeFeatures.length > 0 &&
+      this.guide.isGuideComplete("selections")
+    ) {
+      this.guide.setCompleted("location");
+      return this.updateFeatureGuide();
+    }
+    // start the location selection guide
+    if (!this.guide.isGuideLoaded("location")) {
+      this.guide.load(LOCATION_GUIDE);
+    }
+    if (!this.guide.isStepNumberViewed(0)) {
+      this.guide.resume(0);
+    }
+  }
+
+  updateFeatureGuide() {
+    // make sure conditions are met before showing guide
+    if (
+      this.guide.isGuideOff() ||
+      this.guide.isVisibleStep() ||
+      this.guide.isGuideComplete("data")
+    )
+      return;
+    if (!this.guide.hasGuideStarted("selections"))
+      return this.startSelectionGuide();
+    if (!this.guide.isGuideLoaded("data")) {
+      this.guide.load(DATA_GUIDE);
+    }
+    if (!this.guide.isStepNumberViewed(0)) {
+      this.guide.resume(0);
+    }
+  }
+
+  startSelectionGuide() {
+    console.log("guide: start selection");
+    // make sure conditions are met before showing guide
+    if (
+      this.guide.isGuideOff() ||
+      this.guide.isVisibleStep() ||
+      this.guide.isGuideComplete("selections")
+    )
+      return;
+    console.log("guide: selection load");
+    this.guide.load(SELECTION_GUIDE);
+    this.guide.start();
   }
 
   trackLevelSelection(geography: any) {
@@ -366,10 +468,8 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   showFeatureOverview() {
-    return this.dialogService.showDialog(
-      { options: { class: "feature-overview-dialog" } },
-      FeatureOverviewComponent
-    );
+    this.guide.reset();
+    this.startSelectionGuide();
   }
 
   private mapZoomToFeature(feature: any) {

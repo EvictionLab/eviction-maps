@@ -2,33 +2,26 @@
   <h3 class="guide-step__title">{{ title }}</h3>
   <app-ui-close-button (click)="onDismiss.emit($event)"></app-ui-close-button>
 </div>
-<div class="guide-step__content">
-  {{ content }}
-</div>
+<div class="guide-step__content" [innerHTML]="content"></div>
 <div class="guide-step__actions">
   <button
-    *ngIf="step !== 1"
-    (click)="onPrevious.emit($event)"
+    *ngIf="total > 1"
+    (click)="step !== 1 && onPrevious.emit($event)"
     class="btn btn--secondary"
+    [class.hide]="step === 1"
   >
     &lt;
   </button>
   <button
-    *ngIf="step !== total"
     (click)="onNext.emit($event)"
     class="btn btn--secondary"
+    [class.btn--secondary]="step !== total"
+    [class.btn--primary]="step === total"
   >
-    Continue
-  </button>
-  <button
-    *ngIf="step === total"
-    (click)="onEnd.emit($event)"
-    class="btn btn--primary"
-  >
-    Done
+    {{ step === total ? "Okay" : "Next" }}
   </button>
   <button (click)="onStop.emit($event)" class="btn btn--link">
     stop guiding me
   </button>
-  <span>{{ step }} / {{ total }}</span>
+  <span *ngIf="total > 1">{{ step }} / {{ total }}</span>
 </div>

@@ -1,12 +1,21 @@
 <app-guide-step
+  @popin
   *ngIf="currentStep"
   [title]="currentStep.title"
   [content]="currentStep.content"
-  [step]="currentStep.order"
-  [total]="steps.length"
+  [step]="guide.stepNum + 1"
+  [total]="guide.getNumberOfSteps()"
+  [x]="currentStep.x"
+  [y]="currentStep.y"
+  [vAlign]="currentStep.vAlign"
+  [hAlign]="currentStep.hAlign"
   (onDismiss)="onDismiss()"
   (onNext)="onNext()"
   (onPrevious)="onPrevious()"
   (onEnd)="onEnd()"
   (onStop)="onStop()"
-></app-guide-step>
+  (onStepReady)="onStepReady($event)"
+>
+</app-guide-step>
+<div class="guide-point--inner"></div>
+<ng-content></ng-content>

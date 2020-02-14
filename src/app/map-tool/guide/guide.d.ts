@@ -1,12 +1,14 @@
 export interface Guide {
-  id: string;
+  id?: string;
   steps: Array<GuideStep>;
 }
 
 export interface GuideStep {
-  id: string;
-  order: number;
   selector: string;
   title: string;
   content: string;
+  vAlign?: string;
+  hAlign?: string;
+  x?: number;
+  y?: number;
 }
