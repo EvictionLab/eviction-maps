@@ -321,17 +321,6 @@ export class MapComponent implements OnInit, OnChanges {
     this.blockMapClick = !this.mapToolService.cardsCollapsed;
   }
 
-  makeSelection(type: string, data: any) {
-    console.log("selection:", type, data);
-    switch (type) {
-      case "bubble":
-        this.selectedBubble = data;
-        break;
-      default:
-        return;
-    }
-  }
-
   /**
    * Sets the visibility on a layer group
    * @param mapLayer the layer group that was selected

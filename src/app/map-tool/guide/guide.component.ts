@@ -1,17 +1,14 @@
 import {
   Component,
-  OnInit,
   ElementRef,
-  Input,
   OnDestroy,
   AfterViewInit,
-  ViewChild,
-  HostListener
+  HostListener,
+  ChangeDetectorRef
 } from "@angular/core";
 import { GuideService } from "./guide.service";
-import { Guide, GuideStep } from "./guide";
+import { GuideStep } from "./guide";
 import { Subscription } from "rxjs/Subscription";
-import { GuideStepComponent } from "./guide-step/guide-step.component";
 import {
   trigger,
   transition,
@@ -42,9 +39,14 @@ export class GuideComponent implements OnDestroy, AfterViewInit {
   currentStep: GuideStep;
   private step$: Subscription;
 
-  constructor(public guide: GuideService, public el: ElementRef) {}
+  constructor(
+    public guide: GuideService,
+    public el: ElementRef,
+    private cd: ChangeDetectorRef
+  ) {}
 
   ngAfterViewInit() {
+    // set the GuideStep position whenever the step changes
     this.step$ = this.guide.currentStep.subscribe(step => {
       this.updateCurrentStep(step);
     });
@@ -54,11 +56,20 @@ export class GuideComponent implements OnDestroy, AfterViewInit {
     this.step$.unsubscribe();
   }
 
+  /**
+   * handler for when the GuideStep has been added to the DOM
+   * @param stepEl
+   */
   onStepReady(stepEl: ElementRef) {
     this.stepEl = stepEl;
     this.updateCurrentStep(this.guide.getVisibleStep());
+    this.cd.detectChanges();
   }
 
+  /**
+   * Adds x, y, vAlign, hAlign properties to the GuideStep
+   * @param step
+   */
   updateCurrentStep(step: GuideStep) {
     if (!step) {
       this.currentStep = null;

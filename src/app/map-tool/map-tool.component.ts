@@ -300,37 +300,39 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.guide.isGuideComplete("selections")
     ) {
       this.guide.setCompleted("location");
-      return this.updateFeatureGuide();
+      this.updateFeatureGuide();
+      return;
     }
     // start the location selection guide
     if (!this.guide.isGuideLoaded("location")) {
       this.guide.load(LOCATION_GUIDE);
     }
-    if (!this.guide.isStepNumberViewed(0)) {
-      this.guide.resume(0);
-    }
+    this.guide.start();
   }
 
   updateFeatureGuide() {
+    // if locations are loaded, but the selection guide
+    // has not been shown, then redirect to that guide
+    if (!this.guide.hasGuideStarted("selections")) {
+      this.startSelectionGuide();
+      return;
+    }
     // make sure conditions are met before showing guide
     if (
       this.guide.isGuideOff() ||
       this.guide.isVisibleStep() ||
-      this.guide.isGuideComplete("data")
+      this.guide.isGuideComplete("data") ||
+      this.mapToolService.activeFeatures.length === 0
     )
       return;
-    if (!this.guide.hasGuideStarted("selections"))
-      return this.startSelectionGuide();
+    // start the "view more data" guide
     if (!this.guide.isGuideLoaded("data")) {
       this.guide.load(DATA_GUIDE);
     }
-    if (!this.guide.isStepNumberViewed(0)) {
-      this.guide.resume(0);
-    }
+    this.guide.start();
   }
 
   startSelectionGuide() {
-    console.log("guide: start selection");
     // make sure conditions are met before showing guide
     if (
       this.guide.isGuideOff() ||
@@ -338,7 +340,6 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
       this.guide.isGuideComplete("selections")
     )
       return;
-    console.log("guide: selection load");
     this.guide.load(SELECTION_GUIDE);
     this.guide.start();
   }

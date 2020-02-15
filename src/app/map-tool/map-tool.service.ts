@@ -140,7 +140,6 @@ export class MapToolService {
   }
 
   setLineYears(years: any) {
-    console.log("update years", years);
     this.activeLineYearStart = years.start;
     this.activeLineYearEnd = years.end;
   }

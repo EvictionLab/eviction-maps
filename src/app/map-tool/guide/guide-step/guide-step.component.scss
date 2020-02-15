@@ -34,6 +34,12 @@
   .btn--secondary {
     background: $color2;
     @include buttonText();
+    app-ui-icon {
+      width: grid(2);
+      height: grid(2);
+      margin: auto;
+      fill: #fff;
+    }
   }
   .btn--primary {
     background: $color1;

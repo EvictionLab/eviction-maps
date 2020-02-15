@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-
+import { PlatformService } from "../../services/platform.service";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Guide, GuideStep } from "./guide";
 import { Subscription } from "rxjs/Subscription";
@@ -22,7 +22,7 @@ export class GuideService {
 
   private _currentStep: GuideStep;
 
-  constructor() {
+  constructor(private platform: PlatformService) {
     this.currentStep = new BehaviorSubject(null);
   }
 
@@ -57,6 +57,9 @@ export class GuideService {
     }
   }
 
+  /**
+   * Gets the step that is currently visible
+   */
   getVisibleStep(): GuideStep {
     return this._currentStep;
   }
@@ -155,7 +158,7 @@ export class GuideService {
   }
 
   isGuideOff() {
-    return this.off;
+    return this.off || !this.platform.isLargerThanMobile;
   }
 
   isVisibleStep() {

@@ -7,10 +7,10 @@
   <button
     *ngIf="total > 1"
     (click)="step !== 1 && onPrevious.emit($event)"
-    class="btn btn--secondary"
+    class="btn btn-icon btn--secondary"
     [class.hide]="step === 1"
   >
-    &lt;
+    <app-ui-icon icon="arrow-left"></app-ui-icon>
   </button>
   <button
     (click)="onNext.emit($event)"
