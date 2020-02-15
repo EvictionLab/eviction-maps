@@ -4,10 +4,11 @@ import {
   OnDestroy,
   AfterViewInit,
   HostListener,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  Output
 } from "@angular/core";
 import { GuideService } from "./guide.service";
-import { GuideStep } from "./guide";
+import { GuideStep, Guide } from "./guide";
 import { Subscription } from "rxjs/Subscription";
 import {
   trigger,
@@ -16,6 +17,7 @@ import {
   animate,
   state
 } from "@angular/animations";
+import { EventEmitter } from "events";
 
 @Component({
   selector: "app-guide",
@@ -37,6 +39,7 @@ import {
 export class GuideComponent implements OnDestroy, AfterViewInit {
   stepEl: ElementRef;
   currentStep: GuideStep;
+  @Output() onGuideEnd = new EventEmitter();
   private step$: Subscription;
 
   constructor(
@@ -85,7 +88,7 @@ export class GuideComponent implements OnDestroy, AfterViewInit {
   }
 
   onDismiss() {
-    this.guide.isLastStep() ? this.guide.end() : this.guide.pause();
+    this.guide.isLastStep() ? this.onEnd() : this.guide.pause();
   }
   onNext() {
     this.guide.next();
@@ -94,6 +97,7 @@ export class GuideComponent implements OnDestroy, AfterViewInit {
     this.guide.previous();
   }
   onEnd() {
+    this.onGuideEnd.emit(this.guide.currentGuideId);
     this.guide.end();
   }
   onStop() {

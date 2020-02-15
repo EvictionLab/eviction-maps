@@ -5,25 +5,39 @@ import { Guide, GuideStep } from "./guide";
 import { Subscription } from "rxjs/Subscription";
 import { environment } from "../../../environments/environment";
 
+// local storage key for on / off status
+const STATUS = "GUIDE_STATUS";
+
+// mock local storage in case unavailable
+const mockLocalStorage = (() => {
+  let _store = {};
+  const getItem = (key: string) => _store[key];
+  const setItem = (key: string, val: string) => (_store[key] = val);
+  const clear = () => (_store = {});
+  return { getItem, setItem, clear };
+})();
+
 @Injectable()
 export class GuideService {
-  guide: Guide;
   currentGuideId: string;
   stepNum: number;
   completed: BehaviorSubject<Array<string>>;
   currentStep: BehaviorSubject<GuideStep>;
   private paused: boolean;
+  private guide: Guide;
   private started: Array<string> = [];
   private _completed: Array<string> = [];
   private viewed: Array<number> = [];
   private off: boolean;
   private currentStep$: Subscription;
   private _debug = true;
+  private storage = window.localStorage || mockLocalStorage;
 
   private _currentStep: GuideStep;
 
   constructor(private platform: PlatformService) {
     this.currentStep = new BehaviorSubject(null);
+    this.completed = new BehaviorSubject([]);
   }
 
   /**
@@ -121,13 +135,15 @@ export class GuideService {
   }
 
   disable() {
-    this.debug("stopped", this.currentGuideId);
+    this.debug("disable");
     this.off = true;
+    this.storage.setItem("GUIDE_STATUS", "off");
     this.unload();
     // TODO: track dismiss
   }
 
   enable() {
+    this.storage.setItem("GUIDE_STATUS", "on");
     this.off = false;
   }
 
@@ -142,7 +158,7 @@ export class GuideService {
   }
 
   reset() {
-    this.off = false;
+    this.enable();
     this._currentStep = null;
     this.started = [];
     this._completed = [];
@@ -150,7 +166,8 @@ export class GuideService {
   }
 
   setCompleted(guideId: string) {
-    this._completed.push(guideId);
+    this._completed = [...this._completed, guideId];
+    this.completed.next(this._completed);
   }
 
   isGuideComplete(guideId: string): boolean {
@@ -158,7 +175,11 @@ export class GuideService {
   }
 
   isGuideOff() {
-    return this.off || !this.platform.isLargerThanMobile;
+    return (
+      this.off ||
+      this.storage.getItem(STATUS) === "off" ||
+      !this.platform.isLargerThanMobile
+    );
   }
 
   isVisibleStep() {
@@ -186,6 +207,10 @@ export class GuideService {
   getNumberOfSteps() {
     if (!this.guide || !this.guide.steps) return 0;
     return this.guide.steps.length;
+  }
+
+  getCurrentGuide() {
+    return this.guide;
   }
 
   private setCurrentStep(step: GuideStep) {

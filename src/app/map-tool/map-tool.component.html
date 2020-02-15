@@ -4,7 +4,7 @@
   class="app-wrapper"
   [class.kiosk]="mapToolService.kiosk"
 >
-  <app-guide>
+  <app-guide onGuideEnd="checkGuidesComplete($event)">
     <app-map
       *ngIf="mapSupported"
       [mapConfig]="mapToolService.mapConfig"
@@ -30,7 +30,7 @@
       (onSelectClosed)="updateSelectionGuide($event)"
       (onMapInteraction)="updateLocationGuide($event)"
       (onMapLoaded)="updateSelectionGuide($event)"
-      (helpClick)="showFeatureOverview()"
+      (helpClick)="startGuidedMode()"
     >
       <div class="map-overlay" [class.active]="!enableZoom">
         <div

@@ -40,7 +40,6 @@ import { RoutingService } from "../services/routing.service";
 import { environment } from "../../environments/environment";
 import { AnalyticsService } from "../services/analytics.service";
 import { ScrollService } from "../services/scroll.service";
-import { FeatureOverviewComponent } from "./feature-overview/feature-overview.component";
 import { DataService } from "../services/data.service";
 import { Guide } from "./guide/guide";
 import { GuideService } from "./guide/guide.service";
@@ -130,6 +129,9 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.mapToolService.bindFeatureChange(f =>
       setTimeout(this.updateFeatureGuide.bind(this), 2000)
     );
+    this.guide.completed.subscribe(guideId => {
+      this.checkGuidesComplete(guideId);
+    });
     this.cdRef.detectChanges();
   }
 
@@ -344,6 +346,17 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.guide.start();
   }
 
+  checkGuidesComplete(guideId: Array<string>) {
+    // turn off the guide if they're all done
+    if (
+      this.guide.isGuideComplete("selections") &&
+      this.guide.isGuideComplete("location") &&
+      this.guide.isGuideComplete("data")
+    ) {
+      this.guide.disable();
+    }
+  }
+
   trackLevelSelection(geography: any) {
     this.analytics.trackEvent("mapLevelSelection", {
       mapLevel: geography.langKey,
@@ -468,7 +481,7 @@ export class MapToolComponent implements OnInit, OnDestroy, AfterViewInit {
     this.scroll.scrollTo("#data-panel");
   }
 
-  showFeatureOverview() {
+  startGuidedMode() {
     this.guide.reset();
     this.startSelectionGuide();
   }

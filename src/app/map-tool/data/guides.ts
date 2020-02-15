@@ -6,7 +6,13 @@ export const SELECTION_GUIDE: Guide = {
     {
       title: "Eviction Data Selection",
       content: `Start by selecting one of the eviction metrics
-              that are represented by red bubbles on the map:<ul><li><strong>Eviction Rate:</strong> represents the percent of people that are evicted each year. (2% = 2 people per 100 renters)</li><li><strong>Eviction Filing Rate:</strong> represents the percent of people that have evictions filed agains them each year</li></ul>`,
+                that are represented by red bubbles on the map:
+                <ul><li><strong>Eviction Rate:</strong> represents
+                the percent of people that are evicted each year.
+                (2% = 2 people per 100 renters)</li>
+                <li><strong>Eviction Filing Rate:</strong> represents
+                the percent of people that have evictions filed against
+                them each year</li></ul>`,
       selector: ".select--bubble",
       vAlign: "bottom"
     },

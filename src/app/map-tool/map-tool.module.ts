@@ -13,10 +13,9 @@ import { GuideModule } from "./guide/guide.module";
 import { DataPanelModule } from "./data-panel/data-panel.module";
 import { MapToolService } from "./map-tool.service";
 import { EmbedComponent } from "./embed/embed.component";
-import { FeatureOverviewComponent } from "./feature-overview/feature-overview.component";
 
 @NgModule({
-  declarations: [MapToolComponent, EmbedComponent, FeatureOverviewComponent],
+  declarations: [MapToolComponent, EmbedComponent],
   exports: [MapToolComponent],
   imports: [
     CommonModule,
@@ -29,7 +28,6 @@ import { FeatureOverviewComponent } from "./feature-overview/feature-overview.co
     NgxPageScrollModule,
     TranslateModule
   ],
-  providers: [MapToolService],
-  entryComponents: [FeatureOverviewComponent]
+  providers: [MapToolService]
 })
 export class MapToolModule {}
