@@ -37,6 +37,7 @@ export class MapToolService {
   usAverage;
   usAverageLoaded = new EventEmitter<any>();
   state = new BehaviorSubject<any>({});
+  private _activeFeatures = new BehaviorSubject<Array<MapFeature>>([]);
 
   get choroplethAttributes() {
     return this.dataAttributes.filter(d => d.type === "choropleth");
@@ -139,7 +140,6 @@ export class MapToolService {
   }
 
   setLineYears(years: any) {
-    console.log("update years", years);
     this.activeLineYearStart = years.start;
     this.activeLineYearEnd = years.end;
   }
@@ -260,7 +260,7 @@ export class MapToolService {
     const i = featuresCopy.findIndex(f => _isEqual(f, feature));
     if (i > -1) {
       featuresCopy.splice(i, 1);
-      this.activeFeatures = featuresCopy;
+      this.setActiveFeatures(featuresCopy);
     }
   }
 
@@ -285,7 +285,7 @@ export class MapToolService {
       // Add flag properties
       this.addDisplayName(feature);
       this.addFlaggedProps(feature);
-      this.activeFeatures = [...this.activeFeatures, feature];
+      this.setActiveFeatures([...this.activeFeatures, feature]);
       // track comparissons added
       if (this.activeFeatures.length === 2) {
         this.analytics.trackEvent("secondaryLocationSelection", {
@@ -314,7 +314,7 @@ export class MapToolService {
     if (!(feature.bbox && feature.properties.layerId)) {
       feature = this.dataService.processMapFeature(feature);
     }
-    this.activeFeatures = this.activeFeatures.map(f => {
+    const newFeatures = this.activeFeatures.map(f => {
       if (feature.properties.GEOID === f.properties.GEOID) {
         f.properties = feature.properties;
         f.geometry = feature.geometry;
@@ -322,6 +322,7 @@ export class MapToolService {
       }
       return f;
     });
+    this.setActiveFeatures(newFeatures);
   }
 
   /**
@@ -365,6 +366,15 @@ export class MapToolService {
           .filter((p: string) => feature.properties[p] >= percentileVals[p])
           .join(",");
       });
+  }
+
+  bindFeatureChange(handler: Function) {
+    return this._activeFeatures.subscribe(f => handler(f));
+  }
+
+  private setActiveFeatures(features: Array<MapFeature>) {
+    this.activeFeatures = features;
+    this._activeFeatures.next(features);
   }
 
   /** Get location name and truncate if it's too long */
