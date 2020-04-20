@@ -44,6 +44,11 @@ export const environment = {
       langUrls: { 'es': '/#/evictions?lang=es' }
     },
     {
+      defaultUrl: '/covid-policy-scorecard',
+      langKey: 'NAV.SCORECARD',
+      langUrls: { 'es': '/es/covid-policy-scorecard' }
+    },
+    {
       defaultUrl: '/about',
       langKey: 'NAV.ABOUT',
       langUrls: { 'es': '/es/about' }
@@ -84,6 +89,11 @@ export const environment = {
       defaultUrl: '/#/evictions',
       langKey: 'NAV.RANKINGS',
       langUrls: { 'es': '/#/evictions?lang=es' }
+    },
+    {
+      defaultUrl: '/covid-policy-scorecard',
+      langKey: 'NAV.SCORECARD',
+      langUrls: { 'es': '/es/covid-policy-scorecard' }
     },
     {
       defaultUrl: '/about',
