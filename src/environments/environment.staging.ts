@@ -38,6 +38,11 @@ export const environment = {
         langUrls : { 'es': 'https://staging.evictionlab.org/rankings/#/evictions?lang=es' }
       },
       {
+        defaultUrl: 'https://staging.evictionlab.org/covid-policy-scorecard',
+        langKey: 'NAV.SCORECARD',
+        langUrls: { 'es': 'https://staging.evictionlab.org/es/covid-policy-scorecard' }
+      },
+      {
         defaultUrl: 'https://staging.evictionlab.org/about',
         langKey: 'NAV.ABOUT',
         langUrls : { 'es': 'https://staging.evictionlab.org/es/about' }
@@ -77,6 +82,11 @@ export const environment = {
         defaultUrl: 'https://staging.evictionlab.org/rankings',
         langKey: 'NAV.RANKINGS',
         langUrls : { 'es': 'https://staging.evictionlab.org/rankings/#/evictions?lang=es' }
+      },
+      {
+        defaultUrl: 'https://staging.evictionlab.org/covid-policy-scorecard',
+        langKey: 'NAV.SCORECARD',
+        langUrls: { 'es': 'https://staging.evictionlab.org/es/covid-policy-scorecard' }
       },
       {
         defaultUrl: 'https://staging.evictionlab.org/about',
