@@ -219,11 +219,12 @@ footer {
       display:flex;
       flex-direction: column;
       flex-wrap:wrap;
-      height: grid(19);
+      height: 212px;
       text-align:left;
       li { 
         width: grid(20);
-        height: grid(3);
+        height: auto;
+        padding: 8px 0;
       }
     }
   }
@@ -232,7 +233,6 @@ footer {
   .footer-navigation {
     ul {
       font-size: 14px;
-      height: grid(22);
       li {
         width: grid(30); // 240px columns for links
         height: grid(3.5);
