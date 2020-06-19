@@ -3,31 +3,35 @@ $menuMargin: grid(5);
 // Container layout
 // ---
 .app-menu {
-  position:fixed;
+  position: fixed;
   width: $menuWidth;
-  height:100%;
-  top:0;
+  height: 100%;
+  top: 0;
   right: 0;
-  transform: translate3d(($menuWidth+5px),0,0); // translate a little extra so shadow doesn't show
-  z-index:999;
+  transform: translate3d(
+    ($menuWidth + 5px),
+    0,
+    0
+  ); // translate a little extra so shadow doesn't show
+  z-index: 999;
   background: $menuBg;
   padding: 0 $pageMarginLg; // large margin on menu
-  display:block;
+  display: block;
   transition: transform 0.4s ease;
   box-shadow: $menuShadow;
-  overflow:auto;
+  overflow: auto;
   &.expanded {
-    transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
   }
 }
 // boost size on tablet+
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .app-menu {
     width: $menuWidthLg;
-    transform: translate3d(($menuWidthLg+5px),0,0);
+    transform: translate3d(($menuWidthLg + 5px), 0, 0);
     padding: 0 grid(5);
     &.expanded {
-      transform:translate3d(0,0,0);
+      transform: translate3d(0, 0, 0);
     }
   }
 }
@@ -35,32 +39,34 @@ $menuMargin: grid(5);
 // Close button
 // ---
 .app-menu .menu-close {
-  position:absolute;
+  position: absolute;
   top: grid(1);
   right: grid(1);
   width: grid(6);
   height: grid(6);
-  .icon { 
-    width: 22px; 
-    height: 22px; 
+  .icon {
+    width: 22px;
+    height: 22px;
     fill: $white;
   }
   span {
-    display:block;
+    display: block;
     color: $white;
     margin-top: grid(1);
     @include altSmallCapsText(10px);
   }
 }
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .app-menu .menu-close {
     width: grid(7);
     height: grid(7);
-    .icon { 
-      width: grid(4); 
-      height: grid(4); 
+    .icon {
+      width: grid(4);
+      height: grid(4);
     }
-    span { @include altSmallCapsText(14px); }
+    span {
+      @include altSmallCapsText(14px);
+    }
   }
 }
 
@@ -72,8 +78,8 @@ $menuMargin: grid(5);
   margin-top: $menuMargin;
   ul {
     list-style: none;
-    margin:0;
-    padding:0;
+    margin: 0;
+    padding: 0;
   }
   li {
     margin-bottom: grid(1.5);
@@ -82,63 +88,70 @@ $menuMargin: grid(5);
     display: inline;
     color: $white;
     border-bottom: grid(0.5) solid transparent;
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       color: $white;
       border-bottom-color: $white;
       text-decoration: none;
-      box-shadow:none;
+      box-shadow: none;
       outline: 0;
     }
   }
+  .app-menu__child {
+    margin-left: 1.25em;
+  }
 }
 // boost size on tablet+
-@media(min-width: $gtMobile) and (min-height: 680px) {
+@media (min-width: $gtMobile) and (min-height: 680px) {
   .app-menu .site-navigation {
-    @include altFont(28px);
+    @include altFont(24px);
     letter-spacing: 0.7px;
-    li { margin-bottom: grid(2.5); }
+    padding-top: 24px;
+    li {
+      margin-bottom: grid(2.5);
+    }
   }
 }
 
-
 // Language Toggle - Only visible on "maps" mobile view
 // ---
-.app-menu .language-select { display: none; }
+.app-menu .language-select {
+  display: none;
+}
 .map-tool .app-menu .language-select {
   display: block;
-  position:absolute;
+  position: absolute;
   width: grid(27);
   left: $pageMarginLg;
   bottom: grid(9);
   .el-select .dropdown-toggle.btn {
-    background: none!important;
-    color: $white!important;
-    border: 4px solid #383D65;
+    background: none !important;
+    color: $white !important;
+    border: 4px solid #383d65;
     border-radius: 0;
     text-align: left;
-    box-shadow:none;
+    box-shadow: none;
     .dropdown-value {
       @include altSmallCapsText(13px);
     }
   }
 }
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .map-tool .app-menu .language-select {
     display: none;
   }
 }
 
-
 // Social media links
 // ---
 .social-media-links {
-  position:absolute;
-  bottom:0;
-  left:0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
   padding: 0 0 $pageMargin $pageMargin;
   list-style: none;
-  margin:0;
-  display:flex;
+  margin: 0;
+  display: flex;
   align-items: flex-start;
   justify-content: space-between;
   // border button overrides
@@ -150,39 +163,40 @@ $menuMargin: grid(5);
     height: grid(5);
     border-width: 0;
     color: $white;
-    .icon { 
+    .icon {
       margin: 0 auto;
       width: grid(2);
       height: grid(2);
       fill: $white;
     }
     &:hover {
-      .icon { fill: $white; }
+      .icon {
+        fill: $white;
+      }
     }
   }
 }
 
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .social-media-links {
     left: grid(2);
-    bottom: grid(2); 
+    bottom: grid(2);
   }
 }
 
 // Copyright Message
 // ---
 .menu-copyright {
-  position:absolute;
+  position: absolute;
   bottom: $pageMarginLg;
   right: $pageMarginLg;
   @include defaultFont(11px);
   color: $menuGrey;
 }
 
-@media(min-width: $gtMobile) {
-  .menu-copyright { 
-    bottom: grid(5); 
-    font-size:14px;
+@media (min-width: $gtMobile) {
+  .menu-copyright {
+    bottom: grid(5);
+    font-size: 14px;
   }
 }
-
