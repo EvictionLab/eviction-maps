@@ -44,7 +44,19 @@ export const environment = {
       langUrls: { 'es': '/#/evictions?lang=es' }
     },
     {
+      defaultUrl: '/covid-resources',
+      langKey: 'NAV.COVID',
+      langUrls: { 'es': '/es/covid-resources' }
+    },
+    {
+      defaultUrl: '/eviction-tracking',
+      child: true,
+      langKey: 'NAV.TRACKING',
+      langUrls: { 'es': '/es/eviction-tracking' }
+    },
+    {
       defaultUrl: '/covid-policy-scorecard',
+      child: true,
       langKey: 'NAV.SCORECARD',
       langUrls: { 'es': '/es/covid-policy-scorecard' }
     },

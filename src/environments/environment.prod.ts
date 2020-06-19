@@ -30,7 +30,7 @@ export const environment = {
     {
       defaultUrl: 'https://evictionlab.org/map',
       langKey: 'NAV.MAP',
-      langUrls : { 'es': 'https://staging.evictionlab.org/map/#/2016?lang=es' }
+      langUrls : { 'es': 'https://evictionlab.org/map/#/2016?lang=es' }
     },
     {
       defaultUrl: 'https://evictionlab.org/rankings',
@@ -38,7 +38,19 @@ export const environment = {
       langUrls : { 'es': 'https://evictionlab.org/rankings/#/evictions?lang=es' }
     },
     {
+      defaultUrl: 'https://evictionlab.org/covid-resources',
+      langKey: 'NAV.COVID',
+      langUrls: { 'es': 'https://evictionlab.org/es/covid-resources' }
+    },
+    {
+      defaultUrl: 'https://evictionlab.org/eviction-tracking',
+      child: true,
+      langKey: 'NAV.TRACKING',
+      langUrls: { 'es': 'https://evictionlab.org/es/eviction-tracking' }
+    },
+    {
       defaultUrl: 'https://evictionlab.org/covid-policy-scorecard',
+      child: true,
       langKey: 'NAV.SCORECARD',
       langUrls: { 'es': 'https://evictionlab.org/es/covid-policy-scorecard' }
     },
