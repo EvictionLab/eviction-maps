@@ -104,9 +104,9 @@ $menuMargin: grid(5);
 // boost size on tablet+
 @media (min-width: $gtMobile) and (min-height: 680px) {
   .app-menu .site-navigation {
-    @include altFont(24px);
+    @include altFont(22px);
     letter-spacing: 0.7px;
-    padding-top: 24px;
+    padding-top: 16px;
     li {
       margin-bottom: grid(2.5);
     }
