@@ -1,33 +1,35 @@
-@import '../../theme';
+@import "../../theme";
 
 ::ng-deep {
-  html { overflow-x: hidden; }
+  html {
+    overflow-x: hidden;
+  }
 }
 
 // Page Layout
 .app-wrapper {
-  min-height:100%;
+  min-height: 100%;
   min-width: 100%;
   app-map {
-    position:relative;
-    display:block;
-    width:100%;
+    position: relative;
+    display: block;
+    width: 100%;
     margin-top: $headerHeightSm;
     height: calc(100vh - #{$headerHeightSm});
-    z-index:10;
+    z-index: 10;
   }
   app-data-panel {
-    display:block;
-    position:relative;
-    width:100%;
-    background:#fff;
-    z-index:200;
+    display: block;
+    position: relative;
+    width: 100%;
+    background: #fff;
+    z-index: 200;
   }
 }
 
 // Larger than mobile:
 //    Adjust height of map / location cards to reflect large header.
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .app-wrapper {
     app-map {
       margin-top: $headerHeightLg;
@@ -39,40 +41,46 @@
 // Map Overlay
 .map-overlay {
   @include fill-parent();
-  pointer-events:none;
+  pointer-events: none;
   height: 100%;
   transition: background-color 0.2s ease;
   background-color: rgba(198, 204, 207, 0);
-  display:flex;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-end;
   z-index: 50;
-  &.active { 
-    pointer-events:all; 
+  &.active {
+    pointer-events: all;
     background-color: rgba(198, 204, 207, 0.5);
-    .btn-map { display:block; }
+    .btn-map {
+      display: block;
+    }
   }
-  .btn-compare { display:none; }
-  .btn-map { display:none; }
+  .btn-compare {
+    display: none;
+  }
+  .btn-map {
+    display: none;
+  }
   .show-map-overlay {
     @include fill-parent();
-    pointer-events:all;
-    z-index:51;
+    pointer-events: all;
+    z-index: 51;
     &.inactive {
-      pointer-events:none;
+      pointer-events: none;
     }
   }
 }
-.btn-map, 
+.btn-map,
 .btn-compare {
-  position:absolute;
+  position: absolute;
   bottom: $pageMarginLg;
-  left:0;
-  right:0;
+  left: 0;
+  right: 0;
   width: grid(28);
-  font-size:15px;
-  margin:auto;
+  font-size: 15px;
+  margin: auto;
   padding: 0 grid(2);
   .icon {
     width: 14px;
@@ -82,38 +90,42 @@
 }
 // bring button above data panel content
 .btn-map {
-  z-index:2;
+  z-index: 2;
   bottom: grid(6);
 }
 .btn-compare {
+  height: grid(9);
   pointer-events: all;
   transition: transform 0.3s ease, opacity 0.2s linear 0.1s;
   white-space: normal;
   transform: translateY(250%);
-  opacity:0;
+  opacity: 0;
   &.visible {
     transform: translateY(0px);
-    opacity:1;
+    opacity: 1;
   }
 }
 
 // keep map button aligned with the view more button
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   .btn-map {
     bottom: $pageMarginLg;
   }
 }
 
 // shift the more data button to the left so it doesn't sit on top of the legend
-@media(min-width: $gtTablet) and (max-width: 1200px) {
-  .map-overlay .btn-compare { margin-left: $pageMarginLg; margin-right: 0; }
+@media (min-width: $gtTablet) and (max-width: 1200px) {
+  .map-overlay .btn-compare {
+    margin-right: grid(55);
+    margin-left: auto;
+  }
 }
 
 // On laptop+ resolutions, show the compare button and adjust the map overlay
 // size to account for larger slider
-@media(min-width: $gtTablet) {
-  .map-overlay .btn-compare { 
-    display:block; 
+@media (min-width: $gtTablet) {
+  .map-overlay .btn-compare {
+    display: block;
   }
   .slider-active .map-overlay {
     height: calc(100% - #{$timeSliderLg});

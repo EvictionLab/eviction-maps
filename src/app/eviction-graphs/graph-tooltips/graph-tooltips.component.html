@@ -1,21 +1,90 @@
 <div class="line-tooltips" *ngIf="graphType === 'line'">
   <div class="year-marker" *ngIf="tooltips.length" [style.transform]="'translateX('+ tooltips[0].xPos +'px)'"><span>{{tooltips[0].x}}</span></div>
-  <div class="tooltip tooltip-number" role="tooltip" 
-    *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
-    [class.right]="tooltipPos === 'right'"
-    [class.left]="tooltipPos === 'left'"
-    [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
-    [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+
+  <!-- Start circles on lines -->
+  <div class="circles-container">
+    <div class="circles"
+      *ngFor="let tooltip of tooltips; trackBy: trackTooltips"
+      [style.transform]="'translate('+ tooltip.xPos +'px, ' + tooltip.yPos + 'px)'"
+      [style.display]="tooltip.y === undefined ? 'none' : 'inherit'"
+    ></div>
+  </div>
+  <!-- End circles on lines -->
+
+  <div
+    class="tooltip-row-container"
+    *ngIf="tooltips.length"
+    [style.transform]="'translate('+ tooltips[0].xPos +'px, ' + tooltipYTranslate + 'px)'"
+    role="tooltip"
   >
-    <div class="tooltip-wrapper">
-      <div class="tooltip-arrow"></div>
-      <div class="tooltip-inner line-tooltip-value">{{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}</div>
+    <div
+      class='tooltip-container'
+      [class.right]="tooltips[0].xPos <= 300"
+      [class.left]="!(tooltips[0].xPos) || tooltips[0].xPos > 300"
+    >
+      <div
+        class="tooltip"
+        *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
+      >
+        <span class="tooltip-header">
+          <div class="tooltip-inner-circle"></div>
+          <div *ngIf="locations[i]; then selectedLocation else usAverage" class="legend-label"></div>
+          <ng-template #selectedLocation>
+            {{ locations[i].properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
+            {{ locations[i].properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+            {{ locations[i].properties["n"] }}
+          </ng-template>
+          <ng-template #usAverage>
+            {{ average.name }}
+          </ng-template>
+        </span>
+        <div class="tooltip-body">
+          {{ tooltip.y >= 0 ? tooltipValue(tooltip) : null }}
+          <div *ngIf="displayCI && tooltip.y" class="ci-container">
+            <span class="max">
+              {{ tooltip.ciH ? 'MAX: ' + tooltip.ciH.toFixed(2) + '%'  : null }}
+            </span>
+            <span class="min">
+              {{ tooltip.ciL ? 'MIN: ' + tooltip.ciL.toFixed(2) + '%' : null }}
+            </span>
+          </div>
+          <div *ngIf="tooltip.y !== 0 && !tooltip.y" class='data-unavailable'>
+            Data unavailable
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 <div class="bar-tooltips" *ngIf="graphType === 'bar'">
-  <div class="tooltip tooltip-number top" role="tooltip" *ngFor="let tooltip of tooltips" [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'">
+  <div
+    class="tooltip tooltip-number top {{ (tooltip.data[0].ciH && tooltip.data[0].ciL && displayCI) ? 'tooltip-with-ci' : null }}"
+    role="tooltip"
+    *ngFor="let tooltip of tooltips; let i = index; trackBy: trackTooltips"
+    [style.transform]="'translate('+ (tooltip.left + tooltip.width/2) +'px, ' + barTopValue(tooltip.top) + 'px)'"
+    [style.min-width]="(135 > tooltip.width ? 135 : (tooltip.width - 10)) + 'px'"
+    [style.margin-left]="'-' + ((65 > (tooltip.width/2 - 5)) ? 65 : (tooltip.width/2 - 5)) +'px'"
+  >
     <div class="tooltip-arrow"></div>
-    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">{{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) : ('DATA.UNAVAILABLE' | translate) }}</div>
+    <div class="tooltip-inner" *ngIf="tooltip.data && tooltip.data.length">
+      <span class="tooltip-header">
+        <div
+          class="tooltip-inner-circle {{tooltip.id}}"
+          [class.isUSAverage]="tooltip.data[0]['x']==='United States'"
+        ></div>
+        {{ tooltip.data[0]['x'].split(',')[0] }}
+      </span>
+      <div class="tooltip-body">
+        {{ tooltip.data[0].y >= 0 ? tooltipValue(tooltip.data[0]) + '%' : ('DATA.UNAVAILABLE' | translate) }}
+        <div class="ci-container" *ngIf="tooltip.data[0].ciH > 0 && displayCI">
+          <span class="max">
+            MAX: {{ getTooltipCI(tooltip.data[0].ciH) }}%
+          </span>
+          <span class="min">
+            MIN: {{ getTooltipCI(tooltip.data[0].ciL) }}%
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

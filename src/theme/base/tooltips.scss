@@ -1,46 +1,24 @@
-
-@mixin tooltip-arrow($position) {
-  @if $position == 'top' {
-    top: 0;
-    left: calc(50% - #{$tooltipArrowSize / 2});
-    margin-left: -1 * $tooltipArrowSize;
-    border-width: 0 $tooltipArrowSize $tooltipArrowSize;
-    border-bottom-color: $tooltipBackground;
-    transform: scale(0.75, 1);
-  } @else if $position == 'right' {
-    top: calc(50% - #{$tooltipArrowSize / 2});
-    right: 0;
-    margin-top: -1 * $tooltipArrowSize;
-    border-width: $tooltipArrowSize 0 $tooltipArrowSize $tooltipArrowSize;
-    border-left-color: $tooltipBackground;
-    transform: scale(1, 0.75);
-  } @else if $position == 'left' {
-    top: calc(50% - #{$tooltipArrowSize / 2});
-    left: 0;
-    margin-top: -1 * $tooltipArrowSize;
-    border-width: $tooltipArrowSize $tooltipArrowSize $tooltipArrowSize 0;
-    border-right-color: $tooltipBackground;
-    transform: scale(1, 0.75);
-  } @else {
-    // bottom placement by default
-    bottom: 0;
-    left: calc(50% - #{$tooltipArrowSize / 2});
-    margin-left: -1 * $tooltipArrowSize;
-    border-width: $tooltipArrowSize $tooltipArrowSize 0;
-    border-top-color: $tooltipBackground;
-    transform: scale(0.75, 1);
-  }
-}
-
 // Base class
 .tooltip {
   position: absolute;
   display: block;
-  z-index:9999;
-  &.top    { margin-top:  -3px; padding: $tooltipArrowSize 0; }
-  &.right  { margin-left:  3px; padding: 0 $tooltipArrowSize; }
-  &.bottom { margin-top:   3px; padding: $tooltipArrowSize 0; }
-  &.left   { margin-left: -3px; padding: 0 $tooltipArrowSize; }
+  z-index: 9999;
+  &.top {
+    margin-top: -3px;
+    padding: $tooltipArrowSize 0;
+  }
+  &.right {
+    margin-left: 3px;
+    padding: 0 $tooltipArrowSize;
+  }
+  &.bottom {
+    margin-top: 3px;
+    padding: $tooltipArrowSize 0;
+  }
+  &.left {
+    margin-left: -3px;
+    padding: 0 $tooltipArrowSize;
+  }
 }
 // Arrows
 .tooltip-arrow {
@@ -52,10 +30,18 @@
 }
 // Arrow positioning
 .tooltip {
-  &.bottom .tooltip-arrow { @include tooltip-arrow('top'); }
-  &.top .tooltip-arrow { @include tooltip-arrow('bottom'); }
-  &.left .tooltip-arrow { @include tooltip-arrow('right'); }
-  &.right .tooltip-arrow { @include tooltip-arrow('left'); } 
+  &.bottom .tooltip-arrow {
+    @include tooltip-arrow("top");
+  }
+  &.top .tooltip-arrow {
+    @include tooltip-arrow("bottom");
+  }
+  &.left .tooltip-arrow {
+    @include tooltip-arrow("right");
+  }
+  &.right .tooltip-arrow {
+    @include tooltip-arrow("left");
+  }
 }
 .tooltip-inner {
   @include tooltip();
@@ -63,4 +49,3 @@
 .tooltip.tooltip-number .tooltip-inner {
   @include numberFont(12px);
 }
-

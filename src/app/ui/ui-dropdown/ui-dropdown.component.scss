@@ -1,0 +1,22 @@
+@import '../../../theme';
+
+.el-select {
+  width: auto;
+  display:block;
+  position:relative;
+}
+
+.bottom-label {
+  display: block;
+  clear: both;
+  font-weight: normal;
+  padding: $defaultPadding;
+  border-top: 1px solid $shadingColor;
+  min-height: grid(6);
+  white-space: normal;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-style:italic;
+  color: $grey_wcag;
+  margin-bottom:0;
+}

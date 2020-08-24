@@ -1,0 +1,8 @@
+<div *ngIf="location && dataProperty" class="content-inner">
+  <div class="panel-summary">
+    <div class="panel-summary-content">
+      <p *ngIf="location.evictions !== 1">{{ 'RANKINGS.PANEL_SUMMARY' | translate:{'evictions': (location.evictions | number: '1.0-2'), 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.0-2'), 'evictionRate': location.evictionRate, 'year': year } }}</p>
+      <p *ngIf="location.evictions === 1">{{ 'RANKINGS.PANEL_SUMMARY_SINGULAR' | translate:{'evictions': (location.evictions | number: '1.0-2'), 'name': location.name, 'evictionsPerDay': ((location.evictions/365) | number: '1.0-2'), 'evictionRate': location.evictionRate, 'year': year} }}</p>
+    </div>
+  </div>
+</div>

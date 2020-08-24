@@ -1,10 +1,14 @@
 <div id="embed-branding">
-  <a href="{{mapUrl}}" target="_blank">
-    <img src="{{deployUrl}}assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
+  <a href="{{ mapUrl }}" target="_blank">
+    <img
+      src="{{ deployUrl }}assets/images/eviction-lab-logo.svg"
+      class="header__logo-img"
+      alt="Eviction Lab Home"
+    />
   </a>
 </div>
 <div *ngIf="!mapSupported" class="unsupported-container">
-  <h2>{{ 'MAP.UNSUPPORTED_TITLE' | translate }}</h2>
+  <h2>{{ "MAP.UNSUPPORTED_TITLE" | translate }}</h2>
   <p [innerHTML]="'MAP.UNSUPPORTED_EMBED' | translate"></p>
 </div>
 <app-map

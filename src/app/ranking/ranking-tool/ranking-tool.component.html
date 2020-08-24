@@ -2,32 +2,14 @@
   <div class="hero">
     <h1>{{ 'RANKINGS.EVICTION_RANKINGS' | translate }}</h1>
   </div>
-  <div class="nav-bar nav-rankings">
-    <div class="content-inner">
-      <ul class="tabs">
-        <li [class.active]="activeTab === 'evictions'">
-          <a href="#" (click)="switchTab('evictions')">{{ 'RANKINGS.TOP_EVICTING_AREAS' | translate }}</a>
-        </li>
-        <li class="disabled">
-          <a disabled>{{ 'RANKINGS.TOP_EVICTORS' | translate }} ({{ 'RANKINGS.COMING_SOON' | translate }})</a>
-        </li>
-      </ul>
-    </div>
-  </div>
   <div class="page-content" #content>
     <app-evictions
       class="ranking-component"
-      *ngIf="activeTab === 'evictions'"
       [region]="region"
       [areaType]="areaType"
       [dataProperty]="dataProperty"
       [selectedIndex]="selectedIndex"
     ></app-evictions>
-    <app-evictors
-      class="ranking-component"
-      *ngIf="activeTab === 'evictors'"
-      [dataProperty]="dataProperty"
-    ></app-evictors>
   </div>
 </div>
 

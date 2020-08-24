@@ -1,51 +1,53 @@
-@import '../../../../theme';
-
+@import "../../../../theme";
 
 // Map UI Layout
 // ----
 // Map fills the component width and height
 .map-wrapper {
-  position:fixed;
-  top:0;
+  position: fixed;
+  top: 0;
   width: 100vw;
   max-width: 100%;
-  height:100%;
-  display:block;
-
+  height: 100%;
+  display: block;
 }
 // Map UI Wrapper spans the entire width of the viewport
 .map-ui-wrapper {
-    pointer-events:none;
-    position: absolute;
-    width:100%;
-    height: 100%;
-    top: 0;
-    left:0;
-    bottom: 0;
-    right: 0;
-    &.map-dropdowns { z-index: 60; } // bring dropdowns above other map UI
+  pointer-events: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  &.map-dropdowns {
+    z-index: 60;
+  } // bring dropdowns above other map UI
 }
 // Map UI maxes out at the max content width
 .map-ui {
-    display: none; // hide by default
-    position:absolute;
-    max-width: $maxContentWidth;
-    width:100%;
-    margin:auto;
-    top:0;
-    left:0;
-    right:0;
-    height:0;
-    z-index:49;
-    pointer-events:all;
-    &.active { display: block; }
+  display: none; // hide by default
+  position: absolute;
+  max-width: $maxContentWidth;
+  width: 100%;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 0;
+  z-index: 49;
+  pointer-events: all;
+  &.active {
+    display: block;
+  }
 }
 // larger than mobile:
 //    show select boxes by default
-@media(min-width: $gtMobile) {
-  .map-ui { 
+@media (min-width: $gtMobile) {
+  .map-ui {
     display: block;
-    width: calc(100% - #{($pageMarginLg*2)});    
+    width: calc(100% - #{($pageMarginLg * 2)});
   }
 }
 // - End Map UI Layout
@@ -73,7 +75,7 @@
   transition: opacity 0.6s;
 }
 
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   font-size: 14px;
 }
 
@@ -81,9 +83,11 @@
   display: block;
 }
 
-.mobile-scroll-indicator.inactive p { opacity: 0; }
+.mobile-scroll-indicator.inactive p {
+  opacity: 0;
+}
 
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   :host-context(.cards-active) .mobile-scroll-indicator {
     display: none;
   }
@@ -91,25 +95,24 @@
 
 // - End mobile scroll indicator
 
-
 // Map Location Cards
 // ----
 // default:
 //    Fix location cards to botom of the window
 app-location-cards {
   background: $defaultBackground;
-  pointer-events:all;
+  pointer-events: all;
   position: absolute;
   bottom: $mobileScrollIndicatorHeight;
-  left:0;
+  left: 0;
   height: $cardHeaderHeight;
   z-index: 20;
-  display:flex;
+  display: flex;
   align-content: flex-start;
   justify-content: flex-start;
   align-items: flex-end;
-  width:100%;
-  overflow:auto;
+  width: 100%;
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
   &.no-cards {
     height: 0;
@@ -118,7 +121,7 @@ app-location-cards {
 // greater than tablet:
 //    Adjust cards container to account for the larger header height
 //    center cards vertically over the map
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   app-location-cards {
     background: none;
     pointer-events: none;
@@ -128,110 +131,127 @@ app-location-cards {
       .location-card {
         transition: transform 0.2s ease;
         transform: translateX(0);
-        position:relative;
+        position: relative;
       }
-      .location-card:nth-child(1) { z-index: 17; }
-      .location-card:nth-child(2) { z-index: 18; margin-left: -200px; }
-      .location-card:nth-child(3) { z-index: 19; margin-left: -200px; }
-      .location-card:nth-child(4) { z-index: 20; margin-left: -200px; }
+      .location-card:nth-child(1) {
+        z-index: 17;
+      }
+      .location-card:nth-child(2) {
+        z-index: 18;
+        margin-left: -200px;
+      }
+      .location-card:nth-child(3) {
+        z-index: 19;
+        margin-left: -200px;
+      }
+      .location-card:nth-child(4) {
+        z-index: 20;
+        margin-left: -200px;
+      }
     }
   }
 }
 // greater than tablet when slider is active:
 //    Drop height of card container
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   :host-context(.slider-active) {
     app-location-cards {
-      top:0;
+      top: 0;
       bottom: auto;
-      margin:auto;
+      margin: auto;
       height: calc(100% - #{$timeSliderLg});
     }
   }
 }
 // - End Map Location Cards
 
-
 // Map Data Select Boxes
 // ----
-// default: 
+// default:
 //    hide labels and adjust width so the select menus
 //    span the full width of the window.
-@media(max-width: $gtMobile) {
-  .map-ui app-ui-select {
+@media (max-width: $gtMobile) {
+  .map-ui {
+    display: block;
+    background: #fff;
     position: absolute;
-    width:33.3333%;
-    top:0;
-    z-index: 100;
-    transition: width 0.2s ease, left 0.2s ease, right 0.2s ease, z-index 0.1s ease 0.2s;
-    // position the dropwdowns
-    &:nth-of-type(1) { left: 0; }
-    &:nth-of-type(2) { left: 33.33333%; }
-    &:nth-of-type(3) { left: 66.66666%; right: 0; }
-    // span full width when open
-    &.open {
-      left: 0;
-      right: 0;
+    top: 48px;
+    left: 16px;
+    right: 16px;
+    padding: 0;
+    height: auto;
+    width: auto;
+    margin: auto;
+    max-width: grid(50);
+    @include vGroup(center);
+    box-shadow: $z1shadow;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+    z-index: 0;
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+      z-index: 10;
+    }
+    app-ui-select {
       width: 100%;
-      z-index: 101;
-      transition: width 0.2s ease, left 0.2s ease, right 0.2s ease;
-      ::ng-deep .el-select .el-select-label {
-        display: inherit;
-      }
-    }
-    // when nothing is selected show the label only
-    &.none-selected {
-      ::ng-deep .el-select {
-        .dropdown-toggle { 
-          overflow: visible;
-          text-overflow: none;
-          white-space: normal;
+      display: block;
+      border-bottom: 1px solid $grey4;
+      ::ng-deep {
+        .dropdown-toggle.btn {
+          box-shadow: none;
+          display: flex;
+          align-items: center;
+          .icon {
+            right: 16px;
+          }
         }
-        .dropdown-label { display: block; }
-        .dropdown-value { display: none; }
-      }
-    }
-    ::ng-deep {
-      .el-select .dropdown-label,
-      .el-select .dropdown-value {
-        display:block;
-        overflow: hidden;
-        @include ellipsis-overflow();
-        span {
-          display:inline;
-          margin-left: grid(0.5);
+        .dropdown-label {
+          display: inline-block;
+          width: 50%;
+        }
+        .dropdown-value {
+          display: inline-block;
+          width: calc(50% - #{grid(1)});
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
       }
-      .el-select .dropdown-toggle.btn {
-        height: grid(7);
-        padding-right: grid(3);
-      }
+    }
+    .select--year {
+      border-bottom: none;
     }
   }
 }
 // dropdowns span the entire viewport
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   // label inline with selected value
-  .map-ui app-ui-select {
-    float:left;
-    width:28.9%;
-    margin: 0 16px 0 0;
-    position: relative;
-    &:nth-of-type(3) {
-      margin-right: 0;
-    }
-    ::ng-deep {
-      .el-select .dropdown-toggle.btn {
-        @include ellipsis-overflow();
+  .map-ui {
+    app-ui-select {
+      float: left;
+      width: 28.9%;
+      margin: 0 16px 0 0;
+      position: relative;
+      &:nth-of-type(3) {
+        margin-right: 0;
+      }
+      &.select--year {
+        display: none;
+      }
+      ::ng-deep {
+        .el-select .dropdown-toggle.btn {
+          @include ellipsis-overflow();
+        }
       }
     }
   }
 }
 // dropdowns based on width of containing text
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   .map-ui app-ui-select {
-    width:auto;
-    max-width:31%; // prevent selects from wrapping to new line
+    width: auto;
+    max-width: 31%; // prevent selects from wrapping to new line
     margin: 0 grid(2) 0 0;
   }
 }
@@ -245,12 +265,12 @@ app-location-cards {
     background: $shadingColor;
   }
 }
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .overview.btn {
-    position:absolute;
-    top:0;
-    right:0;
-    display:flex;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: grid(5);
@@ -260,93 +280,93 @@ app-location-cards {
     // make sure icon is centered (IE11)
     .icon {
       position: absolute;
-      top:0; right:0; bottom:0; left: 0;
-      margin:auto;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
       width: 22px;
-      height:22px;
+      height: 22px;
       fill: $iconColor;
       // Hack to prevent overflow on Safari
-      ::ng-deep { svg { height: inherit; } }
+      ::ng-deep {
+        svg {
+          height: inherit;
+        }
+      }
     }
   }
 }
 
-
 // Map Legend
 // ----
-// mobile / tablet: 
+// mobile / tablet:
 //    map spans entire width at bottom of map
 app-ui-map-legend {
-  width: 100%;
-  height: $legendHeight;
+  width: calc(100% - 24px);
+  height: auto;
+  margin: auto;
   background: $legendBackground;
-  position:absolute;
-  bottom: $timeSliderHeight;
-  right:0;
-  left:0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  max-width: grid(50);
   box-shadow: $z1shadow;
   border-bottom: 1px solid $shadingColor;
-  z-index:10;
+  z-index: 10;
 }
 // cards and slider activated on mobile:
 //    move legend above cards / time slider
 :host-context(.cards-active.slider-active) app-ui-map-legend {
-  bottom: $timeSliderHeight + $cardHeaderHeight + $mobileScrollIndicatorHeight;
+  bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight;
 }
-// larger than tablet: 
+// larger than tablet:
 //    move legend to bottom right of the map
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   app-ui-map-legend {
-    height: grid(7); // 7 * 8 = 56px
-    width: auto;
-    max-width: $maxContentWidth;
-    margin:auto;
-    top:auto;
-    left:auto;
-    right:$pageMarginLg;
+    width: grid(50);
+    margin: auto;
+    top: auto;
+    left: auto;
+    right: $pageMarginLg;
     bottom: $timeSliderHeight + $pageMarginLg;
-    ::ng-deep .hint-button .icon {
-      width: grid(3); // 30px
-      height: grid(3);
-      margin:auto;
-      
-    }
   }
 }
 // large than mobile:
 //    legend is on the bottom right of the map, above cards
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   :host-context(.slider-active) app-ui-map-legend {
     bottom: $timeSliderLg + $pageMarginLg;
   }
   :host-context(.cards-active.slider-active) app-ui-map-legend {
-    bottom: $timeSliderLg + $cardHeaderHeight + $pageMarginLg + $mobileScrollIndicatorHeight;
+    bottom: $timeSliderLg + $cardHeaderHeight + $pageMarginLg +
+      $mobileScrollIndicatorHeight;
   }
 }
 // large than tablet:
 //    cards removed from bottom, adjust accordingly
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   :host-context(.cards-active.slider-active) app-ui-map-legend {
     bottom: $timeSliderLg + $pageMarginLg;
   }
 }
 
-
 // - End Map Legend
-
 
 // Year Slider
 // ----
-// default: 
+// default:
 //    Place year slider at the bottom of the window below the map
 .year-slider-container {
-  position:absolute;
+  display: none;
+  position: absolute;
   width: 100vw;
   max-width: 100%;
   top: auto;
-  left:0;
-  right:0;
-  bottom:0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   height: $timeSliderHeight;
   z-index: 49;
   background: $timeSliderBackground;
@@ -357,7 +377,7 @@ app-ui-map-legend {
   // keep the slider component within the max content width
   .year-slider {
     margin: auto;
-    max-width: $maxContentWidth - $pageMarginLg*2;
+    max-width: $maxContentWidth - $pageMarginLg * 2;
     height: $timeSliderHeight;
   }
 }
@@ -368,26 +388,31 @@ app-ui-map-legend {
   }
 }
 // increase offset from the bottom if cards are shown (only up to tablet)
-@media(max-width: $gtTablet) {
+@media (max-width: $gtTablet) {
   :host-context(.cards-active) {
-    .year-slider-container { bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight; }
+    .year-slider-container {
+      bottom: $cardHeaderHeight + $mobileScrollIndicatorHeight;
+    }
   }
 }
 
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   .year-slider-container {
+    display: block;
     padding: 0 ($pageMarginLg + grid(2)) 0 $pageMarginLg; // add grid(2) so slider marker aligns with margin edge
     height: $timeSliderLg;
     box-shadow: $z1shadow;
   }
-  .year-slider-container .year-slider { height: $timeSliderLg; }
+  .year-slider-container .year-slider {
+    height: $timeSliderLg;
+  }
 }
-// fixed at the bottom of the screen abover the overlay on 
+// fixed at the bottom of the screen abover the overlay on
 // devices larger than tablet
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   .year-slider-container {
-    bottom: 0; 
-    z-index:51;
+    bottom: 0;
+    z-index: 51;
   }
 }
 // - End Year Slider

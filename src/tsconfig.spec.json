@@ -17,7 +17,6 @@
   ],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts",
-    "../node_modules/angular-d3-graph/module.ts"
+    "**/*.d.ts"
   ]
 }

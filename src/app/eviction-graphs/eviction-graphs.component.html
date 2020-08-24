@@ -1,33 +1,48 @@
-<div class="graph-container">
+ <div class="graph-container">
   <div class="data-content-inner">
     <div class="graph-header">
       <div class="graph-header-inner">
-        <app-ui-switch 
-          tabindex="0"
-          class="graph-eviction-toggle"
-          [leftLabel]="'DATA.JUDGMENTS'| translate" 
-          [rightLabel]="'DATA.FILINGS' | translate" 
-          [on]="this.graphAttribute && this.dataAttributes.length > 0 && this.graphAttribute.id === this.dataAttributes[1].id"
-          (switched)="changeGraphProperty($event)"
-        ></app-ui-switch>
-        <app-ui-toggle
-          class="graph-type-toggle"
+        <app-ui-select
+          class="graph-eviction-select"
+          [label]="'MAP.EVICTION_SELECT' | translate"
+          labelProperty="name"
+          [selectedValue]="this.graphAttribute"
+          [values]="bubbleOptions"
+          (change)="changeGraphProperty($event)"
+        ></app-ui-select>
+        <app-ui-select
+          class="graph-type-select selected-icon-{{graphType}}"
           [attr.aria-label]="'DATA.GRAPH_TYPE_LABEL' | translate"
+          [label]="'DATA.GRAPH_TYPE_LABEL' | translate"
           labelProperty="label"
+          [selectedValue]="graphTypeOptions[1]"
           [values]="graphTypeOptions"
-          [selectedValue]="graphType"
-          (selectedValueChanged)="graphType = $event"
-        ></app-ui-toggle>
+          (change)="graphType = $event.id"
+        ></app-ui-select>
+        <app-ui-checkbox
+          class="graph-ci-checkbox"
+          [isChecked]="displayCI"
+          (changed)="displayCI = $event"
+          [inputLabel]="'DATA.CI_LABEL'| translate"
+          [index]=0
+        ></app-ui-checkbox>
         <div class="graph-year-select">
-          <span *ngIf="graphType === 'line'" class="graph-year-label"> {{ 'DATA.DATE_RANGE' | translate }}</span>
-          <span *ngIf="graphType === 'bar'" class="graph-year-label"> {{ 'DATA.GRAPH_YEAR' | translate }}</span>
           <div class="graph-select" [style.display]="graphType !== 'line' ? 'none' : null">
-            <app-ui-select class="z0" [values]="startSelect" [selectedValue]="minYear" (change)="lineStartYear = $event"></app-ui-select>
-            <span>to</span>
-            <app-ui-select class="z0" [values]="endSelect" [selectedValue]="maxYear" (change)="lineEndYear = $event"></app-ui-select>
+            <app-ui-select-date-range
+              [label]="'DATA.DATE_RANGE' | translate"
+              [hint]="'DATA.YEAR_SELECT_HINT' | translate"
+              [startValue]="lineStartYear"
+              [endValue]="lineEndYear"
+              [values]="lineYears"
+              (change)="lineYearsChange.emit($event)"
+            ></app-ui-select-date-range>
           </div>
           <div class="graph-select" [style.display]="graphType !== 'bar' ? 'none' : null">
-            <app-ui-select class="z0" [selectedValue]="barYear" [values]="barYearSelect"
+            <app-ui-select
+              class="z0"
+              [label]="'DATA.GRAPH_YEAR' | translate"
+              [selectedValue]="barYear"
+              [values]="barYearSelect"
               (change)="barYear = $event"></app-ui-select>
           </div>
         </div>
@@ -42,10 +57,14 @@
         (activeValuesChanged)="graphHover.emit($event)"
       >
         <app-graph-tooltips 
-          [graphType]="graphType" 
+          [graphType]="graphType"
           [tooltips]="tooltips"
           [format]="graphAttribute.format"
           [maxVal]="graphSettings.axis.y.maxVal"
+          [displayCI]="graphSettings.ci.display"
+          [locations]="locations"
+          [average]="average"
+          [tooltipYTranslate]="tooltipYTranslate"
         >
         </app-graph-tooltips>
       </app-graph>
@@ -61,18 +80,12 @@
           </span>
           <span class="legend-label legend-sub">{{ location.properties["pl"] }}</span>
           <app-ui-close-button class="clear-location" [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':location.properties.n}" (onPress)="locationRemoved.emit(location)"></app-ui-close-button>
-          <p class="legend-data">
-            <span>{{ getLegendValue(location, i) }}</span>
-          </p>
         </li>
         <!-- Average -->
         <li *ngIf="average" class="us-average" [class.active]="showAverage">
           <app-ui-icon class="legend-marker" icon="marker"></app-ui-icon>
           <span class="legend-label">{{ average.name }}</span>
           <app-ui-close-button class="clear-location"  [ariaLabel]="(!showAverage ? 'DATA.ADD_LOCATION' : 'DATA.REMOVE_LOCATION') | translate:{'name':average.name}" (onPress)="showAverage = !showAverage"></app-ui-close-button>
-          <p class="legend-data">
-              <span>{{ getLegendValue(average, this.locations.length) }}</span>
-          </p>
         </li>
       </ul>
     </div>

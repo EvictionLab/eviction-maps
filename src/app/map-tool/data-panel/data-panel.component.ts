@@ -95,7 +95,8 @@ export class DataPanelComponent implements OnInit {
       dataProp: this.mapToolService.activeDataHighlight.id,
       bubbleProp: this.mapToolService.activeBubbleHighlight.id,
       showUsAverage: this.mapToolService.activeShowGraphAvg,
-      usAverage: this.mapToolService.usAverage
+      usAverage: this.mapToolService.usAverage,
+      displayCI: this.mapToolService.graphDisplayCI
     };
     this.dialogService.showDialog(config, DownloadFormComponent)
       .subscribe((d) => { if (d.accepted) { this.trackDownload(d.filetypes); } });
@@ -112,7 +113,12 @@ export class DataPanelComponent implements OnInit {
     const comparisonDownloadType = [
       this.mapToolService.getActiveLocationNames(), yearString, fileTypes
     ].join('|');
-    this.analytics.trackEvent('comparisonDataDownload', { comparisonDownloadType });
+    this.analytics.trackEvent('comparisonDataDownload', {
+      comparisonDownloadType, fileTypes
+    });
+    this.analytics.trackEvent('fileDownload', {
+      fileTypes
+    });
   }
 
   /**

@@ -1,53 +1,75 @@
 <div class="map-ui-wrapper map-dropdowns">
-  <div class="map-ui" [class.active]="activeMenuItem === 'map'">
+  <div class="map-ui" [class.active]="activeMenuItem === 'data'">
     <app-ui-select
-      class="eviction-select"
+      class="select--bubble"
       [label]="'MAP.EVICTION_SELECT' | translate"
       labelProperty="name"
       [selectedValue]="selectedBubble"
       [values]="bubbleOptions"
       (change)="selectedBubble = $event"
-      #pop="bs-tooltip"
-      containerClass="map-hint-desktop"
-      [isDisabled]="!tooltipEnabled"
-      placement="bottom"
-      [tooltip]="'HEADER.MAP_HINT' | translate"
+      (onClose)="onSelectClosed.emit('bubble')"
     ></app-ui-select>
     <app-ui-select
-      class="highlight-select"
+      class="select--choro"
       [label]="'MAP.CENSUS_SELECT' | translate"
       labelProperty="name"
       [selectedValue]="selectedChoropleth"
       [values]="choroplethOptions"
-      (change)="selectedChoropleth = $event">
+      (change)="selectedChoropleth = $event"
+      (onClose)="onSelectClosed.emit('choro')"
+    >
     </app-ui-select>
     <app-ui-select
-      class="layer-select"
+      class="select--layer"
       [label]="'MAP.LAYER_SELECT' | translate"
       labelProperty="name"
       [selectedValue]="selectedLayer"
-      [values]="selectDataLevels" 
-      [bottomLabel]="selectDataLevels.length < (layerOptions.length + 1) ? ('MAP.ZOOM_HINT' | translate) : false"
-      (change)="setGroupVisibility($event, 'dropdown')">
+      [values]="selectDataLevels"
+      [bottomLabel]="
+        selectDataLevels.length < layerOptions.length + 1
+          ? ('MAP.ZOOM_HINT' | translate)
+          : false
+      "
+      (change)="setGroupVisibility($event, 'dropdown')"
+      (onClose)="onSelectClosed.emit('layer')"
+    >
     </app-ui-select>
-    <button class="btn btn-icon overview z1" (click)="helpClick.emit()" [attr.aria-label]="'MAP.FEATURE_OVERVIEW_LABEL' | translate">
+    <app-ui-select
+      class="select--year"
+      [label]="'DATA.GRAPH_YEAR' | translate"
+      [selectedValue]="year"
+      [values]="yearsArray"
+      (change)="year = $event"
+      (onClose)="onSelectClosed.emit('year')"
+    >
+    </app-ui-select>
+    <button
+      class="btn btn-icon overview z1"
+      (click)="helpClick.emit()"
+      [attr.aria-label]="'MAP.FEATURE_OVERVIEW_LABEL' | translate"
+    >
       <app-ui-icon icon="help"></app-ui-icon>
     </button>
   </div>
   <div class="mobile-scroll-indicator" [class.inactive]="!scrollZoom">
-    <p *ngIf="activeFeatures.length === 1">{{ 'MAP.SCROLL_DATA_SINGLE' | translate}}</p>
-    <p *ngIf="activeFeatures.length > 1">{{ 'MAP.SCROLL_DATA_MULTIPLE' | translate}}</p>
+    <p *ngIf="activeFeatures.length === 1">
+      {{ "MAP.SCROLL_DATA_SINGLE" | translate }}
+    </p>
+    <p *ngIf="activeFeatures.length > 1">
+      {{ "MAP.SCROLL_DATA_MULTIPLE" | translate }}
+    </p>
   </div>
 </div>
 <div class="map-wrapper" #mapEl>
   <app-mapbox
-    [mapConfig]="mapConfig" 
+    [mapConfig]="mapConfig"
     [eventLayers]="mapEventLayers"
     [selectedLayer]="selectedLayer"
     [featureCount]="activeFeatures.length"
     (ready)="onMapReady($event)"
     (featureClick)="onFeatureClick($event)"
     (moveEnd)="onMapMoveEnd($event)"
+    (onFeatureHover)="onMapInteraction.emit()"
   ></app-mapbox>
 </div>
 <div class="year-slider-container">
@@ -56,30 +78,31 @@
     tabindex="0"
     class="year-slider"
     [label]="year"
-    [(value)]="year" 
-    [min]="minYear" 
-    [max]="maxYear" 
+    [(value)]="year"
+    [min]="minYear"
+    [max]="maxYear"
   ></app-ui-slider>
 </div>
 <div class="map-ui-wrapper">
-    <app-ui-map-legend 
-      *ngIf="showLegend" 
-      [zoom]="zoom"
-      [choropleth]="selectedChoropleth" 
-      [bubbles]="selectedBubble" 
-      [layer]="selectedLayer">
-    </app-ui-map-legend>
-    <app-location-cards
-      [collapsible]="gtTablet"
-      [class.cards-2]="activeFeatures.length === 2"
-      [class.cards-3]="activeFeatures.length === 3"
-      [features]="activeFeatures"
-      [cardProperties]="cardProps"
-      [year]="year"
-      [(collapsed)]="mapToolService.cardsCollapsed"
-      (clickedHeader)="clickedCardHeader.emit($event)"
-      (dismissedCard)="dismissedCard.emit($event)"
-    ></app-location-cards>
+  <app-ui-map-legend
+    *ngIf="showLegend"
+    [zoom]="zoom"
+    [choropleth]="selectedChoropleth"
+    [bubbles]="selectedBubble"
+    [layer]="selectedLayer"
+  >
+  </app-ui-map-legend>
+  <app-location-cards
+    [collapsible]="gtTablet"
+    [class.cards-2]="activeFeatures.length === 2"
+    [class.cards-3]="activeFeatures.length === 3"
+    [features]="activeFeatures"
+    [cardProperties]="cardProps"
+    [year]="year"
+    [(collapsed)]="mapToolService.cardsCollapsed"
+    (clickedHeader)="clickedCardHeader.emit($event)"
+    (dismissedCard)="dismissedCard.emit($event)"
+  ></app-location-cards>
 </div>
 
 <ng-content></ng-content>

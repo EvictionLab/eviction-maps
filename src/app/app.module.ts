@@ -2,7 +2,7 @@ import * as Raven from 'raven-js';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe } from '@ngx-translate/core';
@@ -74,7 +74,7 @@ export class CustomOption extends ToastOptions {
     RouterModule.forRoot([], { useHash: true }),
     TooltipModule.forRoot(),
     ToastModule.forRoot(),
-    Ng2PageScrollModule.forRoot()
+    NgxPageScrollModule
   ],
   providers: [
     { provide: ToastOptions, useClass: CustomOption },

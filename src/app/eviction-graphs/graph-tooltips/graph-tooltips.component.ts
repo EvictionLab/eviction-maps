@@ -13,14 +13,23 @@ export class GraphTooltipsComponent implements OnInit {
 
   /** Data to render tooltips */
   @Input() tooltips;
+  /** Variable to determine vertical movement for tooltip on line chart */
+  @Input() tooltipYTranslate;
   /** Which type of graph to show tooltips for */
   @Input() graphType;
   /** Determines how the tooltips will be formatted */
   @Input() format: string;
   /** Maximum y value */
   @Input() maxVal: number;
+  /** Display CI Boolean */
+  @Input() displayCI: boolean;
   /** Determines which side the tooltips show on */
   tooltipPos = 'left';
+  /** Data to render location names */
+  @Input() locations;
+  /** Data to render US average */
+  @Input() average;
+
 
   constructor(private decimal: DecimalPipe) {}
 
@@ -34,7 +43,12 @@ export class GraphTooltipsComponent implements OnInit {
   /** track tooltips by ID so they are animated properly */
   trackTooltips(index, item) { return item.id; }
 
+  getTooltipCI(num) {
+    return Math.abs(Number(Number(num).toFixed(2)));
+  }
+
   tooltipValue(tooltip): string {
+    // console.log('tooltipValue()');
     let valStr = this.decimal.transform(tooltip.y);
     if (this.maxVal > 0 && tooltip.y > this.maxVal) {
       valStr = '>' + this.maxVal;

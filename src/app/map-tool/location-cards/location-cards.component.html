@@ -29,6 +29,7 @@
         <span 
           class="card-stat-comparison"
           [class.bad]="getAverageOffsetPrefix(f.properties[prop.yearAttr], usAverage[prop.yearAttr]) === '+'"
+          [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)"
           *ngIf="i === 1 && usAverage && f.properties[prop.yearAttr] > 0"
         >
           {{ getAverageOffset(f.properties[prop.yearAttr], usAverage[prop.yearAttr])}} {{ 'DATA.US_AVERAGE' | translate }}
@@ -49,6 +50,29 @@
         <div *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
           <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
+          <div *ngIf="isCIProp(f, prop.yearAttr)" class="ci ci-card ci-id-{{prop.id}}">
+            <div class="ci-parent">
+              <div class="ci-high">
+                <span class="ci-label ci-high">
+                  {{ 'DATA.CI_HIGH' | translate }}
+                </span>
+                <span class="ci-value ci-high">
+                  {{ formatCI(prop.type, f.properties[getCIHigh(f, prop.yearAttr)], '') }}
+                </span>
+              </div>
+              <div class="ci-low">
+                <span class="ci-label ci-low">
+                  {{ 'DATA.CI_LOW' | translate }}
+                </span>
+                <span class="ci-value ci-low">
+                  {{ formatCI(prop.type, f.properties[getCILow(f, prop.yearAttr)], '') }}
+                </span>
+              </div>
+            </div>
+            <div *ngIf="cardProperties.length < 3" class="ci-tip">
+              <app-ui-icon icon="hint" [tooltip]="'HINTS.CI' | translate" placement="right" container="body" ></app-ui-icon>
+            </div>
+          </div>
           <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
           <app-ui-hint *ngIf="isLowProp(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="lowPropFlag(f) | translate"></app-ui-hint>
           <app-ui-hint *ngIf="isMarylandFiling(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>

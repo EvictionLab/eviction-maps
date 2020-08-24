@@ -39,6 +39,7 @@ export class MapToolServiceStub {
   mapView;
   mapConfig;
   usAverage = {};
+  graphDisplayCI;
   usAverageLoaded = new EventEmitter<any>();
   getRouteArray() { return []; }
 }

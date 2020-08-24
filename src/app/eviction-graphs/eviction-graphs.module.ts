@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { GraphModule } from 'angular-d3-graph/module';
+import { GraphModule } from '../graph/graph.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { PopoverModule } from 'ngx-bootstrap/popover';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';

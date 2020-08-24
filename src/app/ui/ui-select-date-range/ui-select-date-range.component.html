@@ -1,0 +1,35 @@
+<app-ui-dropdown
+  #uiDropdown
+  [label]="label"
+  [value]="getValueLabel()"
+  [focusSelector]="'button.highlight'"
+  (onOpenChange)="handleOpenChange($event)"
+>
+  <p *ngIf="hint">{{ hint }}</p>
+  <ul 
+    class="range-select" 
+    [class.backward]="selectingBackward"
+    [class.forward]="selectingForward"
+  >
+    <li 
+      class="range-select__item"
+      *ngFor="let value of values; let i = index">
+      <button
+        class="range-select__button"
+        [class.preview]="isValuePreview(value)"
+        [class.highlight]="isValueHighlighted(value)" 
+        [class.first]="isValueFirst(value)"
+        [class.last]="isValueLast(value)"
+        (click)="handleYearSelect(value)"
+        (mouseover)="handleYearHover(value)"
+      >
+        {{ value }}
+      </button>
+    </li>
+  </ul>
+  <div class="button-row">
+    <button class="btn btn-small btn-primary" [disabled]="selecting" (click)="handleApply()">Apply</button>
+    <button class="btn btn-neutral" (click)="handleCancel()">Cancel</button>
+  </div>
+
+</app-ui-dropdown>

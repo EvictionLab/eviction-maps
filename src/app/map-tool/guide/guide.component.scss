@@ -1,0 +1,17 @@
+@import "../../../theme";
+
+:host {
+}
+
+// position for location guide step
+.guide-point--inner {
+  position: absolute;
+  top: grid(30);
+  left: 0;
+  right: 0;
+  width: calc(100% - #{grid(98)});
+  height: 0px;
+  pointer-events: none;
+  margin: auto;
+  z-index: 10000;
+}
