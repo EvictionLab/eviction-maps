@@ -52,6 +52,7 @@
           <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
           <app-ui-hint *ngIf="isLowProp(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="lowPropFlag(f) | translate"></app-ui-hint>
           <app-ui-hint *ngIf="isMarylandFiling(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>
+          <app-ui-hint *ngIf="isNewOrleans(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_NEWORLEANS' | translate"></app-ui-hint>
         </div>
         <span *ngIf="prop.id === 'divider'"
           class="card-stat-label"

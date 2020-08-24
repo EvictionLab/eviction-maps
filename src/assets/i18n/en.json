@@ -118,7 +118,8 @@
     "FLAG_LOW_STATES": "This state's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
     "FLAG_LOW_COUNTIES": "This county's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
     "FLAG_LOW_PLACES": "This place's estimated eviction/filing rate is too low. Please see our FAQ section to better understand why.",
-    "FLAG_MARYLAND_FILING": "Because of the way Maryland records eviction notices, it has a much higher filing rate than everywhere else. Please see our FAQ section to better understand why."
+    "FLAG_MARYLAND_FILING": "Because of the way Maryland records eviction notices, it has a much higher filing rate than everywhere else. Please see our FAQ section to better understand why.",
+    "FLAG_NEWORLEANS": "New Orleans' estimated eviction/filing rate is too low. Please see our FAQ section to better understand why."
   },
   "NAV": {
     "HOME": "Home",

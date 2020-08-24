@@ -122,7 +122,8 @@
     "FLAG_LOW_STATES": "La estimación de la tasa de desalojo/presentaciones de este estado es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
     "FLAG_LOW_COUNTIES": "La estimación de la tasa de desalojo/presentaciones de este condado es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
     "FLAG_LOW_PLACES": "La estimación de la tasa de desalojo/presentaciones de este lugar es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
-    "FLAG_MARYLAND_FILING": "Debido a la forma en que Maryland registra los avisos de desalojo, tiene una tasa de presentación mucho más alta que en cualquier otro lugar. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué."
+    "FLAG_MARYLAND_FILING": "Debido a la forma en que Maryland registra los avisos de desalojo, tiene una tasa de presentación mucho más alta que en cualquier otro lugar. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué.",
+    "FLAG_NEWORLEANS": "La estimación de la tasa de desalojo/presentaciones de este lugar es demasiado baja. Por favor, consulte nuestra sección de preguntas frecuentes para comprender mejor por qué."
   },
   "NAV": {
     "HOME": "Inicio",

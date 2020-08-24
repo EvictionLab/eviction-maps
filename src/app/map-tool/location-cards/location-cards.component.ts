@@ -187,7 +187,8 @@ export class LocationCardsComponent implements OnInit {
   isHighProp(feature, yearProp: string) {
     if (!feature['highProps']) { return false; }
     return feature['highProps'].indexOf(yearProp) > -1 &&
-      !this.isMarylandFiling(feature, yearProp);
+      !this.isMarylandFiling(feature, yearProp) &&
+      !this.isNewOrleans(feature, yearProp);
   }
 
   /** Checks if the property name exists in the feature's low flagged properties */
@@ -197,13 +198,21 @@ export class LocationCardsComponent implements OnInit {
     const yearSuffix = propSplit[1];
     return (this.lowFlagProps.indexOf(prop) >= 0 && feature.properties[`lf-${yearSuffix}`] > 0) &&
       !this.isHighProp(feature, yearProp) &&
-      !this.isMarylandFiling(feature, yearProp);
+      !this.isMarylandFiling(feature, yearProp) &&
+      !this.isNewOrleans(feature, yearProp);
   }
 
   /** Special case to check for the Maryland eviction filing rate */
   isMarylandFiling(feature, yearProp: string) {
     const prop = yearProp.split('-')[0];
     return feature.properties['GEOID'].slice(0, 2) === '24' && prop === 'efr';
+  }
+
+  /** Special case for New Orleans */
+  isNewOrleans(feature, yearProp) {
+    const prop = yearProp.split('-')[0];
+    return feature.properties['GEOID'].slice(0, 5) === '22071' ||
+           feature.properties['GEOID'] === '2255000';
   }
 
   lowPropFlag(feature) {
