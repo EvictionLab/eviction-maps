@@ -132,6 +132,10 @@ export class MapToolService {
     this.setState({
       year: this.activeYear
     });
+    this.analytics.trackEvent("mapYearSelection", {
+      mapYearSelection: year,
+      combinedSelections: this.getCurrentDataString()
+    });
   }
 
   /** Sets the type of graph to show in the data panel */
