@@ -74,8 +74,8 @@
               r="11.1724138"
             ></circle>
           </svg>
-          <h2>{{ "DATA.SOCIAL_HEADING" | translate }}</h2>
-          <span>{{ "DATA.SOCIAL_HINT" | translate }}</span>
+          <h2>{{ 'DATA.SOCIAL_HEADING' | translate }}</h2>
+          <span>{{ 'DATA.SOCIAL_HINT' | translate }}</span>
           <app-ui-social-share
             [tweet]="tweet"
             emailSubject="Eviction Lab"
@@ -106,8 +106,8 @@
               points="0 61 0 72 61 72 61 61"
             ></polygon>
           </svg>
-          <h2>{{ "DATA.DOWNLOAD_HEADING" | translate }}</h2>
-          <span>{{ "DATA.DOWNLOAD_HINT" | translate }}</span>
+          <h2>{{ 'DATA.DOWNLOAD_HEADING' | translate }}</h2>
+          <span>{{ 'DATA.DOWNLOAD_HINT' | translate }}</span>
           <button
             [class.disabled]="displayLocations.length === 0"
             tooltip="{{ 'DATA.DOWNLOAD_DISABLED' | translate }}"
@@ -115,7 +115,7 @@
             class="btn btn-border"
             (click)="showDownloadDialog($event)"
           >
-            {{ "DATA.DOWNLOAD_BUTTON" | translate }}
+            {{ 'DATA.DOWNLOAD_BUTTON' | translate }}
           </button>
         </div>
         <div class="action-wrapper">
@@ -160,14 +160,14 @@
               height="62.003227"
             ></rect>
           </svg>
-          <h2>{{ "DATA.GET_DATA_HEADING" | translate }}</h2>
-          <span>{{ "DATA.GET_DATA_HINT" | translate }}</span>
+          <h2>{{ 'DATA.GET_DATA_HEADING' | translate }}</h2>
+          <span>{{ 'DATA.GET_DATA_HINT' | translate }}</span>
           <a
             class="btn btn-border"
             href="https://evictionlab.org/get-the-data"
             target="_blank"
           >
-            {{ "DATA.GET_DATA" | translate }}
+            {{ 'DATA.GET_DATA' | translate }}
           </a>
         </div>
       </div>

@@ -21,19 +21,19 @@
         "
       >
         {{
-          f.properties["layerId"] === "tracts"
-            ? ("DATA.TRACT_SINGULAR" | translate)
-            : ""
+          f.properties['layerId'] === 'tracts'
+            ? ('DATA.TRACT_SINGULAR' | translate)
+            : ''
         }}
         {{
-          f.properties["layerId"] === "block-groups"
-            ? ("DATA.BLOCK_GROUP_SINGULAR" | translate)
-            : ""
+          f.properties['layerId'] === 'block-groups'
+            ? ('DATA.BLOCK_GROUP_SINGULAR' | translate)
+            : ''
         }}
       </span>
-      {{ f["displayName"] }}
+      {{ f['displayName'] }}
     </h1>
-    <h2 class="card-subheading">{{ f.properties["pl"] }}</h2>
+    <h2 class="card-subheading">{{ f.properties['pl'] }}</h2>
     <app-ui-close-button
       class="card-dismiss"
       [ariaLabel]="'DATA.REMOVE_LOCATION' | translate: { name: f.properties.n }"
@@ -65,7 +65,7 @@
               usAverage[prop.yearAttr]
             )
           }}
-          {{ "DATA.US_AVERAGE" | translate }}
+          {{ 'DATA.US_AVERAGE' | translate }}
         </span>
         <span
           class="card-stat-label"
@@ -91,7 +91,7 @@
             }}{{ suffix(prop.id) }}</span
           >
           <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{
-            "DATA.UNAVAILABLE" | translate
+            'DATA.UNAVAILABLE' | translate
           }}</span>
           <app-ui-hint
             *ngIf="isHighProp(f, prop.yearAttr)"
@@ -131,7 +131,7 @@
           triggers="hover touchend focus"
           (onShown)="onTooltipShown($event)"
         >
-          {{ "STATS.DEMOGRAPHICS" | translate }}
+          {{ 'STATS.DEMOGRAPHICS' | translate }}
         </span>
       </li>
     </ul>
@@ -140,7 +140,7 @@
 <div *ngIf="allowAddLocation" class="location-card location-add">
   <div class="card-header"></div>
   <div class="card-content">
-    <p>{{ "DATA.ADD_LABEL" | translate }}</p>
+    <p>{{ 'DATA.ADD_LABEL' | translate }}</p>
     <app-location-search
       class="search"
       [placeholder]="'DATA.ADD_SEARCH_HINT' | translate"
@@ -155,7 +155,7 @@
 >
   <div class="card-header"></div>
   <div class="card-content">
-    <p>{{ "DATA.ADD_LABEL" | translate }}</p>
+    <p>{{ 'DATA.ADD_LABEL' | translate }}</p>
     <app-location-search
       class="search"
       [placeholder]="'DATA.ADD_SEARCH_HINT' | translate"
