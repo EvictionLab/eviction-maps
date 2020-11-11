@@ -203,6 +203,10 @@ export class MapComponent implements OnInit, OnChanges {
         // Don't update highlight features on year change
         this.updateMapBubbles();
         this.updateMapChoropleths();
+        this.analytics.trackEvent('mapYearSelection', {
+          mapYearSelection: this.year,
+          combinedSelections: this.mapToolService.getCurrentDataString()
+        });
       }
     }, 400
   );

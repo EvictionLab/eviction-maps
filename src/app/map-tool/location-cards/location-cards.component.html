@@ -1,23 +1,42 @@
-<div 
-  [@cards]="getCardState(idx+1)" 
-  *ngFor="let f of features; let idx = index; trackBy: trackCards" 
+<div
+  [@cards]="getCardState(idx + 1)"
+  *ngFor="let f of features; let idx = index; trackBy: trackCards"
   [class]="'location-card card card-' + idx"
 >
-  <div class="card-header" [class.clickable]="clickedHeader.observers.length > 0" (click)="clickedHeader.emit(f)">
+  <div
+    class="card-header"
+    [class.clickable]="clickedHeader.observers.length > 0"
+    (click)="clickedHeader.emit(f)"
+  >
     <app-ui-icon class="marker" icon="marker"></app-ui-icon>
-    <h1 class="card-heading" 
-      [tooltip]="isTruncated(f['displayName']) ? f.properties['n'] : null" 
+    <h1
+      class="card-heading"
+      [tooltip]="isTruncated(f['displayName']) ? f.properties['n'] : null"
       [placement]="collapsible ? 'top' : 'bottom'"
     >
-      <span *ngIf="f.properties['layerId'] === 'tracts' || f.properties['layerId'] === 'block-groups'">
-        {{ f.properties['layerId'] === 'tracts' ? ('DATA.TRACT_SINGULAR' | translate) : ''}}
-        {{ f.properties['layerId'] === 'block-groups' ? ('DATA.BLOCK_GROUP_SINGULAR' | translate) : ''}}
+      <span
+        *ngIf="
+          f.properties['layerId'] === 'tracts' ||
+          f.properties['layerId'] === 'block-groups'
+        "
+      >
+        {{
+          f.properties['layerId'] === 'tracts'
+            ? ('DATA.TRACT_SINGULAR' | translate)
+            : ''
+        }}
+        {{
+          f.properties['layerId'] === 'block-groups'
+            ? ('DATA.BLOCK_GROUP_SINGULAR' | translate)
+            : ''
+        }}
       </span>
-      {{f['displayName']}}
+      {{ f['displayName'] }}
     </h1>
-    <h2 class="card-subheading">{{f.properties['pl']}}</h2>
-    <app-ui-close-button class="card-dismiss" 
-      [ariaLabel]="'DATA.REMOVE_LOCATION' | translate:{'name':f.properties.n}" 
+    <h2 class="card-subheading">{{ f.properties['pl'] }}</h2>
+    <app-ui-close-button
+      class="card-dismiss"
+      [ariaLabel]="'DATA.REMOVE_LOCATION' | translate: { name: f.properties.n }"
       (onPress)="removeCard($event, f)"
       (onFocus)="collapsed = false"
       (onBlur)="collapsed = true"
@@ -25,15 +44,31 @@
   </div>
   <div class="card-content">
     <ul class="card-stats">
-      <li *ngFor="let prop of cardProperties; let i = index;" [class]="prop.id" [class.has-hint]="prop.hintKey">
-        <span 
+      <li
+        *ngFor="let prop of cardProperties; let i = index"
+        [class]="prop.id"
+        [class.has-hint]="prop.hintKey"
+      >
+        <span
           class="card-stat-comparison"
-          [class.bad]="getAverageOffsetPrefix(f.properties[prop.yearAttr], usAverage[prop.yearAttr]) === '+'"
+          [class.bad]="
+            getAverageOffsetPrefix(
+              f.properties[prop.yearAttr],
+              usAverage[prop.yearAttr]
+            ) === '+'
+          "
           *ngIf="i === 1 && usAverage && f.properties[prop.yearAttr] > 0"
         >
-          {{ getAverageOffset(f.properties[prop.yearAttr], usAverage[prop.yearAttr])}} {{ 'DATA.US_AVERAGE' | translate }}
+          {{
+            getAverageOffset(
+              f.properties[prop.yearAttr],
+              usAverage[prop.yearAttr]
+            )
+          }}
+          {{ 'DATA.US_AVERAGE' | translate }}
         </span>
-        <span class="card-stat-label"
+        <span
+          class="card-stat-label"
           *ngIf="prop.id !== 'divider'"
           [tooltip]="prop.hintKey ? (prop.hintKey | translate) : null"
           [attr.tabindex]="prop.hintKey ? 0 : null"
@@ -46,14 +81,48 @@
         >
           {{ prop.name }}
         </span>
-        <div *ngIf="prop.id !== 'divider'" class="card-stat-value" [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)">
-          <span *ngIf="f.properties[prop.yearAttr] >= 0">{{ prefix(prop.id) }}{{ processValue(f, prop) }}{{ suffix(prop.id) }}</span>
-          <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{ 'DATA.UNAVAILABLE' | translate }}</span>
-          <app-ui-hint *ngIf="isHighProp(f, prop.yearAttr)" placement="right" container="body" [hint]="'MAP.FLAG_99TH' | translate"></app-ui-hint>
-          <app-ui-hint *ngIf="isLowProp(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="lowPropFlag(f) | translate"></app-ui-hint>
-          <app-ui-hint *ngIf="isMarylandFiling(f, prop.yearAttr)" class="low-flag" placement="right" container="body" [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"></app-ui-hint>
+        <div
+          *ngIf="prop.id !== 'divider'"
+          class="card-stat-value"
+          [class.unavailable]="!(f.properties[prop.yearAttr] >= 0)"
+        >
+          <span *ngIf="f.properties[prop.yearAttr] >= 0"
+            >{{ prefix(prop.id) }}{{ processValue(f, prop)
+            }}{{ suffix(prop.id) }}</span
+          >
+          <span *ngIf="!(f.properties[prop.yearAttr] >= 0)">{{
+            'DATA.UNAVAILABLE' | translate
+          }}</span>
+          <app-ui-hint
+            *ngIf="isHighProp(f, prop.yearAttr)"
+            placement="right"
+            container="body"
+            [hint]="'MAP.FLAG_99TH' | translate"
+          ></app-ui-hint>
+          <app-ui-hint
+            *ngIf="isLowProp(f, prop.yearAttr)"
+            class="low-flag"
+            placement="right"
+            container="body"
+            [hint]="lowPropFlag(f) | translate"
+          ></app-ui-hint>
+          <app-ui-hint
+            *ngIf="isMarylandFiling(f, prop.yearAttr)"
+            class="low-flag"
+            placement="right"
+            container="body"
+            [hint]="'MAP.FLAG_MARYLAND_FILING' | translate"
+          ></app-ui-hint>
+          <app-ui-hint
+            *ngIf="isNewOrleans(f, prop)"
+            class="low-flag"
+            placement="right"
+            container="body"
+            [hint]="'MAP.FLAG_NEWORLEANS' | translate"
+          ></app-ui-hint>
         </div>
-        <span *ngIf="prop.id === 'divider'"
+        <span
+          *ngIf="prop.id === 'divider'"
           class="card-stat-label"
           [tooltip]="'HINTS.DEMOGRAPHICS' | translate"
           [attr.tabindex]="0"
@@ -75,18 +144,23 @@
     <app-location-search
       class="search"
       [placeholder]="'DATA.ADD_SEARCH_HINT' | translate"
-      (locationSelected)="locationAdded.emit($event);">
+      (locationSelected)="locationAdded.emit($event)"
+    >
     </app-location-search>
   </div>
 </div>
-<div *ngIf="allowAddLocation && features.length === 1" class="location-card location-add">
-    <div class="card-header"></div>
-    <div class="card-content">
-      <p>{{ 'DATA.ADD_LABEL' | translate }}</p>
-      <app-location-search
-        class="search"
-        [placeholder]="'DATA.ADD_SEARCH_HINT' | translate"
-        (locationSelected)="locationAdded.emit($event);">
-      </app-location-search>
-    </div>
+<div
+  *ngIf="allowAddLocation && features.length === 1"
+  class="location-card location-add"
+>
+  <div class="card-header"></div>
+  <div class="card-content">
+    <p>{{ 'DATA.ADD_LABEL' | translate }}</p>
+    <app-location-search
+      class="search"
+      [placeholder]="'DATA.ADD_SEARCH_HINT' | translate"
+      (locationSelected)="locationAdded.emit($event)"
+    >
+    </app-location-search>
   </div>
+</div>
