@@ -29,62 +29,94 @@ export const environment = {
   appVersion: version + '-dev',
   siteNav: [
     {
-      defaultUrl: '/',
+      defaultUrl: 'https://dev.evictionlab.org/',
       langKey: 'NAV.HOME',
-      langUrls: { 'es': '/es' }
+      langUrls : { 'es': 'https://staging.evictionlab.org/es' }
     },
     {
-      defaultUrl: '/',
-      langKey: 'NAV.MAP',
-      langUrls: { 'es': '/#/2016?lang=es' }
+      defaultUrl: '',
+      langKey: 'NAV.DATA',
+      children: [
+        {
+          defaultUrl: '/eviction-tracking',
+          langKey: 'NAV.TRACKING',
+        },
+        {
+          defaultUrl: '/covid-eviction-policies',
+          langKey: 'NAV.DATABASE',
+        },
+        {
+          defaultUrl: '/covid-policy-scorecard',
+          langKey: 'NAV.SCORECARD'
+        },
+      ]
     },
     {
-      defaultUrl: '/#/evictions',
-      langKey: 'NAV.RANKINGS',
-      langUrls: { 'es': '/#/evictions?lang=es' }
+      defaultUrl: '',
+      langKey: 'NAV.FINDINGS',
+      children: [
+        {
+          defaultUrl: '/updates',
+          langKey: 'NAV.UPDATES',
+          children: [
+            {
+              defaultUrl: '/updates/blog',
+              langKey: 'NAV.BLOG'
+            },
+            {
+              defaultUrl: '/updates/research',
+              langKey: 'NAV.RESEARCH'
+            },
+            {
+              defaultUrl: '/updates/reporting',
+              langKey: 'NAV.REPORTING'
+            }
+          ]
+        }
+      ]
     },
     {
-      defaultUrl: '/covid-resources',
-      langKey: 'NAV.COVID',
-      langUrls: { 'es': '/es/covid-resources' }
+      defaultUrl: '',
+      langKey: 'NAV.NATIONAL',
+      children: [
+        {
+          defaultUrl: '/',
+          langKey: 'NAV.MAP',
+          langUrls : { 'es': '/#/2016?lang=es' }
+        },
+        {
+          defaultUrl: '/#/evictions',
+          langKey: 'NAV.RANKINGS',
+          langUrls : { 'es': '/#/evictions?lang=es' }
+        },
+      ]
     },
     {
-      defaultUrl: '/eviction-tracking',
-      child: true,
-      langKey: 'NAV.TRACKING',
-      langUrls: { 'es': '/es/eviction-tracking' }
-    },
-    {
-      defaultUrl: '/covid-policy-scorecard',
-      child: true,
-      langKey: 'NAV.SCORECARD',
-      langUrls: { 'es': '/es/covid-policy-scorecard' }
-    },
-    {
-      defaultUrl: '/about',
+      defaultUrl: '',
       langKey: 'NAV.ABOUT',
-      langUrls: { 'es': '/es/about' }
+      children: [
+        {
+          defaultUrl: '/about',
+          langKey: 'NAV.MISSION',
+          langUrls: { 'es': '/es/about' }
+        },
+        {
+          defaultUrl: '/why-eviction-matters',
+          langKey: 'NAV.PROBLEM',
+          langUrls: { 'es': '/es/why-eviction-matters' }
+        },
+        {
+          defaultUrl: '/methods',
+          langKey: 'NAV.METHODS',
+          langUrls: { 'es': '/es/methods' }
+        },
+        {
+          defaultUrl: '/help-faq',
+          langKey: 'NAV.HELP',
+          langUrls: { 'es': '/es/help-faq' }
+        }
+      ]
     },
-    {
-      defaultUrl: '/why-eviction-matters',
-      langKey: 'NAV.PROBLEM',
-      langUrls: { 'es': '/es/why-eviction-matters' }
-    },
-    {
-      defaultUrl: '/methods',
-      langKey: 'NAV.METHODS',
-      langUrls: { 'es': '/es/methods' }
-    },
-    {
-      defaultUrl: '/help-faq',
-      langKey: 'NAV.HELP',
-      langUrls: { 'es': '/es/help-faq' }
-    },
-    {
-      defaultUrl: '/updates',
-      langKey: 'NAV.UPDATES',
-      langUrls: { 'es': '/es/updates' }
-    }
   ],
   footerNav: [
     {

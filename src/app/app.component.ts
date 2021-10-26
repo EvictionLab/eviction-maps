@@ -252,27 +252,29 @@ export class AppComponent implements OnInit {
   }
 
   /** Updates the URLs and link names for site navigation */
-  private updateNavigationLanguage(translations) {
+  private updateNavigationItemLanguage(l, translations) {
     const lang = this.translate.currentLang;
+    if (l.hasOwnProperty("langKey")) {
+      l.name = translations[l.langKey.split(".")[1]];
+    }
+    l.url =
+      l.langUrls && l.langUrls.hasOwnProperty(lang)
+        ? l.langUrls[lang]
+        : l.defaultUrl;
+    if (l.hasOwnProperty("children")) {
+      l.children = l.children.map(c => {
+        return this.updateNavigationItemLanguage(c, translations);
+      });
+    }
+    return l;
+  }
+
+  private updateNavigationLanguage(translations) {
     this.siteNav = this.siteNav.map(l => {
-      if (l.langKey) {
-        l["name"] = translations[l.langKey.split(".")[1]];
-      }
-      l["url"] =
-        l["langUrls"] && l["langUrls"].hasOwnProperty(lang)
-          ? l["langUrls"][lang]
-          : l["defaultUrl"];
-      return l;
+      return this.updateNavigationItemLanguage(l, translations);
     });
     this.footerNav = this.footerNav.map(l => {
-      if (l.langKey) {
-        l["name"] = translations[l.langKey.split(".")[1]];
-      }
-      l["url"] =
-        l["langUrls"] && l["langUrls"].hasOwnProperty(lang)
-          ? l["langUrls"][lang]
-          : l["defaultUrl"];
-      return l;
+      return this.updateNavigationItemLanguage(l, translations);
     });
   }
 
