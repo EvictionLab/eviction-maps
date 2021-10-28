@@ -141,9 +141,9 @@ $menuMargin: grid(5);
   }
 }
 // boost size on tablet+
-@media (min-width: $gtMobile) and (min-height: 680px) {
+@media (min-width: 992px) and (min-height: 680px) {
   .app-menu .site-navigation {
-    @include altFont(18px);
+    @include altFont(20px);
     letter-spacing: 0.7px;
     // padding-top: 16px;
     li {
@@ -151,6 +151,9 @@ $menuMargin: grid(5);
     }
     > ul > li > ul > li > ul {
       margin-top: grid(2.5);
+    }
+    ul > li > div {
+        @include altFont(14px);
     }
   }
 }
