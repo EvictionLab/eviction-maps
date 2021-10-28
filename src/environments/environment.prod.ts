@@ -28,55 +28,88 @@ export const environment = {
       langUrls : { 'es': 'https://evictionlab.org/es' }
     },
     {
-      defaultUrl: 'https://evictionlab.org/map',
-      langKey: 'NAV.MAP',
-      langUrls : { 'es': 'https://evictionlab.org/map/#/2016?lang=es' }
+      defaultUrl: '',
+      langKey: 'NAV.DATA',
+      children: [
+        {
+          defaultUrl: 'https://evictionlab.org/eviction-tracking',
+          langKey: 'NAV.TRACKING'
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/covid-eviction-policies',
+          langKey: 'NAV.DATABASE'
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/covid-policy-scorecard',
+          langKey: 'NAV.SCORECARD'
+        }
+      ]
     },
     {
-      defaultUrl: 'https://evictionlab.org/rankings',
-      langKey: 'NAV.RANKINGS',
-      langUrls : { 'es': 'https://evictionlab.org/rankings/#/evictions?lang=es' }
+      defaultUrl: '',
+      langKey: 'NAV.FINDINGS',
+      children: [
+        {
+          defaultUrl: 'https://evictionlab.org/updates',
+          langKey: 'NAV.UPDATES',
+          children: [
+            {
+              defaultUrl: 'https://evictionlab.org/updates/blog',
+              langKey: 'NAV.BLOG'
+            },
+            {
+              defaultUrl: 'https://evictionlab.org/updates/research',
+              langKey: 'NAV.RESEARCH'
+            },
+            {
+              defaultUrl: 'https://evictionlab.org/updates/reporting',
+              langKey: 'NAV.REPORTING'
+            }
+          ]
+        }
+      ]
     },
     {
-      defaultUrl: 'https://evictionlab.org/covid-resources',
-      langKey: 'NAV.COVID',
-      langUrls: { 'es': 'https://evictionlab.org/es/covid-resources' }
+      defaultUrl: '',
+      langKey: 'NAV.NATIONAL',
+      children: [
+        {
+          defaultUrl: 'https://evictionlab.org/map',
+          langKey: 'NAV.MAP',
+          langUrls : { 'es': 'https://evictionlab.org/map/#/2016?lang=es' }
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/rankings',
+          langKey: 'NAV.RANKINGS',
+          langUrls : { 'es': 'https://evictionlab.org/rankings/#/evictions?lang=es' }
+        }
+      ]
     },
     {
-      defaultUrl: 'https://evictionlab.org/eviction-tracking',
-      child: true,
-      langKey: 'NAV.TRACKING',
-      langUrls: { 'es': 'https://evictionlab.org/es/eviction-tracking' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/covid-policy-scorecard',
-      child: true,
-      langKey: 'NAV.SCORECARD',
-      langUrls: { 'es': 'https://evictionlab.org/es/covid-policy-scorecard' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/about',
+      defaultUrl: '',
       langKey: 'NAV.ABOUT',
-      langUrls : { 'es': 'https://evictionlab.org/es/about' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/why-eviction-matters',
-      langKey: 'NAV.PROBLEM',
-      langUrls : { 'es': 'https://evictionlab.org/es/why-eviction-matters' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/methods',
-      langKey: 'NAV.METHODS',
-      langUrls : { 'es': 'https://evictionlab.org/es/methods' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/help-faq',
-      langKey: 'NAV.HELP',
-      langUrls : { 'es': 'https://evictionlab.org/es/help-faq' }
-    },
-    {
-      defaultUrl: 'https://evictionlab.org/updates',
-      langKey: 'NAV.UPDATES'
+      children: [
+        {
+          defaultUrl: 'https://evictionlab.org/about',
+          langKey: 'NAV.MISSION',
+          langUrls : { 'es': 'https://evictionlab.org/es/about' }
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/why-eviction-matters',
+          langKey: 'NAV.PROBLEM',
+          langUrls : { 'es': 'https://evictionlab.org/es/why-eviction-matters' }
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/methods',
+          langKey: 'NAV.METHODS',
+          langUrls : { 'es': 'https://evictionlab.org/es/methods' }
+        },
+        {
+          defaultUrl: 'https://evictionlab.org/help-faq',
+          langKey: 'NAV.HELP',
+          langUrls : { 'es': 'https://evictionlab.org/es/help-faq' }
+        }
+      ]
     }
   ],
   footerNav: [

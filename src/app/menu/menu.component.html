@@ -1,42 +1,45 @@
 <div class="navigation-wrapper">
   <nav class="site-navigation">
     <ul>
-      <li *ngFor="let link of navigation">
-        <a
-          [class]="link.child ? 'app-menu__child' : undefined"
-          [attr.tabindex]="expanded ? null : -1"
-          [href]="link.url"
-          >{{ link.name }}</a
-        >
+      <li *ngFor="let link of navigation; index as i">
+
+        <div *ngIf="link.url; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock>
+          <a
+            [attr.tabindex]="expanded ? null : -1"
+            [href]="link.url"
+            >{{ link.name }}</a
+          >
+        </ng-template>
+        <ng-template #elseBlock>
+          <div>{{ link.name }}</div>
+        </ng-template>
+        <ng-template [ngIf]="link.children">
+          <ul [attr.aria-label]="link.name">
+            <li *ngFor="let _link of link.children">
+              <a
+                [attr.tabindex]="expanded ? null : -1"
+                [href]="_link.url"
+                >{{ _link.name }}</a
+              >
+              <ng-template [ngIf]="_link.children">
+                <ul [attr.aria-label]="_link.name">
+                  <li *ngFor="let __link of _link.children">
+                    <a
+                      [attr.tabindex]="expanded ? null : -1"
+                      [href]="__link.url"
+                      >{{ __link.name }}</a
+                    >
+                  </li>
+                </ul>
+              </ng-template>
+            </li>
+          </ul>
+        </ng-template>
       </li>
     </ul>
   </nav>
-  <ul class="social-media-links">
-    <li>
-      <a
-        [attr.tabindex]="expanded ? null : -1"
-        [attr.aria-label]="'NAV.FACEBOOK' | translate"
-        class="btn btn-border"
-        href="https://www.facebook.com/evictionlab/"
-        target="_blank"
-      >
-        <app-ui-icon icon="facebook"></app-ui-icon>
-      </a>
-    </li>
-    <li>
-      <a
-        [attr.tabindex]="expanded ? null : -1"
-        [attr.aria-label]="'NAV.TWITTER' | translate"
-        class="btn btn-border"
-        href="https://twitter.com/evictionlab"
-        target="_blank"
-      >
-        <app-ui-icon icon="twitter"></app-ui-icon>
-      </a>
-    </li>
-  </ul>
   <ng-content></ng-content>
-  <span class="menu-copyright">&copy; Eviction Lab</span>
   <button
     [attr.tabindex]="expanded ? null : -1"
     class="btn btn-icon menu-close"

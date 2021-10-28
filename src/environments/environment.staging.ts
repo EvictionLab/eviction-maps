@@ -5,7 +5,7 @@ export const environment = {
     production: true,
     useMapbox: true,
     deployUrl: 'https://staging.evictionlab.org/tool/',
-    tileBaseUrl: 'https://staging-tiles.evictionlab.org/2018-12-14/',
+    tileBaseUrl: 'https://staging-tiles.evictionlab.org/2019-10-23/',
     evictorsRankingDataUrl: 'https://staging.evictionlab.org/tool/assets/MOCK_EVICTORS.csv',
     cityRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/cities-rankings.csv',
     stateRankingDataUrl: 'https://staging.evictionlab.org/data/rankings/states-rankings.csv',
@@ -28,55 +28,88 @@ export const environment = {
         langUrls : { 'es': 'https://staging.evictionlab.org/es' }
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/map',
-        langKey: 'NAV.MAP',
-        langUrls : { 'es': 'https://staging.evictionlab.org/map/#/2016?lang=es' }
+        defaultUrl: '',
+        langKey: 'NAV.DATA',
+        children: [
+          {
+            defaultUrl: 'https://staging.evictionlab.org/eviction-tracking',
+            langKey: 'NAV.TRACKING'
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/covid-eviction-policies',
+            langKey: 'NAV.DATABASE'
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/covid-policy-scorecard',
+            langKey: 'NAV.SCORECARD'
+          }
+        ]
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/rankings',
-        langKey: 'NAV.RANKINGS',
-        langUrls : { 'es': 'https://staging.evictionlab.org/rankings/#/evictions?lang=es' }
+        defaultUrl: '',
+        langKey: 'NAV.FINDINGS',
+        children: [
+          {
+            defaultUrl: 'https://staging.evictionlab.org/updates',
+            langKey: 'NAV.UPDATES',
+            children: [
+              {
+                defaultUrl: 'https://staging.evictionlab.org/updates/blog',
+                langKey: 'NAV.BLOG'
+              },
+              {
+                defaultUrl: 'https://staging.evictionlab.org/updates/research',
+                langKey: 'NAV.RESEARCH'
+              },
+              {
+                defaultUrl: 'https://staging.evictionlab.org/updates/reporting',
+                langKey: 'NAV.REPORTING'
+              }
+            ]
+          },
+        ]
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/covid-resources',
-        langKey: 'NAV.COVID',
-        langUrls: { 'es': 'https://staging.evictionlab.org/es/covid-resources' }
+        defaultUrl: '',
+        langKey: 'NAV.NATIONAL',
+        children: [
+          {
+            defaultUrl: 'https://staging.evictionlab.org/map',
+            langKey: 'NAV.MAP',
+            langUrls : { 'es': 'https://staging.evictionlab.org/map/#/2016?lang=es' }
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/rankings',
+            langKey: 'NAV.RANKINGS',
+            langUrls : { 'es': 'https://staging.evictionlab.org/rankings/#/evictions?lang=es' }
+          }
+        ]
       },
       {
-        defaultUrl: 'https://staging.evictionlab.org/eviction-tracking',
-        child: true,
-        langKey: 'NAV.TRACKING',
-        langUrls: { 'es': 'https://staging.evictionlab.org/es/eviction-tracking' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/covid-policy-scorecard',
-        child: true,
-        langKey: 'NAV.SCORECARD',
-        langUrls: { 'es': 'https://staging.evictionlab.org/es/covid-policy-scorecard' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/about',
+        defaultUrl: '',
         langKey: 'NAV.ABOUT',
-        langUrls : { 'es': 'https://staging.evictionlab.org/es/about' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/why-eviction-matters',
-        langKey: 'NAV.PROBLEM',
-        langUrls : { 'es': 'https://staging.evictionlab.org/es/why-eviction-matters' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/methods',
-        langKey: 'NAV.METHODS',
-        langUrls : { 'es': 'https://staging.evictionlab.org/es/methods' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/help-faq',
-        langKey: 'NAV.HELP',
-        langUrls : { 'es': 'https://staging.evictionlab.org/es/help-faq' }
-      },
-      {
-        defaultUrl: 'https://staging.evictionlab.org/updates',
-        langKey: 'NAV.UPDATES'
+        children: [
+          {
+            defaultUrl: 'https://staging.evictionlab.org/about',
+            langKey: 'NAV.MISSION',
+            langUrls : { 'es': 'https://staging.evictionlab.org/es/about' }
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/why-eviction-matters',
+            langKey: 'NAV.PROBLEM',
+            langUrls : { 'es': 'https://staging.evictionlab.org/es/why-eviction-matters' }
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/methods',
+            langKey: 'NAV.METHODS',
+            langUrls : { 'es': 'https://staging.evictionlab.org/es/methods' }
+          },
+          {
+            defaultUrl: 'https://staging.evictionlab.org/help-faq',
+            langKey: 'NAV.HELP',
+            langUrls : { 'es': 'https://staging.evictionlab.org/es/help-faq' }
+          },
+        ]
       }
     ],
     footerNav: [
