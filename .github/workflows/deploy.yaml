@@ -3,6 +3,7 @@ name: Triggered Deploy to AWS
 on:
   push:
     branches:
+      - development
       - staging
       - production
 
@@ -18,16 +19,21 @@ jobs:
       - name: Set bucket for branch
         id: deploy-bucket
         run: |
-          if [[ $GITHUB_REF == 'refs/heads/production' ]]; then
-              echo "::set-output name=TOOL_BUCKET::eviction-lab-tool"
-              echo "::set-output name=MAP_BUCKET::eviction-lab-map"
-              echo "::set-output name=RANKINGS_BUCKET::eviction-lab-rankings"
-              echo "::set-output name=CLOUDFRONT_ID::${{ secrets.AWS_CLOUDFRONT_ID_PROD }}"
-          else
+          if [[ $GITHUB_REF == 'refs/heads/development' ]]; then
+              echo "::set-output name=TOOL_BUCKET::eviction-lab-dev"
+              echo "::set-output name=MAP_BUCKET::eviction-lab-dev"
+              echo "::set-output name=RANKINGS_BUCKET::eviction-lab-dev"
+              echo "::set-output name=CLOUDFRONT_ID::${{ secrets.CLOUDFRONT_ID_DEV }}"
+          elif [[ $GITHUB_REF == 'refs/heads/staging' ]]; then
               echo "::set-output name=TOOL_BUCKET::eviction-lab-tool-staging"
               echo "::set-output name=MAP_BUCKET::eviction-lab-map-staging"
               echo "::set-output name=RANKINGS_BUCKET::eviction-lab-rankings-staging"
               echo "::set-output name=CLOUDFRONT_ID::${{ secrets.AWS_CLOUDFRONT_ID_STAGING }}"
+          elif [[ $GITHUB_REF == 'refs/heads/production' ]]; then
+              echo "::set-output name=TOOL_BUCKET::eviction-lab-tool"
+              echo "::set-output name=MAP_BUCKET::eviction-lab-map"
+              echo "::set-output name=RANKINGS_BUCKET::eviction-lab-rankings"
+              echo "::set-output name=CLOUDFRONT_ID::${{ secrets.AWS_CLOUDFRONT_ID_PROD }}"
           fi
 
       - name: Setup Node
