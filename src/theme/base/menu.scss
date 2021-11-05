@@ -10,7 +10,7 @@ $menuMargin: grid(5);
   left: 0;
   transform: translate3d(
     0,
-    calc(-100% - 5px), // translate a little extra so shadow doesn't show
+    calc(-100% - 25px), // translate a little extra so shadow doesn't show
     0
   );
   z-index: 999;
