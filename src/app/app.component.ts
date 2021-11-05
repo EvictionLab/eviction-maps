@@ -212,14 +212,14 @@ export class AppComponent implements OnInit {
   /** Updates the URLs and link names for site navigation */
   private updateNavigationItemLanguage(l, translations) {
     const lang = this.translate.currentLang;
-    if (l.hasOwnProperty("langKey")) {
-      l.name = translations[l.langKey.split(".")[1]];
+    if (l.hasOwnProperty('langKey')) {
+      l.name = translations[l.langKey.split('.')[1]];
     }
     l.url =
       l.langUrls && l.langUrls.hasOwnProperty(lang)
         ? l.langUrls[lang]
         : l.defaultUrl;
-    if (l.hasOwnProperty("children")) {
+    if (l.hasOwnProperty('children')) {
       l.children = l.children.map(c => {
         return this.updateNavigationItemLanguage(c, translations);
       });
