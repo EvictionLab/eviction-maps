@@ -52,13 +52,13 @@ export class FileExportService {
       checked: false,
       description: 'DATA.POWERPOINT_DESCRIPTION'
     },
-    {
-      name: 'PDF',
-      value: 'pdf',
-      path: '/pdf',
-      checked: false,
-      description: 'DATA.PDF_DESCRIPTION'
-    }
+    // {
+    //   name: 'PDF',
+    //   value: 'pdf',
+    //   path: '/pdf',
+    //   checked: false,
+    //   description: 'DATA.PDF_DESCRIPTION'
+    // }
   ];
 
   constructor(private http: HttpClient) { }
