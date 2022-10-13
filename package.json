@@ -62,7 +62,7 @@
   },
   "devDependencies": {
     "@angular-devkit/core": "0.0.28",
-    "@angular/cli": "1.5.6",
+    "@angular/cli": "^12.2.18",
     "@angular/compiler-cli": "^5.0.3",
     "@angular/language-service": "^4.2.4",
     "@types/d3-dsv": "^1.0.32",
