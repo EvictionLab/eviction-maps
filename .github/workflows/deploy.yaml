@@ -54,7 +54,7 @@ jobs:
 
       - name: Setup Angular
         run: |
-          npm install -g @angular/cli
+          npm install -g @angular/cli@v12
           ng lint
 
       - name: Build
