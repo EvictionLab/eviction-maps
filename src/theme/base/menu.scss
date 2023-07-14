@@ -4,18 +4,18 @@ $menuMargin: grid(5);
 // ---
 .app-menu {
   position: fixed;
-  width: $menuWidth;
-  height: 100%;
+  width: 100%;
+  max-height: 100%;
   top: 0;
-  right: 0;
+  left: 0;
   transform: translate3d(
-    ($menuWidth + 5px),
     0,
+    calc(-100% - 25px), // translate a little extra so shadow doesn't show
     0
-  ); // translate a little extra so shadow doesn't show
+  );
   z-index: 999;
   background: $menuBg;
-  padding: 0 $pageMarginLg; // large margin on menu
+  padding: 0 grid(3);
   display: block;
   transition: transform 0.4s ease;
   box-shadow: $menuShadow;
@@ -27,12 +27,7 @@ $menuMargin: grid(5);
 // boost size on tablet+
 @media (min-width: $gtMobile) {
   .app-menu {
-    width: $menuWidthLg;
-    transform: translate3d(($menuWidthLg + 5px), 0, 0);
     padding: 0 grid(5);
-    &.expanded {
-      transform: translate3d(0, 0, 0);
-    }
   }
 }
 
@@ -40,8 +35,8 @@ $menuMargin: grid(5);
 // ---
 .app-menu .menu-close {
   position: absolute;
-  top: grid(1);
-  right: grid(1);
+  top: grid(3);
+  right: grid(4);
   width: grid(6);
   height: grid(6);
   .icon {
@@ -62,10 +57,10 @@ $menuMargin: grid(5);
     height: grid(7);
     .icon {
       width: grid(4);
-      height: grid(4);
+      height: grid(3.25);
     }
     span {
-      @include altSmallCapsText(14px);
+      @include altSmallCapsText(12px);
     }
   }
 }
@@ -75,14 +70,61 @@ $menuMargin: grid(5);
 .site-navigation {
   @include altFont(18px);
   letter-spacing: 0.6px;
-  margin-top: $menuMargin;
+  margin-top: grid(10);
+  margin-bottom: grid(4);
+  line-height: 1.42857143;
   ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
+    padding-left: 0;
+    margin-bottom: 0;
   }
   li {
     margin-bottom: grid(1.5);
+  }
+  > ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: -15px;
+    margin-right: -15px;
+    > li {
+      flex: 0 0 100%;
+      max-width: 100%;
+      padding-left: 15px;
+      padding-right: 15px;
+      &:first-child {
+        margin-bottom: grid(4.5);
+      }
+      &:not(:first-child) {
+        @media (min-width: $gtMobile) {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+        @media (min-width: $gtTablet) {
+          flex: 0 0 25%;
+          max-width: 25%;
+        }
+      }
+      > div {
+        @include altFont(12px);
+        letter-spacing: 0.6px;
+        color: $white;
+        text-transform: uppercase;
+        padding-top: grid(2.5);
+        margin-bottom: grid(2.5);
+        border-top: grid(0.5) solid $white;
+      }
+      > ul > li > ul {
+        margin-top: grid(1.5);
+        > li {
+          padding-left: 30px;
+          background-image: url('assets/images/arrow--right.svg');
+          background-size: 10px;
+          background-position: left center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
   }
   a {
     display: inline;
@@ -102,13 +144,19 @@ $menuMargin: grid(5);
   }
 }
 // boost size on tablet+
-@media (min-width: $gtMobile) and (min-height: 680px) {
+@media (min-width: 992px) and (min-height: 680px) {
   .app-menu .site-navigation {
-    @include altFont(22px);
+    @include altFont(20px);
     letter-spacing: 0.7px;
-    padding-top: 16px;
+    // padding-top: 16px;
     li {
       margin-bottom: grid(2.5);
+    }
+    > ul > li > ul > li > ul {
+      margin-top: grid(2.5);
+    }
+    ul > li > div {
+        @include altFont(14px);
     }
   }
 }
@@ -120,10 +168,8 @@ $menuMargin: grid(5);
 }
 .map-tool .app-menu .language-select {
   display: block;
-  position: absolute;
   width: grid(27);
-  left: $pageMarginLg;
-  bottom: grid(9);
+  margin-bottom: grid(2);
   .el-select .dropdown-toggle.btn {
     background: none !important;
     color: $white !important;
