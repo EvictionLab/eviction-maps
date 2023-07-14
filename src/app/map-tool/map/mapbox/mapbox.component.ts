@@ -35,6 +35,7 @@ export class MapboxComponent implements AfterViewInit {
   @Output() ready: EventEmitter<any> = new EventEmitter();
   @Output() moveEnd: EventEmitter<Array<number>> = new EventEmitter();
   @Output() featureClick: EventEmitter<number> = new EventEmitter();
+  @Output() onFeatureHover: EventEmitter<any> = new EventEmitter();
   featureMouseMove: EventEmitter<any> = new EventEmitter();
   hoverColors = [
     'rgba(226,64,0,0.8)', 'rgba(67,72,120,0.8)', 'rgba(44,137,127,0.8)', 'rgba(255,255,255,0.8)'
@@ -92,6 +93,7 @@ export class MapboxComponent implements AfterViewInit {
     this.map.getCanvas().style.cursor = 'pointer';
     this.updatePopupContent(e.features.length > 0 ? e.features[0] : null);
     this.updatePopupLocation(e);
+    this.onFeatureHover.emit(e);
   }
 
   onMouseLeaveFeature() {

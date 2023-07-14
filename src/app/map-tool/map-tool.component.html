@@ -1,62 +1,84 @@
-<div id="top" role="main" class="app-wrapper" [class.kiosk]="mapToolService.kiosk">
-  <app-map
-    *ngIf="mapSupported"
-    [mapConfig]="mapToolService.mapConfig"
-    [dataAttributes]="mapToolService.dataAttributes"
-    [layerOptions]="mapToolService.dataLevels"
-    [scrollZoom]="enableZoom"
-    [activeFeatures]="mapToolService.activeFeatures"
-    [activeMenuItem]="activeMenuItem"
-    [(boundingBox)]="mapToolService.activeMapView"
-    [(year)]="mapToolService.activeYear"
-    [(selectedBubble)]="mapToolService.activeBubbleHighlight"
-    [(selectedChoropleth)]="mapToolService.activeDataHighlight"
-    [(selectedLayer)]="mapToolService.activeDataLevel"
-    (featureClick)="onFeatureSelect($event)"
-    (boundingBoxChange)="updateRoute()"
-    (yearChange)="updateRoute()"
-    (selectedBubbleChange)="onBubbleChange($event)"
-    (selectedChoroplethChange)="onChoroplethChange($event)"
-    (selectedLayerChange)="onGeographyChange($event)"
-    (clickedCardHeader)="onCardHeaderClick($event)"
-    (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
-    (layerChangedFromDropdown)="trackLevelSelection($event)"
-    (helpClick)="showFeatureOverview()"
-  >
-    <div class="map-overlay" [class.active]="!enableZoom">
-      <div class="show-map-overlay" (click)="goToTop()" [class.inactive]="enableZoom">
-        <button class="btn btn-large btn-primary btn-map z2">
-          <app-ui-icon icon="arrow-up"></app-ui-icon>
-          <span>{{ 'DATA.MAP_LINK' | translate }}</span>              
+<div
+  id="top"
+  role="main"
+  class="app-wrapper"
+  [class.kiosk]="mapToolService.kiosk"
+>
+  <app-guide onGuideEnd="checkGuidesComplete($event)">
+    <app-map
+      *ngIf="mapSupported"
+      [mapConfig]="mapToolService.mapConfig"
+      [dataAttributes]="mapToolService.dataAttributes"
+      [layerOptions]="mapToolService.dataLevels"
+      [scrollZoom]="enableZoom"
+      [activeFeatures]="mapToolService.activeFeatures"
+      [activeMenuItem]="activeMenuItem"
+      [(boundingBox)]="mapToolService.activeMapView"
+      [year]="mapToolService.activeYear"
+      [selectedBubble]="mapToolService.activeBubbleHighlight"
+      [selectedChoropleth]="mapToolService.activeDataHighlight"
+      [selectedLayer]="mapToolService.activeDataLevel"
+      (featureClick)="onFeatureSelect($event)"
+      (boundingBoxChange)="updateRoute()"
+      (yearChange)="onYearChange($event)"
+      (selectedBubbleChange)="onBubbleChange($event)"
+      (selectedChoroplethChange)="onChoroplethChange($event)"
+      (selectedLayerChange)="onGeographyChange($event)"
+      (clickedCardHeader)="onCardHeaderClick($event)"
+      (dismissedCard)="mapToolService.removeLocation($event); updateRoute()"
+      (layerChangedFromDropdown)="trackLevelSelection($event)"
+      (onSelectClosed)="updateSelectionGuide($event)"
+      (onMapInteraction)="updateLocationGuide($event)"
+      (onMapLoaded)="updateSelectionGuide($event)"
+      (helpClick)="startGuidedMode()"
+    >
+      <div class="map-overlay" [class.active]="!enableZoom">
+        <div
+          class="show-map-overlay"
+          (click)="goToTop()"
+          [class.inactive]="enableZoom"
+        >
+          <button class="btn btn-large btn-primary btn-map z2">
+            <app-ui-icon icon="arrow-up"></app-ui-icon>
+            <span>{{ "DATA.MAP_LINK" | translate }}</span>
+          </button>
+        </div>
+        <button
+          class="btn btn-primary btn-large btn-compare z1"
+          [attr.tabindex]="
+            mapToolService.activeFeatures.length > 0 && enableZoom ? null : -1
+          "
+          [class.visible]="
+            mapToolService.activeFeatures.length > 0 && enableZoom
+          "
+          (click)="goToDataPanel($event)"
+        >
+          <span *ngIf="mapToolService.activeFeatures.length === 1">{{
+            "MAP.DATA_LINK_SINGLE" | translate
+          }}</span>
+          <span *ngIf="mapToolService.activeFeatures.length > 1">{{
+            "MAP.DATA_LINK_MULTIPLE" | translate
+          }}</span>
+          <app-ui-icon icon="arrow-down"></app-ui-icon>
         </button>
       </div>
-      <button
-        class="btn btn-primary btn-large btn-compare z1" 
-        [attr.tabindex]="(mapToolService.activeFeatures.length > 0 && enableZoom) ? null : -1"
-        [class.visible]="(mapToolService.activeFeatures.length > 0) && enableZoom"
-        (click)="goToDataPanel($event)"
-      >
-        <span *ngIf="mapToolService.activeFeatures.length === 1">{{ 'MAP.DATA_LINK_SINGLE' | translate}}</span>
-        <span *ngIf="mapToolService.activeFeatures.length > 1">{{ 'MAP.DATA_LINK_MULTIPLE' | translate}}</span>        
-        <app-ui-icon icon="arrow-down"></app-ui-icon>
-      </button>
-    </div>
-  </app-map>
+    </app-map>
+  </app-guide>
   <!-- divider div used as a reference for scroll -->
   <div #divider></div>
   <app-data-panel
-      id="data-panel"
-      [(year)]="mapToolService.activeYear"
-      (yearChange)="updateRoute()"
-      (graphTypeChange)="updateRoute()"
-      [dataAttributes]="mapToolService.dataAttributes"
-      [locations]="mapToolService.activeFeatures" 
-      (locationRemoved)="mapToolService.removeLocation($event); updateRoute()"
-      (locationAdded)="onSearchSelect($event, false)"
+    id="data-panel"
+    [(year)]="mapToolService.activeYear"
+    (yearChange)="updateRoute()"
+    (graphTypeChange)="updateRoute()"
+    [dataAttributes]="mapToolService.dataAttributes"
+    [locations]="mapToolService.activeFeatures"
+    (locationRemoved)="mapToolService.removeLocation($event); updateRoute()"
+    (locationAdded)="onSearchSelect($event, false)"
   >
     <button (click)="goToTop()" class="btn btn-large btn-primary btn-map">
       <app-ui-icon icon="arrow-up"></app-ui-icon>
-      <span>{{ 'DATA.MAP_LINK' | translate }}</span>
+      <span>{{ "DATA.MAP_LINK" | translate }}</span>
     </button>
   </app-data-panel>
 </div>

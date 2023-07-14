@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateModule, TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Ng2PageScrollModule } from 'ng2-page-scroll';
+import { NgxPageScrollModule } from 'ngx-page-scroll';
 
 
 import { EmbedComponent } from './embed.component';

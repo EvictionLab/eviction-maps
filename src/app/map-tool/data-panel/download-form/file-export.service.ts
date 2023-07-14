@@ -14,6 +14,7 @@ export interface DownloadRequest {
   formats?: string[];
   showUsAverage: boolean;
   usAverage: Object;
+  displayCI: boolean;
 }
 
 export interface ExportType {
@@ -36,6 +37,7 @@ export class FileExportService {
   bubbleProp: string;
   description: string;
   showUsAverage: boolean;
+  displayCI: boolean;
   usAverage: Object;
   filetypes: ExportType[] = [
     {
@@ -78,6 +80,7 @@ export class FileExportService {
     this.bubbleProp = config['bubbleProp'];
     this.showUsAverage = config['showUsAverage'];
     this.usAverage = config['usAverage'];
+    this.displayCI = config['displayCI'];
   }
 
   /**
@@ -91,7 +94,8 @@ export class FileExportService {
     const downloadRequest: DownloadRequest = {
       lang: this.lang, year: this.year, years: [this.startYear, this.endYear],
       features: exportFeatures, dataProp: this.dataProp, bubbleProp: this.bubbleProp,
-      showUsAverage: this.showUsAverage, usAverage: this.usAverage
+      showUsAverage: this.showUsAverage, usAverage: this.usAverage,
+      displayCI: this.displayCI
     };
     if (this.filetypes.filter(f => fileValues.indexOf(f.value) !== -1).length > 1) {
       downloadRequest.formats = fileValues;
@@ -106,6 +110,7 @@ export class FileExportService {
   sendFileRequest(types: Array<string> = []) {
     if (types.length === 0) { throw new Error('Sent file request with no file type specified.'); }
     const downloadRequest = this.createDownloadRequest(types);
+    // For staging and production
     const downloadPath = types.length > 1 ?
       `${this.downloadBase}/format/zip` : this.downloadBase + this.getFileTypePath(types[0]);
 

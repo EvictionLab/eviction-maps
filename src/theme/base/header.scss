@@ -16,238 +16,299 @@
   letter-spacing: 0;
 }
 
+@mixin titleFont() {
+  @include altFontMedium(16px);
+}
+
+@mixin subtitleFont() {
+  @include altFontMedium(14px);
+  color: $grey_wcag;
+}
+
 // Header Container / Layout
 // ---
-.header-wrapper {
-  position:absolute;
-  top:0;left:0;right:0;
-  width: 100%;
+.header {
   height: $headerHeightSm;
-  background:$defaultBackground;
+  background: $defaultBackground;
   box-shadow: $z1shadow;
   padding: grid(1) $pageMargin;
-  z-index:999;
+  z-index: 999;
   transform: translateZ(0);
-  .header-content {
-    position:relative;
-    width: 100%;
-    max-width: $maxContentWidth;    
-    height:100%;
-    padding:0;
-    margin:0 auto;
-    box-sizing:border-box;
-    display:flex;
-    justify-content: flex-end;
-    align-content: center;
-    align-items: center;
-  }
 }
 // boost header height on tablet+
-@media(min-width: $gtMobile) {
-  .header-wrapper {
+@media (min-width: $gtMobile) {
+  .header {
     height: $headerHeightLg;
-    padding: 0 $pageMarginLg;    
-  }
-}
-// no shadow on rankings
-.ranking-tool .header-wrapper { box-shadow: none; }
-
-// Search
-// ---
-.header-search { display: none; } // Hide search by default
-
-// Toolbar Icons (show menu button only by default)
-// ---
-.header-icons {
-  width: grid(5);
-  height: 100%;
-  display:flex;
-  justify-content: space-between;
-  align-content: center;
-  align-items: center;
-  .btn.btn-icon {
-    display: none;
-    width: grid(5);
-    height: grid(5);
-    @include iconLabelText();
-    // only show menu button by default
-    &.el-button-menu {
-      display: block;
-    }
-  }
-  .icon {
-    width:22px;
-    height: 22px;
-    margin: 2px auto 6px;
-  }
-  // icon colors
-  .btn-icon { color: $headerButtonColor; }
-  .icon { fill: $headerButtonColor; }
-  .btn-icon.active { color: $headerActiveButtonColor; }
-  .btn-icon.active .icon { fill: $headerActiveButtonColor; }
-}
-// boost icon size on tablet+
-@media(min-width: $gtMobile) {
-  .header-icons {
-    flex:none;
-    width:grid(5);
-    height:grid(7);
-    order: 4;
-    // increase menu button size and show
-    & .btn.btn-icon.el-button-menu {
-      display:flex;
-      width: grid(5);
-      height: $headerContentHeight;
-      color: $color1;
-      .icon {
-        width:grid(5);
-        height: grid(4.5);
-        fill: $color1;
-        transition: width, height 0.4s ease;
-      }
-      span {
-        position:relative;
-        top:1px;
-        @include iconLabelTextLg();
-        line-height: 1;
-        transition: font-size 0.4s ease;
-      }
-    }
+    padding: 0 $pageMarginLg;
+    transition: height 0.4s ease;
   }
 }
 
-// Logo
+// BASE STYLES
 // ---
-.header-logo {
-  display: block;
-  flex:1;
-  img { 
-    transform-origin: 0 0;
-    transition: transform 0.4s ease;
-    width: 152px; 
+.header {
+  .header__content {
+    position: relative;
+    width: 100%;
+    max-width: $maxContentWidth;
+    height: 100%;
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
-}
-// boost logo size on tablet
-@media(min-width: $gtMobile) {
-  .header-logo {
-    order:1;
-    display:block;
+  .header__logo {
+    display: block;
     flex: 1;
-    a { display: inline-block; line-height:1; }
-    img { 
-      width:grid(31); // 248px 
-      height: 18px;
+    img {
+      transform-origin: 0 0;
+      transition: transform 0.4s ease;
+      width: 152px;
+    }
+    a {
+      display: inline-block;
+      line-height: 1;
     }
   }
-}
-// boost size on laptop+
-@media(min-width: $gtTablet) {
-  .header-logo img {
-    width: grid(40); // 320px
-    height: 24px;
+  .header__map-title {
+    margin: 0 grid(2) 0 0;
+    flex: 1;
+    @include titleFont();
+    white-space: nowrap;
+    max-width: calc(100% - #{grid(13)});
+    text-overflow: ellipsis;
+    overflow: hidden;
+    span {
+      display: block;
+      @include subtitleFont();
+    }
   }
-}
-
-// Language Toggle
-// ---
-.language-select {
-  display: block;
-  margin-right: grid(1);
-  width: grid(9);
-  .dropdown-toggle.btn {
-    padding: grid(1) grid(2.5) grid(1) grid(1); 
+  .header__data-btn {
+    position: absolute;
+    width: grid(18);
+    left: grid(-2);
+    top: grid(6);
     height: grid(5);
-    text-align:center;
-    .dropdown-value {
-      @include langSelectText();
-      position: relative;
-      top: -2px; // nudge text up so it is vertically centered
+    background: #fff;
+    color: $color1;
+    border: 1px solid $grey4;
+    border-left: none;
+    border-right: none;
+    transition: width 0.2s ease-in-out;
+    border-radius: 0;
+    &.active {
+      width: calc(100% + #{grid(4)});
+      z-index: 100;
     }
-    .icon { width: grid(1); right: grid(1); }
+    &:focus,
+    &:active {
+      @include focusState();
+    }
   }
-}
-// Boost toggle size on tablet+
-@media(min-width: $gtMobile) {
-  .language-select {
-    display:block;
+  .header__language {
+    display: block;
     margin: 0 grid(3) 0 grid(2);
-    height: grid(7);
-    width: grid(14);
-    order: 3;
+    width: grid(12);
+    height: grid(5);
     transition: all 0.4s ease;
     .dropdown-toggle.btn {
-      text-align:left;
-      height: grid(7);
+      text-align: left;
+      height: grid(5);
       padding: grid(1) grid(3) grid(1) grid(2);
       .dropdown-value {
-        top:auto;
-        @include langSelectTextLg();
+        top: auto;
+        @include langSelectText();
         transition: font-size 0.4s ease;
       }
       .icon {
-        width: 14px;
+        width: grid(1);
         right: grid(2);
       }
+    }
+  }
+  .header__menu {
+    &.btn.btn-icon {
+      width: grid(5);
+      height: grid(5);
+      @include iconLabelText();
+      color: $headerButtonColor;
+      .icon {
+        width: 22px;
+        height: 22px;
+        margin: 2px auto 6px;
+        fill: $headerButtonColor;
+      }
+      &.active {
+        color: $headerActiveButtonColor;
+        fill: $headerActiveButtonColor;
+      }
+    }
+  }
+}
+
+// MOBILE ONLY
+// ---
+@media (max-width: 480px) {
+  .header {
+    .header__search {
+      &.active {
+        width: calc(100% + #{grid(4)});
+      }
+    }
+  }
+}
+@media (max-width: $gtMobile) {
+  .header {
+    .header__search {
+      display: block;
+      position: absolute;
+      top: grid(6);
+      right: grid(-2);
+      width: calc(100% - #{grid(14)});
+      transition: width 0.2s ease-in-out;
+      .form-control {
+        height: grid(5);
+        border-right: none;
+      }
+      &.active {
+        .form-control {
+          border-left: none;
+        }
+      }
+    }
+  }
+}
+
+// header for large devices
+@media (min-width: $gtMobile) {
+  .header {
+    .header__content {
+      justify-content: flex-end;
+      align-content: center;
+      align-items: center;
+    }
+    .header__logo {
+      order: 1;
+
+      img {
+        width: grid(31); // 248px
+        height: 18px;
+      }
+    }
+    .header__data-btn {
+      display: none;
+    }
+    .header__map-title {
+      display: none;
+    }
+    .header__language {
+      display: block;
+      margin: 0 grid(3) 0 grid(2);
+      height: grid(7);
+      width: grid(14);
+      order: 3;
+      .dropdown-toggle.btn {
+        text-align: left;
+        height: grid(7);
+        padding: grid(1) grid(3) grid(1) grid(2);
+        .dropdown-value {
+          @include langSelectTextLg();
+        }
+        .icon {
+          width: 14px;
+          right: grid(2);
+        }
+      }
+    }
+    .header__menu {
+      &.btn.btn-icon {
+        order: 4;
+        height: $headerContentHeight;
+        color: $color1;
+        @include iconLabelTextLg();
+        .icon {
+          width: grid(5);
+          height: grid(4.5);
+          fill: $color1;
+          transition: width, height 0.4s ease;
+        }
+        span {
+          position: relative;
+          top: 1px;
+          line-height: 1;
+          transition: font-size 0.4s ease;
+        }
+      }
+    }
+  }
+}
+
+// boost size on laptop+
+@media (min-width: $gtTablet) {
+  .header__content {
+    .header__logo img {
+      width: grid(40); // 320px
+      height: 24px;
     }
   }
 }
 
 // Condensed Header
 // ---
-@media(min-width: $gtMobile) {
-  .header-wrapper {
-    transition: height 0.4s ease;
-  }
-  .condensed {
-    .header-wrapper {
-      height: $headerHeightSm;
-    }
-    .header-logo img {
-      width: grid(31); // 248px
-      height: 18px;
-    }
-    .header-search {
-      .form-control {
-        height: grid(5);
-        font-size:13px;
+@media (min-width: $gtMobile) {
+  .header.condensed {
+    height: $headerHeightSm;
+    .header__content {
+      .header__logo img {
+        width: grid(31); // 248px
+        height: 18px;
       }
-    }
-    .language-select {
-      width: grid(12);
-      height: grid(5);
-      .dropdown-toggle.btn {
-        height: grid(5);
-        .dropdown-value {
-          @include defaultFont(10px);
-          top: -2px; // nudge text up so it is vertically centered
-          letter-spacing: 0.3px;
+      .header__search {
+        .form-control {
+          height: grid(5);
+          font-size: 13px;
         }
-        .icon { width: grid(1); }
       }
-    }
-    // resize menu icon
-    .header-icons {
-      width:grid(4);
-      height:grid(5);
-      & .btn.btn-icon.el-button-menu {
-        width: grid(4);
+      .header__language {
+        width: grid(12);
         height: grid(5);
+        .dropdown-toggle.btn {
+          height: grid(5);
+          .dropdown-value {
+            @include defaultFont(10px);
+            top: -2px; // nudge text up so it is vertically centered
+            letter-spacing: 0.3px;
+          }
+          .icon {
+            width: grid(1);
+          }
+        }
+      }
+      .header__menu.btn.btn-icon {
+        width: grid(5);
+        height: grid(5);
+        @include iconLabelText();
+        color: $headerButtonColor;
         .icon {
           width: 22px;
           height: 22px;
+          margin: 2px auto 6px;
+          fill: $headerButtonColor;
         }
-        span {
-          top:auto;
-          @include iconLabelText();
+        &.active {
+          color: $headerActiveButtonColor;
+          fill: $headerActiveButtonColor;
         }
       }
     }
   }
 }
 // scale header
-@media(min-width: $gtTablet) {
-  .condensed {
-    .header-logo img {
+@media (min-width: $gtTablet) {
+  .header.condensed {
+    .header__logo img {
       width: grid(40); // 320px
       height: 24px;
       transform: scale(0.775);

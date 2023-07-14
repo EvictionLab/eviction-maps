@@ -2,6 +2,8 @@
 <app-header-bar
   *ngIf="!embed"
   role="banner"
+  class="header"
+  [mapHeading]="mapHeading"
   [class.condensed]="!isAtTop"
   [activeMenuItem]="currentMenuItem"
   [languageOptions]="languageOptions"
@@ -11,13 +13,15 @@
   (initialInput)="onInitialSearchInput()"
   (selectLanguage)="onLanguageSelect($event)"
 ></app-header-bar>
-<app-menu class="app-menu" tabindex="-1" 
+<app-menu
+  class="app-menu"
+  tabindex="-1"
   *ngIf="!embed"
   [navigation]="siteNav"
-  [expanded]="menuActive" 
+  [expanded]="menuActive"
   (onClose)="closeMenu()"
 >
-  <app-ui-select 
+  <app-ui-select
     class="language-select dropup"
     labelProperty="name"
     [values]="languageOptions"
@@ -26,4 +30,8 @@
   ></app-ui-select>
 </app-menu>
 <router-outlet (activate)="onActivate($event)"></router-outlet>
-<app-footer   *ngIf="!embed" [navigation]="footerNav" role="contentinfo"></app-footer>
+<app-footer
+  *ngIf="!embed"
+  [navigation]="footerNav"
+  role="contentinfo"
+></app-footer>

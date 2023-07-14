@@ -36,17 +36,39 @@
     padding: grid(2) 0;
   }
 }
-.graph-eviction-toggle {
+.graph-eviction-select {
   order: 1;
-  margin: grid(1) 0;
+  margin: grid(1);
+  min-width: grid(42);
 }
 .graph-year-select {
-  order: 2;
-  margin: grid(1) 0;
-}
-.graph-type-toggle {
   order: 3;
-  margin: grid(1) 0;
+  margin: grid(1);
+  min-width: grid(12);
+}
+.graph-type-select {
+  order: 2;
+  margin: grid(1);
+  min-width: grid(28);
+}
+.graph-ci-checkbox {
+  order: 4;
+  margin: grid(1);
+}
+
+:lang(es) {
+  .graph-eviction-select {
+    min-width: grid(49);
+  }
+  .graph-type-select {
+    min-width: grid(33);
+  }
+  .graph-year-select {
+    min-width: grid(12);
+  }
+  .graph-ci-checkbox {
+    min-width: grid(28);
+  }
 }
 
 @media(min-width: $gtMobile) {
@@ -59,14 +81,16 @@
       padding: grid(2) $pageMarginLg;
     }
   }
-  .graph-eviction-toggle {
+  .graph-eviction-toggle
+  .graph-eviction-select {
     width: 60%;
+    min-width: 360px;
     margin:0;
   }
   .graph-year-select {
-    min-width: 40%;
-    flex:1;
-    margin:0;
+    // min-width: 40%;
+    // flex:1;
+    // margin:0;
   }
   .graph-type-toggle {
     margin:grid(3) 0 0 0;
@@ -86,8 +110,10 @@
       justify-content: flex-start;
     }
   }
-  .graph-eviction-toggle {
+  .graph-eviction-toggle
+  .graph-eviction-select {
     width:auto;
+    min-width: 400px;
     order: 1;
   }
   .graph-year-select {
@@ -126,6 +152,17 @@
   }
 }
 
+// confidence interval toggle
+.ci-toggle {
+  margin-left: 56px;
+  display: flex;
+  span.ci-toggle-label {
+    margin-top: 5px;
+    @include altSmallCapsTextMedium(16px);
+  }
+}
+
+
 // year selects
 .graph-year-label { display: none; }
 .graph-select { 
@@ -145,8 +182,8 @@
 @media(min-width: $gtMobile) {
   .graph-year-select {
     display:flex;
-    align-items:center;
-    justify-content: flex-end;
+    align-items:left;
+    justify-content: flex-start;
     .graph-year-label { 
       display: flex;
       align-items: center;
@@ -159,7 +196,86 @@
   }
   .graph-select span { font-size: 14px; }
 }
+::ng-deep {
+.graph-type-select {
 
+    // Selected item show graph
+    .dropdown-value::after {
+      content:"";
+      position: absolute;
+      top: 6px;
+      width:36px;
+      height:36px;
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+    }
+    &.selected-icon-line {
+      .dropdown-value::after {
+        background-image: line-chart($color1);
+      }
+    }
+    &.selected-icon-bar {
+      .dropdown-value::after {
+        background-image: bar-chart($color1);
+      }
+    }
+
+    .dropdown-menu {
+      .dropdown-item {
+        &::after {
+          content:"";
+          display:inline-block;
+          width:grid(2);
+          height:grid(2);
+          background-position: 50% 50%;
+          background-repeat: no-repeat;
+          background-image: line-chart($color1);
+          margin-left: 5px;
+          margin-bottom: -3px;
+        }
+        &.highlighted::after {
+          background-image: line-chart($white);
+        }
+      }
+      li:first-child {
+        .dropdown-item {
+          &::after {
+            background-image: bar-chart($color1);
+          }
+          &.highlighted::after {
+            background-image: bar-chart($white);
+          }
+        }
+      }
+      // .dropdown-item:nth-of-type(2) {
+      //   &::after {
+      //     background-image: line-chart($color1);
+      //   }
+      //   &.highlighted::after {
+      //     background-image: line-chart($grey3);
+      //   }
+      // }
+    }
+
+    // bar graph icon and label positioning
+    // button:first-child {
+    //   &:after { background-image: bar-chart($grey3); }
+    //   &.selected:after { background-image: bar-chart($color1); }
+    //   span { 
+    //     text-align:right;
+    //     transform: translateX(-1*grid(8)); 
+    //   }
+    // }
+    // button:last-child {
+    //   &:after { background-image: line-chart($grey3); }
+    //   &.selected:after { background-image: line-chart($color1); }
+    //   span { 
+    //     text-align: left;
+    //     transform: translateX(grid(8)); 
+    //   }
+    // }
+  }
+}
 
 // graph type
 .graph-type-toggle {
@@ -221,7 +337,7 @@
   }
 }
 // increase page margin for toggle on tablet+
-@media(min-width: $gtMobile) { 
+@media(min-width: $gtMobile) {
   // show labels
   .graph-type-toggle ::ng-deep button span { display: block; }
 }

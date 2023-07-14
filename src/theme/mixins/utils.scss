@@ -1,14 +1,30 @@
 // Mixins
 
+@mixin vGroup($hAlign: flex-start, $vAlign: flex-start) {
+  display: flex;
+  flex-direction: column;
+  align-items: $hAlign;
+  justify-content: $vAlign;
+}
+
+@mixin hGroup($hAlign: flex-start, $vAlign: flex-start) {
+  display: flex;
+  align-items: $vAlign;
+  justify-content: $hAlign;
+}
+
 @mixin fill-parent() {
-    position:absolute;
-    width:100%;
-    height:100%;
-    top:0;left:0;right:0;bottom:0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 @mixin ellipsis-overflow() {
-  overflow:hidden;
+  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
@@ -30,14 +46,19 @@
 /// @param {String} $search - Substring to replace
 /// @param {String} $replace ('') - New value
 /// @return {String} - Updated string
-@function str-replace($string, $search, $replace: '') {
+@function str-replace($string, $search, $replace: "") {
   $realString: to-string($string);
   $index: str-index($realString, $search);
-  
+
   @if $index {
-    @return str-slice($realString, 1, $index - 1) + $replace + str-replace(str-slice($realString, $index + str-length($search)), $search, $replace);
+    @return str-slice($realString, 1, $index - 1) + $replace +
+      str-replace(
+        str-slice($realString, $index + str-length($search)),
+        $search,
+        $replace
+      );
   }
-  
+
   @return $realString;
 }
 // bar chart function that returns the bar chart image data-url

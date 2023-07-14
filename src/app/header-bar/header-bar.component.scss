@@ -1,46 +1,29 @@
-@import '../../theme';
+@import "../../theme";
 
-// Map Tool Mobile Overrides
-@media(max-width: $gtMobile) {
+@media (max-width: $gtMobile) {
   :host-context(.map-tool) {
-    // no logo on mobile
-    .header-logo { 
-      display: none;
-    }
-    // show all icons on map tool
-    .header-icons {
-      width: 100%;
-      .btn.btn-icon {
-        display: block;
+    .header__logo {
+      min-width: grid(4);
+      width: grid(4);
+      overflow: hidden;
+      margin-right: 16px;
+      flex: 0;
+      img {
+        width: 192px;
       }
     }
-    // no language select in mobile toolbar
-    .language-select {
-      display: none;
-    }
-    // place search below toolbar
-    .header-search {
-      display:none;
-      margin-top: grid(2);
-      &.active { 
-        display: block;
-        position: absolute;
-        top: grid(7);
-        left: 0;
-        right: 0;
-        z-index: 10;
-        padding-bottom: grid(1); // pad a bit so glow doesn't get cutoff
-      }
+    .header__language {
+      display: none !important;
     }
   }
 }
 
-@media(min-width: $gtMobile) {
+@media (min-width: $gtMobile) {
   :host-context(.map-tool) {
     // show search in header
-    .header-search {
-      position:relative;
-      display:flex;
+    .header__search {
+      position: relative;
+      display: flex;
       order: 2;
       flex: 1;
       max-width: grid(37.5);
@@ -49,24 +32,24 @@
         width: 100%;
       }
       // override mobile positioning
-      &.active { 
-        position:relative; 
-        top:auto; 
-        left:auto; 
-        right: auto; 
-        padding-bottom:0;
+      &.active {
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        padding-bottom: 0;
       }
     }
   }
 }
 
 // Desktop+ Styles
-@media(min-width: $gtTablet) {
+@media (min-width: $gtTablet) {
   :host-context(.map-tool) {
-    .header-search {
-      flex:1;
+    .header__search {
+      flex: 1;
       max-width: none;
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: flex-end;
       margin-right: grid(1);

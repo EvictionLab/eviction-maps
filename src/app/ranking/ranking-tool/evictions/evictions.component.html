@@ -44,6 +44,8 @@
       [dataProperty]="dataProperty"
       [maxValue]="dataMax"
       [selectedIndex]="selectedIndex"
+      [year]="rankings.year"
+      [currentLocation]="listData && listData[selectedIndex]"
       (locationSelected)="onClickLocation($event)"
     ></app-ranking-list>
   </div>
@@ -60,7 +62,7 @@
   >
     <app-ui-icon icon="arrow-up"></app-ui-icon>
   </button>
-  <app-ranking-panel
+  <!-- <app-ranking-panel
     [class]="'area-'+areaType.value"
     [topCount]="topCount"
     [rank]="selectedIndex+1"
@@ -72,5 +74,5 @@
     (goToNext)="onGoToNext()"
     (close)="onClose()"
     (locationClick)="onPanelLocationClick($event)"
-  ></app-ranking-panel>
+  ></app-ranking-panel> -->
 </div>

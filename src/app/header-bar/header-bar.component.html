@@ -1,48 +1,56 @@
-<div class="header-wrapper">
-  <div class="header-content">
-    <div class="header-logo">
-      <a href="/">
-        <img src="{{deployUrl}}assets/images/eviction-lab-logo.svg" class="header-logo-img" alt="Eviction Lab Home" />
-      </a>
-    </div>
-    <div [class.active]="activeMenuItem === 'search'" class="header-search">
-      <app-location-search
-        *ngIf="activeComponentId === 'map-tool'"
-        role="search"
-        class="search"
-        [placeholder]="lang['SEARCH_HINT']"
-        (locationSelected)="selectLocation.emit($event)"
-        (initialInput)="initialInput.emit($event)"
-      ></app-location-search>
-    </div>
-    <app-ui-select 
-      class="language-select vertical-select z0"
-      [selectedValue]="selectedLanguage"
-      (change)="selectLanguage.emit($event)"
-      labelProperty="name"
-      [values]="languageOptions"
-    ></app-ui-select>
-    <div class="header-icons">
-      <a href="/" class="btn btn-icon el-button-home">
-        <app-ui-icon icon="home" class="home-icon"></app-ui-icon>
-        <span>{{ lang['HOME'] }}</span>
-      </a>
-      <button [class.active]="activeMenuItem === 'search'" class="btn btn-icon el-button-search" (click)="onMenuSelect('search')">
-        <app-ui-icon icon="search"></app-ui-icon>
-        <span>{{ lang['SEARCH'] }}</span>
-      </button>
-      <button #pop="bs-tooltip" containerClass="map-hint-mobile" [isDisabled]="!tooltipEnabled" placement="bottom" [tooltip]="lang['MAP_HINT']" [class.active]="activeMenuItem === 'map'" class="btn btn-icon el-button-map" (click)="onMenuSelect('map')">
-        <app-ui-icon icon="map"></app-ui-icon>
-        <span>{{ lang['MAP'] }}</span>
-      </button>
-      <button [class.active]="activeMenuItem === 'help'" class="btn btn-icon el-button-help" (click)="onMenuSelect('help')">
-        <app-ui-icon icon="help"></app-ui-icon>
-        <span>{{ lang['HELP'] }}</span>
-      </button>
-      <button [class.active]="activeMenuItem === 'menu'" class="btn btn-icon el-button-menu" (click)="onMenuSelect('menu')">
-        <app-ui-icon icon="menu"></app-ui-icon>
-        <span>{{ lang['MENU'] }}</span>
-      </button>
-    </div>
+<div class="header__content">
+  <div class="header__logo">
+    <a href="/">
+      <img
+        src="{{ deployUrl }}assets/images/eviction-lab-logo.svg"
+        class="header__logo-img"
+        alt="Eviction Lab Home"
+      />
+    </a>
   </div>
+  <button
+    *ngIf="activeComponentId === 'map-tool'"
+    class="header__data-btn btn"
+    [class.active]="activeMenuItem === 'data'"
+    (click)="onMenuSelect('data')"
+  >
+    {{
+      (activeMenuItem === "data"
+        ? "HEADER.MAP_CLOSE_OPTS"
+        : "HEADER.MAP_SHOW_OPTS"
+      ) | translate
+    }}
+  </button>
+  <div
+    class="header__search"
+    [class.active]="activeMenuItem === 'search'"
+    (click)="onMenuSelect('search')"
+  >
+    <app-location-search
+      *ngIf="activeComponentId === 'map-tool'"
+      role="search"
+      class="search"
+      [placeholder]="lang['SEARCH_HINT']"
+      (locationSelected)="selectLocation.emit($event); activeMenuItem = null"
+      (initialInput)="initialInput.emit($event)"
+    ></app-location-search>
+  </div>
+  <app-ui-select
+    class="header__language language-select vertical-select z0"
+    [selectedValue]="selectedLanguage"
+    (change)="selectLanguage.emit($event)"
+    labelProperty="name"
+    [values]="languageOptions"
+  ></app-ui-select>
+  <h1 class="header__map-title" *ngIf="activeComponentId === 'map-tool'">
+    {{ mapHeading.title }}<span>{{ mapHeading.sub }}</span>
+  </h1>
+  <button
+    [class.active]="activeMenuItem === 'menu'"
+    class="header__menu btn btn-icon"
+    (click)="onMenuSelect('menu')"
+  >
+    <app-ui-icon icon="menu"></app-ui-icon>
+    <span>{{ lang["MENU"] }}</span>
+  </button>
 </div>
