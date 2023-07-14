@@ -19,3 +19,4 @@ If you're interested in contributing to the project check out the [contributing]
 ## License
 
 This application is open source code under the [MIT License](LICENSE).
+
